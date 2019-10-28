@@ -1,6 +1,6 @@
 {
   "public": {
-    "title": "Symptomatic.io",
+    "title": "Node on FHIR",
     "theme": {
       "showVideoBackground": false,
       "darkroomTextEnabled": false,
@@ -39,7 +39,13 @@
       "cards": {
         "height": "auto",
         "opacity": 0.95
-      }      
+      }      ,
+      "sidebar": {
+        "menuItems": {
+          "FhirResources": true,
+          "DynamicModules": true
+        }
+      }
     },
     "interfaces": {
       "default": {
