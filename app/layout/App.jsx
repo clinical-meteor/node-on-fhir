@@ -72,6 +72,7 @@ import { IoIosBarcode } from 'react-icons/io';
 
 import PatientSidebar from '../patient/PatientSidebar'
 
+import ThemePage from '../core/ThemePage';
 
 import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
 const useStyles = makeStyles(theme => ({
@@ -331,6 +332,9 @@ export function App(props) {
 
           <main className={classes.canvas}>
             <Switch location={ props.location } >
+
+              <Route path="/theming" component={ ThemePage } />
+
 
               { dynamicRoutes.map(route => <Route 
                 name={route.name} 

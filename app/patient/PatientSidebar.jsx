@@ -32,17 +32,42 @@ import { IoIosDocument} from 'react-icons/io';
 const drawerWidth = 240;
 
 const styles = theme => ({
+  header: {
+    display: 'flex'
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    })
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    })
+  },
+  canvas: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+    paddingLeft: '73px'
+  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    backgroundColor: '#fafafa'
   },
   drawerOpen: {
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
-    })
+    }),
+    backgroundColor: '#fafafa'
   },
   drawerClose: {
     transition: theme.transitions.create('width', {
@@ -53,7 +78,8 @@ const styles = theme => ({
     width: theme.spacing.unit * 7 + 1,
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing.unit * 9 + 1,
-    }
+    },
+    backgroundColor: '#fafafa'
   },
   drawerIcons: {
     fontSize: '120%',
@@ -61,7 +87,21 @@ const styles = theme => ({
     paddingRight: '2px'
   },
   drawerText: {
-    textDecoration: 'none'
+    textDecoration: 'none !important'
+  },
+  hide: {
+    display: 'none',
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 36,
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar
   }
 });
 
