@@ -5,6 +5,8 @@ import {
   CardActions, 
   CardText,
   CardTitle,
+  CardHeader,
+  CardContent,
   Tab,
   Tabs,
   FlatButton,
@@ -23,6 +25,8 @@ import { Image } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
+
+
 // import OpacitySlider from '/imports/ui/components/OpacitySlider';
 
 
@@ -34,6 +38,8 @@ import { withStyles } from '@material-ui/core/styles';
 let defaultState = { index: 0 };
 Session.setDefault('themePageState', defaultState);
 
+import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
+
 
 const styles = theme => ({
   root: {
@@ -42,11 +48,31 @@ const styles = theme => ({
   paper: {
     display: 'flex',
     padding: theme.spacing.unit * 2,
-    textAlign: 'center',
+    textAlign: 'left',
     color: theme.palette.text.secondary
+  },
+  card: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'left',
+    backgroundColor: theme.palette.appBar.main,
+    color: theme.palette.appBar.contrastText
   },
   control: {
     padding: theme.spacing.unit * 2
+  },
+  page: {
+    left: '0px', 
+    marginLeft: '100px', 
+    marginRight: '100px', 
+    width: window.innerWidth - 200, 
+    height: window.innerHeight
+  },
+  header: {
+    width: '100%'
+  },
+  textField: {
+    marginBottom: '10px',
+    width: '100%'
   }
 });
 
@@ -167,7 +193,7 @@ export class ThemePageOld extends React.Component {
         <div>
           <Row>
             <Col md={3} style={controlPaneStyle}>
-              <Card>
+              {/* <Card>
                 <CardTitle
                   title='Theme'
                   subtitle='Pick a background and color!'
@@ -229,7 +255,7 @@ export class ThemePageOld extends React.Component {
                     /><br/>
 
                 </CardText>
-              </Card>
+              </Card> */}
               <Divider />
 
               <Card>
@@ -433,27 +459,128 @@ export class ThemePageOld extends React.Component {
 
 ReactMixin(ThemePageOld.prototype, ReactMeteorData);
 
+
+
+
 function ThemePage(props){
   console.log('ThemePage.props', props);
 
   // const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
-
   // function handleDrawerOpen(){
   //   console.log('handleDrawerOpen')
   //   setDrawerIsOpen(true);
   // };
+
+  const appTheme = useTheme();
+  console.log('appTheme', appTheme)
   
   return(
-    <div id='themePage' style={{ left: '0px', paddingLeft: '73px', paddingRight: '73px', width: window.innerWidth - 146, height: window.innerHeight }}>
+    <div id='themePage' className={props.classes.page} >
       <Grid container direction="row" justify="space-evenly" alignItems="stretch" className={ props.classes.root}  spacing={24} >
-          <Grid key='left' item md={4} >
-            <Paper className={ props.classes.paper} />
+          <Grid key='left' item md={3} >
+            <Card className={ props.classes.card}>
+              <CardHeader
+                title="Palette Colors"
+                subheader="Pick a background and color!"
+                className={ props.classes.textField }
+              />
+              <CardContent>
+                <TextField                  
+                  name='primary1Color'
+                  type='text'
+                  label='Primary Color 1'
+                  value={appTheme.primary1Color}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='primary2Color'
+                  type='text'
+                  label='Primary Color 2'
+                  value={appTheme.primary2Color}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='buttonText'
+                  type='text'
+                  label='Button Text'
+                  value={appTheme.buttonText}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='cardColor'
+                  type='text'
+                  label='Card Paper Color'
+                  value={appTheme.cardColor}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='cardText'
+                  type='text'
+                  label='Card Text Color'
+                  value={appTheme.cardTextColor}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='appBarColor'
+                  type='text'
+                  label='App Bar Color'
+                  value={appTheme.appBarColor}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='appBarTextColor'
+                  type='text'
+                  label='App Bar Text Color'
+                  value={appTheme.appBarTextColor}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='cardColor'
+                  type='text'
+                  label='Card Color'
+                  value={appTheme.cardColor}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='cardTextColor'
+                  type='text'
+                  label='Card TextColor'
+                  value={appTheme.cardTextColor}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='paperColor'
+                  type='text'
+                  label='Paper Color'
+                  value={appTheme.paperColor}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='paperTextColor'
+                  type='text'
+                  label='Paper TextColor'
+                  value={appTheme.paperTextColor}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='backgroundCanvas'
+                  type='text'
+                  label='Background Canvas'
+                  value={appTheme.backgroundCanvas}
+                  className={ props.classes.textField }
+                  /><br/>
+                <TextField                  
+                  name='nivoTheme'
+                  type='text'
+                  label='Nivo Theme'
+                  value={appTheme.nivoTheme}
+                  className={ props.classes.textField }
+                  /><br/>
+              </CardContent>
+            </Card>
           </Grid>
-          <Grid key='middle' item md={4} >
-            <Paper className={ props.classes.paper} />
-          </Grid>
-          <Grid key='right' item md={4} >
+          <Grid key='middle' item md={9} >
             <Paper className={ props.classes.paper} />
           </Grid>
       </Grid>

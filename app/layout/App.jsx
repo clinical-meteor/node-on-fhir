@@ -75,20 +75,20 @@ import PatientSidebar from '../patient/PatientSidebar'
 import ThemePage from '../core/ThemePage';
 
 import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
-const useStyles = makeStyles(theme => ({
-  canvas: {
-    paddingTop: "80px",
-    paddingBottom: "80px",
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    position: "absolute",
-    top: 0,
-    left: 0
-  }
-}));
+// const useStyles = makeStyles(theme => ({
+//   canvas: {
+//     paddingTop: "80px",
+//     paddingBottom: "80px",
+//     // paddingLeft: '20px',
+//     // paddingRight: '20px',
+//     position: "absolute",
+//     top: 0,
+//     left: 0
+//   }
+// }));
 
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const styles = theme => ({
   header: {
@@ -111,14 +111,17 @@ const styles = theme => ({
   },
   canvas: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-    paddingLeft: '73px'
+    //padding: theme.spacing.unit * 3,
+    position: "absolute",
+    paddingTop: "80px",
+    paddingBottom: "80px",
+    left: 0
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
-    backgroundColor: '#fafafa'
+    backgroundColor: theme.palette.paper.main
   },
   drawerOpen: {
     width: drawerWidth,
@@ -126,7 +129,7 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    backgroundColor: '#fafafa'
+    backgroundColor: theme.palette.paper.main
   },
   drawerClose: {
     transition: theme.transitions.create('width', {
@@ -138,7 +141,7 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing.unit * 9 + 1,
     },
-    backgroundColor: '#fafafa'
+    backgroundColor: theme.palette.paper.main
   },
   drawerIcons: {
     fontSize: '120%',
@@ -184,6 +187,77 @@ Object.keys(Package).forEach(function(packageName){
 
 
 
+// patient authentication function
+const requireAuth = (nextState, replace) => {
+  // do we even need to authorize?
+  if(get(Meteor, 'settings.public.defaults.requireAuthorization')){
+    // yes, this is a restricted page
+    if (!Meteor.loggingIn() && !Meteor.userId()) {
+      // we're in the compiled desktop app that somebody purchased or downloaded
+      // so no need to go to the landing page
+      // lets just take them to the signin page
+      if(Meteor.isDesktop){
+        replace({
+          pathname: '/signin',
+          state: { nextPathname: nextState.location.pathname }
+        });  
+      } else {
+
+        // we're in the general use case
+        // user is trying to access a route that requires authorization, but isn't signed in
+        // redirect them to the landing page
+        if(get(Meteor, 'settings.public.defaults.landingPage')){
+          replace({
+            pathname: get(Meteor, 'settings.public.defaults.landingPage'),
+            state: { nextPathname: nextState.location.pathname }
+          });    
+        } else {
+          replace({
+            pathname: '/landing-page',
+            state: { nextPathname: nextState.location.pathname }
+          });    
+        }
+
+      }
+    }
+
+  } else {
+  // apparently we don't need to authorize;
+  // so lets just continue (i.e. everybody is authorized)
+    if(get(Meteor, 'settings.public.defaults.route')){
+      // hey, a default route is specified
+      // lets go there
+      replace({
+        pathname: get(Meteor, 'settings.public.defaults.route'),
+        state: { nextPathname: nextState.location.pathname }
+      });  
+    }
+
+    // can't find anywhere else to go to, so lets just go to the root path 
+    // ¯\_(ツ)_/¯
+  }
+};
+
+// practitioner authentication function
+const requirePractitioner = (nextState, replace) => {
+  if (!Roles.userIsInRole(Meteor.userId(), 'practitioner')) {
+    replace({
+      pathname: '/need-to-be-practitioner',
+      state: { nextPathname: nextState.location.pathname }
+    });
+  }
+};
+// practitioner authentication function
+const requreSysadmin = (nextState, replace) => {
+  if (!Roles.userIsInRole(Meteor.userId(), 'sysadmin')) {
+    replace({
+      pathname: '/need-to-be-sysadmin',
+      state: { nextPathname: nextState.location.pathname }
+    });
+  }
+};
+
+
 export function App(props) {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
@@ -194,7 +268,7 @@ export function App(props) {
 
   console.log('App.props', props)
 
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const { staticContext, ...otherProps } = props;
 
@@ -330,10 +404,10 @@ export function App(props) {
             </List>
           </Drawer>
 
-          <main className={classes.canvas}>
+          <main className={ props.classes.canvas}>
             <Switch location={ props.location } >
 
-              <Route path="/theming" component={ ThemePage } />
+              <Route path="/theming" component={ ThemePage } { ...otherProps } />
 
 
               { dynamicRoutes.map(route => <Route 

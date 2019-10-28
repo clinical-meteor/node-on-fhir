@@ -1,9 +1,9 @@
 import assert from "assert";
 
-describe("hooks-error", function () {
+describe("Node on FHIR", function () {
   it("package.json has correct name", async function () {
     const { name } = await import("../package.json");
-    assert.strictEqual(name, "hooks-error");
+    assert.strictEqual(name, "Node on FHIR");
   });
 
   if (Meteor.isClient) {

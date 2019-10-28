@@ -29,6 +29,7 @@
     "react-router-dom": "5.1.2",
     "react-router-transition": "^2.0.0",
     "react-transition-group": "4.3.0",
+    "simpl-schema": "1.5.3",
     "styled-components": "^4.4.0"
   },
   "meteor": {

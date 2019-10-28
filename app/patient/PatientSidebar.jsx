@@ -151,6 +151,15 @@ export function PatientSidebar(props){
 
   console.log('PatientSidebar.props', props)
 
+
+  function openPage(url){
+    console.log('PatientSidebar.openPage()', url)
+    props.history.replace(url)
+  }
+  function handleLogout(){
+    console.log('handleLogout')
+  }
+  
   //----------------------------------------------------------------------
   // Dynamic Modules
   // Pick up any dynamic routes that are specified in packages, and include them
@@ -209,13 +218,6 @@ export function PatientSidebar(props){
       dynamicElements.push(<Divider key="dynamic-modules-hr" />);
     }
 
-    function openPage(url){
-      console.log('PatientSidebar.openPage()', url)
-      props.history.replace(url)
-    }
-    function handleLogout(){
-      console.log('handleLogout')
-    }
 
     return(
       <div id='patientSidebar'>

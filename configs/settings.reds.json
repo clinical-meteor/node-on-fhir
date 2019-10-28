@@ -9,6 +9,7 @@
       "palette": {
         "primary1Color": "rgb(103, 0, 31)",
         "primary2Color": "rgb(244, 165, 130)",
+        "appBarColor": "#f5f5f5 !important",
         "buttonText": "rgba(255, 255, 255, 1) !important",
         "background": "linear-gradient(45deg, rgb(103, 0, 31) 30%, rgb(244, 165, 130) 90%)",
         "nivoTheme": "red_grey"
@@ -44,7 +45,40 @@
         "menuItems": {
           "FhirResources": true,
           "DynamicModules": true
-        }
+        },
+        "hidden": [
+          "/allergies",
+          "/audit-events",
+          "/conditions",
+          "/care-plans",
+          "/careplan",
+          "/communications",
+          "/consents",
+          "/contracts",
+          "/diagnostic-reports",
+          "/endpoints",
+          "/imaging-studies",
+          "/immunizations",
+          "/goals",
+          "/locations",
+          "/devices",
+          "/medications",
+          "/medication-orders",
+          "/medication-statements",
+          "/observations",
+          "/organizations",
+          "/patients",
+          "/practitioners",
+          "/persons",
+          "/procedures",
+          "/risk-assessments",
+          "/subscriptions",
+          "/hello-world",
+          "/vitals-tracking",
+          "/example-route",
+          "/import-data",
+          "/export-data"
+      ]
       }
     },
     "interfaces": {
