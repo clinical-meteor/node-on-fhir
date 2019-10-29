@@ -72,8 +72,6 @@ import { IoIosBarcode } from 'react-icons/io';
 
 import PatientSidebar from '../patient/PatientSidebar'
 
-import { FlippableDeckOfCardsLayout } from 'meteor/mysticmidway:card-generator'
-
 import ThemePage from '../core/ThemePage';
 
 import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
@@ -419,8 +417,6 @@ export function App(props) {
 
               <Route path="/theming" component={ ThemePage } { ...otherProps } />
 
-              <Route path="/deck-of-cards-flippable" component={ FlippableDeckOfCardsLayout } { ...otherProps } />
-              
               { dynamicRoutes.map(route => <Route 
                 name={route.name} 
                 key={route.name} 
