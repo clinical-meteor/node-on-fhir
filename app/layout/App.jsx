@@ -72,6 +72,8 @@ import { IoIosBarcode } from 'react-icons/io';
 
 import PatientSidebar from '../patient/PatientSidebar'
 
+import { FlippableDeckOfCardsLayout } from 'meteor/mysticmidway:card-generator'
+
 import ThemePage from '../core/ThemePage';
 
 import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
@@ -99,7 +101,9 @@ const styles = theme => ({
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
-    })
+    }),
+    backgroundColor: theme.palette.appBar.main,
+    color: theme.palette.appBar.contrastText
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -107,15 +111,20 @@ const styles = theme => ({
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
-    })
+    }),
+    backgroundColor: theme.palette.appBar.main,
+    color: theme.palette.appBar.contrastText
   },
   canvas: {
     flexGrow: 1,
-    //padding: theme.spacing.unit * 3,
     position: "absolute",
-    paddingTop: "80px",
-    paddingBottom: "80px",
-    left: 0
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    paddingTop: '100px',
+    paddingBottom: '100px',
+    backgroundColor: theme.palette.background.default
   },
   drawer: {
     width: drawerWidth,
@@ -184,6 +193,7 @@ Object.keys(Package).forEach(function(packageName){
     });    
   }
 });
+console.log('dynamicRoutes', dynamicRoutes)
 
 
 
@@ -409,13 +419,15 @@ export function App(props) {
 
               <Route path="/theming" component={ ThemePage } { ...otherProps } />
 
-
+              <Route path="/deck-of-cards-flippable" component={ FlippableDeckOfCardsLayout } { ...otherProps } />
+              
               { dynamicRoutes.map(route => <Route 
                 name={route.name} 
                 key={route.name} 
                 path={route.path} 
                 component={ route.component } 
                 onEnter={ route.requireAuth ? requireAuth : null } 
+                { ...otherProps }
               />) }
 
               <Route path="/" component={ MainPage } />
@@ -423,7 +435,7 @@ export function App(props) {
               <Route path="*" component={ NotFound } />              
             </Switch>
           </main>
-        <Footer { ...otherProps } />
+        <Footer drawyerIsOpen={drawerIsOpen} { ...otherProps } />
       </div>
     </AppCanvas>
   )

@@ -54,8 +54,8 @@ const styles = theme => ({
   card: {
     padding: theme.spacing.unit * 2,
     textAlign: 'left',
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText
+    backgroundColor: theme.palette.cards.main,
+    color: theme.palette.cards.contrastText
   },
   control: {
     padding: theme.spacing.unit * 2
@@ -487,24 +487,17 @@ function ThemePage(props){
               />
               <CardContent>
                 <TextField                  
-                  name='primary1Color'
+                  name='primaryColor'
                   type='text'
                   label='Primary Color 1'
-                  value={appTheme.primary1Color}
+                  value={appTheme.primaryColor}
                   className={ props.classes.textField }
                   /><br/>
                 <TextField                  
-                  name='primary2Color'
-                  type='text'
-                  label='Primary Color 2'
-                  value={appTheme.primary2Color}
-                  className={ props.classes.textField }
-                  /><br/>
-                <TextField                  
-                  name='buttonText'
+                  name='primaryText'
                   type='text'
                   label='Button Text'
-                  value={appTheme.buttonText}
+                  value={appTheme.primaryText}
                   className={ props.classes.textField }
                   /><br/>
                 <TextField                  

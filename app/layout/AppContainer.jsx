@@ -50,6 +50,9 @@ if(get(Meteor, 'settings.public.theme.palette')){
 }
 
 const muiTheme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     primary: {
       main: theme.primaryColor,
@@ -74,6 +77,9 @@ const muiTheme = createMuiTheme({
     error: {
       main: theme.errorColor,
       contrastText: theme.secondaryText
+    },
+    background: {
+      default: theme.backgroundCanvas
     },
     contrastThreshold: 3,
     tonalOffset: 0.2

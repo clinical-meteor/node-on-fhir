@@ -1,12 +1,46 @@
-import React from 'react';
+import React, { Component, useState, useEffect, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import { useTracker, withTracker } from './Tracker';
 
 import { Button, Toolbar, AppBar, Typography} from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 
 import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
-const useStyles = makeStyles(theme => ({
+
+const drawerWidth = 280;
+
+const styles = theme => ({
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    backgroundColor: theme.palette.appBar.main,
+    color: theme.palette.appBar.contrastText
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    backgroundColor: theme.palette.appBar.main,
+    color: theme.palette.appBar.contrastText
+  },
+  appBarButton: {
+    backgroundColor: theme.palette.appBar.main,
+    color: theme.palette.appBar.contrastText,
+    dropShadow: 'none',
+    boxShadow: 'none'
+  },
+  button: {
+    margin: '10px',
+    color: theme.palette.appBar.contrastText
+  },
   canvas: {
     paddingTop: "80px",
     paddingBottom: "80px",
@@ -16,6 +50,40 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     top: 0,
     left: 0
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    backgroundColor: theme.palette.paper.main
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    backgroundColor: theme.palette.paper.main
+  },
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing.unit * 7 + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing.unit * 9 + 1,
+    },
+    backgroundColor: theme.palette.paper.main
+  },
+  drawerIcons: {
+    fontSize: '120%',
+    paddingLeft: '8px',
+    paddingRight: '2px'
+  },
+  drawerText: {
+    textDecoration: 'none !important'
   },
   footerContainer: {  
     height: '64px',
@@ -28,19 +96,34 @@ const useStyles = makeStyles(theme => ({
     zIndex: 10000
   },
   footer: {
-    flexGrow: 1
+    flexGrow: 1,
+    backgroundColor: theme.palette.appBar.main,
+    color: theme.palette.appBar.contrastText
   },
-  button: {
-    margin: '10px'
+  header: {
+    display: 'flex'
+  },
+  hide: {
+    display: 'none'
   },
   input: {
     display: 'none'
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 36,
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar
   }
-}));
+});
 
 
 function Footer(props) {
-  const classes = useStyles();
 
   const pathname = useTracker(function(){
     console.log('Footer is using tracker to check security dialog.')
@@ -71,16 +154,18 @@ function Footer(props) {
     buttonRenderArray.forEach(function(buttonConfig){
       // right route
       if (pathname === buttonConfig.pathname){
+        console.log('Found a route match for Footer buttons', pathname)
         // right security/function enabled
         if(buttonConfig.settings && (get(Meteor, buttonConfig.settings) === false)){
           // there was a settings criteria; and it was set to faulse            
           return false;
         } else {
           if(buttonConfig.component){
+            console.log('trying to render a component from package')
             renderDom = buttonConfig.component;
           } else {
             renderDom = <div style={{marginTop: '-8px'}}>
-              <Button color="primary" className={classes.button} onClick={ buttonConfig.onClick } >
+              <Button className={classes.button} onClick={ buttonConfig.onClick } >
                 {buttonConfig.label}
               </Button>
             </div>
@@ -88,6 +173,13 @@ function Footer(props) {
         }         
       }
     })
+
+    // we want to pass in the props
+    if(renderDom){
+      renderDom = React.cloneElement(
+        renderDom, props 
+      );
+    }
 
     return renderDom;
   }
@@ -98,12 +190,11 @@ function Footer(props) {
   // }
 
   return (
-    <div id='footerContainer' className={classes.footerContainer}>
-      <AppBar id="footer" position="static" color="default">
+    <div id='footerContainer' className={ props.classes.footerContainer}>
+      <AppBar id="footer" position="static" className={classNames(props.classes.appBar, {
+            [props.classes.appBarShift]: props.drawerIsOpen
+          })} >
         <Toolbar>
-          {/* <Typography variant="h6" color="inherit">
-            Action
-          </Typography> */}
           { westNavbar }
         </Toolbar>
       </AppBar>
@@ -111,4 +202,5 @@ function Footer(props) {
   );
 }
 
-export default Footer;
+
+export default withStyles(styles, { withTheme: true })(Footer);
