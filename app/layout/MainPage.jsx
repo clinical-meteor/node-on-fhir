@@ -13,8 +13,8 @@ export default class MainPage extends Component {
 
   render() {
     return (
-      <div>
-        <h4>React Class Component!</h4>
+      <div style={{paddingLeft: '100px'}}>
+        <h4>Welcome</h4>
         <button onClick={() => this.increment()}>Click Me</button>
         <p>You've pressed the button {this.state.counter} times.</p>
       </div>

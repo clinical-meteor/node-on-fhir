@@ -163,123 +163,170 @@ export function PatientSidebar(props){
     console.log('handleLogout')
   }
 
-  //----------------------------------------------------------------------
-  // Dynamic Modules
-  // Pick up any dynamic routes that are specified in packages, and include them
-  let dynamicModules = [];
-  Object.keys(Package).forEach(function(packageName){
-    if(Package[packageName].SidebarElements){
-      // we try to build up a route from what's specified in the package
-      Package[packageName].SidebarElements.forEach(function(element){
-        dynamicModules.push(element);      
-      });    
-    }
-  }); 
-
-  console.log('dynamicModules', dynamicModules);
 
   //----------------------------------------------------------------------
   // FHIR Resources
     
-    var fhirResources = [];
-    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.FhirResources')){
-      if(!['iPhone'].includes(window.navigator.platform)){
-        
-        fhirResources.push(
-          <ListItem id='fhirResourcesItem' key='fhirResourcesItem' button onClick={function(){ openPage('/fhir-resources-index'); }} >
+  var fhirResources = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.FhirResources')){
+    if(!['iPhone'].includes(window.navigator.platform)){
+      
+      fhirResources.push(
+        <ListItem id='fhirResourcesItem' key='fhirResourcesItem' button onClick={function(){ openPage('/fhir-resources-index'); }} >
+          <ListItemIcon >
+            <GoFlame className={props.classes.drawerIcons} />
+          </ListItemIcon>
+          <ListItemText primary='FHIR Resources' className={props.classes.drawerText}  />
+        </ListItem>
+      );
+
+      fhirResources.push(<Divider key='hra' />);
+    }
+  }
+
+
+  //----------------------------------------------------------------------
+  // Dynamic Modules
+  // Pick up any dynamic routes that are specified in packages, and include them
+  let dynamicModules = [];
+
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules')){
+    Object.keys(Package).forEach(function(packageName){
+      if(Package[packageName].SidebarElements){
+        // we try to build up a route from what's specified in the package
+        Package[packageName].SidebarElements.forEach(function(element){
+          dynamicModules.push(element);      
+        });    
+      }
+    }); 
+  
+    console.log('dynamicModules', dynamicModules);
+  }
+
+  //----------------------------------------------------------------------
+  // Dynamic Modules  
+
+  var dynamicElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules')){
+    dynamicModules.map(function(element, index){ 
+
+      let clonedIcon;
+
+      // we want to pass in the props
+      if(element.icon){
+        clonedIcon = React.cloneElement(element.icon, {
+          className: props.classes.drawerIcons 
+        });
+      }
+
+      // the excludes array will hide routes
+      if(!get(Meteor, 'settings.public.defaults.sidebar.hidden', []).includes(element.to)){
+        dynamicElements.push(
+          <ListItem key={index} button onClick={function(){ openPage(element.to); }} >
             <ListItemIcon >
-              <GoFlame className={props.classes.drawerIcons} />
+              { clonedIcon }
             </ListItemIcon>
-            <ListItemText primary='FHIR Resources' className={props.classes.drawerText}  />
+            <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
           </ListItem>
         );
-
-        fhirResources.push(<Divider key='hra' />);
       }
-    }
-
-    //----------------------------------------------------------------------
-    // Dynamic Modules  
-
-    var dynamicElements = [];
-
-    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules')){
-      dynamicModules.map(function(element, index){ 
-
-        let clonedIcon;
-
-        // we want to pass in the props
-        if(element.icon){
-          clonedIcon = React.cloneElement(element.icon, {
-            className: props.classes.drawerIcons 
-          });
-        }
-
-        // the excludes array will hide routes
-        if(!get(Meteor, 'settings.public.defaults.sidebar.hidden', []).includes(element.to)){
-          dynamicElements.push(
-            <ListItem key={index} button onClick={function(){ openPage(element.to); }} >
-              <ListItemIcon >
-                { clonedIcon }
-              </ListItemIcon>
-              <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
-            </ListItem>
-          );
-        }
-      });
-      dynamicElements.push(<Divider key="dynamic-modules-hr" />);
-    }
+    });
+    dynamicElements.push(<Divider key="dynamic-modules-hr" />);
+  }
 
 
-    return(
-      <div id='patientSidebar'>
+  //----------------------------------------------------------------------
+  // Theming
 
-          <div id='patientDynamicElements'>
-           { dynamicElements }   
-          </div>
 
-          <Divider />
+  var themingElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Theming')){
+      themingElements.push(<ListItem id='themingItem' key='themingItem' button onClick={function(){ openPage('/theming'); }} >
+        <ListItemIcon >
+          <IoIosDocument className={props.classes.drawerIcons} />
+        </ListItemIcon>
+        <ListItemText primary="Theming" className={props.classes.drawerText}  />
+      </ListItem>);    
+  };
 
-          { fhirResources }         
-          <Divider />
-        
-          <ListItem id='themingItem' key='themingItem' button onClick={function(){ openPage('/theming'); }} >
-            <ListItemIcon >
-              <IoIosDocument className={props.classes.drawerIcons} />
-            </ListItemIcon>
-            <ListItemText primary="Theming" className={props.classes.drawerText}  />
-          </ListItem>
 
-          <ListItem id='aboutItem' key='aboutItem' button  >
-            <ListItemIcon >
-              <IoIosDocument className={props.classes.drawerIcons} onClick={function(){ openPage('/about'); }} />
-            </ListItemIcon>
-            <ListItemText primary="About" className={props.classes.drawerText}  />
-          </ListItem>
+  //----------------------------------------------------------------------
+  // About
 
-          <ListItem id='privacyItem' key='privacyItem' button onClick={function(){ openPage('/privacy'); }} >
-            <ListItemIcon >
-              <IoIosDocument className={props.classes.drawerIcons} />
-            </ListItemIcon>
-            <ListItemText primary="Privacy" className={props.classes.drawerText}  />
-          </ListItem>
+  var aboutElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.About')){
+      aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button  >
+        <ListItemIcon >
+          <IoIosDocument className={props.classes.drawerIcons} onClick={function(){ openPage('/about'); }} />
+        </ListItemIcon>
+        <ListItemText primary="About" className={props.classes.drawerText}  />
+      </ListItem>);    
+  };
 
-          <ListItem id='termsItem' key='termsItem' button onClick={function(){ openPage('/terms-and-conditions'); }} >
-            <ListItemIcon >
-              <IoIosDocument className={props.classes.drawerIcons} />
-            </ListItemIcon>
-            <ListItemText primary="Terms and Conditions" className={props.classes.drawerText}  />
-          </ListItem>
 
-          <ListItem id='logoutMenuItem' key='logoutMenuItem' button onClick={function(){ openPage('/signin'); }} >
-            <ListItemIcon >
-              <IoMdLogOut className={props.classes.drawerIcons} />
-            </ListItemIcon>
-            <ListItemText primary="Logout" className={props.classes.drawerText} onClick={function(){ handleLogout(); }} />
-          </ListItem>
+  //----------------------------------------------------------------------
+  // Privacy
 
+  var privacyElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Privacy')){
+      privacyElements.push(<ListItem id='privacyItem' key='privacyItem' button onClick={function(){ openPage('/privacy'); }} >
+        <ListItemIcon >
+          <IoIosDocument className={props.classes.drawerIcons} />
+        </ListItemIcon>
+        <ListItemText primary="Privacy" className={props.classes.drawerText}  />
+      </ListItem>);    
+  };
+
+
+  //----------------------------------------------------------------------
+  // TermsAndConditions
+
+  var termsAndConditionElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.TermsAndConditions')){
+    termsAndConditionElements.push(<ListItem id='termsItem' key='termsItem' button onClick={function(){ openPage('/terms-and-conditions'); }} >
+      <ListItemIcon >
+        <IoIosDocument className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Terms and Conditions" className={props.classes.drawerText}  />
+    </ListItem>);    
+  };
+
+
+
+  //----------------------------------------------------------------------
+  // Logout
+
+  var logoutElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Logout')){
+    logoutElements.push(<ListItem id='logoutMenuItem' key='logoutMenuItem' button onClick={function(){ openPage('/signin'); }} >
+      <ListItemIcon >
+        <IoMdLogOut className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Logout" className={props.classes.drawerText} onClick={function(){ handleLogout(); }} />
+    </ListItem>);    
+  };
+
+
+  return(
+    <div id='patientSidebar'>
+
+      <div id='patientDynamicElements'>
+        { dynamicElements }   
       </div>
-    );
+
+      <Divider />
+
+      { fhirResources }         
+      <Divider />
+
+      { themingElements }
+      { aboutElements }
+      { privacyElements }
+      { termsAndConditionElements }
+      { logoutElements }
+            
+    </div>
+  );
 }
 
 export default withStyles(styles, { withTheme: true })(PatientSidebar);

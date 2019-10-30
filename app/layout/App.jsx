@@ -316,7 +316,7 @@ export function App(props) {
   }
 
 
-
+  let defaultHomeRoute = MainPage;
   
   return(
     
@@ -386,7 +386,7 @@ export function App(props) {
                 { ...otherProps }
               />) }
 
-              <Route path="/" component={ MainPage } />
+              <Route path="/" component={ defaultHomeRoute } />
 
               <Route path="*" component={ NotFound } />              
             </Switch>
