@@ -22,6 +22,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
+import { Meteor } from 'meteor/meteor';
+import { get, has } from 'lodash';
+
 
 import { Link } from "react-router-dom";
 
@@ -112,10 +115,21 @@ function Header(props) {
   }
 
   return (
-    <div id='headerContainer' className={ props.classes.headerContainer }>
-      
-
-    </div>
+    <AppBar id="header" position="fixed" color="default" className={appBarClassNames} >
+      <Toolbar disableGutters={!drawerIsOpen} >
+          <IconButton
+            color="inherit"
+            aria-label="Open drawer"
+            onClick={function(){ handleDrawerOpen() }}
+            className={iconClassNames}
+          >
+            <MenuIcon />
+          </IconButton>
+        <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} className={ props.classes.title }>
+          { get(Meteor, 'settings.public.title', 'Node on FHIR') }
+        </Typography>
+      </Toolbar>
+    </AppBar>
 
   );
 }

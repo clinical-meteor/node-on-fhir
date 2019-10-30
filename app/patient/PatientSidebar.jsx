@@ -29,6 +29,9 @@ import { IoIosBarcode } from 'react-icons/io';
 import { IoMdLogOut } from 'react-icons/io';
 import { IoIosDocument} from 'react-icons/io';
 
+import { GoFlame } from 'react-icons/go';
+
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -52,7 +55,7 @@ const styles = theme => ({
   },
   canvas: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     paddingLeft: '73px'
   },
   drawer: {
@@ -75,15 +78,15 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing.unit * 7 + 1,
+    width: theme.spacing(7) + 1,
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9 + 1,
+      width: theme.spacing(9) + 1
     },
     backgroundColor: '#fafafa'
   },
   drawerIcons: {
-    fontSize: '120%',
-    paddingLeft: '8px',
+    fontSize: '200%',
+    paddingLeft: '10px',
     paddingRight: '2px'
   },
   drawerText: {
@@ -159,7 +162,7 @@ export function PatientSidebar(props){
   function handleLogout(){
     console.log('handleLogout')
   }
-  
+
   //----------------------------------------------------------------------
   // Dynamic Modules
   // Pick up any dynamic routes that are specified in packages, and include them
@@ -185,7 +188,7 @@ export function PatientSidebar(props){
         fhirResources.push(
           <ListItem id='fhirResourcesItem' key='fhirResourcesItem' button onClick={function(){ openPage('/fhir-resources-index'); }} >
             <ListItemIcon >
-              <IoIosDocument className={props.classes.drawerIcons} />
+              <GoFlame className={props.classes.drawerIcons} />
             </ListItemIcon>
             <ListItemText primary='FHIR Resources' className={props.classes.drawerText}  />
           </ListItem>
@@ -203,12 +206,21 @@ export function PatientSidebar(props){
     if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules')){
       dynamicModules.map(function(element, index){ 
 
+        let clonedIcon;
+
+        // we want to pass in the props
+        if(element.icon){
+          clonedIcon = React.cloneElement(element.icon, {
+            className: props.classes.drawerIcons 
+          });
+        }
+
         // the excludes array will hide routes
         if(!get(Meteor, 'settings.public.defaults.sidebar.hidden', []).includes(element.to)){
           dynamicElements.push(
             <ListItem key={index} button onClick={function(){ openPage(element.to); }} >
-              <ListItemIcon style={{paddingLeft: '10px'}}>
-                { element.icon }
+              <ListItemIcon >
+                { clonedIcon }
               </ListItemIcon>
               <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
             </ListItem>

@@ -37,12 +37,12 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -74,106 +74,97 @@ import PatientSidebar from '../patient/PatientSidebar'
 
 import ThemePage from '../core/ThemePage';
 
-import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
-// const useStyles = makeStyles(theme => ({
-//   canvas: {
-//     paddingTop: "80px",
-//     paddingBottom: "80px",
-//     // paddingLeft: '20px',
-//     // paddingRight: '20px',
-//     position: "absolute",
-//     top: 0,
-//     left: 0
-//   }
-// }));
+import { ThemeProvider } from '@material-ui/styles';
 
 
 const drawerWidth = 280;
 
-const styles = theme => ({
-  header: {
-    display: 'flex'
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText
-  },
-  canvas: {
-    flexGrow: 1,
-    position: "absolute",
-    left: 0,
-    top: 0,
-    width: '100%',
-    height: '100%',
-    paddingTop: '100px',
-    paddingBottom: '100px',
-    backgroundColor: theme.palette.background.default
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    backgroundColor: theme.palette.paper.main
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    backgroundColor: theme.palette.paper.main
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing.unit * 7 + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9 + 1,
+// const styles = theme => ({
+  const useStyles = makeStyles(theme => ({
+    primaryFlexPanel: {
+      display: 'flex',
     },
-    backgroundColor: theme.palette.paper.main
-  },
-  drawerIcons: {
-    fontSize: '120%',
-    paddingLeft: '8px',
-    paddingRight: '2px'
-  },
-  drawerText: {
-    textDecoration: 'none !important'
-  },
-  hide: {
-    display: 'none',
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36,
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar
-  }
-
-});
+    header: {
+      display: 'flex'
+    },
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+      transition: theme.transitions.create(['width', 'margin'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      backgroundColor: theme.palette.appBar.main,
+      color: theme.palette.appBar.contrastText
+    },
+    appBarShift: {
+      marginLeft: drawerWidth,
+      width: `calc(100% - ${drawerWidth}px)`,
+      transition: theme.transitions.create(['width', 'margin'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      backgroundColor: theme.palette.appBar.main,
+      color: theme.palette.appBar.contrastText
+    },
+    canvas: {
+      flexGrow: 1,
+      position: "absolute",
+      left: 0,
+      top: 0,
+      width: '100%',
+      height: '100%',
+      paddingTop: '100px',
+      paddingBottom: '100px',
+      backgroundColor: theme.palette.background.default
+    },
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+      whiteSpace: 'nowrap',
+      backgroundColor: theme.palette.paper.main
+    },
+    drawerOpen: {
+      width: drawerWidth,
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      backgroundColor: theme.palette.paper.main
+    },
+    drawerClose: {
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      overflowX: 'hidden',
+      width: theme.spacing(7) + 1,
+      [theme.breakpoints.up('sm')]: {
+        width: theme.spacing(9) + 1
+      },
+      backgroundColor: theme.palette.paper.main
+    },
+    drawerIcons: {
+      fontSize: '120%',
+      paddingLeft: '8px',
+      paddingRight: '2px'
+    },
+    drawerText: {
+      textDecoration: 'none !important'
+    },
+    hide: {
+      display: 'none',
+    },
+    menuButton: {
+      marginRight: 36,
+    },
+    toolbar: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      padding: '0 8px',
+      ...theme.mixins.toolbar
+    }
+  }));
 
 
 // Pick up any dynamic routes that are specified in packages, and include them
@@ -267,6 +258,9 @@ const requreSysadmin = (nextState, replace) => {
 
 
 export function App(props) {
+  const classes = useStyles();
+  const theme = useTheme();
+
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
   const doc = useTracker(function(){
@@ -277,6 +271,7 @@ export function App(props) {
   console.log('App.props', props)
 
   // const classes = useStyles();
+
 
   const { staticContext, ...otherProps } = props;
 
@@ -320,90 +315,55 @@ export function App(props) {
     </Helmet>
   }
 
-  let listItemsArray = [];  
 
-  let linksArray = [{
-    label: 'Pie',
-    path: '/pie-graph',
-    icon: <GiPieChart className={props.classes.drawerIcons} />
-   }, {
-    label: 'Parallels',
-    path: '/parallels-graph',
-    icon: <IoIosBarcode className={props.classes.drawerIcons} />
-  }, {
-    label: 'Sunburst',
-    path: '/sunburst-graph',
-    icon: <FiSun className={props.classes.drawerIcons} />
-  }, {
-    label: 'Sankey',
-    path: '/sankey-graph',
-    icon: <GiCrossedAirFlows className={props.classes.drawerIcons} />
-  }, {
-    label: 'Bar',
-    path: '/bar-graph',
-    icon: <GiLifeBar className={props.classes.drawerIcons} />
-  }, {
-    label: 'Network',
-    path: '/network-graph',
-    icon: <IoIosGitNetwork className={props.classes.drawerIcons} />
-   }]
 
-   
-   linksArray.forEach(function(linkConfig, index){
-    listItemsArray.push(
-      <NavLink to={linkConfig.path} activeStyle={{ fontWeight: "bold", color: "red" }} key={linkConfig.path} >
-        <ListItem button  >
-          <ListItemIcon >
-            {linkConfig.icon}
-          </ListItemIcon>
-          <ListItemText primary={linkConfig.label} className={props.classes.drawerText} />
-        </ListItem>
-      </NavLink>
-  )});
-
+  
   return(
+    
     <AppCanvas { ...otherProps }>
       { helmet }
 
-      <div id='primaryFlexPanel' className='primaryFlexPanel' >
+      <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
+        <CssBaseline />
         {/* <Header { ...otherProps } /> */}
 
-        <AppBar id="header" position="fixed" color="default" className={classNames(props.classes.appBar, {
-            [props.classes.appBarShift]: drawerIsOpen,
-          })} >
-          <Toolbar disableGutters={!drawerIsOpen} >
+        <AppBar id="header" position="fixed" color="default" className={clsx(classes.appBar, {
+          [classes.appBarShift]: drawerIsOpen
+        })} >
+          <Toolbar >
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
-                onClick={function(){ handleDrawerOpen() }}
-                className={classNames( props.classes.menuButton, {
-                  [ props.classes.hide ]: drawerIsOpen,
+                onClick={ handleDrawerOpen }
+                edge="start"
+                className={clsx(classes.menuButton, {
+                  [classes.hide]: drawerIsOpen,
                 })}
               >
                 <MenuIcon />
               </IconButton>
-            <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} className={ props.classes.title }>
+            <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} className={ classes.title } noWrap >
               { get(Meteor, 'settings.public.title', 'Node on FHIR') }
             </Typography>
           </Toolbar>
         </AppBar>
         <Drawer
             variant="permanent"
-            className={classNames( props.classes.drawer, {
-              [ props.classes.drawerOpen ]: drawerIsOpen,
-              [ props.classes.drawerClose ]: !drawerIsOpen,
+            className={clsx(classes.drawer, {
+              [classes.drawerOpen]: drawerIsOpen,
+              [classes.drawerClose]: !drawerIsOpen,
             })}
             classes={{
-              paper: classNames({
-                [ props.classes.drawerOpen ]: drawerIsOpen,
-                [ props.classes.drawerClose ]: !drawerIsOpen,
+              paper: clsx({
+                [classes.drawerOpen]: drawerIsOpen,
+                [classes.drawerClose]: !drawerIsOpen,
               }),
             }}
             open={drawerIsOpen}
           >
-            <div className={ props.classes.toolbar }>
-              <IconButton onClick={function(){ handleDrawerClose(); }}>
-                <MenuIcon />
+            <div className={classes.toolbar}>
+              <IconButton onClick={handleDrawerClose}>
+                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </IconButton>
             </div>
             <Divider />
@@ -412,7 +372,7 @@ export function App(props) {
             </List>
           </Drawer>
 
-          <main className={ props.classes.canvas}>
+          <main className={ classes.canvas}>
             <Switch location={ props.location } >
 
               <Route path="/theming" component={ ThemePage } { ...otherProps } />
@@ -438,4 +398,6 @@ export function App(props) {
 }
 
 
-export default withStyles(styles, { withTheme: true })(App);
+// export default withStyles(styles, { withTheme: true })(App);
+
+export default App;
