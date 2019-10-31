@@ -165,14 +165,14 @@ jobs:
         no_output_timeout: 10m
         when: on_success    # always, on_success, on_fail 
 
-    # - run: 
-    #     name: Running tests
-    #     no_output_timeout: 10m
-    #     when: on_success    # always, on_success, on_fail 
-    #     command: | 
-    #         sleep 240 
-    #         cd webapp 
-    #         meteor npm run-script circle-nightwatch -- --tag circle 
+    - run: 
+        name: Running tests
+        no_output_timeout: 10m
+        when: on_success    # always, on_success, on_fail 
+        command: | 
+            sleep 240 
+            cd webapp 
+            meteor npm run-script circle-nightwatch -- --tag circle 
 
 
     # # Save dependency cache
