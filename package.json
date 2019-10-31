@@ -1,6 +1,13 @@
 {
   "name": "node-on-fhir-analytics",
   "private": true,
+  "meteor": {
+    "mainModule": {
+      "client": "client/main.jsx",
+      "server": "server/main.js"
+    },
+    "testModule": "tests/main.js"
+  },
   "scripts": {
     "pretest": "npm run lint --silent",
     "test": "meteor test --once --driver-package meteortesting:mocha",
@@ -84,12 +91,5 @@
     "fhir-helpers": "1.0.4",
     "hl7v2": "0.8.1",
     "@redoxengine/redox-hl7-v2": "1.0.1"
-  },
-  "meteor": {
-    "mainModule": {
-      "client": "client/main.jsx",
-      "server": "server/main.js"
-    },
-    "testModule": "tests/main.js"
   }
 }
