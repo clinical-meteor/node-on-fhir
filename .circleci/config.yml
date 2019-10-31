@@ -1,0 +1,205 @@
+# This configuration was automatically generated from a CircleCI 1.0 config.
+# It should include any build commands you had along with commands that CircleCI
+# inferred from your project structure. We strongly recommend you read all the
+# comments in this file to understand the structure of CircleCI 2.0, as the idiom
+# for configuration has changed substantially in 2.0 to allow arbitrary jobs rather
+# than the prescribed lifecycle of 1.0. In general, we recommend using this generated
+# configuration as a reference rather than using it in production, though in most
+# cases it should duplicate the execution of your original 1.0 config.
+ 
+version: 2
+jobs:
+  build:
+    working_directory: ~/symptomatic/node-on-fhir
+    parallelism: 1
+    shell: /bin/bash --login
+    resource_class: small
+
+    # CircleCI 2.0 does not support environment variables that refer to each other the same way as 1.0 did.
+    # If any of these refer to each other, rewrite them so that they don't or see https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables .
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      NODE_OPTIONS: --max_old_space_size=3072
+      TOOL_NODE_FLAGS: --max_old_space_size=3072
+      CIRCLE_ENV: test
+      NODE_ENV: test
+      NIGHTWATCH: true
+      DEBUG: true
+      LANG: C.UTF-8
+      LANGUAGE: C.UTF-8
+      LC_ALL: C.UTF-8
+      LC_NUMERIC: en_US.UTF-8
+      
+    # In CircleCI 1.0 we used a pre-configured image with a large number of languages and other packages.
+    # In CircleCI 2.0 you can now specify your own image, or use one of our pre-configured images.
+    # The following configuration line tells CircleCI to use the specified docker image as the runtime environment for you job.
+    # We have selected a pre-built image that mirrors the build environment we use on
+    # the 1.0 platform, but we recommend you choose an image more tailored to the needs
+    # of each job. For more information on choosing an image (or alternatively using a
+    # VM instead of a container) see https://circleci.com/docs/2.0/executor-types/
+    # To see the list of pre-built images that CircleCI provides for most common languages see
+    # https://circleci.com/docs/2.0/circleci-images/ 
+    docker:
+    - image: circleci/node:8.15.1-browsers
+      #command: /sbin/init
+      name: meteor-on-fhir
+      environment:
+        CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+        CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+        TZ: "/usr/share/zoneinfo/America/Chicago"
+        CIRCLE_ENV: test
+        NODE_ENV: test
+        NIGHTWATCH: true
+        DEBUG: true
+        CXX: g++-4.8
+        DISPLAY: :99.0
+        NPM_PREFIX: /home/ubuntu/nvm/v0.10.33
+        MONGO_URL: mongodb://mongo:27017/meteor
+        NODE_OPTIONS: --max_old_space_size=3072
+        TOOL_NODE_FLAGS: --max_old_space_size=3072        
+        LANG: C.UTF-8
+        LANGUAGE: C.UTF-8
+        LC_ALL: C.UTF-8
+        LC_NUMERIC: en_US.UTF-8
+    - image: mongo:3.6.8
+      name: mongo
+
+    # - image: selenium/standalone-chrome:3.0.1
+    #   name: selenium
+    steps:
+
+    # Dependencies
+    #   This would typically go in either a build or a build-and-test job when using workflows
+    # # Restore the dependency cache
+    # - restore_cache:
+    #     keys:
+    #     # This branch if available
+    #     - v1-dep-{{ .Branch }}-
+    #     # Default branch if not
+    #     - v1-dep-development-
+    #     # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
+    #     - v1-dep-
+
+
+    # CACHING
+    # - restore_cache:
+    #     keys:
+    #         # Find a cache corresponding to this specific package-lock.json checksum
+    #         # Find the most recently generated cache used from any branch
+    #         - v1-npm-deps-
+
+    # - save_cache:
+    #       key: my-cache
+    #       paths:
+    #         - my-file.txt
+    #         - my-project/my-dependencies-directory
+
+
+    # Machine Setup
+    # If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # The following `checkout` command checks out your code to your working directory. In 1.0 we did this implicitly. In 2.0 you can choose where in the course of a job your code should be checked out.
+    - checkout
+
+    # Prepare for artifact and test results  collection equivalent to how it was done on 1.0.
+    # In many cases you can simplify this from what is generated here.
+    # 'See docs on artifact collection here https://circleci.com/docs/2.0/artifacts/'
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+
+    # install locale for mongodb?
+    - run: echo $LC_ALL
+
+    # Install  Meteor
+    - run: mkdir -p .meteor
+    
+    # If Meteor is already cached, do not need to build it again.
+    - run: if [ ! -e .meteor/meteor ]; then curl https://install.meteor.com?=release=1.8.1 | /bin/sh; else echo "Meteor seems to be cached"; fi;
+
+    # Link the meteor executable into /usr/bin
+    - run: sudo ln -s .meteor/meteor /usr/bin/meteor
+
+    # Lets see if we can get some config info 
+    - run: pwd
+    - run: ls -la
+
+
+    # Lets see if we can get some config info 
+    - run: cat .meteor/nightwatch.json
+    - run: cat .meteor/packages
+    - run: meteor --version
+
+    # Install the actual app...
+    - run: meteor npm install 
+    # - run: meteor npm install nightwatch@1.1.12 chromedriver@75.0.0 
+
+    #- before/after
+    - run: cat .meteor/packages
+    - run: cat .meteor/versions
+    - run: locale
+
+    # #- make sure we have our tests
+    # - run: cd webapp/tests && ls -la
+    # - run: git clone https://github.com/awatson1978/meteor-on-fhir-validation tests/nightwatch
+
+    # # If Meteor is already cached, do not need to build it again.
+    # - run: meteor npm run-script remove_licensed_packages 
+    # - run: meteor npm run-script add_baseline_packages
+
+    # make sure we have the latest Chrome (specifically wanting Chrome 75; may change with time)
+    - run:
+        name: Update Chromedriver
+        command: |
+            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+            sudo apt-get update
+            sudo apt search google-chrome-stable
+            sudo apt-get -y install google-chrome-stable
+
+    # - run: if [ meteor list | grep 'symptomatic:theming' | wc -l $eq 1 ]; then meteor remove symptomatic:theming ; else echo "Meteor seems to be cached"; fi;
+
+    # run the app
+    - run: 
+        name: Starting Meteor
+        command: meteor run --settings configs/settings.circle.json | tee meteor-output.log
+        background: true
+        no_output_timeout: 10m
+        when: on_success    # always, on_success, on_fail 
+
+    - run: 
+        name: Running tests
+        no_output_timeout: 10m
+        when: on_success    # always, on_success, on_fail 
+        command: | 
+            sleep 120 
+            cd webapp 
+            meteor npm run-script circle-nightwatch -- --tag circle 
+
+
+    # # Save dependency cache
+    # - save_cache:
+    #     name: Saving cache
+    #     key: v1-dep-{{ .Branch }}-{{ epoch }}
+    #     paths:
+    #     # This is a broad list of cache paths to include many possible development environments
+    #     # You can probably delete some of these entries
+    #     - ~/.meteor
+
+    # Teardown
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # Save test results
+    - store_test_results:
+        path: /tmp/circleci-test-results
+
+    # Save artifacts
+    - store_artifacts:
+        path: ./test-reports
+    - store_artifacts:
+        path: ./tests/nightwatch/screenshots
+    - store_artifacts:
+        path: ./tests/nightwatch/screenshots
+    - store_artifacts:
+        path: ./webapp/tests/nightwatch/screenshots
+    - store_artifacts:
+        path: ./webapp/tests/nightwatch/logs
+    - store_artifacts: 
+        path: ./webapp/meteor-output.log

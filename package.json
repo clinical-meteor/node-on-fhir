@@ -2,10 +2,29 @@
   "name": "node-on-fhir-analytics",
   "private": true,
   "scripts": {
-    "start": "meteor run",
+    "pretest": "npm run lint --silent",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
-    "visualize": "meteor --production --extra-packages bundle-visualizer"
+    "visualize": "meteor --production --extra-packages bundle-visualizer",
+    "lint": "eslint --ext .js,.jsx .",
+    "start": "NODE_ENV=test meteor --settings configs/settings.dev.json",
+    "debug": "DEBUG=true meteor --settings configs/settings.dev.json",
+    "trace": "DEBUG=true TRACe=true meteor --settings configs/settings.dev.json",
+    "package-verification": "starrynight run-tests --type package-verification",
+    "verification": "starrynight run-tests --type verification",
+    "validation": "starrynight run-tests --type validation",
+    "nightwatch": "nightwatch -c .meteor/nightwatch.json",
+    "phantom": "nightwatch -c .meteor/nightwatch.json --env phantom",
+    "circle-nightwatch": "nightwatch -c .meteor/nightwatch.circle.json --tag circle",
+    "circle-hello": "nightwatch -c .meteor/nightwatch.circle.json --tag hello",
+    "desktop": "meteor-desktop",
+    "dockerize": "../scripts/generate_docker_compose_file.sh",
+    "push_to_circle_ci": "../scripts/push_to_circle_ci.sh",
+    "prep_for_symptomatic_dev": "../scripts/prep_for_symptomatic_dev.sh",
+    "remove_licensed_packages": "../scripts/remove_licensed_packages.sh",
+    "add_baseline_packages": "../scripts/add_baseline_packages.sh",
+    "deploy-to-azure": "meteor-azure",
+    "version": "../scripts/version.sh"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.4",
@@ -35,6 +54,36 @@
     "simpl-schema": "1.5.3",
     "styled-components": "^4.4.0",
     "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "chromedriver": "^77.0.0",
+    "eslint": "^3.5.0",
+    "eslint-config-airbnb": "^11.1.0",
+    "eslint-import-resolver-meteor": "^0.3.3",
+    "eslint-plugin-import": "^1.15.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-meteor": "^4.0.0",
+    "eslint-plugin-react": "^6.2.2",
+    "nightwatch": "1.2.4",
+    "shelljs": "^0.7.4"
+  },
+  "ignore": {
+    "fhir.js": "0.0.22",
+    "@ahryman40k/ts-fhir-types": "4.0.23",
+    "@ahryman40k/fhir-spec-loader": "4.0.11",
+    "blue-button-fhir": "1.6.0-beta.2",
+    "blue-button-gen-fhir": "1.6.0-beta.2",
+    "@asymmetrik/node-fhir-server-core": "2.0.5",
+    "cql-exec-fhir": "1.3.0",
+    "fhir-list-addresses": "1.0.2",
+    "fhirpath": "0.17.2",
+    "json-schema-resource-validation": "1.0.5",
+    "@asymmetrik/fhir-gql-schema-utils": "1.1.1",
+    "@asymmetrik/sof-scope-checker": "1.0.2",
+    "fhir-helpers": "1.0.4",
+    "hl7v2": "0.8.1",
+    "@redoxengine/redox-hl7-v2": "1.0.1"
   },
   "meteor": {
     "mainModule": {
