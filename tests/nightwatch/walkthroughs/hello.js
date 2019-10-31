@@ -8,7 +8,7 @@ module.exports = {
   tags: ['circle', 'hello'],
   before: function(client){
     client
-      .url("http://localhost:3000/landing-page").pause(3000);
+      .url("http://localhost:3000/").pause(3000);
   },
   'Body exists': function (client) {
     client
