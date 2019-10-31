@@ -76,7 +76,6 @@ import ThemePage from '../core/ThemePage';
 
 import { ThemeProvider } from '@material-ui/styles';
 
-
 const drawerWidth = 280;
 
 // const styles = theme => ({
@@ -166,6 +165,14 @@ const drawerWidth = 280;
     }
   }));
 
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.location !== this.props.location) {
+  //     // navigated!
+  //     // console.log('componentWillReceiveProps', this.props.location, nextProps.location)
+  //     Session.set('pathname', nextProps.location.pathname)
+  //   }
+  // }
+
 
 // Pick up any dynamic routes that are specified in packages, and include them
 var dynamicRoutes = [];
@@ -182,7 +189,8 @@ Object.keys(Package).forEach(function(packageName){
     });    
   }
 });
-console.log('dynamicRoutes', dynamicRoutes)
+
+// logger.log('info','dynamicRoutes', dynamicRoutes)
 
 
 
@@ -258,30 +266,38 @@ const requreSysadmin = (nextState, replace) => {
 
 
 export function App(props) {
+  logger.info('Rendering the main App.');
+  logger.verbose('client.app.layout.App');
+  logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
+
+
   const classes = useStyles();
   const theme = useTheme();
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
-  const doc = useTracker(function(){
-    console.log('Checking that meteor is loaded')
-    return true;
-  }, [props.docId]);
+  useEffect(() => {
+    logger.verbose('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
+    Session.set('pathname', props.location.pathname);
+  }, [props.location.pathname])
 
-  console.log('App.props', props)
 
-  // const classes = useStyles();
-
+  const absoluteUrl = useTracker(function(){
+    logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
+    return Meteor.absoluteUrl();
+  }, [props.location.pathname]);
 
   const { staticContext, ...otherProps } = props;
 
   function handleDrawerOpen(){
-    console.log('App.handleDrawerOpen()')
+    logger.trace('App.handleDrawerOpen()')
     setDrawerIsOpen(true);
   };
 
   function handleDrawerClose(){
     setDrawerIsOpen(false);
+    logger.trace('App.handleDrawerClose()')
+
   };
 
   function goHome(){

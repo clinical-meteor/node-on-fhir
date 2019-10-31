@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import { render } from 'react-dom';
 import AppContainer from '/app/layout/AppContainer'
 
-Meteor.startup(() => {
+
+Meteor.startup(function(){
   render(<AppContainer />, document.getElementById('reactTarget'));
 });

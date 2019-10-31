@@ -47,18 +47,18 @@ const styles = theme => ({
   },
   paper: {
     display: 'flex',
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     textAlign: 'left',
     color: theme.palette.text.secondary
   },
   card: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     textAlign: 'left',
     backgroundColor: theme.palette.cards.main,
     color: theme.palette.cards.contrastText
   },
   control: {
-    padding: theme.spacing.unit * 2
+    padding: theme.spacing(2)
   },
   page: {
     left: '0px', 

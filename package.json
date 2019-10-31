@@ -13,11 +13,12 @@
     "@material-ui/icons": "^3.0.0",
     "@material-ui/styles": "4.5.0",
     "bcrypt": "^3.0.6",
+    "bunyan": "1.8.12",
     "classnames": "2.2.6",
     "clsx": "1.0.4",
     "lodash": "^4.17.11",
-    "material-ui": "^0.20.2",
     "material-fhir-ui": "0.6.11",
+    "material-ui": "^0.20.2",
     "meteor-node-stubs": "^0.4.1",
     "minimongo": "6.3.1",
     "react": "16.8.4",
@@ -30,8 +31,10 @@
     "react-router-dom": "5.1.2",
     "react-router-transition": "^2.0.0",
     "react-transition-group": "4.3.0",
+    "setimmediate": "1.0.5",
     "simpl-schema": "1.5.3",
-    "styled-components": "^4.4.0"
+    "styled-components": "^4.4.0",
+    "winston": "^3.2.1"
   },
   "meteor": {
     "mainModule": {

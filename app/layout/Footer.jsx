@@ -71,9 +71,9 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing.unit * 7 + 1,
+    width: theme.spacing(7) + 1,
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9 + 1,
+      width: theme.spacing(9) + 1
     },
     backgroundColor: theme.palette.paper.main
   },
@@ -124,17 +124,20 @@ const styles = theme => ({
 
 
 function Footer(props) {
-
+  logger.info('Rendering the application Footer.');
+  logger.verbose('package.care-cards.client.layout.Footer');
+  
   const pathname = useTracker(function(){
-    console.log('Footer is using tracker to check security dialog.')
-    // return Session.get('pathname');
-    return window.location.pathname;
+    logger.info('Pathname was recently updated.  Updating the Footer action buttons.');
+    return Session.get('pathname');
+    // return window.location.pathname;
   }, [props]);
 
 
   function renderWestNavbar(pathname){
+    logger.debug('package.care-cards.client.layout.Footer.renderWestNavbar');
+    logger.verbose('Checking packages for action buttons that match the following pathname: ' + pathname);
 
-    console.log('pathname', pathname)
     let self = this;
 
     const buttonRenderArray = []
@@ -148,20 +151,21 @@ function Footer(props) {
       }
     });
 
-    console.log('buttonRenderArray', buttonRenderArray)
+    logger.info('Generated array of buttons to display.')
+    logger.trace('buttonRenderArray', buttonRenderArray)
 
     let renderDom;
     buttonRenderArray.forEach(function(buttonConfig){
       // right route
       if (pathname === buttonConfig.pathname){
-        console.log('Found a route match for Footer buttons', pathname)
+        logger.info('Found a route match for Footer buttons', pathname)
         // right security/function enabled
         if(buttonConfig.settings && (get(Meteor, buttonConfig.settings) === false)){
           // there was a settings criteria; and it was set to faulse            
           return false;
         } else {
           if(buttonConfig.component){
-            console.log('trying to render a component from package')
+            logger.info('Trying to render a component from package')
             renderDom = buttonConfig.component;
           } else {
             renderDom = <div style={{marginTop: '-8px'}}>

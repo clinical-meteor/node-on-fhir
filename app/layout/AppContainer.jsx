@@ -17,7 +17,112 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import App from './App.jsx';
 
+import { createLogger, addColors, format, transports, config } from 'winston';
+import 'setimmediate';
+
+
+
 Meteor.startup(function(){
+
+  
+  // some functions that do log level filtering
+  const LEVEL = Symbol.for('level');
+  function filterOnly(level) {
+    return format(function (info) {
+      if (info[LEVEL] === level) {
+        return info;
+      }
+    })();
+  }
+
+  function hideDataLogLevel() {
+    return format(function (info) {
+      if (info[LEVEL] !== 'data') {
+        return info;
+      }
+    })();
+  }
+
+  function onlyDisplayDataLogLevel() {
+    return format(function (info) {
+      if (info[LEVEL] === 'data') {
+        return info;
+      }
+    })();
+  }
+
+   // lets create a global logger
+   const logger = createLogger({
+    level: get(Meteor, 'settings.public.loggingThreshold') ,
+    levels: {
+      error: 0, 
+      warn: 1, 
+      info: 2, 
+      verbose: 3, 
+      debug: 4, 
+      trace: 5, 
+      data: 6 
+    },
+    // defaultMeta: {tags: ['client_app']},
+    // defaultMeta: { app: get(Meteor, 'settings.public.title') },
+    transports: [
+      // - Write to all logs with level `info` and below to `combined.log` 
+      // - Write all logs error (and below) to `error.log`.
+      
+      // new winston.transports.File({ filename: 'error.log', level: 'error' }),
+      // new winston.transports.File({ filename: 'combined.log' }),
+
+      new transports.Console({
+        colorize: true,
+        format: format.combine(
+          hideDataLogLevel(),
+          format.colorize(),
+          format.simple(),
+          format.splat(),
+          format.timestamp()
+        )
+      }),
+
+      new transports.Console({
+        colorize: true,
+        format: format.combine(
+          onlyDisplayDataLogLevel(),
+          format.simple(),
+          format.splat(),
+          format.prettyPrint()
+        )
+      })
+    ],
+    exitOnError: false
+  });
+
+  addColors({
+    error: "red", 
+    warn: "yellow", 
+    info: "white bold", 
+    verbose: "green", 
+    debug: "cyan", 
+    trace: 'cyan',
+    data: "grey" 
+  });
+    
+  // what is the logging threshold set in the Meteor.settings file?
+  logger.verbose('Setting the logging threshold to: ' + get(Meteor, 'settings.public.loggingThreshold'))
+
+
+  // introspection for the win
+  console.info('Winston Logging Service', logger);
+
+  // attaching to the global scope is not recommending
+  // logging is one debatable exception to the general rule, however
+  window.logger = global.logger = logger;
+
+  // ironically telling the logger where to write the error message when it fails
+  logger.on('error', function (err) { 
+    console.error('Winston just blew up.', error)
+  });
+
+
   // Global Theming 
   // This is necessary for the Material UI component render layer
   let theme = {
@@ -97,10 +202,14 @@ Meteor.startup(function(){
   const AppWithRouter = withRouter(App);
 
 
-
   function AppContainer(props){
-    console.log('AppContainer.props', AppContainer.props)
+
+    logger.info('AppContainer environment is initializing.');
+    logger.verbose('Rendering AppContainer');
+    logger.debug('client.app.layout.AppContainer');
+    logger.data('AppContainer.props', {data: props}, {source: "AppContainer.jsx"});
     
+
     return(
       <BrowserRouter history={appHistory}>
         <ThemeProvider theme={theme} >

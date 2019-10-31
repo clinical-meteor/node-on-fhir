@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
 function AppCanvas(props) {
-  console.log('AppCanvas.props', props);
-  
+  logger.info('Rendering the AppCanvas and associated backgrounds.');
+  logger.verbose('client.app.layout.AppCanvas');
+
   const { children, ...otherProps } = props;
 
   return (

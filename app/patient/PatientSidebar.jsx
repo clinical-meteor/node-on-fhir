@@ -151,18 +151,21 @@ const styles = theme => ({
 
 
 export function PatientSidebar(props){
-
-  console.log('PatientSidebar.props', props)
+  logger.info('PatientSidebar is rendering.');
+  logger.debug('client.app.patient.PatientSidebar');
+  logger.data('PatientSidebar.props', {data: props}, {source: "AppContainer.jsx"});
 
 
   function openPage(url){
-    console.log('PatientSidebar.openPage()', url)
+    logger.debug('client.app.patient.PatientSidebar.openPage', url);
     props.history.replace(url)
   }
   function handleLogout(){
-    console.log('handleLogout')
-  }
+    logger.debug('client.app.patient.PatientSidebar.handleLogout', url);
+    Meteor.logout();
+    logger.info('Logging user out.');
 
+  }
 
   //----------------------------------------------------------------------
   // FHIR Resources
@@ -200,7 +203,7 @@ export function PatientSidebar(props){
       }
     }); 
   
-    console.log('dynamicModules', dynamicModules);
+    logger.data('PatientSidebar.dynamicModules', dynamicModules);
   }
 
   //----------------------------------------------------------------------
