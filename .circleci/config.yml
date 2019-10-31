@@ -119,31 +119,31 @@ jobs:
     - run: sudo ln -s .meteor/meteor /usr/bin/meteor
 
     # Lets see if we can get some config info 
-    - run: cd webapp && pwd
-    - run: cd webapp && ls -la
+    - run: pwd
+    - run: ls -la
 
 
     # Lets see if we can get some config info 
-    - run: cd webapp && cat .meteor/nightwatch.json
-    - run: cd webapp && cat .meteor/packages
-    - run: cd webapp && meteor --version
+    - run: cat .meteor/nightwatch.json
+    - run: cat .meteor/packages
+    - run: meteor --version
 
     # Install the actual app...
-    - run: cd webapp && meteor npm install 
-    # - run: cd webapp && meteor npm install nightwatch@1.1.12 chromedriver@75.0.0 
+    - run: meteor npm install 
+    # - run: meteor npm install nightwatch@1.1.12 chromedriver@75.0.0 
 
     #- before/after
-    - run: cd webapp && cat .meteor/packages
-    - run: cd webapp && cat .meteor/versions
-    - run: cd webapp && locale
+    - run: cat .meteor/packages
+    - run: cat .meteor/versions
+    - run: locale
 
     # #- make sure we have our tests
     # - run: cd webapp/tests && ls -la
-    # - run: cd webapp && git clone https://github.com/awatson1978/meteor-on-fhir-validation tests/nightwatch
+    # - run: git clone https://github.com/awatson1978/meteor-on-fhir-validation tests/nightwatch
 
     # If Meteor is already cached, do not need to build it again.
-    - run: cd webapp && meteor npm run-script remove_licensed_packages 
-    - run: cd webapp && meteor npm run-script add_baseline_packages
+    - run: meteor npm run-script remove_licensed_packages 
+    - run: meteor npm run-script add_baseline_packages
 
     # make sure we have the latest Chrome (specifically wanting Chrome 75; may change with time)
     - run:
@@ -160,7 +160,7 @@ jobs:
     # run the app
     - run: 
         name: Starting Meteor
-        command: cd webapp && meteor run --settings configs/settings.circle.json | tee meteor-output.log
+        command: meteor run --settings configs/settings.circle.json | tee meteor-output.log
         background: true
         no_output_timeout: 10m
         when: on_success    # always, on_success, on_fail 
