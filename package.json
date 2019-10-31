@@ -36,6 +36,19 @@
     "styled-components": "^4.4.0",
     "winston": "^3.2.1"
   },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "chromedriver": "^77.0.0",
+    "eslint": "^3.5.0",
+    "eslint-config-airbnb": "^11.1.0",
+    "eslint-import-resolver-meteor": "^0.3.3",
+    "eslint-plugin-import": "^1.15.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-meteor": "^4.0.0",
+    "eslint-plugin-react": "^6.2.2",
+    "nightwatch": "1.2.4",
+    "shelljs": "^0.7.4"
+  },
   "meteor": {
     "mainModule": {
       "client": "client/main.jsx",
