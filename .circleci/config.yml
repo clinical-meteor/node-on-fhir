@@ -141,9 +141,9 @@ jobs:
     # - run: cd webapp/tests && ls -la
     # - run: git clone https://github.com/awatson1978/meteor-on-fhir-validation tests/nightwatch
 
-    # If Meteor is already cached, do not need to build it again.
-    - run: meteor npm run-script remove_licensed_packages 
-    - run: meteor npm run-script add_baseline_packages
+    # # If Meteor is already cached, do not need to build it again.
+    # - run: meteor npm run-script remove_licensed_packages 
+    # - run: meteor npm run-script add_baseline_packages
 
     # make sure we have the latest Chrome (specifically wanting Chrome 75; may change with time)
     - run:
