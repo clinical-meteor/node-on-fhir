@@ -49,6 +49,23 @@
     "nightwatch": "1.2.4",
     "shelljs": "^0.7.4"
   },
+  "ignore": {
+    "fhir.js": "0.0.22",
+    "@ahryman40k/ts-fhir-types": "4.0.23",
+    "@ahryman40k/fhir-spec-loader": "4.0.11",
+    "blue-button-fhir": "1.6.0-beta.2",
+    "blue-button-gen-fhir": "1.6.0-beta.2",
+    "@asymmetrik/node-fhir-server-core": "2.0.5",
+    "cql-exec-fhir": "1.3.0",
+    "fhir-list-addresses": "1.0.2",
+    "fhirpath": "0.17.2",
+    "json-schema-resource-validation": "1.0.5",
+    "@asymmetrik/fhir-gql-schema-utils": "1.1.1",
+    "@asymmetrik/sof-scope-checker": "1.0.2",
+    "fhir-helpers": "1.0.4",
+    "hl7v2": "0.8.1",
+    "@redoxengine/redox-hl7-v2": "1.0.1"
+  },
   "meteor": {
     "mainModule": {
       "client": "client/main.jsx",
