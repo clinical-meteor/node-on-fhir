@@ -7,7 +7,7 @@ import { Button, Toolbar, AppBar, Typography} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
-import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
+import { ThemeProvider, makeStyles } from '@material-ui/styles';
 
 const drawerWidth = 280;
 

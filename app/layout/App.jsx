@@ -73,6 +73,9 @@ import { IoIosBarcode } from 'react-icons/io';
 import PatientSidebar from '../patient/PatientSidebar'
 
 import ThemePage from '../core/ThemePage';
+import ConstructionZone from '../core/ConstructionZone';
+
+
 
 import { ThemeProvider } from '@material-ui/styles';
 
@@ -401,6 +404,8 @@ export function App(props) {
                 onEnter={ route.requireAuth ? requireAuth : null } 
                 { ...otherProps }
               />) }
+
+              <Route path="/construction-zone" component={ ConstructionZone } />
 
               <Route path="/" component={ defaultHomeRoute } />
 

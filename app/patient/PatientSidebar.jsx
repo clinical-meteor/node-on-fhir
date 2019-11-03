@@ -220,6 +220,8 @@ export function PatientSidebar(props){
         clonedIcon = React.cloneElement(element.icon, {
           className: props.classes.drawerIcons 
         });
+      } else {
+        clonedIcon = <GoFlame className={props.classes.drawerIcons} />
       }
 
       // the excludes array will hide routes
