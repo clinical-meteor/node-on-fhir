@@ -28,6 +28,8 @@ import { GiLifeBar } from 'react-icons/gi';
 import { IoIosBarcode } from 'react-icons/io';
 import { IoMdLogOut } from 'react-icons/io';
 import { IoIosDocument} from 'react-icons/io';
+import { IoIosConstruct} from 'react-icons/io';
+
 
 import { GoFlame } from 'react-icons/go';
 
@@ -166,6 +168,28 @@ export function PatientSidebar(props){
     logger.info('Logging user out.');
 
   }
+
+
+  //----------------------------------------------------------------------
+  // Construction Zone
+    
+  var constructionZone = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ConstructionZone')){
+    if(!['iPhone'].includes(window.navigator.platform)){
+      
+      constructionZone.push(
+        <ListItem id='constructionZoneItem' key='constructionZoneItem' button onClick={function(){ openPage('/construction-zone'); }} >
+          <ListItemIcon >
+            <IoIosConstruct className={props.classes.drawerIcons} />
+          </ListItemIcon>
+          <ListItemText primary='Construction Zone' className={props.classes.drawerText}  />
+        </ListItem>
+      );
+
+      constructionZone.push(<Divider key='hra' />);
+    }
+  }
+
 
   //----------------------------------------------------------------------
   // FHIR Resources
@@ -322,6 +346,7 @@ export function PatientSidebar(props){
       <Divider />
 
       { fhirResources }         
+      { constructionZone }         
       <Divider />
 
       { themingElements }

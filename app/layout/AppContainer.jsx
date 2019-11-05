@@ -189,7 +189,7 @@ Meteor.startup(function(){
       },
       contrastThreshold: 3,
       tonalOffset: 0.2
-    },
+    }
   });
 
 

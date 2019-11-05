@@ -43,7 +43,7 @@
     "classnames": "2.2.6",
     "clsx": "1.0.4",
     "lodash": "^4.17.11",
-    "material-fhir-ui": "0.7.5",
+    "material-fhir-ui": "0.7.6",
     "material-ui": "^0.20.2",
     "meteor-node-stubs": "^0.4.1",
     "minimongo": "6.3.1",
@@ -79,6 +79,7 @@
   },
   "ignore": {
     "fhir.js": "0.0.22",
+    "fhirclient": "2.1.0",
     "@ahryman40k/ts-fhir-types": "4.0.23",
     "@ahryman40k/fhir-spec-loader": "4.0.11",
     "blue-button-fhir": "1.6.0-beta.2",
