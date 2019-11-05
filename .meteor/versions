@@ -22,8 +22,8 @@ clinical:extended-api@2.5.0
 clinical:glass-ui@2.5.0
 clinical:hl7-resource-bundle@1.5.5
 clinical:hl7-resource-datatypes@4.0.5
-clinical:hl7-resource-encounter@2.0.2
-clinical:hl7-resource-endpoint@3.3.1
+clinical:hl7-resource-encounter@2.0.3
+clinical:hl7-resource-endpoint@3.3.2
 clinical:hl7-resource-patient@5.0.5
 clinical:user-model@1.7.0
 coffeescript@1.0.17
@@ -105,6 +105,7 @@ standard-minifier-css@1.5.3
 standard-minifier-js@2.4.1
 static-html@1.2.2
 symptomatic:care-cards@0.4.0
+symptomatic:nivo-analytics@0.2.0
 templating@1.2.15
 templating-compiler@1.2.15
 templating-runtime@1.2.15
