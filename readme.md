@@ -13,7 +13,6 @@ There's currently three (3) javascript client libraries in the NPM repository ri
 
 Library           | Vendor        | Description 
 ----------------- | ------------- | -------------
-
 fhir-kit-client | Vermonster | Modern FHIR client with ES6, SMART, cross-version support, and more.    
 fhirclient | smarthealthit | The official SMART on FHIR javascript client  
 fhir.js | FHIR Community / Aidbox | Community javascript client (good Angular support)  
