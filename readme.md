@@ -13,7 +13,7 @@ There's currently three (3) javascript client libraries in the NPM repository ri
 
 Library           | Vendor        | Description 
 ----------------- | ------------- | -------------
-fhir-kit-client | Vermonster | Modern FHIR client with ES6, SMART, cross-version support, and more.    
+fhir-kit-client | Vermonster | Modern FHIR client with ES6, SMART, cross-version support, etc   
 fhirclient | smarthealthit | The official SMART on FHIR javascript client  
 fhir.js | FHIR Community | Community javascript client (good Angular support)  
 ts-fhir-types | Ahryman40k | Typescript definitions   
@@ -24,6 +24,6 @@ fhir-list-addresses | careMESH | Utility function for extracting addresses
 fhirpath | HL7 | The official FHIRPath parser  
 json-schema-resource-validation | VictorGus | FHIR validator for R4  
 fhir-helpers | jackruss  | Utilities to hydrate argonaut form data into FHIR objects  
-hl7v2 | panates | HL7 v2 parser, serializer, validator and tcp client/server for NodeJS  
+hl7v2 | panates | HL7 v2 parser, serializer, validator and TCP client/server.
 redox-hl7-v2 | Redox | This is Redox's battle-tested in-house HL7v2 parser/generator.  
 
