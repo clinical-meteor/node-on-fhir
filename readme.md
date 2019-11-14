@@ -15,9 +15,9 @@ Library           | Vendor        | Description
 ----------------- | ------------- | -------------
 fhir-kit-client | Vermonster | Modern FHIR client with ES6, SMART, cross-version support, and more.    
 fhirclient | smarthealthit | The official SMART on FHIR javascript client  
-fhir.js | FHIR Community / Aidbox | Community javascript client (good Angular support)  
+fhir.js | FHIR Community | Community javascript client (good Angular support)  
 ts-fhir-types | Ahryman40k | Typescript definitions   
-blue-button-fhir | Amida Technology Solutions  | Blue Button to FHIR converter (DSTU2)  
+blue-button-fhir | Amida Technology  | Blue Button to FHIR converter (DSTU2)  
 node-fhir-server-core | Asymmetrik | Node FHIR Server  
 sof-scope-checker | Asymmetrik | Utility to check SMART on FHIR scope access  
 fhir-list-addresses | careMESH | Utility function for extracting addresses  
