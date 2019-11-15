@@ -52,6 +52,21 @@ redox-hl7-v2 | Redox | This is Redox's battle-tested in-house HL7v2 parser/gener
 Lorem ipsum...
 
 
+```
+# install the meteor compiler; this will take care of node, nvm, npm, yarn, etc.
+# it will also set up debugging tools, a compiler build tool, etc
+curl https://install.meteor.com/ | sh
+
+# download the node-on-fhir application
+git clone https://github.com/symptomatic/node-on-fhir  
+cd node-on-fhir
+
+meteor npm install
+
+meteor run --settings config/settings.greens.json
+```
+
+
 ## Installation  
 Lorem ipsum...
 
