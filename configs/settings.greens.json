@@ -1,0 +1,166 @@
+{
+  "public": {
+    "title": "Node on FHIR",
+    "theme": {
+      "showVideoBackground": false,
+      "darkroomTextEnabled": false,
+      "defaultVideo": "/VideoBackgrounds/GrayWaves.mp4",
+      "backgroundImagePath": "/backgrounds/medical/Gradient.jpg",
+      "palette": {
+        "primaryColor": "rgb(108, 183, 110)",
+        "primaryText": "rgba(255, 255, 255, 1) !important",
+      
+        "secondaryColor": "rgb(108, 183, 110)",
+        "secondaryText": "rgba(255, 255, 255, 1) !important",
+      
+        "cardColor": "#ffffff !important",
+        "cardTextColor": "rgba(0, 0, 0, 1) !important",
+      
+        "errorColor": "rgb(128,20,60) !important",
+        "errorText": "#ffffff !important",
+      
+        "appBarColor": "#669f64 !important",
+        "appBarTextColor": "#ffffff !important",
+      
+        "paperColor": "#ffffff !important",
+        "paperTextColor": "rgba(0, 0, 0, 1) !important",
+      
+        "backgroundCanvas": "#f5f5f5",
+        "background": "linear-gradient(45deg, rgb(108, 183, 110) 30%, rgb(150, 202, 144) 90%)",
+
+        "nivoTheme": "red_grey"
+      }
+    },
+    "home": {
+      "showUnderConstruction": false,
+      "showExperimental": false,
+      "showApps": true,      
+      "showFhirMenu": true
+    },
+    "defaults": {
+      "route": "/example-route",
+      "avatars": true,
+      "barcodes": true,
+      "hexgridMenu": false,
+      "nfcOrbital": false,
+      "notificationMenu": false,
+      "searchbarVisible": true,
+      "displayNavbars": true,
+      "disableHeader": false,
+      "disableFooter": false,
+      "darkroom": false,
+      "iFrameEnabled": false,
+      "iFrameUrl": "https://www.wikipedia.org/",
+      "paginationLimit": 100,
+      "subscriptionLimit": 1000,
+      "cards": {
+        "height": "auto",
+        "opacity": 0.95
+      }      ,
+      "sidebar": {
+        "menuItems": {
+          "FhirResources": true,
+          "DynamicModules": true
+        },
+        "hidden": [
+          "/allergies",
+          "/audit-events",
+          "/conditions",
+          "/care-plans",
+          "/careplan",
+          "/communications",
+          "/consents",
+          "/contracts",
+          "/diagnostic-reports",
+          "/endpoints",
+          "/imaging-studies",
+          "/immunizations",
+          "/goals",
+          "/locations",
+          "/devices",
+          "/medications",
+          "/medication-orders",
+          "/medication-statements",
+          "/observations",
+          "/organizations",
+          "/patients",
+          "/practitioners",
+          "/persons",
+          "/procedures",
+          "/risk-assessments",
+          "/subscriptions",
+          "/vitals-tracking",
+          "/example-route",
+          "/import-data",
+          "/export-data"
+      ]
+      }
+    },
+    "interfaces": {
+      "default": {
+        "status": "inactive",
+        "channel": {
+          "endpoint": "http://localhost:80"
+        },
+        "auth": {
+          "username": "foo",
+          "password": "bar"
+        }
+      }
+    },
+    "meshNetwork": {
+      "upstreamSync": "http://meteor-on-fhir.meteorapp.com/fhir-3.0.0", 
+      "autosync": false
+    },
+    "modules": {
+      "data": true,
+      "forum": true,
+      "genome": true,
+      "healthlog": true,
+      "dermatograms": true,
+      "telemedicine": true,
+      "inbound": true,
+      "outbound": true,
+      "epic": true,
+      "statisticsLogging": true,
+      "apps": {
+        "ChecklistManifesto": true,
+        "ContinuityOfCare": true,
+        "Videoconferencing": true,
+        "ZygoteAvatar": true        
+      },
+      "fhir": {
+        "AllergyIntolerances": true,
+        "AuditEvents": true,
+        "BodySites": true,
+        "CarePlans": true,
+        "Conditions": true,
+        "Devices": true,
+        "DiagnosticReports": true,
+        "Goals": true,
+        "ImagingStudies": true,
+        "Immunizations": true,
+        "Locations": true,
+        "Lists": true,
+        "Medications": true,
+        "MedicationOrders": true,
+        "MedicationStatements": true,
+        "Organizations": true,
+        "Observations": true,
+        "Patients": true,
+        "Practitioners": true,
+        "Procedures": true,
+        "Questionnaires": true,
+        "RiskAssessments": true
+      }
+    }
+  },
+  "private": {
+    "practitionerAccessCode": "hippocrates",
+    "sysadminAccessCode": "rootaccess",
+    "disableOauth": true,
+    "demo": {
+      "nightlyDatabaseDrop": true
+    }
+  }
+}

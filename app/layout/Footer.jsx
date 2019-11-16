@@ -7,7 +7,7 @@ import { Button, Toolbar, AppBar, Typography} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
-import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
+import { ThemeProvider, makeStyles } from '@material-ui/styles';
 
 const drawerWidth = 280;
 
@@ -39,6 +39,7 @@ const styles = theme => ({
   },
   button: {
     margin: '10px',
+    backgroundColor: theme.palette.appBar.main,
     color: theme.palette.appBar.contrastText
   },
   canvas: {
@@ -165,11 +166,11 @@ function Footer(props) {
           return false;
         } else {
           if(buttonConfig.component){
-            logger.info('Trying to render a component from package')
+            logger.info('Trying to render a button from package to the footer')
             renderDom = buttonConfig.component;
           } else {
             renderDom = <div style={{marginTop: '-8px'}}>
-              <Button className={classes.button} onClick={ buttonConfig.onClick } >
+              <Button onClick={ buttonConfig.onClick } >
                 {buttonConfig.label}
               </Button>
             </div>
