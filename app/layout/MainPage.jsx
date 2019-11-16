@@ -34,6 +34,9 @@ export default class MainPage extends Component {
       <div style={{paddingLeft: '60px'}}>
         <Container>
           <Card>
+            <div style={{width: '100%', textAlign: 'center'}}>
+              <img src='/node-on-fhir-logo.png' style={{width: '600px'}} />
+            </div>
             <CardHeader title="Node on FHIR" />
             <CardContent>
               <p>
