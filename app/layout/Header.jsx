@@ -28,7 +28,7 @@ import { get, has } from 'lodash';
 
 import { Link } from "react-router-dom";
 
-import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
+import { ThemeProvider, makeStyles } from '@material-ui/styles';
 
 const drawerWidth = 240;
 

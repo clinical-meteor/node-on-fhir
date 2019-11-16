@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React, { memo, useState, useEffect, useCallback } from 'react';
 
 import ReactDOM from "react-dom";
-import { browserHistory } from 'react-router';
+import { Router, browserHistory } from 'react-router';
 import styled from "styled-components";
 
 import {
@@ -73,6 +73,9 @@ import { IoIosBarcode } from 'react-icons/io';
 import PatientSidebar from '../patient/PatientSidebar'
 
 import ThemePage from '../core/ThemePage';
+import ConstructionZone from '../core/ConstructionZone';
+
+
 
 import { ThemeProvider } from '@material-ui/styles';
 
@@ -190,7 +193,7 @@ Object.keys(Package).forEach(function(packageName){
   }
 });
 
-// logger.log('info','dynamicRoutes', dynamicRoutes)
+console.log('dynamicRoutes', dynamicRoutes)
 
 
 
@@ -264,6 +267,19 @@ const requreSysadmin = (nextState, replace) => {
   }
 };
 
+// class DebugRouter extends Router {
+//   constructor(props){
+//     super(props);
+//     console.log('initial history is: ', JSON.stringify(this.history, null,2))
+//     this.history.listen((location, action)=>{
+//       console.log(
+//         `The current URL is ${location.pathname}${location.search}${location.hash}`
+//       )
+//       console.log(`The last navigation action was ${action}`, JSON.stringify(this.history, null,2));
+//     });
+//   }
+// }
+
 
 export function App(props) {
   logger.info('Rendering the main App.');
@@ -277,7 +293,7 @@ export function App(props) {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
   useEffect(() => {
-    logger.verbose('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
+    logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
     Session.set('pathname', props.location.pathname);
   }, [props.location.pathname])
 
@@ -388,24 +404,28 @@ export function App(props) {
             </List>
           </Drawer>
 
-          <main className={ classes.canvas}>
-            <Switch location={ props.location } >
+          <main id='mainAppRouter' className={ classes.canvas}>
+            {/* <DebugRouter location={ props.location }> */}
+              <Switch location={ props.location } >
 
-              <Route path="/theming" component={ ThemePage } { ...otherProps } />
+                <Route id='themingRoute' path="/theming" component={ ThemePage } { ...otherProps } />
 
-              { dynamicRoutes.map(route => <Route 
-                name={route.name} 
-                key={route.name} 
-                path={route.path} 
-                component={ route.component } 
-                onEnter={ route.requireAuth ? requireAuth : null } 
-                { ...otherProps }
-              />) }
+                { dynamicRoutes.map(route => <Route 
+                  name={route.name} 
+                  key={route.name} 
+                  path={route.path} 
+                  component={ route.component } 
+                  onEnter={ route.requireAuth ? requireAuth : null } 
+                  { ...otherProps }
+                />) }
 
-              <Route path="/" component={ defaultHomeRoute } />
+                <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
 
-              <Route path="*" component={ NotFound } />              
-            </Switch>
+                <Route id='defaultHomeRoute' path="/" component={ defaultHomeRoute } />
+
+                <Route id='notFoundRoute' path="*" component={ NotFound } />              
+              </Switch>
+            {/* </DebugRouter> */}
           </main>
         <Footer drawyerIsOpen={drawerIsOpen} { ...otherProps } />
       </div>
