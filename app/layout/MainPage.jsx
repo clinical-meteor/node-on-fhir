@@ -31,7 +31,7 @@ export default class MainPage extends Component {
 
   render() {
     return (
-      <div style={{paddingLeft: '60px'}}>
+      <div id='MainPage'>
         <Container>
           <Card>
             <div style={{width: '100%', textAlign: 'center'}}>

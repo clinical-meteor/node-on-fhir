@@ -49,9 +49,6 @@ redox-hl7-v2 | Redox | This is Redox's battle-tested in-house HL7v2 parser/gener
 
 
 ## Getting Started  
-Lorem ipsum...
-
-
 ```
 # install the meteor compiler; this will take care of node, nvm, npm, yarn, etc.
 # it will also set up debugging tools, a compiler build tool, etc
@@ -61,20 +58,89 @@ curl https://install.meteor.com/ | sh
 git clone https://github.com/symptomatic/node-on-fhir  
 cd node-on-fhir
 
-meteor npm install
+# install dependencies
+meteor yarn install
 
-meteor run --settings config/settings.greens.json
+# run the application in local development mode
+meteor run --settings configs/settings.nodeonfhir.json
+
+# build and minifiy the application
+meteor build --directory ../output
+
+# run the node application  
+cd ../output
+
+
+
 ```
 
 
-## Installation  
-Lorem ipsum...
+## Settings 
 
-## Customizing   
-Lorem ipsum...
+**Meteor.settings.public.title**  
+Used in multiple places in the application - header, logging, emails, tabs, etc.  
 
-## Deployment  
-Lorem ipsum...
+**Meteor.settings.public.theme**  
+A meta-theme that manages colors, styles, and images for a half-dozen theme infrastructures used by different libraries in this stack.  Material UI has changed it's theme architecture over the years, and various data visualizations packages that we've used have their own theming.  This is just a centralized place to put all those different configs.
+
+**Meteor.settings.public.theme.showVideoBackground**
+Enables video background functionality.  For best results, set your card or paper background to an RGBA color with some amount of alpha channel, or at the very least set the opacity of the card to something less than 1.    
+
+**Meteor.settings.public.theme.darkroomTextEnabled**
+Deprecated.  Set palette colors instead.
+
+**Meteor.settings.public.theme.defaultVideo**
+Default video used in background.
+
+**Meteor.settings.public.theme.backgroundImagePath**
+URL of the image to display in the background.  If an absolute URL is set, make sure that that network connectivity is available and the resource is available.  If a relative URL is set, it will be relative to the /public directory.  
+
+**Meteor.settings.public.theme.palette**
+Color palette to use throughout the application.
+
+**Meteor.settings.public.home**
+Mostly deprecated.  
+
+**Meteor.settings.public.defaults**
+Default behavior for the application.  
+
+**Meteor.settings.public.defaults.route**
+The default URL that the application will route to when you visit the site, login, etc.  
+
+**Meteor.settings.public.defaults.displayNavbars**
+
+**Meteor.settings.public.defaults.disableHeader**
+
+**Meteor.settings.public.defaults.disableFooter**
+
+**Meteor.settings.public.defaults.paginationLimit**
+
+**Meteor.settings.public.defaults.subscriptionLimit**
+
+**Meteor.settings.public.defaults.sidebar**
+
+**Meteor.settings.public.defaults.sidebar.menuItems**
+
+**Meteor.settings.public.defaults.sidebar.menuItems.HomePage**
+
+**Meteor.settings.public.defaults.sidebar.menuItems.FhirResources**
+
+**Meteor.settings.public.defaults.sidebar.menuItems.DynamicModules**
+
+**Meteor.settings.public.defaults.sidebar.hidden**
+
+**Meteor.settings.public.interfaces**
+
+**Meteor.settings.public.meshNetwork**
+
+**Meteor.settings.public.modules**
+
+**Meteor.settings.public.apps**
+
+**Meteor.settings.public.fhir**
+
+**Meteor.settings.private**
+
 
 ## Deployment  
 Lorem ipsum...
