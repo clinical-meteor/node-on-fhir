@@ -62,16 +62,28 @@ cd node-on-fhir
 meteor yarn install
 
 # run the application in local development mode
-meteor run --settings configs/settings.nodeonfhir.json
+# this will automatically launch a mongo instance
+# you will want to create your own settings file 
+# and a plugin if you have assets you want to keep private
+meteor run --settings configs/settings.nodeonfhir.json  --extra-packages symptomatic:example-plugin
 
 # build and minifiy the application
+meteor add symptomatic:example-plugin
 meteor build --directory ../output
 
 # run the node application  
+# warning!  we don't have a mongo instance yet
+# you will need to specify a MONGO_URL
+
 cd ../output
+more README
 
-
-
+cd programs/server 
+npm install
+export MONGO_URL='mongodb://user:password@host:port/databasename'
+export ROOT_URL='http://example.com'
+export METEOR_SETTINGS=`(cat configs/settings.nodeonfhir.json)`
+node main.js
 ```
 
 
@@ -107,21 +119,26 @@ Default behavior for the application.
 **Meteor.settings.public.defaults.route**
 The default URL that the application will route to when you visit the site, login, etc.  
 
-**Meteor.settings.public.defaults.displayNavbars**
-
 **Meteor.settings.public.defaults.disableHeader**
+Disables the header.  Generallyu used with `disableFooter` to achieve a full-page canvas affect.  Useful for full screen video applications or video games.  
 
 **Meteor.settings.public.defaults.disableFooter**
+Disables the footer.  Most commonly used to create a traditional webpage view.  
 
 **Meteor.settings.public.defaults.paginationLimit**
 
+
 **Meteor.settings.public.defaults.subscriptionLimit**
+
 
 **Meteor.settings.public.defaults.sidebar**
 
+
 **Meteor.settings.public.defaults.sidebar.menuItems**
 
+
 **Meteor.settings.public.defaults.sidebar.menuItems.HomePage**
+
 
 **Meteor.settings.public.defaults.sidebar.menuItems.FhirResources**
 
@@ -142,8 +159,6 @@ The default URL that the application will route to when you visit the site, logi
 **Meteor.settings.private**
 
 
-## Deployment  
-Lorem ipsum...
 
 ## Contributing  
 Lorem ipsum...
