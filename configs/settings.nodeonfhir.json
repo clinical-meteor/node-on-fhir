@@ -3,7 +3,6 @@
     "title": "Node on FHIR",
     "theme": {
       "showVideoBackground": false,
-      "darkroomTextEnabled": false,
       "defaultVideo": "/VideoBackgrounds/GrayWaves.mp4",
       "backgroundImagePath": "/backgrounds/medical/Gradient.jpg",
       "palette": {
@@ -31,35 +30,17 @@
         "nivoTheme": "red_grey"
       }
     },
-    "home": {
-      "showUnderConstruction": false,
-      "showExperimental": false,
-      "showApps": true,      
-      "showFhirMenu": true
-    },
     "defaults": {
       "route": "/example-route",
-      "avatars": true,
-      "barcodes": true,
-      "hexgridMenu": false,
-      "nfcOrbital": false,
-      "notificationMenu": false,
-      "searchbarVisible": true,
       "displayNavbars": true,
       "disableHeader": false,
       "disableFooter": false,
-      "darkroom": false,
-      "iFrameEnabled": false,
-      "iFrameUrl": "https://www.wikipedia.org/",
       "paginationLimit": 100,
       "subscriptionLimit": 1000,
-      "cards": {
-        "height": "auto",
-        "opacity": 0.95
-      }      ,
       "sidebar": {
         "menuItems": {
-          "FhirResources": true,
+          "HomePage": true,
+          "FhirResources": false,
           "DynamicModules": true
         },
         "hidden": [
@@ -113,22 +94,7 @@
       "autosync": false
     },
     "modules": {
-      "data": true,
-      "forum": true,
-      "genome": true,
-      "healthlog": true,
-      "dermatograms": true,
-      "telemedicine": true,
-      "inbound": true,
-      "outbound": true,
-      "epic": true,
-      "statisticsLogging": true,
-      "apps": {
-        "ChecklistManifesto": true,
-        "ContinuityOfCare": true,
-        "Videoconferencing": true,
-        "ZygoteAvatar": true        
-      },
+      "apps": {},
       "fhir": {
         "AllergyIntolerances": true,
         "AuditEvents": true,
@@ -155,12 +121,5 @@
       }
     }
   },
-  "private": {
-    "practitionerAccessCode": "hippocrates",
-    "sysadminAccessCode": "rootaccess",
-    "disableOauth": true,
-    "demo": {
-      "nightlyDatabaseDrop": true
-    }
-  }
+  "private": {}
 }

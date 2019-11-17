@@ -4,7 +4,7 @@ import { Card, CardHeader, CardText, CardTitle } from 'material-ui/Card';
 import {blue400, blue600} from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 
-import React, { memo, useState, useEffect, useCallback } from 'react';
+import React, { memo, useLayoutEffect, useState, useEffect, useCallback } from 'react';
 
 import ReactDOM from "react-dom";
 import { Router, browserHistory } from 'react-router';
@@ -176,6 +176,22 @@ const drawerWidth = 280;
   //   }
   // }
 
+  // custom hook to listen to the resize event
+  function useWindowSize() {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener('resize', updateSize);
+      updateSize();
+      return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return size;
+  }
+
+
+
 
 // Pick up any dynamic routes that are specified in packages, and include them
 var dynamicRoutes = [];
@@ -291,6 +307,8 @@ export function App(props) {
   const theme = useTheme();
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+  const [appWidth, appHeight] = useWindowSize();
+
 
   useEffect(() => {
     logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
@@ -350,6 +368,14 @@ export function App(props) {
 
   let defaultHomeRoute = MainPage;
   
+  let drawerStyle = {}
+
+  console.log('APPWIDTH', appWidth)
+
+  if(appWidth < 768){
+
+  }
+
   return(
     
     <AppCanvas { ...otherProps }>
@@ -379,7 +405,9 @@ export function App(props) {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Drawer
+        <div id="appDrawerContainer" style={drawerStyle}>
+          <Drawer
+            id='appDrawer'
             variant="permanent"
             className={clsx(classes.drawer, {
               [classes.drawerOpen]: drawerIsOpen,
@@ -392,6 +420,7 @@ export function App(props) {
               }),
             }}
             open={drawerIsOpen}
+            style={drawerStyle}
           >
             <div className={classes.toolbar}>
               <IconButton onClick={handleDrawerClose}>
@@ -403,6 +432,7 @@ export function App(props) {
               <PatientSidebar { ...otherProps } />
             </List>
           </Drawer>
+        </div>
 
           <main id='mainAppRouter' className={ classes.canvas}>
             {/* <DebugRouter location={ props.location }> */}
@@ -422,7 +452,7 @@ export function App(props) {
                 <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
 
                 <Route id='defaultHomeRoute' path="/" component={ defaultHomeRoute } />
-
+                
                 <Route id='notFoundRoute' path="*" component={ NotFound } />              
               </Switch>
             {/* </DebugRouter> */}
