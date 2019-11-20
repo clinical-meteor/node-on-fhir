@@ -15,6 +15,11 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 import { get, has } from 'lodash';
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
+
+import { PatientTable } from 'material-fhir-ui';
+import { Patients } from 'meteor/clinical:hl7-resource-patient';
+
 
 import Client from 'fhir-kit-client';
 
@@ -43,17 +48,47 @@ function FhirQueryPage(props){
   let endpointDefinedInSettings = get(Meteor, 'settings.public.interfaces.default.channel.endpoint', '');
 
   const [json, setJson] = useState("");
+  const [patients, setPatients] = useState([]);
 
   function fetchData(props){
     console.log('Fetch data from the following endpoint: ', get(Meteor, 'settings.public.interfaces.default.channel.endpoint', ''));
     
+    let patientsArray = [];
     let foo = fhirClient
       .search({ resourceType: 'Patient', searchParams: { _count: '3', gender: 'female' } })
       .then((response) => {
         console.log(response);
         Session.set('helloFhirQueryResults', response);
         setJson(JSON.stringify(response));
-        return response;
+
+        if(get(response, 'resourceType') === "Bundle"){
+          console.log('Parsing a Bundle.')
+          let entries = get(response, 'entry', []);
+          
+          entries.forEach(function(entry){
+            if(get(entry, 'resource.resourceType') === "Patient"){
+              let patientId = Patients.insert(get(entry, 'resource'), {validate: false, filter: false});
+              console.log('Just created new patient: ' + patientId);
+
+              if(!get(entry, 'resource.id')){
+                entry.resource.id = Random.id()
+              }
+              if(!get(entry, 'resource._id')){
+                entry.resource._id = Random.id()
+              }
+
+              patientsArray.push(get(entry, 'resource'))
+            }
+          })
+          
+        }
+
+        return patientsArray;
+      })
+      .then((patientsArray) => {
+        console.log('patientsArray', patientsArray);
+        setPatients(patientsArray);
+        return patientsArray;
       })
       .catch((error) => {
         console.error(error);
@@ -91,9 +126,17 @@ function FhirQueryPage(props){
             title="Results" 
             style={{fontSize: '100%'}} />
           <CardContent style={{fontSize: '100%'}}>
-            { json }
+          <PatientTable
+            patients={patients}
+          />
+            {/* { json } */}
           </CardContent>
         </Card>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </Container>
     </div>
   );

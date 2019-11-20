@@ -1,6 +1,6 @@
 Package.describe({
     name: 'symptomatic:example-plugin',
-    version: '0.2.0',
+    version: '0.2.1',
     summary: 'Example Symptomatic plugin, with dynamic routes and UI elements.',
     git: 'https://github.com/symptomatic/example-plugin',
     documentation: 'README.md'
@@ -14,6 +14,8 @@ Package.onUse(function(api) {
     api.use('react-meteor-data@0.2.15');
     api.use('session');
     api.use('mongo');  
+
+    api.use('clinical:hl7-resource-patient@5.0.7');
 
     api.mainModule('index.jsx', 'client');
 });
