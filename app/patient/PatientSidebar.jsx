@@ -4,6 +4,7 @@ import React, { memo, useState, useEffect, useCallback } from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
 import { Session } from 'meteor/session';
+import { Random } from 'meteor/random';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -275,13 +276,13 @@ export function PatientSidebar(props){
 
   var homePage = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.HomePage')){
-      homePage.push(<ListItem id='homePageItem' key='themingItem' button onClick={function(){ openPage('/'); }} >
+      homePage.push(<ListItem id='homePageItem' key='homeItem' button onClick={function(){ openPage('/'); }} >
         <ListItemIcon >
           <FaHome className={props.classes.drawerIcons} />
         </ListItemIcon>
         <ListItemText primary="Home Page" className={props.classes.drawerText}  />
       </ListItem>);    
-      homePage.push(<Divider />);
+      homePage.push(<Divider key="home-page-hr" />);
   };
 
 
@@ -362,14 +363,14 @@ export function PatientSidebar(props){
 
       { homePage }
 
-      <div id='patientDynamicElements'>
+      <div id='patientDynamicElements' key='patientDynamicElements'>
         { dynamicElements }   
       </div>
-      <Divider />
+      <Divider key='divider1' />
 
       { fhirResources }         
       { constructionZone }         
-      <Divider />
+      <Divider key='divider2' />
 
       { themingElements }
       { aboutElements }
