@@ -7,6 +7,9 @@ Please take a moment to review this document in order to make the contribution p
 Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project. In return, they should reciprocate that respect in addressing your issue or assessing patches and features.
 
 
+
+
+
 ### Using the issue tracker
 
 The [issue tracker](https://www.github.com/symptomatic/node-on-fhir/issues) is the preferred channel
@@ -59,7 +62,7 @@ of the merits of this feature. Please provide as much detail and context as poss
 
 
 <a name="pull-requests"></a>
-## Pull requests
+## Pull requests  
 
 Good pull requests - patches, improvements, new features - are a fantastic help. They should remain
 focused in scope and avoid containing unrelated commits.
@@ -79,8 +82,10 @@ Adhering to the following process is the best way to get your work included in t
    ```bash
    # Clone your fork of the repo into the current directory
    git clone https://github.com/<your-username>/node-on-fhir.git
+
    # Navigate to the newly cloned directory
    cd node-on-fhir
+   
    # Assign the original repo to a remote called "upstream"
    git remote add upstream https://github.com/symptomatic/node-on-fhir.git
    ```
@@ -115,5 +120,18 @@ Adhering to the following process is the best way to get your work included in t
    ```
 
 7. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
+
+
+We want to make sure that you have a handle on git, feature branches, pull-requests, and otherwise managing git based development flow before we invite you to collaborate on the code.  
+
+After you've begun diving into the code, you may find that you want to edit some of the user interface components.  You will need to `npm link` the `material-fhir-ui` package.  
+```
+git clone https://github.com/clinical-meteor/material-fhir-ui packages/material-fhir-ui  
+meteor npm link packages/material-fhir-ui
+```
+
+We recommend doing all development of the `material-fhir-ui` library within the main application `core/ConstructionZone.jsx` page or on CodeSandbox.io or some similar service, and then submitting a pull request for publication.  We currently do not support development of the `material-fhir-ui` library from within an Atmosphere package.
+
+Lastly, you may need to re-link the package each time you make updates.  :/  There is a `rollup --watch` command that you can use to ease this task; but its a bit brittle and easy to forget to run.   
 
 **IMPORTANT**: By submitting a patch, you agree to allow the project owners to license your work under the terms of the [MIT License](LICENSE.txt).
