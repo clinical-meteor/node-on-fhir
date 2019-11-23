@@ -20,6 +20,7 @@ import { Random } from 'meteor/random';
 import { PatientTable } from 'material-fhir-ui';
 import { Patients } from 'meteor/clinical:hl7-resource-patient';
 
+import StyledCard from './StyledCard';
 
 import Client from 'fhir-kit-client';
 
@@ -55,7 +56,7 @@ function FhirQueryPage(props){
     
     let patientsArray = [];
     let foo = fhirClient
-      .search({ resourceType: 'Patient', searchParams: { _count: '3', gender: 'female' } })
+      .search({ resourceType: 'Patient', searchParams: { gender: 'female' } })
       .then((response) => {
         console.log(response);
         Session.set('helloFhirQueryResults', response);
@@ -100,7 +101,7 @@ function FhirQueryPage(props){
   return (
     <div id='indexPage'>
       <Container>
-        <Card >
+        <StyledCard >
           <CardHeader 
             title="Fetch Some Health Related Data" 
             subheader="Exercising data access rights according to the 21st Century Cures Act."
@@ -118,10 +119,10 @@ function FhirQueryPage(props){
             />
             <Button color="primary" className={classes.button} onClick={fetchData.bind(this)} >Fetch</Button>            
           </CardContent>
-        </Card>
+        </StyledCard>
         <br />
         <br />
-        <Card height='auto'>
+        <StyledCard height='auto'>
           <CardHeader 
             title="Results" 
             style={{fontSize: '100%'}} />
@@ -131,7 +132,7 @@ function FhirQueryPage(props){
           />
             {/* { json } */}
           </CardContent>
-        </Card>
+        </StyledCard>
         <br />
         <br />
         <br />

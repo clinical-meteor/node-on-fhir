@@ -81,7 +81,7 @@
       "default": {
         "status": "inactive",
         "channel": {
-          "endpoint": "http://localhost:80"
+          "endpoint": "http://hapi.fhir.org/baseR4"
         },
         "auth": {
           "username": "foo",

@@ -2,13 +2,15 @@ import React from 'react';
 import { Container, Card, CardMedia, CardContent, CardHeader } from '@material-ui/core';
 import { get, has } from 'lodash';
 
+import StyledCard from './StyledCard';
+
 // import CodeBlock from 'react-highlight-codeblock'
 
 function HelloWorldPage(props){
   return (
     <div id='indexPage'>
       <Container>
-        <Card height='auto'>
+        <StyledCard height='auto'>
           <CardHeader 
             title="Create a Plugin" 
             subheader="MACRA and 21st Century Cures workflows."
@@ -102,7 +104,7 @@ function HelloWorldPage(props){
             </ul>                            
 
           </CardContent>
-        </Card>
+        </StyledCard>
       </Container>
     </div>
   );

@@ -43,7 +43,6 @@
     "@material-ui/styles": "4.5.0",
     "@redoxengine/redox-hl7-v2": "1.0.1",
     "bcrypt": "^3.0.6",
-    "bunyan": "1.8.12",
     "classnames": "2.2.6",
     "clsx": "1.0.4",
     "fhir-helpers": "1.0.4",
