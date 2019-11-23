@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HelloWorldPage from './client/HelloWorldPage.jsx';
+import CreateAPluginPage from './client/CreateAPluginPage.jsx';
 import FhirQueryPage from './client/FhirQueryPage.jsx';
 
 import { IoIosDocument} from 'react-icons/io';
@@ -9,9 +9,9 @@ import { FaPuzzlePiece } from 'react-icons/fa';
 
 
 var DynamicRoutes = [{
-  'name': 'HelloWorldPage',
+  'name': 'CreateAPluginPage',
   'path': '/hello-world',
-  'component': HelloWorldPage
+  'component': CreateAPluginPage
 }, {
   'name': 'FhirQueryPage',
   'path': '/fhir-query',
@@ -28,4 +28,4 @@ var SidebarElements = [{
   icon: <GoFlame />
 }];
 
-export { SidebarElements, DynamicRoutes, HelloWorldPage };
+export { SidebarElements, DynamicRoutes, CreateAPluginPage };

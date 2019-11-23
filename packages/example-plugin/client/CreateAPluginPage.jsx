@@ -18,16 +18,22 @@ function HelloWorldPage(props){
           <CardContent style={{fontSize: '100%'}}>
 
             <p>
-              Node on FHIR is a distributed application (DApp) framework template built using Fast Healthcare Interoperability Resources.  
-            </p>
-            <p>
-              The original idea was to develop a Wordpress style platform that teams could download and develop plugins for.  And then the different Wordpress nodes could all synchronize and talk with each other, because they were all programmed with the same FHIR resources to begin with.  Sort of a mesh network architecture as the base, with a plugin architecture at individual nodes so teams can develop customized workflow based on a common data layer.  
-              With it, you can build supply chain blockchains or bit-torrent-like configuration data swarms or municipal IoT infrastructure or personal area networks or medical home appliances or whatever.  
-            </p>
-            <p>
-              It works great, and we're pretty thrilled with it.  
-            </p>
+              Node on FHIR is a distributed application (DApp) framework built using Fast Healthcare Interoperability Resources.  Included in this template is a client/server web application that can compile to mobile devices.  In order to support iOS and Android and Desktop builds, we use a build tool called Meteor and a secondary package management system called Atmosphere.  These technologies are Node/Javascript based, and simply rebsent a particular flavor of building Node apps. However, having two package managers is a bit redundant, and makes it necessary to document how they work together.  
+            </p>     
 
+            <h4>Directory Structure</h4>
+            <p>
+              When the application launches, it reads through the <b>package.json</b> file, and finds two <b>mainModule</b> references, which point to files in the <b>client</b> and <b>server</b> directories.  These are the application launch points (yes, there are two) and displayed in yellow in the following diagram.  From these two launch points, it follows <b>import/export</b> statements through the directory structure, linking files, and pulling in the necessary code as needed.  
+            </p>
+            <p>
+              While launching, the application will also read through the <b>package.json</b> file to discover the list of dependencies to pull in from the Node Package Manager (NPM).  These files are shown in green.
+            </p>
+            <p>
+              When bulding your application, the Meteor build pipeline will scan through a second package management system called Atmosphere (shown in purple)  This second package manager was built at a time that NPM didn't support libraries on the browser and was an attempt to combine the NPM and Bower package managers.  NPM has since caught up in features and made Atmosphere somewhat redundant, and we see it's use gradually being phased out.  However, it still has some nice features related to building mobile apps, such as Cordova integration.  And we have good plugin architecture for user interface components based on it, which makes it useful for mixing-and-matching NPM libraries and bundling them up into modules.  So with much effort, we have identified and developed a coding pattern that can work in both Atmosphere and NPM libraries using modern Ecmasscript (ES6) syntax.  
+            </p>
+            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-DirectoryStructure.png" style={{width: '100%'}} />
+
+{/* 
             <h4>Use Cases</h4>
             <ul>
               <li>Custom Workflows (clinics, laboratories, etc)</li>
@@ -39,7 +45,7 @@ function HelloWorldPage(props){
               <li>Personal Area Health Networks</li>
               <li>Medical Home Appliances</li>
               <li>Smart Prosthetics</li>
-            </ul>
+            </ul> */}
 
             <h4>Licensing</h4>
             <ul>
@@ -103,8 +109,20 @@ function HelloWorldPage(props){
               </li>              
             </ul>                            
 
+
+
+
+            <h4>Component Rendering on the Client</h4>
+            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-ComponentRendering.png" style={{width: '100%'}} />
+
+
+
           </CardContent>
         </StyledCard>
+        <br />
+        <br />
+        <br />
+        <br />
       </Container>
     </div>
   );

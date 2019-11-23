@@ -17,6 +17,9 @@ Package.onUse(function(api) {
 
     api.use('clinical:hl7-resource-patient@5.0.7');
 
+    api.addFiles('assets/NodeOnFhir-ComponentRendering.png', 'client', {isAsset: true});
+    api.addFiles('assets/NodeOnFhir-DirectoryStructure.png', 'client', {isAsset: true});
+
     api.mainModule('index.jsx', 'client');
 });
 
