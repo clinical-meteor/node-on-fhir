@@ -14,6 +14,7 @@ import {
   Typography,
   Box
 } from '@material-ui/core';
+import StyledCard from '../components/StyledCard';
 
 import { Foo, PatientCard, PatientDetail, PatientTable } from 'material-fhir-ui';
 
@@ -88,12 +89,12 @@ function ConstructionZone(props) {
           <Tab label="New" />
         </Tabs>
         <TabPanel value={tabIndex} index={0}>
-          <Card>
+          <StyledCard>
             <CardHeader title="Patients" />
             <CardContent>
               <PatientTable />
             </CardContent>
-          </Card>
+          </StyledCard>
         </TabPanel>
         <TabPanel value={tabIndex} index={1}>
           <PatientDetail patient={JaneDoe} />
