@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
 
-packages/*
 version.desktop
 
 .desktop-installer
@@ -10,3 +9,5 @@ version.desktop
 resources/*
 
 chromedriver.log
+
+configs/settings.galaxy.json
