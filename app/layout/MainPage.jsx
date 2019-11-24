@@ -20,6 +20,8 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 import { FaGithub } from 'react-icons/fa';
 
+import Highlight from 'react-highlight' 
+
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -38,6 +40,10 @@ const useStyles = makeStyles(theme => ({
 
 function MainPage(props){
   const classes = useStyles();
+
+  let code = " # download meteorjs \n curl https://install.meteor.com/ | sh \n\n # clone the repository \n git clone https://github.com/symptomatic/node-on-fhir \n\n # change into the directory \n cd node-on-fhir \n\n # install the dependencies \n meteor npm install \n\n # run the app (with settings) \n meteor run --settings configs/settings.nodeonfhir.localhost.json --extra-packages symptomatic:example-plugin ";
+
+
 
   return (
     <div id='MainPage'>
@@ -218,6 +224,18 @@ function MainPage(props){
                 
               </TableBody>
             </Table>
+            <br />
+            <br />
+            <CardHeader title="Quick Start" />
+
+            <Highlight
+              language="bash"
+              languages={["javascript", "typescript", "scss", "htmlbars", "bash"]}
+            >
+
+              {code || ""}
+            </Highlight>
+
 
             <br />
             <br />
