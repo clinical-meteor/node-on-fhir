@@ -20,24 +20,24 @@ import App from './App.jsx';
 import { createLogger, addColors, format, transports, config } from 'winston';
 import 'setimmediate';
 
-import minimongo from 'minimongo';
+// import minimongo from 'minimongo';
 
 
 Meteor.startup(function(){
 
 
 
-  var LocalDb = minimongo.MemoryDb;
+  // var LocalDb = minimongo.MemoryDb;
  
-  // Create local db (in memory database with no backing)
-  let cache = new LocalDb();
+  // // Create local db (in memory database with no backing)
+  // let cache = new LocalDb();
    
-  // Add a collection to the database
-  cache.addCollection("Encounters");
+  // // Add a collection to the database
+  // cache.addCollection("Encounters");
 
-    // attaching to the global scope is not recommending
-  // logging is one debatable exception to the general rule, however
-  window.minimongo = global.minimongo = cache;
+  //   // attaching to the global scope is not recommending
+  // // logging is one debatable exception to the general rule, however
+  // window.minimongo = global.minimongo = cache;
 
   
   // some functions that do log level filtering

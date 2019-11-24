@@ -4,6 +4,7 @@ import React, { memo, useState, useEffect, useCallback } from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
 import { Session } from 'meteor/session';
+import { Random } from 'meteor/random';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -25,10 +26,13 @@ import { GiCrossedAirFlows} from 'react-icons/gi';
 import { IoMdGrid} from 'react-icons/io';
 import { FiBarChart2} from 'react-icons/fi';
 import { GiLifeBar } from 'react-icons/gi';
-import { IoIosBarcode } from 'react-icons/io';
+import { IoIosBdarcode } from 'react-icons/io';
 import { IoMdLogOut } from 'react-icons/io';
 import { IoIosDocument} from 'react-icons/io';
 import { IoIosConstruct} from 'react-icons/io';
+import { FaHome} from 'react-icons/fa';
+
+
 
 
 import { GoFlame } from 'react-icons/go';
@@ -212,6 +216,8 @@ export function PatientSidebar(props){
   }
 
 
+
+
   //----------------------------------------------------------------------
   // Dynamic Modules
   // Pick up any dynamic routes that are specified in packages, and include them
@@ -262,6 +268,22 @@ export function PatientSidebar(props){
     });
     dynamicElements.push(<Divider key="dynamic-modules-hr" />);
   }
+
+
+  //----------------------------------------------------------------------
+  // Home
+
+
+  var homePage = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.HomePage')){
+      homePage.push(<ListItem id='homePageItem' key='homeItem' button onClick={function(){ openPage('/'); }} >
+        <ListItemIcon >
+          <FaHome className={props.classes.drawerIcons} />
+        </ListItemIcon>
+        <ListItemText primary="Home Page" className={props.classes.drawerText}  />
+      </ListItem>);    
+      homePage.push(<Divider key="home-page-hr" />);
+  };
 
 
   //----------------------------------------------------------------------
@@ -339,15 +361,16 @@ export function PatientSidebar(props){
   return(
     <div id='patientSidebar'>
 
-      <div id='patientDynamicElements'>
+      { homePage }
+
+      <div id='patientDynamicElements' key='patientDynamicElements'>
         { dynamicElements }   
       </div>
-
-      <Divider />
+      <Divider key='divider1' />
 
       { fhirResources }         
       { constructionZone }         
-      <Divider />
+      <Divider key='divider2' />
 
       { themingElements }
       { aboutElements }

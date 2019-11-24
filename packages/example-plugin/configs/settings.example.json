@@ -1,35 +1,11 @@
 {
   "public": {
-    "title": "Node on FHIR",
+    "title": "Symptomatic.io",
     "theme": {
       "showVideoBackground": false,
       "darkroomTextEnabled": false,
       "defaultVideo": "/VideoBackgrounds/GrayWaves.mp4",
-      "backgroundImagePath": "/backgrounds/medical/Gradient.jpg",
-      "palette": {
-        "primaryColor": "rgb(108, 183, 110)",
-        "primaryText": "rgba(255, 255, 255, 1) !important",
-      
-        "secondaryColor": "rgb(108, 183, 110)",
-        "secondaryText": "rgba(255, 255, 255, 1) !important",
-      
-        "cardColor": "#ffffff !important",
-        "cardTextColor": "rgba(0, 0, 0, 1) !important",
-      
-        "errorColor": "rgb(128,20,60) !important",
-        "errorText": "#ffffff !important",
-      
-        "appBarColor": "#669f64 !important",
-        "appBarTextColor": "#ffffff !important",
-      
-        "paperColor": "#ffffff !important",
-        "paperTextColor": "rgba(0, 0, 0, 1) !important",
-      
-        "backgroundCanvas": "#f5f5f5",
-        "background": "linear-gradient(45deg, rgb(108, 183, 110) 30%, rgb(150, 202, 144) 90%)",
-
-        "nivoTheme": "red_grey"
-      }
+      "backgroundImagePath": "/backgrounds/medical/Gradient.jpg"      
     },
     "home": {
       "showUnderConstruction": false,
@@ -56,45 +32,7 @@
       "cards": {
         "height": "auto",
         "opacity": 0.95
-      }      ,
-      "sidebar": {
-        "menuItems": {
-          "FhirResources": true,
-          "DynamicModules": true
-        },
-        "hidden": [
-          "/allergies",
-          "/audit-events",
-          "/conditions",
-          "/care-plans",
-          "/careplan",
-          "/communications",
-          "/consents",
-          "/contracts",
-          "/diagnostic-reports",
-          "/endpoints",
-          "/imaging-studies",
-          "/immunizations",
-          "/goals",
-          "/locations",
-          "/devices",
-          "/medications",
-          "/medication-orders",
-          "/medication-statements",
-          "/observations",
-          "/organizations",
-          "/patients",
-          "/practitioners",
-          "/persons",
-          "/procedures",
-          "/risk-assessments",
-          "/subscriptions",
-          "/vitals-tracking",
-          "/example-route",
-          "/import-data",
-          "/export-data"
-      ]
-      }
+      }      
     },
     "interfaces": {
       "default": {
