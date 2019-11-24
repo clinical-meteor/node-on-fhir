@@ -33,6 +33,7 @@ ecmascript-runtime-server@0.7.1
 ejson@1.1.0
 es5-shim@4.8.0
 fetch@0.1.1
+fourseven:scss@4.12.0
 geojson-utils@1.0.10
 hot-code-push@1.0.4
 html-tools@1.0.11
@@ -83,7 +84,7 @@ spacebars-compiler@1.1.3
 standard-minifier-css@1.5.3
 standard-minifier-js@2.4.1
 static-html@1.2.2
-symptomatic:example-plugin@0.2.1
+symptomatic:example-plugin@0.2.2
 templating-tools@1.1.2
 tmeasday:check-npm-versions@0.3.2
 tmeasday:publish-with-relations@0.2.0
