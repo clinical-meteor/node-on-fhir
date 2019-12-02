@@ -1,6 +1,6 @@
 Package.describe({
     name: 'symptomatic:example-plugin',
-    version: '0.2.2',
+    version: '0.2.3',
     summary: 'Example Symptomatic plugin, with dynamic routes and UI elements.',
     git: 'https://github.com/symptomatic/example-plugin',
     documentation: 'README.md'
@@ -36,6 +36,6 @@ Package.onUse(function(api) {
 
 Npm.depends({
     "moment": "2.20.1",
-    "lodash": "4.17.4",
+    "lodash": "4.17.15",
     "react-icons": "3.8.0"
 });
