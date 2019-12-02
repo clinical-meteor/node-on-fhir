@@ -53,7 +53,7 @@
     "fhirpath": "0.17.2",
     "hl7v2": "0.8.1",
     "json-schema-resource-validation": "1.0.5",
-    "lodash": "^4.17.11",
+    "lodash": "4.17.15",
     "material-fhir-ui": "^0.7.20",
     "material-ui": "^0.20.2",
     "meteor-node-stubs": "^0.4.1",
