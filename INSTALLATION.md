@@ -29,7 +29,7 @@ meteor --settings configs/settings.nodeonfhir.localhost.json
 meteor npm run-script lint
 
 # in a second terminal, run the test runner
-meteor npm run-script nightwatch
+meteor npm run-script nightwatch -- --tag circle 
 ```
 
 
