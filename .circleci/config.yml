@@ -164,9 +164,18 @@ jobs:
         background: true
         no_output_timeout: 10m
         when: on_success    # always, on_success, on_fail 
+        
+    - run: 
+        name: Running static code analysis (lint)
+        no_output_timeout: 10m
+        when: on_success    # always, on_success, on_fail 
+        command: | 
+            sleep 120 
+            cd webapp 
+            meteor npm run-script lint  
 
     - run: 
-        name: Running tests
+        name: Running validation tests
         no_output_timeout: 10m
         when: on_success    # always, on_success, on_fail 
         command: | 

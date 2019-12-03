@@ -1,0 +1,142 @@
+{
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "allowImportExportEverywhere": true,
+      "sourceType": "module"
+    },
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "plugins": [
+      "meteor",
+      "react"
+    ],
+    "extends": [
+      "airbnb",
+      "plugin:meteor/recommended"
+    ],
+    "settings": {
+      "import/resolver": "meteor"
+    },
+    "ignorePatterns": ["node_modules/", "packages/", "tests/"],
+    "rules": {
+        "indent": [
+            "warn",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "warn",
+            "double"
+        ],
+        "semi": [
+            "warn",
+            "always"
+        ],
+        "key-spacing": [
+            "warn"
+        ],
+        "space-before-blocks": [
+            "warn"
+        ],
+
+      "react/jsx-filename-extension": 0,
+      "import/no-absolute-path": 0,
+      "import/extensions": 0,
+      "no-trailing-spaces": ["warn"],
+      "no-unused-vars": ["warn"],
+      "max-len": ["warn"],
+      "no-undef": ["warn"],
+      "meteor/no-session": ["warn"],
+      "quote-props": ["warn"],
+      "comma-dangle": ["warn"],
+      "spaced-comment": ["warn"],
+      "no-var": ["warn"],
+      "prefer-template": ["warn"],
+      "keyword-spacing": ["warn"],
+      "vars-on-top": ["warn"],
+      "no-plusplus": ["warn"],
+      "block-scoped-var": ["warn"],
+      "no-redeclare": ["warn"],
+      "space-before-blocks": ["warn"],
+      "consistent-return": ["warn"],
+      "object-curly-spacing": ["warn"],
+      "class-methods-use-this": ["warn"],
+      "react/sort-comp": ["warn"],
+      "no-multiple-empty-lines": ["warn"],
+      "no-unused-expressions": ["warn"],
+      "dot-notation": ["warn"],
+      "react/prop-types": ["warn"],
+      "no-multi-spaces": ["warn"],
+      "jsx-quotes": ["warn"],
+      "keyword-spacing": ["warn"],
+      "no-extra-semi": ["warn"],
+      "import/no-duplicates": ["warn"],
+      "padded-blocks": ["warn"],
+      "react/jsx-indent": ["warn"],
+      "react/self-closing-comp": ["warn"],
+      "import/no-unresolved": ["warn"],
+      "array-callback-return": ["warn"],
+      "react/jsx-curly-spacing": ["warn"],
+      "eol-last": ["warn"],
+      "no-duplicate-imports": ["warn"],
+      "prefer-const": ["warn"],
+      "semi-spacing": ["warn"],
+      "no-shadow": ["warn"],
+      "no-empty": ["warn"],
+      "import/imports-first": ["warn"],
+      "react/jsx-first-prop-new-line": ["warn"],
+      "react/jsx-wrap-multilines": ["warn"],
+      "no-lonely-if": ["warn"],
+      "react/jsx-closing-bracket-location": ["warn"],
+      "react/jsx-space-before-closing": ["warn"],
+      "new-cap": ["warn"],
+      "react/jsx-no-target-blank": ["warn"],
+      "arrow-body-style": ["warn"],
+      "no-else-return": ["warn"],
+      "no-mixed-operators": ["warn"],
+      "jsx-a11y/img-has-alt": ["warn"],
+      "import/newline-after-import": ["warn"],
+      "comma-spacing": ["warn"],
+      "import/no-named-as-default": ["warn"],
+      "arrow-parens": ["warn"],
+      "no-useless-constructor": ["warn"],
+      "react/jsx-no-bind": ["warn"],
+      "no-param-reassign": ["warn"],
+    
+      // disabled so that we're not expecting to find 'meteor' within
+      // our dependencies.
+      // XXX: this *should* be taken care of by eslint-import-resolver-meteor, investigate.
+      "import/no-extraneous-dependencies": 0,  
+
+      "no-underscore-dangle": [
+        "warn",
+        {
+          "allow": [
+            "_id",
+            "_ensureIndex"
+          ]
+        }
+      ],
+      "object-shorthand": [
+        "warn",
+        "always",
+        {
+          "avoidQuotes": false
+        }
+      ],
+  
+      "space-before-function-paren": 0,
+      
+      // for Meteor API's that rely on `this` context, e.g. Template.onCreated and publications
+      "func-names": 0,
+      "prefer-arrow-callback": 0
+    }
+  }
+
+
