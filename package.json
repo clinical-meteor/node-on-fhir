@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@ahryman40k/ts-fhir-types": "4.0.23",
-    "@asymmetrik/node-fhir-server-core": "2.0.5",
+    "@asymmetrik/node-fhir-server-core": "2.0.6",
     "@asymmetrik/sof-scope-checker": "1.0.2",
     "@babel/runtime": "^7.3.4",
     "@material-ui/core": "4.5.1",
