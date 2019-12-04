@@ -76,7 +76,7 @@ review the [Moderation Policy] and [Requesting Moderation].
 This Code of Conduct is adapted from the [Contributor Covenant][homepage],
 version 1.4, available at https://www.contributor-covenant.org/version/1/4/
 
-## Appendix A: The report@nodejs.org Alias
+## Appendix A: The report@symptomatic.io Alias
 
 *Note*: At the current time, all email sent to the `report@symptomatic.io` email
 alias is copied to all members owners of Symptomatic.  
