@@ -11,25 +11,25 @@ appearance, race, religion, or sexual identity and orientation.
 
 ## Our Standards
 
-Examples of behavior that contributes to creating a positive environment
-include:
+Examples of behavior that contributes to creating a positive environment include:
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
+* Using welcoming and inclusive language.
+* Being respectful of differing viewpoints and experiences.
+* Gracefully accepting constructive criticism.
+* Focusing on what is best for the community.
+* Showing empathy towards other community members.
 
 Examples of unacceptable behavior by participants include:
 
-* The use of sexualized language or imagery and unwelcome sexual attention or
-  advances
+* The use of sexualized language or imagery and unwelcome sexual attention or advances.
 * Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic
-  address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
-  professional setting
+* Public or private harassment.
+* Publishing others' private information, such as a physical or electronic address, without explicit permission.
+* Other conduct which could reasonably be considered inappropriate in a professional setting.
+* Submission of pull requests with code or comments containing profanity, sexualized imagery, ASCII porn, or similar content they may not be suitable for corporate or enterprise environments.
+* Submission of pull requests with APIs which may be construed as having sexual inuendo or harrasing meaning, such as 'spy/mock' or 'jasmine/cucumber' or 'slaveOk/chocolatey'.   
+
+This software is intended for use in corporate and enterprise environments that have Human Resource departments and policies.  Please act accordingly.
 
 ## Our Responsibilities
 
