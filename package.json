@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@ahryman40k/ts-fhir-types": "4.0.23",
-    "@asymmetrik/node-fhir-server-core": "2.0.5",
+    "@asymmetrik/node-fhir-server-core": "2.0.6",
     "@asymmetrik/sof-scope-checker": "1.0.2",
     "@babel/runtime": "^7.3.4",
     "@material-ui/core": "4.5.1",
@@ -76,7 +76,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "babel-eslint": "^6.1.2",
+    "babel-eslint": ">= 7",
     "chromedriver": "^77.0.0",
     "eslint": ">=4.18.2",
     "eslint-config-airbnb": "^11.1.0",
