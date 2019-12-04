@@ -78,8 +78,6 @@ version 1.4, available at https://www.contributor-covenant.org/version/1/4/
 
 ## Appendix A: The report@nodejs.org Alias
 
-*Note*: At the current time, all email sent to the `report@nodejs.org` email
-alias is copied to all members of the [Node.js Moderation Team][].
+*Note*: At the current time, all email sent to the `report@symptomatic.io` email
+alias is copied to all members owners of Symptomatic.  
 
-[homepage]: http://contributor-covenant.org
-[Node.js Moderation Team]: https://github.com/nodejs/admin/blob/master/Moderation-Policy.md#current-members
