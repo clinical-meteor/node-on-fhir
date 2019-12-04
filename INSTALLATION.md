@@ -1,5 +1,5 @@
 
-## Quickstart
+## Installation  
 
 ```bash
 # install the meteor compiler; this will take care of node, nvm, npm, yarn, etc.
@@ -18,7 +18,24 @@ meteor yarn install
 # you will want to create your own settings file 
 # and a plugin if you have assets you want to keep private
 meteor run --settings configs/settings.nodeonfhir.json  --extra-packages symptomatic:example-plugin
+```
 
+## Testing  
+```bash
+# run the app
+meteor --settings configs/settings.nodeonfhir.localhost.json 
+
+# in a second terminal, run static code analysis tools
+meteor npm run-script lint
+
+# in a second terminal, run the test runner
+meteor npm run-script nightwatch -- --tag circle 
+```
+
+
+
+## Production Build    
+```bash
 # build and minifiy the application
 meteor add symptomatic:example-plugin
 meteor build --directory ../output

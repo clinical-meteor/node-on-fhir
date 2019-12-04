@@ -7,13 +7,13 @@ Please take a moment to review this document in order to make the contribution p
 Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project. In return, they should reciprocate that respect in addressing your issue or assessing patches and features.
 
 
-
+### Testing Policy 
+Tests should be added for any major functionality that's submitted as a pull request.  A lack of tests in the pull request are a qualifying reason to reject the merge request.  
 
 
 ### Using the issue tracker
 
-The [issue tracker](https://www.github.com/symptomatic/node-on-fhir/issues) is the preferred channel
-for [bug reports](#bugs), [features requests](#features) and [submitting pull requests](#pull-requests), but please respect the following restrictions:
+The [issue tracker](https://www.github.com/symptomatic/node-on-fhir/issues) is the preferred channel for [bug reports](#bugs), [features requests](#features) and [submitting pull requests](#pull-requests), but please respect the following restrictions:
 
 
 <a name="bugs"></a>
