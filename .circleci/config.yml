@@ -18,7 +18,7 @@ jobs:
     working_directory: ~/symptomatic/node-on-fhir
     parallelism: 1
     shell: /bin/bash --login
-    resource_class: medium
+    resource_class: medium+
 
     # CircleCI 2.0 does not support environment variables that refer to each other the same way as 1.0 did.
     # If any of these refer to each other, rewrite them so that they don't or see https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables .
