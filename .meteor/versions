@@ -19,7 +19,7 @@ clinical:extended-api@2.5.0
 clinical:glass-ui@2.4.11
 clinical:hl7-resource-bundle@1.5.5
 clinical:hl7-resource-datatypes@4.0.5
-clinical:hl7-resource-patient@5.0.8
+clinical:hl7-resource-patient@5.0.9
 clinical:user-model@1.7.0
 coffeescript@1.0.17
 ddp@1.4.0
