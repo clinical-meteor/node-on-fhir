@@ -174,13 +174,13 @@ jobs:
             sleep 120 
             meteor npm run-script lint  
 
-    # - run: 
-    #     name: Running verification tests
-    #     no_output_timeout: 10m
-    #     when: on_success    # always, on_success, on_fail 
-    #     command: | 
-    #         sleep 120 
-    #         meteor test --driver-package meteortesting:mocha --once 
+    - run: 
+        name: Running verification tests
+        no_output_timeout: 10m
+        when: on_success    # always, on_success, on_fail 
+        command: | 
+            sleep 120 
+            meteor test --driver-package meteortesting:mocha --once 
 
     # run the app
     - run: 
