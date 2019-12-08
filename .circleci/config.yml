@@ -165,14 +165,6 @@ jobs:
 
     # - run: if [ meteor list | grep 'symptomatic:theming' | wc -l $eq 1 ]; then meteor remove symptomatic:theming ; else echo "Meteor seems to be cached"; fi;
 
-    # run the app
-    - run: 
-        name: Starting Meteor
-        command: meteor run --settings configs/settings.circle.json | tee meteor-output.log
-        background: true
-        no_output_timeout: 10m
-        when: on_success    # always, on_success, on_fail 
-        
     - run: 
         name: Running static code analysis (lint)
         no_output_timeout: 10m
@@ -189,6 +181,14 @@ jobs:
             sleep 120 
             meteor test --driver-package meteortesting:mocha --once --full-app
 
+    # run the app
+    - run: 
+        name: Starting Meteor
+        command: meteor run --settings configs/settings.circle.json | tee meteor-output.log
+        background: true
+        no_output_timeout: 10m
+        when: on_success    # always, on_success, on_fail 
+        
     - run: 
         name: Running validation tests
         no_output_timeout: 10m
