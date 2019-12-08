@@ -185,8 +185,7 @@ jobs:
         when: on_success    # always, on_success, on_fail 
         command: | 
             sleep 120 
-            meteor npm run-script verification-tests
-
+            meteor test --driver-package meteortesting:mocha --port 3002 --once --full-app
 
     - run: 
         name: Running validation tests
