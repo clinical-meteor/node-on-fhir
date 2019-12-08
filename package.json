@@ -32,7 +32,7 @@
     "add_baseline_packages": "../scripts/add_baseline_packages.sh",
     "deploy-to-azure": "meteor-azure",
     "version": "../scripts/version.sh",
-    "verification-tests": "meteor test --driver-package meteortesting:mocha --port 3002 --once --full-app"
+    "verification-tests": "TEST_BROWSER_DRIVER: chrome meteor test --driver-package meteortesting:mocha --port 3002 --once --full-app"
   },
   "dependencies": {
     "@ahryman40k/ts-fhir-types": "4.0.23",
