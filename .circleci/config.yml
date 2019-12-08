@@ -30,6 +30,7 @@ jobs:
       LANGUAGE: C.UTF-8
       LC_ALL: C.UTF-8
       LC_NUMERIC: en_US.UTF-8
+      TEST_BROWSER_DRIVER: chrome
       
     # In CircleCI 1.0 we used a pre-configured image with a large number of languages and other packages.
     # In CircleCI 2.0 you can now specify your own image, or use one of our pre-configured images.
@@ -171,8 +172,16 @@ jobs:
         when: on_success    # always, on_success, on_fail 
         command: | 
             sleep 120 
-            cd webapp 
             meteor npm run-script lint  
+
+    - run: 
+        name: Running verification tests
+        no_output_timeout: 10m
+        when: on_success    # always, on_success, on_fail 
+        command: | 
+            sleep 120 
+            meteor npm run-script verification-tests
+
 
     - run: 
         name: Running validation tests
@@ -180,7 +189,6 @@ jobs:
         when: on_success    # always, on_success, on_fail 
         command: | 
             sleep 120 
-            cd webapp 
             meteor npm run-script circle-nightwatch -- --tag circle 
 
 
