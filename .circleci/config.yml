@@ -68,6 +68,8 @@ jobs:
         LANGUAGE: C.UTF-8
         LC_ALL: C.UTF-8
         LC_NUMERIC: en_US.UTF-8
+        TEST_BROWSER_DRIVER: chrome
+
     - image: mongo:3.6.8
       name: mongo
 
@@ -185,7 +187,7 @@ jobs:
         when: on_success    # always, on_success, on_fail 
         command: | 
             sleep 120 
-            meteor test --driver-package meteortesting:mocha --port 3002 --once --full-app
+            meteor test --driver-package meteortesting:mocha --once --full-app
 
     - run: 
         name: Running validation tests
