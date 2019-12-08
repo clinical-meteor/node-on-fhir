@@ -1,5 +1,5 @@
 {
-  "name": "Node on FHIR",
+  "name": "node-on-fhir",
   "private": true,
   "meteor": {
     "mainModule": {
