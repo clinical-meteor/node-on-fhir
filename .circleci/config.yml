@@ -7,13 +7,18 @@
 # configuration as a reference rather than using it in production, though in most
 # cases it should duplicate the execution of your original 1.0 config.
  
+
+# For caching on Circle CI v2, please see the following: 
+# https://github.com/meteor/meteor/issues/10218
+
+
 version: 2
 jobs:
   build:
     working_directory: ~/symptomatic/node-on-fhir
     parallelism: 1
     shell: /bin/bash --login
-    resource_class: small
+    resource_class: medium
 
     # CircleCI 2.0 does not support environment variables that refer to each other the same way as 1.0 did.
     # If any of these refer to each other, rewrite them so that they don't or see https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables .
@@ -30,6 +35,7 @@ jobs:
       LANGUAGE: C.UTF-8
       LC_ALL: C.UTF-8
       LC_NUMERIC: en_US.UTF-8
+      TEST_BROWSER_DRIVER: chrome
       
     # In CircleCI 1.0 we used a pre-configured image with a large number of languages and other packages.
     # In CircleCI 2.0 you can now specify your own image, or use one of our pre-configured images.
@@ -42,8 +48,9 @@ jobs:
     # https://circleci.com/docs/2.0/circleci-images/ 
     docker:
     - image: circleci/node:8.15.1-browsers
+      name: node-on-fhir
+      cmd: ["/bin/bash"]
       #command: /sbin/init
-      name: meteor-on-fhir
       environment:
         CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
         CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
@@ -62,6 +69,7 @@ jobs:
         LANGUAGE: C.UTF-8
         LC_ALL: C.UTF-8
         LC_NUMERIC: en_US.UTF-8
+        TEST_BROWSER_DRIVER: chrome
     - image: mongo:3.6.8
       name: mongo
 
@@ -157,6 +165,22 @@ jobs:
 
     # - run: if [ meteor list | grep 'symptomatic:theming' | wc -l $eq 1 ]; then meteor remove symptomatic:theming ; else echo "Meteor seems to be cached"; fi;
 
+    - run: 
+        name: Running static code analysis (lint)
+        no_output_timeout: 10m
+        when: on_success    # always, on_success, on_fail 
+        command: | 
+            sleep 120 
+            meteor npm run-script lint  
+
+    # - run: 
+    #     name: Running verification tests
+    #     no_output_timeout: 10m
+    #     when: on_success    # always, on_success, on_fail 
+    #     command: | 
+    #         sleep 120 
+    #         meteor test --driver-package meteortesting:mocha --once 
+
     # run the app
     - run: 
         name: Starting Meteor
@@ -166,21 +190,11 @@ jobs:
         when: on_success    # always, on_success, on_fail 
         
     - run: 
-        name: Running static code analysis (lint)
-        no_output_timeout: 10m
-        when: on_success    # always, on_success, on_fail 
-        command: | 
-            sleep 120 
-            cd webapp 
-            meteor npm run-script lint  
-
-    - run: 
         name: Running validation tests
         no_output_timeout: 10m
         when: on_success    # always, on_success, on_fail 
         command: | 
             sleep 120 
-            cd webapp 
             meteor npm run-script circle-nightwatch -- --tag circle 
 
 
@@ -212,3 +226,5 @@ jobs:
         path: ./webapp/tests/nightwatch/logs
     - store_artifacts: 
         path: ./webapp/meteor-output.log
+
+
