@@ -1,6 +1,6 @@
 Package.describe({
     name: 'symptomatic:example-plugin',
-    version: '0.2.4',
+    version: '0.2.5',
     summary: 'Example Symptomatic plugin, with dynamic routes and UI elements.',
     git: 'https://github.com/symptomatic/example-plugin',
     documentation: 'README.md'
@@ -15,7 +15,7 @@ Package.onUse(function(api) {
     api.use('session');
     api.use('mongo');  
 
-    api.use('clinical:hl7-resource-patient@5.0.5');
+    api.use('clinical:hl7-resource-patient@5.0.9');
 
     // api.addFiles('assets/NodeOnFhir-ComponentRendering.png', 'client', {isAsset: true});
     // api.addFiles('assets/NodeOnFhir-RecommendedCodingArea.png', 'client', {isAsset: true});
