@@ -46,6 +46,7 @@
         "hidden": [
           "/allergies",
           "/audit-events",
+          "/bundles",
           "/conditions",
           "/care-plans",
           "/careplan",
