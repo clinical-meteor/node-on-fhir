@@ -65,6 +65,7 @@
     "react-highlight": "^0.12.0",
     "react-icons": "^3.8.0",
     "react-mixin": "^4.0.0",
+    "react-multi-carousel": "2.4.2",
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
     "react-router-transition": "^2.0.0",
@@ -78,7 +79,7 @@
   },
   "devDependencies": {
     "babel-eslint": ">= 7",
-    "chromedriver": "^77.0.0",
+    "chromedriver": "79.0.0",
     "eslint": ">=4.18.2",
     "eslint-config-airbnb": "^11.1.0",
     "eslint-import-resolver-meteor": "^0.3.3",

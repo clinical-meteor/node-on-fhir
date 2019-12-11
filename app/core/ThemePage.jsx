@@ -27,14 +27,11 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 
-
-// import OpacitySlider from '/imports/ui/components/OpacitySlider';
-
-
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
 
-import { withStyles } from '@material-ui/core/styles';
+// import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 let defaultState = { index: 0 };
 Session.setDefault('themePageState', defaultState);
