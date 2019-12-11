@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "babel-eslint": ">= 7",
-    "chromedriver": "^77.0.0",
+    "chromedriver": "77.0.0",
     "eslint": ">=4.18.2",
     "eslint-config-airbnb": "^11.1.0",
     "eslint-import-resolver-meteor": "^0.3.3",
