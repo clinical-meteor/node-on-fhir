@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import StyledCard from '../components/StyledCard';
 
-import { Foo, PatientCard, PatientDetail, PatientTable } from 'material-fhir-ui';
+import { PatientCard, PatientDetail, PatientTable } from 'material-fhir-ui';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -81,7 +81,7 @@ function ConstructionZone(props) {
 
   return (
     <div { ...otherProps } >
-      <Container style={{paddingLeft: '100px'}} >
+      <div style={{paddingLeft: '100px', paddingRight: '100px'}} >
         <h2>Construction Zone</h2>
 
         <Tabs value={tabIndex} onChange={handleChange} aria-label="simple tabs example">
@@ -92,7 +92,7 @@ function ConstructionZone(props) {
           <StyledCard>
             <CardHeader title="Patients" />
             <CardContent>
-              <PatientTable />
+              <PatientTable patients={[JaneDoe]} />            
             </CardContent>
           </StyledCard>
         </TabPanel>
@@ -102,7 +102,7 @@ function ConstructionZone(props) {
         <br />
         <br />
         <PatientCard patient={JaneDoe} />    
-      </Container>
+      </div>
     </div>
   );
 }

@@ -46,6 +46,8 @@ const useStyles = makeStyles(theme => ({
 function FhirQueryPage(props){
   const classes = useStyles();
 
+  const rowsPerPage = get(Meteor, 'settings.public.defaults.rowsPerPage', 25);
+
   let endpointDefinedInSettings = get(Meteor, 'settings.public.interfaces.default.channel.endpoint', '');
 
   const [json, setJson] = useState("");
@@ -129,6 +131,8 @@ function FhirQueryPage(props){
           <CardContent style={{fontSize: '100%'}}>
           <PatientTable
             patients={patients}
+            rowsPerPage={rowsPerPage}
+            count={patients.length}
           />
             {/* { json } */}
           </CardContent>

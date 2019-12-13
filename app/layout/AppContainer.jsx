@@ -20,6 +20,9 @@ import App from './App.jsx';
 import { createLogger, addColors, format, transports, config } from 'winston';
 import 'setimmediate';
 
+import { PatientTable } from 'material-fhir-ui';
+
+
 // import minimongo from 'minimongo';
 
 
