@@ -99,10 +99,15 @@ function FhirQueryPage(props){
 
       console.log('foo',)
   }
+
+  let containerStyle = {};
+  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
+    containerStyle.paddingTop = "64px";
+  }
   
   return (
     <div id='indexPage'>
-      <Container>
+      <Container style={containerStyle}>
         <StyledCard >
           <CardHeader 
             title="Fetch Some Health Related Data" 

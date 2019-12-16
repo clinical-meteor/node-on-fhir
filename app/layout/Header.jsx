@@ -83,10 +83,13 @@ const styles = theme => ({
   },
   toolbar: {
     display: 'flex',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar
+    // padding: '0 8px',
+    minHeight: 128,
+    alignItems: 'flex-start',
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(2)
   },
   content: {
     flexGrow: 1,
@@ -116,7 +119,7 @@ function Header(props) {
 
   return (
     <AppBar id="header" position="fixed" color="default" className={appBarClassNames} >
-      <Toolbar disableGutters={!drawerIsOpen} >
+      <Toolbar disableGutters={!drawerIsOpen} className={classes.toolbar}>
           <IconButton
             color="inherit"
             aria-label="Open drawer"

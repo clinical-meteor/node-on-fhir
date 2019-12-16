@@ -44,6 +44,7 @@ import Typography from '@material-ui/core/Typography';
 
 import clsx from 'clsx';
 
+
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -81,7 +82,6 @@ import { ThemeProvider } from '@material-ui/styles';
 
 const drawerWidth = 280;
 
-// const styles = theme => ({
   const useStyles = makeStyles(theme => ({
     primaryFlexPanel: {
       display: 'flex',
@@ -158,15 +158,26 @@ const drawerWidth = 280;
     },
     menuButton: {
       marginRight: 36,
+      float: 'left'
     },
     toolbar: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      padding: '0 8px',
-      ...theme.mixins.toolbar
+      display: 'inline-block',
+      minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
+      float: 'left'
+      //alignItems: 'center',
+      //justifyContent: 'flex-end',
+      //padding: '0 8px',
+      //...theme.mixins.toolbar
+    },
+    title: {
+      paddingTop: '10px'
+    },
+    menu_items: {
+      position: 'absolute',
+      bottom: '10px'
     }
   }));
+
 
   // componentWillReceiveProps(nextProps) {
   //   if (nextProps.location !== this.props.location) {
@@ -196,6 +207,7 @@ const drawerWidth = 280;
 // Pick up any dynamic routes that are specified in packages, and include them
 var dynamicRoutes = [];
 var privacyRoutes = [];
+var headerNavigation;
 Object.keys(Package).forEach(function(packageName){
   if(Package[packageName].DynamicRoutes){
     // we try to build up a route from what's specified in the package
@@ -207,9 +219,14 @@ Object.keys(Package).forEach(function(packageName){
       }
     });    
   }
+  if(Package[packageName].HeaderNavigation){
+    console.log('HeaderNav')
+    headerNavigation = Package[packageName].HeaderNavigation;
+  }
 });
 
 console.log('dynamicRoutes', dynamicRoutes)
+console.log('headerNavigation', headerNavigation)
 
 
 
@@ -376,6 +393,37 @@ export function App(props) {
 
   }
 
+
+
+
+  let value = 1;
+  function handleChange(){
+    console.log('handleChange()')
+  }
+
+  let extendedHeaderItems;
+  if(get(Meteor, 'settings.public.defaults.prominantHeader')){
+    let tabStyle = {
+      textTransform: "none",
+      paddingLeft: '10px',
+      paddingRight: '10px'
+    }
+
+    // if(typeof HeaderNavigation === "object"){
+    //   extendedHeaderItems = <HeaderNavigation />;
+    // }
+    extendedHeaderItems = headerNavigation();
+
+    // extendedHeaderItems = <div>
+    //   <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" className={ classes.menu_items }>
+    //     <Tab label="Clinical Measures" />
+    //     <Tab label="Patient Information" />
+    //     <Tab label="Length of Stay" />
+    //     <Tab label="Patient Clinical Staff" />
+    //   </Tabs>
+    // </div>
+  }
+
   return(
     
     <AppCanvas { ...otherProps }>
@@ -388,14 +436,14 @@ export function App(props) {
         <AppBar id="header" position="fixed" color="default" className={clsx(classes.appBar, {
           [classes.appBarShift]: drawerIsOpen
         })} >
-          <Toolbar >
+          <Toolbar className={classes.toolbar}>
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
                 onClick={ handleDrawerOpen }
                 edge="start"
                 className={clsx(classes.menuButton, {
-                  [classes.hide]: drawerIsOpen,
+                  [classes.hide]: drawerIsOpen
                 })}
               >
                 <MenuIcon />
@@ -403,6 +451,9 @@ export function App(props) {
             <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} className={ classes.title } noWrap >
               { get(Meteor, 'settings.public.title', 'Node on FHIR') }
             </Typography>
+
+            { extendedHeaderItems }
+            
           </Toolbar>
         </AppBar>
         <div id="appDrawerContainer" style={drawerStyle}>
