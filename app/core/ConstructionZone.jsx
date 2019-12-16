@@ -79,9 +79,17 @@ function ConstructionZone(props) {
     setTabIndex(newValue);
   }
 
+  let containerStyle = {
+    paddingLeft: '100px', 
+    paddingRight: '100px'
+  };
+  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
+    containerStyle.paddingTop = "64px";
+  }
+
   return (
     <div { ...otherProps } >
-      <div style={{paddingLeft: '100px', paddingRight: '100px'}} >
+      <div style={ containerStyle } >
         <h2>Construction Zone</h2>
 
         <Tabs value={tabIndex} onChange={handleChange} aria-label="simple tabs example">
