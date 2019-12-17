@@ -85,7 +85,7 @@ npdev:react-loadable@1.0.0-beta.1
 npm-mongo@3.2.0
 observe-sequence@1.0.16
 ordered-dict@1.1.0
-patientinsight:cardiac-scorecard@0.2.9
+patientinsight:cardiac-scorecard@0.2.10
 practicalmeteor:chai@2.1.0_1
 promise@0.11.2
 raix:eventemitter@0.1.3

@@ -1,6 +1,6 @@
 {
   "name": "node-on-fhir",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "meteor": {
     "mainModule": {
@@ -57,7 +57,7 @@
     "json-schema-resource-validation": "1.0.5",
     "lodash": "4.17.15",
     "material-ui": "^0.20.2",
-    "material-fhir-ui": "0.8.0",
+    "material-fhir-ui": "0.8.5",
     "meteor-node-stubs": "^0.4.1",
     "react": "16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
