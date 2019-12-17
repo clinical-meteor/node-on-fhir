@@ -16,7 +16,14 @@ import {
 } from '@material-ui/core';
 import StyledCard from '../components/StyledCard';
 
-import { PatientCard, PatientDetail, PatientTable } from 'material-fhir-ui';
+import { get } from 'lodash';
+
+import { 
+  PageCanvas,
+  PatientCard, 
+  PatientDetail, 
+  PatientTable 
+} from 'material-fhir-ui';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -83,12 +90,10 @@ function ConstructionZone(props) {
     paddingLeft: '100px', 
     paddingRight: '100px'
   };
-  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
-    containerStyle.paddingTop = "64px";
-  }
+
 
   return (
-    <div { ...otherProps } >
+    <PageCanvas { ...otherProps } >
       <div style={ containerStyle } >
         <h2>Construction Zone</h2>
 
@@ -111,7 +116,7 @@ function ConstructionZone(props) {
         <br />
         <PatientCard patient={JaneDoe} />    
       </div>
-    </div>
+    </PageCanvas>
   );
 }
 export default ConstructionZone;
