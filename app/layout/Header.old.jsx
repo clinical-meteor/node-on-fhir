@@ -28,72 +28,78 @@ import { get, has } from 'lodash';
 
 import { Link } from "react-router-dom";
 
-import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
+import { ThemeProvider, makeStyles } from '@material-ui/styles';
 
 const drawerWidth = 240;
 
-// not being used?
 const styles = theme => ({
   root: {
     display: 'flex',
-    flexGrow: 1
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginLeft: 12,
+    marginRight: 36,
   },
-  title: {
+  hide: {
+    display: 'none',
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    })
+  },
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing.unit * 7 + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing.unit * 9 + 1,
+    }
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar
+  },
+  content: {
     flexGrow: 1,
+    padding: theme.spacing.unit * 3
   },
-  headerContainer: {  
-    height: '64px',
-    position: 'relative',
-    top: 0,
-    left: 0,
-    background: theme.palette.appBar.main,
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText,
-    width: '100%',
-    zIndex: 1000000
-  }
 });
 
 
-  // Being used by the main app
-  const useStyles = makeStyles(theme => ({
-    root: {
-      display: 'flex',
-      flexGrow: 1
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
-    headerContainer: {  
-      height: '64px',
-      position: 'relative',
-      top: 0,
-      left: 0,
-      background: theme.palette.appBar.main,
-      backgroundColor: theme.palette.appBar.main,
-      color: theme.palette.appBar.contrastText,
-      width: '100%',
-      zIndex: 1000000
-    }
-  }));
-
-
 function Header(props) {
-  // console.log('Header.props', props);
-  if(props.logger){
-    props.logger.info('Rendering the application Header.');
-    props.logger.verbose('package.care-cards.client.layout.Header');  
-  }
-  // const classes = useStyles();
-  // console.log('Header.classes', classes)
+  console.log('Header.props', props)
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+
 
   function handleDrawerOpen(){
     console.log('handleDrawerOpen')
@@ -109,36 +115,24 @@ function Header(props) {
   }
 
   return (
-    <AppBar id="header" position="fixed" className={ props.classes.headerContainer }>
+    <AppBar id="header" position="fixed" color="default" className={appBarClassNames} >
       <Toolbar disableGutters={!drawerIsOpen} >
           <IconButton
             color="inherit"
             aria-label="Open drawer"
+            onClick={function(){ handleDrawerOpen() }}
+            className={iconClassNames}
           >
             <MenuIcon />
           </IconButton>
-        <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} className={  props.classes.title }>
+        <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} className={ props.classes.title }>
           { get(Meteor, 'settings.public.title', 'Node on FHIR') }
         </Typography>
       </Toolbar>
     </AppBar>
+
   );
 }
 
-Header.propTypes = {
-  logger: PropTypes.object
-}
-Header.defaultProps = {
-  logger: {
-    debug: function(){},
-    info: function(){},
-    warn: function(){},
-    trace: function(){},
-    data: function(){},
-    verbose: function(){},
-    error: function(){}
-  }
-}
 
-// export default Header;
-export default withStyles(styles, { withTheme: true })(Header);
+export default withStyles(styles, { withTheme: true })(Header);;

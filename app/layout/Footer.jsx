@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import { useTracker, withTracker } from './Tracker';
 
-import { Button, Toolbar, AppBar, Typography} from '@material-ui/core';
+import { Button, Toolbar, AppBar, BottomNavigation, Typography} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
@@ -11,23 +11,24 @@ import { ThemeProvider, makeStyles } from '@material-ui/styles';
 
 const drawerWidth = 280;
 
+// doesnt seem to be used by main app
 const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+    // transition: theme.transitions.create(['width', 'margin'], {
+    //   easing: theme.transitions.easing.sharp,
+    //   duration: theme.transitions.duration.leavingScreen,
+    // }),
     backgroundColor: theme.palette.appBar.main,
     color: theme.palette.appBar.contrastText
   },
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+    // transition: theme.transitions.create(['width', 'margin'], {
+    //   easing: theme.transitions.easing.sharp,
+    //   duration: theme.transitions.duration.enteringScreen,
+    // }),
     backgroundColor: theme.palette.appBar.main,
     color: theme.palette.appBar.contrastText
   },
@@ -91,8 +92,8 @@ const styles = theme => ({
     position: 'fixed',
     bottom: 0,
     left: 0,
-    backgroundColor: theme.appBarColor,
-    color: theme.appBarTextColor,
+    backgroundColor: theme.palette.appBar.main,
+    color: theme.palette.appBar.contrastText,
     width: '100%',
     zIndex: 10000
   },
@@ -123,21 +124,46 @@ const styles = theme => ({
   }
 });
 
+  // Being used by the main app
+  const useStyles = makeStyles(theme => ({
+    root: {
+      display: 'flex',
+      flexGrow: 1
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+    footerContainer: {  
+      height: '64px',
+      position: 'fixed',
+      bottom: 0,
+      left: 0,
+      backgroundColor: theme.palette.appBar.main,
+      color: theme.palette.appBar.contrastText,
+      width: '100%',
+      zIndex: 10000
+    },
+  }));
 
 function Footer(props) {
-  logger.info('Rendering the application Footer.');
-  logger.verbose('package.care-cards.client.layout.Footer');
+  if(props.logger){
+    props.logger.info('Rendering the application Footer.');
+    props.logger.verbose('package.care-cards.client.layout.Footer');  
+  }
   
   const pathname = useTracker(function(){
-    logger.info('Pathname was recently updated.  Updating the Footer action buttons.');
+    props.logger.info('Pathname was recently updated.  Updating the Footer action buttons.');
     return Session.get('pathname');
     // return window.location.pathname;
   }, [props]);
 
 
   function renderWestNavbar(pathname){
-    logger.debug('package.care-cards.client.layout.Footer.renderWestNavbar');
-    logger.verbose('Checking packages for action buttons that match the following pathname: ' + pathname);
+    props.logger.debug('package.care-cards.client.layout.Footer.renderWestNavbar');
+    props.logger.verbose('Checking packages for action buttons that match the following pathname: ' + pathname);
 
     let self = this;
 
@@ -152,21 +178,21 @@ function Footer(props) {
       }
     });
 
-    logger.info('Generated array of buttons to display.')
-    logger.trace('buttonRenderArray', buttonRenderArray)
+    props.logger.info('Generated array of buttons to display.')
+    props.logger.trace('buttonRenderArray', buttonRenderArray)
 
     let renderDom;
     buttonRenderArray.forEach(function(buttonConfig){
       // right route
       if (pathname === buttonConfig.pathname){
-        logger.info('Found a route match for Footer buttons', pathname)
+        props.logger.info('Found a route match for Footer buttons', pathname)
         // right security/function enabled
         if(buttonConfig.settings && (get(Meteor, buttonConfig.settings) === false)){
           // there was a settings criteria; and it was set to faulse            
           return false;
         } else {
           if(buttonConfig.component){
-            logger.info('Trying to render a button from package to the footer')
+            props.logger.info('Trying to render a button from package to the footer')
             renderDom = buttonConfig.component;
           } else {
             renderDom = <div style={{marginTop: '-8px'}}>
@@ -195,17 +221,27 @@ function Footer(props) {
   // }
 
   return (
-    <div id='footerContainer' className={ props.classes.footerContainer}>
-      <AppBar id="footer" position="static" className={classNames(props.classes.appBar, {
-            [props.classes.appBarShift]: props.drawerIsOpen
-          })} >
-        <Toolbar>
-          { westNavbar }
-        </Toolbar>
-      </AppBar>
-    </div>
+    <BottomNavigation name="footerNavigation" position="static" className={ props.classes.footerContainer} >
+      {/* <Toolbar>
+        { westNavbar }
+      </Toolbar> */}
+    </BottomNavigation>
   );
 }
 
+Footer.propTypes = {
+  logger: PropTypes.object
+}
+Footer.defaultProps = {
+  logger: {
+    debug: function(){},
+    info: function(){},
+    warn: function(){},
+    trace: function(){},
+    data: function(){},
+    verbose: function(){},
+    error: function(){}
+  }
+}
 
 export default withStyles(styles, { withTheme: true })(Footer);

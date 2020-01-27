@@ -200,8 +200,7 @@ export function PatientSidebar(props){
     
   var fhirResources = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.FhirResources')){
-    if(!['iPhone'].includes(window.navigator.platform)){
-      
+    //if(!['iPhone'].includes(window.navigator.platform)){      
       fhirResources.push(
         <ListItem id='fhirResourcesItem' key='fhirResourcesItem' button onClick={function(){ openPage('/fhir-resources-index'); }} >
           <ListItemIcon >
@@ -212,7 +211,7 @@ export function PatientSidebar(props){
       );
 
       fhirResources.push(<Divider key='hra' />);
-    }
+    //}
   }
 
 

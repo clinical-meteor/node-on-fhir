@@ -50,7 +50,7 @@ function MainPage(props){
       <Container>
         <StyledCard>
           <div style={{width: '100%', textAlign: 'center'}}>
-            <img src='/node-on-fhir-logo.png' style={{width: '600px'}} />
+            <img src='/node-on-fhir-logo.png' style={{width: '600px'}} alt="Node on FHIR Logo" />
           </div>
           <CardHeader title="Node on FHIR" />
           <CardContent>
