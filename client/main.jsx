@@ -5,9 +5,12 @@ import ReactDOM from "react-dom";
 
 import { render } from 'react-dom';
 import AppContainer from '/app/layout/AppContainer'
+import { onPageLoad } from 'meteor/server-render';
 
-Meteor.startup(function(){
-  render(<AppContainer />, document.getElementById('reactTarget'));
+// Meteor.startup(function(){
+//   render(<AppContainer />, document.getElementById('reactTarget'));
+// });
+
+onPageLoad(() => {
+  ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
 });
-
-

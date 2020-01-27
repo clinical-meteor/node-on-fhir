@@ -20,19 +20,18 @@ react-meteor-data       # React higher-order component for reactively tracking M
 session@1.2.0
 tracker@1.2.0
 http@1.4.2
-momentjs:moment
 
 npdev:react-loadable
+server-render
+
 fourseven:scss
 
 # bundle-visualizer
 
 
-
-
 # Testing Packages
-meteortesting:mocha
-practicalmeteor:chai
+# meteortesting:mocha
+# practicalmeteor:chai
 
 
 # Workflow  

@@ -7,9 +7,6 @@ import { Session } from 'meteor/session';
 
 import { withStyles } from '@material-ui/core/styles';
 
-let defaultState = { index: 0 };
-Session.setDefault('StyledCardState', defaultState);
-
 import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
 
 const styles = theme => ({
