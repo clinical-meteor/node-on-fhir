@@ -276,18 +276,18 @@ const requreSysadmin = (nextState, replace) => {
   }
 };
 
-class DebugRouter extends Router {
-  constructor(props){
-    super(props);
-    console.log('initial history is: ', JSON.stringify(this.history, null,2))
-    this.history.listen((location, action) => {
-      console.log(
-        `The current URL is ${location.pathname}${location.search}${location.hash}`
-      )
-      console.log(`The last navigation action was ${action}`, JSON.stringify(this.history, null,2));
-    });
-  }
-}
+// class DebugRouter extends Router {
+//   constructor(props){
+//     super(props);
+//     console.log('initial history is: ', JSON.stringify(this.history, null,2))
+//     this.history.listen((location, action) => {
+//       console.log(
+//         `The current URL is ${location.pathname}${location.search}${location.hash}`
+//       )
+//       console.log(`The last navigation action was ${action}`, JSON.stringify(this.history, null,2));
+//     });
+//   }
+// }
 
 
 export function App(props) {
@@ -432,12 +432,12 @@ export function App(props) {
     </Switch>
   }
 
-  let showDebugger = false
-  if(showDebugger){
-    routingSwitchLogic = <DebugRouter location={ props.location }> 
-      { routingSwitchLogic }
-   </DebugRouter> 
-  }
+  // let showDebugger = false
+  // if(showDebugger){
+  //   routingSwitchLogic = <DebugRouter location={ props.location }> 
+  //     { routingSwitchLogic }
+  //  </DebugRouter> 
+  // }
 
   return(
     
