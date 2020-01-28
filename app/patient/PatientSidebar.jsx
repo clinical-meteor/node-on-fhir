@@ -1,15 +1,14 @@
 
 import { Meteor } from 'meteor/meteor';
-import React, { memo, useState, useEffect, useCallback } from 'react';
-import { ReactMeteorData } from 'meteor/react-meteor-data';
-import ReactMixin from 'react-mixin';
-import { Session } from 'meteor/session';
-import { Random } from 'meteor/random';
+import React from 'react';
+// import { ReactMeteorData } from 'meteor/react-meteor-data';
+// import ReactMixin from 'react-mixin';
+// import { Session } from 'meteor/session';
+// import { Random } from 'meteor/random';
 
 import { withStyles } from '@material-ui/core/styles';
 
 import { get } from 'lodash';
-import { Link, NavLink } from "react-router-dom";
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -18,21 +17,22 @@ import ListItemLink from '@material-ui/core/ListItemText';
 
 import Divider from '@material-ui/core/Divider';
 
-import { GoGraph } from 'react-icons/go';
-import { GiPieChart } from 'react-icons/gi';
-import { IoIosGitNetwork } from 'react-icons/io';
-import { FiSun} from 'react-icons/fi';
-import { GiCrossedAirFlows} from 'react-icons/gi';
-import { IoMdGrid} from 'react-icons/io';
-import { FiBarChart2} from 'react-icons/fi';
-import { GiLifeBar } from 'react-icons/gi';
-import { IoIosBdarcode } from 'react-icons/io';
+// import { GoGraph } from 'react-icons/go';
+// import { GiPieChart } from 'react-icons/gi';
+// import { IoIosGitNetwork } from 'react-icons/io';
+// import { FiSun} from 'react-icons/fi';
+// import { GiCrossedAirFlows} from 'react-icons/gi';
+// import { IoMdGrid} from 'react-icons/io';
+// import { FiBarChart2} from 'react-icons/fi';
+// import { GiLifeBar } from 'react-icons/gi';
+// import { IoIosBdarcode } from 'react-icons/io';
+
 import { IoMdLogOut } from 'react-icons/io';
 import { IoIosDocument} from 'react-icons/io';
 import { IoIosConstruct} from 'react-icons/io';
 import { FaHome} from 'react-icons/fa';
 
-
+import { FaUserInjured } from 'react-icons/fa';
 
 
 import { GoFlame } from 'react-icons/go';
@@ -243,6 +243,15 @@ export function PatientSidebar(props){
     dynamicModules.map(function(element, index){ 
 
       let clonedIcon;
+
+      switch (element.iconName) {
+        case "FaUserInjured":
+          element.icon = <FaUserInjured />
+          break;
+      
+        default:
+          break;
+      }
 
       // we want to pass in the props
       if(element.icon){

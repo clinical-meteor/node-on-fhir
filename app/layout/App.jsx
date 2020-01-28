@@ -1,18 +1,14 @@
 
 // base layout
-import React, { memo, useLayoutEffect, useState, useEffect, useCallback } from 'react';
+import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
 
 // import ReactDOM from "react-dom";
 // import { Router, browserHistory } from 'react-router';
 // import styled from "styled-components";
 
 import {
-  BrowserRouter,
   Switch,
-  Route,
-  Link,
-  NavLink,
-  withRouter
+  Route
 } from "react-router-dom";
 
 import { Meteor } from 'meteor/meteor';
@@ -31,41 +27,38 @@ import NotFound from './NotFound.jsx';
 import AppCanvas from './AppCanvas.jsx';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
-// import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import clsx from 'clsx';
-
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemLink from '@material-ui/core/ListItemText';
+// import ListItem from '@material-ui/core/ListItem';
+// import ListItemIcon from '@material-ui/core/ListItemIcon';
+// import ListItemText from '@material-ui/core/ListItemText';
+// import ListItemLink from '@material-ui/core/ListItemText';
 
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+// import InboxIcon from '@material-ui/icons/MoveToInbox';
+// import MailIcon from '@material-ui/icons/Mail';
 
-import { GoGraph } from 'react-icons/go';
-import { GiPieChart } from 'react-icons/gi';
-import { IoIosGitNetwork } from 'react-icons/io';
-import { FiSun} from 'react-icons/fi';
-import { GiCrossedAirFlows} from 'react-icons/gi';
-import { IoMdGrid} from 'react-icons/io';
-import { FiBarChart2} from 'react-icons/fi';
-import { GiLifeBar } from 'react-icons/gi';
-import { IoIosBarcode } from 'react-icons/io';
+// import { GiPieChart } from 'react-icons/gi';
+// import { GiCrossedAirFlows} from 'react-icons/gi';
+// import { GiLifeBar } from 'react-icons/gi';
+// import { GoGraph } from 'react-icons/go';
+// import { IoIosGitNetwork } from 'react-icons/io';
+// import { FiSun} from 'react-icons/fi';
+// import { IoMdGrid} from 'react-icons/io';
+// import { FiBarChart2} from 'react-icons/fi';
+// import { IoIosBarcode } from 'react-icons/io';
 
 import PatientSidebar from '../patient/PatientSidebar'
 
@@ -353,24 +346,26 @@ export function App(props) {
   }
 
   let helmet;
+  let headerTags = [];
+
+  headerTags.push(<meta key='theme' name="theme-color" content={get(Meteor, 'settings.public.theme.palette.appBarColor', "#669f64")} />)
+  headerTags.push(<meta key='utf-8' charSet="utf-8" />);    
+  headerTags.push(<meta name="Description" key='description' property="description" content={get(Meteor, 'settings.public.title', "Node on FHIR")} />);
+
   if(get(Meteor, 'settings.public.socialmedia')){
-    helmet = <Helmet>
-      <meta charSet="utf-8" />
-      <title>{socialmedia.title}</title>
-      <link rel="canonical" href={socialmedia.url} />
-
-      <meta property="og:title" content={socialmedia.title} />
-      <meta property="og:type" content={socialmedia.type} />
-      <meta property="og:url" content={socialmedia.url} />
-      <meta property="og:image" content={socialmedia.image} />
-      <meta property="og:description" content={socialmedia.description} />
-      <meta property="og:site_name" content={socialmedia.site_name} />
-      
-      <meta name="theme-color" content={get(Meteor, 'settings.public.theme.palette.appBarColor', "#669f64 !important")} />
-
-    </Helmet>
+    //headerTags.push(<title>{socialmedia.title}</title>);    
+    headerTags.push(<link key='canonical' rel="canonical" href={socialmedia.url} />);    
+    headerTags.push(<meta key='og:title' property="og:title" content={socialmedia.title} />);
+    headerTags.push(<meta key='og:type' property="og:type" content={socialmedia.type} />);
+    headerTags.push(<meta key='og:url' property="og:url" content={socialmedia.url} />);
+    headerTags.push(<meta key='og:image' property="og:image" content={socialmedia.image} />);
+    headerTags.push(<meta key='og:description' property="og:description" content={socialmedia.description} />);
+    headerTags.push(<meta key='og:site_name' property="og:site_name" content={socialmedia.site_name} />);
   }
 
+  helmet = <Helmet>
+    { headerTags }
+  </Helmet>
 
   let defaultHomeRoute = MainPage;
   
@@ -443,27 +438,6 @@ export function App(props) {
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <CssBaseline />
         <Header { ...otherProps } />
-
-        {/* <AppBar id="header" position="fixed" color="default" className={clsx(classes.appBar, {
-          [classes.appBarShift]: drawerIsOpen
-        })} >
-          <Toolbar >
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={ handleDrawerOpen }
-                edge="start"
-                className={clsx(classes.menuButton, {
-                  [classes.hide]: drawerIsOpen,
-                })}
-              >
-                <MenuIcon />
-              </IconButton>
-            <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} className={ classes.title } noWrap >
-              { get(Meteor, 'settings.public.title', 'Node on FHIR') }
-            </Typography>
-          </Toolbar>
-        </AppBar> */}
           <div id="appDrawerContainer" style={drawerStyle}>
             { drawer }
           </div>
@@ -476,7 +450,5 @@ export function App(props) {
   )
 }
 
-
 // export default withStyles(styles, { withTheme: true })(App);
-
 export default App;
