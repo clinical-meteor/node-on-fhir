@@ -7,7 +7,7 @@ import {
 import { Helmet } from "react-helmet";
 import { get } from 'lodash';
 
-import { MuiThemeProvider, createMuiTheme, withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 // import { Promise } from 'meteor/promise';
 
@@ -150,7 +150,7 @@ function AppLoadingPage(props) {
 
   const classes = useStyles();
 
-  const { children, staticContext, ...otherProps } = props;
+  const { children, staticContext, ...otherProps } = props;main
 
   const [tabIndex, setTabIndex] = useState(0);
 

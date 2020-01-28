@@ -1,13 +1,11 @@
-import React, { Component, useState, useEffect, cloneElement } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from "react-router-dom";
-import { useTracker, withTracker } from './Tracker';
+import { useTracker } from './Tracker';
 
-import { Button, Toolbar, AppBar, BottomNavigation, Typography} from '@material-ui/core';
+import { Button, BottomNavigation} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
 
-import { ThemeProvider, makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 
 const drawerWidth = 280;
 

@@ -3,7 +3,7 @@
   "name": "Node on FHIR",
   "icons": [
     {
-      "src": "/images/icons-192.png",
+      "src": "/images/node-on-fhir-logo-square-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },

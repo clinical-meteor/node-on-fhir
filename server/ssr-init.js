@@ -1,27 +1,16 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { onPageLoad } from 'meteor/server-render';
-import { Router, StaticRouter, browserHistory } from 'react-router';
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-  Link,
-  NavLink,
-  withRouter
-} from "react-router-dom";
-import { ServerStyleSheet } from "styled-components"
+
 import { Helmet } from 'react-helmet';
 
 import AppContainer from '/app/layout/AppContainer'
-import AppLoadingPage from '/app/core/AppLoadingPage'
+// import AppLoadingPage from '/app/core/AppLoadingPage'
 
-import { ServerStyleSheets, ThemeProvider, makeStyles } from '@material-ui/core/styles';
-
-import { get, has } from 'lodash';
+import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 
 import theme from '/app/theme.js'
-import { createLogger, addColors, format, transports, config } from 'winston';
+// import { createLogger, addColors, format, transports, config } from 'winston';
 
 
 onPageLoad((sink) => {
@@ -31,7 +20,7 @@ onPageLoad((sink) => {
 
   const sheets = new ServerStyleSheets();
 
-  console.log("********:  THEME", theme);
+  // console.log("********:  THEME", theme);
 
   // const initial = todosGetAll.call({});
   // const store = createStore(mainReducer, { todos: initial }, applyMiddleware(thunk));
@@ -53,7 +42,7 @@ onPageLoad((sink) => {
   sink.renderIntoElementById('reactTarget', htmlString);
 
   const helmet = Helmet.renderStatic();
-  console.log("********:  HELMET", helmet);
+  // console.log("********:  HELMET", helmet);
   
   sink.appendToHead(helmet.meta.toString());
   sink.appendToHead(helmet.title.toString());

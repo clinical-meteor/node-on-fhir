@@ -1,13 +1,9 @@
-import React, { memo, useState, useEffect, useCallback } from 'react';
+import React from 'react';
 
 import { Card } from '@material-ui/core';
 
-import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
-
 import { withStyles } from '@material-ui/core/styles';
-
-import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
+import { useTheme } from '@material-ui/styles';
 
 const styles = theme => ({
   root: {

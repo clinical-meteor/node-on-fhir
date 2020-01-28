@@ -4,8 +4,6 @@ import { get, has } from 'lodash';
 
 import StyledCard from './StyledCard';
 
-// import CodeBlock from 'react-highlight-codeblock'
-
 function HelloWorldPage(props){
   return (
     <div id='indexPage'>

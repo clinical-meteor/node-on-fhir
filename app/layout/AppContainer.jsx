@@ -1,23 +1,19 @@
 
 import React from 'react';
-import { BrowserRouter, StaticRouter, withRouter } from "react-router-dom";
+import { BrowserRouter, withRouter } from "react-router-dom";
 
-import { get, has } from 'lodash';
+import { get } from 'lodash';
 
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
 
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
-import { ThemeProvider, makeStyles } from '@material-ui/styles';
-import {blue400, blue600, green600, green800 } from 'material-ui/styles/colors';
+import { ThemeProvider } from '@material-ui/styles';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import App from './App.jsx';
 import AppLoadingPage from '../core/AppLoadingPage.jsx';
 
-import { createLogger, addColors, format, transports, config } from 'winston';
+import { createLogger, addColors, format, transports } from 'winston';
 import 'setimmediate';
 
 // import theme from '../theme';
