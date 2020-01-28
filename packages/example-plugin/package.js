@@ -1,6 +1,6 @@
 Package.describe({
     name: 'symptomatic:example-plugin',
-    version: '0.2.5',
+    version: '0.2.6',
     summary: 'Example Symptomatic plugin, with dynamic routes and UI elements.',
     git: 'https://github.com/symptomatic/example-plugin',
     documentation: 'README.md'
@@ -35,7 +35,7 @@ Package.onUse(function(api) {
 
 
 Npm.depends({
-    "material-fhir-ui": "0.8.5",
+    "material-fhir-ui": "0.8.22",
     "moment": "2.20.1",
     "lodash": "4.17.15",
     "react-icons": "3.8.0"

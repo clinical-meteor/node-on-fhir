@@ -21,19 +21,17 @@ session@1.2.0
 tracker@1.2.0
 http@1.4.2
 momentjs:moment
+random 
 
 npdev:react-loadable
 fourseven:scss
 
 # bundle-visualizer
 
-
-
+clinical:fonts
 
 # Testing Packages
 meteortesting:mocha
 practicalmeteor:chai
 
 
-# Workflow  
-symptomatic:example-plugin

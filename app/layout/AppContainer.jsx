@@ -10,7 +10,7 @@ import { Session } from 'meteor/session';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import { ThemeProvider, makeStyles } from '@material-ui/styles';
-import {blue400, blue600, green600, green800 } from 'material-ui/styles/colors';
+import { blue400, blue600, green600, green800 } from 'material-ui/styles/colors';
 
 import { withRouter } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -23,13 +23,20 @@ import 'setimmediate';
 import { PatientTable } from 'material-fhir-ui';
 
 
-// import minimongo from 'minimongo';
+// Global App-Wide Session Variables
+Session.setDefault('lastUpdated', new Date());
+
+Session.setDefault('appHeight', window.innerHeight);
+Session.setDefault('appWidth', window.innerWidth);
 
 
+
+// Startup
 Meteor.startup(function(){
-
-
-
+  
+  Session.set('appHeight', window.innerHeight);
+  Session.set('appWidth', window.innerWidth);
+  
   // var LocalDb = minimongo.MemoryDb;
  
   // // Create local db (in memory database with no backing)
@@ -129,7 +136,9 @@ Meteor.startup(function(){
 
 
   // introspection for the win
-  console.info('Winston Logging Service', logger);
+  logger.info('Starting the Winston Logging Service');
+  logger.data(logger);
+  logger.data('Winston Logging Service', {data: logger}, {source: "AppContainer.jsx"});
 
   // attaching to the global scope is not recommending
   // logging is one debatable exception to the general rule, however
