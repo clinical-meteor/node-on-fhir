@@ -124,6 +124,8 @@ Adhering to the following process is the best way to get your work included in t
 
 We want to make sure that you have a handle on git, feature branches, pull-requests, and otherwise managing git based development flow before we invite you to collaborate on the code.  
 
+## Hacking on NPM Packages 
+
 After you've begun diving into the code, you may find that you want to edit some of the user interface components.  You will need to `npm link` the `material-fhir-ui` package.  
 ```
 git clone https://github.com/clinical-meteor/material-fhir-ui packages/material-fhir-ui  

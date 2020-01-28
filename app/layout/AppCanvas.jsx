@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 function AppCanvas(props) {
   logger.info('Rendering the AppCanvas and associated backgrounds.');

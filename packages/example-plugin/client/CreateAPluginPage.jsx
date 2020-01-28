@@ -4,8 +4,6 @@ import { get, has } from 'lodash';
 
 import StyledCard from './StyledCard';
 
-// import CodeBlock from 'react-highlight-codeblock'
-
 function HelloWorldPage(props){
   return (
     <div id='indexPage'>
@@ -49,7 +47,7 @@ function HelloWorldPage(props){
             <p>
               When bulding your application, the Meteor build pipeline will scan through a second package management system called Atmosphere (shown in purple)  This second package manager was built at a time that NPM didn't support libraries on the browser and was an attempt to combine the NPM and Bower package managers.  NPM has since caught up in features and made Atmosphere somewhat redundant, and we see it's use gradually being phased out.  However, it still has some nice features related to building mobile apps, such as Cordova integration.  And we have good plugin architecture for user interface components based on it, which makes it useful for mixing-and-matching NPM libraries and bundling them up into modules.  So with much effort, we have identified and developed a coding pattern that can work in both Atmosphere and NPM libraries using modern Ecmasscript (ES6) syntax.  
             </p>
-            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-DirectoryStructure.png" style={{width: '100%'}} />
+            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-DirectoryStructure.png" style={{width: '100%'}} alt="Node on FHIR - Directory Structure Diagram" />
 
 {/* 
             <h4>Use Cases</h4>
@@ -72,7 +70,7 @@ function HelloWorldPage(props){
               <li>Plugins can be private & proprietary.</li>
             </ul>
 
-            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-Licensing.png" style={{width: '100%'}} />
+            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-Licensing.png" style={{width: '100%'}} alt="Node on FHIR Licensing" />
 
 
 
@@ -83,7 +81,7 @@ function HelloWorldPage(props){
             <p>
               We've put about 5 years of research and development into finding an isomorphic code pattern that can run the same Javascript on client, server, database, testing utilities, and pretty much anywhere else you can imagine.  The secret sauce?  A technology called Ecmascript 6, commonly known as ES6.  
             </p>
-            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-IsomorphicCode.png" style={{width: '100%'}} />
+            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-IsomorphicCode.png" style={{width: '100%'}} alt="Node on FHIR - Isomorphic Code" />
 
 
 
@@ -94,7 +92,7 @@ function HelloWorldPage(props){
             <p>
               Ironically, the one thing that Meteor doesn't necessarily do well out of the box is build npm libraries, since it's so focused on building great applications.    
             </p>
-            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-BuildPipeline.png" style={{width: '100%'}} />
+            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-BuildPipeline.png" style={{width: '100%'}} alt="Node on FHIR - Build Pipeline" />
             <p>
               Please note:  This diagram is meant to be read right-to-left.  We diagram it this way because the files and directories in your code editor are going to be loosely displayed this way
             </p>
@@ -103,7 +101,7 @@ function HelloWorldPage(props){
             <p>
               With consideration of the above discussions on licensing, isomorphic code, and build pipelines, we recommend the following refactor path:  start off editing the <b>app/core/ConstructionZone</b> and adding files to <b>app</b> and <b>server</b> and <b>public</b> directories.  As your functionality grows, refactor the files and new code into an Atmosphere package.  It's ideal for rapid prototyping, and allows you to take advantage of upgrades to the Node on FHIR base platform as it's upgraded and bugs are fixed.  If/when your application grows to the point that you need that functionality in other Node apps, refactor your code from an Atmosphere package into an NPM package using <b>yarn rollup -c</b>
             </p>
-            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-RefactorPaths.png" style={{width: '100%'}} />
+            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-RefactorPaths.png" style={{width: '100%'}} alt="Node on FHIR - Refactor Paths" />
 
 
 
@@ -137,7 +135,7 @@ function HelloWorldPage(props){
             <p>
               One of the great things about the FHIR standard is the use of the JSON data type, which is supported by every web browser and most every modern programming language.  Because interoperability protocols provide us a baseline standard for what kind of data types and data objects are going to be sent around, we can build infrastructure anticipating the need to store JSON documents.  And here we enter the world of NoSQL databases and client side caching technologies.  Node on FHIR ships with the industry standard Mongo document database, and an associated client-side <b>minimongo</b> library.   
             </p>
-            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-DataStores.png" style={{width: '100%'}} />
+            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-DataStores.png" style={{width: '100%'}} alt="Node on FHIR - Data Stores" />
 
             <h4>State Management</h4>
             <p>
@@ -155,13 +153,13 @@ function HelloWorldPage(props){
             <p>
               Once the render tree has finished rendering, method functions are attached to the DOM that can trigger an update to the data store, causing the entire render cycle to happen again.  
             </p>
-            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-StateManagement.png" style={{width: '100%'}} />
+            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-StateManagement.png" style={{width: '100%'}} alt="Node on FHIR - State Management" />
 
             <h4>FHIR Components</h4>
             <p>
               One of the great things about the FHIR standard is the use of the JSON data type, which is supported by every web browser and most every modern programming language.  Because interoperability protocols provide us a baseline standard for what kind of data types and data objects are going to be sent around, we can build infrastructure anticipating the need to store JSON documents.  And here we enter the world of NoSQL databases and client side caching technologies.  Node on FHIR ships with the industry standard Mongo document database, and an associated client-side <b>minimongo</b> library.   
             </p>
-            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-FhirComponents.png" style={{width: '100%'}} />
+            <img src="/packages/symptomatic_example-plugin/assets/NodeOnFhir-FhirComponents.png" style={{width: '100%'}} alt="Node on FHIR - Fhir Components"  />
 
             <h4>Further Assistance</h4>
             <ul>
