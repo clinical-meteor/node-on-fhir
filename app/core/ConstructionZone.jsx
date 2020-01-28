@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import StyledCard from '../components/StyledCard';
 
-import { Foo, PatientCard, PatientDetail, PatientTable } from 'material-fhir-ui';
+import { PatientCard, PatientDetail, PatientTable } from 'material-fhir-ui';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
