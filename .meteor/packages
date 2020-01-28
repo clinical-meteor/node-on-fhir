@@ -15,7 +15,7 @@ es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
 ecmascript@0.13.0             # Enable ECMAScript2015+ syntax in app code
 shell-server@0.4.0            # Server-side component of the `meteor shell` command
 
-static-html                 # Define static page content in .html files
+static-html                   # Define static page content in .html files
 react-meteor-data             # React higher-order component for reactively tracking Meteor data
 session@1.2.0
 tracker@1.2.0
@@ -56,15 +56,6 @@ symptomatic:example-plugin
 #session@1.2.0 (top level)         
 #tracker@1.2.0 (top level)         
 #webapp@1.7.5 (expanded above)  
-
-# METEOR-PLATFORM PKGS WE DONT WANT
-#blaze@2.3.3 (expanded above)      
-#jquery@1.11.11 (expanded above)   
-#spacebars@1.0.13 (expanded above) 
-#templating@1.2.15 (expanded above)
-#ui@1.0.12                         
-#blaze@2.3.3 (expanded above)    
-#underscore@1.0.10                 
 
 
    
