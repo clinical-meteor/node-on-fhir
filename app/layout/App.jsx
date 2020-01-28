@@ -43,7 +43,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 import clsx from 'clsx';
-
+import moment from 'moment';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -115,8 +115,8 @@ const drawerWidth = 280;
       top: 0,
       width: '100%',
       height: '100%',
-      paddingTop: '100px',
-      paddingBottom: '100px',
+      paddingTop: '0px',
+      paddingBottom: '0px',
       backgroundColor: theme.palette.background.default
     },
     drawer: {
@@ -172,6 +172,27 @@ const drawerWidth = 280;
     title: {
       paddingTop: '10px'
     },
+    header_label: {
+      paddingTop: '10px',
+      fontWeight: 'bold',
+      fontSize: '1 rem',
+      float: 'left',
+      paddingRight: '10px'
+    },
+    header_text: {
+      paddingTop: '10px',
+      fontSize: '1 rem',
+      float: 'left'
+    },
+    northeast_title: {
+      paddingTop: '10px',
+      float: 'right',
+      position: 'absolute',
+      paddingRight: '20px',
+      right: '0px',
+      top: '0px',
+      fontWeight: 'normal'
+    },
     menu_items: {
       position: 'absolute',
       bottom: '10px'
@@ -220,13 +241,13 @@ Object.keys(Package).forEach(function(packageName){
     });    
   }
   if(Package[packageName].HeaderNavigation){
-    console.log('HeaderNav')
+    console.log('Found a custom HeaderNavigation object in one of the packages.')
     headerNavigation = Package[packageName].HeaderNavigation;
   }
 });
 
 console.log('dynamicRoutes', dynamicRoutes)
-console.log('headerNavigation', headerNavigation)
+// console.log('headerNavigation', headerNavigation)
 
 
 
@@ -332,13 +353,21 @@ export function App(props) {
     Session.set('pathname', props.location.pathname);
   }, [props.location.pathname])
 
+  const lastUpdated = useTracker(function(){
+    return Session.get('lastUpdated');
+  }, []);
 
   const absoluteUrl = useTracker(function(){
     logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
     return Meteor.absoluteUrl();
   }, [props.location.pathname]);
 
-  const { staticContext, ...otherProps } = props;
+  const selectedPatient = useTracker(function(){
+    return Session.get('selectedPatient')
+  }, []);
+
+
+  const { staticContext, startAdornment, ...otherProps } = props;
 
   function handleDrawerOpen(){
     logger.trace('App.handleDrawerOpen()')
@@ -387,19 +416,13 @@ export function App(props) {
   
   let drawerStyle = {}
 
-  console.log('APPWIDTH', appWidth)
+  // console.log('APPWIDTH', appWidth)
 
-  if(appWidth < 768){
+  // if(appWidth < 768){
 
-  }
-
-
-
+  // }
 
   let value = 1;
-  function handleChange(){
-    console.log('handleChange()')
-  }
 
   let extendedHeaderItems;
   if(get(Meteor, 'settings.public.defaults.prominantHeader')){
@@ -408,21 +431,57 @@ export function App(props) {
       paddingLeft: '10px',
       paddingRight: '10px'
     }
-
-    // if(typeof HeaderNavigation === "object"){
-    //   extendedHeaderItems = <HeaderNavigation />;
-    // }
-    extendedHeaderItems = headerNavigation();
-
-    // extendedHeaderItems = <div>
-    //   <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" className={ classes.menu_items }>
-    //     <Tab label="Clinical Measures" />
-    //     <Tab label="Patient Information" />
-    //     <Tab label="Length of Stay" />
-    //     <Tab label="Patient Clinical Staff" />
-    //   </Tabs>
-    // </div>
+    if(typeof headerNavigation === "function"){
+      extendedHeaderItems = headerNavigation();
+    }
   }
+
+
+  function parseTitle(){
+    let titleText = get(Meteor, 'settings.public.title', 'Node on FHIR');
+
+    if(selectedPatient){
+      titleText = get(selectedPatient, 'name[0].given[0]') + ' ' + get(selectedPatient, 'name[0].family[0]');    
+      logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
+    }
+
+    return titleText;    
+  }
+
+  function parseId(){
+    let patient = Session.get('selectedPatient');
+    return get(patient, 'id', '');
+  }
+  function getSearchDateRange(){
+    let fhirKitClient_startDate = Session.get('fhirKitClient_startDate');
+    let fhirKitClient_endDate = Session.get('fhirKitClient_endDate');
+    return moment(fhirKitClient_startDate).format("MMM DD, YYYY") + " until " + moment(fhirKitClient_endDate).format("MMM DD, YYYY")
+  }
+
+  let demographicItems;
+  let dateTimeItems;
+
+  // if we have a selected patient, we show that info
+  if(Session.get('selectedPatient')){
+    demographicItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+      <Typography variant="h6" color="inherit" className={ classes.header_label }>Patient ID: </Typography>
+      <Typography variant="h6" color="inherit" className={ classes.header_text } noWrap >
+        { parseId() }
+      </Typography>
+    </div>   
+  } else {
+    // otherwise, we default to population/search level info to display
+    if(Session.get('fhirKitClient_startDate') && Session.get('fhirKitClient_endDate')){
+      dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+        <Typography variant="h6" color="inherit" className={ classes.header_label }>Timespan: </Typography>
+        <Typography variant="h6" color="inherit" className={ classes.header_text } noWrap >
+          { getSearchDateRange() }
+        </Typography>
+      </div>   
+    }    
+  }
+
+
 
   return(
     
@@ -437,21 +496,25 @@ export function App(props) {
           [classes.appBarShift]: drawerIsOpen
         })} >
           <Toolbar className={classes.toolbar}>
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={ handleDrawerOpen }
-                edge="start"
-                className={clsx(classes.menuButton, {
-                  [classes.hide]: drawerIsOpen
-                })}
-              >
-                <MenuIcon />
-              </IconButton>
-            <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} className={ classes.title } noWrap >
-              { get(Meteor, 'settings.public.title', 'Node on FHIR') }
+            <IconButton
+              id='menuOpenButton'
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={ handleDrawerOpen }
+              edge="start"
+              className={clsx(classes.menuButton, {
+                [classes.hide]: drawerIsOpen
+              })}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Typography variant="h4" color="inherit" onClick={ function(){ goHome(); }} className={ classes.title } noWrap >
+              { parseTitle() }
             </Typography>
 
+            { dateTimeItems }
+            { demographicItems }
             { extendedHeaderItems }
             
           </Toolbar>
@@ -474,7 +537,7 @@ export function App(props) {
             style={drawerStyle}
           >
             <div className={classes.toolbar}>
-              <IconButton onClick={handleDrawerClose}>
+              <IconButton id='menuCloseButton' onClick={handleDrawerClose}>
                 {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </IconButton>
             </div>
@@ -487,7 +550,7 @@ export function App(props) {
 
           <main id='mainAppRouter' className={ classes.canvas}>
             {/* <DebugRouter location={ props.location }> */}
-              <Switch location={ props.location } >
+              <Switch location={ props.location } lastUpdated={lastUpdated} >
 
                 <Route id='themingRoute' path="/theming" component={ ThemePage } { ...otherProps } />
 
@@ -497,6 +560,7 @@ export function App(props) {
                   path={route.path} 
                   component={ route.component } 
                   onEnter={ route.requireAuth ? requireAuth : null } 
+                  lastUpdated={lastUpdated} 
                   { ...otherProps }
                 />) }
 
@@ -513,8 +577,5 @@ export function App(props) {
     </AppCanvas>
   )
 }
-
-
-// export default withStyles(styles, { withTheme: true })(App);
 
 export default App;
