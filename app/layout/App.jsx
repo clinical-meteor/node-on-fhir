@@ -276,18 +276,18 @@ const requreSysadmin = (nextState, replace) => {
   }
 };
 
-// class DebugRouter extends Router {
-//   constructor(props){
-//     super(props);
-//     console.log('initial history is: ', JSON.stringify(this.history, null,2))
-//     this.history.listen((location, action)=>{
-//       console.log(
-//         `The current URL is ${location.pathname}${location.search}${location.hash}`
-//       )
-//       console.log(`The last navigation action was ${action}`, JSON.stringify(this.history, null,2));
-//     });
-//   }
-// }
+class DebugRouter extends Router {
+  constructor(props){
+    super(props);
+    console.log('initial history is: ', JSON.stringify(this.history, null,2))
+    this.history.listen((location, action) => {
+      console.log(
+        `The current URL is ${location.pathname}${location.search}${location.hash}`
+      )
+      console.log(`The last navigation action was ${action}`, JSON.stringify(this.history, null,2));
+    });
+  }
+}
 
 
 export function App(props) {
@@ -347,8 +347,17 @@ export function App(props) {
 
   let helmet;
   let headerTags = [];
+  let themeColor = "";  
+  let rawColor = get(Meteor, 'settings.public.theme.palette.appBarColor', "#669f64");
 
-  headerTags.push(<meta key='theme' name="theme-color" content={get(Meteor, 'settings.public.theme.palette.appBarColor', "#669f64")} />)
+  // all we're doing here is grabing the hex color, and ignoring adornments like !important
+  if(rawColor.split(" ")){
+    themeColor = rawColor.split(" ")[0];
+  } else {
+    themeColor = rawColor;
+  }
+
+  headerTags.push(<meta key='theme' name="theme-color" content={themeColor} />)
   headerTags.push(<meta key='utf-8' charSet="utf-8" />);    
   headerTags.push(<meta name="Description" key='description' property="description" content={get(Meteor, 'settings.public.title', "Node on FHIR")} />);
 
