@@ -108,6 +108,7 @@
       "no-useless-constructor": ["warn"],
       "react/jsx-no-bind": ["warn"],
       "no-param-reassign": ["warn"],
+      "react/forbid-prop-types": ["warn"],
     
       // disabled so that we're not expecting to find 'meteor' within
       // our dependencies.
