@@ -37,6 +37,5 @@ Package.onUse(function(api) {
 Npm.depends({
     "material-fhir-ui": "0.8.22",
     "moment": "2.20.1",
-    "lodash": "4.17.15",
-    "react-icons": "3.8.0"
+    "lodash": "4.17.15"
 });

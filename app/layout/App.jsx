@@ -1,22 +1,14 @@
 
 // base layout
-import { Card, CardHeader, CardText, CardTitle } from 'material-ui/Card';
-import {blue400, blue600} from 'material-ui/styles/colors';
-import PropTypes from 'prop-types';
+import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
 
-import React, { memo, useLayoutEffect, useState, useEffect, useCallback } from 'react';
-
-import ReactDOM from "react-dom";
-import { Router, browserHistory } from 'react-router';
-import styled from "styled-components";
+// import ReactDOM from "react-dom";
+// import { Router, browserHistory } from 'react-router';
+// import styled from "styled-components";
 
 import {
-  BrowserRouter,
   Switch,
-  Route,
-  Link,
-  NavLink,
-  withRouter
+  Route
 } from "react-router-dom";
 
 import { Meteor } from 'meteor/meteor';
@@ -24,18 +16,17 @@ import { Session } from 'meteor/session';
 import { Helmet } from "react-helmet";
 import { get, has } from 'lodash';
 
-import { Box, Container, Grid } from '@material-ui/core';
+// import { Box, Container, Grid } from '@material-ui/core';
 
 import { useTracker, withTracker } from './Tracker';
 
-import Info from './Info.jsx';
+// import Info from './Info.jsx';
 import MainPage from './MainPage.jsx';
 import NotFound from './NotFound.jsx';
 
 import AppCanvas from './AppCanvas.jsx';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -50,33 +41,33 @@ import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemLink from '@material-ui/core/ListItemText';
 
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+// import ListItem from '@material-ui/core/ListItem';
+// import ListItemIcon from '@material-ui/core/ListItemIcon';
+// import ListItemText from '@material-ui/core/ListItemText';
+// import ListItemLink from '@material-ui/core/ListItemText';
 
-import { GoGraph } from 'react-icons/go';
-import { GiPieChart } from 'react-icons/gi';
-import { IoIosGitNetwork } from 'react-icons/io';
-import { FiSun} from 'react-icons/fi';
-import { GiCrossedAirFlows} from 'react-icons/gi';
-import { IoMdGrid} from 'react-icons/io';
-import { FiBarChart2} from 'react-icons/fi';
-import { GiLifeBar } from 'react-icons/gi';
-import { IoIosBarcode } from 'react-icons/io';
+// import InboxIcon from '@material-ui/icons/MoveToInbox';
+// import MailIcon from '@material-ui/icons/Mail';
+
+// import { GiPieChart } from 'react-icons/gi';
+// import { GiCrossedAirFlows} from 'react-icons/gi';
+// import { GiLifeBar } from 'react-icons/gi';
+// import { GoGraph } from 'react-icons/go';
+// import { IoIosGitNetwork } from 'react-icons/io';
+// import { FiSun} from 'react-icons/fi';
+// import { IoMdGrid} from 'react-icons/io';
+// import { FiBarChart2} from 'react-icons/fi';
+// import { IoIosBarcode } from 'react-icons/io';
 
 import PatientSidebar from '../patient/PatientSidebar'
 
-import ThemePage from '../core/ThemePage';
-import ConstructionZone from '../core/ConstructionZone';
 
-
+// import ThemePage from '../core/ThemePage';
+// import ConstructionZone from '../core/ConstructionZone';
 
 import { ThemeProvider } from '@material-ui/styles';
 
@@ -211,14 +202,18 @@ const drawerWidth = 280;
   // custom hook to listen to the resize event
   function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
-    useLayoutEffect(() => {
-      function updateSize() {
-        setSize([window.innerWidth, window.innerHeight]);
-      }
-      window.addEventListener('resize', updateSize);
-      updateSize();
-      return () => window.removeEventListener('resize', updateSize);
-    }, []);
+
+    // useLayoutEffect only works on the client!
+    if(Meteor.isClient){
+      useLayoutEffect(() => {
+        function updateSize() {
+          setSize([window.innerWidth, window.innerHeight]);
+        }
+        window.addEventListener('resize', updateSize);
+        updateSize();
+        return () => window.removeEventListener('resize', updateSize);
+      }, []);  
+    }
     return size;
   }
 
@@ -325,7 +320,7 @@ const requreSysadmin = (nextState, replace) => {
 //   constructor(props){
 //     super(props);
 //     console.log('initial history is: ', JSON.stringify(this.history, null,2))
-//     this.history.listen((location, action)=>{
+//     this.history.listen((location, action) => {
 //       console.log(
 //         `The current URL is ${location.pathname}${location.search}${location.hash}`
 //       )
@@ -336,6 +331,10 @@ const requreSysadmin = (nextState, replace) => {
 
 
 export function App(props) {
+  if(typeof logger === "undefined"){
+    logger = props.logger;
+  }
+  
   logger.info('Rendering the main App.');
   logger.verbose('client.app.layout.App');
   logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
@@ -347,20 +346,17 @@ export function App(props) {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [appWidth, appHeight] = useWindowSize();
 
-
   useEffect(() => {
-    logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
-    Session.set('pathname', props.location.pathname);
-  }, [props.location.pathname])
-
-  const lastUpdated = useTracker(function(){
-    return Session.get('lastUpdated');
-  }, []);
+    if(get(props, 'location.pathname')){
+      logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
+      Session.set('pathname', props.location.pathname);  
+    }
+  }, [])
 
   const absoluteUrl = useTracker(function(){
     logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
     return Meteor.absoluteUrl();
-  }, [props.location.pathname]);
+  }, []);
 
   const selectedPatient = useTracker(function(){
     return Session.get('selectedPatient')
@@ -395,93 +391,98 @@ export function App(props) {
   }
 
   let helmet;
-  if(get(Meteor, 'settings.public.socialmedia')){
-    helmet = <Helmet>
-      <meta charSet="utf-8" />
-      <title>{socialmedia.title}</title>
-      <link rel="canonical" href={socialmedia.url} />
+  let headerTags = [];
+  let themeColor = "";  
+  let rawColor = get(Meteor, 'settings.public.theme.palette.appBarColor', "#669f64");
 
-      <meta property="og:title" content={socialmedia.title} />
-      <meta property="og:type" content={socialmedia.type} />
-      <meta property="og:url" content={socialmedia.url} />
-      <meta property="og:image" content={socialmedia.image} />
-      <meta property="og:description" content={socialmedia.description} />
-      <meta property="og:site_name" content={socialmedia.site_name} />
-      
-    </Helmet>
+  // all we're doing here is grabing the hex color, and ignoring adornments like !important
+  if(rawColor.split(" ")){
+    themeColor = rawColor.split(" ")[0];
+  } else {
+    themeColor = rawColor;
   }
 
+  headerTags.push(<meta key='theme' name="theme-color" content={themeColor} />)
+  headerTags.push(<meta key='utf-8' charSet="utf-8" />);    
+  headerTags.push(<meta name="Description" key='description' property="description" content={get(Meteor, 'settings.public.title', "Node on FHIR")} />);
+
+  if(get(Meteor, 'settings.public.socialmedia')){
+    //headerTags.push(<title>{socialmedia.title}</title>);    
+    headerTags.push(<link key='canonical' rel="canonical" href={socialmedia.url} />);    
+    headerTags.push(<meta key='og:title' property="og:title" content={socialmedia.title} />);
+    headerTags.push(<meta key='og:type' property="og:type" content={socialmedia.type} />);
+    headerTags.push(<meta key='og:url' property="og:url" content={socialmedia.url} />);
+    headerTags.push(<meta key='og:image' property="og:image" content={socialmedia.image} />);
+    headerTags.push(<meta key='og:description' property="og:description" content={socialmedia.description} />);
+    headerTags.push(<meta key='og:site_name' property="og:site_name" content={socialmedia.site_name} />);
+  }
+
+  helmet = <Helmet>
+    { headerTags }
+  </Helmet>
 
   let defaultHomeRoute = MainPage;
   
   let drawerStyle = {}
 
-  // console.log('APPWIDTH', appWidth)
+  let drawer;
+  if(Meteor.isClient){
+    if(Meteor.connection.status() === "connected"){
+      drawer = <Drawer
+        id='appDrawer'
+        variant="permanent"
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: drawerIsOpen,
+          [classes.drawerClose]: !drawerIsOpen,
+        })}
+        classes={{
+          paper: clsx({
+            [classes.drawerOpen]: drawerIsOpen,
+            [classes.drawerClose]: !drawerIsOpen,
+          }),
+        }}
+        open={drawerIsOpen}
+        style={drawerStyle}
+      >
+        <div className={classes.toolbar}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
+          <PatientSidebar { ...otherProps } />
+        </List>
+      </Drawer>
+    }
+  }
 
-  // if(appWidth < 768){
+  let routingSwitchLogic;
+  if(Meteor.isClient){
+    routingSwitchLogic = <Switch location={ props.location } >
+      { dynamicRoutes.map(route => <Route 
+        name={route.name} 
+        key={route.name} 
+        path={route.path} 
+        component={ route.component } 
+        onEnter={ route.requireAuth ? requireAuth : null } 
+        { ...otherProps }
+      />) }
 
+      {/* <Route id='themingRoute' path="/theming" component={ ThemePage } { ...otherProps } />
+      <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } /> */}
+
+      <Route id='defaultHomeRoute' path="/" component={ defaultHomeRoute } />                
+      <Route id='notFoundRoute' path="*" component={ NotFound } />              
+    </Switch>
+  }
+
+  // let showDebugger = false
+  // if(showDebugger){
+  //   routingSwitchLogic = <DebugRouter location={ props.location }> 
+  //     { routingSwitchLogic }
+  //  </DebugRouter> 
   // }
-
-  let value = 1;
-
-  let extendedHeaderItems;
-  if(get(Meteor, 'settings.public.defaults.prominantHeader')){
-    let tabStyle = {
-      textTransform: "none",
-      paddingLeft: '10px',
-      paddingRight: '10px'
-    }
-    if(typeof headerNavigation === "function"){
-      extendedHeaderItems = headerNavigation();
-    }
-  }
-
-
-  function parseTitle(){
-    let titleText = get(Meteor, 'settings.public.title', 'Node on FHIR');
-
-    if(selectedPatient){
-      titleText = get(selectedPatient, 'name[0].given[0]') + ' ' + get(selectedPatient, 'name[0].family[0]');    
-      logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
-    }
-
-    return titleText;    
-  }
-
-  function parseId(){
-    let patient = Session.get('selectedPatient');
-    return get(patient, 'id', '');
-  }
-  function getSearchDateRange(){
-    let fhirKitClient_startDate = Session.get('fhirKitClient_startDate');
-    let fhirKitClient_endDate = Session.get('fhirKitClient_endDate');
-    return moment(fhirKitClient_startDate).format("MMM DD, YYYY") + " until " + moment(fhirKitClient_endDate).format("MMM DD, YYYY")
-  }
-
-  let demographicItems;
-  let dateTimeItems;
-
-  // if we have a selected patient, we show that info
-  if(Session.get('selectedPatient')){
-    demographicItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-      <Typography variant="h6" color="inherit" className={ classes.header_label }>Patient ID: </Typography>
-      <Typography variant="h6" color="inherit" className={ classes.header_text } noWrap >
-        { parseId() }
-      </Typography>
-    </div>   
-  } else {
-    // otherwise, we default to population/search level info to display
-    if(Session.get('fhirKitClient_startDate') && Session.get('fhirKitClient_endDate')){
-      dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-        <Typography variant="h6" color="inherit" className={ classes.header_label }>Timespan: </Typography>
-        <Typography variant="h6" color="inherit" className={ classes.header_text } noWrap >
-          { getSearchDateRange() }
-        </Typography>
-      </div>   
-    }    
-  }
-
-
 
   return(
     
@@ -490,92 +491,18 @@ export function App(props) {
 
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <CssBaseline />
-        {/* <Header { ...otherProps } /> */}
-
-        <AppBar id="header" position="fixed" color="default" className={clsx(classes.appBar, {
-          [classes.appBarShift]: drawerIsOpen
-        })} >
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              id='menuOpenButton'
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={ handleDrawerOpen }
-              edge="start"
-              className={clsx(classes.menuButton, {
-                [classes.hide]: drawerIsOpen
-              })}
-            >
-              <MenuIcon />
-            </IconButton>
-
-            <Typography variant="h4" color="inherit" onClick={ function(){ goHome(); }} className={ classes.title } noWrap >
-              { parseTitle() }
-            </Typography>
-
-            { dateTimeItems }
-            { demographicItems }
-            { extendedHeaderItems }
-            
-          </Toolbar>
-        </AppBar>
-        <div id="appDrawerContainer" style={drawerStyle}>
-          <Drawer
-            id='appDrawer'
-            variant="permanent"
-            className={clsx(classes.drawer, {
-              [classes.drawerOpen]: drawerIsOpen,
-              [classes.drawerClose]: !drawerIsOpen,
-            })}
-            classes={{
-              paper: clsx({
-                [classes.drawerOpen]: drawerIsOpen,
-                [classes.drawerClose]: !drawerIsOpen,
-              }),
-            }}
-            open={drawerIsOpen}
-            style={drawerStyle}
-          >
-            <div className={classes.toolbar}>
-              <IconButton id='menuCloseButton' onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-              </IconButton>
-            </div>
-            <Divider />
-            <List>
-              <PatientSidebar { ...otherProps } />
-            </List>
-          </Drawer>
-        </div>
-
+        <Header { ...otherProps } />
+          <div id="appDrawerContainer" style={drawerStyle}>
+            { drawer }
+          </div>
           <main id='mainAppRouter' className={ classes.canvas}>
-            {/* <DebugRouter location={ props.location }> */}
-              <Switch location={ props.location } lastUpdated={lastUpdated} >
-
-                <Route id='themingRoute' path="/theming" component={ ThemePage } { ...otherProps } />
-
-                { dynamicRoutes.map(route => <Route 
-                  name={route.name} 
-                  key={route.name} 
-                  path={route.path} 
-                  component={ route.component } 
-                  onEnter={ route.requireAuth ? requireAuth : null } 
-                  lastUpdated={lastUpdated} 
-                  { ...otherProps }
-                />) }
-
-                <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
-
-                <Route id='defaultHomeRoute' path="/" component={ defaultHomeRoute } />
-                
-                <Route id='notFoundRoute' path="*" component={ NotFound } />              
-              </Switch>
-            {/* </DebugRouter> */}
+            { routingSwitchLogic }
           </main>
-        <Footer drawyerIsOpen={drawerIsOpen} { ...otherProps } />
+        <Footer { ...otherProps } />
       </div>
     </AppCanvas>
   )
 }
 
+// export default withStyles(styles, { withTheme: true })(App);
 export default App;
