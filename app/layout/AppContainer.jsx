@@ -1,41 +1,44 @@
 
 import React from 'react';
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, withRouter } from "react-router-dom";
 
-import { get, has } from 'lodash';
+import { get } from 'lodash';
 
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
 
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
-import { ThemeProvider, makeStyles } from '@material-ui/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import { blue400, blue600, green600, green800 } from 'material-ui/styles/colors';
 
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import App from './App.jsx';
+import AppLoadingPage from '../core/AppLoadingPage.jsx';
 
-import { createLogger, addColors, format, transports, config } from 'winston';
+import { createLogger, addColors, format, transports } from 'winston';
 import 'setimmediate';
 
 import { PatientTable } from 'material-fhir-ui';
 
 
 // Global App-Wide Session Variables
-Session.setDefault('lastUpdated', new Date());
 
-Session.setDefault('appHeight', window.innerHeight);
-Session.setDefault('appWidth', window.innerWidth);
+if(Meteor.isClient){
+  Session.setDefault('lastUpdated', new Date());
+
+  Session.setDefault('appHeight', window.innerHeight);
+  Session.setDefault('appWidth', window.innerWidth);  
+}
 
 
 
 // Startup
 Meteor.startup(function(){
   
-  Session.set('appHeight', window.innerHeight);
-  Session.set('appWidth', window.innerWidth);
+  if(Meteor.isClient){
+    Session.set('appHeight', window.innerHeight);
+    Session.set('appWidth', window.innerWidth);  
+  }
   
   // var LocalDb = minimongo.MemoryDb;
  
@@ -142,7 +145,9 @@ Meteor.startup(function(){
 
   // attaching to the global scope is not recommending
   // logging is one debatable exception to the general rule, however
-  window.logger = global.logger = logger;
+  if(typeof window === "object"){
+    window.logger = global.logger = logger;
+  }
 
   // ironically telling the logger where to write the error message when it fails
   logger.on('error', function (err) { 
@@ -222,30 +227,39 @@ Meteor.startup(function(){
 
   // Application routing history
   import { createBrowserHistory } from "history";
-  const appHistory = createBrowserHistory();
-
+  let appHistory;
+  
+  if(Meteor.isClient){
+    appHistory = createBrowserHistory();
+  }
 
   // we need this so that pages and routes know their location and history
   const AppWithRouter = withRouter(App);
 
-
   function AppContainer(props){
-
     logger.info('AppContainer environment is initializing.');
     logger.verbose('Rendering AppContainer');
     logger.debug('client.app.layout.AppContainer');
     logger.data('AppContainer.props', {data: props}, {source: "AppContainer.jsx"});
-    
 
-    return(
-      <BrowserRouter history={appHistory}>
+    let renderedApp;
+    if(Meteor.isClient){
+      renderedApp = <BrowserRouter history={appHistory}>
         <ThemeProvider theme={theme} >
           <MuiThemeProvider theme={muiTheme}>
-            <AppWithRouter />
+            <AppWithRouter logger={logger} />
           </MuiThemeProvider>
         </ThemeProvider>
       </BrowserRouter>
-    );  
+    }
+    if(Meteor.isServer){
+      renderedApp = <MuiThemeProvider theme={muiTheme}>
+        {/* <App logger={logger} /> */}
+        <AppLoadingPage logger={logger} />
+      </MuiThemeProvider>
+    }
+
+    return renderedApp;  
   }
 
   export default AppContainer;

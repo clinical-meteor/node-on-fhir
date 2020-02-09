@@ -1,9 +1,6 @@
-import React, { Component, useState, useEffect } from 'react';
+import React from 'react';
 
-// import StyledCard from '../components/StyledCard';
 import { 
-  CssBaseline,
-  Grid, 
   Button,
   Container,
   CardHeader,
@@ -12,22 +9,17 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow,
-  Tab, 
-  Tabs 
+  TableRow
 } from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { FaGithub } from 'react-icons/fa';
 
 import Highlight from 'react-highlight' 
 import { get } from 'lodash';
 
+import { PageCanvas, StyledCard } from 'material-fhir-ui';
 
-import { 
-  PageCanvas,
-  StyledCard
-} from 'material-fhir-ui';
 
 
 const useStyles = makeStyles(theme => ({
@@ -35,13 +27,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexWrap: 'wrap',
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
-  },
-  button: {
-    margin: theme.spacing(1),
-  }
+  textField: {},
+  button: {}
 }));
 
 
@@ -60,7 +47,7 @@ function MainPage(props){
     <PageCanvas id='MainPage' style={{paddingLeft: '200px', paddingRight: '200px'}} headerHeight={headerHeight}>
         <StyledCard height="auto" scrollable={true} margin={20} >
           <div style={{width: '100%', textAlign: 'center'}}>
-            <img src='/node-on-fhir-logo.png' style={{width: '600px'}} />
+            <img src='/node-on-fhir-logo.png' style={{width: '600px'}} alt="Node on FHIR Logo" />
           </div>
           <CardHeader title="Node on FHIR" />
           <CardContent>
@@ -234,18 +221,6 @@ function MainPage(props){
                 
               </TableBody>
             </Table>
-            <br />
-            <br />
-            <CardHeader title="Quick Start" />
-
-            <Highlight
-              language="bash"
-              languages={["javascript", "typescript", "scss", "htmlbars", "bash"]}
-            >
-
-              {code || ""}
-            </Highlight>
-
 
             <br />
             <br />

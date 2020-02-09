@@ -1,31 +1,10 @@
 import React, { memo, useState, useEffect, useCallback } from 'react';
-import { 
-  CssBaseline,
-  Grid, 
-  Container,
-  Divider,
-  Card,
-  CardHeader,
-  CardContent,
-  Paper,
-  Button,
-  Tab, 
-  Tabs,
-  Typography,
-  Box
-} from '@material-ui/core';
+import { CardHeader, CardContent, Typography, Box } from '@material-ui/core';
 
 import { get } from 'lodash';
-
-import { 
-  PageCanvas,
-  StyledCard,
-  PatientCard, 
-  PatientDetail, 
-  PatientTable
-} from 'material-fhir-ui';
-
+import { PageCanvas, StyledCard } from 'material-fhir-ui';
 import { useTracker } from '../layout/Tracker';
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
