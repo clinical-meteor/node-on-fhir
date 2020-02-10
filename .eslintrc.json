@@ -102,6 +102,7 @@
       "no-else-return": ["warn"],
       "no-mixed-operators": ["warn"],
       "jsx-a11y/img-has-alt": ["warn"],
+      "react/no-unused-prop-types": ["warn"],
       "import/newline-after-import": ["warn"],
       "comma-spacing": ["warn"],
       "import/no-named-as-default": ["warn"],
