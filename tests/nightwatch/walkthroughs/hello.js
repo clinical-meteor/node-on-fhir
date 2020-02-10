@@ -27,10 +27,10 @@ module.exports = {
     client
       .verify.elementPresent('#appDrawerContainer')
   },
-  'Canvas exists': function (client) {
-    client
-      .waitForElementPresent('#appCanvas', 5000)
-  },
+  // 'Canvas exists': function (client) {
+  //   client
+  //     .waitForElementPresent('#appCanvas', 5000)
+  // },
   'Card Interfaces exists': function (client) {
     client
       .verify.elementPresent('#mainAppRouter')
