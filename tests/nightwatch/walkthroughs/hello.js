@@ -29,7 +29,7 @@ module.exports = {
   },
   'Canvas exists': function (client) {
     client
-      .verify.elementPresent('#appCanvas')
+      .verify.waitForElementPresent('#appCanvas', 5000)
   },
   'Card Interfaces exists': function (client) {
     client
