@@ -89,6 +89,7 @@
       "semi-spacing": ["warn"],
       "no-shadow": ["warn"],
       "no-empty": ["warn"],
+      "jsx-a11y/no-static-element-interactions": ["warn"],
       "import/imports-first": ["warn"],
       "react/jsx-first-prop-new-line": ["warn"],
       "react/jsx-wrap-multilines": ["warn"],
