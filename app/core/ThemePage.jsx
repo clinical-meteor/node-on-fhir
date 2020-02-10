@@ -293,12 +293,12 @@ export class ThemePageOld extends React.Component {
               </Card> */}
               <Grid id='backgroundImageGallary' container >
 
-                { themingAssets.map(asset => <Col md={2} key={asset.name}>
+                { themingAssets.map(asset => <Grid item md={2} key={asset.name}>
                     <StyledCard style={{marginBottom: '20px'}} >
                       <img name={asset.name} src={asset.src} style={backgroundThumbnail} responsive onClick={this.onImageClick.bind(this, asset.src)} />
                       {/* <Image responsive style={purpleTile} onClick={this.onColorClick} /> */}
                     </StyledCard>
-                  </Col>)}
+                  </Grid>)}
 
               </Grid>
               <Divider />
