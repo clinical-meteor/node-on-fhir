@@ -50,7 +50,7 @@ function Header(props) {
   function clickOnMenuButton(){
     console.log('clickOnMenuButton')
 
-    props.handleDrawerOpen.call();
+    props.handleDrawerOpen.call(this);
   };
 
   function handleDrawerClose(){
