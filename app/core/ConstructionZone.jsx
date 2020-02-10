@@ -117,16 +117,16 @@ function ConstructionZone(props) {
 
   return (
     // <PageCanvas id='constructionZone' headerHeight={headerHeight} >
-      <StyledCard height="auto" scrollable={true} margin={20} >
+      <StyledCard height="auto" scrollable margin={20} >
         <CardHeader title="Patients" />
         <CardContent>
-          <PatientTable 
+          {/* <PatientTable 
             patients={patients}
             rowsPerPage={10}
-            showCounts={true}
-            hideActive={true}
+            showCounts
+            hideActive
             cursors={dataCursors}
-          />            
+          />             */}
         </CardContent>
       </StyledCard>
     // </PageCanvas>
