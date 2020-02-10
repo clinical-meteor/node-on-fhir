@@ -50,9 +50,7 @@ function Header(props) {
   function handleDrawerOpen(){
     console.log('handleDrawerOpen')
 
-    if(typeof props.handleDrawerOpen === "function"){
-      props.handleDrawerOpen();
-    }
+    props.handleDrawerOpen();
   };
 
   function handleDrawerClose(){
