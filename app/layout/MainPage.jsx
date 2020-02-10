@@ -45,7 +45,7 @@ function MainPage(props){
 
   return (
     <PageCanvas id='MainPage' style={{paddingLeft: '200px', paddingRight: '200px'}} headerHeight={headerHeight}>
-        <StyledCard height="auto" scrollable={true} margin={20} >
+        <StyledCard height="auto" scrollable margin={20} >
           <div style={{width: '100%', textAlign: 'center'}}>
             <img src='/node-on-fhir-logo.png' style={{width: '600px'}} alt="Node on FHIR Logo" />
           </div>

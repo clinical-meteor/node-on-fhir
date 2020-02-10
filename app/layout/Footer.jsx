@@ -14,16 +14,6 @@ const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 // doesnt seem to be used by main app
 const styles = theme => ({
-  footerContainer: {  
-    height: '64px',
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText,
-    width: '100%',
-    zIndex: 10000
-  },
   footer: {
     flexGrow: 1,
     backgroundColor: theme.palette.appBar.main,
@@ -66,29 +56,7 @@ const styles = theme => ({
   }
 });
 
-  // // Being used by the main app
-  // const useStyles = makeStyles(theme => ({
-  //   root: {
-  //     display: 'flex',
-  //     flexGrow: 1
-  //   },
-  //   menuButton: {
-  //     marginRight: theme.spacing(2),
-  //   },
-  //   title: {
-  //     flexGrow: 1,
-  //   },
-  //   footerContainer: {  
-  //     height: '64px',
-  //     position: 'fixed',
-  //     bottom: 0,
-  //     left: 0,
-  //     backgroundColor: theme.palette.appBar.main,
-  //     color: theme.palette.appBar.contrastText,
-  //     width: '100%',
-  //     zIndex: 10000
-  //   },
-  // }));
+
 
 function Footer(props) {
   if(props.logger){
@@ -200,8 +168,7 @@ function Footer(props) {
 
 Footer.propTypes = {
   logger: PropTypes.object,
-  drawerIsOpen: PropTypes.bool,
-  handleDrawerOpen: PropTypes.func
+  drawerIsOpen: PropTypes.bool
 }
 Footer.defaultProps = {
   logger: {
