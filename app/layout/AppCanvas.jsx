@@ -7,7 +7,7 @@ function AppCanvas(props) {
   const { children, startAdornment, ...otherProps } = props;
 
   return (
-    <div { ...otherProps } >
+    <div id="appCanvas" { ...otherProps } >
       { children }
     </div>
   );
