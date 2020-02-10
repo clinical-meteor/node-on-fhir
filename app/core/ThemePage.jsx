@@ -18,11 +18,9 @@ import {
   Paper
 } from '@material-ui/core';
 import { get, has } from 'lodash';
-import StyledCard from '../components/StyledCard';
 
-import { Col, Row } from 'react-bootstrap';
+import { StyledCard } from 'material-fhir-ui';
 
-import { Image } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
@@ -188,8 +186,8 @@ export class ThemePageOld extends React.Component {
     return(
       <div id='aboutPage'>
         <div>
-          <Row>
-            <Col md={3} style={controlPaneStyle}>
+          <Grid container spacing={3} >
+            <Grid item md={3} style={controlPaneStyle}>
               {/* <Card>
                 <CardTitle
                   title='Theme'
@@ -282,8 +280,8 @@ export class ThemePageOld extends React.Component {
               <Divider />
               <Divider />
 
-            </Col>
-            <Col md={9} >
+            </Grid>
+            <Grid item md={9} >
               {/* <Card>
                 <CardTitle
                   title='Theme'
@@ -293,90 +291,90 @@ export class ThemePageOld extends React.Component {
 
                     </CardText>
               </Card> */}
-              <Row id='backgroundImageGallary' >
+              <Grid id='backgroundImageGallary' container >
 
                 { themingAssets.map(asset => <Col md={2} key={asset.name}>
                     <StyledCard style={{marginBottom: '20px'}} >
-                      <Image name={asset.name} src={asset.src} style={backgroundThumbnail} responsive onClick={this.onImageClick.bind(this, asset.src)} />
+                      <img name={asset.name} src={asset.src} style={backgroundThumbnail} responsive onClick={this.onImageClick.bind(this, asset.src)} />
                       {/* <Image responsive style={purpleTile} onClick={this.onColorClick} /> */}
                     </StyledCard>
                   </Col>)}
 
-              </Row>
+              </Grid>
               <Divider />
 
-              <Row>
-                <Col md={2}>
+              <Grid container>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={purpleTile} onClick={this.onColorClick} />
                   </StyledCard>
-                </Col>
-                <Col md={2}>
+                </Grid>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={orangeTile} onClick={this.onColorClick} />
                   </StyledCard>
-                </Col>
-                <Col md={2}>
+                </Grid>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={redTile} onClick={this.onColorClick} />
                   </StyledCard>
-                </Col>
-                <Col md={2}>
+                </Grid>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={greenTile} onClick={this.onColorClick} />
                   </StyledCard>
-                </Col>
-                <Col md={2}>
+                </Grid>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={blueTile} onClick={this.onColorClick} />
                   </StyledCard>
-                </Col>
-                <Col md={2}>
+                </Grid>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={goldenrodTile} onClick={this.onColorClick} />
                   </StyledCard>
-                </Col>
-              </Row>
+                </Grid>
+              </Grid>
               <Divider />
 
 
 
-              <Row>
-                <Col md={2}>
+              <Grid container>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={whiteTile} onClick={this.onColorClick} />
                   </StyledCard>
-                </Col>
-                <Col md={2}>
+                </Grid>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={eggshellTile} onClick={this.onColorClick} />                    
                   </StyledCard>
-                </Col>
-                <Col md={2}>
+                </Grid>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={smokeTile} onClick={this.onColorClick} />                    
                   </StyledCard>
-                </Col>
-                <Col md={2}>
+                </Grid>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={grayTile} onClick={this.onColorClick} />                    
                   </StyledCard>
-                </Col>
-                <Col md={2}>
+                </Grid>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={charcoalTile} onClick={this.onColorClick} />                    
                   </StyledCard>
-                </Col>
-                <Col md={2}>
+                </Grid>
+                <Grid item md={2}>
                   <StyledCard>
                     <Image responsive style={blackTile} onClick={this.onColorClick} />                    
                   </StyledCard>
-                </Col>
-              </Row>
+                </Grid>
+              </Grid>
 
 
-            </Col>
-          </Row>
+            </Grid>
+          </Grid>
         </div>
       </div>
     );

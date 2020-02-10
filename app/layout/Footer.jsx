@@ -5,86 +5,15 @@ import { useTracker } from './Tracker';
 import { Button, BottomNavigation} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
+import { Meteor } from 'meteor/meteor';
+import { get } from 'lodash';
+
 import { makeStyles } from '@material-ui/styles';
 
-const drawerWidth = 280;
+const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 // doesnt seem to be used by main app
 const styles = theme => ({
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    // transition: theme.transitions.create(['width', 'margin'], {
-    //   easing: theme.transitions.easing.sharp,
-    //   duration: theme.transitions.duration.leavingScreen,
-    // }),
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    // transition: theme.transitions.create(['width', 'margin'], {
-    //   easing: theme.transitions.easing.sharp,
-    //   duration: theme.transitions.duration.enteringScreen,
-    // }),
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText
-  },
-  appBarButton: {
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText,
-    dropShadow: 'none',
-    boxShadow: 'none'
-  },
-  button: {
-    margin: '10px',
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText
-  },
-  canvas: {
-    paddingTop: "80px",
-    paddingBottom: "80px",
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    position: "absolute",
-    width: "100%",
-    top: 0,
-    left: 0
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    backgroundColor: theme.palette.paper.main
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    backgroundColor: theme.palette.paper.main
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1
-    },
-    backgroundColor: theme.palette.paper.main
-  },
-  drawerIcons: {
-    fontSize: '120%',
-    paddingLeft: '8px',
-    paddingRight: '2px'
-  },
-  drawerText: {
-    textDecoration: 'none !important'
-  },
   footerContainer: {  
     height: '64px',
     position: 'fixed',
@@ -119,38 +48,55 @@ const styles = theme => ({
     justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar
+  },
+  footerContainer: {  
+    height: '64px',
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    background: theme.palette.appBar.main,
+    backgroundColor: theme.palette.appBar.main,
+    color: theme.palette.appBar.contrastText,
+    width: '100%',
+    zIndex: 10000000,
+    transition: theme.transitions.create(['width', 'left'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
   }
 });
 
-  // Being used by the main app
-  const useStyles = makeStyles(theme => ({
-    root: {
-      display: 'flex',
-      flexGrow: 1
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
-    footerContainer: {  
-      height: '64px',
-      position: 'fixed',
-      bottom: 0,
-      left: 0,
-      backgroundColor: theme.palette.appBar.main,
-      color: theme.palette.appBar.contrastText,
-      width: '100%',
-      zIndex: 10000
-    },
-  }));
+  // // Being used by the main app
+  // const useStyles = makeStyles(theme => ({
+  //   root: {
+  //     display: 'flex',
+  //     flexGrow: 1
+  //   },
+  //   menuButton: {
+  //     marginRight: theme.spacing(2),
+  //   },
+  //   title: {
+  //     flexGrow: 1,
+  //   },
+  //   footerContainer: {  
+  //     height: '64px',
+  //     position: 'fixed',
+  //     bottom: 0,
+  //     left: 0,
+  //     backgroundColor: theme.palette.appBar.main,
+  //     color: theme.palette.appBar.contrastText,
+  //     width: '100%',
+  //     zIndex: 10000
+  //   },
+  // }));
 
 function Footer(props) {
   if(props.logger){
     props.logger.info('Rendering the application Footer.');
     props.logger.verbose('package.care-cards.client.layout.Footer');  
   }
+
+  console.log("Footer.props", props)
   
   const pathname = useTracker(function(){
     props.logger.info('Pathname was recently updated.  Updating the Footer action buttons.');
@@ -218,17 +164,44 @@ function Footer(props) {
     westNavbar = renderWestNavbar(pathname);
   // }
 
+  let styles = {
+    footerContainer: {  
+      height: '64px',
+      position: 'fixed',
+      bottom: 0,
+      left: 0,
+      background: props.theme.palette.appBar.main,
+      backgroundColor: props.theme.palette.appBar.main,
+      color: props.theme.palette.appBar.contrastText,
+      width: '100%',
+      zIndex: 10000000,
+      transition: props.theme.transitions.create(['width', 'left'], {
+        easing: props.theme.transitions.easing.sharp,
+        duration: props.theme.transitions.duration.leavingScreen
+      })
+    }
+  }
+
+  if(Meteor.isClient && props.drawerIsOpen){
+    styles.footerContainer.width = window.innerWidth - drawerWidth;
+    styles.footerContainer.left = drawerWidth;
+  }
+
   return (
-    <BottomNavigation name="footerNavigation" position="static" className={ props.classes.footerContainer} >
-      {/* <Toolbar>
-        { westNavbar }
-      </Toolbar> */}
-    </BottomNavigation>
+    <div id="footerNavContainer" style={styles.footerContainer}>
+      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" className={props.classes.footerContainer} >
+        {/* <Toolbar>
+          { westNavbar }
+        </Toolbar> */}
+      </BottomNavigation>
+    </div>
   );
 }
 
 Footer.propTypes = {
-  logger: PropTypes.object
+  logger: PropTypes.object,
+  drawerIsOpen: PropTypes.bool,
+  handleDrawerOpen: PropTypes.func
 }
 Footer.defaultProps = {
   logger: {

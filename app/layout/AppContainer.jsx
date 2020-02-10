@@ -140,7 +140,6 @@ Meteor.startup(function(){
 
   // introspection for the win
   logger.info('Starting the Winston Logging Service');
-  logger.data(logger);
   logger.data('Winston Logging Service', {data: logger}, {source: "AppContainer.jsx"});
 
   // attaching to the global scope is not recommending
@@ -253,10 +252,11 @@ Meteor.startup(function(){
       </BrowserRouter>
     }
     if(Meteor.isServer){
-      renderedApp = <MuiThemeProvider theme={muiTheme}>
-        {/* <App logger={logger} /> */}
-        <AppLoadingPage logger={logger} />
-      </MuiThemeProvider>
+      renderedApp = <ThemeProvider theme={theme} >
+        <MuiThemeProvider theme={muiTheme}>
+          <AppLoadingPage logger={logger} />
+        </MuiThemeProvider>
+      </ThemeProvider>      
     }
 
     return renderedApp;  

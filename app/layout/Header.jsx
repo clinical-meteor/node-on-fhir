@@ -13,39 +13,16 @@ import { get } from 'lodash';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const drawerWidth = 240;
+const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 // not being used?
 const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexGrow: 1
-  },
   menuButton: {
     marginLeft: 12,
     marginRight: 36
   },
   hide: {
     display: 'none'
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap'
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    overflowX: 'hidden'
   },
   toolbar: {
     display: 'flex',
@@ -55,44 +32,9 @@ const styles = theme => ({
   },
   title: {
     flexGrow: 1
-  },
-  headerContainer: {  
-    height: '64px',
-    position: 'relative',
-    top: 0,
-    left: 0,
-    background: theme.palette.appBar.main,
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText,
-    width: '100%',
-    zIndex: 1000000
   }
 });
 
-
-  // Being used by the main app
-  const useStyles = makeStyles(theme => ({
-    root: {
-      display: 'flex',
-      flexGrow: 1
-    },
-    menuButton: {
-    },
-    title: {
-      flexGrow: 1,
-    },
-    headerContainer: {  
-      height: '64px',
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      background: theme.palette.appBar.main,
-      backgroundColor: theme.palette.appBar.main,
-      color: theme.palette.appBar.contrastText,
-      width: '100%',
-      zIndex: 1000000
-    }
-  }));
 
 
 function Header(props) {
@@ -101,11 +43,16 @@ function Header(props) {
     props.logger.verbose('package.care-cards.client.layout.Header');  
   }
 
+  console.log("Header.props", props)
+
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
   function handleDrawerOpen(){
     console.log('handleDrawerOpen')
-    setDrawerIsOpen(true);
+
+    if(typeof props.handleDrawerOpen === "function"){
+      props.handleDrawerOpen();
+    }
   };
 
   function handleDrawerClose(){
@@ -116,12 +63,42 @@ function Header(props) {
     props.history.replace('/')
   }
 
+  let styles = {
+    headerContainer: {  
+      height: '64px',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      background: props.theme.palette.appBar.main,
+      backgroundColor: props.theme.palette.appBar.main,
+      color: props.theme.palette.appBar.contrastText,
+      width: '100%',
+      zIndex: 1000000,
+      transition: props.theme.transitions.create(['width', 'left'], {
+        easing: props.theme.transitions.easing.sharp,
+        duration: props.theme.transitions.duration.leavingScreen
+      })
+    }
+  }
+
+  if(Meteor.isClient && props.drawerIsOpen){
+    styles.headerContainer.width = window.innerWidth - drawerWidth;
+    styles.headerContainer.left = drawerWidth;
+  }
+
+  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
+    styles.headerContainer.height = '128px';
+  }
+
+
+
   return (
-    <AppBar id="header" position="fixed" className={ props.classes.headerContainer }>
+    <AppBar id="header" position="fixed" style={styles.headerContainer}>
       <Toolbar disableGutters={!drawerIsOpen} >
           <IconButton
             color="inherit"
             aria-label="Open drawer"
+            onClick={handleDrawerOpen}
           >
             <MenuIcon />
           </IconButton>
@@ -134,7 +111,9 @@ function Header(props) {
 }
 
 Header.propTypes = {
-  logger: PropTypes.object
+  logger: PropTypes.object,
+  drawerIsOpen: PropTypes.bool,
+  handleDrawerOpen: PropTypes.func
 }
 Header.defaultProps = {
   logger: {
