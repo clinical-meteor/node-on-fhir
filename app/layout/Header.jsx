@@ -47,10 +47,10 @@ function Header(props) {
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
-  function handleDrawerOpen(){
-    console.log('handleDrawerOpen')
+  function clickOnMenuButton(){
+    console.log('clickOnMenuButton')
 
-    props.handleDrawerOpen();
+    props.handleDrawerOpen.call();
   };
 
   function handleDrawerClose(){
@@ -96,7 +96,7 @@ function Header(props) {
           <IconButton
             color="inherit"
             aria-label="Open drawer"
-            onClick={handleDrawerOpen}
+            onClick={ clickOnMenuButton }
           >
             <MenuIcon />
           </IconButton>
