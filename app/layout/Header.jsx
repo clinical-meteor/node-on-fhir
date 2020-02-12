@@ -76,6 +76,12 @@ function Header(props) {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
       })
+    },
+    title: {
+      flexGrow: 1,
+      background: props.theme.palette.appBar.main,
+      backgroundColor: props.theme.palette.appBar.main,
+      color: props.theme.palette.appBar.contrastText
     }
   }
 
@@ -100,7 +106,7 @@ function Header(props) {
           >
             <MenuIcon />
           </IconButton>
-        <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} className={  props.classes.title }>
+        <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} style={  styles.title }>
           { get(Meteor, 'settings.public.title', 'Node on FHIR') }
         </Typography>
       </Toolbar>
