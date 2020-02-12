@@ -117,44 +117,6 @@ const styles = theme => ({
 
 
 
-// export class PatientSidebar extends React.Component {
-//   getMeteorData() {
-//     let data = {
-//       style: {
-//         position: 'fixed',
-//         top: '0px',
-//         width: '100%',
-//         display: 'flex',
-//         alignItems: 'center',
-//         padding: '0 2.4rem',
-//         opacity: Session.get('globalOpacity')
-//       },
-//       listItem: {
-//         display: 'inline-block',
-//         position: 'relative'
-//       },
-//       indexRoute: '/'
-//     };
-
-//     return data;
-//   }
-
-//   handleLogout() {
-//     console.log("handleLogout.bind(this)", props);
-//     Meteor.logout();
-//     if(props.history){
-//       props.history.replace('/signin')
-//     }
-//   }
-
-
-//   render () {
-    
-    
-//   }
-// }
-// ReactMixin(PatientSidebar.prototype, ReactMeteorData);
-
 
 export function PatientSidebar(props){
   logger.info('PatientSidebar is rendering.');
@@ -170,9 +132,8 @@ export function PatientSidebar(props){
     logger.debug('client.app.patient.PatientSidebar.handleLogout', url);
     Meteor.logout();
     logger.info('Logging user out.');
-
   }
-
+  
 
   //----------------------------------------------------------------------
   // Construction Zone
@@ -190,7 +151,7 @@ export function PatientSidebar(props){
         </ListItem>
       );
 
-      constructionZone.push(<Divider key='hra' />);
+      constructionZone.push(<Divider key='construction-hr' />);
     }
   }
 
@@ -215,8 +176,6 @@ export function PatientSidebar(props){
   }
 
 
-
-
   //----------------------------------------------------------------------
   // Dynamic Modules
   // Pick up any dynamic routes that are specified in packages, and include them
@@ -234,6 +193,7 @@ export function PatientSidebar(props){
   
     logger.data('PatientSidebar.dynamicModules', dynamicModules);
   }
+
 
   //----------------------------------------------------------------------
   // Dynamic Modules  
@@ -280,7 +240,6 @@ export function PatientSidebar(props){
 
   //----------------------------------------------------------------------
   // Home
-
 
   var homePage = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.HomePage')){
@@ -351,7 +310,6 @@ export function PatientSidebar(props){
   };
 
 
-
   //----------------------------------------------------------------------
   // Logout
 
@@ -365,20 +323,16 @@ export function PatientSidebar(props){
     </ListItem>);    
   };
 
-
   return(
     <div id='patientSidebar'>
-
       { homePage }
 
       <div id='patientDynamicElements' key='patientDynamicElements'>
         { dynamicElements }   
       </div>
-      <Divider key='divider1' />
 
       { fhirResources }         
       { constructionZone }         
-      <Divider key='divider2' />
 
       { themingElements }
       { aboutElements }

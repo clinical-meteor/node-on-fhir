@@ -5,95 +5,52 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-
-
-// import Drawer from '@material-ui/core/Drawer';
-// import List from '@material-ui/core/List';
-// import CssBaseline from '@material-ui/core/CssBaseline';
-// import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-// import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import InboxIcon from '@material-ui/icons/MoveToInbox';
-// import MailIcon from '@material-ui/icons/Mail';
 
 import { Meteor } from 'meteor/meteor';
 import { get } from 'lodash';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const drawerWidth = 240;
+const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 // not being used?
 const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexGrow: 1
-  },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginLeft: 12,
+    marginRight: 36
+  },
+  hide: {
+    display: 'none'
+  },
+  toolbar: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    minHeight: 128,
+    alignItems: 'flex-start'
   },
   title: {
-    flexGrow: 1,
-  },
-  headerContainer: {  
-    height: '64px',
-    position: 'relative',
-    top: 0,
-    left: 0,
-    background: theme.palette.appBar.main,
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText,
-    width: '100%',
-    zIndex: 1000000
+    flexGrow: 1
   }
 });
 
 
-  // Being used by the main app
-  const useStyles = makeStyles(theme => ({
-    root: {
-      display: 'flex',
-      flexGrow: 1
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
-    headerContainer: {  
-      height: '64px',
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      background: theme.palette.appBar.main,
-      backgroundColor: theme.palette.appBar.main,
-      color: theme.palette.appBar.contrastText,
-      width: '100%',
-      zIndex: 1000000
-    }
-  }));
-
 
 function Header(props) {
-  // console.log('Header.props', props);
   if(props.logger){
     props.logger.info('Rendering the application Header.');
     props.logger.verbose('package.care-cards.client.layout.Header');  
   }
-  // const classes = useStyles();
-  // console.log('Header.classes', classes)
+
+  console.log("Header.props", props)
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
-  function handleDrawerOpen(){
-    console.log('handleDrawerOpen')
-    setDrawerIsOpen(true);
+  function clickOnMenuButton(){
+    console.log('clickOnMenuButton')
+
+    props.handleDrawerOpen.call(this);
   };
 
   function handleDrawerClose(){
@@ -104,12 +61,42 @@ function Header(props) {
     props.history.replace('/')
   }
 
+  let styles = {
+    headerContainer: {  
+      height: '64px',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      background: props.theme.palette.appBar.main,
+      backgroundColor: props.theme.palette.appBar.main,
+      color: props.theme.palette.appBar.contrastText,
+      width: '100%',
+      zIndex: 1000000,
+      transition: props.theme.transitions.create(['width', 'left'], {
+        easing: props.theme.transitions.easing.sharp,
+        duration: props.theme.transitions.duration.leavingScreen
+      })
+    }
+  }
+
+  if(Meteor.isClient && props.drawerIsOpen){
+    styles.headerContainer.width = window.innerWidth - drawerWidth;
+    styles.headerContainer.left = drawerWidth;
+  }
+
+  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
+    styles.headerContainer.height = '128px';
+  }
+
+
+
   return (
-    <AppBar id="header" position="fixed" className={ props.classes.headerContainer }>
+    <AppBar id="header" position="fixed" style={styles.headerContainer}>
       <Toolbar disableGutters={!drawerIsOpen} >
           <IconButton
             color="inherit"
             aria-label="Open drawer"
+            onClick={ clickOnMenuButton }
           >
             <MenuIcon />
           </IconButton>
@@ -122,7 +109,9 @@ function Header(props) {
 }
 
 Header.propTypes = {
-  logger: PropTypes.object
+  logger: PropTypes.object,
+  drawerIsOpen: PropTypes.bool,
+  handleDrawerOpen: PropTypes.func
 }
 Header.defaultProps = {
   logger: {

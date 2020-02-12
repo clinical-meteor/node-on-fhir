@@ -28,6 +28,7 @@ fourseven:scss
 
 # bundle-visualizer
 
+clinical:fonts
 
 # Testing Packages
 # meteortesting:mocha
@@ -35,7 +36,7 @@ fourseven:scss
 
 
 # Workflow  
-symptomatic:example-plugin
+# symptomatic:example-plugin
 
 
 

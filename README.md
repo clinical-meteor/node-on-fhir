@@ -94,4 +94,10 @@ MONGO_URL='mongodb://user:password@host:port/databasename' PORT=4200 ROOT_URL=ht
 - [Quality Control](https://circleci.com/gh/symptomatic/node-on-fhir)  
 - [Demo Page](https://node-on-fhir.meteorapp.com)  
 
+## Stack Components  
+
+![Img]()  
+
+## References  
+- [Notice of Proposed Rulemaking to Improve the Interoperability of Health Information](https://www.healthit.gov/topic/laws-regulation-and-policy/notice-proposed-rulemaking-improve-interoperability-health)  
 

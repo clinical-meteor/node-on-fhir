@@ -5,9 +5,18 @@ import { get, has } from 'lodash';
 import StyledCard from './StyledCard';
 
 function HelloWorldPage(props){
+
+  let containerStyle = {
+    paddingLeft: '100px', 
+    paddingRight: '100px'
+  };
+  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
+    containerStyle.paddingTop = "64px";
+  }
+
   return (
     <div id='indexPage'>
-      <Container>
+      <Container style={containerStyle}>
         <StyledCard height='auto'>
           <CardHeader 
             title="Create a Plugin" 
