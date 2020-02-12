@@ -19,7 +19,10 @@ import theme from '../theme.js';
 //   import('/app/theme.js'),
 // ])
 
-import { FaSpinner } from 'react-icons/fa';
+
+import { Icon } from 'react-icons-kit'
+import {spinner} from 'react-icons-kit/fa/spinner'
+
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -80,7 +83,7 @@ function AppLoadingPage(props) {
           <main id="appLoadingPage" style={{width: '100%', height: '100%', textAlign: 'center'}}>
             <div style={ styles.loadingMessage }>
               <h1 className="helveticas" style={{fontWeight: 200, marginLeft: '-50%'}}>This app is loading.</h1>
-              <FaSpinner className="spinningIcon" style={styles.spinningIcon} />
+              <Icon icon={spinner} className="spinningIcon" style={styles.spinningIcon} />
             </div>
           </main>
         <Footer { ...otherProps } />
