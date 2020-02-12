@@ -27,6 +27,7 @@
       "darkroom": false,
       "iFrameEnabled": false,
       "iFrameUrl": "https://www.wikipedia.org/",
+      "rowsPerPage": 10,
       "paginationLimit": 100,
       "subscriptionLimit": 1000,
       "cards": {

@@ -20,3 +20,9 @@ a{
   text-decoration: 'none'
 }
 
+.vis-timeline {
+  border: 0px white !important;
+}
+.vis-inner {
+  font-size: 60% !important;
+}

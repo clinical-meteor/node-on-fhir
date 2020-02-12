@@ -46,6 +46,8 @@ const useStyles = makeStyles(theme => ({
 function FhirQueryPage(props){
   const classes = useStyles();
 
+  const rowsPerPage = get(Meteor, 'settings.public.defaults.rowsPerPage', 25);
+
   let endpointDefinedInSettings = get(Meteor, 'settings.public.interfaces.default.channel.endpoint', '');
 
   const [json, setJson] = useState("");
@@ -97,10 +99,15 @@ function FhirQueryPage(props){
 
       console.log('foo',)
   }
+
+  let containerStyle = {};
+  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
+    containerStyle.paddingTop = "64px";
+  }
   
   return (
     <div id='indexPage'>
-      <Container>
+      <Container style={containerStyle}>
         <StyledCard >
           <CardHeader 
             title="Fetch Some Health Related Data" 
@@ -129,6 +136,8 @@ function FhirQueryPage(props){
           <CardContent style={{fontSize: '100%'}}>
           <PatientTable
             patients={patients}
+            rowsPerPage={rowsPerPage}
+            count={patients.length}
           />
             {/* { json } */}
           </CardContent>

@@ -13,6 +13,29 @@ module.exports = {
   'Body exists': function (client) {
     client
       .verify.elementPresent('body')
+  },
+  'Header exists': function (client) {
+    client
+      .verify.elementPresent('#header')
+  },
+  'Footer exists': function (client) {
+    client
+      .verify.elementPresent('#footerNavContainer')
+      .verify.elementPresent('#footerNavigation')
+  },
+  'Sidebar Drawer exists': function (client) {
+    client
+      .verify.elementPresent('#appDrawerContainer')
+  },
+  // 'Canvas exists': function (client) {
+  //   client
+  //     .waitForElementPresent('#appCanvas', 5000)
+  // },
+  'Card Interfaces exists': function (client) {
+    client
+      .verify.elementPresent('#mainAppRouter')
+      .verify.elementPresent('#primaryFlexPanel')
       .end();
   }
+
 };

@@ -33,6 +33,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
+import clsx from 'clsx';
+import moment from 'moment';
+
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -42,61 +45,43 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import ListItemLink from '@material-ui/core/ListItemText';
-
-// import InboxIcon from '@material-ui/icons/MoveToInbox';
-// import MailIcon from '@material-ui/icons/Mail';
-
-// import { GiPieChart } from 'react-icons/gi';
-// import { GiCrossedAirFlows} from 'react-icons/gi';
-// import { GiLifeBar } from 'react-icons/gi';
-// import { GoGraph } from 'react-icons/go';
-// import { IoIosGitNetwork } from 'react-icons/io';
-// import { FiSun} from 'react-icons/fi';
-// import { IoMdGrid} from 'react-icons/io';
-// import { FiBarChart2} from 'react-icons/fi';
-// import { IoIosBarcode } from 'react-icons/io';
-
 import PatientSidebar from '../patient/PatientSidebar'
-
+import AppLoadingPage from '../core/AppLoadingPage'
 
 // import ThemePage from '../core/ThemePage';
 // import ConstructionZone from '../core/ConstructionZone';
 
 import { ThemeProvider } from '@material-ui/styles';
+import theme from '../theme';
 
-const drawerWidth = 280;
+const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
-// const styles = theme => ({
   const useStyles = makeStyles(theme => ({
     primaryFlexPanel: {
       display: 'flex',
     },
-    header: {
-      display: 'flex'
-    },
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      backgroundColor: theme.palette.appBar.main,
-      color: theme.palette.appBar.contrastText
-    },
-    appBarShift: {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      backgroundColor: theme.palette.appBar.main,
-      color: theme.palette.appBar.contrastText
-    },
+    // header: {
+    //   display: 'flex'
+    // },
+    // appBar: {
+    //   zIndex: theme.zIndex.drawer + 1,
+    //   transition: theme.transitions.create(['width', 'margin'], {
+    //     easing: theme.transitions.easing.sharp,
+    //     duration: theme.transitions.duration.leavingScreen,
+    //   }),
+    //   backgroundColor: theme.palette.appBar.main,
+    //   color: theme.palette.appBar.contrastText
+    // },
+    // appBarShift: {
+    //   marginLeft: drawerWidth,
+    //   width: `calc(100% - ${drawerWidth}px)`,
+    //   transition: theme.transitions.create(['width', 'margin'], {
+    //     easing: theme.transitions.easing.sharp,
+    //     duration: theme.transitions.duration.enteringScreen,
+    //   }),
+    //   backgroundColor: theme.palette.appBar.main,
+    //   color: theme.palette.appBar.contrastText
+    // },
     canvas: {
       flexGrow: 1,
       position: "absolute",
@@ -104,15 +89,16 @@ const drawerWidth = 280;
       top: 0,
       width: '100%',
       height: '100%',
-      paddingTop: '100px',
-      paddingBottom: '100px',
+      paddingTop: '0px',
+      paddingBottom: '0px',
       backgroundColor: theme.palette.background.default
     },
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
       whiteSpace: 'nowrap',
-      backgroundColor: theme.palette.paper.main
+      backgroundColor: theme.palette.paper.main,
+      // zIndex: -1
     },
     drawerOpen: {
       width: drawerWidth,
@@ -147,15 +133,47 @@ const drawerWidth = 280;
     },
     menuButton: {
       marginRight: 36,
+      float: 'left'
     },
     toolbar: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      padding: '0 8px',
-      ...theme.mixins.toolbar
+      display: 'inline-block',
+      minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
+      float: 'left'
+      //alignItems: 'center',
+      //justifyContent: 'flex-end',
+      //padding: '0 8px',
+      //...theme.mixins.toolbar
+    },
+    title: {
+      paddingTop: '10px'
+    },
+    header_label: {
+      paddingTop: '10px',
+      fontWeight: 'bold',
+      fontSize: '1 rem',
+      float: 'left',
+      paddingRight: '10px'
+    },
+    header_text: {
+      paddingTop: '10px',
+      fontSize: '1 rem',
+      float: 'left'
+    },
+    northeast_title: {
+      paddingTop: '10px',
+      float: 'right',
+      position: 'absolute',
+      paddingRight: '20px',
+      right: '0px',
+      top: '0px',
+      fontWeight: 'normal'
+    },
+    menu_items: {
+      position: 'absolute',
+      bottom: '10px'
     }
   }));
+
 
   // componentWillReceiveProps(nextProps) {
   //   if (nextProps.location !== this.props.location) {
@@ -189,6 +207,7 @@ const drawerWidth = 280;
 // Pick up any dynamic routes that are specified in packages, and include them
 var dynamicRoutes = [];
 var privacyRoutes = [];
+var headerNavigation;
 Object.keys(Package).forEach(function(packageName){
   if(Package[packageName].DynamicRoutes){
     // we try to build up a route from what's specified in the package
@@ -200,9 +219,14 @@ Object.keys(Package).forEach(function(packageName){
       }
     });    
   }
+  if(Package[packageName].HeaderNavigation){
+    console.log('Found a custom HeaderNavigation object in one of the packages.')
+    headerNavigation = Package[packageName].HeaderNavigation;
+  }
 });
 
 console.log('dynamicRoutes', dynamicRoutes)
+// console.log('headerNavigation', headerNavigation)
 
 
 
@@ -276,19 +300,6 @@ const requreSysadmin = (nextState, replace) => {
   }
 };
 
-// class DebugRouter extends Router {
-//   constructor(props){
-//     super(props);
-//     console.log('initial history is: ', JSON.stringify(this.history, null,2))
-//     this.history.listen((location, action) => {
-//       console.log(
-//         `The current URL is ${location.pathname}${location.search}${location.hash}`
-//       )
-//       console.log(`The last navigation action was ${action}`, JSON.stringify(this.history, null,2));
-//     });
-//   }
-// }
-
 
 export function App(props) {
   if(typeof logger === "undefined"){
@@ -297,7 +308,7 @@ export function App(props) {
   
   logger.info('Rendering the main App.');
   logger.verbose('client.app.layout.App');
-  logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
+  // logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
 
 
   const classes = useStyles();
@@ -318,7 +329,12 @@ export function App(props) {
     return Meteor.absoluteUrl();
   }, []);
 
-  const { staticContext, ...otherProps } = props;
+  const selectedPatient = useTracker(function(){
+    return Session.get('selectedPatient')
+  }, []);
+
+
+  const { staticContext, startAdornment,  ...otherProps } = props;
 
   function handleDrawerOpen(){
     logger.trace('App.handleDrawerOpen()')
@@ -382,7 +398,6 @@ export function App(props) {
 
   let drawer;
   if(Meteor.isClient){
-    if(Meteor.connection.status() === "connected"){
       drawer = <Drawer
         id='appDrawer'
         variant="permanent"
@@ -393,7 +408,7 @@ export function App(props) {
         classes={{
           paper: clsx({
             [classes.drawerOpen]: drawerIsOpen,
-            [classes.drawerClose]: !drawerIsOpen,
+            [classes.drawerClose]: !drawerIsOpen
           }),
         }}
         open={drawerIsOpen}
@@ -409,51 +424,58 @@ export function App(props) {
           <PatientSidebar { ...otherProps } />
         </List>
       </Drawer>
-    }
   }
 
   let routingSwitchLogic;
+  let themingRoute;
+  let constructionRoute;
+
   if(Meteor.isClient){
-    routingSwitchLogic = <Switch location={ props.location } >
-      { dynamicRoutes.map(route => <Route 
-        name={route.name} 
-        key={route.name} 
-        path={route.path} 
-        component={ route.component } 
-        onEnter={ route.requireAuth ? requireAuth : null } 
-        { ...otherProps }
-      />) }
 
-      {/* <Route id='themingRoute' path="/theming" component={ ThemePage } { ...otherProps } />
-      <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } /> */}
+    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Theming')){
+      themingRoute = <Route id='themingRoute' path="/theming" component={ ThemePage } { ...otherProps } />
+    }
+    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ConstructionZone')){
+      themingRoute = <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
+    }
 
-      <Route id='defaultHomeRoute' path="/" component={ defaultHomeRoute } />                
-      <Route id='notFoundRoute' path="*" component={ NotFound } />              
-    </Switch>
+    routingSwitchLogic = <ThemeProvider theme={theme} >
+      <Switch location={ props.location } >
+        { dynamicRoutes.map(route => <Route 
+          name={route.name} 
+          key={route.name} 
+          path={route.path} 
+          component={ route.component } 
+          onEnter={ route.requireAuth ? requireAuth : null } 
+          { ...otherProps }
+        />) }
+
+        { themingRoute }
+        { constructionRoute }
+        
+        <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />                
+        <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" component={ defaultHomeRoute } />                
+        <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              
+      </Switch>
+    </ThemeProvider>
   }
 
-  // let showDebugger = false
-  // if(showDebugger){
-  //   routingSwitchLogic = <DebugRouter location={ props.location }> 
-  //     { routingSwitchLogic }
-  //  </DebugRouter> 
-  // }
 
   return(
-    
     <AppCanvas { ...otherProps }>
       { helmet }
 
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <CssBaseline />
-        <Header { ...otherProps } />
-          <div id="appDrawerContainer" style={drawerStyle}>
-            { drawer }
-          </div>
-          <main id='mainAppRouter' className={ classes.canvas}>
-            { routingSwitchLogic }
-          </main>
-        <Footer { ...otherProps } />
+        <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} { ...otherProps } />
+        <Footer drawerIsOpen={drawerIsOpen} { ...otherProps } />
+
+        <div id="appDrawerContainer" style={drawerStyle}>
+          { drawer }
+        </div>
+        <main id='mainAppRouter' className={ classes.canvas}>
+          { routingSwitchLogic }
+        </main>
       </div>
     </AppCanvas>
   )

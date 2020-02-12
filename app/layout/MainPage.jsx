@@ -1,6 +1,5 @@
 import React from 'react';
 
-import StyledCard from '../components/StyledCard';
 import { 
   Button,
   Container,
@@ -16,29 +15,37 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { FaGithub } from 'react-icons/fa';
 
+import Highlight from 'react-highlight' 
+import { get } from 'lodash';
+
+import { PageCanvas, StyledCard } from 'material-fhir-ui';
+
+
 
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
-  },
-  button: {
-    margin: theme.spacing(1),
-  }
+  textField: {},
+  button: {}
 }));
 
 
 function MainPage(props){
   const classes = useStyles();
 
+  let code = " # download meteorjs \n curl https://install.meteor.com/ | sh \n\n # clone the repository \n git clone https://github.com/symptomatic/node-on-fhir \n\n # change into the directory \n cd node-on-fhir \n\n # install the dependencies \n meteor npm install \n\n # run the app (with settings) \n meteor run --settings configs/settings.nodeonfhir.localhost.json --extra-packages symptomatic:example-plugin ";
+
+
+  let headerHeight = 64;
+  if(get(Meteor, 'settings.public.defaults.prominantHeader')){
+    headerHeight = 128;
+  }
+
   return (
-    <div id='MainPage'>
-      <Container>
-        <StyledCard>
+    <PageCanvas id='MainPage' style={{paddingLeft: '200px', paddingRight: '200px'}} headerHeight={headerHeight}>
+        <StyledCard height="auto" scrollable margin={20} >
           <div style={{width: '100%', textAlign: 'center'}}>
             <img src='/node-on-fhir-logo.png' style={{width: '600px'}} alt="Node on FHIR Logo" />
           </div>
@@ -51,8 +58,8 @@ function MainPage(props){
               This project is an offshoot of the Meteor on FHIR project, which developed a Javascript based FHIR application stack about 4 years ago.  A the time, we chose Meteor.js, a full-stack application framework that used websockets as it's transportation mechanism with pub/sub functionality, because it had good support for clinician worklists use cases.  Over time, we saw some limitations with the default Meteor tech stack, but were quite pleased with the Meteor compiler.  Eventually, we decided to do a soft fork of the Meteor project, and set up our own release track and began replacing the websocket/data-distribution-protocol with more standard OAuth/REST interfaces.  We also were tracking many of the latest developments in the Javascript community, such as the release of React, EcmaScript 6, and Typescript.  With the help of the Meteor Development Group, we were able to upgrade the default reference build to include best practices from across the Javascript ecosystem.   
             </p>
             <p>
-              The following reference build is the result of 5 years of work; 70+ prototypes and pilots, the result of a million+ quality control tests, and the contributions of dozens of different organizations, ranging from big tech companies (Google, Facebook) and javascript specific projects (Meteor, Material UI) to healthcare specific companies (HL7, Vermonster, Asymmetrik, SmartHealthIT, etc).   It represents a rich combination of functionality that is difficult to be found anywhere else, particularly in it's support of mobile applications and blockchain.    
-            </p>
+              The following reference build isthe result of 5 years of work; 70+ prototypes and pilots, the result of a million+ quality control tests, and the contributions of dozens of different organizations, ranging from big tech companies (Google, Facebook) and javascript specific projects (Meteor, Material UI) to healthcare specific companies (HL7, Vermonster, Asymmetrik, SmartHealthIT, etc).   It represents a rich combination of functionality that is difficult to be found anywhere else, particularly in it's support of mobile applications and blockchain.    
+            </p> 
 
             <CardHeader title="FHIR Libraries" />
 
@@ -235,13 +242,7 @@ function MainPage(props){
             </ul> */}
           </CardContent>
         </StyledCard>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-      </Container>
-    </div>
+    </PageCanvas>
   );
 }
 

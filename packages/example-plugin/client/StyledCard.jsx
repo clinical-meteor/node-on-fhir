@@ -19,13 +19,10 @@ const styles = theme => ({
 });
 
 function StyledCard(props){
-  // console.log('StyledCard.props', props);
 
   const {children, ...otherProps } = props;
 
   const appTheme = useTheme();
-  // console.log('appTheme', appTheme)
-  // console.log('props.classes', props.classes)
 
   return(
     <Card className={ props.classes.root } {...otherProps}>

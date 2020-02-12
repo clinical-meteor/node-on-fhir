@@ -1,29 +1,40 @@
-import React from 'react';
+// import React, { memo, useState, useEffect, useCallback } from 'react';
 
-import { Card } from '@material-ui/core';
+// import { Card } from '@material-ui/core';
 
-import { withStyles } from '@material-ui/core/styles';
-import { useTheme } from '@material-ui/styles';
+// import { Meteor } from 'meteor/meteor';
+// import { Session } from 'meteor/session';
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    textAlign: 'left',
-    color: theme.palette.paper.contrastText,
-    backgroundColor: theme.palette.paper.main
-  }
-});
+// import { withStyles } from '@material-ui/core/styles';
 
-function StyledCard(props){
-  const {children, ...otherProps } = props;
+// let defaultState = { index: 0 };
+// Session.setDefault('StyledCardState', defaultState);
 
-  const appTheme = useTheme();
+// import { ThemeProvider, makeStyles, useTheme } from '@material-ui/styles';
 
-  return(
-    <Card className={ props.classes.root } {...otherProps}>
-      { children }
-    </Card>
-  );
-}
+// const styles = theme => ({
+//   root: {
+//     flexGrow: 1,
+//     textAlign: 'left',
+//     color: theme.palette.paper.contrastText,
+//     backgroundColor: theme.palette.paper.main
+//   }
+// });
 
-export default withStyles(styles)(StyledCard);
+// function StyledCard(props){
+//   // console.log('StyledCard.props', props);
+
+//   const {children, ...otherProps } = props;
+
+//   const appTheme = useTheme();
+//   // console.log('appTheme', appTheme)
+//   // console.log('props.classes', props.classes)
+
+//   return(
+//     <Card className={ props.classes.root } {...otherProps}>
+//       { children }
+//     </Card>
+//   );
+// }
+
+// export default withStyles(styles)(StyledCard);

@@ -4,10 +4,10 @@ function AppCanvas(props) {
   logger.info('Rendering the AppCanvas and associated backgrounds.');
   logger.verbose('client.app.layout.AppCanvas');
 
-  const { children, ...otherProps } = props;
+  const { children, startAdornment, ...otherProps } = props;
 
   return (
-    <div { ...otherProps } >
+    <div id="appCanvas" { ...otherProps } >
       { children }
     </div>
   );
