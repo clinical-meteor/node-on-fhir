@@ -91,7 +91,8 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       height: '100%',
       paddingTop: '0px',
       paddingBottom: '0px',
-      backgroundColor: theme.palette.background.default
+      backgroundColor: theme.palette.background.default,
+      display: 'contents'
     },
     drawer: {
       width: drawerWidth,
@@ -473,7 +474,7 @@ export function App(props) {
         <div id="appDrawerContainer" style={drawerStyle}>
           { drawer }
         </div>
-        <main id='mainAppRouter' className={ classes.canvas}>
+        <main id='mainAppRouter' className={ classes.canvas }>
           { routingSwitchLogic }
         </main>
       </div>

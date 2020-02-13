@@ -41,7 +41,9 @@
         "menuItems": {
           "HomePage": true,
           "FhirResources": false,
-          "DynamicModules": true
+          "DynamicModules": true,
+          "Theme": true,
+          "ConstructionZone": false
         },
         "hidden": [
           "/allergies",
