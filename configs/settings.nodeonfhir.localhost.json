@@ -30,6 +30,7 @@
         "nivoTheme": "red_grey"
       }
     },
+    "debugging": "verbose",
     "defaults": {
       "route": "/example-route",
       "displayNavbars": true,
