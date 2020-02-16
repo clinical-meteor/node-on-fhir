@@ -156,7 +156,7 @@ function Footer(props) {
 
   return (
     <footer id="footerNavContainer" style={styles.footerContainer}>
-      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" className={props.classes.footerContainer} >
+      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" style={{backgroundColor: "inherit"}} >
         {/* <Toolbar>
           { westNavbar }
         </Toolbar> */}
