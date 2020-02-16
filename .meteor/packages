@@ -36,9 +36,10 @@ clinical:fonts
 
 
 # Workflow  
-symptomatic:example-plugin
+# symptomatic:example-plugin
 
 
 
-clinical:hl7-resource-patient
+# clinical:hl7-resource-patient
+clinical:hl7-resource-bundle
    

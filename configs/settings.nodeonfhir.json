@@ -30,7 +30,7 @@
         "nivoTheme": "red_grey"
       }
     },
-    "debugging": "warn",
+    "loggingThreshold": "debug",
     "defaults": {
       "route": "/example-route",
       "displayNavbars": true,
@@ -44,7 +44,7 @@
           "FhirResources": false,
           "DynamicModules": true,
           "Theme": true,
-          "ConstructionZone": false
+          "ConstructionZone": true
         },
         "hidden": [
           "/allergies",

@@ -27,6 +27,10 @@ module.exports = {
     client
       .verify.elementPresent('#appDrawerContainer')
   },
+  'Can toggle sidebar open and close': function (client) {
+    client
+      .verify.elementPresent('#appDrawerContainer')
+  },
   // 'Canvas exists': function (client) {
   //   client
   //     .waitForElementPresent('#appCanvas', 5000)

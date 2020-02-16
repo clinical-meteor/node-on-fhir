@@ -44,6 +44,8 @@ function Header(props) {
   if(props.logger){
     props.logger.info('Rendering the application Header.');
     props.logger.verbose('package.care-cards.client.layout.Header');  
+    props.logger.data('Header.props', {data: props}, {source: "HeaderContainer.jsx"});
+
   }
 
   console.log("Header.props", props)

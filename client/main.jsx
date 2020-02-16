@@ -9,13 +9,13 @@ import { onPageLoad } from 'meteor/server-render';
 
 import { register } from 'register-service-worker'
 
-// Meteor.startup(function(){
-//   render(<AppContainer />, document.getElementById('reactTarget'));
-// });
-
-onPageLoad(() => {
-  ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
+Meteor.startup(function(){
+  // render(<AppContainer />, document.getElementById('reactTarget'));
+  onPageLoad(() => {
+    ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
+  });
 });
+
 
 
 

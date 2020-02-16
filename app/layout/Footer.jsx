@@ -62,9 +62,10 @@ function Footer(props) {
   if(props.logger){
     props.logger.info('Rendering the application Footer.');
     props.logger.verbose('package.care-cards.client.layout.Footer');  
+    props.logger.data('Footer.props', {data: props}, {source: "FooterContainer.jsx"});
   }
 
-  console.log("Footer.props", props)
+  // console.log("Footer.props", props)
   
   const pathname = useTracker(function(){
     props.logger.info('Pathname was recently updated.  Updating the Footer action buttons.');
@@ -136,8 +137,8 @@ function Footer(props) {
     footerContainer: {  
       height: '64px',
       position: 'fixed',
-      bottom: 0,
-      left: 0,
+      bottom: "0px",
+      left: "0px",
       background: props.theme.palette.appBar.main,
       backgroundColor: props.theme.palette.appBar.main,
       color: props.theme.palette.appBar.contrastText,
@@ -151,18 +152,18 @@ function Footer(props) {
   }
 
   if(Meteor.isClient && props.drawerIsOpen){
-    styles.footerContainer.width = window.innerWidth - drawerWidth;
-    styles.footerContainer.left = drawerWidth;
+    styles.footerContainer.width = (window.innerWidth - drawerWidth) + "px";
+    styles.footerContainer.left = drawerWidth + "px";
   }
 
   return (
-    <div id="footerNavContainer" style={styles.footerContainer}>
-      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" className={props.classes.footerContainer} >
+    <footer id="footerNavContainer" style={styles.footerContainer}>
+      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" className={props.classes.footerContainer} style={styles.footerContainer} >
         {/* <Toolbar>
           { westNavbar }
         </Toolbar> */}
       </BottomNavigation>
-    </div>
+    </footer>
   );
 }
 

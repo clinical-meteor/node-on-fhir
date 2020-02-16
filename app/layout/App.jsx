@@ -49,7 +49,7 @@ import PatientSidebar from '../patient/PatientSidebar'
 import AppLoadingPage from '../core/AppLoadingPage'
 
 // import ThemePage from '../core/ThemePage';
-// import ConstructionZone from '../core/ConstructionZone';
+import ConstructionZone from '../core/ConstructionZone';
 
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../theme';
@@ -60,28 +60,6 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
     primaryFlexPanel: {
       display: 'flex',
     },
-    // header: {
-    //   display: 'flex'
-    // },
-    // appBar: {
-    //   zIndex: theme.zIndex.drawer + 1,
-    //   transition: theme.transitions.create(['width', 'margin'], {
-    //     easing: theme.transitions.easing.sharp,
-    //     duration: theme.transitions.duration.leavingScreen,
-    //   }),
-    //   backgroundColor: theme.palette.appBar.main,
-    //   color: theme.palette.appBar.contrastText
-    // },
-    // appBarShift: {
-    //   marginLeft: drawerWidth,
-    //   width: `calc(100% - ${drawerWidth}px)`,
-    //   transition: theme.transitions.create(['width', 'margin'], {
-    //     easing: theme.transitions.easing.sharp,
-    //     duration: theme.transitions.duration.enteringScreen,
-    //   }),
-    //   backgroundColor: theme.palette.appBar.main,
-    //   color: theme.palette.appBar.contrastText
-    // },
     canvas: {
       flexGrow: 1,
       position: "absolute",
@@ -92,7 +70,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       paddingTop: '0px',
       paddingBottom: '0px',
       backgroundColor: theme.palette.background.default,
-      display: 'contents'
+      display: 'block'
     },
     drawer: {
       width: drawerWidth,
@@ -309,7 +287,7 @@ export function App(props) {
   
   logger.info('Rendering the main App.');
   logger.verbose('client.app.layout.App');
-  // logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
+  logger.data('App.props', {data: props}, {source: "App.jsx"});
 
 
   const classes = useStyles();
@@ -436,8 +414,8 @@ export function App(props) {
     if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Theming')){
       themingRoute = <Route id='themingRoute' path="/theming" component={ ThemePage } { ...otherProps } />
     }
-    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ConstructionZone')){
-      themingRoute = <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
+    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ConstructionZone') === true){
+      constructionRoute = <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
     }
 
     routingSwitchLogic = <ThemeProvider theme={theme} >

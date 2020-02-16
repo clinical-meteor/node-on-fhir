@@ -1,6 +1,6 @@
 Package.describe({
     name: 'symptomatic:example-plugin',
-    version: '0.2.6',
+    version: '0.2.9',
     summary: 'Example Symptomatic plugin, with dynamic routes and UI elements.',
     git: 'https://github.com/symptomatic/example-plugin',
     documentation: 'README.md'
@@ -10,12 +10,12 @@ Package.onUse(function(api) {
     api.versionsFrom('1.4');
     
     api.use('meteor-base@1.4.0');
-    api.use('ecmascript');
+    api.use('ecmascript@0.13.0');
     api.use('react-meteor-data@0.2.15');
     api.use('session');
     api.use('mongo');  
 
-    api.use('clinical:hl7-resource-patient@5.0.9');
+    api.use('clinical:hl7-resource-patient@5.2.20');
 
     // api.addFiles('assets/NodeOnFhir-ComponentRendering.png', 'client', {isAsset: true});
     // api.addFiles('assets/NodeOnFhir-RecommendedCodingArea.png', 'client', {isAsset: true});
@@ -35,7 +35,8 @@ Package.onUse(function(api) {
 
 
 Npm.depends({
-    "material-fhir-ui": "0.8.22",
+    "@material-ui/styles": "4.9.0",
+    "material-fhir-ui": "0.9.26",
     "moment": "2.20.1",
     "lodash": "4.17.15"
 });

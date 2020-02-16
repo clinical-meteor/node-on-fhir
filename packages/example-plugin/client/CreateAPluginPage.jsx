@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Card, CardMedia, CardContent, CardHeader } from '@material-ui/core';
 import { get, has } from 'lodash';
 
-import StyledCard from './StyledCard';
+import { PageCanvas, StyledCard } from 'material-fhir-ui';
 import moment from 'moment';
 
 function HelloWorldPage(props){

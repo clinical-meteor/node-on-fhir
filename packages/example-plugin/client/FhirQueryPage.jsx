@@ -20,7 +20,7 @@ import { Random } from 'meteor/random';
 import { PatientTable } from 'material-fhir-ui';
 import { Patients } from 'meteor/clinical:hl7-resource-patient';
 
-import StyledCard from './StyledCard';
+import { PageCanvas, StyledCard } from 'material-fhir-ui';
 
 import Client from 'fhir-kit-client';
 

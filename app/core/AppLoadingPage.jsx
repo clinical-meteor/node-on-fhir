@@ -83,7 +83,7 @@ function AppLoadingPage(props) {
           <main id="appLoadingPage" style={{width: '100%', height: '100%', textAlign: 'center'}}>
             <div style={ styles.loadingMessage }>
               <h1 className="helveticas" style={{fontWeight: 200, marginLeft: '-50%'}}>This app is loading.</h1>
-              <Icon icon={spinner} className="spinningIcon" style={styles.spinningIcon} />
+              <Icon icon={spinner} className="spinningIcon" style={styles.spinningIcon} size={80} />
             </div>
           </main>
         <Footer { ...otherProps } />
