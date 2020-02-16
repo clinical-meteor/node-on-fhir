@@ -13,13 +13,6 @@ import Footer from '../layout/Footer.jsx';
 import Header from '../layout/Header.jsx';
 import theme from '../theme.js';
 
-// const [Header, Footer, theme] = await Promise.all([
-//   import('/app/layout/Header.jsx'),
-//   import('/app/layout/Footer.jsx'),
-//   import('/app/theme.js'),
-// ])
-
-
 import { Icon } from 'react-icons-kit'
 import {spinner} from 'react-icons-kit/fa/spinner'
 
@@ -83,7 +76,7 @@ function AppLoadingPage(props) {
           <main id="appLoadingPage" style={{width: '100%', height: '100%', textAlign: 'center'}}>
             <div style={ styles.loadingMessage }>
               <h1 className="helveticas" style={{fontWeight: 200, marginLeft: '-50%'}}>This app is loading.</h1>
-              <Icon icon={spinner} className="spinningIcon" style={styles.spinningIcon} />
+              <Icon icon={spinner} className="spinningIcon" style={styles.spinningIcon} size={80} />
             </div>
           </main>
         <Footer { ...otherProps } />
@@ -91,5 +84,5 @@ function AppLoadingPage(props) {
     </div>
   );
 }
-// export default AppLoadingPage;
+
 export default withStyles(styles, { withTheme: true })(AppLoadingPage);
