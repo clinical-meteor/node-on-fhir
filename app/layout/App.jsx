@@ -91,7 +91,8 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       height: '100%',
       paddingTop: '0px',
       paddingBottom: '0px',
-      backgroundColor: theme.palette.background.default
+      backgroundColor: theme.palette.background.default,
+      display: 'block'
     },
     drawer: {
       width: drawerWidth,

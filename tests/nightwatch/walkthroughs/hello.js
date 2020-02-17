@@ -8,7 +8,7 @@ module.exports = {
   tags: ['circle', 'hello'],
   before: function(client){
     client
-      .url("http://localhost:3000/").pause(3000);
+      .url("http://localhost:3000/").pause(15000);
   },
   'Body exists': function (client) {
     client
@@ -24,6 +24,10 @@ module.exports = {
       .verify.elementPresent('#footerNavigation')
   },
   'Sidebar Drawer exists': function (client) {
+    client
+      .verify.elementPresent('#appDrawerContainer')
+  },
+  'Can toggle sidebar open and close': function (client) {
     client
       .verify.elementPresent('#appDrawerContainer')
   },

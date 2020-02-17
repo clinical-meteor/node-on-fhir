@@ -30,6 +30,7 @@
         "nivoTheme": "red_grey"
       }
     },
+    "loggingThreshold": "debug",
     "defaults": {
       "route": "/example-route",
       "displayNavbars": true,
@@ -41,7 +42,9 @@
         "menuItems": {
           "HomePage": true,
           "FhirResources": false,
-          "DynamicModules": true
+          "DynamicModules": true,
+          "Theme": false,
+          "ConstructionZone": false
         },
         "hidden": [
           "/allergies",
@@ -64,7 +67,6 @@
           "/medication-statements",
           "/observations",
           "/organizations",
-          "/patients",
           "/practitioners",
           "/persons",
           "/procedures",
