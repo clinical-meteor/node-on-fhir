@@ -18,7 +18,7 @@ import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 
 import { PatientTable } from 'material-fhir-ui';
-import { Patients } from 'meteor/clinical:hl7-resource-patient';
+import { Patients } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import StyledCard from './StyledCard';
 
