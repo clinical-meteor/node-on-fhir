@@ -13,6 +13,8 @@ import { get } from 'lodash';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+
+
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 // not being used?
@@ -35,15 +37,12 @@ const styles = theme => ({
   }
 });
 
-
-
 function Header(props) {
   if(props.logger){
     props.logger.info('Rendering the application Header.');
     props.logger.verbose('package.care-cards.client.layout.Header');  
+    props.logger.data('Header.props', {data: props}, {source: "HeaderContainer.jsx"});
   }
-
-  console.log("Header.props", props)
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
@@ -61,6 +60,11 @@ function Header(props) {
     props.history.replace('/')
   }
 
+  function goHome(){
+    props.history.replace('/');
+  };
+  
+
   let styles = {
     headerContainer: {  
       height: '64px',
@@ -76,6 +80,12 @@ function Header(props) {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
       })
+    },
+    title: {
+      flexGrow: 1,
+      background: props.theme.palette.appBar.main,
+      backgroundColor: props.theme.palette.appBar.main,
+      color: props.theme.palette.appBar.contrastText
     }
   }
 
@@ -88,25 +98,25 @@ function Header(props) {
     styles.headerContainer.height = '128px';
   }
 
-
-
   return (
     <AppBar id="header" position="fixed" style={styles.headerContainer}>
       <Toolbar disableGutters={!drawerIsOpen} >
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            onClick={ clickOnMenuButton }
-          >
-            <MenuIcon />
-          </IconButton>
-        <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} className={  props.classes.title }>
+        <IconButton
+          color="inherit"
+          aria-label="Open drawer"
+          onClick={ clickOnMenuButton }
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} style={  styles.title }>
           { get(Meteor, 'settings.public.title', 'Node on FHIR') }
         </Typography>
       </Toolbar>
     </AppBar>
   );
 }
+
+
 
 Header.propTypes = {
   logger: PropTypes.object,
