@@ -27,18 +27,23 @@ import Divider from '@material-ui/core/Divider';
 // import { GiLifeBar } from 'react-icons/gi';
 // import { IoIosBdarcode } from 'react-icons/io';
 
-import { IoMdLogOut } from 'react-icons/io';
-import { IoIosDocument} from 'react-icons/io';
-import { IoIosConstruct} from 'react-icons/io';
-import { FaHome} from 'react-icons/fa';
+// import { IoIosConstruct} from 'react-icons/io';
+// import { FaHome} from 'react-icons/fa';
+// import { FaUserInjured } from 'react-icons/fa';
+// import { GoFlame } from 'react-icons/go';
 
-import { FaUserInjured } from 'react-icons/fa';
+import { Icon } from 'react-icons-kit'
+import {logOut} from 'react-icons-kit/ionicons/logOut'
+import {documentIcon} from 'react-icons-kit/ionicons/documentIcon'
+import {user} from 'react-icons-kit/fa/user'
+import {userMd} from 'react-icons-kit/fa/userMd'
+import {modx} from 'react-icons-kit/fa/modx'
+import {home} from 'react-icons-kit/fa/home'
+import {fire} from 'react-icons-kit/icomoon/fire'
 
 
-import { GoFlame } from 'react-icons/go';
 
-
-const drawerWidth = 240;
+const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 const styles = theme => ({
   header: {
@@ -145,7 +150,7 @@ export function PatientSidebar(props){
       constructionZone.push(
         <ListItem id='constructionZoneItem' key='constructionZoneItem' button onClick={function(){ openPage('/construction-zone'); }} >
           <ListItemIcon >
-            <IoIosConstruct className={props.classes.drawerIcons} />
+            <Icon icon={modx} className={props.classes.drawerIcons} />
           </ListItemIcon>
           <ListItemText primary='Construction Zone' className={props.classes.drawerText}  />
         </ListItem>
@@ -165,7 +170,7 @@ export function PatientSidebar(props){
       fhirResources.push(
         <ListItem id='fhirResourcesItem' key='fhirResourcesItem' button onClick={function(){ openPage('/fhir-resources-index'); }} >
           <ListItemIcon >
-            <GoFlame className={props.classes.drawerIcons} />
+            <Icon icon={fire} className={props.classes.drawerIcons} />
           </ListItemIcon>
           <ListItemText primary='FHIR Resources' className={props.classes.drawerText}  />
         </ListItem>
@@ -206,7 +211,10 @@ export function PatientSidebar(props){
 
       switch (element.iconName) {
         case "FaUserInjured":
-          element.icon = <FaUserInjured />
+          element.icon = <Icon icon={user} />
+          break;
+        case "FaUserMd":
+          element.icon = <Icon icon={userMd} />
           break;
       
         default:
@@ -219,7 +227,7 @@ export function PatientSidebar(props){
           className: props.classes.drawerIcons 
         });
       } else {
-        clonedIcon = <GoFlame className={props.classes.drawerIcons} />
+        clonedIcon = <Icon icon={fire} className={props.classes.drawerIcons} />
       }
 
       // the excludes array will hide routes
@@ -245,7 +253,7 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.HomePage')){
       homePage.push(<ListItem id='homePageItem' key='homeItem' button onClick={function(){ openPage('/'); }} >
         <ListItemIcon >
-          <FaHome className={props.classes.drawerIcons} />
+          <Icon icon={home} className={props.classes.drawerIcons} />
         </ListItemIcon>
         <ListItemText primary="Home Page" className={props.classes.drawerText}  />
       </ListItem>);    
@@ -261,7 +269,7 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Theming')){
       themingElements.push(<ListItem id='themingItem' key='themingItem' button onClick={function(){ openPage('/theming'); }} >
         <ListItemIcon >
-          <IoIosDocument className={props.classes.drawerIcons} />
+          <Icon icon={documentIcon} className={props.classes.drawerIcons} />
         </ListItemIcon>
         <ListItemText primary="Theming" className={props.classes.drawerText}  />
       </ListItem>);    
@@ -273,9 +281,9 @@ export function PatientSidebar(props){
 
   var aboutElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.About')){
-      aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button  >
+      aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button onClick={function(){ openPage('/about'); }} >
         <ListItemIcon >
-          <IoIosDocument className={props.classes.drawerIcons} onClick={function(){ openPage('/about'); }} />
+          <Icon icon={documentIcon} className={props.classes.drawerIcons} />
         </ListItemIcon>
         <ListItemText primary="About" className={props.classes.drawerText}  />
       </ListItem>);    
@@ -289,7 +297,7 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Privacy')){
       privacyElements.push(<ListItem id='privacyItem' key='privacyItem' button onClick={function(){ openPage('/privacy'); }} >
         <ListItemIcon >
-          <IoIosDocument className={props.classes.drawerIcons} />
+          <Icon icon={documentIcon} className={props.classes.drawerIcons} />
         </ListItemIcon>
         <ListItemText primary="Privacy" className={props.classes.drawerText}  />
       </ListItem>);    
@@ -303,7 +311,7 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.TermsAndConditions')){
     termsAndConditionElements.push(<ListItem id='termsItem' key='termsItem' button onClick={function(){ openPage('/terms-and-conditions'); }} >
       <ListItemIcon >
-        <IoIosDocument className={props.classes.drawerIcons} />
+        <Icon icon={documentIcon} className={props.classes.drawerIcons} />
       </ListItemIcon>
       <ListItemText primary="Terms and Conditions" className={props.classes.drawerText}  />
     </ListItem>);    
@@ -317,7 +325,7 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Logout')){
     logoutElements.push(<ListItem id='logoutMenuItem' key='logoutMenuItem' button onClick={function(){ openPage('/signin'); }} >
       <ListItemIcon >
-        <IoMdLogOut className={props.classes.drawerIcons} />
+        <Icon icon={logOut} className={props.classes.drawerIcons} />
       </ListItemIcon>
       <ListItemText primary="Logout" className={props.classes.drawerText} onClick={function(){ handleLogout(); }} />
     </ListItem>);    
