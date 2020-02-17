@@ -15,7 +15,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 
-
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 // not being used?
@@ -37,8 +36,6 @@ const styles = theme => ({
     flexGrow: 1
   }
 });
-
-
 
 function Header(props) {
   if(props.logger){
@@ -62,6 +59,11 @@ function Header(props) {
   function showAlert(){
     props.history.replace('/')
   }
+
+  function goHome(){
+    props.history.replace('/');
+  };
+  
 
   let styles = {
     headerContainer: {  
@@ -96,18 +98,16 @@ function Header(props) {
     styles.headerContainer.height = '128px';
   }
 
-
-
   return (
     <AppBar id="header" position="fixed" style={styles.headerContainer}>
       <Toolbar disableGutters={!drawerIsOpen} >
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            onClick={ clickOnMenuButton }
-          >
-            <MenuIcon />
-          </IconButton>
+        <IconButton
+          color="inherit"
+          aria-label="Open drawer"
+          onClick={ clickOnMenuButton }
+        >
+          <MenuIcon />
+        </IconButton>
         <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} style={  styles.title }>
           { get(Meteor, 'settings.public.title', 'Node on FHIR') }
         </Typography>
@@ -115,6 +115,8 @@ function Header(props) {
     </AppBar>
   );
 }
+
+
 
 Header.propTypes = {
   logger: PropTypes.object,
