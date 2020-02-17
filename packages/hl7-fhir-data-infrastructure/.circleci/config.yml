@@ -1,0 +1,140 @@
+# This configuration was automatically generated from a CircleCI 1.0 config.
+# It should include any build commands you had along with commands that CircleCI
+# inferred from your project structure. We strongly recommend you read all the
+# comments in this file to understand the structure of CircleCI 2.0, as the idiom
+# for configuration has changed substantially in 2.0 to allow arbitrary jobs rather
+# than the prescribed lifecycle of 1.0. In general, we recommend using this generated
+# configuration as a reference rather than using it in production, though in most
+# cases it should duplicate the execution of your original 1.0 config.
+
+version: 2
+jobs:
+  build:
+    working_directory: ~/clinical-meteor/hl7-fhir-data-infrastructure
+    parallelism: 1
+    shell: /bin/bash --login
+
+    # CircleCI 2.0 does not support environment variables that refer to each other the same way as 1.0 did.
+    # If any of these refer to each other, rewrite them so that they don't or see https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables .
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      
+    # In CircleCI 1.0 we used a pre-configured image with a large number of languages and other packages.
+    # In CircleCI 2.0 you can now specify your own image, or use one of our pre-configured images.
+    # The following configuration line tells CircleCI to use the specified docker image as the runtime environment for you job.
+    # We have selected a pre-built image that mirrors the build environment we use on
+    # the 1.0 platform, but we recommend you choose an image more tailored to the needs
+    # of each job. For more information on choosing an image (or alternatively using a
+    # VM instead of a container) see https://circleci.com/docs/2.0/executor-types/
+    # To see the list of pre-built images that CircleCI provides for most common languages see
+    # https://circleci.com/docs/2.0/circleci-images/
+    docker:
+    - image: circleci/node:8.9-browsers
+      # command: /sbin/init
+      name: meteorapp
+      environment:
+        CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+        CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+        TZ: "/usr/share/zoneinfo/America/Los_Angeles"
+        CIRCLE_ENV: test
+        NODE_ENV: test
+        CXX: g++-4.8
+        DISPLAY: :99.0
+        NPM_PREFIX: /home/ubuntu/nvm/v0.10.33
+        MONGO_URL: mongodb://mongo:27017/meteor
+        DEBUG: true
+    - image: mongo:3.4.4
+      name: mongo
+
+    # - image: selenium/standalone-chrome:3.0.1
+    #   name: selenium
+    steps:
+
+    # Dependencies
+    #   This would typically go in either a build or a build-and-test job when using workflows
+    # # Restore the dependency cache
+    # - restore_cache:
+    #     keys:
+    #     # This branch if available
+    #     - v1-dep-{{ .Branch }}-
+    #     # Default branch if not
+    #     - v1-dep-development-
+    #     # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
+    #     - v1-dep-
+        
+    # Machine Setup
+    # If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # The following `checkout` command checks out your code to your working directory. In 1.0 we did this implicitly. In 2.0 you can choose where in the course of a job your code should be checked out.
+    - checkout
+
+    - run: pwd
+    - run: ls -la
+
+    - run: cd ..
+    - run: cd .. && pwd
+    - run: cd .. && ls -la
+
+    
+
+    # Prepare for artifact and test results  collection equivalent to how it was done on 1.0.
+    # In many cases you can simplify this from what is generated here.
+    # 'See docs on artifact collection here https://circleci.com/docs/2.0/artifacts/'
+    - run: cd .. && mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+
+
+    # Install  Meteor
+    # - run: mkdir -p .meteor
+    - run: cd .. && mkdir -p ${HOME}/.meteor
+    
+    # If Meteor is already cached, do not need to build it again.
+    - run: cd .. && if [ ! -e .meteor/meteor ]; then curl https://install.meteor.com?=release=1.8.2 | /bin/sh; else echo "Meteor seems to be cached"; fi;
+
+    # Link the meteor executable into /usr/bin
+    - run: cd .. && sudo ln -s .meteor/meteor /usr/bin/meteor
+
+    - run: cd .. && meteor --version
+
+    # # Install Starrynight unless it is cached
+    # - run: npm install starrynight
+
+    # Create a baseline app
+    - run: cd .. && meteor create --release METEOR@1.8.2 --bare baseline
+    # - run: git clone https://github.com/meteor/todos -b react
+
+    - run: cd ../baseline && meteor --version
+    - run: ls -la
+
+    - run: cd ../baseline && ls -la
+
+    - run: cd ../baseline && meteor npm install
+    - run: cd ../baseline && meteor npm install react simpl-schema
+    - run: cd ../baseline && mkdir packages && cd packages && mkdir hl7-fhir-data-infrastructure
+    - run: cp -R ./* ../baseline/packages/hl7-fhir-data-infrastructure
+    - run: cd ../baseline/packages/hl7-fhir-data-infrastructure&& pwd
+    - run: cd ../baseline/packages && ls -la
+
+    - run: cd ../baseline && npm i --save-dev selenium-webdriver@3.6.0 chromedriver
+    - run: cd ../baseline && meteor add dispatch:mocha practicalmeteor:chai
+    - run: cd ../baseline && meteor add clinical:hl7-fhir-data-infrastructure
+    - run: cd ../baseline && mkdir imports 
+    - run: cp tests/DataInfrastructure.tests.js ../baseline/imports/
+
+
+    #- run the app
+    - run: 
+        name: Starting Meteor
+        command: cd ../baseline && meteor test --once --driver-package dispatch:mocha
+        no_output_timeout: 10m
+        when: on_success    # always, on_success, on_fail 
+
+
+    # Teardown
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # Save test results
+    - store_test_results:
+        path: /tmp/circleci-test-results
+
+    # Save artifacts
+    - store_artifacts: 
+        path: ./webapp/meteor-output.log

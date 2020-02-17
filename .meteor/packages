@@ -29,11 +29,14 @@ fourseven:scss
 # bundle-visualizer
 
 clinical:fonts
+clinical:hl7-fhir-rest
+clinical:hl7-fhir-data-infrastructure
+# clinical:hl7-resource-bundle
+# clinical:hl7-resource-patient
 
 # Testing Packages
 # meteortesting:mocha
 # practicalmeteor:chai
-
 
 # Workflow  
 # symptomatic:example-plugin

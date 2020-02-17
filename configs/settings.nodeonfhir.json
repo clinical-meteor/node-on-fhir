@@ -67,7 +67,6 @@
           "/medication-statements",
           "/observations",
           "/organizations",
-          "/patients",
           "/practitioners",
           "/persons",
           "/procedures",
