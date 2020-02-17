@@ -13,13 +13,15 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { FaGithub } from 'react-icons/fa';
 
-import Highlight from 'react-highlight' 
+
 import { get } from 'lodash';
 
 import { PageCanvas, StyledCard } from 'material-fhir-ui';
 
+
+import { Icon } from 'react-icons-kit'
+import {github} from 'react-icons-kit/fa/github'
 
 
 const useStyles = makeStyles(theme => ({
@@ -43,8 +45,15 @@ function MainPage(props){
     headerHeight = 128;
   }
 
+  let pageStyle = {
+    paddingLeft: '200px', 
+    paddingRight: '200px',
+    position: 'absolute',
+    top: '0px'
+  }
+
   return (
-    <PageCanvas id='MainPage' style={{paddingLeft: '200px', paddingRight: '200px'}} headerHeight={headerHeight}>
+    <PageCanvas id='MainPage' style={pageStyle} headerHeight={headerHeight}>
         <StyledCard height="auto" scrollable margin={20} >
           <div style={{width: '100%', textAlign: 'center'}}>
             <img src='/node-on-fhir-logo.png' style={{width: '600px'}} alt="Node on FHIR Logo" />
@@ -226,7 +235,7 @@ function MainPage(props){
             <br />
             <div style={{width: '100%', textAlign: 'center'}}>
             <Button variant="contained" color="primary" className={classes.button} href="https://github.com/symptomatic/node-on-fhir" >
-              <FaGithub style={{fontSize: '150%'}} /> <CardHeader title="Download the Code" />
+              <Icon icon={github} style={{fontSize: '150%'}} /><CardHeader title="Download the Code" />
             </Button>
 
             </div>

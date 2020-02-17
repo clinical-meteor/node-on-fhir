@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import { Meteor } from 'meteor/meteor';
 
 import { ThemeProvider } from '@material-ui/styles';
-import { blue400, blue600, green600, green800 } from 'material-ui/styles/colors';
+// import { blue400, blue600, green600, green800 } from 'material-ui/styles/colors';
 
 // import { withRouter } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
