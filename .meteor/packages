@@ -41,7 +41,7 @@ clinical:hl7-fhir-data-infrastructure
 # Workflow  
 symptomatic:example-plugin
 
-
+alanning:roles
 
 # meteor-platform packages we do want
 #autoupdate@1.6.0 (expanded above) 

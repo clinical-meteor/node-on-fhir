@@ -1,0 +1,118 @@
+{
+  "public": {
+    "title": "Node on FHIR",
+    "theme": {
+      "showVideoBackground": false,
+      "defaultVideo": "/VideoBackgrounds/GrayWaves.mp4",
+      "backgroundImagePath": "/backgrounds/medical/Gradient.jpg",
+      "palette": {
+        "primaryColor": "rgb(108, 183, 110)",
+        "primaryText": "rgba(255, 255, 255, 1) !important",
+      
+        "secondaryColor": "rgb(108, 183, 110)",
+        "secondaryText": "rgba(255, 255, 255, 1) !important",
+      
+        "cardColor": "#ffffff !important",
+        "cardTextColor": "rgba(0, 0, 0, 1) !important",
+      
+        "errorColor": "rgb(128,20,60) !important",
+        "errorText": "#ffffff !important",
+      
+        "appBarColor": "#669f64 !important",
+        "appBarTextColor": "#ffffff !important",
+      
+        "paperColor": "#ffffff !important",
+        "paperTextColor": "rgba(0, 0, 0, 1) !important",
+      
+        "backgroundCanvas": "#f5f5f5",
+        "background": "linear-gradient(45deg, rgb(108, 183, 110) 30%, rgb(150, 202, 144) 90%)",
+
+        "nivoTheme": "red_grey"
+      }
+    },
+    "loggingThreshold": "debug",
+    "defaults": {
+      "route": "/example-route",
+      "displayNavbars": true,
+      "disableHeader": false,
+      "disableFooter": false,
+      "paginationLimit": 100,
+      "subscriptionLimit": 1000,
+      "sidebar": {
+        "menuItems": {
+          "HomePage": true,
+          "FhirResources": false,
+          "DynamicModules": true,
+          "Theme": false,
+          "ConstructionZone": false
+        },
+        "hidden": [
+          "/audit-events",
+          "/communications",
+          "/consents",
+          "/contracts",
+          "/endpoints",
+          "/imaging-studies",
+          "/immunizations",
+          "/goals",
+          "/locations",
+          "/devices",
+          "/medications",
+          "/organizations",
+          "/practitioners",
+          "/persons",
+          "/risk-assessments",
+          "/subscriptions",
+          "/vitals-tracking",
+          "/example-route",
+          "/import-data",
+          "/export-data"
+      ]
+      }
+    },
+    "interfaces": {
+      "default": {
+        "status": "inactive",
+        "channel": {
+          "endpoint": "http://hapi.fhir.org/baseR4"
+        },
+        "auth": {
+          "username": "foo",
+          "password": "bar"
+        }
+      }
+    },
+    "meshNetwork": {
+      "upstreamSync": "http://meteor-on-fhir.meteorapp.com/fhir-3.0.0", 
+      "autosync": false
+    },
+    "modules": {
+      "apps": {},
+      "fhir": {
+        "AllergyIntolerances": true,
+        "AuditEvents": true,
+        "BodySites": true,
+        "CarePlans": true,
+        "Conditions": true,
+        "Devices": true,
+        "DiagnosticReports": true,
+        "Goals": true,
+        "ImagingStudies": true,
+        "Immunizations": true,
+        "Locations": true,
+        "Lists": true,
+        "Medications": true,
+        "MedicationOrders": true,
+        "MedicationStatements": true,
+        "Organizations": true,
+        "Observations": true,
+        "Patients": true,
+        "Practitioners": true,
+        "Procedures": true,
+        "Questionnaires": true,
+        "RiskAssessments": true
+      }
+    }
+  },
+  "private": {}
+}

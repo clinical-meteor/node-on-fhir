@@ -16,11 +16,9 @@ import { Session } from 'meteor/session';
 import { Helmet } from "react-helmet";
 import { get, has } from 'lodash';
 
-// import { Box, Container, Grid } from '@material-ui/core';
 
 import { useTracker, withTracker } from './Tracker';
 
-// import Info from './Info.jsx';
 import MainPage from './MainPage.jsx';
 import NotFound from './NotFound.jsx';
 
@@ -89,9 +87,31 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       top: 0,
       width: '100%',
       height: '100%',
+      // marginLeft: 0 + 'px',
       paddingTop: '0px',
       paddingBottom: '0px',
       backgroundColor: theme.palette.background.default,
+      transition: theme.transitions.create('left', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      display: 'block'
+    },
+    canvasOpen: {
+      flexGrow: 1,
+      position: "absolute",
+      left: drawerWidth,
+      top: 0,
+      width: '100%',
+      height: '100%',
+      // marginLeft: drawerWidth + 'px',
+      paddingTop: '0px',
+      paddingBottom: '0px',
+      backgroundColor: theme.palette.background.default,
+      transition: theme.transitions.create('left', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
       display: 'block'
     },
     drawer: {
@@ -404,7 +424,7 @@ export function App(props) {
         variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: drawerIsOpen,
-          [classes.drawerClose]: !drawerIsOpen,
+          [classes.drawerClose]: !drawerIsOpen
         })}
         classes={{
           paper: clsx({
@@ -459,6 +479,8 @@ export function App(props) {
         <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              
       </Switch>
     </ThemeProvider>
+
+
   }
 
 
@@ -474,7 +496,10 @@ export function App(props) {
         <div id="appDrawerContainer" style={drawerStyle}>
           { drawer }
         </div>
-        <main id='mainAppRouter' className={ classes.canvas}>
+        <main id='mainAppRouter' className={clsx({
+            [classes.canvasOpen]: drawerIsOpen,
+            [classes.canvas]: !drawerIsOpen
+          })}>
           { routingSwitchLogic }
         </main>
       </div>
