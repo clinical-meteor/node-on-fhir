@@ -3,9 +3,6 @@ import React from 'react';
 import CreateAPluginPage from './client/CreateAPluginPage.jsx';
 import FhirQueryPage from './client/FhirQueryPage.jsx';
 
-// import { GoFlame } from 'react-icons/go';
-// import { FaPuzzlePiece } from 'react-icons/fa';
-
 import { Icon } from 'react-icons-kit'
 import {fire} from 'react-icons-kit/icomoon/fire'
 import {puzzlePiece} from 'react-icons-kit/fa/puzzlePiece'

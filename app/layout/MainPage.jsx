@@ -2,7 +2,6 @@ import React from 'react';
 
 import { 
   Button,
-  Container,
   CardHeader,
   CardContent,
   Table,
@@ -13,15 +12,12 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-
-
 import { get } from 'lodash';
-
 import { PageCanvas, StyledCard } from 'material-fhir-ui';
 
+import { Icon } from 'react-icons-kit';
+import { github } from 'react-icons-kit/fa/github';
 
-import { Icon } from 'react-icons-kit'
-import {github} from 'react-icons-kit/fa/github'
 
 
 const useStyles = makeStyles(theme => ({
