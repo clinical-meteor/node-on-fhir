@@ -15,7 +15,7 @@ Package.onUse(function(api) {
     api.use('session');
     api.use('mongo');  
 
-    api.use('clinical:hl7-fhir-data-infrastructure@6.0.4');
+    api.use('clinical:hl7-fhir-data-infrastructure');
 
     // api.addFiles('assets/NodeOnFhir-ComponentRendering.png', 'client', {isAsset: true});
     // api.addFiles('assets/NodeOnFhir-RecommendedCodingArea.png', 'client', {isAsset: true});
