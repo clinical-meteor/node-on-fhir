@@ -244,6 +244,11 @@ Object.keys(Package).forEach(function(packageName){
     console.log('Found a custom HeaderNavigation object in one of the packages.')
     headerNavigation = Package[packageName].HeaderNavigation;
   }
+
+  if(Package[packageName].MainPage){
+    console.log('Found a custom MainPage object in one of the packages.')
+    MainPage = Package[packageName].MainPage;
+  }
 });
 
 console.log('dynamicRoutes', dynamicRoutes)
