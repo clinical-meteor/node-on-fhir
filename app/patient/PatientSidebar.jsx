@@ -201,7 +201,16 @@ export function PatientSidebar(props){
         case "FaUserMd":
           element.icon = <Icon icon={userMd} />
           break;
-      
+        case "GoKebabHorizontal":
+          element.icon = <Icon icon={fire} />
+          break;
+        case "GoFlame":
+          element.icon = <Icon icon={fire} />
+          break;
+        case "MdLineWeight":
+          element.icon = <Icon icon={fire} />
+          break;
+            
         default:
           break;
       }
