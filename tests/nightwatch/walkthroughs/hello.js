@@ -12,7 +12,7 @@ module.exports = {
   },
   'Body exists': function (client) {
     client
-      .verify.elementPresent('body')
+      .verify.waitForElementPresent('body', 5000)
   },
   'Header exists': function (client) {
     client
