@@ -39,7 +39,7 @@ clinical:hl7-fhir-data-infrastructure
 # practicalmeteor:chai
 
 # Workflow  
-symptomatic:example-plugin
+# symptomatic:example-plugin
 
 alanning:roles
 
@@ -63,3 +63,5 @@ alanning:roles
 
 
    
+omega:meteor-desktop-watcher@=2.2.5
+omega:meteor-desktop-bundler@=2.2.5
