@@ -85,6 +85,8 @@
     "babel-eslint": ">= 7",
     "chromedriver": "79.0.0",
     "conventional-changelog-cli": "^2.0.11",
+    "electron": "6.1.7",
+    "electron-builder": "21.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^11.1.0",
     "eslint-import-resolver-meteor": "^0.3.3",
@@ -94,8 +96,8 @@
     "eslint-plugin-react": "^6.2.2",
     "lighthouse": "5.6.0",
     "meteor-desktop": "2.2.5",
-    "selenium-webdriver": "3.6.0",
     "nightwatch": "1.2.4",
+    "selenium-webdriver": "3.6.0",
     "shelljs": "^0.7.4"
   },
   "ignore": {
