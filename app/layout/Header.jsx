@@ -119,9 +119,9 @@ function Header(props) {
   }
 
   function getSearchDateRange(){
-    let fhirKitClient_startDate = Session.get('fhirKitClient_startDate');
-    let fhirKitClient_endDate = Session.get('fhirKitClient_endDate');
-    return moment(fhirKitClient_startDate).format("MMM DD, YYYY") + " until " + moment(fhirKitClient_endDate).format("MMM DD, YYYY")
+    let fhirKitClientStartDate = Session.get('fhirKitClientStartDate');
+    let fhirKitClientEndDate = Session.get('fhirKitClientEndDate');
+    return moment(fhirKitClientStartDate).format("MMM DD, YYYY") + " until " + moment(fhirKitClientEndDate).format("MMM DD, YYYY")
   }
 
 
@@ -139,7 +139,7 @@ function Header(props) {
       </div>   
     } else {
       // otherwise, we default to population/search level info to display
-      if(Session.get('fhirKitClient_startDate') && Session.get('fhirKitClient_endDate')){
+      if(Session.get('fhirKitClientStartDate') && Session.get('fhirKitClientEndDate')){
         dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
           <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Timespan: </Typography>
           <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
