@@ -43,6 +43,7 @@ clinical:hl7-fhir-data-infrastructure
 
 alanning:roles
 
+# METEOR BASE 
 # meteor-platform packages we do want
 #autoupdate@1.6.0 (expanded above) 
 #check@1.3.1 (expanded above)      
@@ -62,6 +63,6 @@ alanning:roles
 #webapp@1.7.5 (expanded above)  
 
 
-   
-omega:meteor-desktop-watcher@=2.2.5
-omega:meteor-desktop-bundler@=2.2.5
+# DESKTOP BUILD 
+# omega:meteor-desktop-watcher@=2.2.5
+# omega:meteor-desktop-bundler@=2.2.5
