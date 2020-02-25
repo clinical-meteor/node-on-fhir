@@ -8,11 +8,11 @@ module.exports = {
   tags: ['circle', 'hello'],
   before: function(client){
     client
-      .url("http://localhost:3000/").pause(15000);
+      .url("http://localhost:3000/").pause(10000);
   },
   'Body exists': function (client) {
     client
-      .waitForElementPresent('body', 5000)
+      .waitForElementPresent('body', 10000)
   },
   'Header exists': function (client) {
     client
