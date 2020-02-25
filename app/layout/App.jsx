@@ -248,7 +248,7 @@ Object.keys(Package).forEach(function(packageName){
   if(Package[packageName].MainPage){
     console.log('Found a custom MainPage object in one of the packages.')
     MainPage = Package[packageName].MainPage;
-  }
+  }  
 });
 
 console.log('dynamicRoutes', dynamicRoutes)
@@ -495,7 +495,7 @@ export function App(props) {
 
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <CssBaseline />
-        <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} { ...otherProps } />
+        <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
         <Footer drawerIsOpen={drawerIsOpen} { ...otherProps } />
 
         <div id="appDrawerContainer" style={drawerStyle}>
