@@ -1,6 +1,7 @@
 {
   "public": {
     "title": "Node on FHIR",
+    "fhirVersion": "R4",
     "theme": {
       "showVideoBackground": false,
       "defaultVideo": "/VideoBackgrounds/GrayWaves.mp4",
@@ -33,6 +34,8 @@
     "loggingThreshold": "debug",
     "defaults": {
       "route": "/example-route",
+      "landingPage": "/example-route",
+      "dateFormat": "YYYY-MM-DD",
       "displayNavbars": true,
       "disableHeader": false,
       "disableFooter": false,
