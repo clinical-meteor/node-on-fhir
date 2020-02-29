@@ -31,7 +31,7 @@
         "nivoTheme": "red_grey"
       }
     },
-    "loggingThreshold": "debug",
+    "loggingThreshold": "verbose",
     "defaults": {
       "route": "/example-route",
       "landingPage": "/example-route",
