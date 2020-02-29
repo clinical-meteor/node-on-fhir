@@ -17,7 +17,7 @@ module.exports = {
   'Header exists': function (client) {
     client
       // .verify.elementPresent('#header')
-      .waitForElementPresent('#header', 5000)
+      .waitForElementPresent('#header', 10000)
   },
   'Footer exists': function (client) {
     client
