@@ -38,7 +38,7 @@ clinical:fonts
 # practicalmeteor:chai
 
 # Workflow  
-# symptomatic:example-plugin
+symptomatic:example-plugin
 
 alanning:roles
 
