@@ -29,7 +29,7 @@ fourseven:scss
 # bundle-visualizer
 
 clinical:fonts
-# clinical:hl7-fhir-data-infrastructure
+clinical:hl7-fhir-data-infrastructure
 # clinical:hl7-fhir-rest
 
 
@@ -38,7 +38,7 @@ clinical:fonts
 # practicalmeteor:chai
 
 # Workflow  
-symptomatic:example-plugin
+# symptomatic:example-plugin
 
 alanning:roles
 
