@@ -1,7 +1,6 @@
 {
   "public": {
     "title": "Node on FHIR",
-    "fhirVersion": "R4",
     "theme": {
       "showVideoBackground": false,
       "defaultVideo": "/VideoBackgrounds/GrayWaves.mp4",
@@ -31,11 +30,9 @@
         "nivoTheme": "red_grey"
       }
     },
-    "loggingThreshold": "verbose",
+    "loggingThreshold": "debug",
     "defaults": {
       "route": "/example-route",
-      "landingPage": "/example-route",
-      "dateFormat": "YYYY-MM-DD",
       "displayNavbars": true,
       "disableHeader": false,
       "disableFooter": false,
@@ -50,40 +47,26 @@
           "ConstructionZone": false
         },
         "hidden": [
-          "/allergies",
           "/audit-events",
-          "/bundles",
-          "/conditions",
-          "/care-plans",
-          "/careplans",
-          "/careplan",
           "/communications",
           "/consents",
           "/contracts",
-          "/diagnostic-reports",
-          "/devices",
-          "/encounters",
-          "/example-route",
-          "/export-data",
           "/endpoints",
           "/imaging-studies",
           "/immunizations",
-          "/import-data",
           "/goals",
           "/locations",
-          "/measures",
-          "/measure-reports",
+          "/devices",
           "/medications",
-          "/medication-orders",
-          "/medication-statements",
-          "/observations",
           "/organizations",
           "/practitioners",
           "/persons",
-          "/procedures",
           "/risk-assessments",
           "/subscriptions",
-          "/vitals-tracking"
+          "/vitals-tracking",
+          "/example-route",
+          "/import-data",
+          "/export-data"
       ]
       }
     },

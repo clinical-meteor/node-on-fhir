@@ -194,7 +194,7 @@ jobs:
         no_output_timeout: 10m
         when: on_success    # always, on_success, on_fail 
         command: | 
-            sleep 180 
+            sleep 360
             meteor npm run-script circle-nightwatch -- --tag circle 
 
 
@@ -219,12 +219,10 @@ jobs:
     - store_artifacts:
         path: ./tests/nightwatch/screenshots
     - store_artifacts:
-        path: ./tests/nightwatch/screenshots
-    - store_artifacts:
         path: ./webapp/tests/nightwatch/screenshots
     - store_artifacts:
         path: ./webapp/tests/nightwatch/logs
     - store_artifacts: 
-        path: ./webapp/meteor-output.log
+        path: ./meteor-output.log
 
 

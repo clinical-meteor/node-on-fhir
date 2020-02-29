@@ -1,7 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 
 import { 
-  Container, 
   Card, 
   CardMedia, 
   CardContent, 
@@ -17,10 +16,8 @@ import { get, has } from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 
-import { PatientTable } from 'material-fhir-ui';
+import { StyledCard, PageCanvas, PatientTable } from 'material-fhir-ui';
 import { Patients } from 'meteor/clinical:hl7-fhir-data-infrastructure';
-
-import StyledCard from './StyledCard';
 
 import Client from 'fhir-kit-client';
 
@@ -107,7 +104,7 @@ function FhirQueryPage(props){
   
   return (
     <div id='indexPage'>
-      <Container style={containerStyle}>
+      <PageCanvas style={containerStyle}>
         <StyledCard >
           <CardHeader 
             title="Fetch Some Health Related Data" 
@@ -147,7 +144,7 @@ function FhirQueryPage(props){
         <br />
         <br />
         <br />
-      </Container>
+      </PageCanvas>
     </div>
   );
 }
