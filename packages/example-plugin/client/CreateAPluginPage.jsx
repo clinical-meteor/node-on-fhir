@@ -2,7 +2,8 @@ import React from 'react';
 import { Container, Card, CardMedia, CardContent, CardHeader } from '@material-ui/core';
 import { get, has } from 'lodash';
 
-import StyledCard from './StyledCard';
+import { StyledCard, PageCanvas, PatientTable } from 'material-fhir-ui';
+// import { Patients } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 function HelloWorldPage(props){
 

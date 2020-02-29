@@ -8,20 +8,23 @@ module.exports = {
   tags: ['circle', 'hello'],
   before: function(client){
     client
-      .url("http://localhost:3000/").pause(15000);
+      .url("http://localhost:3000/").pause(10000);
   },
   'Body exists': function (client) {
     client
-      .verify.elementPresent('body')
+    .verify.elementPresent('body')
   },
   'Header exists': function (client) {
     client
-      .verify.elementPresent('#header')
+      // .verify.elementPresent('#header')
+      .waitForElementPresent('#header', 10000)
   },
   'Footer exists': function (client) {
     client
-      .verify.elementPresent('#footerNavContainer')
-      .verify.elementPresent('#footerNavigation')
+      // .verify.elementPresent('#footerNavContainer')
+      // .verify.elementPresent('#footerNavigation')
+      .waitForElementPresent('#footerNavContainer', 5000)
+      .waitForElementPresent('#footerNavigation', 5000)
   },
   'Sidebar Drawer exists': function (client) {
     client

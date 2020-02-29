@@ -11,7 +11,6 @@ Package.onUse(function(api) {
     
     api.use('meteor-base@1.4.0');
     api.use('ecmascript@0.13.0');
-
     api.use('react-meteor-data@0.2.15');
     api.use('session');
     api.use('mongo');  
@@ -36,8 +35,6 @@ Package.onUse(function(api) {
 
 
 Npm.depends({
-  "moment": "2.22.2",
-  "lodash": "4.17.13",
-  "material-fhir-ui": "0.9.26",
-  "react-icons-kit": "1.3.1"
+    "moment": "2.20.1",
+    "lodash": "4.17.15"
 });

@@ -17,21 +17,6 @@ import ListItemLink from '@material-ui/core/ListItemText';
 
 import Divider from '@material-ui/core/Divider';
 
-// import { GoGraph } from 'react-icons/go';
-// import { GiPieChart } from 'react-icons/gi';
-// import { IoIosGitNetwork } from 'react-icons/io';
-// import { FiSun} from 'react-icons/fi';
-// import { GiCrossedAirFlows} from 'react-icons/gi';
-// import { IoMdGrid} from 'react-icons/io';
-// import { FiBarChart2} from 'react-icons/fi';
-// import { GiLifeBar } from 'react-icons/gi';
-// import { IoIosBdarcode } from 'react-icons/io';
-
-// import { IoIosConstruct} from 'react-icons/io';
-// import { FaHome} from 'react-icons/fa';
-// import { FaUserInjured } from 'react-icons/fa';
-// import { GoFlame } from 'react-icons/go';
-
 import { Icon } from 'react-icons-kit'
 import {logOut} from 'react-icons-kit/ionicons/logOut'
 import {documentIcon} from 'react-icons-kit/ionicons/documentIcon'
@@ -216,7 +201,16 @@ export function PatientSidebar(props){
         case "FaUserMd":
           element.icon = <Icon icon={userMd} />
           break;
-      
+        case "GoKebabHorizontal":
+          element.icon = <Icon icon={fire} />
+          break;
+        case "GoFlame":
+          element.icon = <Icon icon={fire} />
+          break;
+        case "MdLineWeight":
+          element.icon = <Icon icon={fire} />
+          break;
+            
         default:
           break;
       }
