@@ -194,7 +194,7 @@ jobs:
         no_output_timeout: 10m
         when: on_success    # always, on_success, on_fail 
         command: | 
-            sleep 300
+            sleep 360
             meteor npm run-script circle-nightwatch -- --tag circle 
 
 
