@@ -29,7 +29,7 @@ fourseven:scss
 # bundle-visualizer
 
 clinical:fonts
-# clinical:hl7-fhir-data-infrastructure@6.1.11
+clinical:hl7-fhir-data-infrastructure@6.1.11
 # clinical:hl7-fhir-rest
 
 
