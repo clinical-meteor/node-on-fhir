@@ -13,7 +13,7 @@ caching-html-compiler@1.1.3
 callback-hook@1.2.0
 check@1.3.1
 clinical:fonts@1.2.0
-clinical:hl7-fhir-data-infrastructure@6.1.24
+clinical:hl7-fhir-data-infrastructure@6.1.25
 ddp@1.4.0
 ddp-client@2.3.3
 ddp-common@1.4.0
