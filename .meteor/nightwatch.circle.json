@@ -45,7 +45,8 @@
         "loggingPrefs": {
           "driver": "INFO", 
           "server": "OFF", 
-          "browser": "INFO"},
+          "browser": "INFO"
+        },
         "chromeOptions" : {
           "prefs" : {
             "credentials_enable_service" : false,

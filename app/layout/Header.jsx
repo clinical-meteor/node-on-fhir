@@ -16,13 +16,13 @@ import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 
 
-
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 // not being used?
 const styles = theme => ({});
 
 function Header(props) {
+  
   if(props.logger){
     props.logger.info('Rendering the application Header.');
     props.logger.verbose('package.care-cards.client.layout.Header');  
@@ -32,7 +32,7 @@ function Header(props) {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
   function clickOnMenuButton(){
-    console.log('clickOnMenuButton')
+    console.log('clickOnMenuButton');
 
     props.handleDrawerOpen.call(this);
   };
@@ -96,16 +96,19 @@ function Header(props) {
     componentStyles.headerContainer.height = '128px';
 
     if(typeof props.headerNavigation === "function"){
-      extendedHeaderItems = props.headerNavigation();
+      extendedHeaderItems = props.headerNavigation(props);
     }
   }
 
   function parseTitle(){
     let titleText = get(Meteor, 'settings.public.title', 'Node on FHIR');
+    let selectedPatient;
 
     if(Meteor.isClient){
       if(Session.get("selectedPatient")){
-        titleText = get(selectedPatient, 'name[0].given[0]') + ' ' + get(selectedPatient, 'name[0].family[0]');    
+        selectedPatient = Session.get("selectedPatient");
+
+        titleText = get(selectedPatient, 'name[0].given[0]') + ' ' + get(selectedPatient, 'name[0].family[0]');            
         logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
       }  
     }
