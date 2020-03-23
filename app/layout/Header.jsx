@@ -13,7 +13,6 @@ import { Session } from 'meteor/session';
 import { get } from 'lodash';
 import moment from 'moment';
 
-import { makeStyles } from '@material-ui/core/styles';
 
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
@@ -36,14 +35,6 @@ function Header(props) {
 
     props.handleDrawerOpen.call(this);
   };
-
-  function handleDrawerClose(){
-    setDrawerIsOpen(false);
-  };
-
-  function showAlert(){
-    props.history.replace('/')
-  }
 
   function goHome(){
     props.history.replace('/');
