@@ -13,7 +13,7 @@
   ],
   "output_folder": "./tests/nightwatch/reports",
   "page_objects_path": "./tests/nightwatch/pages",
-  "globals_path": "./tests/nightwatch/globals.js",
+  "globals_path": "../tests/nightwatch/globals.js",
   "webdriver" : {
     "start_process": true,
     "server_path": "node_modules/.bin/chromedriver",
