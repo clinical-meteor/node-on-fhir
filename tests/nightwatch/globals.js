@@ -2,7 +2,7 @@ module.exports = {
   "before": function (done) {
     // var chai = require('chai-nightwatch');
     // chai.use(require('dirty-chai'));
-    // done();
+    done();
   },
   "default" : {
     "url" : "http://localhost:3000",
