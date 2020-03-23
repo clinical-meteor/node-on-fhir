@@ -1,8 +1,8 @@
 module.exports = {
   "before": function (done) {
-    var chai = require('chai-nightwatch');
-    chai.use(require('dirty-chai'));
-    done();
+    // var chai = require('chai-nightwatch');
+    // chai.use(require('dirty-chai'));
+    // done();
   },
   "default" : {
     "url" : "http://localhost:3000",
