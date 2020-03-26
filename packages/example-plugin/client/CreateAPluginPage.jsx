@@ -2,12 +2,22 @@ import React from 'react';
 import { Container, Card, CardMedia, CardContent, CardHeader } from '@material-ui/core';
 import { get, has } from 'lodash';
 
-import StyledCard from './StyledCard';
+import { StyledCard, PageCanvas, PatientTable } from 'material-fhir-ui';
+// import { Patients } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 function HelloWorldPage(props){
+
+  let containerStyle = {
+    paddingLeft: '100px', 
+    paddingRight: '100px'
+  };
+  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
+    containerStyle.paddingTop = "64px";
+  }
+
   return (
     <div id='indexPage'>
-      <Container>
+      <Container style={containerStyle}>
         <StyledCard height='auto'>
           <CardHeader 
             title="Create a Plugin" 

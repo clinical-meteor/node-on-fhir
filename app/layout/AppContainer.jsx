@@ -7,7 +7,9 @@ import { get } from 'lodash';
 import { Meteor } from 'meteor/meteor';
 
 import { ThemeProvider } from '@material-ui/styles';
+// import { blue400, blue600, green600, green800 } from 'material-ui/styles/colors';
 
+// import { withRouter } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import App from './App.jsx';
@@ -16,13 +18,28 @@ import AppLoadingPage from '../core/AppLoadingPage.jsx';
 import { createLogger, addColors, format, transports } from 'winston';
 import 'setimmediate';
 
-// import theme from '../theme';
-
-// import minimongo from 'minimongo';
+import { PatientTable } from 'material-fhir-ui';
 
 
+// Global App-Wide Session Variables
+
+if(Meteor.isClient){
+  Session.setDefault('lastUpdated', new Date());
+
+  Session.setDefault('appHeight', window.innerHeight);
+  Session.setDefault('appWidth', window.innerWidth);  
+}
+
+
+
+// Startup
 Meteor.startup(function(){
-
+  
+  if(Meteor.isClient){
+    Session.set('appHeight', window.innerHeight);
+    Session.set('appWidth', window.innerWidth);  
+  }
+  
   // var LocalDb = minimongo.MemoryDb;
  
   // // Create local db (in memory database with no backing)
@@ -122,7 +139,8 @@ Meteor.startup(function(){
 
 
   // introspection for the win
-  console.info('Winston Logging Service');
+  logger.info('Starting the Winston Logging Service');
+  logger.data('Winston Logging Service', {data: logger}, {source: "AppContainer.jsx"});
 
   // attaching to the global scope is not recommending
   // logging is one debatable exception to the general rule, however
@@ -234,10 +252,11 @@ Meteor.startup(function(){
       </BrowserRouter>
     }
     if(Meteor.isServer){
-      renderedApp = <MuiThemeProvider theme={muiTheme}>
-        {/* <App logger={logger} /> */}
-        <AppLoadingPage logger={logger} />
-      </MuiThemeProvider>
+      renderedApp = <ThemeProvider theme={theme} >
+        <MuiThemeProvider theme={muiTheme}>
+          <AppLoadingPage logger={logger} />
+        </MuiThemeProvider>
+      </ThemeProvider>      
     }
 
     return renderedApp;  

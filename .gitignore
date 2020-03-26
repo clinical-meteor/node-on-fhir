@@ -3,6 +3,7 @@ node_modules
 
 version.desktop
 
+.desktop
 .desktop-installer
 .desktop-installer/*
 
