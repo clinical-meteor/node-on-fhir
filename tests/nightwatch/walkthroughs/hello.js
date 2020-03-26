@@ -8,11 +8,41 @@ module.exports = {
   tags: ['circle', 'hello'],
   before: function(client){
     client
-      .url("http://localhost:3000/").pause(3000);
+      .url("http://localhost:3000/").pause(12000);
   },
   'Body exists': function (client) {
     client
-      .verify.elementPresent('body')
+    .verify.elementPresent('body')
+  },
+  'Header exists': function (client) {
+    client
+      // .verify.elementPresent('#header')
+      .waitForElementPresent('#header', 10000)
+  },
+  'Footer exists': function (client) {
+    client
+      // .verify.elementPresent('#footerNavContainer')
+      // .verify.elementPresent('#footerNavigation')
+      .waitForElementPresent('#footerNavContainer', 5000)
+      .waitForElementPresent('#footerNavigation', 5000)
+  },
+  'Sidebar Drawer exists': function (client) {
+    client
+      .verify.elementPresent('#appDrawerContainer')
+  },
+  'Can toggle sidebar open and close': function (client) {
+    client
+      .verify.elementPresent('#appDrawerContainer')
+  },
+  // 'Canvas exists': function (client) {
+  //   client
+  //     .waitForElementPresent('#appCanvas', 5000)
+  // },
+  'Card Interfaces exists': function (client) {
+    client
+      .verify.elementPresent('#mainAppRouter')
+      .verify.elementPresent('#primaryFlexPanel')
       .end();
   }
+
 };

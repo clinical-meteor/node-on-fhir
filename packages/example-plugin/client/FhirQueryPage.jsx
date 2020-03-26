@@ -1,7 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 
 import { 
-  Container, 
   Card, 
   CardMedia, 
   CardContent, 
@@ -17,10 +16,8 @@ import { get, has } from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 
-import { PatientTable } from 'material-fhir-ui';
-import { Patients } from 'meteor/clinical:hl7-resource-patient';
-
-import StyledCard from './StyledCard';
+import { StyledCard, PageCanvas, PatientTable } from 'material-fhir-ui';
+import { Patients } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import Client from 'fhir-kit-client';
 
@@ -45,6 +42,8 @@ const useStyles = makeStyles(theme => ({
 
 function FhirQueryPage(props){
   const classes = useStyles();
+
+  const rowsPerPage = get(Meteor, 'settings.public.defaults.rowsPerPage', 25);
 
   let endpointDefinedInSettings = get(Meteor, 'settings.public.interfaces.default.channel.endpoint', '');
 
@@ -97,10 +96,15 @@ function FhirQueryPage(props){
 
       console.log('foo',)
   }
+
+  let containerStyle = {};
+  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
+    containerStyle.paddingTop = "64px";
+  }
   
   return (
     <div id='indexPage'>
-      <Container>
+      <PageCanvas style={containerStyle}>
         <StyledCard >
           <CardHeader 
             title="Fetch Some Health Related Data" 
@@ -129,6 +133,8 @@ function FhirQueryPage(props){
           <CardContent style={{fontSize: '100%'}}>
           <PatientTable
             patients={patients}
+            rowsPerPage={rowsPerPage}
+            count={patients.length}
           />
             {/* { json } */}
           </CardContent>
@@ -138,7 +144,7 @@ function FhirQueryPage(props){
         <br />
         <br />
         <br />
-      </Container>
+      </PageCanvas>
     </div>
   );
 }

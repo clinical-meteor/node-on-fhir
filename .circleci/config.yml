@@ -11,6 +11,7 @@
 # For caching on Circle CI v2, please see the following: 
 # https://github.com/meteor/meteor/issues/10218
 
+# This is a test
 
 version: 2
 jobs:
@@ -132,7 +133,7 @@ jobs:
 
 
     # Lets see if we can get some config info 
-    - run: cat .meteor/nightwatch.json
+    - run: cat .meteor/nightwatch.circle.json
     - run: cat .meteor/packages
     - run: meteor --version
 
@@ -184,7 +185,7 @@ jobs:
     # run the app
     - run: 
         name: Starting Meteor
-        command: meteor run --settings configs/settings.circle.json | tee meteor-output.log
+        command: meteor run --settings configs/settings.nodeonfhir.json | tee meteor-output.log
         background: true
         no_output_timeout: 10m
         when: on_success    # always, on_success, on_fail 
@@ -194,7 +195,7 @@ jobs:
         no_output_timeout: 10m
         when: on_success    # always, on_success, on_fail 
         command: | 
-            sleep 180 
+            sleep 420
             meteor npm run-script circle-nightwatch -- --tag circle 
 
 
@@ -219,12 +220,10 @@ jobs:
     - store_artifacts:
         path: ./tests/nightwatch/screenshots
     - store_artifacts:
-        path: ./tests/nightwatch/screenshots
-    - store_artifacts:
         path: ./webapp/tests/nightwatch/screenshots
     - store_artifacts:
         path: ./webapp/tests/nightwatch/logs
     - store_artifacts: 
-        path: ./webapp/meteor-output.log
+        path: ./meteor-output.log
 
 
