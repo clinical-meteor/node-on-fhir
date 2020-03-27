@@ -58,28 +58,6 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
     primaryFlexPanel: {
       display: 'flex',
     },
-    // header: {
-    //   display: 'flex'
-    // },
-    // appBar: {
-    //   zIndex: theme.zIndex.drawer + 1,
-    //   transition: theme.transitions.create(['width', 'margin'], {
-    //     easing: theme.transitions.easing.sharp,
-    //     duration: theme.transitions.duration.leavingScreen,
-    //   }),
-    //   backgroundColor: theme.palette.appBar.main,
-    //   color: theme.palette.appBar.contrastText
-    // },
-    // appBarShift: {
-    //   marginLeft: drawerWidth,
-    //   width: `calc(100% - ${drawerWidth}px)`,
-    //   transition: theme.transitions.create(['width', 'margin'], {
-    //     easing: theme.transitions.easing.sharp,
-    //     duration: theme.transitions.duration.enteringScreen,
-    //   }),
-    //   backgroundColor: theme.palette.appBar.main,
-    //   color: theme.palette.appBar.contrastText
-    // },
     canvas: {
       flexGrow: 1,
       position: "absolute",
@@ -87,7 +65,6 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       top: 0,
       width: '100%',
       height: '100%',
-      // marginLeft: 0 + 'px',
       paddingTop: '0px',
       paddingBottom: '0px',
       backgroundColor: theme.palette.background.default,
@@ -104,7 +81,6 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       top: 0,
       width: '100%',
       height: '100%',
-      // marginLeft: drawerWidth + 'px',
       paddingTop: '0px',
       paddingBottom: '0px',
       backgroundColor: theme.palette.background.default,
@@ -118,8 +94,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       width: drawerWidth,
       flexShrink: 0,
       whiteSpace: 'nowrap',
-      backgroundColor: theme.palette.paper.main,
-      // zIndex: -1
+      backgroundColor: theme.palette.paper.main
     },
     drawerOpen: {
       width: drawerWidth,
@@ -160,10 +135,6 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       display: 'inline-block',
       minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
       float: 'left'
-      //alignItems: 'center',
-      //justifyContent: 'flex-end',
-      //padding: '0 8px',
-      //...theme.mixins.toolbar
     },
     title: {
       paddingTop: '10px'
@@ -195,15 +166,6 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
     }
   }));
 
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.location !== this.props.location) {
-  //     // navigated!
-  //     // console.log('componentWillReceiveProps', this.props.location, nextProps.location)
-  //     Session.set('pathname', nextProps.location.pathname)
-  //   }
-  // }
-
   // custom hook to listen to the resize event
   function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
@@ -221,8 +183,6 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
     }
     return size;
   }
-
-
 
 
 // Pick up any dynamic routes that are specified in packages, and include them
@@ -251,7 +211,7 @@ Object.keys(Package).forEach(function(packageName){
   }  
 });
 
-console.log('dynamicRoutes', dynamicRoutes)
+console.log('Loading the following dynamic routes: ', dynamicRoutes)
 // console.log('headerNavigation', headerNavigation)
 
 
@@ -480,8 +440,8 @@ export function App(props) {
         { constructionRoute }
         
         <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />                
+        <Route name='notFoundRoute' key='notFoundRoute' path="/*" component={ NotFound } />              
         <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" component={ defaultHomeRoute } />                
-        <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              
       </Switch>
     </ThemeProvider>
 
