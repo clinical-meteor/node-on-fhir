@@ -66,4 +66,4 @@ alanning:roles
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-# symptomatic:covid19-on-fhir
+symptomatic:covid19-on-fhir

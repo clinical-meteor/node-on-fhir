@@ -426,22 +426,22 @@ export function App(props) {
     }
 
     routingSwitchLogic = <ThemeProvider theme={theme} >
-      <Switch location={ props.location } >
-        { dynamicRoutes.map(route => <Route 
-          name={route.name} 
-          key={route.name} 
-          path={route.path} 
-          component={ route.component } 
-          onEnter={ route.requireAuth ? requireAuth : null } 
-          { ...otherProps }
-        />) }
+        <Switch location={ props.location } >
+          { dynamicRoutes.map(route => <Route 
+            name={route.name} 
+            key={route.name} 
+            path={route.path} 
+            component={ route.component } 
+            onEnter={ route.requireAuth ? requireAuth : null } 
+            { ...otherProps }
+          />) }
 
         { themingRoute }
         { constructionRoute }
         
         <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />                
-        <Route name='notFoundRoute' key='notFoundRoute' path="/*" component={ NotFound } />              
-        <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" component={ defaultHomeRoute } />                
+        <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" exact component={ defaultHomeRoute } />                
+        <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              
       </Switch>
     </ThemeProvider>
 
