@@ -56,9 +56,9 @@ function AppLoadingPage(props) {
   let styles = {
     spinningIcon: {
       marginTop: '32px',
-      width: '64px',
-      height: '64px',
-      marginLeft: '-50%'
+      width: '80px',
+      height: '80px',
+      marginLeft: '-55%'
     },
     loadingMessage: {
       position: 'absolute',

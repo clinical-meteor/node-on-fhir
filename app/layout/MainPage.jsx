@@ -19,7 +19,6 @@ import { Icon } from 'react-icons-kit';
 import { github } from 'react-icons-kit/fa/github';
 
 
-
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
