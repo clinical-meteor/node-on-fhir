@@ -16,7 +16,7 @@ function NotFound(props) {
 
   return (
     <div id="notFoundPage" style={{width: '100%', height: '100%', padding: '200px'}}>
-      <h2 className="helveticas" style={{textAlign: "center"}}><strong>Error [404]</strong>: { window.location.pathname } does not exist.</h2>
+      <h1 className="helveticas" style={{textAlign: "center"}}><strong>Error [404]</strong>: { window.location.pathname } does not exist.</h1>
     </div>
   );
 }
