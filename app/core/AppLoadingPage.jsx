@@ -14,7 +14,7 @@ import Header from '../layout/Header.jsx';
 import theme from '../theme.js';
 
 import { Icon } from 'react-icons-kit'
-import {spinner} from 'react-icons-kit/fa/spinner'
+import {spinner8} from 'react-icons-kit/icomoon/spinner8'
 
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
@@ -56,9 +56,9 @@ function AppLoadingPage(props) {
   let styles = {
     spinningIcon: {
       marginTop: '32px',
-      width: '64px',
-      height: '64px',
-      marginLeft: '-50%'
+      width: '80px',
+      height: '80px',
+      marginLeft: '-55%'
     },
     loadingMessage: {
       position: 'absolute',
@@ -76,7 +76,7 @@ function AppLoadingPage(props) {
           <main id="appLoadingPage" style={{width: '100%', height: '100%', textAlign: 'center'}}>
             <div style={ styles.loadingMessage }>
               <h1 className="helveticas" style={{fontWeight: 200, marginLeft: '-50%'}}>This app is loading.</h1>
-              <Icon icon={spinner} className="spinningIcon" style={styles.spinningIcon} size={80} />
+              <Icon icon={spinner8} className="spinningIcon" style={styles.spinningIcon} size={80} />
             </div>
           </main>
         <Footer { ...otherProps } />
