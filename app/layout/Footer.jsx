@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useTracker } from './Tracker';
 
 import { Button, BottomNavigation} from '@material-ui/core';
+import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Meteor } from 'meteor/meteor';
@@ -65,11 +66,11 @@ function Footer(props) {
     props.logger.data('Footer.props', {data: props}, {source: "FooterContainer.jsx"});
   }
   
-  const pathname = useTracker(function(){
-    props.logger.info('Pathname was recently updated.  Updating the Footer action buttons.');
-    return Session.get('pathname');
-    // return window.location.pathname;
-  }, [props]);
+  // const pathname = useTracker(function(){
+  //   props.logger.info('Pathname was recently updated.  Updating the Footer action buttons.');
+  //   return Session.get('pathname');
+  //   // return window.location.pathname;
+  // }, [props.lastUpdated]);
 
 
   function renderWestNavbar(pathname){
@@ -128,7 +129,7 @@ function Footer(props) {
 
   let westNavbar;
   // if(this.data.userId){
-    westNavbar = renderWestNavbar(pathname);
+  westNavbar = renderWestNavbar(get(props, 'location.pathname'));
   // }
 
   let styles = {
@@ -156,10 +157,8 @@ function Footer(props) {
 
   return (
     <footer id="footerNavContainer" style={styles.footerContainer}>
-      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" style={{backgroundColor: "inherit"}} >
-        {/* <Toolbar>
-          { westNavbar }
-        </Toolbar> */}
+      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" style={{backgroundColor: "inherit", justifyContent: 'left'}} >
+        { westNavbar }
       </BottomNavigation>
     </footer>
   );

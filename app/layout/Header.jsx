@@ -154,7 +154,7 @@ function Header(props) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" color="inherit" onClick={ function(){ goHome(); }} style={  componentStyles.title }>
+        <Typography variant="h4" color="inherit" onClick={ function(){ goHome(); }} style={  componentStyles.title }>
           { parseTitle() }
         </Typography>
 
