@@ -13,6 +13,7 @@ import { Session } from 'meteor/session';
 import { get } from 'lodash';
 import moment from 'moment';
 
+import { useTracker } from './Tracker';
 
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
@@ -91,6 +92,17 @@ function Header(props) {
     }
   }
 
+  let selectedStartDate;
+  selectedStartDate = useTracker(function(){
+    return Session.get("fhirKitClientStartDate");
+  }, [props.lastUpdated]);
+
+  let selectedEndDate;
+  selectedEndDate = useTracker(function(){
+    return Session.get("fhirKitClientEndDate");
+  }, [props.lastUpdated]);
+
+
   function parseTitle(){
     let titleText = get(Meteor, 'settings.public.title', 'Node on FHIR');
     let selectedPatient;
@@ -113,9 +125,7 @@ function Header(props) {
   }
 
   function getSearchDateRange(){
-    let fhirKitClientStartDate = Session.get('fhirKitClientStartDate');
-    let fhirKitClientEndDate = Session.get('fhirKitClientEndDate');
-    return moment(fhirKitClientStartDate).format("MMM DD, YYYY") + " until " + moment(fhirKitClientEndDate).format("MMM DD, YYYY")
+    return moment(selectedStartDate).format("MMM DD, YYYY") + " until " + moment(selectedEndDate).format("MMM DD, YYYY")
   }
 
 
@@ -133,7 +143,7 @@ function Header(props) {
       </div>   
     } else {
       // otherwise, we default to population/search level info to display
-      if(Session.get('fhirKitClientStartDate') && Session.get('fhirKitClientEndDate')){
+      if(selectedStartDate && selectedEndDate){
         dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
           <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Timespan: </Typography>
           <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
