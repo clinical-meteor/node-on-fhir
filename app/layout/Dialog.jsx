@@ -12,6 +12,7 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 import { useTracker, withTracker } from './Tracker';
+import { get } from 'lodash';
 
 // ==============================================================================
 // Dynamic Imports 
@@ -31,10 +32,11 @@ Object.keys(Package).forEach(function(packageName){
 // App Session Variables  
 
 if(Meteor.isClient){
-  Session.setDefault('mainAppDialogOpen', false);
-  Session.setDefault('mainAppDialogTitle', "Conformance Statement");
-  Session.setDefault('mainAppDialogContent', false);
-  Session.setDefault('mainAppDialogComponent', false);
+  console.log('landingModal.open', get(Meteor, 'settings.public.defaults.landingModal.open', false))
+  Session.setDefault('mainAppDialogOpen', get(Meteor, 'settings.public.defaults.landingModal.open', false));
+  Session.setDefault('mainAppDialogComponent', get(Meteor, 'settings.public.defaults.landingModal.component', false));
+  Session.setDefault('mainAppDialogTitle', get(Meteor, 'settings.public.defaults.landingModal.title', "JSON Viewer"));
+  Session.setDefault('mainAppDialogJson', false);
 }
 
 export default function ScrollDialog(props) {
@@ -61,17 +63,18 @@ export default function ScrollDialog(props) {
     return Session.get('mainAppDialogComponent')
   }, [props.lastUpdated]);
 
-  let dialogContent = "";
-  dialogContent = useTracker(function(){
-    let result = "";
-    let mainAppDialogContent = Session.get('mainAppDialogContent');
-    if(typeof mainAppDialogContent === "string"){
-      result = mainAppDialogContent
-    } else if(typeof mainAppDialogContent === "object") {
-      result = JSON.stringify(mainAppDialogContent, null, 2);
-    }
+  let jsonContent = "";
+  jsonContent = useTracker(function(){
+    return Session.get('mainAppDialogJson');
+    // let result = "";
+    // let mainAppDialogJson = Session.get('mainAppDialogJson');
+    // if(typeof mainAppDialogJson === "string"){
+    //   result = mainAppDialogJson
+    // } else if(typeof mainAppDialogJson === "object") {
+    //   result = JSON.stringify(mainAppDialogJson, null, 2);
+    // }
 
-    return result;
+    // return result;
   }, [props.lastUpdated]);
 
   const handleClickOpen = (scrollType) => () => {
@@ -82,8 +85,8 @@ export default function ScrollDialog(props) {
   const handleClose = () => {
     //setOpen(false);
     Session.set('mainAppDialogOpen', false);
-    // Session.set('mainAppDialogContent', false);
-    //Session.set('mainAppDialogContentComponent', null);
+    // Session.set('mainAppDialogJson', false);
+    //Session.set('mainAppDialogJsonComponent', null);
   };
 
   const descriptionElementRef = React.useRef(null);
@@ -101,15 +104,29 @@ export default function ScrollDialog(props) {
   if(dialogComponent){
     dialogComponents.forEach(function(reference){
       if(reference.name === dialogComponent){
+        console.log('Found a matching dialog component to render.')
+        
+        // did we find a matching component?
         dialogContentToRender = reference.component;
+
+        // we want to pass in the content, so we attach it to the props object
+        props.jsonContent = jsonContent;
+
+        // and pass the props object into the component that we're going to render in the dialog
+        dialogContentToRender = React.cloneElement(
+          dialogContentToRender, {jsonContent: jsonContent} 
+        );
       }
     })
-  } else {
-    dialogContentToRender = <pre>
-      { dialogContent }
-    </pre>
-  }
+  } else if(jsonContent){
+    if(typeof jsonContent === "object") {
+      jsonContent = JSON.stringify(jsonContent, null, 2);
+    }
 
+    dialogContentToRender = <pre>
+      { jsonContent }
+    </pre>
+  }  
 
   return (
     <div>
@@ -123,9 +140,7 @@ export default function ScrollDialog(props) {
         aria-describedby="scroll-dialog-description"
       >
         <DialogTitle id="scroll-dialog-title">{dialogTitle}</DialogTitle>
-        <DialogContent dividers={scroll === 'paper'}>
-          { dialogContentToRender }
-        </DialogContent>
+        { dialogContentToRender }
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Close
