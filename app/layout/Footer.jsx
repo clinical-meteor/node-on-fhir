@@ -40,21 +40,21 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar
   },
-  footerContainer: {  
-    height: '64px',
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    background: theme.palette.appBar.main,
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText,
-    width: '100%',
-    zIndex: 10000000,
-    transition: theme.transitions.create(['width', 'left'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
-  }
+  // footerContainer: {  
+  //   height: '64px',
+  //   position: 'fixed',
+  //   bottom: 0,
+  //   left: 0,
+  //   background: theme.palette.appBar.main,
+  //   backgroundColor: theme.palette.appBar.main,
+  //   color: theme.palette.appBar.contrastText,
+  //   width: '100%',
+  //   zIndex: 1300,
+  //   transition: theme.transitions.create(['width', 'left'], {
+  //     easing: theme.transitions.easing.sharp,
+  //     duration: theme.transitions.duration.leavingScreen
+  //   })
+  // }
 });
 
 
@@ -142,7 +142,7 @@ function Footer(props) {
       backgroundColor: props.theme.palette.appBar.main,
       color: props.theme.palette.appBar.contrastText,
       width: '100%',
-      zIndex: 10000000,
+      zIndex: 1300,
       transition: props.theme.transitions.create(['width', 'left'], {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
