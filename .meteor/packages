@@ -29,6 +29,7 @@ fourseven:scss
 # bundle-visualizer
 
 clinical:fonts
+clinical:extended-api
 clinical:hl7-fhir-data-infrastructure
 # clinical:hl7-fhir-rest
 
@@ -66,4 +67,4 @@ alanning:roles
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-# symptomatic:covid19-on-fhir
+symptomatic:covid19-on-fhir

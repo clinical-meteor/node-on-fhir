@@ -25,11 +25,11 @@ import NotFound from './NotFound.jsx';
 import AppCanvas from './AppCanvas.jsx';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
+import ScrollDialog from './Dialog';
 
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 import clsx from 'clsx';
 import moment from 'moment';
@@ -38,13 +38,19 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-// import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+
 import PatientSidebar from '../patient/PatientSidebar'
 import AppLoadingPage from '../core/AppLoadingPage'
+
+
+// ==============================================================================
+// Theming
 
 // import ThemePage from '../core/ThemePage';
 // import ConstructionZone from '../core/ConstructionZone';
@@ -94,6 +100,8 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       width: drawerWidth,
       flexShrink: 0,
       whiteSpace: 'nowrap',
+      position: 'absolute', 
+      zIndex: 1100,
       backgroundColor: theme.palette.paper.main
     },
     drawerOpen: {
@@ -185,6 +193,10 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
   }
 
 
+// ==============================================================================
+// Dynamic Routes
+
+
 // Pick up any dynamic routes that are specified in packages, and include them
 var dynamicRoutes = [];
 var privacyRoutes = [];
@@ -217,6 +229,8 @@ console.log('Loading the following dynamic routes: ', dynamicRoutes)
 // console.log('headerNavigation', headerNavigation)
 
 
+// ==============================================================================
+// Security Based Routing
 
 // patient authentication function
 const requireAuth = (nextState, replace) => {
@@ -288,6 +302,12 @@ const requreSysadmin = (nextState, replace) => {
   }
 };
 
+
+
+
+
+// ==============================================================================
+// Main App Component
 
 export function App(props) {
   if(typeof logger === "undefined"){
@@ -469,6 +489,7 @@ export function App(props) {
           })}>
           { routingSwitchLogic }
         </main>
+        <ScrollDialog />
       </div>
     </AppCanvas>
   )
