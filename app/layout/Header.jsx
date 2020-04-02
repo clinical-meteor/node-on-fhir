@@ -52,7 +52,7 @@ function Header(props) {
       backgroundColor: props.theme.palette.appBar.main,
       color: props.theme.palette.appBar.contrastText,
       width: '100%',
-      zIndex: 1000000,
+      zIndex: 1200,
       transition: props.theme.transitions.create(['width', 'left'], {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
