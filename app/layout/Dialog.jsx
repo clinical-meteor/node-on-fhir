@@ -14,26 +14,65 @@ import { Session } from 'meteor/session';
 import { useTracker, withTracker } from './Tracker';
 
 // ==============================================================================
+// Dynamic Imports 
+
+let dialogComponents = [];
+Object.keys(Package).forEach(function(packageName){
+  if(Package[packageName].DialogComponents){
+    // we try to build up a route from what's specified in the package
+    Package[packageName].DialogComponents.forEach(function(componentReference){
+      dialogComponents.push(componentReference);      
+    });    
+  }
+});
+
+
+// ==============================================================================
 // App Session Variables  
 
 if(Meteor.isClient){
   Session.setDefault('mainAppDialogOpen', false);
   Session.setDefault('mainAppDialogTitle', "Conformance Statement");
   Session.setDefault('mainAppDialogContent', false);
+  Session.setDefault('mainAppDialogComponent', false);
 }
 
-export default function ScrollDialog() {
+export default function ScrollDialog(props) {
   let [open, setOpen] = React.useState(false);
   let [scroll, setScroll] = React.useState('paper');
 
-  open = useTracker(function(){
+  let mainAppDialogOpen = useTracker(function(){
     return Session.get('mainAppDialogOpen')
   }, []);
+
+  if(mainAppDialogOpen){
+    open = mainAppDialogOpen
+  } else {
+    open = false;
+  }
 
   let dialogTitle = "";
   dialogTitle = useTracker(function(){
     return Session.get('mainAppDialogTitle')
   }, []);
+
+  let dialogComponent;
+  dialogComponent = useTracker(function(){
+    return Session.get('mainAppDialogComponent')
+  }, [props.lastUpdated]);
+
+  let dialogContent = "";
+  dialogContent = useTracker(function(){
+    let result = "";
+    let mainAppDialogContent = Session.get('mainAppDialogContent');
+    if(typeof mainAppDialogContent === "string"){
+      result = mainAppDialogContent
+    } else if(typeof mainAppDialogContent === "object") {
+      result = JSON.stringify(mainAppDialogContent, null, 2);
+    }
+
+    return result;
+  }, [props.lastUpdated]);
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -43,6 +82,8 @@ export default function ScrollDialog() {
   const handleClose = () => {
     //setOpen(false);
     Session.set('mainAppDialogOpen', false);
+    // Session.set('mainAppDialogContent', false);
+    //Session.set('mainAppDialogContentComponent', null);
   };
 
   const descriptionElementRef = React.useRef(null);
@@ -55,10 +96,20 @@ export default function ScrollDialog() {
     }
   }, [open]);
 
-  let dialogContent = [...new Array(50)].map(
-    () => `Cras mattis consectetur purus sit amet fermentum.  Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
-  ).join('\n')
+
+  let dialogContentToRender;
+  if(dialogComponent){
+    dialogComponents.forEach(function(reference){
+      if(reference.name === dialogComponent){
+        dialogContentToRender = reference.component;
+      }
+    })
+  } else {
+    dialogContentToRender = <pre>
+      { dialogContent }
+    </pre>
+  }
+
 
   return (
     <div>
@@ -73,20 +124,11 @@ Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo c
       >
         <DialogTitle id="scroll-dialog-title">{dialogTitle}</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
-          <DialogContentText
-            id="scroll-dialog-description"
-            ref={descriptionElementRef}
-            tabIndex={-1}
-          >
-            {dialogContent}
-          </DialogContentText>
+          { dialogContentToRender }
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
+            Close
           </Button>
         </DialogActions>
       </Dialog>
