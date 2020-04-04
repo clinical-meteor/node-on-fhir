@@ -32,6 +32,9 @@
       }
     },
     "loggingThreshold": "verbose",
+    "capabilityStatement": {
+      "resourceTypes": ["Conditions", "Devices", "Encounters", "Procedures"]
+    },
     "defaults": {
       "route": "/example-route",
       "landingPage": "/example-route",
