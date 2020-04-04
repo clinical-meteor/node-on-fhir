@@ -31,6 +31,9 @@
       }
     },
     "loggingThreshold": "debug",
+    "capabilityStatement": {
+      "resourceTypes": ["Conditions", "Devices", "Encounters", "Procedures"]
+    },
     "defaults": {
       "route": "/example-route",
       "displayNavbars": true,
