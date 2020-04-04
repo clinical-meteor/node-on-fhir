@@ -130,6 +130,9 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       paddingLeft: '8px',
       paddingRight: '2px'
     },
+    divider: {
+      height: '2px'
+    },
     drawerText: {
       textDecoration: 'none !important'
     },
@@ -428,7 +431,7 @@ export function App(props) {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
-        <Divider />
+        <Divider className={classes.divider} />
         <List>
           <PatientSidebar { ...otherProps } />
         </List>
