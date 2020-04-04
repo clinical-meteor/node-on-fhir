@@ -116,12 +116,12 @@ export function CapabilityStatementCheck(props){
   console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", canSearch);
 
   let statementBlock = [];
-  capabilityInquiryResourceTypes.forEach(function(resourceType){
+  capabilityInquiryResourceTypes.forEach(function(resourceType, index){
     if(canSearch[resourceType]){
       if(isSupported[resourceType]){
-        statementBlock.push(<div style={{color: 'red'}}>𐄂 Server doesn't support {resourceType}</div>)
+        statementBlock.push(<div style={{color: 'red'}} key={'capability-' + index}>𐄂 Server doesn't support {resourceType}</div>)
       } else {
-        statementBlock.push(<div style={{color: 'green'}}>✓ Server does support {resourceType}</div>)
+        statementBlock.push(<div style={{color: 'green'}} key={'capability-' + index}>✓ Server does support {resourceType}</div>)
       }
     }
   })

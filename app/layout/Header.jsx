@@ -149,6 +149,10 @@ function Header(props) {
           <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
             { getSearchDateRange() }
           </Typography>
+          <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
+          <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+            System Administrator
+          </Typography>
         </div>   
       }    
     }
@@ -168,7 +172,8 @@ function Header(props) {
           { parseTitle() }
         </Typography>
 
-        { dateTimeItems }
+        
+        { dateTimeItems }        
         { demographicItems }
         { extendedHeaderItems }
 
