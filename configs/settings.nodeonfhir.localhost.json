@@ -51,18 +51,23 @@
           "/audit-events",
           "/bundles",
           "/conditions",
-          "/care-plans",
-          "/careplan",
+          "/careplans",
           "/communications",
           "/consents",
           "/contracts",
+          "/devices",
           "/diagnostic-reports",
           "/endpoints",
+          "/encounters",
+          "/example-route",
+          "/import-data",
+          "/data-management",
           "/imaging-studies",
           "/immunizations",
           "/goals",
           "/locations",
-          "/devices",
+          "/measures",
+          "/measure-reports",
           "/medications",
           "/medication-orders",
           "/medication-statements",
@@ -74,11 +79,8 @@
           "/procedures",
           "/risk-assessments",
           "/subscriptions",
-          "/vitals-tracking",
-          "/example-route",
-          "/import-data",
-          "/export-data"
-      ]
+          "/vitals-tracking"
+        ]
       }
     },
     "interfaces": {
