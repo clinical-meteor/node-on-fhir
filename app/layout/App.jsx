@@ -48,12 +48,13 @@ import Typography from '@material-ui/core/Typography';
 import PatientSidebar from '../patient/PatientSidebar'
 import AppLoadingPage from '../core/AppLoadingPage'
 
+import ConstructionZone from '../core/ConstructionZone';
 
 // ==============================================================================
 // Theming
 
 // import ThemePage from '../core/ThemePage';
-// import ConstructionZone from '../core/ConstructionZone';
+
 
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../theme';
