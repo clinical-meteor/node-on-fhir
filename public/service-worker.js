@@ -21,12 +21,32 @@ self.addEventListener('install', function(event) {
 });
 
 var CACHE_NAME = 'fhir-cache';
+var COOKBOOK = 'cookbook';
 
 var urlsToCache = [
   '/',
   '/client/main.css',
   '/client/main.js'
 ];
+
+let applesauce = ['apples', 'pears', 'sugar', 'cinnemon'];
+
+
+// self.addEventListener('cookery', function(event) {
+//   console.log("=======================================")
+//   console.log("KAZAAAM!!!!! COOKERY!  PONG, DAMNIT!!!")
+//   console.log("=======================================")
+
+//   // Perform install steps
+//   event.waitUntil(
+//     caches.open(COOKBOOK)
+//       .then(function(cache) {
+//         console.log('Opened cookbook');
+//         return cache.addAll(applesauce);
+//       })
+//   );
+// });
+
 
 self.addEventListener('install', function(event) {
   // Perform install steps
@@ -42,19 +62,19 @@ self.addEventListener('install', function(event) {
 // Cache and return requests
 // https://developers.google.com/web/fundamentals/primers/service-workers#cache_and_return_requests
 
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
-      }
-    )
-  );
-});
+// self.addEventListener('fetch', function(event) {
+//   event.respondWith(
+//     caches.match(event.request)
+//       .then(function(response) {
+//         // Cache hit - return response
+//         if (response) {
+//           return response;
+//         }
+//         return fetch(event.request);
+//       }
+//     )
+//   );
+// });
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
@@ -89,6 +109,8 @@ self.addEventListener('fetch', function(event) {
       })
     );
 });
+
+
 
 
 // Update a service worker
