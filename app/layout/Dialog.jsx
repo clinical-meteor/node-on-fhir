@@ -12,12 +12,22 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 import { useTracker, withTracker } from './Tracker';
+import CapabilityStatementCheck from '../core/CapabilityStatementCheck';
+
 import { get } from 'lodash';
 
 // ==============================================================================
 // Dynamic Imports 
 
 let dialogComponents = [];
+
+// default dialog component
+dialogComponents.push({
+  "name": "CapabilityStatementCheck",
+  "component": <CapabilityStatementCheck />
+})
+
+// dynamic dialog components
 Object.keys(Package).forEach(function(packageName){
   if(Package[packageName].DialogComponents){
     // we try to build up a route from what's specified in the package
