@@ -70,8 +70,7 @@ function Header(props) {
       fontSize: '1 rem',
       float: 'left',
       paddingRight: '10px',
-      paddingLeft: '40px',
-      float: 'left'
+      paddingLeft: '40px'
     },
     header_text: {
       paddingTop: '10px',
