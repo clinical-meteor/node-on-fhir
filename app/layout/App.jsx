@@ -48,12 +48,13 @@ import Typography from '@material-ui/core/Typography';
 import PatientSidebar from '../patient/PatientSidebar'
 import AppLoadingPage from '../core/AppLoadingPage'
 
+import ConstructionZone from '../core/ConstructionZone';
 
 // ==============================================================================
 // Theming
 
 // import ThemePage from '../core/ThemePage';
-// import ConstructionZone from '../core/ConstructionZone';
+
 
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../theme';
@@ -128,6 +129,9 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       fontSize: '120%',
       paddingLeft: '8px',
       paddingRight: '2px'
+    },
+    divider: {
+      height: '2px'
     },
     drawerText: {
       textDecoration: 'none !important'
@@ -427,7 +431,7 @@ export function App(props) {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
-        <Divider />
+        <Divider className={classes.divider} />
         <List>
           <PatientSidebar { ...otherProps } />
         </List>

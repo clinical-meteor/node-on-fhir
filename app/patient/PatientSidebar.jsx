@@ -101,6 +101,9 @@ const styles = theme => ({
     justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar
+  },
+  divider: {
+    height: '2px'
   }
 });
 
@@ -141,7 +144,7 @@ export function PatientSidebar(props){
         </ListItem>
       );
 
-      constructionZone.push(<Divider key='construction-hr' />);
+      constructionZone.push(<Divider className={props.classes.divider} key='construction-hr' />);
     }
   }
 
@@ -161,7 +164,7 @@ export function PatientSidebar(props){
         </ListItem>
       );
 
-      fhirResources.push(<Divider key='hra' />);
+      fhirResources.push(<Divider className={props.classes.divider} key='hra' />);
     //}
   }
 
@@ -183,6 +186,21 @@ export function PatientSidebar(props){
   
     logger.data('PatientSidebar.dynamicModules', dynamicModules);
   }
+
+  let sidebarWorkflows = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.SidebarWorkflows')){
+    Object.keys(Package).forEach(function(packageName){
+      if(Package[packageName].SidebarWorkflows){
+        // we try to build up a route from what's specified in the package
+        Package[packageName].SidebarWorkflows.forEach(function(element){
+          sidebarWorkflows.push(element);      
+        });    
+      }
+    }); 
+  
+    logger.data('PatientSidebar.sidebarWorkflows', sidebarWorkflows);
+  }
+  
 
 
   //----------------------------------------------------------------------
@@ -236,7 +254,62 @@ export function PatientSidebar(props){
         );
       }
     });
-    dynamicElements.push(<Divider key="dynamic-modules-hr" />);
+    dynamicElements.push(<Divider className={props.classes.divider} key="dynamic-modules-hr" />);
+  }
+
+
+  //----------------------------------------------------------------------
+  // Workflow Modules  
+
+  var workflowElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.SidebarWorkflows')){
+    sidebarWorkflows.map(function(element, index){ 
+
+      let clonedIcon;
+
+      switch (element.iconName) {
+        case "FaUserInjured":
+          element.icon = <Icon icon={user} />
+          break;
+        case "FaUserMd":
+          element.icon = <Icon icon={userMd} />
+          break;
+        case "GoKebabHorizontal":
+          element.icon = <Icon icon={fire} />
+          break;
+        case "GoFlame":
+          element.icon = <Icon icon={fire} />
+          break;
+        case "MdLineWeight":
+          element.icon = <Icon icon={fire} />
+          break;
+            
+        default:
+          break;
+      }
+
+      // we want to pass in the props
+      if(element.icon){
+        clonedIcon = React.cloneElement(element.icon, {
+          className: props.classes.drawerIcons 
+        });
+      } else {
+        clonedIcon = <Icon icon={fire} className={props.classes.drawerIcons} />
+      }
+
+      // the excludes array will hide routes
+      if(!get(Meteor, 'settings.public.defaults.sidebar.hiddenWorkflow', []).includes(element.to)){
+        workflowElements.push(
+          <ListItem key={index} button onClick={function(){ openPage(element.to); }} >
+            <ListItemIcon >
+              { clonedIcon }
+            </ListItemIcon>
+            <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+          </ListItem>
+        );
+      }
+    });
+    workflowElements.push(<Divider className={props.classes.divider} key="workflow-modules-hr" />);
   }
 
 
@@ -251,7 +324,7 @@ export function PatientSidebar(props){
         </ListItemIcon>
         <ListItemText primary="Home Page" className={props.classes.drawerText}  />
       </ListItem>);    
-      homePage.push(<Divider key="home-page-hr" />);
+      homePage.push(<Divider className={props.classes.divider} key="home-page-hr" />);
   };
 
 
@@ -329,7 +402,13 @@ export function PatientSidebar(props){
     <div id='patientSidebar'>
       { homePage }
 
+      <div id='patientWorkflowElements' key='patientWorkflowElements'>
+        {/* <h4>Workflow</h4> */}
+        { workflowElements }   
+      </div>
+
       <div id='patientDynamicElements' key='patientDynamicElements'>
+        {/* <h4>Data</h4> */}
         { dynamicElements }   
       </div>
 
