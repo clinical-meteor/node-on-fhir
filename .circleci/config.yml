@@ -122,7 +122,7 @@ jobs:
     - run: mkdir -p .meteor
     
     # If Meteor is already cached, do not need to build it again.
-    - run: if [ ! -e .meteor/meteor ]; then curl https://install.meteor.com?=release=1.10.0 | /bin/sh; else echo "Meteor seems to be cached"; fi;
+    - run: if [ ! -e .meteor/meteor ]; then curl https://install.meteor.com?=release=1.10.1 | /bin/sh; else echo "Meteor seems to be cached"; fi;
 
     # Link the meteor executable into /usr/bin
     - run: sudo ln -s .meteor/meteor /usr/bin/meteor
@@ -135,6 +135,7 @@ jobs:
     # Lets see if we can get some config info 
     - run: cat .meteor/nightwatch.circle.json
     - run: cat .meteor/packages
+    - run: cat .meteor/versions
     - run: meteor --version
 
     # Install the actual app...
