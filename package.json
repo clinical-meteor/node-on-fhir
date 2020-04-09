@@ -109,6 +109,6 @@
     "electron": "6.1.7",
     "electron-builder": "21.2.0",
     "meteor-desktop": "2.2.5",
-    "bcrypt": "3.0.6",
+    "bcrypt": "3.0.6"
   }
 }
