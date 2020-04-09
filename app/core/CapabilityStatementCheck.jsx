@@ -84,7 +84,7 @@ export function CapabilityStatementCheck(props){
     isSupported[resourceType] = false;
   })
 
-  
+
   console.log('CapabilityStatementCheck is parsing a JSON object it was given.', jsonContent)
   if(get(jsonContent, 'resourceType') === "CapabilityStatement"){
     console.log('Found CapabilityStatement');
@@ -152,4 +152,3 @@ CapabilityStatementCheck.defaultProps = {}
 
 
 export default CapabilityStatementCheck;
-
