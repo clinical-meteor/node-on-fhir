@@ -1,6 +1,6 @@
 {
   "name": "node-on-fhir",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "private": true,
   "meteor": {
     "mainModule": {
@@ -36,39 +36,34 @@
     "verification-tests": "TEST_BROWSER_DRIVER: chrome meteor test --driver-package meteortesting:mocha --port 3002 --once --full-app"
   },
   "dependencies": {
-    "@babel/runtime": "^7.8.3",
+    "@babel/runtime": "7.9.2",
     "@date-io/moment": "1.3.13",
     "@material-ui/core": "4.5.1",
     "@material-ui/icons": "4.5.1",
     "@material-ui/pickers": "3.2.8",
     "@material-ui/styles": "4.9.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "3.0.6",
     "classnames": "2.2.6",
     "clsx": "1.0.4",
     "date-fns": "2.8.1",
-    "fhir-helpers": "1.0.4",
     "fhir-kit-client": "1.4.0",
     "lodash": "4.17.15",
     "material-fhir-ui": "0.9.42",
-    "material-ui": "^0.20.2",
-    "meteor-node-stubs": "^0.4.1",
+    "meteor-node-stubs": "0.4.1",
     "moment": "2.22.2",
     "prop-types": "15.7.2",
     "react": "16.12.0",
     "react-dom": "16.12.0",
-    "react-helmet": "^5.2.1",
-    "react-icons-kit": "^1.3.1",
+    "react-helmet": "5.2.1",
+    "react-icons-kit": "1.3.1",
     "react-mixin": "4.0.0",
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
-    "react-router-transition": "^2.0.0",
-    "register-service-worker": "^1.6.2",
-    "rollup-plugin-json": "4.0.0",
-    "rollup-plugin-visualizer": "2.6.1",
+    "register-service-worker": "1.6.2",
     "setimmediate": "1.0.5",
     "simpl-schema": "1.5.3",
     "simple-swizzle": "0.2.2",
-    "styled-components": "^4.4.0",
+    "styled-components": "4.4.0",
     "validator": "10.9.0",
     "winston": "3.2.1"
   },
@@ -112,6 +107,10 @@
     "minimongo": "6.3.1",
     "hl7v2": "0.8.1",
     "react-highlight": "^0.12.0",
-    "react-multi-carousel": "2.4.2"
+    "react-multi-carousel": "2.4.2",
+    "rollup-plugin-json": "4.0.0",
+    "rollup-plugin-visualizer": "2.6.1",
+    "electron": "6.1.7",
+    "electron-builder": "21.2.0"
   }
 }
