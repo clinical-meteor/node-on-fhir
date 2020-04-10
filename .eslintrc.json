@@ -48,7 +48,7 @@
       "react/jsx-filename-extension": 0,
       "import/no-absolute-path": 0,
       "import/extensions": 0,
-      "camelcase": ["error", {"ignoreImports": true}],
+      "camelcase": ["warn", {"ignoreImports": true}],
       "no-trailing-spaces": ["warn"],
       "no-unused-vars": ["warn"],
       "max-len": ["warn"],
