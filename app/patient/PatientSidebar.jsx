@@ -20,13 +20,54 @@ import Divider from '@material-ui/core/Divider';
 import { Icon } from 'react-icons-kit'
 import {logOut} from 'react-icons-kit/ionicons/logOut'
 import {documentIcon} from 'react-icons-kit/ionicons/documentIcon'
-import {user} from 'react-icons-kit/fa/user'
-import {userMd} from 'react-icons-kit/fa/userMd'
 import {modx} from 'react-icons-kit/fa/modx'
 import {home} from 'react-icons-kit/fa/home'
 import {fire} from 'react-icons-kit/icomoon/fire'
 
+import {user} from 'react-icons-kit/fa/user'
+import {users} from 'react-icons-kit/fa/users'
+import {userMd} from 'react-icons-kit/fa/userMd'
 
+import {ic_devices} from 'react-icons-kit/md/ic_devices';  // Devices
+import {ic_transfer_within_a_station} from 'react-icons-kit/md/ic_transfer_within_a_station' // Encounters 
+import {ic_local_pharmacy} from 'react-icons-kit/md/ic_local_pharmacy'  // Medication, MedicationStatement, MedicationOrder  
+import {heartbeat} from 'react-icons-kit/fa/heartbeat' // Condition
+import {erlenmeyerFlask} from 'react-icons-kit/ionicons/erlenmeyerFlask' // Substance  
+import {hospitalO} from 'react-icons-kit/fa/hospitalO' // Hospital  
+import {bath} from 'react-icons-kit/fa/bath'  // Procedure  
+import {suitcase} from 'react-icons-kit/fa/suitcase' // Bundle
+import {notepad} from 'react-icons-kit/ikons/notepad'  // CarePlan ?
+import {iosPulseStrong} from 'react-icons-kit/ionicons/iosPulseStrong' // Pulse, Condition  
+import {location} from 'react-icons-kit/typicons/location' // Location
+import {eyedropper} from 'react-icons-kit/fa/eyedropper'
+
+// import {ic_hearing} from 'react-icons-kit/md/ic_hearing'  // Condition?
+// import {ic_fingerprint} from 'react-icons-kit/md/ic_fingerprint' // Biometric
+// import {ic_accessible} from 'react-icons-kit/md/ic_accessible' // Devices
+// import {thermometer3} from 'react-icons-kit/fa/thermometer3' // Observation  
+// import {stethoscope} from 'react-icons-kit/fa/stethoscope' // Device
+// import {umbrella} from 'react-icons-kit/fa/umbrella' // ExplanationOfBeneft,
+// import {dashboard} from 'react-icons-kit/fa/dashboard' //Dashboard
+// import {flask} from 'react-icons-kit/fa/flask' // Substance 
+// import {cameraRetro} from 'react-icons-kit/fa/cameraRetro' // ImagingStudy
+// import {film} from 'react-icons-kit/fa/film' // Media 
+// import {image} from 'react-icons-kit/fa/image' // Media 
+// import {envelopeO} from 'react-icons-kit/fa/envelopeO' // Correspondence 
+// import {eye} from 'react-icons-kit/fa/eye' // BodySite
+// import {barcode} from 'react-icons-kit/fa/barcode' // Barcode  
+// import {ambulance} from 'react-icons-kit/fa/ambulance' // Ambulance   
+// import {medkit} from 'react-icons-kit/fa/medkit'  // SmartKit  
+// import {desktop} from 'react-icons-kit/fa/desktop' //Desktop  
+// import {tablet} from 'react-icons-kit/fa/tablet' // Tablet 
+// import {mobile} from 'react-icons-kit/fa/mobile' // Mobile 
+// import {laptop} from 'react-icons-kit/fa/laptop' // Laptop  
+// import {wheelchair} from 'react-icons-kit/fa/wheelchair' // Wheelchair   
+// import {signing} from 'react-icons-kit/fa/signing' // Handwash / Signing  
+// import {addressCardO} from 'react-icons-kit/fa/addressCardO'  // Address Card  
+// import {addressBook} from 'react-icons-kit/fa/addressBook' // Address Book  
+// import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition  
+// import {nuclear} from 'react-icons-kit/ionicons/nuclear' // Radiology  
+// import {pipette} from 'react-icons-kit/typicons/pipette' // Immunization ?
 
 const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -164,7 +205,7 @@ export function PatientSidebar(props){
         </ListItem>
       );
 
-      fhirResources.push(<Divider className={props.classes.divider} key='hra' />);
+      fhirResources.push(<Divider className={props.classes.divider} key='resources-hr' />);
     //}
   }
 
@@ -183,7 +224,7 @@ export function PatientSidebar(props){
         });    
       }
     }); 
-  
+
     logger.data('PatientSidebar.dynamicModules', dynamicModules);
   }
 
@@ -197,8 +238,7 @@ export function PatientSidebar(props){
         });    
       }
     }); 
-  
-    logger.data('PatientSidebar.sidebarWorkflows', sidebarWorkflows);
+      logger.data('PatientSidebar.sidebarWorkflows', sidebarWorkflows);
   }
   
 
@@ -206,42 +246,85 @@ export function PatientSidebar(props){
   //----------------------------------------------------------------------
   // Dynamic Modules  
 
+  function parseIcon(iconName){
+    let result = <Icon icon={fire} className={props.classes.drawerIcons} />
+
+    if(typeof iconName === "string"){
+      switch (iconName) {
+        case "fire":
+          result = <Icon icon={fire} />
+          break;
+        case "user":
+          result = <Icon icon={user} />
+          break;
+        case "userMd":
+          result = <Icon icon={userMd} />
+          break;
+        case "suitcase":
+          result = <Icon icon={suitcase} />
+          break;
+        case "notepad":
+          result = <Icon icon={notepad} />
+          break;
+        case "heartbeat":
+          result = <Icon icon={heartbeat} />
+          break;
+        case "ic_devices":
+          result = <Icon icon={ic_devices} />
+          break;
+        case "ic_transfer_within_a_station":
+          result = <Icon icon={ic_transfer_within_a_station} />
+          break;
+        case "eyedropper":
+          result = <Icon icon={eyedropper} />
+          break;
+        case "location":
+          result = <Icon icon={location} />
+          break;
+        case "erlenmeyerFlask":
+          result = <Icon icon={erlenmeyerFlask} />
+          break;
+        case "ic_local_pharmacy":
+          result = <Icon icon={ic_local_pharmacy} />
+          break;
+        case "iosPulseStrong":
+          result = <Icon icon={iosPulseStrong} />
+          break;
+        case "hospitalO":
+          result = <Icon icon={hospitalO} />
+          break;
+        case "users":
+          result = <Icon icon={users} />
+          break;
+        case "document":
+          result = <Icon icon={documentIcon} />
+          break;
+        case "bath":
+          result = <Icon icon={bath} />
+          break;          
+        default:
+          result = <Icon icon={fire} className={props.classes.drawerIcons} />
+          break;
+      }
+    }
+
+    return result;
+  }
+
   var dynamicElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules')){
     dynamicModules.map(function(element, index){ 
 
-      let clonedIcon;
+      let clonedIcon = parseIcon(element.iconName); 
 
-      switch (element.iconName) {
-        case "FaUserInjured":
-          element.icon = <Icon icon={user} />
-          break;
-        case "FaUserMd":
-          element.icon = <Icon icon={userMd} />
-          break;
-        case "GoKebabHorizontal":
-          element.icon = <Icon icon={fire} />
-          break;
-        case "GoFlame":
-          element.icon = <Icon icon={fire} />
-          break;
-        case "MdLineWeight":
-          element.icon = <Icon icon={fire} />
-          break;
-            
-        default:
-          break;
-      }
-
-      // we want to pass in the props
-      if(element.icon){
-        clonedIcon = React.cloneElement(element.icon, {
+      // // we want to pass in the props
+      if(clonedIcon){
+        clonedIcon = React.cloneElement(clonedIcon, {
           className: props.classes.drawerIcons 
         });
       } else {
         clonedIcon = <Icon icon={fire} className={props.classes.drawerIcons} />
       }
-
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hidden', []).includes(element.to)){
         dynamicElements.push(
@@ -265,32 +348,11 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.SidebarWorkflows')){
     sidebarWorkflows.map(function(element, index){ 
 
-      let clonedIcon;
+      let clonedIcon = parseIcon(element.iconName); 
 
-      switch (element.iconName) {
-        case "FaUserInjured":
-          element.icon = <Icon icon={user} />
-          break;
-        case "FaUserMd":
-          element.icon = <Icon icon={userMd} />
-          break;
-        case "GoKebabHorizontal":
-          element.icon = <Icon icon={fire} />
-          break;
-        case "GoFlame":
-          element.icon = <Icon icon={fire} />
-          break;
-        case "MdLineWeight":
-          element.icon = <Icon icon={fire} />
-          break;
-            
-        default:
-          break;
-      }
-
-      // we want to pass in the props
-      if(element.icon){
-        clonedIcon = React.cloneElement(element.icon, {
+      // // we want to pass in the props
+      if(clonedIcon){
+        clonedIcon = React.cloneElement(clonedIcon, {
           className: props.classes.drawerIcons 
         });
       } else {
