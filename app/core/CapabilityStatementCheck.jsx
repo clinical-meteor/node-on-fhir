@@ -143,10 +143,10 @@ export function CapabilityStatementCheck(props){
 
     oauthExtensions.forEach(function(object){
         console.log('Security Object: ', object)
-        if(object.url == "authorize") {
+        if(object.url === "authorize") {
             authorizeUrl = object.valueUri;          
         }
-        if(object.url == "token"){
+        if(object.url === "token"){
             tokenUrl = object.valueUri                      
         }
     });  
