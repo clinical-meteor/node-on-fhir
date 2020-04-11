@@ -135,7 +135,7 @@ export function CapabilityStatementCheck(props){
 
   // json doesn't actually specify the ordering of 
   let oauthExtensions = get(jsonContent, 'rest[0].security.extension[0].extension');
-  let authorizationUrl = "https://";
+  let authorizeUrl = "https://";
   let tokenUrl = "https://";
 
   if(Array.isArray(oauthExtensions)){
@@ -167,7 +167,10 @@ export function CapabilityStatementCheck(props){
     margin: '0px'
   }
   let valueStyle = {
-    float: 'left'
+    float: 'left',
+    whiteSpace: 'pre',
+    textOverflow: 'ellipsis',
+    position: 'absolute'
   }
   let blockStyle = {
     clear: 'both'
@@ -189,17 +192,18 @@ export function CapabilityStatementCheck(props){
         <div style={labelRowStyle}><h4 style={labelStyle}>Base URL:</h4><span style={valueStyle}>{get(jsonContent, 'implementation.url')}</span></div>
 
           <hr style={separatorStyle} />
+          <div style={labelRowStyle}><h4 style={labelStyle}>Publisher:</h4><span style={valueStyle}>{get(jsonContent, 'publisher')}</span></div>
           <div style={labelRowStyle}><h4 style={labelStyle}>Software:</h4><span style={valueStyle}>{get(jsonContent, 'software.name')}</span></div>
           <div style={labelRowStyle}><h4 style={labelStyle}>Version:</h4><span style={valueStyle}>{get(jsonContent, 'software.version')}</span></div>
           <div style={labelRowStyle}><h4 style={labelStyle}>FHIR Version:</h4><span style={valueStyle}>{get(jsonContent, 'fhirVersion')}</span></div>
 
           <hr style={separatorStyle} />
-          <div style={labelRowStyle}><h4 style={labelStyle}>Authentication:</h4><span style={valueStyle}>{authorizationUrl}</span></div>
+          <div style={labelRowStyle}><h4 style={labelStyle}>Authentication:</h4><span style={valueStyle}>{authorizeUrl}</span></div>
           <div style={labelRowStyle}><h4 style={labelStyle}>Token:</h4><span style={valueStyle}>{tokenUrl}</span></div>
 
           <hr style={separatorStyle} />
           <div style={labelRowStyle}><h4 style={{margin: '10px', float: 'left'}}>REST Interactions</h4></div>
-          <div style={{clear: 'both', margin: '20px'}}>
+          <div style={{clear: 'both', margiTop: '20px', marginBottom: '10px'}}>
             { statementBlock }
           </div>
         </TabPanel>

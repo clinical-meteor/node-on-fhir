@@ -22,7 +22,7 @@
     },
     "ignorePatterns": ["node_modules/", "packages/", "tests/"],
     "rules": {
-      "indent": ["warn", 4],
+      // "indent": ["warn", 4],
       "linebreak-style": ["error","unix"],
       "quotes": ["warn","double"],
       "semi": ["warn","always"],

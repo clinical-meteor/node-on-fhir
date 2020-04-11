@@ -45,6 +45,7 @@
     "classnames": "2.2.6",
     "clsx": "1.0.4",
     "date-fns": "2.8.1",
+    "fhirclient": "2.1.0",
     "fhir-kit-client": "1.4.0",
     "lodash": "4.17.15",
     "material-fhir-ui": "0.9.42",
@@ -92,7 +93,6 @@
     "@redoxengine/redox-hl7-v2": "1.0.1",
     "fhir-list-addresses": "1.0.2",
     "fhir.js": "0.0.22",
-    "fhirclient": "2.1.0",
     "fhirpath": "0.17.2",
     "react-fontawesome": "^1.6.1",
     "blue-button-fhir": "1.6.0-beta.2"
