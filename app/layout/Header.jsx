@@ -133,6 +133,8 @@ function Header(props) {
   let demographicItems;
   let dateTimeItems;
 
+  let currentUser = "Anonymous";
+
   if(Meteor.isClient){
     // if we have a selected patient, we show that info
     if(Session.get('selectedPatient')){
@@ -152,7 +154,7 @@ function Header(props) {
           </Typography>
           <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
           <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
-            System Administrator
+            { currentUser }
           </Typography>
         </div>   
       }    
