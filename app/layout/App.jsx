@@ -332,8 +332,8 @@ export function App(props) {
 
   let searchParams = new URLSearchParams(useLocation().search);
   if(searchParams){
-    console.log("WE HAVE STATE", searchParams.state)
-    console.log("WE HAVE QUERY PARAMS", searchParams.getAll())
+    console.log("WE HAVE STATE", searchParams.state);
+    console.log("WE HAVE QUERY PARAMS", searchParams.entries());
   }
 
   const classes = useStyles();

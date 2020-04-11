@@ -34,7 +34,7 @@
       "camelcase": ["warn"],
       "no-trailing-spaces": ["warn"],
       "no-unused-vars": ["warn"],
-      "max-len": ["allow"],
+      "max-len": ["off"],
       "no-undef": ["warn"],
       "meteor/no-session": ["warn"],
       "quote-props": ["warn"],
