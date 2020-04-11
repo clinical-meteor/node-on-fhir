@@ -12,6 +12,7 @@ import {
   useLocation
 } from "react-router-dom";
 
+
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { Helmet } from "react-helmet";
@@ -326,15 +327,14 @@ export function App(props) {
   let location = useLocation();
   let locationSearch = useLocation().search;
 
-  console.log('location', location);
-  console.log('locationSearch', locationSearch);
+  // console.log('location', location);
+  // console.log('locationSearch', locationSearch);
 
-  let query = new URLSearchParams(useLocation().search);
-  if(query){
-    console.log("WE HAVE QUERY STATE", query.state)
-    console.log("WE HAVE QUERY PARAMS", query)
+  let searchParams = new URLSearchParams(useLocation().search);
+  if(searchParams){
+    console.log("WE HAVE STATE", searchParams.state)
+    console.log("WE HAVE QUERY PARAMS", searchParams.getAll())
   }
-
 
   const classes = useStyles();
   const theme = useTheme();

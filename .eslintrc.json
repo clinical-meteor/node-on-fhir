@@ -22,9 +22,9 @@
     },
     "ignorePatterns": ["node_modules/", "packages/", "tests/"],
     "rules": {
-      "indent": ["allow", 4],
+      "indent": ["off", 4],
       "linebreak-style": ["error","unix"],
-      "quotes": ["warn","double"],
+      "quotes": ["off","double"],
       "semi": ["warn","always"],
       "key-spacing": ["warn"],
       "space-before-blocks": ["warn"],
