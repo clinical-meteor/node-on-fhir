@@ -333,7 +333,12 @@ export function App(props) {
   let searchParams = new URLSearchParams(useLocation().search);
   if(searchParams){
     console.log("WE HAVE STATE", searchParams.state);
-    console.log("WE HAVE QUERY PARAMS", searchParams.entries());
+    console.log("WE HAVE QUERY PARAMS");
+    searchParams.forEach(function(value, key){
+      console.log(value + ': ' + key); 
+    });
+    Session.set('smartOnFhir_iss', searchParams.get('iss'));
+    Session.set('smartOnFhir_launch', searchParams.get('launch'));
   }
 
   const classes = useStyles();
