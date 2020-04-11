@@ -8,7 +8,8 @@ import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react'
 
 import {
   Switch,
-  Route
+  Route,
+  useLocation
 } from "react-router-dom";
 
 import { Meteor } from 'meteor/meteor';
@@ -320,7 +321,19 @@ export function App(props) {
   
   logger.info('Rendering the main App.');
   logger.verbose('client.app.layout.App');
-  // logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
+  logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
+
+  let location = useLocation();
+  let locationSearch = useLocation().search;
+
+  console.log('location', location);
+  console.log('locationSearch', locationSearch);
+
+  let query = new URLSearchParams(useLocation().search);
+  if(query){
+    console.log("WE HAVE QUERY STATE", query.state)
+    console.log("WE HAVE QUERY PARAMS", query)
+  }
 
 
   const classes = useStyles();

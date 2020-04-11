@@ -22,7 +22,7 @@
     },
     "ignorePatterns": ["node_modules/", "packages/", "tests/"],
     "rules": {
-      // "indent": ["warn", 4],
+      "indent": ["allow", 4],
       "linebreak-style": ["error","unix"],
       "quotes": ["warn","double"],
       "semi": ["warn","always"],
@@ -34,7 +34,7 @@
       "camelcase": ["warn"],
       "no-trailing-spaces": ["warn"],
       "no-unused-vars": ["warn"],
-      "max-len": ["warn"],
+      "max-len": ["allow"],
       "no-undef": ["warn"],
       "meteor/no-session": ["warn"],
       "quote-props": ["warn"],
