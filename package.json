@@ -62,6 +62,7 @@
     "react-router-dom": "5.1.2",
     "register-service-worker": "1.6.2",
     "setimmediate": "1.0.5",
+    "simple-oauth2": "2.2.1",
     "simpl-schema": "1.5.3",
     "simple-swizzle": "0.2.2",
     "styled-components": "4.4.0",
