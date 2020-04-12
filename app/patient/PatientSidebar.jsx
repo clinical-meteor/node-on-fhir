@@ -338,6 +338,7 @@ export function PatientSidebar(props){
       }
     });
     dynamicElements.push(<Divider className={props.classes.divider} key="dynamic-modules-hr" />);
+    logger.trace('client.app.patient.PatientSidebar.dynamicElements: ' + dynamicElements.length);
   }
 
 
@@ -372,6 +373,7 @@ export function PatientSidebar(props){
       }
     });
     workflowElements.push(<Divider className={props.classes.divider} key="workflow-modules-hr" />);
+    logger.trace('client.app.patient.PatientSidebar.workflowElements: ' + workflowElements.length);
   }
 
 

@@ -335,10 +335,12 @@ export function App(props) {
     console.log("WE HAVE STATE", searchParams.state);
     console.log("WE HAVE QUERY PARAMS");
     searchParams.forEach(function(value, key){
-      console.log(value + ': ' + key); 
+      console.log(key + ': ' + value); 
     });
     Session.set('smartOnFhir_iss', searchParams.get('iss'));
     Session.set('smartOnFhir_launch', searchParams.get('launch'));
+    Session.set('smartOnFhir_code', searchParams.get('code'));
+    Session.set('smartOnFhir_state', searchParams.state);
   }
 
   const classes = useStyles();
