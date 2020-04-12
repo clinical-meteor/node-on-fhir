@@ -19,7 +19,6 @@ import { Session } from 'meteor/session';
 import { Helmet } from "react-helmet";
 import { get, has } from 'lodash';
 
-
 import { useTracker, withTracker } from './Tracker';
 
 import MainPage from './MainPage.jsx';
@@ -50,8 +49,11 @@ import Typography from '@material-ui/core/Typography';
 
 import PatientSidebar from '../patient/PatientSidebar'
 import AppLoadingPage from '../core/AppLoadingPage'
+import PatientChart from '../patient/PatientChart'
+import LaunchPage from '../core/LaunchPage'
 
 import ConstructionZone from '../core/ConstructionZone';
+
 
 // ==============================================================================
 // Theming
@@ -530,13 +532,13 @@ export function App(props) {
         { themingRoute }
         { constructionRoute }
         
+        <Route name='smartOnFhirSampleAppRoute' key='smartOnFhirSampleApp' path="/patient-chart" exact component={ PatientChart } />                
+        <Route name='launchRoute' key='smartOnFhirLaunchPage' path="/launcher" exact component={ LaunchPage } />                
         <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />                
         <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" exact component={ defaultHomeRoute } />                
         <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              
       </Switch>
     </ThemeProvider>
-
-
   }
 
 
