@@ -29,6 +29,7 @@
       "key-spacing": ["warn"],
       "space-before-blocks": ["warn"],
       "react/jsx-filename-extension": 0,
+      "react/jsx-indent-props": ["off"],
       "import/no-absolute-path": 0,
       "import/extensions": 0,
       "camelcase": ["warn"],

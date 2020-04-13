@@ -4,12 +4,15 @@ import { FhirClientContext } from "../FhirClientContext";
 import { get } from 'lodash';
 
 function PatientName({ name = [] }) {
-    let entry =
-        name.find(nameRecord => nameRecord.use === "official") || name[0];
+    let elementToRender;
+    let entry = name.find(nameRecord => nameRecord.use === "official") || name[0];
+
     if (!entry) {
-        return <h1>No Name</h1>;
+        elementToRender = <h1>No Name</h1>;
+    } else {
+        elementToRender = <h1>{entry.given.join(" ") + " " + entry.family}</h1>;
     }
-    return <h1>{entry.given.join(" ") + " " + entry.family}</h1>;
+    return elementToRender;
 }
 
 function PatientBanner(patient) {
@@ -27,7 +30,7 @@ function PatientBanner(patient) {
   );
 }
 
-export default class Patient extends React.Component {
+export class PatientDemographics extends React.Component {
     static contextType = FhirClientContext;
     constructor(props) {
         super(props);
@@ -39,29 +42,20 @@ export default class Patient extends React.Component {
     }
     componentDidMount() {
         const client = this.context.client;
-        this._loader = client.patient
-            .read()
+        this._loader = client.patient.read()
             .then(patient => {
-                this.setState({ patient, loading: false, error: null });
+                this.setState({ patient: patient, loading: false, error: null });
             })
             .catch(error => {
-                this.setState({ error, loading: false });
+                this.setState({ error: error, loading: false });
             });
     }
     render() {
-
-
-      
       const { error, loading, patient } = this.state;
-      if (loading) {
-          return null;
-      }
-      if (error) {
-          return error.message;
-      }
-
+      
       return (
         <PatientBanner {...patient} /> 
       );
     }
 }
+export default PatientDemographics;
