@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { 
-  CssBaseline,
-} from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useParams, useHistory } from "react-router-dom";
 
+import { CssBaseline } from '@material-ui/core';
 
 import { Helmet } from "react-helmet";
 import { get } from 'lodash';
@@ -14,8 +13,9 @@ import Header from '../layout/Header.jsx';
 import theme from '../theme.js';
 
 import { Icon } from 'react-icons-kit'
-import {spinner8} from 'react-icons-kit/icomoon/spinner8'
+import { spinner8 } from 'react-icons-kit/icomoon/spinner8'
 
+import { oauth2 as SMART } from "fhirclient";
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -29,11 +29,14 @@ function AppLoadingPage(props) {
     props.logger.verbose('client.app.layout.AppLoadingPage');  
   }
 
-  // const classes = useStyles();
+
+  //--------------------------------------------------------------------------------
+  // Props
 
   const { children, staticContext, loadingMessage, spinningIcon, ...otherProps } = props;
 
-  const [tabIndex, setTabIndex] = useState(0);
+  //--------------------------------------------------------------------------------
+  // Social Media Registration
 
   let helmet;
   if(get(Meteor, 'settings.public.socialmedia')){
@@ -53,6 +56,11 @@ function AppLoadingPage(props) {
     </Helmet>
   }
 
+  //--------------------------------------------------------------------------------
+  // Styling
+
+  // const classes = useStyles();
+
   let styles = {
     spinningIcon: {
       marginTop: '32px',
@@ -66,6 +74,9 @@ function AppLoadingPage(props) {
       top: '40%'
     }
   }
+
+  //--------------------------------------------------------------------------------
+  // Render Component
 
   return (
     <div { ...otherProps } >

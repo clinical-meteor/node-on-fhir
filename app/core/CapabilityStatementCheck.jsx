@@ -72,6 +72,9 @@ export function CapabilityStatementCheck(props){
     setTabIndex(newIndex);
   }
 
+  // --------------------------------------------------------------------------------------------------------------------------------
+  // REST Interactions
+
   // these are the default resource types our app supports
   let capabilityInquiryResourceTypes = get(Meteor, "settings.public.capabilityStatement.resourceTypes", ["AllergyIntolerance", "CarePlan", "Condition", "Device", "DiagnosticReport", "Immunizatoin", "MedicationOrder", "Observation", "Organization", "Patient", "Procedure"]);
 
@@ -84,7 +87,6 @@ export function CapabilityStatementCheck(props){
     isSupported[resourceType] = false;
   })
 
-  
   console.log('CapabilityStatementCheck is parsing a JSON object it was given.', jsonContent)
   if(get(jsonContent, 'resourceType') === "CapabilityStatement"){
     console.log('Found CapabilityStatement');
@@ -128,6 +130,57 @@ export function CapabilityStatementCheck(props){
   console.log("Default statements", statementBlock)
 
 
+  // --------------------------------------------------------------------------------------------------------------------------------
+  // OAuth / Authentication
+
+  // json doesn't actually specify the ordering of 
+  let oauthExtensions = get(jsonContent, 'rest[0].security.extension[0].extension');
+  let authorizeUrl = "https://";
+  let tokenUrl = "https://";
+
+  if(Array.isArray(oauthExtensions)){
+    console.log('oauthExtensions', oauthExtensions);
+
+    oauthExtensions.forEach(function(object){
+        console.log('Security Object: ', object)
+        if(object.url === "authorize") {
+            authorizeUrl = object.valueUri;          
+        }
+        if(object.url === "token"){
+            tokenUrl = object.valueUri                      
+        }
+    });  
+  } else {
+    console.log('Couldnt find security extentions in capability statement.')
+  }
+
+  // --------------------------------------------------------------------------------------------------------------------------------
+  // Rendering
+
+
+  let labelRowStyle = {
+    clear: 'both'
+  }
+  let labelStyle = {
+    float: 'left',
+    width: '160px',
+    margin: '0px'
+  }
+  let valueStyle = {
+    float: 'left',
+    whiteSpace: 'pre',
+    textOverflow: 'ellipsis',
+    position: 'absolute'
+  }
+  let blockStyle = {
+    clear: 'both'
+  }
+  let separatorStyle = {
+    marginTop: '40px', 
+    marginBottom: '20px', 
+    clear: 'both',
+    height: '2px'
+  }
 
   return(
     <DialogContent id={id} className="CapabilityStatementCheck" style={{minWidth: '600px'}} dividers={scroll === 'paper'}>
@@ -136,7 +189,23 @@ export function CapabilityStatementCheck(props){
           <Tab label="Raw Text" value={1} />
         </Tabs>
         <TabPanel value={tabIndex} index={0}>
-          { statementBlock }
+        <div style={labelRowStyle}><h4 style={labelStyle}>Base URL:</h4><span style={valueStyle}>{get(jsonContent, 'implementation.url')}</span></div>
+
+          <hr style={separatorStyle} />
+          <div style={labelRowStyle}><h4 style={labelStyle}>Publisher:</h4><span style={valueStyle}>{get(jsonContent, 'publisher')}</span></div>
+          <div style={labelRowStyle}><h4 style={labelStyle}>Software:</h4><span style={valueStyle}>{get(jsonContent, 'software.name')}</span></div>
+          <div style={labelRowStyle}><h4 style={labelStyle}>Version:</h4><span style={valueStyle}>{get(jsonContent, 'software.version')}</span></div>
+          <div style={labelRowStyle}><h4 style={labelStyle}>FHIR Version:</h4><span style={valueStyle}>{get(jsonContent, 'fhirVersion')}</span></div>
+
+          <hr style={separatorStyle} />
+          <div style={labelRowStyle}><h4 style={labelStyle}>Authentication:</h4><span style={valueStyle}>{authorizeUrl}</span></div>
+          <div style={labelRowStyle}><h4 style={labelStyle}>Token:</h4><span style={valueStyle}>{tokenUrl}</span></div>
+
+          <hr style={separatorStyle} />
+          <div style={labelRowStyle}><h4 style={{margin: '10px', float: 'left'}}>REST Interactions</h4></div>
+          <div style={{clear: 'both', margiTop: '20px', marginBottom: '10px'}}>
+            { statementBlock }
+          </div>
         </TabPanel>
         <TabPanel value={tabIndex} index={1}>
           <pre>
@@ -152,4 +221,3 @@ CapabilityStatementCheck.defaultProps = {}
 
 
 export default CapabilityStatementCheck;
-
