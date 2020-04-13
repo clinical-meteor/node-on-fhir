@@ -72,7 +72,8 @@ export class Dashboard extends React.Component {
         let observationUrl = 'Observation?' + observationQuery.toString();
         console.log('observationUrl', observationUrl);
 
-        client.request(observationUrl, {
+        try {
+            client.request(observationUrl, {
                 pageLimit: 0,
                 flat: true
             }).then(bpObservations => {
@@ -107,69 +108,72 @@ export class Dashboard extends React.Component {
             });
 
 
-        const encounterQuery = new URLSearchParams();
-        encounterQuery.set("subject", client.patient.id);
-        console.log('Encounter Query', encounterQuery);
+            const encounterQuery = new URLSearchParams();
+            encounterQuery.set("subject", client.patient.id);
+            console.log('Encounter Query', encounterQuery);
 
-        let encounterUrl = 'Encounter?' + encounterQuery.toString()
-        console.log('encounterUrl', encounterUrl);
+            let encounterUrl = 'Encounter?' + encounterQuery.toString()
+            console.log('encounterUrl', encounterUrl);
 
-        client.request(encounterUrl, {
-                pageLimit: 0,
-                flat: true
-            }).then(encounters => {
-                const bpMap = {
-                    systolic: [],
-                    diastolic: []
-                };
-                console.log('PatientDashboard.encounters', encounters)
-                encounters.forEach(encounter => {
-                    Encounters.upsert({id: encounter.id}, {$set: encounter});                    
+            client.request(encounterUrl, {
+                    pageLimit: 0,
+                    flat: true
+                }).then(encounters => {
+                    const bpMap = {
+                        systolic: [],
+                        diastolic: []
+                    };
+                    console.log('PatientDashboard.encounters', encounters)
+                    encounters.forEach(encounter => {
+                        Encounters.upsert({id: encounter.id}, {$set: encounter});                    
+                    });
                 });
-            });
 
-        const conditionQuery = new URLSearchParams();
-        conditionQuery.set("subject", client.patient.id);
-        console.log('Condition Query', conditionQuery);
+            const conditionQuery = new URLSearchParams();
+            conditionQuery.set("subject", client.patient.id);
+            console.log('Condition Query', conditionQuery);
 
-        let conditionUrl = 'Condition?' + conditionQuery.toString()
-        console.log('conditionUrl', conditionUrl);
+            let conditionUrl = 'Condition?' + conditionQuery.toString()
+            console.log('conditionUrl', conditionUrl);
 
-        client.request(conditionUrl, {
-                pageLimit: 0,
-                flat: true
-            }).then(conditions => {
-                const bpMap = {
-                    systolic: [],
-                    diastolic: []
-                };
-                console.log('PatientDashboard.conditions', conditions)
-                conditions.forEach(condition => {
-                    Conditions.upsert({id: condition.id}, {$set: condition});                    
+            client.request(conditionUrl, {
+                    pageLimit: 0,
+                    flat: true
+                }).then(conditions => {
+                    const bpMap = {
+                        systolic: [],
+                        diastolic: []
+                    };
+                    console.log('PatientDashboard.conditions', conditions)
+                    conditions.forEach(condition => {
+                        Conditions.upsert({id: condition.id}, {$set: condition});                    
+                    });
                 });
-            });
 
-        const procedureQuery = new URLSearchParams();
-        procedureQuery.set("subject", client.patient.id);
-        console.log('Procedure Query', procedureQuery);
+            const procedureQuery = new URLSearchParams();
+            procedureQuery.set("subject", client.patient.id);
+            console.log('Procedure Query', procedureQuery);
 
-        let procedureUrl = 'Procedure?' + procedureQuery
-        console.log('procedureUrl', procedureUrl);
+            let procedureUrl = 'Procedure?' + procedureQuery
+            console.log('procedureUrl', procedureUrl);
 
-        client.request(procedureUrl, {
-                pageLimit: 0,
-                flat: true
-            }).then(procedures => {
-                const bpMap = {
-                    systolic: [],
-                    diastolic: []
-                };
-                console.log('PatientDashboard.procedures', procedures)
-                procedures.forEach(procedure => {
-                    Procedures.upsert({id: procedure.id}, {$set: procedure});                    
+            client.request(procedureUrl, {
+                    pageLimit: 0,
+                    flat: true
+                }).then(procedures => {
+                    const bpMap = {
+                        systolic: [],
+                        diastolic: []
+                    };
+                    console.log('PatientDashboard.procedures', procedures)
+                    procedures.forEach(procedure => {
+                        Procedures.upsert({id: procedure.id}, {$set: procedure});                    
+                    });
                 });
-            });
 
+        } catch (error) {
+            alert("We had an error fetching data.", error)
+        }
 
 
     }
