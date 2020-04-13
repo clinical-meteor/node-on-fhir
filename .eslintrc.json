@@ -22,35 +22,21 @@
     },
     "ignorePatterns": ["node_modules/", "packages/", "tests/"],
     "rules": {
-        "indent": [
-            "warn",
-            4
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "warn",
-            "double"
-        ],
-        "semi": [
-            "warn",
-            "always"
-        ],
-        "key-spacing": [
-            "warn"
-        ],
-        "space-before-blocks": [
-            "warn"
-        ],
-
+      "indent": ["off", 4],
+      "linebreak-style": ["error","unix"],
+      "quotes": ["off","double"],
+      "semi": ["warn","always"],
+      "key-spacing": ["warn"],
+      "space-before-blocks": ["warn"],
       "react/jsx-filename-extension": 0,
+      "react/jsx-indent-props": ["off"],
+      "react/jsx-boolean-value": ["off"],
       "import/no-absolute-path": 0,
       "import/extensions": 0,
-      "no-trailing-spaces": ["warn"],
+      "camelcase": ["warn"],
+      "no-trailing-spaces": ["off"],
       "no-unused-vars": ["warn"],
-      "max-len": ["warn"],
+      "max-len": ["off"],
       "no-undef": ["warn"],
       "meteor/no-session": ["warn"],
       "quote-props": ["warn"],
@@ -65,7 +51,7 @@
       "no-redeclare": ["warn"],
       "space-before-blocks": ["warn"],
       "consistent-return": ["warn"],
-      "object-curly-spacing": ["warn"],
+      "object-curly-spacing": ["off"],
       "class-methods-use-this": ["warn"],
       "react/sort-comp": ["warn"],
       "no-multiple-empty-lines": ["warn"],

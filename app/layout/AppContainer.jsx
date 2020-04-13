@@ -149,7 +149,7 @@ Meteor.startup(function(){
   }
 
   // ironically telling the logger where to write the error message when it fails
-  logger.on('error', function (err) { 
+  logger.on('error', function (error) { 
     console.error('Winston just blew up.', error)
   });
 

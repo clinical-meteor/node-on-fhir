@@ -8,14 +8,16 @@ import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react'
 
 import {
   Switch,
-  Route
+  Route,
+  useLocation,
+  useParams
 } from "react-router-dom";
+
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { Helmet } from "react-helmet";
 import { get, has } from 'lodash';
-
 
 import { useTracker, withTracker } from './Tracker';
 
@@ -47,13 +49,17 @@ import Typography from '@material-ui/core/Typography';
 
 import PatientSidebar from '../patient/PatientSidebar'
 import AppLoadingPage from '../core/AppLoadingPage'
+import PatientChart from '../patient/PatientChart'
+import LaunchPage from '../core/LaunchPage'
+
+import ConstructionZone from '../core/ConstructionZone';
 
 
 // ==============================================================================
 // Theming
 
 // import ThemePage from '../core/ThemePage';
-// import ConstructionZone from '../core/ConstructionZone';
+
 
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../theme';
@@ -128,6 +134,9 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       fontSize: '120%',
       paddingLeft: '8px',
       paddingRight: '2px'
+    },
+    divider: {
+      height: '2px'
     },
     drawerText: {
       textDecoration: 'none !important'
@@ -316,14 +325,60 @@ export function App(props) {
   
   logger.info('Rendering the main App.');
   logger.verbose('client.app.layout.App');
-  // logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
+  logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
 
+
+  // ------------------------------------------------------------------
+  // Props  
+
+  const { staticContext, startAdornment,  ...otherProps } = props;
+
+
+  // ------------------------------------------------------------------
+  // SMART on FHIR Oauth Scope  
+
+  let searchParams = new URLSearchParams(useLocation().search);
+  if(searchParams){
+    console.log("WE HAVE STATE", searchParams.state);
+    console.log("WE HAVE QUERY PARAMS");
+    searchParams.forEach(function(value, key){
+      console.log(key + ': ' + value); 
+    });
+
+    if(searchParams.get('iss')){
+      Session.set('smartOnFhir_iss', searchParams.get('iss'));
+    }
+    if(searchParams.get('launch')){
+      Session.set('smartOnFhir_launch', searchParams.get('launch'));
+    }
+    if(searchParams.get('code')){
+      Session.set('smartOnFhir_code', searchParams.get('code'));
+    }
+    if(searchParams.get('scope')){
+      Session.set('smartOnFhir_scope', searchParams.get('scope'));
+    }
+
+    if(searchParams.state){
+      Session.set('smartOnFhir_state', searchParams.state);
+    }        
+  }
+
+
+
+  // ------------------------------------------------------------------
+  // Styling & Theming
 
   const classes = useStyles();
   const theme = useTheme();
 
+  // ------------------------------------------------------------------
+  // App UI State
+
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [appWidth, appHeight] = useWindowSize();
+
+  // ------------------------------------------------------------------
+  // Pathname Updates
 
   useEffect(() => {
     if(get(props, 'location.pathname')){
@@ -331,6 +386,11 @@ export function App(props) {
       Session.set('pathname', props.location.pathname);  
     }
   }, [])
+
+  let defaultHomeRoute = MainPage;
+
+  // ------------------------------------------------------------------
+  // Trackers (Auto Update Variables)
 
   const absoluteUrl = useTracker(function(){
     logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
@@ -342,7 +402,8 @@ export function App(props) {
   }, []);
 
 
-  const { staticContext, startAdornment,  ...otherProps } = props;
+  // ------------------------------------------------------------------
+  // User Interface Methods
 
   function handleDrawerOpen(){
     logger.trace('App.handleDrawerOpen()')
@@ -359,6 +420,9 @@ export function App(props) {
     props.history.replace('/');
   };
 
+
+  // ------------------------------------------------------------------
+  // Social Media Registration  
 
   let socialmedia = {
     title: get(Meteor, 'settings.public.socialmedia.title', ''),
@@ -400,8 +464,12 @@ export function App(props) {
     { headerTags }
   </Helmet>
 
-  let defaultHomeRoute = MainPage;
+
   
+
+  // ------------------------------------------------------------------
+  // User Interface
+
   let drawerStyle = {}
 
   let drawer;
@@ -427,12 +495,15 @@ export function App(props) {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
-        <Divider />
+        <Divider className={classes.divider} />
         <List>
           <PatientSidebar { ...otherProps } />
         </List>
       </Drawer>
   }
+
+  // ------------------------------------------------------------------
+  // Page Routing  
 
   let routingSwitchLogic;
   let themingRoute;
@@ -461,13 +532,13 @@ export function App(props) {
         { themingRoute }
         { constructionRoute }
         
+        <Route name='smartOnFhirSampleAppRoute' key='smartOnFhirSampleApp' path="/patient-chart" exact component={ PatientChart } />                
+        <Route name='launchRoute' key='smartOnFhirLaunchPage' path="/launcher" exact component={ LaunchPage } />                
         <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />                
         <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" exact component={ defaultHomeRoute } />                
         <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              
       </Switch>
     </ThemeProvider>
-
-
   }
 
 
