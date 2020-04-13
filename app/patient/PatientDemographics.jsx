@@ -51,7 +51,7 @@ export class PatientDemographics extends React.Component {
             });
     }
     render() {
-      const { error, loading, patient } = this.state;
+      const { patient } = this.state;
       
       return (
         <PatientBanner {...patient} /> 
