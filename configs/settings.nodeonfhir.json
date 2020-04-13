@@ -32,6 +32,9 @@
       }
     },
     "loggingThreshold": "verbose",
+    "capabilityStatement": {
+      "resourceTypes": ["Conditions", "Devices", "Encounters", "Procedures"]
+    },
     "defaults": {
       "route": "/example-route",
       "landingPage": "/example-route",
@@ -68,7 +71,6 @@
           "/endpoints",
           "/imaging-studies",
           "/immunizations",
-          "/import-data",
           "/goals",
           "/locations",
           "/measures",
