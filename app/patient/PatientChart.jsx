@@ -1,10 +1,11 @@
 import React from "react";
 import FhirClientProvider from "../layout/FhirClientProvider";
-import Chart from "./Chart";
-import Patient from "./Patient";
+import Dashboard from "./Dashboard";
+import PatientDemographics from "./PatientDemographics";
 
-import { PageCanvas, StyledCard } from 'material-fhir-ui';
+import { PageCanvas } from 'material-fhir-ui';
 import { CardHeader, CardContent } from '@material-ui/core';
+
 
 import { get } from 'lodash';
 
@@ -21,15 +22,8 @@ export default function PatientChart() {
     return (
       <FhirClientProvider>
         <PageCanvas id='constructionZone' headerHeight={headerHeight} >
-          <CardHeader title="Patient Chart" />
-          <StyledCard height="auto" scrollable margin={20} >
-            <CardContent>
-              <Patient />
-              <hr />
-              <Chart />
-              <br />
-            </CardContent>
-          </StyledCard>
+          <PatientDemographics />
+          <Dashboard />
         </PageCanvas>
       </FhirClientProvider>
     );

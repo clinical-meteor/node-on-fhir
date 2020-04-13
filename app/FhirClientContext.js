@@ -1,10 +1,8 @@
 import React from "react";
 
-const context = {
+export default const FhirClientContext = React.createContext({
     client: null,
     setClient: function(client) {
         context.client = client;
     }
-};
-
-export const FhirClientContext = React.createContext(context);
+});
