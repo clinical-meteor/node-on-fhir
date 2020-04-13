@@ -44,7 +44,7 @@ export function FhirClientProvider(props){
               if (!client) {  
                   SMART.ready()
                       .then(client => setInternalClient(client))
-                      .catch(error => setError(error));
+                      .catch(err => setError(err));
                   return null;
               }
               return children;
