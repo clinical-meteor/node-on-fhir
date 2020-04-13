@@ -132,6 +132,9 @@ function Header(props) {
 
   let demographicItems;
   let dateTimeItems;
+  let userItems;
+
+  let currentUser = "Anonymous";
 
   if(Meteor.isClient){
     // if we have a selected patient, we show that info
@@ -150,12 +153,14 @@ function Header(props) {
           <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
             { getSearchDateRange() }
           </Typography>
-          <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
-          <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
-            System Administrator
-          </Typography>
         </div>   
       }    
+      userItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+        <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
+        <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+          { currentUser }
+        </Typography>
+      </div>   
     }
   }
 
