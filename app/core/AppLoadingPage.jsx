@@ -29,6 +29,32 @@ function AppLoadingPage(props) {
     props.logger.verbose('client.app.layout.AppLoadingPage');  
   }
 
+  // let searchParams = new URLSearchParams(useLocation().search);
+
+  // if(searchParams){
+  //   console.log("Storing state received by Loading page into Session variable.", searchParams.state);
+
+  //   searchParams.forEach(function(value, key){
+  //     console.log(key + ': ' + value); 
+  //   });
+
+  //   if(searchParams.get('iss')){
+  //     Session.set('smartOnFhir_iss', searchParams.get('iss'));
+  //   }
+  //   if(searchParams.get('launch')){
+  //     Session.set('smartOnFhir_launch', searchParams.get('launch'));
+  //   }
+  //   if(searchParams.get('code')){
+  //     Session.set('smartOnFhir_code', searchParams.get('code'));
+  //   }
+  //   if(searchParams.get('scope')){
+  //     Session.set('smartOnFhir_scope', searchParams.get('scope'));
+  //   }
+
+  //   if(searchParams.state){
+  //     Session.set('smartOnFhir_state', searchParams.state);
+  //   }        
+  // }
 
   //--------------------------------------------------------------------------------
   // Props
