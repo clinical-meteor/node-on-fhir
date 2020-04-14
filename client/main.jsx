@@ -13,7 +13,23 @@ import { register } from 'register-service-worker'
 //   render(<AppContainer />, document.getElementById('reactTarget'));
 // });
 
-onPageLoad(() => {
+onPageLoad(function(){
+  // let searchParams = new URLSearchParams(window.location.search);
+
+    // if(searchParams){
+  //   searchParams.forEach(function(value, key){
+  //     console.log(key + ': ' + value); 
+  //   });
+
+  //   if(searchParams.get('iss')){
+  //     Session.set('smartOnFhir_iss', searchParams.get('iss'));
+  //   }
+  // }
+
+
+  console.log("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
+  Session.set('last_reloaded_url', window.location.search)
+
   ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
 });
 

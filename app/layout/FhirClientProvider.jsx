@@ -7,6 +7,7 @@ import { get } from 'lodash';
 
 export function FhirClientProvider(props){
 
+  console.log('FhirClientProvider.SMART', SMART)
   // ------------------------------------------------------------------
   // Props  
 
@@ -30,21 +31,22 @@ export function FhirClientProvider(props){
 
   let contentToRender;
 
-  let providerContext = {
+  let fhirClientContext = {
     client: internalClient,
     setClient: this.setClient
   }
 
-  contentToRender = <FhirClientContext.Provider value={providerContext}>
+  contentToRender = <FhirClientContext.Provider value={fhirClientContext}>
     <FhirClientContext.Consumer>
         {({ client }) => {
-            if (!client) {  
-                SMART.ready()
-                    .then(client => setInternalClient(client))
-                    .catch(err => setError(err));
-                return null;
+            if (client) {  
+              return children;
+            } else {
+              SMART.ready()
+              .then(client => setInternalClient(client))
+              .catch(err => setError(err));
+              return null;
             }
-            return children;
         }}
     </FhirClientContext.Consumer>
   </FhirClientContext.Provider>
