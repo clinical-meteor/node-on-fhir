@@ -30,7 +30,7 @@ fourseven:scss
 
 clinical:fonts
 clinical:extended-api
-clinical:hl7-fhir-data-infrastructure
+# clinical:hl7-fhir-data-infrastructure
 # clinical:hl7-fhir-rest
 
 
