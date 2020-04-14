@@ -61,122 +61,124 @@ export class Dashboard extends React.Component {
         }
         return data;
     }
-    loadData() {
-        const client = this.context.client;
+    // loadData() {
+    //     const client = this.context.client;
 
-        const observationQuery = new URLSearchParams();
-        observationQuery.set("code", "http://loinc.org|55284-4");
-        observationQuery.set("subject", client.patient.id);
-        console.log('Observation Query', observationQuery);
-
-        let observationUrl = 'Observation?' + observationQuery.toString();
-        console.log('observationUrl', observationUrl);
-
-        // try {
-        //     client.request(observationUrl, {
-        //         pageLimit: 0,
-        //         flat: true
-        //     }).then(bpObservations => {
-        //         const bpMap = {
-        //             systolic: [],
-        //             diastolic: []
-        //         };
-        //         console.log('PatientDashboard.observations', bpObservations)
-        //         bpObservations.forEach(observation => {
-        //             Observations.upsert({id: observation.id}, {$set: observation});
-
-        //             observation.component.forEach(c => {
-        //                 const code = client.getPath(c, "code.coding.0.code");
-        //                 if (code === "8480-6") {
-        //                     bpMap.systolic.push({
-        //                         x: new Date(observation.effectiveDateTime),
-        //                         y: c.valueQuantity.value
-        //                     });
-        //                 } else if (code === "8462-4") {
-        //                     bpMap.diastolic.push({
-        //                         x: new Date(observation.effectiveDateTime),
-        //                         y: c.valueQuantity.value
-        //                     });
-        //                 }
-        //             });
-        //         });
-        //         bpMap.systolic.sort((a, b) => a.x - b.x);
-        //         bpMap.diastolic.sort((a, b) => a.x - b.x);
-
-        //         console.log('PatientDashboard.bpMap', bpMap)
-        //         this.renderChart(bpMap);
-        //     });
-
-
-        //     const encounterQuery = new URLSearchParams();
-        //     encounterQuery.set("subject", client.patient.id);
-        //     console.log('Encounter Query', encounterQuery);
-
-        //     let encounterUrl = 'Encounter?' + encounterQuery.toString()
-        //     console.log('encounterUrl', encounterUrl);
-
-        //     client.request(encounterUrl, {
-        //             pageLimit: 0,
-        //             flat: true
-        //         }).then(encounters => {
-        //             const bpMap = {
-        //                 systolic: [],
-        //                 diastolic: []
-        //             };
-        //             console.log('PatientDashboard.encounters', encounters)
-        //             encounters.forEach(encounter => {
-        //                 Encounters.upsert({id: encounter.id}, {$set: encounter});                    
-        //             });
-        //         });
-
-        //     const conditionQuery = new URLSearchParams();
-        //     conditionQuery.set("subject", client.patient.id);
-        //     console.log('Condition Query', conditionQuery);
-
-        //     let conditionUrl = 'Condition?' + conditionQuery.toString()
-        //     console.log('conditionUrl', conditionUrl);
-
-        //     client.request(conditionUrl, {
-        //             pageLimit: 0,
-        //             flat: true
-        //         }).then(conditions => {
-        //             const bpMap = {
-        //                 systolic: [],
-        //                 diastolic: []
-        //             };
-        //             console.log('PatientDashboard.conditions', conditions)
-        //             conditions.forEach(condition => {
-        //                 Conditions.upsert({id: condition.id}, {$set: condition});                    
-        //             });
-        //         });
-
-        //     const procedureQuery = new URLSearchParams();
-        //     procedureQuery.set("subject", client.patient.id);
-        //     console.log('Procedure Query', procedureQuery);
-
-        //     let procedureUrl = 'Procedure?' + procedureQuery
-        //     console.log('procedureUrl', procedureUrl);
-
-        //     client.request(procedureUrl, {
-        //             pageLimit: 0,
-        //             flat: true
-        //         }).then(procedures => {
-        //             const bpMap = {
-        //                 systolic: [],
-        //                 diastolic: []
-        //             };
-        //             console.log('PatientDashboard.procedures', procedures)
-        //             procedures.forEach(procedure => {
-        //                 Procedures.upsert({id: procedure.id}, {$set: procedure});                    
-        //             });
-        //         });
-
-        // } catch (error) {
-        //     alert("We had an error fetching data.", error)
-        // }
-
-
-    }
+    //     if(client){
+    //         const observationQuery = new URLSearchParams();
+    //         // observationQuery.set("code", "http://loinc.org|55284-4");
+    //         observationQuery.set("patient", client.patient.id);
+    //         console.log('Observation Query', observationQuery);
+    
+    //         let observationUrl = 'Observation?' + observationQuery.toString();
+    //         console.log('observationUrl', observationUrl);
+    
+    //         try {
+    //             client.request(observationUrl, {
+    //                 pageLimit: 0,
+    //                 flat: true
+    //             }).then(bpObservations => {
+    //                 const bpMap = {
+    //                     systolic: [],
+    //                     diastolic: []
+    //                 };
+    //                 console.log('PatientDashboard.observations', bpObservations)
+    //                 bpObservations.forEach(observation => {
+    //                     Observations.upsert({id: observation.id}, {$set: observation});
+    //                     if(Array.isArray(observation.component)){
+    //                         observation.component.forEach(c => {
+    //                             const code = client.getPath(c, "code.coding.0.code");
+    //                             if (code === "8480-6") {
+    //                                 bpMap.systolic.push({
+    //                                     x: new Date(observation.effectiveDateTime),
+    //                                     y: c.valueQuantity.value
+    //                                 });
+    //                             } else if (code === "8462-4") {
+    //                                 bpMap.diastolic.push({
+    //                                     x: new Date(observation.effectiveDateTime),
+    //                                     y: c.valueQuantity.value
+    //                                 });
+    //                             }
+    //                         });
+        
+    //                     }
+    //                 });
+    //                 bpMap.systolic.sort((a, b) => a.x - b.x);
+    //                 bpMap.diastolic.sort((a, b) => a.x - b.x);
+    
+    //                 console.log('PatientDashboard.bpMap', bpMap)
+    //                 this.renderChart(bpMap);
+    //             });
+    
+    
+    //             const encounterQuery = new URLSearchParams();
+    //             encounterQuery.set("patient", client.patient.id);
+    //             console.log('Encounter Query', encounterQuery);
+    
+    //             let encounterUrl = 'Encounter?' + encounterQuery.toString()
+    //             console.log('encounterUrl', encounterUrl);
+    
+    //             client.request(encounterUrl, {
+    //                     pageLimit: 0,
+    //                     flat: true
+    //                 }).then(encounters => {
+    //                     const bpMap = {
+    //                         systolic: [],
+    //                         diastolic: []
+    //                     };
+    //                     console.log('PatientDashboard.encounters', encounters)
+    //                     encounters.forEach(encounter => {
+    //                         Encounters.upsert({id: encounter.id}, {$set: encounter});                    
+    //                     });
+    //                 });
+    
+    //             const conditionQuery = new URLSearchParams();
+    //             conditionQuery.set("patient", client.patient.id);
+    //             console.log('Condition Query', conditionQuery);
+    
+    //             let conditionUrl = 'Condition?' + conditionQuery.toString()
+    //             console.log('conditionUrl', conditionUrl);
+    
+    //             client.request(conditionUrl, {
+    //                     pageLimit: 0,
+    //                     flat: true
+    //                 }).then(conditions => {
+    //                     const bpMap = {
+    //                         systolic: [],
+    //                         diastolic: []
+    //                     };
+    //                     console.log('PatientDashboard.conditions', conditions)
+    //                     conditions.forEach(condition => {
+    //                         Conditions.upsert({id: condition.id}, {$set: condition});                    
+    //                     });
+    //                 });
+    
+    //             const procedureQuery = new URLSearchParams();
+    //             procedureQuery.set("patient", client.patient.id);
+    //             console.log('Procedure Query', procedureQuery);
+    
+    //             let procedureUrl = 'Procedure?' + procedureQuery
+    //             console.log('procedureUrl', procedureUrl);
+    
+    //             client.request(procedureUrl, {
+    //                     pageLimit: 0,
+    //                     flat: true
+    //                 }).then(procedures => {
+    //                     const bpMap = {
+    //                         systolic: [],
+    //                         diastolic: []
+    //                     };
+    //                     console.log('PatientDashboard.procedures', procedures)
+    //                     procedures.forEach(procedure => {
+    //                         Procedures.upsert({id: procedure.id}, {$set: procedure});                    
+    //                     });
+    //                 });
+    
+    //         } catch (error) {
+    //             alert("We had an error fetching data.", error)
+    //         }
+    //     }
+    // }
     renderChart({ systolic, diastolic }) {
         this.chart = new ChartJS("myChart", {
             type: "line",
@@ -236,7 +238,7 @@ export class Dashboard extends React.Component {
         this.chart && this.chart.destroy();
     }
     componentDidMount() {
-        this.loadData();
+        // this.loadData();
     }
     render() {
         let chartWidth = (window.innerWidth - 240) / 3;
