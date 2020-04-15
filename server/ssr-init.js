@@ -14,7 +14,7 @@ import theme from '/app/theme.js'
 
 
 onPageLoad((sink) => {
-  console.log('Server Side Rendering: onPageLoad()')
+  console.log('Application requested from client browser.  Initiating onPageLoad() pre-render.')
 
   const context = {};
 

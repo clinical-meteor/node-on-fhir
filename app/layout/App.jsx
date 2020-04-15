@@ -330,7 +330,7 @@ export function App(props) {
     logger = props.logger;
   }
   
-  logger.info('Rendering the main App.');
+  logger.debug('Rendering the main App.');
   logger.verbose('client.app.layout.App');
   logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
 
