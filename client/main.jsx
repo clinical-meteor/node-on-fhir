@@ -9,14 +9,13 @@ import { onPageLoad } from 'meteor/server-render';
 
 import { register } from 'register-service-worker'
 
-// Meteor.startup(function(){
-//   render(<AppContainer />, document.getElementById('reactTarget'));
-// });
 
-onPageLoad(() => {
+onPageLoad(function(){
+  console.log("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
+  Session.set('last_reloaded_url', window.location.search)
+
   ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
 });
-
 
 
 //  // we register a static file that's put in the /public folder

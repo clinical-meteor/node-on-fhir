@@ -231,8 +231,15 @@ Object.keys(Package).forEach(function(packageName){
     MainPage = Package[packageName].MainPage;
   }  
 
+  if(Package[packageName].LaunchPage){
+    console.log('Found a custom LaunchPage object in one of the packages.')
+    LaunchPage = Package[packageName].LaunchPage;
+  }  
 
 });
+
+let defaultHomeRoute = MainPage;
+let launchPage = LaunchPage;
 
 console.log('Loading the following dynamic routes: ', dynamicRoutes)
 // console.log('headerNavigation', headerNavigation)
@@ -387,8 +394,6 @@ export function App(props) {
     }
   }, [])
 
-  let defaultHomeRoute = MainPage;
-
   // ------------------------------------------------------------------
   // Trackers (Auto Update Variables)
 
@@ -533,7 +538,7 @@ export function App(props) {
         { constructionRoute }
         
         <Route name='smartOnFhirSampleAppRoute' key='smartOnFhirSampleApp' path="/patient-chart" exact component={ PatientChart } />                
-        <Route name='launchRoute' key='smartOnFhirLaunchPage' path="/launcher" exact component={ LaunchPage } />                
+        <Route name='launchRoute' key='smartOnFhirLaunchPage' path="/launcher" exact component={ launchPage } />                
         <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />                
         <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" exact component={ defaultHomeRoute } />                
         <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              
