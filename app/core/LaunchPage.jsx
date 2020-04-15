@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useParams, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-import { CssBaseline } from '@material-ui/core';
-
-import { Helmet } from "react-helmet";
-import { get } from 'lodash';
-import { PageCanvas, StyledCard } from 'material-fhir-ui';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-
-import Footer from '../layout/Footer.jsx';
-import Header from '../layout/Header.jsx';
-import theme from '../theme.js';
 
 import { 
   CardHeader,
   CardContent,
   Grid
 } from '@material-ui/core';
+import { PageCanvas, StyledCard } from 'material-fhir-ui';
+import { get } from 'lodash';
 
 import { oauth2 as SMART } from "fhirclient";
 

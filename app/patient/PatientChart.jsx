@@ -7,6 +7,7 @@ import { PageCanvas } from 'material-fhir-ui';
 import { CardHeader, CardContent } from '@material-ui/core';
 import { useLocation, useParams, useHistory } from "react-router-dom";
 
+import { oauth2 as SMART } from "fhirclient";
 import { get } from 'lodash';
 
 /**
@@ -26,13 +27,21 @@ export default function PatientChart() {
       console.log('PatientChart.iss', searchParams.get('iss'))
       fhirServerEndpoint = searchParams.get('iss')
     }
-    
-    return (
-      <FhirClientProvider>
+
+    let contentToRender;
+    if(SMART.ready()){
+      contentToRender = <FhirClientProvider>
         <PageCanvas id='constructionZone' headerHeight={headerHeight} >
           <PatientDemographics />
           <Dashboard fhirServerEndpoint={fhirServerEndpoint} />
         </PageCanvas>
       </FhirClientProvider>
-    );
+    } else {
+      contentToRender = <PageCanvas id='constructionZone' headerHeight={headerHeight} >
+        <PatientDemographics />
+        <Dashboard fhirServerEndpoint={fhirServerEndpoint} />
+      </PageCanvas>
+    }
+    
+    return (contentToRender);
 }
