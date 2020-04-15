@@ -31,7 +31,6 @@ export class PatientDemographics extends React.Component {
         const client = this.context.client;
 
 
-
         client.patient.read().then(patient => {
             console.log("Received a paitent", patient)
             Session.set('currentPatient', patient)
