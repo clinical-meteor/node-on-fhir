@@ -3,7 +3,7 @@
 
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin  from 'react-mixin';
-
+import { useLocation, useParams, useHistory } from "react-router-dom";
 
 import React from "react";
 import ChartJS from "chart.js";
@@ -15,8 +15,10 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 
-import { Encounters, Procedures, Conditions, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
+import { Encounters, Procedures, Conditions, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { get } from 'lodash';
 
 function DynamicSpacer(props){
     return <br className="dynamicSpacer" style={{height: '40px'}}/>;
@@ -61,121 +63,133 @@ export class Dashboard extends React.Component {
         }
         return data;
     }
-    loadData() {
+    loadData(ehrLaunchCapabilities) {
         const client = this.context.client;
 
-        const observationQuery = new URLSearchParams();
-        observationQuery.set("code", "http://loinc.org|55284-4");
-        observationQuery.set("subject", client.patient.id);
-        console.log('Observation Query', observationQuery);
+        if(client){
+            const observationQuery = new URLSearchParams();
+            // observationQuery.set("code", "http://loinc.org|55284-4");
+            observationQuery.set("patient", client.patient.id);
+            observationQuery.set("category", "vital-signs");
+            
+            console.log('Observation Query', observationQuery);
+    
+            let observationUrl = 'Observation?' + observationQuery.toString();
+            console.log('observationUrl', observationUrl);
+    
+            try {
+                if(ehrLaunchCapabilities.Observation === true){
+                    client.request(observationUrl, {
+                        pageLimit: 0,
+                        flat: true
+                    }).then(bpObservations => {
+                        const bpMap = {
+                            systolic: [],
+                            diastolic: []
+                        };
+                        console.log('PatientDashboard.observations', bpObservations)
+                        bpObservations.forEach(observation => {
+                            Observations.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false});
+                            if(Array.isArray(observation.component)){
+                                observation.component.forEach(c => {
+                                    const code = client.getPath(c, "code.coding.0.code");
+                                    if (code === "8480-6") {
+                                        bpMap.systolic.push({
+                                            x: new Date(observation.effectiveDateTime),
+                                            y: c.valueQuantity.value
+                                        });
+                                    } else if (code === "8462-4") {
+                                        bpMap.diastolic.push({
+                                            x: new Date(observation.effectiveDateTime),
+                                            y: c.valueQuantity.value
+                                        });
+                                    }
+                                });
+            
+                            }
+                        });
+                        bpMap.systolic.sort((a, b) => a.x - b.x);
+                        bpMap.diastolic.sort((a, b) => a.x - b.x);
+        
+                        console.log('PatientDashboard.bpMap', bpMap)
+                        this.renderChart(bpMap);
+                    });
+                }
 
-        let observationUrl = 'Observation?' + observationQuery.toString();
-        console.log('observationUrl', observationUrl);
+    
+                if(ehrLaunchCapabilities.Encounter === true){
+                    const encounterQuery = new URLSearchParams();
+                    encounterQuery.set("patient", client.patient.id);
+                    console.log('Encounter Query', encounterQuery);
+        
+                    let encounterUrl = 'Encounter?' + encounterQuery.toString()
+                    console.log('encounterUrl', encounterUrl);
+        
+                    client.request(encounterUrl, {
+                            pageLimit: 0,
+                            flat: true
+                        }).then(encounters => {
+                            const bpMap = {
+                                systolic: [],
+                                diastolic: []
+                            };
+                            console.log('PatientDashboard.encounters', encounters)
+                            encounters.forEach(encounter => {
+                                Encounters.upsert({id: encounter.id}, {$set: encounter}, {validate: false, filter: false});                    
+                            });
+                        });
+                }
 
-        // try {
-        //     client.request(observationUrl, {
-        //         pageLimit: 0,
-        //         flat: true
-        //     }).then(bpObservations => {
-        //         const bpMap = {
-        //             systolic: [],
-        //             diastolic: []
-        //         };
-        //         console.log('PatientDashboard.observations', bpObservations)
-        //         bpObservations.forEach(observation => {
-        //             Observations.upsert({id: observation.id}, {$set: observation});
+                if(ehrLaunchCapabilities.Condition === true){
+                    const conditionQuery = new URLSearchParams();
+                    conditionQuery.set("patient", client.patient.id);
+                    console.log('Condition Query', conditionQuery);
+        
+                    let conditionUrl = 'Condition?' + conditionQuery.toString()
+                    console.log('conditionUrl', conditionUrl);
+        
+                    client.request(conditionUrl, {
+                            pageLimit: 0,
+                            flat: true
+                        }).then(conditions => {
+                            const bpMap = {
+                                systolic: [],
+                                diastolic: []
+                            };
+                            console.log('PatientDashboard.conditions', conditions)
+                            conditions.forEach(condition => {
+                                Conditions.upsert({id: condition.id}, {$set: condition}, {validate: false, filter: false});                    
+                            });
+                        });
+                }
 
-        //             observation.component.forEach(c => {
-        //                 const code = client.getPath(c, "code.coding.0.code");
-        //                 if (code === "8480-6") {
-        //                     bpMap.systolic.push({
-        //                         x: new Date(observation.effectiveDateTime),
-        //                         y: c.valueQuantity.value
-        //                     });
-        //                 } else if (code === "8462-4") {
-        //                     bpMap.diastolic.push({
-        //                         x: new Date(observation.effectiveDateTime),
-        //                         y: c.valueQuantity.value
-        //                     });
-        //                 }
-        //             });
-        //         });
-        //         bpMap.systolic.sort((a, b) => a.x - b.x);
-        //         bpMap.diastolic.sort((a, b) => a.x - b.x);
-
-        //         console.log('PatientDashboard.bpMap', bpMap)
-        //         this.renderChart(bpMap);
-        //     });
-
-
-        //     const encounterQuery = new URLSearchParams();
-        //     encounterQuery.set("subject", client.patient.id);
-        //     console.log('Encounter Query', encounterQuery);
-
-        //     let encounterUrl = 'Encounter?' + encounterQuery.toString()
-        //     console.log('encounterUrl', encounterUrl);
-
-        //     client.request(encounterUrl, {
-        //             pageLimit: 0,
-        //             flat: true
-        //         }).then(encounters => {
-        //             const bpMap = {
-        //                 systolic: [],
-        //                 diastolic: []
-        //             };
-        //             console.log('PatientDashboard.encounters', encounters)
-        //             encounters.forEach(encounter => {
-        //                 Encounters.upsert({id: encounter.id}, {$set: encounter});                    
-        //             });
-        //         });
-
-        //     const conditionQuery = new URLSearchParams();
-        //     conditionQuery.set("subject", client.patient.id);
-        //     console.log('Condition Query', conditionQuery);
-
-        //     let conditionUrl = 'Condition?' + conditionQuery.toString()
-        //     console.log('conditionUrl', conditionUrl);
-
-        //     client.request(conditionUrl, {
-        //             pageLimit: 0,
-        //             flat: true
-        //         }).then(conditions => {
-        //             const bpMap = {
-        //                 systolic: [],
-        //                 diastolic: []
-        //             };
-        //             console.log('PatientDashboard.conditions', conditions)
-        //             conditions.forEach(condition => {
-        //                 Conditions.upsert({id: condition.id}, {$set: condition});                    
-        //             });
-        //         });
-
-        //     const procedureQuery = new URLSearchParams();
-        //     procedureQuery.set("subject", client.patient.id);
-        //     console.log('Procedure Query', procedureQuery);
-
-        //     let procedureUrl = 'Procedure?' + procedureQuery
-        //     console.log('procedureUrl', procedureUrl);
-
-        //     client.request(procedureUrl, {
-        //             pageLimit: 0,
-        //             flat: true
-        //         }).then(procedures => {
-        //             const bpMap = {
-        //                 systolic: [],
-        //                 diastolic: []
-        //             };
-        //             console.log('PatientDashboard.procedures', procedures)
-        //             procedures.forEach(procedure => {
-        //                 Procedures.upsert({id: procedure.id}, {$set: procedure});                    
-        //             });
-        //         });
-
-        // } catch (error) {
-        //     alert("We had an error fetching data.", error)
-        // }
-
-
+                if(ehrLaunchCapabilities.Procedure === true){
+                    const procedureQuery = new URLSearchParams();
+                    procedureQuery.set("patient", client.patient.id);
+                    console.log('Procedure Query', procedureQuery);
+        
+                    let procedureUrl = 'Procedure?' + procedureQuery
+                    console.log('procedureUrl', procedureUrl);
+        
+                    client.request(procedureUrl, {
+                            pageLimit: 0,
+                            flat: true
+                        }).then(procedures => {
+                            const bpMap = {
+                                systolic: [],
+                                diastolic: []
+                            };
+                            console.log('PatientDashboard.procedures', procedures)
+                            procedures.forEach(procedure => {
+                                Procedures.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+                            });
+                        });
+                }
+    
+            } catch (error) {
+                alert("We had an error fetching data.", error)
+            }
+        }
     }
     renderChart({ systolic, diastolic }) {
         this.chart = new ChartJS("myChart", {
@@ -236,7 +250,28 @@ export class Dashboard extends React.Component {
         this.chart && this.chart.destroy();
     }
     componentDidMount() {
-        this.loadData();
+        let self = this;
+        
+
+        let fhirServerEndpoint = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', 'http://localhost:3100/baseR4');
+
+        if(Session.get('smartOnFhir_iss')){
+            fhirServerEndpoint = Session.get('smartOnFhir_iss')
+        }
+
+        HTTP.get(fhirServerEndpoint + "/metadata", {headers: {
+            "Accept": "application/json+fhir"
+          }}, function(error, conformanceStatement){
+            let parsedCapabilityStatement = JSON.parse(get(conformanceStatement, "content"))
+            console.log('Received a conformance statement for the server received via iss URL parameter.', parsedCapabilityStatement);
+    
+            let ehrLaunchCapabilities = FhirUtilities.parseCapabilityStatement(parsedCapabilityStatement);
+            console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);
+            Session.set('ehrLaunchCapabilities', ehrLaunchCapabilities)
+
+            self.loadData(ehrLaunchCapabilities);
+          })
+    
     }
     render() {
         let chartWidth = (window.innerWidth - 240) / 3;

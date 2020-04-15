@@ -69,4 +69,6 @@ alanning:roles
 
 # symptomatic:covid19-on-fhir
 # symptomatic:covid19-geomapping
+# symptomatic:covid19-reporting
+# symptomatic:data-management
 
