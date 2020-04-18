@@ -8,11 +8,27 @@ import AppContainer from '/app/layout/AppContainer'
 import { onPageLoad } from 'meteor/server-render';
 
 import { register } from 'register-service-worker'
-
+import { get } from 'lodash';
 
 onPageLoad(function(){
   console.log("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
   Session.set('last_reloaded_url', window.location.search)
+
+  const preloadedState = window.__PRELOADED_STATE__;
+
+  let searchParams = new URLSearchParams(get(preloadedState, 'url.path'));
+  if(searchParams.get('iss')){
+    Session.set('smartOnFhir_iss', searchParams.get('iss'));
+  }
+  if(searchParams.get('launch')){
+    Session.set('smartOnFhir_launch', searchParams.get('launch'));
+  }
+  if(searchParams.get('code')){
+    Session.set('smartOnFhir_code', searchParams.get('code'));
+  }
+  if(searchParams.get('scope')){
+    Session.set('smartOnFhir_scope', searchParams.get('scope'));
+  }
 
   ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
 });

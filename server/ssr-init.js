@@ -1,4 +1,6 @@
 import React from 'react';
+import { useLocation, useParams, useHistory } from "react-router-dom";
+
 import { renderToString } from 'react-dom/server';
 import { onPageLoad } from 'meteor/server-render';
 
@@ -25,7 +27,11 @@ onPageLoad((sink) => {
   // const initial = todosGetAll.call({});
   // const store = createStore(mainReducer, { todos: initial }, applyMiddleware(thunk));
 
-  const preloadedState = {};
+  let preloadedState = {};
+  if(sink.request){
+    preloadedState = sink.request;
+  }
+
 
   const htmlString = renderToString(sheets.collect(
     <ThemeProvider theme={theme} >          

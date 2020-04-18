@@ -2,6 +2,14 @@
   "public": {
     "title": "Node on FHIR",
     "fhirVersion": "R4",
+    "smartOnFhir": [{
+      "vendor": "SmartHealth IT",
+      "client_id": "my-client-id",
+      "scope": "launch launch/patient patient/read encounter/read procedure/read condition/read observation/read offline_access",
+      "fhirServiceUrl": "https://launch.smarthealthit.org/v/r3/sim/",
+      "redirect_uri": "./patient-chart",
+      "iss": "https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSIsImIiOiJmMDQ2MjkzNi1lYjRiLTRkYTEtYjQ1YS1mYmQ5NmViZjhjY2IiLCJlIjoic21hcnQtUHJhY3RpdGlvbmVyLTcxNjE0NTAyIn0/fhir"
+    }],
     "theme": {
       "showVideoBackground": false,
       "defaultVideo": "/VideoBackgrounds/GrayWaves.mp4",
@@ -38,6 +46,10 @@
     "defaults": {
       "route": "/example-route",
       "landingPage": "/example-route",
+      "landingModal": {
+        "open": false,
+        "title": "Welcome to Pediatric Gastroenterology Chart"
+      },
       "dateFormat": "YYYY-MM-DD",
       "displayNavbars": true,
       "disableHeader": false,
@@ -49,6 +61,7 @@
           "HomePage": true,
           "FhirResources": false,
           "DynamicModules": true,
+          "SidebarWorkflows": true,
           "Theme": false,
           "ConstructionZone": false
         },

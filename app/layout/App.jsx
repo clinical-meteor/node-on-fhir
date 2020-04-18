@@ -50,6 +50,7 @@ import Typography from '@material-ui/core/Typography';
 import PatientSidebar from '../patient/PatientSidebar'
 import AppLoadingPage from '../core/AppLoadingPage'
 import PatientChart from '../patient/PatientChart'
+import PatientQuickChart from '../patient/PatientQuickChart'
 import LaunchPage from '../core/LaunchPage'
 
 import ConstructionZone from '../core/ConstructionZone';
@@ -537,7 +538,8 @@ export function App(props) {
         { themingRoute }
         { constructionRoute }
         
-        <Route name='smartOnFhirSampleAppRoute' key='smartOnFhirSampleApp' path="/patient-chart" exact component={ PatientChart } />                
+        <Route name='patientChartRoute' key='patientChartPage' path="/patient-chart" exact component={ PatientChart } />                
+        <Route name='quickChartRoute' key='quickChartPage' path="/patient-quickchart" exact component={ PatientQuickChart } />                
         <Route name='launchRoute' key='smartOnFhirLaunchPage' path="/launcher" exact component={ launchPage } />                
         <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />                
         <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" exact component={ defaultHomeRoute } />                
