@@ -1,6 +1,15 @@
 {
   "public": {
     "title": "Node on FHIR",
+    "fhirVersion": "R4",
+    "smartOnFhir": [{
+      "vendor": "SmartHealth IT",
+      "client_id": "my-client-id",
+      "scope": "launch launch/patient patient/read encounter/read procedure/read condition/read observation/read offline_access",
+      "fhirServiceUrl": "https://launch.smarthealthit.org/v/r3/sim/",
+      "redirect_uri": "./patient-quickchart",
+      "iss": "https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSIsImIiOiJmMDQ2MjkzNi1lYjRiLTRkYTEtYjQ1YS1mYmQ5NmViZjhjY2IiLCJlIjoic21hcnQtUHJhY3RpdGlvbmVyLTcxNjE0NTAyIn0/fhir"
+    }],
     "theme": {
       "showVideoBackground": false,
       "defaultVideo": "/VideoBackgrounds/GrayWaves.mp4",
@@ -36,6 +45,13 @@
     },
     "defaults": {
       "route": "/example-route",
+      "landingPage": "/example-route",
+      "prominantHeader": true,
+      "useDateRangeInQueries": false,
+      "landingModal": {
+        "open": false,
+        "title": "Welcome to Pediatric Gastroenterology Chart"
+      },
       "displayNavbars": true,
       "disableHeader": false,
       "disableFooter": false,
@@ -44,16 +60,20 @@
       "sidebar": {
         "menuItems": {
           "HomePage": true,
+          "Privacy": true,
+          "TermsAndConditions": true,
           "FhirResources": false,
           "DynamicModules": true,
+          "SidebarWorkflows": true,
           "Theme": true,
-          "ConstructionZone": true
+          "ConstructionZone": false
         },
         "hidden": [
           "/allergies",
           "/audit-events",
+          "/body-mass-calculator",
+          "/body-mass-index",
           "/bundles",
-          "/conditions",
           "/careplans",
           "/communications",
           "/consents",
@@ -61,12 +81,10 @@
           "/devices",
           "/diagnostic-reports",
           "/endpoints",
-          "/encounters",
           "/example-route",
           "/import-data",
           "/data-management",
           "/imaging-studies",
-          "/immunizations",
           "/goals",
           "/locations",
           "/measures",
@@ -74,23 +92,23 @@
           "/medications",
           "/medication-orders",
           "/medication-statements",
-          "/observations",
           "/organizations",
-          "/patients",
           "/practitioners",
           "/persons",
-          "/procedures",
           "/risk-assessments",
           "/subscriptions",
           "/vitals-tracking"
+        ],
+        "hiddenWorkflow": [
+          "/patient-quickchart"
         ]
       }
     },
     "interfaces": {
       "default": {
-        "status": "inactive",
+        "status": "active",
         "channel": {
-          "endpoint": "http://localhost:3100/baseDstu2/"
+          "endpoint": "https://covid19-under-fhir.smilecdr.com/baseR4"
         },
         "auth": {
           "username": "foo",

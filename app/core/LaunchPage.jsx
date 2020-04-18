@@ -58,14 +58,17 @@ function LaunchPage(props) {
       // we prefer using an ?iss parameter from the URL
       // this is how we typically launch from the big EHR systems
       smartConfig.iss = searchParams.get('iss')      
-    } else if (get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl')){
+      //Session.set('smartOnFhir_iss', searchParams.get('iss'))
+    } else if (get(Meteor, 'settings.public.smartOnFhir[0].iss')){
       // if we're testing how the launcher works, we can set the iss in the settings file
       // this is marginally useful in blockchain and multi-tenant hosting environments
       smartConfig.iss = get(Meteor, 'settings.public.smartOnFhir[0].iss');
+      //Session.set('smartOnFhir_iss', get(Meteor, 'settings.public.smartOnFhir[0].iss'))
     } else {
       // otherwise, we resort to using a stand-alone app without launch context
       // this is mostly used for HAPI test servers, not Cerner and Epic
       smartConfig.fhirServiceUrl = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl');
+      //Session.set('smartOnFhir_iss', get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl'))
     }
 
     SMART.authorize(smartConfig);

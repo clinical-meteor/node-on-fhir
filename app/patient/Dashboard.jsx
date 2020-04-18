@@ -17,179 +17,136 @@ import Grid from '@material-ui/core/Grid';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
-import { Encounters, Procedures, Conditions, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { 
+    DynamicSpacer, 
+
+    Conditions,
+    Devices,
+    Encounters, 
+    Locations,
+    Immunizations,
+    Medications,
+    MedicationOrders,
+    MedicationRequests,
+    MedicationStatements, 
+    Observations,
+    Procedures,
+  
+    ConditionsTable,
+    EncountersTable,
+    DevicesTable,
+    LocationsTable,
+    ImmunizationsTable,
+    MedicationsTable,
+    MedicationOrdersTable,
+    MedicationRequestsTable,
+    MedicationStatementsTable, 
+    ObservationsTable,
+    ProceduresTable
+} from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { get } from 'lodash';
 
-function DynamicSpacer(props){
-    return <br className="dynamicSpacer" style={{height: '40px'}}/>;
-}
-  
+
 
 export class Dashboard extends React.Component {
     static contextType = FhirClientContext;
     getMeteorData() {
         let data = {
-            encounters: [],
-            procedures: [],
             conditions: [],
-            observations: [],
+            encounters: [],
+            immunizations: [],
             locations: [],
-            encountersCount: 0,
-            proceduresCount: 0,
+            medicationOrders: [],
+            medicationRequests: [],
+            medicationStatements: [],
+            procedures: [],
+            observations: [],
+
             conditionsCount: 0,
+            encountersCount: 0,
+            immunizationsCount: 0,
+            locationsCount: 0,
+            medicationOrdersCount: 0,
+            medicationRequestsCount: 0,
+            medicationStatementsCount: 0,
             observationsCount: 0,
-            locationsCount: 0
+            proceduresCount: 0,
         }
 
-        if(Encounters){
-            data.encounters = Encounters.find().fetch()
-            data.encountersCount = Encounters.find().count()
+        let conditionQuery = {};
+        let encounterQuery = {};
+        let immunizationQuery = {};        
+        let medicationOrderQuery = {};
+        let medicationRequestQuery = {};
+        let medicationStatementQuery = {};
+        let observationQuery = {};
+        let procedureQuery = {};
+
+        if(Session.get('selectedPatientId')){
+            encounterQuery.subject = {
+                reference: 'Patient/' + Session.get('selectedPatientId')
+            }
+            conditionQuery.subject = {
+                reference: 'Patient/' + Session.get('selectedPatientId')
+            }
+            immunizationQuery.subject = {
+                reference: 'Patient/' + Session.get('selectedPatientId')
+            }
+            medicationOrderQuery.subject = {
+                reference: 'Patient/' + Session.get('selectedPatientId')
+            }
+            medicationRequestQuery.subject = {
+                reference: 'Patient/' + Session.get('selectedPatientId')
+            }
+            medicationStatementQuery.subject = {
+                reference: 'Patient/' + Session.get('selectedPatientId')
+            }
+            observationQuery.subject = {
+                reference: 'Patient/' + Session.get('selectedPatientId')
+            }
+            procedureQuery.subject = {
+                reference: 'Patient/' + Session.get('selectedPatientId')
+            }
         }
+
         if(Conditions){
-            data.conditions = Conditions.find().fetch()
-            data.conditionsCount = Conditions.find().count()
+            data.conditions = Conditions.find(conditionQuery).fetch()
+            data.conditionsCount = Conditions.find(conditionQuery).count()
         }
-        if(Procedures){
-            data.procedures = Procedures.find().fetch()
-            data.proceduresCount = Procedures.find().count()
+        if(Encounters){
+            data.encounters = Encounters.find(encounterQuery).fetch()
+            data.encountersCount = Encounters.find(encounterQuery).count()
         }
-        if(Observations){
-            data.observations = Observations.find().fetch()
-            data.observationsCount = Observations.find().count()
+        if(Immunizations){
+            data.immunizations = Immunizations.find(immunizationQuery).fetch()
+            data.immunizationsCount = Immunizations.find(immunizationQuery).count()
         }
         if(Locations){
             data.locations = Locations.find().fetch()
             data.locationsCount = Locations.find().count()
         }
-        return data;
-    }
-    loadData(ehrLaunchCapabilities) {
-        const client = this.context.client;
-
-        if(client){
-            const observationQuery = new URLSearchParams();
-            // observationQuery.set("code", "http://loinc.org|55284-4");
-            observationQuery.set("patient", client.patient.id);
-            observationQuery.set("category", "vital-signs");
-            
-            console.log('Observation Query', observationQuery);
-    
-            let observationUrl = 'Observation?' + observationQuery.toString();
-            console.log('observationUrl', observationUrl);
-    
-            try {
-                if(ehrLaunchCapabilities.Observation === true){
-                    client.request(observationUrl, {
-                        pageLimit: 0,
-                        flat: true
-                    }).then(bpObservations => {
-                        const bpMap = {
-                            systolic: [],
-                            diastolic: []
-                        };
-                        console.log('PatientDashboard.observations', bpObservations)
-                        bpObservations.forEach(observation => {
-                            Observations.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false});
-                            if(Array.isArray(observation.component)){
-                                observation.component.forEach(c => {
-                                    const code = client.getPath(c, "code.coding.0.code");
-                                    if (code === "8480-6") {
-                                        bpMap.systolic.push({
-                                            x: new Date(observation.effectiveDateTime),
-                                            y: c.valueQuantity.value
-                                        });
-                                    } else if (code === "8462-4") {
-                                        bpMap.diastolic.push({
-                                            x: new Date(observation.effectiveDateTime),
-                                            y: c.valueQuantity.value
-                                        });
-                                    }
-                                });
-            
-                            }
-                        });
-                        bpMap.systolic.sort((a, b) => a.x - b.x);
-                        bpMap.diastolic.sort((a, b) => a.x - b.x);
-        
-                        console.log('PatientDashboard.bpMap', bpMap)
-                        this.renderChart(bpMap);
-                    });
-                }
-
-    
-                if(ehrLaunchCapabilities.Encounter === true){
-                    const encounterQuery = new URLSearchParams();
-                    encounterQuery.set("patient", client.patient.id);
-                    console.log('Encounter Query', encounterQuery);
-        
-                    let encounterUrl = 'Encounter?' + encounterQuery.toString()
-                    console.log('encounterUrl', encounterUrl);
-        
-                    client.request(encounterUrl, {
-                            pageLimit: 0,
-                            flat: true
-                        }).then(encounters => {
-                            const bpMap = {
-                                systolic: [],
-                                diastolic: []
-                            };
-                            console.log('PatientDashboard.encounters', encounters)
-                            encounters.forEach(encounter => {
-                                Encounters.upsert({id: encounter.id}, {$set: encounter}, {validate: false, filter: false});                    
-                            });
-                        });
-                }
-
-                if(ehrLaunchCapabilities.Condition === true){
-                    const conditionQuery = new URLSearchParams();
-                    conditionQuery.set("patient", client.patient.id);
-                    console.log('Condition Query', conditionQuery);
-        
-                    let conditionUrl = 'Condition?' + conditionQuery.toString()
-                    console.log('conditionUrl', conditionUrl);
-        
-                    client.request(conditionUrl, {
-                            pageLimit: 0,
-                            flat: true
-                        }).then(conditions => {
-                            const bpMap = {
-                                systolic: [],
-                                diastolic: []
-                            };
-                            console.log('PatientDashboard.conditions', conditions)
-                            conditions.forEach(condition => {
-                                Conditions.upsert({id: condition.id}, {$set: condition}, {validate: false, filter: false});                    
-                            });
-                        });
-                }
-
-                if(ehrLaunchCapabilities.Procedure === true){
-                    const procedureQuery = new URLSearchParams();
-                    procedureQuery.set("patient", client.patient.id);
-                    console.log('Procedure Query', procedureQuery);
-        
-                    let procedureUrl = 'Procedure?' + procedureQuery
-                    console.log('procedureUrl', procedureUrl);
-        
-                    client.request(procedureUrl, {
-                            pageLimit: 0,
-                            flat: true
-                        }).then(procedures => {
-                            const bpMap = {
-                                systolic: [],
-                                diastolic: []
-                            };
-                            console.log('PatientDashboard.procedures', procedures)
-                            procedures.forEach(procedure => {
-                                Procedures.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-                            });
-                        });
-                }
-    
-            } catch (error) {
-                alert("We had an error fetching data.", error)
-            }
+        if(MedicationOrders){
+            data.medicationOrders = MedicationOrders.find().fetch()
+            data.medicationOrdersCount = MedicationOrders.find().count()
         }
+        if(MedicationRequests){
+            data.medicationRequests = MedicationRequests.find().fetch()
+            data.medicationRequestsCount = MedicationRequests.find().count()
+        }
+        if(MedicationStatements){
+            data.medicationStatements = MedicationStatements.find().fetch()
+            data.medicationStatementsCount = MedicationStatements.find().count()
+        }
+        if(Observations){
+            data.observations = Observations.find().fetch()
+            data.observationsCount = Observations.find().count()
+        }
+        if(Procedures){
+            data.procedures = Procedures.find().fetch()
+            data.proceduresCount = Procedures.find().count()
+        }
+
+        return data;
     }
     renderChart({ systolic, diastolic }) {
         this.chart = new ChartJS("myChart", {
@@ -243,36 +200,6 @@ export class Dashboard extends React.Component {
             }
         });
     }
-    shouldComponentUpdate() {
-        return false;
-    }
-    componentWillUnmount() {
-        this.chart && this.chart.destroy();
-    }
-    componentDidMount() {
-        let self = this;
-        
-
-        let fhirServerEndpoint = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', 'http://localhost:3100/baseR4');
-
-        if(Session.get('smartOnFhir_iss')){
-            fhirServerEndpoint = Session.get('smartOnFhir_iss')
-        }
-
-        HTTP.get(fhirServerEndpoint + "/metadata", {headers: {
-            "Accept": "application/json+fhir"
-          }}, function(error, conformanceStatement){
-            let parsedCapabilityStatement = JSON.parse(get(conformanceStatement, "content"))
-            console.log('Received a conformance statement for the server received via iss URL parameter.', parsedCapabilityStatement);
-    
-            let ehrLaunchCapabilities = FhirUtilities.parseCapabilityStatement(parsedCapabilityStatement);
-            console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);
-            Session.set('ehrLaunchCapabilities', ehrLaunchCapabilities)
-
-            self.loadData(ehrLaunchCapabilities);
-          })
-    
-    }
     render() {
         let chartWidth = (window.innerWidth - 240) / 3;
 
@@ -294,18 +221,7 @@ export class Dashboard extends React.Component {
                             />
                         </CardContent>                    
                     </StyledCard>
-                    <DynamicSpacer />
-                    <StyledCard scrollable >
-                        <CardHeader title={this.data.locationsCount + " Locations"} />
-                        <CardContent>
-                            <LocationsTable
-                                locations={this.data.locations}
-                                count={this.data.locationsCount}
-                            />
-                        </CardContent>                    
-                    </StyledCard>
-                </Grid>
-                <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+                    <DynamicSpacer height={40} />
                     <StyledCard scrollable >
                         <CardHeader title={this.data.conditionsCount + " Conditions"} />
                         <CardContent>
@@ -321,7 +237,7 @@ export class Dashboard extends React.Component {
                             />                                        
                         </CardContent>                    
                     </StyledCard>                
-                    <DynamicSpacer />
+                    <DynamicSpacer height={40} />
                     <StyledCard scrollable>
                         <CardHeader title={this.data.proceduresCount + " Procedures"} />
                         <CardContent>
@@ -336,10 +252,51 @@ export class Dashboard extends React.Component {
                                 hidePerformedDateEnd={true}
                                 hideSubjectReference={true}
                                 hideBarcode={true}
+                                hideNotes={true}
                                 count={this.data.proceduresCount}
                             />                                                                                                           
                         </CardContent>                    
+                    </StyledCard>  
+                    {/* <StyledCard scrollable >
+                        <CardHeader title={this.data.locationsCount + " Locations"} />
+                        <CardContent>
+                            <LocationsTable
+                                locations={this.data.locations}
+                                count={this.data.locationsCount}
+                            />
+                        </CardContent>                    
+                    </StyledCard> */}
+                </Grid>
+                <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+                    <StyledCard scrollable >
+                        <CardHeader title={this.data.immunizationsCount + " Immunizations"} />
+                        <CardContent>
+                            <ImmunizationsTable
+                                immunizations={this.data.immunizations }                                
+                                count={this.data.immunizationsCount}
+                            />                                        
+                        </CardContent>                    
                     </StyledCard>                
+                    <DynamicSpacer height={40} />
+                    <StyledCard scrollable >
+                        <CardHeader title={this.data.medicationOrdersCount + " Medication Orders"} />
+                        <CardContent>
+                            <MedicationOrdersTable
+                                medicationOrders={this.data.medicationOrders}                                
+                                count={this.data.medicationOrdersCount}
+                            />                                        
+                        </CardContent>                    
+                    </StyledCard>                
+                    <DynamicSpacer height={40} />
+                    <StyledCard scrollable>
+                        <CardHeader title={this.data.medicationRequestsCount + " Medication Requests"} />
+                        <CardContent>
+                            <MedicationRequestsTable
+                                medicationRequests={this.data.medicationRequests}                                
+                                count={this.data.medicationRequestsCount}
+                            />                                        
+                        </CardContent>                    
+                    </StyledCard>       
                 </Grid>
                 <Grid item md={4} style={{paddingLeft: '10px'}}>
                     <StyledCard scrollable>
@@ -348,7 +305,7 @@ export class Dashboard extends React.Component {
                             <canvas id="myChart" width={chartWidth} height="400" />
                         </CardContent>                    
                     </StyledCard>
-                    <DynamicSpacer />
+                    <DynamicSpacer height={40} />
                     <StyledCard scrollable >
                         <CardHeader title={this.data.observationsCount + " Observations"} />
                         <CardContent>

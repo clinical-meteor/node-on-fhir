@@ -30,12 +30,12 @@ export class PatientDemographics extends React.Component {
     componentDidMount() {
         const client = this.context.client;
 
-
-        client.patient.read().then(patient => {
-            console.log("Received a paitent", patient)
-            Session.set('currentPatient', patient)
-        })
-        
+        if(get(client, 'patient')){
+            client.patient.read().then(patient => {
+                console.log("Received a paitent", patient)
+                Session.set('currentPatient', patient)
+            })    
+        }
     }
     render() {
       const { patient } = this.data;
@@ -43,6 +43,11 @@ export class PatientDemographics extends React.Component {
 
       let displayName = FhirUtilities.pluckName(patient);
       
+      let birthDate = "";
+      if(get(patient, 'birthDate')){
+        birthDate = moment(get(patient, 'birthDate')).format("YYYY-MM-DD");
+      }
+
       return (
         <div>
             <h1 className="helveticas" style={{marginBottom: '0px'}}>{displayName}</h1>
@@ -50,7 +55,7 @@ export class PatientDemographics extends React.Component {
                 Gender: <b>{get(patient, 'gender')}</b>
             </span>
             <span>
-                Date of Birth: <b>{moment(get(patient, 'birthDate')).format("YYYY-MM-DD")}</b>
+                Date of Birth: <b>{birthDate}</b>
             </span>
         </div>
       );

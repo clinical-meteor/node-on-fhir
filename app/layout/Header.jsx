@@ -10,6 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+
 import { get } from 'lodash';
 import moment from 'moment';
 
@@ -20,6 +21,11 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 // not being used?
 const styles = theme => ({});
+
+if(Meteor.isClient){
+  Session.setDefault('useDateRangeInQueries', get(Meteor, 'settings.public.defaults.useDateRangeInQueries', false));
+}
+
 
 function Header(props) {
   
@@ -93,6 +99,9 @@ function Header(props) {
     }
   }
 
+  // ------------------------------------------------------------
+  // Trackers
+
   let selectedStartDate;
   selectedStartDate = useTracker(function(){
     return Session.get("fhirKitClientStartDate");
@@ -101,6 +110,21 @@ function Header(props) {
   let selectedEndDate;
   selectedEndDate = useTracker(function(){
     return Session.get("fhirKitClientEndDate");
+  }, [props.lastUpdated]);
+
+  let useDateRangeInQueries;
+  useDateRangeInQueries = useTracker(function(){
+    return Session.get("useDateRangeInQueries");
+  }, [props.lastUpdated]);
+
+  let currentPatientId = "";
+  currentPatientId = useTracker(function(){
+    return Session.get("currentPatientId");
+  }, [props.lastUpdated]);
+
+  let currentPatient = null;
+  currentPatient = useTracker(function(){
+    return Session.get("currentPatient");
   }, [props.lastUpdated]);
 
 
@@ -147,14 +171,16 @@ function Header(props) {
       </div>   
     } else {
       // otherwise, we default to population/search level info to display
-      if(selectedStartDate && selectedEndDate){
-        dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-          <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Timespan: </Typography>
-          <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
-            { getSearchDateRange() }
-          </Typography>
-        </div>   
-      }    
+      if(useDateRangeInQueries){
+        if(selectedStartDate && selectedEndDate){
+          dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+            <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Timespan: </Typography>
+            <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+              { getSearchDateRange() }
+            </Typography>
+          </div>   
+        }      
+      }
       userItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
         <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
         <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
