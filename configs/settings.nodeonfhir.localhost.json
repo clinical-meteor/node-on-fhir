@@ -44,8 +44,9 @@
       "resourceTypes": ["Condition", "Device", "Encounter", "Immunization", "Medication", "MedicationOrder", "MedicationRequest", "MedicationStatement", "Observation", "Procedure"]
     },
     "defaults": {
-      "route": "/example-route",
-      "landingPage": "/example-route",
+      "route": "/project-page",
+      "landingPage": "/project-page",
+      "homePage": "/project-page",
       "prominantHeader": true,
       "useDateRangeInQueries": false,
       "showPatientNameInHeader": false,
