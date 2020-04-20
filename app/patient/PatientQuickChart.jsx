@@ -15,7 +15,11 @@ import { get } from 'lodash';
  * Wraps everything into `FhirClientProvider` so that any component
  * can have access to the fhir client through the context.
  */
-export default function PatientQuickChart() {
+export default function PatientQuickChart(props) {
+    logger.info('Rendering the PatientQuickChart');
+    logger.verbose('app.patientPatientQuickChart');
+    logger.data('PatientQuickChart.props', {data: props}, {source: "PatientQuickChart.jsx"});
+
     let headerHeight = 64;
     if(get(Meteor, 'settings.public.defaults.prominantHeader')){
       headerHeight = 128;

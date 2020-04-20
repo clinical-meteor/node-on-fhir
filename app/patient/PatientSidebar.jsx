@@ -158,9 +158,13 @@ export function PatientSidebar(props){
   logger.data('PatientSidebar.props', {data: props}, {source: "AppContainer.jsx"});
 
 
-  function openPage(url){
-    logger.debug('client.app.patient.PatientSidebar.openPage', url);
+  function openPage(url, tabs){
+    logger.debug('client.app.patient.PatientSidebar.openPage', url, tabs);
     props.history.replace(url)
+
+    if(tabs){
+      Session.set('workflowTabs', tabs)
+    }
   }
   function handleLogout(){
     logger.debug('client.app.patient.PatientSidebar.handleLogout', url);
@@ -328,7 +332,7 @@ export function PatientSidebar(props){
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hidden', []).includes(element.to)){
         dynamicElements.push(
-          <ListItem key={index} button onClick={function(){ openPage(element.to); }} >
+          <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
             <ListItemIcon >
               { clonedIcon }
             </ListItemIcon>
@@ -363,7 +367,7 @@ export function PatientSidebar(props){
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hiddenWorkflow', []).includes(element.to)){
         workflowElements.push(
-          <ListItem key={index} button onClick={function(){ openPage(element.to); }} >
+          <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
             <ListItemIcon >
               { clonedIcon }
             </ListItemIcon>

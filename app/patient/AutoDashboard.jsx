@@ -420,10 +420,11 @@ export class AutoDashboard extends React.Component {
                                 hideActionIcons={true}
                                 hideSubject={true}
                                 hideDevices={true}
-                                hideValue={true}
+                                hideValue={false}
                                 hideBarcodes={true}
-                                hideDenominator={false}
-                                hideNumerator={false}
+                                hideDenominator={true}
+                                hideNumerator={true}
+                                multiComponentValues={true}
 
                                 count={this.data.observationsCount}
                             />                                                                                                           
