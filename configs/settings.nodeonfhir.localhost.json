@@ -41,13 +41,14 @@
     },
     "loggingThreshold": "debug",
     "capabilityStatement": {
-      "resourceTypes": ["Conditions", "Devices", "Encounters", "Procedures"]
+      "resourceTypes": ["Condition", "Device", "Encounter", "Immunization", "Medication", "MedicationOrder", "MedicationRequest", "MedicationStatement", "Observation", "Procedure"]
     },
     "defaults": {
       "route": "/example-route",
       "landingPage": "/example-route",
       "prominantHeader": true,
       "useDateRangeInQueries": false,
+      "showPatientNameInHeader": false,
       "landingModal": {
         "open": false,
         "title": "Welcome to Pediatric Gastroenterology Chart"

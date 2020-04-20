@@ -15,6 +15,9 @@ import { get } from 'lodash';
 import moment from 'moment';
 
 import { useTracker } from './Tracker';
+import { PatientChartNavigation } from '../patient/PatientChartNavigation';
+
+import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
@@ -24,6 +27,7 @@ const styles = theme => ({});
 
 if(Meteor.isClient){
   Session.setDefault('useDateRangeInQueries', get(Meteor, 'settings.public.defaults.useDateRangeInQueries', false));
+  Session.setDefault('workflowTabs', "default");
 }
 
 
@@ -47,6 +51,9 @@ function Header(props) {
     props.history.replace('/');
   };
   
+
+  // ------------------------------------------------------------
+  // Styling
 
   let componentStyles = {
     headerContainer: {  
@@ -85,20 +92,6 @@ function Header(props) {
     }
   }
 
-  if(Meteor.isClient && props.drawerIsOpen){
-    componentStyles.headerContainer.width = window.innerWidth - drawerWidth;
-    componentStyles.headerContainer.left = drawerWidth;
-  }
-
-  let extendedHeaderItems;
-  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
-    componentStyles.headerContainer.height = '128px';
-
-    if(typeof props.headerNavigation === "function"){
-      extendedHeaderItems = props.headerNavigation(props);
-    }
-  }
-
   // ------------------------------------------------------------
   // Trackers
 
@@ -127,18 +120,49 @@ function Header(props) {
     return Session.get("currentPatient");
   }, [props.lastUpdated]);
 
+  let workflowTabs = "default";
+  workflowTabs = useTracker(function(){
+    return Session.get("workflowTabs");
+  }, [props.lastUpdated]);
+
+
+  // ------------------------------------------------------------
+  // Layout
+
+  if(Meteor.isClient && props.drawerIsOpen){
+    componentStyles.headerContainer.width = window.innerWidth - drawerWidth;
+    componentStyles.headerContainer.left = drawerWidth;
+  }
+
+  let extendedHeaderItems;
+  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
+    componentStyles.headerContainer.height = '128px';
+
+    if(typeof props.headerNavigation === "function"){
+      extendedHeaderItems = props.headerNavigation(props);
+    }    
+
+    if(workflowTabs === "patientchart"){
+      extendedHeaderItems = <PatientChartNavigation />
+    }
+  }
+
+  // ------------------------------------------------------------
+  // Helper Methods
 
   function parseTitle(){
     let titleText = get(Meteor, 'settings.public.title', 'Node on FHIR');
     let selectedPatient;
 
     if(Meteor.isClient){
-      if(Session.get("selectedPatient")){
-        selectedPatient = Session.get("selectedPatient");
-
-        titleText = get(selectedPatient, 'name[0].given[0]') + ' ' + get(selectedPatient, 'name[0].family[0]');            
-        logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
-      }  
+      if(get(Meteor, 'settings.public.defaults.showPatientNameInHeader')){
+        if(Session.get("selectedPatient")){
+          selectedPatient = Session.get("selectedPatient");
+  
+          titleText = FhirUtilities.pluckName(selectedPatient); 
+          logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
+        }    
+      }
     }
 
     return titleText;    
@@ -213,8 +237,6 @@ function Header(props) {
     </AppBar>
   );
 }
-
-
 
 Header.propTypes = {
   logger: PropTypes.object,
