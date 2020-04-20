@@ -176,7 +176,7 @@ export function PatientSidebar(props){
   //----------------------------------------------------------------------
   // Construction Zone
     
-  var constructionZone = [];
+  let constructionZone = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ConstructionZone')){
     if(!['iPhone'].includes(window.navigator.platform)){
       
@@ -197,7 +197,7 @@ export function PatientSidebar(props){
   //----------------------------------------------------------------------
   // FHIR Resources
     
-  var fhirResources = [];
+  let fhirResources = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.FhirResources')){
     //if(!['iPhone'].includes(window.navigator.platform)){      
       fhirResources.push(
@@ -315,7 +315,7 @@ export function PatientSidebar(props){
     return result;
   }
 
-  var dynamicElements = [];
+  let dynamicElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules')){
     dynamicModules.map(function(element, index){ 
 
@@ -349,7 +349,7 @@ export function PatientSidebar(props){
   //----------------------------------------------------------------------
   // Workflow Modules  
 
-  var workflowElements = [];
+  let workflowElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.SidebarWorkflows')){
     sidebarWorkflows.map(function(element, index){ 
 
@@ -384,9 +384,10 @@ export function PatientSidebar(props){
   //----------------------------------------------------------------------
   // Home
 
-  var homePage = [];
+  let homePage = [];
+  let homePageUrl = get(Meteor, 'settings.public.defaults.homePage', '/')
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.HomePage')){
-      homePage.push(<ListItem id='homePageItem' key='homeItem' button onClick={function(){ openPage('/'); }} >
+      homePage.push(<ListItem id='homePageItem' key='homeItem' button onClick={function(){ openPage(homePageUrl); }} >
         <ListItemIcon >
           <Icon icon={home} className={props.classes.drawerIcons} />
         </ListItemIcon>
@@ -400,7 +401,7 @@ export function PatientSidebar(props){
   // Theming
 
 
-  var themingElements = [];
+  let themingElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Theming')){
       themingElements.push(<ListItem id='themingItem' key='themingItem' button onClick={function(){ openPage('/theming'); }} >
         <ListItemIcon >
@@ -414,7 +415,7 @@ export function PatientSidebar(props){
   //----------------------------------------------------------------------
   // About
 
-  var aboutElements = [];
+  let aboutElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.About')){
       aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button onClick={function(){ openPage('/about'); }} >
         <ListItemIcon >
@@ -428,7 +429,7 @@ export function PatientSidebar(props){
   //----------------------------------------------------------------------
   // Privacy
 
-  var privacyElements = [];
+  let privacyElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Privacy')){
       privacyElements.push(<ListItem id='privacyItem' key='privacyItem' button onClick={function(){ openPage('/privacy'); }} >
         <ListItemIcon >
@@ -442,7 +443,7 @@ export function PatientSidebar(props){
   //----------------------------------------------------------------------
   // TermsAndConditions
 
-  var termsAndConditionElements = [];
+  let termsAndConditionElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.TermsAndConditions')){
     termsAndConditionElements.push(<ListItem id='termsItem' key='termsItem' button onClick={function(){ openPage('/terms-and-conditions'); }} >
       <ListItemIcon >
@@ -456,7 +457,7 @@ export function PatientSidebar(props){
   //----------------------------------------------------------------------
   // Logout
 
-  var logoutElements = [];
+  let logoutElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Logout')){
     logoutElements.push(<ListItem id='logoutMenuItem' key='logoutMenuItem' button onClick={function(){ openPage('/signin'); }} >
       <ListItemIcon >

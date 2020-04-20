@@ -21,6 +21,8 @@ import { get, has } from 'lodash';
 
 import { useTracker, withTracker } from './Tracker';
 
+import ProjectPage from './MainPage.jsx';
+
 import MainPage from './MainPage.jsx';
 import NotFound from './NotFound.jsx';
 
@@ -538,6 +540,9 @@ export function App(props) {
         { themingRoute }
         { constructionRoute }
         
+        ProjectPage
+
+        <Route name='ProjectPage' key='ProjectPage' path="/project-page" exact component={ ProjectPage } />                
         <Route name='patientChartRoute' key='patientChartPage' path="/patient-chart" exact component={ PatientChart } />                
         <Route name='quickChartRoute' key='quickChartPage' path="/patient-quickchart" exact component={ PatientQuickChart } />                
         <Route name='launchRoute' key='smartOnFhirLaunchPage' path="/launcher" exact component={ launchPage } />                
