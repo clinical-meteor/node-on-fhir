@@ -236,9 +236,8 @@ Meteor.startup(function(){
   const AppWithRouter = withRouter(App);
 
   function AppContainer(props){
-    logger.info('AppContainer environment is initializing.');
-    logger.verbose('Rendering AppContainer');
-    logger.debug('client.app.layout.AppContainer');
+    logger.debug('Rendering the AppContainer');
+    logger.verbose('client.app.layout.AppContainer');
     logger.data('AppContainer.props', {data: props}, {source: "AppContainer.jsx"});
 
     let renderedApp;

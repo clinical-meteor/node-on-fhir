@@ -90,7 +90,7 @@ export function CapabilityStatementCheck(props){
 
   console.log('CapabilityStatementCheck is parsing a JSON object it was given.', jsonContent)
   canSearch = FhirUtilities.parseCapabilityStatement(jsonContent);
-  console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", canSearch);
+  console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for ", canSearch);
 
   let statementBlock = [];
   capabilityInquiryResourceTypes.forEach(function(resourceType, index){

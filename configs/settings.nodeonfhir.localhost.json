@@ -1,6 +1,15 @@
 {
   "public": {
     "title": "Node on FHIR",
+    "fhirVersion": "R4",
+    "smartOnFhir": [{
+      "vendor": "SmartHealth IT",
+      "client_id": "my-client-id",
+      "scope": "launch launch/patient patient/read encounter/read procedure/read condition/read observation/read offline_access",
+      "fhirServiceUrl": "https://launch.smarthealthit.org/v/r3/sim/",
+      "redirect_uri": "./patient-quickchart",
+      "iss": "https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSIsImIiOiJmMDQ2MjkzNi1lYjRiLTRkYTEtYjQ1YS1mYmQ5NmViZjhjY2IiLCJlIjoic21hcnQtUHJhY3RpdGlvbmVyLTcxNjE0NTAyIn0/fhir"
+    }],
     "theme": {
       "showVideoBackground": false,
       "defaultVideo": "/VideoBackgrounds/GrayWaves.mp4",
@@ -9,7 +18,7 @@
         "primaryColor": "rgb(108, 183, 110)",
         "primaryText": "rgba(255, 255, 255, 1) !important",
       
-        "secondaryColor": "rgb(108, 183, 110)",
+        "secondaryColor": "#fdb813",
         "secondaryText": "rgba(255, 255, 255, 1) !important",
       
         "cardColor": "#ffffff !important",
@@ -18,24 +27,42 @@
         "errorColor": "rgb(128,20,60) !important",
         "errorText": "#ffffff !important",
       
-        "appBarColor": "#669f64 !important",
+        "appBarColor": "repeating-linear-gradient( 135deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45) 5px, rgba(0, 0, 0, 0.5) 10px, rgba(0, 0, 0, 0.5) 10px ), url(http://s3-us-west-2.amazonaws.com/s.cdpn.io/3/old_map_@2X.png)",
         "appBarTextColor": "#ffffff !important",
       
         "paperColor": "#ffffff !important",
         "paperTextColor": "rgba(0, 0, 0, 1) !important",
       
-        "backgroundCanvas": "#f5f5f5",
+        "backgroundCanvas": "#e6e6e6",
         "background": "linear-gradient(45deg, rgb(108, 183, 110) 30%, rgb(150, 202, 144) 90%)",
 
         "nivoTheme": "red_grey"
       }
     },
+    "projectPage": {
+      "carouselImages": [
+        "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/ScreenShot-BulkDataQuery.png",
+        "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/ScreenShot-ChicagoHospital-HeatMap.png",
+        "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/Screenshot-PatientChart.png",
+        "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/ScreenShot-ExportDataModule.png",
+        "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/ScreenShot-Geomapping.png"
+      ]
+    },
     "loggingThreshold": "debug",
     "capabilityStatement": {
-      "resourceTypes": ["Conditions", "Devices", "Encounters", "Procedures"]
+      "resourceTypes": ["Condition", "Device", "Encounter", "Immunization", "Medication", "MedicationOrder", "MedicationRequest", "MedicationStatement", "Observation", "Procedure"]
     },
     "defaults": {
-      "route": "/example-route",
+      "route": "/project-page",
+      "landingPage": "/project-page",
+      "homePage": "/project-page",
+      "prominantHeader": false,
+      "useDateRangeInQueries": false,
+      "showPatientNameInHeader": false,
+      "landingModal": {
+        "open": false,
+        "title": "Welcome to Pediatric Gastroenterology Chart"
+      },
       "displayNavbars": true,
       "disableHeader": false,
       "disableFooter": false,
@@ -44,16 +71,20 @@
       "sidebar": {
         "menuItems": {
           "HomePage": true,
+          "Privacy": true,
+          "TermsAndConditions": true,
           "FhirResources": false,
           "DynamicModules": true,
+          "SidebarWorkflows": true,
           "Theme": true,
-          "ConstructionZone": true
+          "ConstructionZone": false
         },
         "hidden": [
           "/allergies",
           "/audit-events",
+          "/body-mass-calculator",
+          "/body-mass-index",
           "/bundles",
-          "/conditions",
           "/careplans",
           "/communications",
           "/consents",
@@ -61,12 +92,10 @@
           "/devices",
           "/diagnostic-reports",
           "/endpoints",
-          "/encounters",
           "/example-route",
           "/import-data",
           "/data-management",
           "/imaging-studies",
-          "/immunizations",
           "/goals",
           "/locations",
           "/measures",
@@ -74,23 +103,23 @@
           "/medications",
           "/medication-orders",
           "/medication-statements",
-          "/observations",
           "/organizations",
-          "/patients",
           "/practitioners",
           "/persons",
-          "/procedures",
           "/risk-assessments",
           "/subscriptions",
           "/vitals-tracking"
+        ],
+        "hiddenWorkflow": [
+          "/patient-quickchart"
         ]
       }
     },
     "interfaces": {
       "default": {
-        "status": "inactive",
+        "status": "active",
         "channel": {
-          "endpoint": "http://localhost:3100/baseDstu2/"
+          "endpoint": "https://covid19-under-fhir.smilecdr.com/baseR4"
         },
         "auth": {
           "username": "foo",

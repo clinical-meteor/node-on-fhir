@@ -20,22 +20,22 @@ export class PatientDemographics extends React.Component {
     }
     getMeteorData(){
         let data = {
-            patient: {}
+            patient: false
         }
-        if(Session.get('currentPatient')){
-            data.patient = Session.get('currentPatient');
+        if(Session.get('selectedPatient')){
+            data.patient = Session.get('selectedPatient');
         }
         return data;
     }
     componentDidMount() {
         const client = this.context.client;
 
-
-        client.patient.read().then(patient => {
-            console.log("Received a paitent", patient)
-            Session.set('currentPatient', patient)
-        })
-        
+        if(get(client, 'patient')){
+            client.patient.read().then(patient => {
+                console.log("Received a paitent", patient)
+                Session.set('selectedPatient', patient)
+            })    
+        }
     }
     render() {
       const { patient } = this.data;
@@ -43,15 +43,28 @@ export class PatientDemographics extends React.Component {
 
       let displayName = FhirUtilities.pluckName(patient);
       
-      return (
-        <div>
+      let birthDate = "";
+      if(get(patient, 'birthDate')){
+        birthDate = moment(get(patient, 'birthDate')).format("YYYY-MM-DD");
+      }
+
+      let demographicsContent;
+
+      if(patient){
+        demographicsContent = <div>
             <h1 className="helveticas" style={{marginBottom: '0px'}}>{displayName}</h1>
             <span style={{paddingRight: '10px'}}>
                 Gender: <b>{get(patient, 'gender')}</b>
             </span>
             <span>
-                Date of Birth: <b>{moment(get(patient, 'birthDate')).format("YYYY-MM-DD")}</b>
+                Date of Birth: <b>{birthDate}</b>
             </span>
+        </div>
+      }
+
+      return (
+        <div id="patienCanvasDemographcs">
+            { demographicsContent }
         </div>
       );
     }
