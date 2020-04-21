@@ -69,12 +69,13 @@ function Header(props) {
       transition: props.theme.transitions.create(['width', 'left'], {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
-      })
+      }),
+      filter: "grayscale(100%)"
     },
     title: {
       flexGrow: 1,
-      background: props.theme.palette.appBar.main,
-      backgroundColor: props.theme.palette.appBar.main,
+      // background: props.theme.palette.appBar.main,
+      // backgroundColor: props.theme.palette.appBar.main,
       color: props.theme.palette.appBar.contrastText
     },
     header_label: {
