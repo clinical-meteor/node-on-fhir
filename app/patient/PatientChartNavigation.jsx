@@ -165,10 +165,8 @@ export function PatientChartNavigation(props){
     switch (pathname) {
       case '/patient-chart':
         return 0;
-        break;      
       default:
         return 0;
-        break;
     }
   }
   let startingIndex = parseIndexFromLocation(location.pathname)
@@ -184,6 +182,8 @@ export function PatientChartNavigation(props){
     switch (newIndex) {
       case 0:
         props.history.replace('/patient-chart')
+        break;
+      default:
         break;
     }
   }
