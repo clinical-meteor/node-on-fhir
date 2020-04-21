@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useParams, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-import { CssBaseline } from '@material-ui/core';
-
-import { Helmet } from "react-helmet";
-import { get } from 'lodash';
-import { PageCanvas, StyledCard } from 'material-fhir-ui';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-
-import Footer from '../layout/Footer.jsx';
-import Header from '../layout/Header.jsx';
-import theme from '../theme.js';
 
 import { 
   CardHeader,
   CardContent,
   Grid
 } from '@material-ui/core';
+import { PageCanvas, StyledCard } from 'material-fhir-ui';
+import { get } from 'lodash';
 
 import { oauth2 as SMART } from "fhirclient";
 
 
+
+// ==============================================================================
+// Styling
+
 // not currently used; but needed to work so we can get the default theme
 const styles = theme => ({});
+
+
+// ==============================================================================
+// Main Component
 
 function LaunchPage(props) {
   if(props.logger){
@@ -43,11 +44,6 @@ function LaunchPage(props) {
 
 
   //--------------------------------------------------------------------------------
-  // Styling
-
-  // const classes = useStyles();
-
-  //--------------------------------------------------------------------------------
   // Component Life Cycle Functions
 
   useEffect(function(){
@@ -62,14 +58,17 @@ function LaunchPage(props) {
       // we prefer using an ?iss parameter from the URL
       // this is how we typically launch from the big EHR systems
       smartConfig.iss = searchParams.get('iss')      
-    } else if (get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl')){
+      //Session.set('smartOnFhir_iss', searchParams.get('iss'))
+    } else if (get(Meteor, 'settings.public.smartOnFhir[0].iss')){
       // if we're testing how the launcher works, we can set the iss in the settings file
       // this is marginally useful in blockchain and multi-tenant hosting environments
       smartConfig.iss = get(Meteor, 'settings.public.smartOnFhir[0].iss');
+      //Session.set('smartOnFhir_iss', get(Meteor, 'settings.public.smartOnFhir[0].iss'))
     } else {
       // otherwise, we resort to using a stand-alone app without launch context
       // this is mostly used for HAPI test servers, not Cerner and Epic
       smartConfig.fhirServiceUrl = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl');
+      //Session.set('smartOnFhir_iss', get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl'))
     }
 
     SMART.authorize(smartConfig);
@@ -84,14 +83,18 @@ function LaunchPage(props) {
     headerHeight = 128;
   }
 
+  let contentToRender;
+
   return (
     <PageCanvas id='constructionZone' headerHeight={headerHeight} >
       <Grid container justify="center">
         <Grid item md={6}>
-          <StyledCard height="auto" scrollable margin={20} >
+          <StyledCard scrollable margin={20} >
             <CardHeader title="Launch Page" />
-            <CardContent>
-              TODO:  Add some launch stuff.  Maybe the info dialog?    
+            <CardContent style={{textAlign: 'center'}}>
+              <h2>Welcome to {get(Meteor, 'settings.public.title')}</h2>
+
+              <p>Please wait as we launch your app.</p>
             </CardContent>
           </StyledCard>
         </Grid>
