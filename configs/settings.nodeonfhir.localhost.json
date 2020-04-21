@@ -27,7 +27,7 @@
         "errorColor": "rgb(128,20,60) !important",
         "errorText": "#ffffff !important",
       
-        "appBarColor": "repeating-linear-gradient( 45deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25) 10px, rgba(0, 0, 0, 0.3) 10px, rgba(0, 0, 0, 0.3) 20px ), url(http://s3-us-west-2.amazonaws.com/s.cdpn.io/3/old_map_@2X.png)",
+        "appBarColor": "repeating-linear-gradient( 135deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45) 5px, rgba(0, 0, 0, 0.5) 10px, rgba(0, 0, 0, 0.5) 10px ), url(http://s3-us-west-2.amazonaws.com/s.cdpn.io/3/old_map_@2X.png)",
         "appBarTextColor": "#ffffff !important",
       
         "paperColor": "#ffffff !important",
