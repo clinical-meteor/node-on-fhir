@@ -76,6 +76,13 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {},
   button: {},
+  fallout_button: {
+    width: '100%', 
+    marginTop: '20px', 
+    marginBottom: '20px',
+    textAlign: 'left',
+    background: "repeating-linear-gradient( 45deg, rgba(253,184,19, 0.9), rgba(253,184,19, 0.9) 10px, rgba(253,184,19, 0.75) 10px, rgba(253,184,19, 0.75) 20px ), url(http://s3-us-west-2.amazonaws.com/s.cdpn.io/3/old_map_@2X.png)"
+  },
   hero_button: {
     width: '100%', 
     marginTop: '20px', 
@@ -177,7 +184,7 @@ function MainPage(props){
     <PageCanvas id='MainPage' style={pageStyle} headerHeight={headerHeight}>
         <Container maxWidth="lg" style={{paddingBottom: '80px'}}>
 
-            <Button variant="contained" color="secondary" className={classes.hero_button} href="https://github.com/symptomatic/covid19-on-fhir" >
+            <Button variant="contained" color="secondary" className={classes.fallout_button} href="https://github.com/symptomatic/covid19-on-fhir" >
               <Icon icon={warning} size={24} /><CardHeader title="Announcement" subheader="Due to pandemic, we have discontinued the old example plugin, and will now be offering Covid19-on-FHIR as the example." />
             </Button>
             <StyledCard margin={20} style={{marginBottom: '20px'}}>
