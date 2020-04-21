@@ -26,6 +26,8 @@ import { Session } from 'meteor/session';
 import { HTTP } from 'meteor/http';
 import JSON5 from 'json5';
 
+import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+
 
 //=============================================================================================================================================
 // TABS
@@ -76,10 +78,9 @@ export function CapabilityStatementCheck(props){
   // REST Interactions
 
   // these are the default resource types our app supports
-  let capabilityInquiryResourceTypes = get(Meteor, "settings.public.capabilityStatement.resourceTypes", ["AllergyIntolerance", "CarePlan", "Condition", "Device", "DiagnosticReport", "Immunizatoin", "MedicationOrder", "Observation", "Organization", "Patient", "Procedure"]);
+  let capabilityInquiryResourceTypes = get(Meteor, "settings.public.capabilityStatement.resourceTypes", ["AllergyIntolerance", "CarePlan", "Condition", "Device", "DiagnosticReport", "Encounter", "Immunization", "MedicationOrder", "Observation", "Organization", "Patient", "Procedure"]);
 
   let canSearch = {};
-  let interactionsManifest = {};
   let isSupported = {};
 
   capabilityInquiryResourceTypes.forEach(function(resourceType){
@@ -88,43 +89,15 @@ export function CapabilityStatementCheck(props){
   })
 
   console.log('CapabilityStatementCheck is parsing a JSON object it was given.', jsonContent)
-  if(get(jsonContent, 'resourceType') === "CapabilityStatement"){
-    console.log('Found CapabilityStatement');
-    if(get(jsonContent, 'rest[0].mode') === "server"){
-      console.log('CapabilityStatement claims it is a server.');
-      if(Array.isArray(get(jsonContent, 'rest[0].resource'))){
-        let resourceArray = get(jsonContent, 'rest[0].resource');
-        console.log('Loading resource array from CapabilityStatement.');
-
-        resourceArray.forEach(function(resource){
-          // console.log('Found the following ' + get(resource, 'type') + ' data in the CapabilityStatement.');          
-          capabilityInquiryResourceTypes.forEach(function(inquiryResourceType){
-            // console.log("Does this match? " + inquiryResourceType)
-            if(get(resource, 'type') === inquiryResourceType){
-              // console.log('Resource type matches one of the types that we are inquiring about.')
-              interactionsManifest[inquiryResourceType] = get(resource, 'interaction');
-              // console.log('Getting interactions manifest for ' + inquiryResourceType)
-              interactionsManifest[inquiryResourceType].forEach(function(interaction){
-                if(interaction.code === "read"){
-                  canSearch[inquiryResourceType] = true;
-                }
-              })
-            }
-          })
-        })
-      }
-    }
-  }
-  console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", canSearch);
+  canSearch = FhirUtilities.parseCapabilityStatement(jsonContent);
+  console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for ", canSearch);
 
   let statementBlock = [];
   capabilityInquiryResourceTypes.forEach(function(resourceType, index){
     if(canSearch[resourceType]){
-      if(isSupported[resourceType]){
-        statementBlock.push(<div style={{color: 'red'}} key={'capability-' + index}>𐄂 Server doesn't support {resourceType}</div>)
-      } else {
-        statementBlock.push(<div style={{color: 'green'}} key={'capability-' + index}>✓ Server does support {resourceType}</div>)
-      }
+      statementBlock.push(<div style={{color: 'green'}} key={'capability-' + index}>✓ Server does support {resourceType}</div>)
+    } else {
+      statementBlock.push(<div style={{color: 'red'}} key={'capability-' + index}>𐄂 Server doesn't support {resourceType}</div>)
     }
   })
   console.log("Default statements", statementBlock)
@@ -182,6 +155,14 @@ export function CapabilityStatementCheck(props){
     height: '2px'
   }
 
+  let baseUrl = "";
+  if(get(jsonContent, 'url')){
+    baseUrl = get(jsonContent, 'url');
+  } else if (get(jsonContent, 'implementation.url')){
+    baseUrl = get(jsonContent, 'implementation.url');
+  }
+
+
   return(
     <DialogContent id={id} className="CapabilityStatementCheck" style={{minWidth: '600px'}} dividers={scroll === 'paper'}>
         <Tabs value={tabIndex} onChange={handleTabChange.bind(this)} aria-label="simple tabs example">
@@ -189,7 +170,7 @@ export function CapabilityStatementCheck(props){
           <Tab label="Raw Text" value={1} />
         </Tabs>
         <TabPanel value={tabIndex} index={0}>
-        <div style={labelRowStyle}><h4 style={labelStyle}>Base URL:</h4><span style={valueStyle}>{get(jsonContent, 'implementation.url')}</span></div>
+        <div style={labelRowStyle}><h4 style={labelStyle}>Base URL:</h4><span style={valueStyle}>{baseUrl}</span></div>
 
           <hr style={separatorStyle} />
           <div style={labelRowStyle}><h4 style={labelStyle}>Publisher:</h4><span style={valueStyle}>{get(jsonContent, 'publisher')}</span></div>

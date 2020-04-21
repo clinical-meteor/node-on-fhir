@@ -10,10 +10,14 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+
 import { get } from 'lodash';
 import moment from 'moment';
 
 import { useTracker } from './Tracker';
+import { PatientChartNavigation } from '../patient/PatientChartNavigation';
+
+import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
@@ -21,10 +25,16 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 // not being used?
 const styles = theme => ({});
 
+if(Meteor.isClient){
+  Session.setDefault('useDateRangeInQueries', get(Meteor, 'settings.public.defaults.useDateRangeInQueries', false));
+  Session.setDefault('workflowTabs', "default");
+}
+
+
 function Header(props) {
   
   if(props.logger){
-    props.logger.info('Rendering the application Header.');
+    props.logger.debug('Rendering the application Header.');
     props.logger.verbose('package.care-cards.client.layout.Header');  
     props.logger.data('Header.props', {data: props}, {source: "HeaderContainer.jsx"});
   }
@@ -42,6 +52,9 @@ function Header(props) {
   };
   
 
+  // ------------------------------------------------------------
+  // Styling
+
   let componentStyles = {
     headerContainer: {  
       height: '64px',
@@ -56,12 +69,13 @@ function Header(props) {
       transition: props.theme.transitions.create(['width', 'left'], {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
-      })
+      }),
+      filter: "grayscale(100%)"
     },
     title: {
       flexGrow: 1,
-      background: props.theme.palette.appBar.main,
-      backgroundColor: props.theme.palette.appBar.main,
+      // background: props.theme.palette.appBar.main,
+      // backgroundColor: props.theme.palette.appBar.main,
       color: props.theme.palette.appBar.contrastText
     },
     header_label: {
@@ -79,19 +93,8 @@ function Header(props) {
     }
   }
 
-  if(Meteor.isClient && props.drawerIsOpen){
-    componentStyles.headerContainer.width = window.innerWidth - drawerWidth;
-    componentStyles.headerContainer.left = drawerWidth;
-  }
-
-  let extendedHeaderItems;
-  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
-    componentStyles.headerContainer.height = '128px';
-
-    if(typeof props.headerNavigation === "function"){
-      extendedHeaderItems = props.headerNavigation(props);
-    }
-  }
+  // ------------------------------------------------------------
+  // Trackers
 
   let selectedStartDate;
   selectedStartDate = useTracker(function(){
@@ -103,18 +106,64 @@ function Header(props) {
     return Session.get("fhirKitClientEndDate");
   }, [props.lastUpdated]);
 
+  let useDateRangeInQueries;
+  useDateRangeInQueries = useTracker(function(){
+    return Session.get("useDateRangeInQueries");
+  }, [props.lastUpdated]);
+
+  let currentPatientId = "";
+  currentPatientId = useTracker(function(){
+    return Session.get("currentPatientId");
+  }, [props.lastUpdated]);
+
+  let currentPatient = null;
+  currentPatient = useTracker(function(){
+    return Session.get("currentPatient");
+  }, [props.lastUpdated]);
+
+  let workflowTabs = "default";
+  workflowTabs = useTracker(function(){
+    return Session.get("workflowTabs");
+  }, [props.lastUpdated]);
+
+
+  // ------------------------------------------------------------
+  // Layout
+
+  if(Meteor.isClient && props.drawerIsOpen){
+    componentStyles.headerContainer.width = window.innerWidth - drawerWidth;
+    componentStyles.headerContainer.left = drawerWidth;
+  }
+
+  let extendedHeaderItems;
+  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
+    componentStyles.headerContainer.height = '128px';
+
+    if(typeof props.headerNavigation === "function"){
+      extendedHeaderItems = props.headerNavigation(props);
+    }    
+
+    if(workflowTabs === "patientchart"){
+      extendedHeaderItems = <PatientChartNavigation />
+    }
+  }
+
+  // ------------------------------------------------------------
+  // Helper Methods
 
   function parseTitle(){
     let titleText = get(Meteor, 'settings.public.title', 'Node on FHIR');
     let selectedPatient;
 
     if(Meteor.isClient){
-      if(Session.get("selectedPatient")){
-        selectedPatient = Session.get("selectedPatient");
-
-        titleText = get(selectedPatient, 'name[0].given[0]') + ' ' + get(selectedPatient, 'name[0].family[0]');            
-        logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
-      }  
+      if(get(Meteor, 'settings.public.defaults.showPatientNameInHeader')){
+        if(Session.get("selectedPatient")){
+          selectedPatient = Session.get("selectedPatient");
+  
+          titleText = FhirUtilities.pluckName(selectedPatient); 
+          logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
+        }    
+      }
     }
 
     return titleText;    
@@ -147,14 +196,16 @@ function Header(props) {
       </div>   
     } else {
       // otherwise, we default to population/search level info to display
-      if(selectedStartDate && selectedEndDate){
-        dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-          <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Timespan: </Typography>
-          <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
-            { getSearchDateRange() }
-          </Typography>
-        </div>   
-      }    
+      if(useDateRangeInQueries){
+        if(selectedStartDate && selectedEndDate){
+          dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+            <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Timespan: </Typography>
+            <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+              { getSearchDateRange() }
+            </Typography>
+          </div>   
+        }      
+      }
       userItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
         <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
         <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
@@ -187,8 +238,6 @@ function Header(props) {
     </AppBar>
   );
 }
-
-
 
 Header.propTypes = {
   logger: PropTypes.object,

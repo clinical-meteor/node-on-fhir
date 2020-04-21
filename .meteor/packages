@@ -5,45 +5,8 @@
 # but you can also edit it by hand.
 
 meteor-base@1.4.0             # Packages every Meteor app needs to have
-mobile-experience@1.1.0       # Packages for a great mobile UX
-mongo@1.9.0                   # The database Meteor supports right now
-reactive-var@1.0.11            # Reactive variable for tracker
 
-standard-minifier-css@1.6.0   # CSS minifier run for production mode
-standard-minifier-js@2.6.0    # JS minifier run for production mode
-es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
-ecmascript@0.14.2             # Enable ECMAScript2015+ syntax in app code
-shell-server@0.5.0            # Server-side component of the `meteor shell` command
-
-static-html                   # Define static page content in .html files
-react-meteor-data             # React higher-order component for reactively tracking Meteor data
-session@1.2.0
-tracker@1.2.0
-http@1.4.2
-
-npdev:react-loadable
-server-render@0.3.1
-
-fourseven:scss
-
-# bundle-visualizer
-
-clinical:fonts
-clinical:extended-api
-clinical:hl7-fhir-data-infrastructure
-# clinical:hl7-fhir-rest
-
-
-# Testing Packages
-# meteortesting:mocha
-# practicalmeteor:chai
-
-# Workflow  
-# symptomatic:example-plugin
-
-alanning:roles
-
-# METEOR BASE 
+# METEOR BASE PKGS   
 # meteor-platform packages we do want
 # autoupdate@1.6.0 (expanded above) 
 # check@1.3.1 (expanded above)      
@@ -62,11 +25,54 @@ alanning:roles
 # tracker@1.2.0 (top level)         
 # webapp@1.7.5 (expanded above)  
 
+# SECURITY 
+alanning:roles
+
+# DATA INFRASTRUCTURE
+mongo@1.9.0                   # The database Meteor supports right now
+reactive-var@1.0.11            # Reactive variable for tracker
+react-meteor-data             # React higher-order component for reactively tracking Meteor data
+session@1.2.0
+tracker@1.2.0
+http@1.4.2
+
+# RENDERING
+es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
+static-html                   # Define static page content in .html files
+standard-minifier-css@1.6.0   # CSS minifier run for production mode
+standard-minifier-js@2.6.0    # JS minifier run for production mode
+mobile-experience@1.1.0       # Packages for a great mobile UX
+ecmascript@0.14.2             # Enable ECMAScript2015+ syntax in app code
+shell-server@0.5.0            # Server-side component of the `meteor shell` command
+server-render@0.3.1
+npdev:react-loadable
+fourseven:scss
+
+# CLINICAL INFRASTRUCTURE
+clinical:fonts
+clinical:extended-api
+clinical:hl7-fhir-data-infrastructure
+# clinical:hl7-fhir-rest
+
+# TESTING
+# meteortesting:mocha
+# practicalmeteor:chai
+
+
+
+# PERFORMANCE MONITORING (Galaxy hosting provider)
+# mdg:meteor-apm-agent
+# bundle-visualizer
 
 # DESKTOP BUILD 
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
+# WORKFLOW  
 # symptomatic:covid19-on-fhir
+# symptomatic:example-plugin
 # symptomatic:covid19-geomapping
+# symptomatic:covid19-reporting
+# symptomatic:data-management
+
 
