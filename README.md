@@ -1,6 +1,6 @@
 ## Node on FHIR  
 
-![https://github.com/symptomatic/node-on-fhir/blob/development/public/node-on-fhir-logo.png](https://github.com/symptomatic/node-on-fhir/blob/development/public/node-on-fhir-logo.png)
+![https://github.com/symptomatic/node-on-fhir/blob/development/public/node-on-fhir-logo.png](https://github.com/symptomatic/node-on-fhir/blob/development/public/node-on-fhir-logo-thin.png)
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3466/badge)](https://bestpractices.coreinfrastructure.org/projects/3466) [![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/awatson1978/node-on-fhir)  
 
@@ -96,7 +96,7 @@ MONGO_URL='mongodb://user:password@host:port/databasename' PORT=4200 ROOT_URL=ht
 
 ## Stack Components  
 
-![Img]()  
+![StackShare](https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/StackShare.png)  
 
 ## References  
 - [Notice of Proposed Rulemaking to Improve the Interoperability of Health Information](https://www.healthit.gov/topic/laws-regulation-and-policy/notice-proposed-rulemaking-improve-interoperability-health)  

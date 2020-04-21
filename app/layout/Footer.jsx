@@ -61,7 +61,7 @@ const styles = theme => ({
 
 function Footer(props) {
   if(props.logger){
-    props.logger.info('Rendering the application Footer.');
+    props.logger.debug('Rendering the application Footer.');
     props.logger.verbose('package.care-cards.client.layout.Footer');  
     props.logger.data('Footer.props', {data: props}, {source: "FooterContainer.jsx"});
   }
@@ -74,8 +74,8 @@ function Footer(props) {
 
 
   function renderWestNavbar(pathname){
-    props.logger.debug('package.care-cards.client.layout.Footer.renderWestNavbar');
-    props.logger.verbose('Checking packages for action buttons that match the following pathname: ' + pathname);
+    props.logger.trace('Checking packages for action buttons that match the following pathname: ' + pathname);
+    props.logger.verbose('package.care-cards.client.layout.Footer.renderWestNavbar');
 
     let self = this;
 
@@ -146,7 +146,8 @@ function Footer(props) {
       transition: props.theme.transitions.create(['width', 'left'], {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
-      })
+      }),
+      filter: "grayscale(100%)"
     }
   }
 

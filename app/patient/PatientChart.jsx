@@ -28,20 +28,9 @@ export default function PatientChart() {
       fhirServerEndpoint = searchParams.get('iss')
     }
 
-    let contentToRender;
-    if(SMART.ready()){
-      contentToRender = <FhirClientProvider>
-        <PageCanvas id='constructionZone' headerHeight={headerHeight} >
-          <PatientDemographics />
-          <Dashboard fhirServerEndpoint={fhirServerEndpoint} />
-        </PageCanvas>
-      </FhirClientProvider>
-    } else {
-      contentToRender = <PageCanvas id='constructionZone' headerHeight={headerHeight} >
+    let contentToRender = <PageCanvas id='patientChart' headerHeight={headerHeight} >
         <PatientDemographics />
         <Dashboard fhirServerEndpoint={fhirServerEndpoint} />
-      </PageCanvas>
-    }
-    
+      </PageCanvas>    
     return (contentToRender);
 }
