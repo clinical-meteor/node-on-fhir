@@ -146,7 +146,8 @@ function Footer(props) {
       transition: props.theme.transitions.create(['width', 'left'], {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
-      })
+      }),
+      filter: "grayscale(100%)"
     }
   }
 

@@ -7,7 +7,7 @@
       "client_id": "my-client-id",
       "scope": "launch launch/patient patient/read encounter/read procedure/read condition/read observation/read offline_access",
       "fhirServiceUrl": "https://launch.smarthealthit.org/v/r3/sim/",
-      "redirect_uri": "./patient-chart",
+      "redirect_uri": "./patient-quickchart",
       "iss": "https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSIsImIiOiJmMDQ2MjkzNi1lYjRiLTRkYTEtYjQ1YS1mYmQ5NmViZjhjY2IiLCJlIjoic21hcnQtUHJhY3RpdGlvbmVyLTcxNjE0NTAyIn0/fhir"
     }],
     "theme": {
@@ -18,7 +18,7 @@
         "primaryColor": "rgb(108, 183, 110)",
         "primaryText": "rgba(255, 255, 255, 1) !important",
       
-        "secondaryColor": "rgb(108, 183, 110)",
+        "secondaryColor": "#fdb813",
         "secondaryText": "rgba(255, 255, 255, 1) !important",
       
         "cardColor": "#ffffff !important",
@@ -39,17 +39,23 @@
         "nivoTheme": "red_grey"
       }
     },
-    "loggingThreshold": "verbose",
+    "projectPage": {
+      "carouselImages": [
+        "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/ScreenShot-BulkDataQuery.png",
+        "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/Screenshot-PatientChart.png",
+        "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/ScreenShot-ChicagoHospital-HeatMap.png",
+        "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/ScreenShot-ExportDataModule.png",
+        "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/ScreenShot-Geomapping.png"
+      ]
+    },
+    "loggingThreshold": "info",
     "capabilityStatement": {
-      "resourceTypes": ["Conditions", "Devices", "Encounters", "Procedures"]
+      "resourceTypes": ["Condition", "Device", "Encounter", "Immunization", "Medication", "MedicationOrder", "MedicationRequest", "MedicationStatement", "Observation", "Procedure"]
     },
     "defaults": {
-      "route": "/example-route",
-      "landingPage": "/example-route",
-      "landingModal": {
-        "open": false,
-        "title": "Welcome to Pediatric Gastroenterology Chart"
-      },
+      "route": "/project-page",
+      "landingPage": "/project-page",
+      "homePage": "/project-page",
       "dateFormat": "YYYY-MM-DD",
       "displayNavbars": true,
       "disableHeader": false,
@@ -68,22 +74,20 @@
         "hidden": [
           "/allergies",
           "/audit-events",
+          "/body-mass-calculator",
+          "/body-mass-index",
           "/bundles",
-          "/conditions",
-          "/care-plans",
           "/careplans",
-          "/careplan",
           "/communications",
           "/consents",
           "/contracts",
-          "/diagnostic-reports",
           "/devices",
-          "/encounters",
-          "/example-route",
-          "/export-data",
+          "/diagnostic-reports",
           "/endpoints",
+          "/example-route",
+          "/import-data",
+          "/data-management",
           "/imaging-studies",
-          "/immunizations",
           "/goals",
           "/locations",
           "/measures",
@@ -91,22 +95,23 @@
           "/medications",
           "/medication-orders",
           "/medication-statements",
-          "/observations",
           "/organizations",
           "/practitioners",
           "/persons",
-          "/procedures",
           "/risk-assessments",
           "/subscriptions",
           "/vitals-tracking"
-      ]
+        ],
+        "hiddenWorkflow": [
+          "/patient-quickchart"
+        ]
       }
     },
     "interfaces": {
       "default": {
-        "status": "inactive",
+        "status": "active",
         "channel": {
-          "endpoint": "http://hapi.fhir.org/baseR4"
+          "endpoint": "https://covid19-under-fhir.smilecdr.com/baseR4"
         },
         "auth": {
           "username": "foo",
@@ -146,5 +151,13 @@
       }
     }
   },
-  "private": {}
+  "private": {
+    "disableOauth": true,
+    "fhir": {
+      "rest": {
+        "Patient": true,
+        "Observation": true
+      }
+    }
+  }
 }

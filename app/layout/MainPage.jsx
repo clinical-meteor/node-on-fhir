@@ -3,16 +3,20 @@ import React from 'react';
 import { 
   Button,
   Card,
+  CardActionArea,
+  CardActions,
   CardHeader,
   CardContent,
   CardMedia,
-  Grid,
+  Container,
+  Grid,  
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Image
+  Image,
+  Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -39,22 +43,58 @@ import {barcode} from 'react-icons-kit/fa/barcode'
 import {cogs} from 'react-icons-kit/fa/cogs'
 import {server} from 'react-icons-kit/fa/server'
 import {snowflakeO} from 'react-icons-kit/fa/snowflakeO'
+import {location} from 'react-icons-kit/icomoon/location'
+import {aidKit} from 'react-icons-kit/icomoon/aidKit'
+import {chain} from 'react-icons-kit/fa/chain'
+import {dashboard} from 'react-icons-kit/fa/dashboard'
+import {hospitalO} from 'react-icons-kit/fa/hospitalO'
+import {medkit} from 'react-icons-kit/fa/medkit'
+import {codeFork} from 'react-icons-kit/fa/codeFork'
+import {cubes} from 'react-icons-kit/fa/cubes'
+import {usb} from 'react-icons-kit/fa/usb'
+import {universalAccess} from 'react-icons-kit/fa/universalAccess'
+import {mobileCombo} from 'react-icons-kit/entypo/mobileCombo'
+import {fire} from 'react-icons-kit/icomoon/fire'
+import {warning} from 'react-icons-kit/fa/warning'
 
 import Carousel from 'react-multi-carousel';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    minHeight: 400,
+  },
+  open_stack: {
+    minHeight: 1200,
+    backgroundSize: 'contain'
+  },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
   },
   textField: {},
   button: {},
-  hero_button: {width: '100%', marginTop: '20px'}
+  hero_button: {
+    width: '100%', 
+    marginTop: '20px', 
+    marginBottom: '20px',
+    textAlign: 'left'
+  },
+  tip_of_the_day: {
+    width: '100%', 
+    marginTop: '20px', 
+    marginBottom: '20px',
+    textAlign: 'left'
+  }
 }));
 
 function DynamicSpacer(props){
   return(<div style={{height: props.height}}></div>)
 }
+
+
 
 function MainPage(props){
   const classes = useStyles();
@@ -71,8 +111,8 @@ function MainPage(props){
   }
 
   let pageStyle = {
-    paddingLeft: '200px', 
-    paddingRight: '200px',
+    paddingLeft: '100px', 
+    paddingRight: '100px',
     position: 'absolute',
     top: '0px'
   }
@@ -98,60 +138,72 @@ function MainPage(props){
       paritialVisibilityGutter: 30
     }
   };
-  const images = [
-    "https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1550133730-695473e544be?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1550167164-1b67c2be3973?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1550338861-b7cfeaf8ffd8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1550223640-23097fc71cb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1550353175-a3611868086b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1550330039-a54e15ed9d33?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1549737328-8b9f3252b927?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1549833284-6a7df91c1f65?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1549985908-597a09ef0a7c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1550064824-8f993041ffd3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-  ];
 
 
-
+  function openExternalPage(url){
+    logger.debug('client.app.layout.MainPage.openExternalPage', url);
+    window.open(url);
+    // props.history.replace(url)
+  }
   //----------------------------------------------------------------------
   // Main Render Method  
 
+  let carouselImages = get(Meteor, 'settings.public.projectPage.carouselImages', [])
+
   let imageItems = [];
-  images.forEach(function(url, index){
+  carouselImages.forEach(function(url, index){
     imageItems.push(<img                    
       style={{ width: "100%", height: "100%" }}
+      key={"image-" + index}
       src={url}
     />);
-    // imageItems.push(<Card>
-    //   <CardMedia />
-    // </Card>)
   });
+
+  let tagLineStyle = {
+    fontWeight: 'normal',
+    fontStyle: 'italic',
+    textAlign: 'center',
+    marginTop: '0px',
+    marginBottom: '40px'
+  }
+
+  let featureRowStyle = {
+    height: '52px'
+  }
+
+
 
   return (
     <PageCanvas id='MainPage' style={pageStyle} headerHeight={headerHeight}>
-        <Grid container justify="center" spacing={3} style={{paddingBottom: '80px'}}>
-          <Grid item lg={8}>
+        <Container maxWidth="lg" style={{paddingBottom: '80px'}}>
+
+            <Button variant="contained" color="secondary" className={classes.hero_button} href="https://github.com/symptomatic/covid19-on-fhir" >
+              <Icon icon={warning} size={24} /><CardHeader title="Announcement" subheader="Due to pandemic, we have discontinued the old example plugin, and will now be offering Covid19-on-FHIR as the example." />
+            </Button>
             <StyledCard margin={20} style={{marginBottom: '20px'}}>
               <div style={{width: '100%', textAlign: 'center'}}>
                 <img src='/node-on-fhir-logo-thin.png' style={{width: '400px'}} alt="Node on FHIR Logo" />
               </div>
-              <CardHeader title="Node on FHIR" style={{textAlign:'center'}} />
               <CardContent>
-                <p>
-                  Welcome to the next best thing to sliced bread.    This code repository contains a reference server and web application stack written in modern ES6/Typescript/Javascript/Node that can compile to mobile devices.  We have gone through the NPM repository, and tried to pull in as many FHIR related libraries as we could in order to find the 'center' of the Javascript FHIR community.  
-                </p>
-                <p>
-                  This project is an offshoot of the Meteor on FHIR project, which developed a Javascript based FHIR application stack about 4 years ago.  A the time, we chose Meteor.js, a full-stack application framework that used websockets as it's transportation mechanism with pub/sub functionality, because it had good support for clinician worklists use cases.  Over time, we saw some limitations with the default Meteor tech stack, but were quite pleased with the Meteor compiler.  Eventually, we decided to do a soft fork of the Meteor project, and set up our own release track and began replacing the websocket/data-distribution-protocol with more standard OAuth/REST interfaces.  We also were tracking many of the latest developments in the Javascript community, such as the release of React, EcmaScript 6, and Typescript.  With the help of the Meteor Development Group, we were able to upgrade the default reference build to include best practices from across the Javascript ecosystem.   
-                </p>
-                <p>
-                  The following reference build isthe result of 5 years of work; 70+ prototypes and pilots, the result of a million+ quality control tests, and the contributions of dozens of different organizations, ranging from big tech companies (Google, Facebook) and javascript specific projects (Meteor, Material UI) to healthcare specific companies (HL7, Vermonster, Asymmetrik, SmartHealthIT, etc).   It represents a rich combination of functionality that is difficult to be found anywhere else, particularly in it's support of mobile applications and blockchain.    
-                </p> 
+                <CardContent style={{fontSize: '110%', lineHeight: '200%', textAlign: 'justify'}}>
+                  <h4 style={tagLineStyle}>
+                    Open Source Javascript + Fast Healthcare Interoperability Resources (FHIR) = the best thing since Peanut Butter and Jelly (PB&J).   
+                  </h4>
+                  <p>
+                    Node on FHIR is designed to build scalable web applications that are interoperable with modern Electronic Health Records (EHRs) used by hospitals, governments, and medical device vendors.  
+                  </p>
+                  <p>
+                    The term 'interoperability' entered U.S. legal jargon about 5 years ago, when the <a href="https://www.cms.gov/Regulations-and-Guidance/Legislation/EHRIncentivePrograms/index?redirect=/EHRIncentivePrograms">Medicare Access and CHIP Reauthorization Act of 2015</a> established EHR Incentive Programs which encourage eligible professionals and hospitals to adopt 'interoperability protocols' via Medicare payments.  A year later, the <a href="https://www.healthit.gov/sites/default/files/cures/2020-03/NPRMvsFinalRule.pdf">21st Century Cures Act</a> referred to 'interoperability protocols' again, tying them to information blocking fees.  With carrots and sticks both in place, the health IT industry had clear incentives to allow competing systems exchange data with each other rather than siloing data.  At the time, nobody knew what 'interoperability' meant, and whether it referred to sending FAX or PDF documents, or something more modern like HTTP web protocols.  Enter Health Level Seven International (HL7), a not-for-profit ANSI-accredited standards development organization.  They have been the leaders for the past 30 years in developing interoperability protocols that hospitals use.  And they had a fledgling project called Fast Healthcare Interoperability Resources (FHIR) that used modern RESTful HTTP endpoints.  It was widely agreed to be the right approach, and the community rallied around it as a technology.                
+                  </p>
+                  <p>
+                    Node on FHIR orginally began as a project called Meteor on FHIR, which took a popular web application framework called Meteor.js and added FHIR support to it.  This project is the result of 5 years of work; 70+ prototypes and pilots, the result of a million+ quality control tests, and the contributions of dozens of different organizations, ranging from big tech companies (Google, Facebook) and javascript specific projects (Meteor, Material UI) to healthcare specific companies (HL7, Vermonster, Asymmetrik, SmartHealthIT, etc) to many small startups.   We have gone through the NPM repository, and tried to pull in as many FHIR related libraries as we could in order to find the 'center' of the Javascript FHIR community. It represents a rich combination of functionality that is difficult to be found anywhere else.    
+                  </p> 
+                </CardContent>
               </CardContent>
             </StyledCard>
 
-            <Carousel     
+            <Card>
+              <Carousel     
                 additionalTransfrom={0}
                 arrows
                 autoPlay
@@ -201,11 +253,150 @@ function MainPage(props){
               >
                 { imageItems }
               </Carousel>
+            </Card>
+
+          
+            
+
+              {/* <StyledCard margin={20} >
+                <CardHeader title="Getting Started" />
+                <CardContent>
+                  <pre>
+                    - install meteor
+                    - download github repo
+                    - install dependencies
+                    - run app
+                  </pre>
+                </CardContent>  
+              </StyledCard> */}
 
 
 
-            <StyledCard margin={20} >
 
+
+              
+              <StyledCard margin={20} >
+                <CardHeader title="Features - Everything You Need; Kitchen Sink Included" />
+                <CardContent>
+
+                <Table size="small" >
+                  <TableHead>
+                    <TableRow >
+                      <TableCell style={{fontWeight: 'bold'}} >Icon</TableCell>
+                      <TableCell style={{fontWeight: 'bold', minWidth: '320px'}} >Feature</TableCell>
+                      <TableCell style={{fontWeight: 'bold'}} >Vendor</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={fire} size={18} /></TableCell>
+                      <TableCell>Fast Healthcare Interoperability Resources</TableCell>
+                      <TableCell>ANSI Certified Standards.  Required by U.S. federal law, pertaining to MACRA and 21st Century Cures.  </TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={hospitalO} size={18} /></TableCell>
+                      <TableCell>EHR Interoperability</TableCell>
+                      <TableCell>Can fetch data from Medicare, Medicaid, Apple HealthRecords, and all hospitals running a Cerner, Epic, or other FHIR compliant EHR.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={mobileCombo} size={18} /></TableCell>
+                      <TableCell>Multiple Device Pipelines</TableCell>
+                      <TableCell>Write once and run anywhere, with pipelines for compiling the javascript software on desktops, mobile devices, and webTV.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={puzzlePiece} size={18} /></TableCell>
+                      <TableCell>Modular Reusable Components</TableCell>
+                      <TableCell>Built with modular reusable components using React (from Facebook).  Proven web technology used by billions of people.  Components progressively get better with time rather than become a speghetti mess.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={universalAccess} size={18} /></TableCell>
+                      <TableCell>Accessibility</TableCell>
+                      <TableCell>Includes accessibility best practices via Accessible Rich Internet Applications (ARIA) specification.  Supports screen readers, low visibility modes, voice prompts, etc.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={cubes} size={18} /></TableCell>
+                      <TableCell>Material Design</TableCell>
+                      <TableCell>Designed with a modern toolkit of user interface components based on the Material Design specification from Google.</TableCell>                  
+                    </TableRow>
+
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={font} size={18} /></TableCell>
+                      <TableCell>Icons, Fonts, & Typography</TableCell>
+                      <TableCell>Includes rich typography and fonts and extended icon support to make your applications look beautiful.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={addressCard} size={18} /></TableCell>
+                      <TableCell>Social Media Metadata</TableCell>
+                      <TableCell>Get the word out and allow people to share your project with others on Facebook and Twitter.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={codeFork} size={18} /></TableCell>
+                      <TableCell>A/B Testing Infrastructure</TableCell>
+                      <TableCell>Built from the ground up around containerization and an application-wide settings, to allow different containers to run the software with different settings.  Perfect for A/B testing methodologies.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={database} size={18} /></TableCell>
+                      <TableCell>Document Database</TableCell>
+                      <TableCell>Built with Mongo, an ultra-scalable JSON database that stores FHIR data as-is in a NoSQL format.  Easily convert a server database into an enterprise grade datalake.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={speech_bubbles} size={18} /></TableCell>
+                      <TableCell>Email, Chat & SMS Integration</TableCell>
+                      <TableCell>Support inbound and outbound messaging via the FHIR Communication resource and integration with MailChimp, Twilio, and other messaging platforms.</TableCell>                  
+                    </TableRow>
+
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={barcode} size={18} /></TableCell>
+                      <TableCell>Machine Vision & Learning</TableCell>
+                      <TableCell>Get fancy and add AI to your project with libraries like Tensorflow. Or keep it simply by adding barcodes and QR codes to let your application read products labels.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={amazon} size={18} /></TableCell>
+                      <TableCell>HIPAA Hosting</TableCell>
+                      <TableCell>Chose your HIPAA hosting provider.  We regularly run NodeOnFHIR instances on Amazon Web Services, Azure, Aptible, Galaxy, and other providers.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={location} size={18} /></TableCell>
+                      <TableCell>GPS, Maps, & Location Services</TableCell>
+                      <TableCell>Support geospatial applications via Google Maps integration.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={chain} size={18} /></TableCell>
+                      <TableCell>Blockchain Support</TableCell>
+                      <TableCell>Take advantage of all the blockchain libraries available to the Node/Javascript community, including Hyperledger, Etherium, BigChain, and IPFS.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={dashboard} size={18} /></TableCell>
+                      <TableCell>Realtime Dashboards</TableCell>
+                      <TableCell>Build data rich dashboards using D3 charts from Stanford.  Chose Chart.js or Nivo for reusable charts that make creating dashboards a breeze.</TableCell>                  
+                    </TableRow>
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={medkit} size={18} /></TableCell>
+                      <TableCell>EMT Smart Device Integration</TableCell>
+                      <TableCell>Internet of Things has never been easier than with standardized data models and APIs.  We've integrated iHealth, Withings, and FitBit in the past, and look forward to many more integrations to come.</TableCell>                  
+                    </TableRow>
+
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={filePdfO} size={18} /></TableCell>
+                      <TableCell>PDF Support</TableCell>
+                      <TableCell>Seamlessly render the Material UI components to PDF with WYSIWYG layout and design.</TableCell>                  
+                    </TableRow>
+
+                    <TableRow style={featureRowStyle}>
+                      <TableCell><Icon icon={snowflakeO} size={18} /></TableCell>
+                      <TableCell>Autoconfiguratoin via P2P & Mesh Networking</TableCell>
+                      <TableCell>Cut down on hassle of configuring systems by using P2P network topologies, distribtued file systems, and mesh networks.</TableCell>                  
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </StyledCard>
+
+            <Button variant="contained" color="secondary" className={classes.tip_of_the_day} >
+              <Icon icon={lightbulbO} size={24} /><CardHeader title="Getting Started Tip" subheader="Use ⌘+ and ⌘- to zoom in and out." style={{padding: '20px'}} />
+            </Button>
+
+            <StyledCard margin={20} style={{marginBottom: '20px'}}>
               <CardHeader title="Open Source Community Libraries" />
               <CardContent>
                 <Table size="small" >
@@ -218,7 +409,7 @@ function MainPage(props){
                   </TableHead>
                   <TableBody>
                     <TableRow>
-                    <TableCell>FHIR Client with modern ES6 classes, cross-version support, SMART, testing, and more.  </TableCell>
+                    <TableCell>FHIR Client with ES6 classes, cross-version support, testing, etc.  </TableCell>
                       <TableCell>fhir-kit-client</TableCell>
                       <TableCell>Vermonster</TableCell>
                     </TableRow>
@@ -228,9 +419,9 @@ function MainPage(props){
                       <TableCell>smarthealthit</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell>FHIR Client from the community with good Angular, jQuery, and YUI support.</TableCell>
+                      <TableCell>FHIR Client with good Angular and jQuery support.</TableCell>
                       <TableCell>fhir.js</TableCell>
-                      <TableCell>FHIR Community / Aidbox</TableCell>
+                      <TableCell>Aidbox</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>Node FHIR Server</TableCell>
@@ -245,7 +436,7 @@ function MainPage(props){
                     <TableRow>
                     <TableCell>Blue Button to FHIR DSTU2 converter</TableCell>
                       <TableCell>blue-button-fhir</TableCell>
-                      <TableCell>Amida Technology Solutions</TableCell>
+                      <TableCell>Amida Technology</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>FHIRPath parser</TableCell>
@@ -278,7 +469,7 @@ function MainPage(props){
                       <TableCell>jackruss</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell>HL7 v2 parser, serializer, validator and tcp client/server for NodeJS</TableCell>
+                      <TableCell>HL7 v2 parser, serializer, validator and tcp client/server.</TableCell>
                       <TableCell>hl7v2</TableCell>
                       <TableCell>panates</TableCell>
                     </TableRow>
@@ -286,125 +477,81 @@ function MainPage(props){
                       <TableCell>HL7v2 parser/generator from Redox.  Battle tested.</TableCell>
                       <TableCell>redox-hl7-v2</TableCell>
                       <TableCell>Redox</TableCell>
-                      </TableRow>
+                    </TableRow>
+                    
                   </TableBody>
                 </Table>
                 </CardContent>
               </StyledCard>
 
-              <Card margin={20} style={{textAlign: 'center', backgroundColor: '#e0e0e0', marginTop: '20px'}}>
-                <CardHeader title="You can use ⌘+ and ⌘- to zoom in and out." style={{padding: '20px'}} />
-              </Card>
-              <StyledCard margin={20} >
-                <CardHeader title="Getting Started" />
-                <CardContent>
-                  <pre>
-                    - install meteor
-                    - download github repo
-                    - install dependencies
-                    - run app
-                  </pre>
-                </CardContent>  
-              </StyledCard>
 
-              <StyledCard margin={20} >
-                <CardHeader title="Everything You Need For Better Healthcare Software" />
-                <CardContent>
-
-                <Table size="small" >
-                  <TableHead>
-                    <TableRow >
-                      <TableCell style={{fontWeight: 'bold'}} >Icon</TableCell>
-                      <TableCell style={{fontWeight: 'bold'}} >Feature</TableCell>
-                      <TableCell style={{fontWeight: 'bold'}} >Library</TableCell>
-                      <TableCell style={{fontWeight: 'bold'}} >Vendor</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>Material Design</TableCell>
-                      <TableCell>material-ui</TableCell>
-                      <TableCell>Google; CallEmAll</TableCell>                  
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>Modular Reusable Components</TableCell>
-                      <TableCell>react</TableCell>
-                      <TableCell>Facebook</TableCell>                  
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>DevOps Logging</TableCell>
-                      <TableCell>winston/TableCell</TableCell>
-                      <TableCell></TableCell>                  
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>Icons, Fonts, & Typography</TableCell>
-                      <TableCell>react-icons</TableCell>
-                      <TableCell></TableCell>                  
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>Search Engine Optimization</TableCell>
-                      <TableCell></TableCell>
-                      <TableCell>Google</TableCell>                  
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>Social Media Metadata</TableCell>
-                      <TableCell></TableCell>
-                      <TableCell>Facebook, Twitter</TableCell>                  
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>Multitenant Design</TableCell>
-                      <TableCell>meteorjs</TableCell>
-                      <TableCell>Meteor Development Group</TableCell>                  
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>A/B Testing Infrastructure</TableCell>
-                      <TableCell>meteorjs</TableCell>
-                      <TableCell>Meteor Development Group</TableCell>                  
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>Distributed Mongo</TableCell>
-                      <TableCell>minimongo</TableCell>
-                      <TableCell>Meteor Development Group</TableCell>                  
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>Document Database</TableCell>
-                      <TableCell>mongo</TableCell>
-                      <TableCell>Mongo</TableCell>                  
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>Mesh Networking</TableCell>
-                      <TableCell>ipfs</TableCell>
-                      <TableCell>Interplanetary File System</TableCell>                  
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>Peer to Peer File Transfer</TableCell>
-                      <TableCell>webtorrent</TableCell>
-                      <TableCell>Web Torrent</TableCell>                  
-                    </TableRow>
-                    
-                  </TableBody>
-                </Table>
-              </CardContent>
+            <StyledCard>
+              <CardHeader title="Open Source - With Professional Services and Plugins" subheader="Node on FHIR is open source, but it exists within an ecosystem of professional services and supports proprietary plugins." />
+                <CardMedia 
+                  className={classes.media}
+                  title="Open Source - With Professional Services"
+                  image="https://raw.githubusercontent.com/symptomatic/software-development-kit/master/images/ClientEngagementBuildPipeline.png" />                
             </StyledCard>
+
 
             <Button variant="contained" color="primary" className={classes.hero_button} href="https://github.com/symptomatic/node-on-fhir" >
               <Icon icon={github} size={48} /><CardHeader title="Download the Code" />
             </Button>
 
-          </Grid>
-        </Grid>
+            <StyledCard style={{marginBottom: '20px'}}>
+              <CardHeader title="Change Log" subheader="A huge amount of new features have gone into Node on FHIR since v0.3.0, easily making this the most feature packed release ever.  " />
+              <CardContent style={{padding: '20px', marginLeft: '40px'}}>
+                <Typography gutterBottom variant="h6" component="h2">
+                  v0.4.0 - Patient Charting with SMART on FHIR
+                </Typography>
+                <ul>
+                  <li>Upgraded to the official SMART on FHIR client library.</li>
+                  <li>Added provider launch context.</li>
+                  <li>Added a basic patient chart with most of the Argonaut / USCDI FHIR resources.</li>
+                  <li>Added quicklaunch functionality to pull patient chart when being launched from an EHR.</li>
+                  <li>Autoconfiguration checks Capability Statement on launch, and adjusts queries accordingly.</li>
+                  <li>No Data cards and workflows.</li>
+                  <li>Added additional Clinical Parameters to Bulk Data Fetch. </li>
+                  <li>Updated license terms to MIT, in consideration of pandemic response.</li>
+                  <li>Updated privacy policy to reflect redesigned example page.</li>
+                </ul>
+                <Typography gutterBottom variant="h6" component="h2">
+                  v0.3.2 - COVID19 - Geocoding, Heatmaps, and Measure Reports
+                </Typography>
+                <ul>
+                  <li>Google Maps integration, with markers and heatmaps.</li>
+                  <li>Geocoding pipelines codes Address datatypes into Locations with Lat/Lng</li>
+                  <li>Sidebar Workflows separated from FHIR Resource links.</li>
+                  <li>Server side hospital index with 2dsphere index.</li>
+                  <li>Proximity searches on both client and server using $near operator.</li>
+                  <li>Map controls for radius, opacity, and max intensity.  Toggle labels and markers on/off.</li>
+                  <li>Covid19-Reporting plugin which includes Measure and Measure Reports.</li>
+                  <li>Sample data includes grocers file, CDC measures, and hospital index file.</li>
+                </ul>
+                <Typography gutterBottom variant="h6" component="h2">
+                  v0.3.1 - COVID19 - FHIR Queries
+                </Typography>
+                <ul>
+                  <li>Replaced the old example plugin with the Covid19 on FHIR plugin.</li>
+                  <li>Preliminary integration with Synthea via the Covid19 Module.</li>
+                  <li>Validated bulk data query operations with Covid19 related LOINC and SNOMED codes.</li>
+                  <li>Major updates to resource tables in the HL7 FHIR Data Infrastructure package.</li>
+                </ul>
+              </CardContent>
+            </StyledCard>
+
+
+            <StyledCard>
+              <CardHeader title="StackShare" subheader="For architecture details and discussion, please see StackShare for rationals and why we chose some technologies over others." />
+              <CardActionArea onClick={openExternalPage.bind(this, "https://stackshare.io/symptomatic-llc/node-on-fhir")}>
+                <CardMedia 
+                  className={classes.open_stack}
+                  title="Open Source - With Professional Services"
+                  image="https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/StackShare.png" />                
+              </CardActionArea>
+            </StyledCard>
+
+      </Container>
     </PageCanvas>
   );
 }
