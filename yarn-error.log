@@ -1,17 +1,25 @@
 Arguments: 
-  /usr/local/lib/node_modules/node/lib/node_modules/node/lib/node_modules/node/bin/node /usr/local/Cellar/yarn/1.3.2/libexec/bin/yarn.js version
+  /usr/local/lib/node_modules/node/lib/node_modules/node/lib/node_modules/node/bin/node /Users/abigailwatson/.yarn/bin/yarn.js add papaparse
 
 PATH: 
   /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mongodb/bin:~/Applications/mongodb/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
 
 Yarn version: 
-  1.3.2
+  1.22.4
 
 Node version: 
   10.6.0
 
 Platform: 
   darwin x64
+
+Trace: 
+  SyntaxError: /Volumes/StorageCrystal-Quartz/Code/Covid19/node-on-fhir/package.json: Unexpected token } in JSON at position 4307
+      at JSON.parse (<anonymous>)
+      at /Users/abigailwatson/.yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/Users/abigailwatson/.yarn/lib/cli.js:310:30)
+      at /Users/abigailwatson/.yarn/lib/cli.js:321:13
 
 npm manifest: 
   {
@@ -93,10 +101,19 @@ npm manifest:
       "chai": "4.2.0",
       "chai-nightwatch": "0.4.0",
       "conventional-changelog-cli": "^2.0.11",
+      "chromedriver": "80.0.2",
+      "eslint": "^6.8.0",
+      "eslint-config-airbnb": "^11.1.0",
+      "eslint-import-resolver-meteor": "^0.3.3",
+      "eslint-plugin-import": "^1.15.0",
+      "eslint-plugin-jsx-a11y": "^2.2.2",
+      "eslint-plugin-meteor": "^4.0.0",
+      "eslint-plugin-react": "^6.2.2",
+      "lighthouse": "5.6.0",
+     
       "shelljs": "^0.7.4"
     },
     "unusedFhirLibs": {
-  
       "@ahryman40k/ts-fhir-types": "4.0.23",
       "@asymmetrik/node-fhir-server-core": "2.0.7",
       "@asymmetrik/sof-scope-checker": "1.0.2",
@@ -107,19 +124,6 @@ npm manifest:
       "fhirpath": "0.17.2",
       "react-fontawesome": "^1.6.1",
       "blue-button-fhir": "1.6.0-beta.2"
-    },
-    "disabledTestingLibs": {
-      "chromedriver": "80.0.2",
-      "eslint": "^6.8.0",
-      "eslint-config-airbnb": "^11.1.0",
-      "eslint-import-resolver-meteor": "^0.3.3",
-      "eslint-plugin-import": "^1.15.0",
-      "eslint-plugin-jsx-a11y": "^2.2.2",
-      "eslint-plugin-meteor": "^4.0.0",
-      "eslint-plugin-react": "^6.2.2",
-      "lighthouse": "5.6.0",
-      "nightwatch": "1.3.4",
-      "selenium-webdriver": "3.6.0"
     },
     "experimental": {
       "webtorrent": "0.107.17",
@@ -133,7 +137,10 @@ npm manifest:
       "electron": "6.1.7",
       "electron-builder": "21.2.0",
       "meteor-desktop": "2.2.5",
-      "bcrypt": "3.0.6"
+      "bcrypt": "3.0.6",
+  
+      "nightwatch": "1.3.4",
+      "selenium-webdriver": "3.6.0",
     }
   }
 
@@ -1073,6 +1080,15 @@ Lockfile:
   add-stream@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/add-stream/-/add-stream-1.0.0.tgz#6a7990437ca736d5e1288db92bd3266d5f5cb2aa"
+  
+  agentkeepalive@^4.0.2:
+    version "4.1.0"
+    resolved "https://registry.yarnpkg.com/agentkeepalive/-/agentkeepalive-4.1.0.tgz#a48e040ed16745dd29ce923675f60c9c90f39ee0"
+    integrity sha512-CW/n1wxF8RpEuuiq6Vbn9S8m0VSYDMnZESqaJ6F2cWN9fY8rei2qaxweIaRgq+ek8TqfoFIsUjaGNKGGEHElSg==
+    dependencies:
+      debug "^4.1.0"
+      depd "^1.1.2"
+      humanize-ms "^1.2.1"
   
   ajv-keywords@^3.4.1:
     version "3.4.1"
@@ -2111,6 +2127,14 @@ Lockfile:
       safe-buffer "^5.0.1"
       sha.js "^2.4.8"
   
+  cross-fetch@^3.0.4:
+    version "3.0.4"
+    resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.4.tgz#7bef7020207e684a7638ef5f2f698e24d9eb283c"
+    integrity sha512-MSHgpjQqgbT/94D4CyADeNoYh52zMkCX4pcJvPP5WqPsLFMKjr2TCMg381ox5qI0ii2dPwaLx/00477knXqXVw==
+    dependencies:
+      node-fetch "2.6.0"
+      whatwg-fetch "3.0.0"
+  
   crypto-browserify@^3.11.0:
     version "3.12.0"
     resolved "https://registry.yarnpkg.com/crypto-browserify/-/crypto-browserify-3.12.0.tgz#396cf9f3137f03e4b8e532c58f698254e00f80ec"
@@ -2203,6 +2227,11 @@ Lockfile:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
   
+  decode-uri-component@^0.2.0:
+    version "0.2.0"
+    resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
+    integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
+  
   deep-eql@0.1.3:
     version "0.1.3"
     resolved "https://registry.yarnpkg.com/deep-eql/-/deep-eql-0.1.3.tgz#ef558acab8de25206cd713906d74e56930eb69f2"
@@ -2224,6 +2253,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/define-properties/-/define-properties-1.1.3.tgz#cf88da6cbee26fe6db7094f61d870cbd84cee9f1"
     dependencies:
       object-keys "^1.0.12"
+  
+  depd@^1.1.2:
+    version "1.1.2"
+    resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
+    integrity sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
   
   des.js@^1.0.0:
     version "1.0.1"
@@ -2331,6 +2365,11 @@ Lockfile:
       is-date-object "^1.0.1"
       is-symbol "^1.0.2"
   
+  es6-promise@^4.2.4:
+    version "4.2.8"
+    resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
+    integrity sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==
+  
   escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
     version "1.0.5"
     resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
@@ -2377,6 +2416,19 @@ Lockfile:
   fecha@^2.3.3:
     version "2.3.3"
     resolved "https://registry.yarnpkg.com/fecha/-/fecha-2.3.3.tgz#948e74157df1a32fd1b12c3a3c3cdcb6ec9d96cd"
+  
+  fhir-kit-client@1.4.2:
+    version "1.4.2"
+    resolved "https://registry.yarnpkg.com/fhir-kit-client/-/fhir-kit-client-1.4.2.tgz#1bf49eeee29b337c244ebe4ac194ce6178712b29"
+    integrity sha512-nUg1207uxPp0Qt4rADHWHfOW4muyYkZGttM3UiJk4ji62ec3ciWiN98thUlhjRKi5eztQqJyuxYeXJt8veSJhA==
+    dependencies:
+      agentkeepalive "^4.0.2"
+      cross-fetch "^3.0.4"
+      debug "^3.1.0"
+      es6-promise "^4.2.4"
+      flatted "^2.0.1"
+      query-string "^6.2.0"
+      universal-url "^1.0.1"
   
   fhirclient@2.1.0:
     version "2.1.0"
@@ -2427,6 +2479,11 @@ Lockfile:
     dependencies:
       locate-path "^5.0.0"
       path-exists "^4.0.0"
+  
+  flatted@^2.0.1:
+    version "2.0.2"
+    resolved "https://registry.yarnpkg.com/flatted/-/flatted-2.0.2.tgz#4575b21e2bcee7434aa9be662f4b7b5f9c2b5138"
+    integrity sha512-r5wGx7YeOwNWNlCA0wQ86zKyDLMQr+/RB8xy74M4hTphfmjlijTSSXGuH8rnvKZnfT9i+75zmd8jcKdMR4O6jA==
   
   fs-extra@8.1.0:
     version "8.1.0"
@@ -2622,6 +2679,13 @@ Lockfile:
   https-browserify@0.0.1:
     version "0.0.1"
     resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
+  
+  humanize-ms@^1.2.1:
+    version "1.2.1"
+    resolved "https://registry.yarnpkg.com/humanize-ms/-/humanize-ms-1.2.1.tgz#c46e3159a293f6b896da29316d8b6fe8bb79bbed"
+    integrity sha1-xG4xWaKT9riW2ikxbYtv6Lt5u+0=
+    dependencies:
+      ms "^2.0.0"
   
   hyphenate-style-name@^1.0.3:
     version "1.0.3"
@@ -3360,7 +3424,7 @@ Lockfile:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
   
-  ms@^2.1.1:
+  ms@^2.0.0, ms@^2.1.1:
     version "2.1.2"
     resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   
@@ -3388,6 +3452,11 @@ Lockfile:
       encoding "^0.1.11"
       json-parse-better-errors "^1.0.0"
       safe-buffer "^5.1.1"
+  
+  node-fetch@2.6.0:
+    version "2.6.0"
+    resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
+    integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
   
   node-modules-regexp@^1.0.0:
     version "1.0.0"
@@ -3690,6 +3759,15 @@ Lockfile:
   q@^1.5.1:
     version "1.5.1"
     resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
+  
+  query-string@^6.2.0:
+    version "6.12.1"
+    resolved "https://registry.yarnpkg.com/query-string/-/query-string-6.12.1.tgz#2ae4d272db4fba267141665374e49a1de09e8a7c"
+    integrity sha512-OHj+zzfRMyj3rmo/6G8a5Ifvw3AleL/EbcHMD27YA31Q+cO5lfmQxECkImuNVjcskLcvBRVHNAB3w6udMs1eAA==
+    dependencies:
+      decode-uri-component "^0.2.0"
+      split-on-first "^1.0.0"
+      strict-uri-encode "^2.0.0"
   
   querystring-es3@^0.2.1:
     version "0.2.1"
@@ -4179,6 +4257,11 @@ Lockfile:
     version "3.0.5"
     resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.5.tgz#3694b5804567a458d3c8045842a6358632f62654"
   
+  split-on-first@^1.0.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/split-on-first/-/split-on-first-1.1.0.tgz#f610afeee3b12bce1d0c30425e76398b78249a5f"
+    integrity sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==
+  
   split2@^2.0.0:
     version "2.2.0"
     resolved "https://registry.yarnpkg.com/split2/-/split2-2.2.0.tgz#186b2575bcf83e85b7d18465756238ee4ee42493"
@@ -4211,6 +4294,11 @@ Lockfile:
       readable-stream "^2.3.6"
       to-arraybuffer "^1.0.0"
       xtend "^4.0.0"
+  
+  strict-uri-encode@^2.0.0:
+    version "2.0.0"
+    resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz#b9c7330c7042862f6b142dc274bbcc5866ce3546"
+    integrity sha1-ucczDHBChi9rFC3CdLvMWGbONUY=
   
   string.prototype.trimend@^1.0.0:
     version "1.0.1"
@@ -4465,12 +4553,20 @@ Lockfile:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-1.1.0.tgz#dd57a99f6207bedff4628abefb94c50db941c8f4"
   
-  universal-url@^2.0.0:
+  universal-url@2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/universal-url/-/universal-url-2.0.0.tgz#35e7fc2c3374804905cee67ea289ed3a47669809"
     dependencies:
       hasurl "^1.0.0"
       whatwg-url "^7.0.0"
+  
+  universal-url@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/universal-url/-/universal-url-1.0.1.tgz#f7385097f1809a1c8323b17898844d67547773d5"
+    integrity sha512-WqnOre1p6yP0JAoENa/9jD4E4dIpKQ66AUxM2d1kWTSKcOGqSNdg9tqk4NBQcJpoRe/DfnN6hni/aSofSwoDgg==
+    dependencies:
+      hasurl "^1.0.0"
+      whatwg-url "^6.5.0"
   
   universalify@^0.1.0:
     version "0.1.2"
@@ -4544,9 +4640,18 @@ Lockfile:
     version "4.0.2"
     resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
   
-  whatwg-fetch@^3.0.0:
+  whatwg-fetch@3.0.0, whatwg-fetch@^3.0.0:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
+  
+  whatwg-url@^6.5.0:
+    version "6.5.0"
+    resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-6.5.0.tgz#f2df02bff176fd65070df74ad5ccbb5a199965a8"
+    integrity sha512-rhRZRqx/TLJQWUpQ6bmrt2UV4f0HCQ463yQuONJqC6fO2VoEb1pTYddbe59SkYq87aoM5A3bdhMZiUiVws+fzQ==
+    dependencies:
+      lodash.sortby "^4.7.0"
+      tr46 "^1.0.1"
+      webidl-conversions "^4.0.2"
   
   whatwg-url@^7.0.0:
     version "7.1.0"
@@ -4602,16 +4707,3 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-10.1.0.tgz#7202265b89f7e9e9f2e5765e0fe735a905edbaa8"
     dependencies:
       camelcase "^4.1.0"
-
-Trace: 
-  Error: canceled
-      at Interface.<anonymous> (/usr/local/Cellar/yarn/1.3.2/libexec/lib/cli.js:121045:13)
-      at Interface.emit (events.js:182:13)
-      at Interface._ttyWrite (readline.js:783:16)
-      at ReadStream.onkeypress (readline.js:168:10)
-      at ReadStream.emit (events.js:182:13)
-      at emitKeys (internal/readline.js:422:14)
-      at emitKeys.next (<anonymous>)
-      at ReadStream.onData (readline.js:1022:36)
-      at ReadStream.emit (events.js:182:13)
-      at addChunk (_stream_readable.js:283:12)
