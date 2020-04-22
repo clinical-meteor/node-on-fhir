@@ -147,7 +147,7 @@ function Footer(props) {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
       }),
-      filter: "grayscale(100%)"
+      filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") +")"
     }
   }
 
