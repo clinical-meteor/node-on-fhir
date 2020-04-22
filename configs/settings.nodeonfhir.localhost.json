@@ -59,10 +59,6 @@
       "prominantHeader": false,
       "useDateRangeInQueries": false,
       "showPatientNameInHeader": false,
-      "landingModal": {
-        "open": false,
-        "title": "Welcome to Pediatric Gastroenterology Chart"
-      },
       "displayNavbars": true,
       "disableHeader": false,
       "disableFooter": false,
