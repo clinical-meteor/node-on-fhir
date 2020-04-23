@@ -242,7 +242,7 @@ export function PatientSidebar(props){
         });    
       }
     }); 
-      logger.data('PatientSidebar.sidebarWorkflows', sidebarWorkflows);
+    logger.data('PatientSidebar.sidebarWorkflows', sidebarWorkflows);
   }
   
 

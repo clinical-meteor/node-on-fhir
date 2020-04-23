@@ -15,7 +15,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 
 import { useTracker } from './Tracker';
-import { PatientChartNavigation } from '../patient/PatientChartNavigation';
+import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
@@ -29,6 +29,32 @@ if(Meteor.isClient){
   Session.setDefault('useDateRangeInQueries', get(Meteor, 'settings.public.defaults.useDateRangeInQueries', false));
   Session.setDefault('workflowTabs', "default");
 }
+
+// ==============================================================================
+// Dynamic Imports 
+
+let headerWorkflows = [];
+
+// default dialog component
+headerWorkflows.push({
+  name: "PatientChartWorkflowTabs",
+  component: <PatientChartWorkflowTabs />,
+  matchingPaths: [
+    "/patient-chart",
+    "/patient-quickchart"
+  ]
+})
+
+// dynamic dialog components
+Object.keys(Package).forEach(function(packageName){
+  if(Package[packageName].WorkflowTabs){
+    // we try to build up a route from what's specified in the package
+    Package[packageName].WorkflowTabs.forEach(function(componentReference){
+      headerWorkflows.push(componentReference);      
+    });    
+  }
+});
+
 
 
 function Header(props) {
@@ -127,6 +153,7 @@ function Header(props) {
   }, [props.lastUpdated]);
 
 
+
   // ------------------------------------------------------------
   // Layout
 
@@ -135,17 +162,37 @@ function Header(props) {
     componentStyles.headerContainer.left = drawerWidth;
   }
 
-  let extendedHeaderItems;
+  let workflowTabsToRender;
+  let selectedWorkflow;
   if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
     componentStyles.headerContainer.height = '128px';
 
-    if(typeof props.headerNavigation === "function"){
-      extendedHeaderItems = props.headerNavigation(props);
-    }    
+    if(Meteor.isClient){
+      headerWorkflows.forEach(function(workflow){
+        if(Array.isArray(workflow.matchingPaths)){
+          if(workflow.matchingPaths.includes(window.location.pathname)){
+            console.log('Found a matching workflow component to render.')
+            
+            // did we find a matching component?
+            workflowTabsToRender = workflow.component;  
+          }  
 
-    if(workflowTabs === "patientchart"){
-      extendedHeaderItems = <PatientChartNavigation />
+          if(workflowTabsToRender){
+            workflowTabsToRender = React.cloneElement(
+              workflowTabsToRender, props 
+            );
+          }
+        }
+      })  
     }
+
+    // if(typeof props.headerNavigation === "function"){
+    //   workflowTabsToRender = props.headerNavigation(props);
+    // }    
+
+    // if(workflowTabs === "patientchart"){
+    //   workflowTabsToRender = <PatientChartWorkflowTabs />
+    // }
   }
 
   // ------------------------------------------------------------
@@ -232,7 +279,7 @@ function Header(props) {
         
         { dateTimeItems }        
         { demographicItems }
-        { extendedHeaderItems }
+        { workflowTabsToRender }
 
       </Toolbar>
     </AppBar>

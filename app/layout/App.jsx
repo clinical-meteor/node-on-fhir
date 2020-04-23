@@ -349,8 +349,7 @@ export function App(props) {
 
   let searchParams = new URLSearchParams(useLocation().search);
   if(searchParams){
-    console.log("WE HAVE STATE", searchParams.state);
-    console.log("WE HAVE QUERY PARAMS");
+
     searchParams.forEach(function(value, key){
       console.log(key + ': ' + value); 
     });
