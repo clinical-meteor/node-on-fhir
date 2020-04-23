@@ -137,3 +137,18 @@ We recommend doing all development of the `material-fhir-ui` library within the 
 Lastly, you may need to re-link the package each time you make updates.  :/  There is a `rollup --watch` command that you can use to ease this task; but its a bit brittle and easy to forget to run.   
 
 **IMPORTANT**: By submitting a patch, you agree to allow the project owners to license your work under the terms of the [MIT License](LICENSE.txt).
+
+## Coding Style Guide  
+
+- Terseness causes obfuscation and errors.  Spell out variable names.  Don't use abbreviations.
+
+- Practice defensive programming with circut breakers and bulkheads.  This begins by embracing the lodash `get()` function whenever you want to access a JSON object's field.  
+
+- This is intended to be a 12 Factor App.  As part of this design philosophy, config variables are exposed as environment variables.  As such, all the application settings are stored in `Meteor.settings` which itself can be set via `METEOR_SETTINGS` at run time.  Any sort of variable that might be specific to a specific client or installation should be brought in the Meteor.settings file.  When in doubt, extract it out.  Use `get(Meteor, 'settings.public.foo')` and feel free to add custom fields to the settings file.  It's getting huge already, but that's okay.  Be sure to document the new settings fields that you introduce.  
+
+- Quotes vs double quotes - an over-rated argument.  Start with double quotes, since it's required for creating valid JSON objects.  Understand that double and single quotes can reference each other, and depending on the parsing, string building, or evals in your code you may need to switch between the two.  We have this linting rule turned off.  Be responsible.
+
+- Arrow functions vs `function`.  Arrow functions and destructuring are nice, but are terse and difficult to follow and maintain.  Use in this codebase is discouraged.  There are many programmers rushing to the latest ES6 tutorials and trying to embrace all the latest programing syntax.  Arrows have their time and place, but will be considered a sign of not having read the contributing guidelines.  
+
+- Destructuring objects - `props` are one place where destructuring makes sense.  In most other places, overuse of destructuring causes code to be difficult to read, and therefore difficult to maintain.
+
