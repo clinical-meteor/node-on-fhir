@@ -40,6 +40,7 @@ import {notepad} from 'react-icons-kit/ikons/notepad'  // CarePlan ?
 import {iosPulseStrong} from 'react-icons-kit/ionicons/iosPulseStrong' // Pulse, Condition  
 import {location} from 'react-icons-kit/typicons/location' // Location
 import {eyedropper} from 'react-icons-kit/fa/eyedropper'
+import {dashboard} from 'react-icons-kit/fa/dashboard' //Dashboard
 
 // import {ic_hearing} from 'react-icons-kit/md/ic_hearing'  // Condition?
 // import {ic_fingerprint} from 'react-icons-kit/md/ic_fingerprint' // Biometric
@@ -47,7 +48,7 @@ import {eyedropper} from 'react-icons-kit/fa/eyedropper'
 // import {thermometer3} from 'react-icons-kit/fa/thermometer3' // Observation  
 // import {stethoscope} from 'react-icons-kit/fa/stethoscope' // Device
 // import {umbrella} from 'react-icons-kit/fa/umbrella' // ExplanationOfBeneft,
-// import {dashboard} from 'react-icons-kit/fa/dashboard' //Dashboard
+
 // import {flask} from 'react-icons-kit/fa/flask' // Substance 
 // import {cameraRetro} from 'react-icons-kit/fa/cameraRetro' // ImagingStudy
 // import {film} from 'react-icons-kit/fa/film' // Media 
@@ -273,8 +274,14 @@ export function PatientSidebar(props){
         case "heartbeat":
           result = <Icon icon={heartbeat} />
           break;
+        case "dashboard":
+          result = <Icon icon={dashboard} />
+          break;
         case "ic_devices":
           result = <Icon icon={ic_devices} />
+          break;
+        case "ic_local_pharmacy":
+          result = <Icon icon={ic_local_pharmacy} />
           break;
         case "ic_transfer_within_a_station":
           result = <Icon icon={ic_transfer_within_a_station} />
@@ -319,6 +326,10 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules')){
     dynamicModules.map(function(element, index){ 
 
+      if(element.icon){
+        console.warn('Plugin Warning: You have tried to pass in an icon.  This has been deprecated.  Please use an iconName instead.')
+      }
+
       let clonedIcon = parseIcon(element.iconName); 
 
       // // we want to pass in the props
@@ -352,6 +363,10 @@ export function PatientSidebar(props){
   let workflowElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.SidebarWorkflows')){
     sidebarWorkflows.map(function(element, index){ 
+
+      if(element.icon){
+        console.warn('Plugin Warning: You have tried to pass in an icon.  This has been deprecated.  Please use an iconName instead.')
+      }
 
       let clonedIcon = parseIcon(element.iconName); 
 
