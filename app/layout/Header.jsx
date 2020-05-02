@@ -246,7 +246,7 @@ function Header(props) {
       if(useDateRangeInQueries){
         if(selectedStartDate && selectedEndDate){
           dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-            <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Timespan: </Typography>
+            <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Date Range: </Typography>
             <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
               { getSearchDateRange() }
             </Typography>
