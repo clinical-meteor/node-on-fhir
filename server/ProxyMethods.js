@@ -6,9 +6,10 @@ import { Match } from 'meteor/check';
 
 Meteor.methods({
     async queryEndpoint(fhirUrl, accessToken){
+        check(fhirUrl, String)
+        check(accessToken, Match.Maybe(String));
+    
         if(get(Meteor, 'settings.private.proxyServerEnabled')){
-            check(fhirUrl, String)
-            check(accessToken, Match.Maybe(String));
     
             console.log('Query Endpoint: ', fhirUrl)
             console.log('AccessToken:    ', accessToken)
