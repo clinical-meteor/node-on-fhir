@@ -295,9 +295,6 @@ export function PatientSidebar(props){
         case "erlenmeyerFlask":
           result = <Icon icon={erlenmeyerFlask} />
           break;
-        case "ic_local_pharmacy":
-          result = <Icon icon={ic_local_pharmacy} />
-          break;
         case "iosPulseStrong":
           result = <Icon icon={iosPulseStrong} />
           break;
