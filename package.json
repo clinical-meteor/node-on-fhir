@@ -53,7 +53,7 @@
     "lodash": "4.17.15",
     "material-fhir-ui": "0.9.45",
     "meteor-node-stubs": "0.4.1",
-    "moment": "2.24.2",
+    "moment": "2.24.0",
     "papaparse": "5.2.0",
     "prop-types": "15.7.2",
     "react": "16.12.0",
