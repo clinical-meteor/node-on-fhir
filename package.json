@@ -1,6 +1,6 @@
 {
   "name": "node-on-fhir",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "private": true,
   "meteor": {
     "mainModule": {
@@ -51,7 +51,7 @@
     "fhirclient": "2.1.0",
     "json5": "2.1.3",
     "lodash": "4.17.15",
-    "material-fhir-ui": "0.9.45",
+    "material-fhir-ui": "0.9.46",
     "meteor-node-stubs": "0.4.1",
     "moment": "2.24.0",
     "papaparse": "5.2.0",
