@@ -41,19 +41,25 @@ import {iosPulseStrong} from 'react-icons-kit/ionicons/iosPulseStrong' // Pulse,
 import {location} from 'react-icons-kit/typicons/location' // Location
 import {eyedropper} from 'react-icons-kit/fa/eyedropper'
 import {dashboard} from 'react-icons-kit/fa/dashboard' //Dashboard
+import {list} from 'react-icons-kit/fa/list' //Dashboard
+import {addressCardO} from 'react-icons-kit/fa/addressCardO'  // Address Card  
 
-// import {ic_hearing} from 'react-icons-kit/md/ic_hearing'  // Condition?
-// import {ic_fingerprint} from 'react-icons-kit/md/ic_fingerprint' // Biometric
-// import {ic_accessible} from 'react-icons-kit/md/ic_accessible' // Devices
-// import {thermometer3} from 'react-icons-kit/fa/thermometer3' // Observation  
-// import {stethoscope} from 'react-icons-kit/fa/stethoscope' // Device
-// import {umbrella} from 'react-icons-kit/fa/umbrella' // ExplanationOfBeneft,
+import {ic_hearing} from 'react-icons-kit/md/ic_hearing'  // Condition?
+import {ic_fingerprint} from 'react-icons-kit/md/ic_fingerprint' // Biometric
+import {ic_accessible} from 'react-icons-kit/md/ic_accessible' // Devices
+import {thermometer3} from 'react-icons-kit/fa/thermometer3' // Observation  
+import {stethoscope} from 'react-icons-kit/fa/stethoscope' // Device
+import {umbrella} from 'react-icons-kit/fa/umbrella' // ExplanationOfBeneft,
 
+import {envelopeO} from 'react-icons-kit/fa/envelopeO' // Correspondence 
+import {ic_question_answer} from 'react-icons-kit/md/ic_question_answer'
+import {shoppingBasket} from 'react-icons-kit/fa/shoppingBasket'
+
+// import {ic_tune} from 'react-icons-kit/md/ic_tune'
 // import {flask} from 'react-icons-kit/fa/flask' // Substance 
 // import {cameraRetro} from 'react-icons-kit/fa/cameraRetro' // ImagingStudy
 // import {film} from 'react-icons-kit/fa/film' // Media 
 // import {image} from 'react-icons-kit/fa/image' // Media 
-// import {envelopeO} from 'react-icons-kit/fa/envelopeO' // Correspondence 
 // import {eye} from 'react-icons-kit/fa/eye' // BodySite
 // import {barcode} from 'react-icons-kit/fa/barcode' // Barcode  
 // import {ambulance} from 'react-icons-kit/fa/ambulance' // Ambulance   
@@ -64,11 +70,24 @@ import {dashboard} from 'react-icons-kit/fa/dashboard' //Dashboard
 // import {laptop} from 'react-icons-kit/fa/laptop' // Laptop  
 // import {wheelchair} from 'react-icons-kit/fa/wheelchair' // Wheelchair   
 // import {signing} from 'react-icons-kit/fa/signing' // Handwash / Signing  
-// import {addressCardO} from 'react-icons-kit/fa/addressCardO'  // Address Card  
 // import {addressBook} from 'react-icons-kit/fa/addressBook' // Address Book  
 // import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition  
 // import {nuclear} from 'react-icons-kit/ionicons/nuclear' // Radiology  
 // import {pipette} from 'react-icons-kit/typicons/pipette' // Immunization ?
+
+// import {ic_signal_wifi_0_bar} from 'react-icons-kit/md/ic_signal_wifi_0_bar'
+// import {ic_signal_wifi_1_bar} from 'react-icons-kit/md/ic_signal_wifi_1_bar'
+// import {ic_signal_wifi_1_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_1_bar_lock'
+// import {ic_signal_wifi_2_bar} from 'react-icons-kit/md/ic_signal_wifi_2_bar'
+// import {ic_signal_wifi_2_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_2_bar_lock'
+// import {ic_signal_wifi_3_bar} from 'react-icons-kit/md/ic_signal_wifi_3_bar'
+// import {ic_signal_wifi_3_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_3_bar_lock'
+// import {ic_signal_wifi_4_bar} from 'react-icons-kit/md/ic_signal_wifi_4_bar'
+// import {ic_signal_wifi_4_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_4_bar_lock'
+// import {ic_signal_wifi_off} from 'react-icons-kit/md/ic_signal_wifi_off'
+// import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering'
+// import {ic_devices} from 'react-icons-kit/md/ic_devices'
+
 
 const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -310,6 +329,45 @@ export function PatientSidebar(props){
         case "bath":
           result = <Icon icon={bath} />
           break;          
+        case "list":
+          result = <Icon icon={list} />
+          break;    
+        case "addressCardO":
+          result = <Icon icon={addressCardO} />
+          break;    
+
+        case "ic_hearing":
+          result = <Icon icon={ic_hearing} />
+          break;    
+        case "ic_fingerprint":
+          result = <Icon icon={ic_fingerprint} />
+          break;    
+        case "ic_accessible":
+          result = <Icon icon={ic_accessible} />
+          break;    
+        case "thermometer3":
+          result = <Icon icon={thermometer3} />
+          break;    
+        case "stethoscope":
+          result = <Icon icon={stethoscope} />
+          break;    
+        case "umbrella":
+          result = <Icon icon={umbrella} />
+          break;    
+        case "envelopeO":
+          result = <Icon icon={envelopeO} />
+          break;    
+        case "ic_question_answer":
+          result = <Icon icon={ic_question_answer} />
+          break;    
+        case "picnic_basket":
+          result = <Icon icon={shoppingBasket} />
+          break;    
+      
+          
+          
+
+          
         default:
           result = <Icon icon={fire} className={props.classes.drawerIcons} />
           break;

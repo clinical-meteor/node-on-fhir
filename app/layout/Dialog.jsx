@@ -140,8 +140,8 @@ export default function ScrollDialog(props) {
 
   return (
     <div>
-      <Button onClick={handleClickOpen('paper')}>scroll=paper</Button>
-      <Button onClick={handleClickOpen('body')}>scroll=body</Button>
+      {/* <Button onClick={handleClickOpen('paper')}>scroll=paper</Button>
+      <Button onClick={handleClickOpen('body')}>scroll=body</Button> */}
       <Dialog
         open={open}
         onClose={handleClose}
