@@ -1,6 +1,6 @@
 Package.describe({
   name: 'symptomatic:saner',
-  version: '0.5.0',
+  version: '0.5.1',
   summary: 'Symptomatic SANER package with vault server, data management, etc.',
   git: 'https://github.com/symptomatic/saner',
   documentation: 'README.md'
@@ -31,7 +31,7 @@ Package.onUse(function(api) {
   api.use('symptomatic:vault-server');
 
   api.use('symptomatic:vault-server@6.1.0');
-  api.use('clinical:hl7-fhir-data-infrastructure@6.4.17');
+  api.use('clinical:hl7-fhir-data-infrastructure@6.4.18');
   api.imply('symptomatic:vault-server@6.1.0');
 
   api.addAssets('geodata/health_service_areas.geojson', 'client');
