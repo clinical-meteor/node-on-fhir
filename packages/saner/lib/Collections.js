@@ -1,30 +1,25 @@
 
 import { Mongo } from 'meteor/mongo';
 
-// Communications = new Mongo.Collection('Communications');
-
-// MeasureReports = new Mongo.Collection('MeasureReports');
-
-
 if(Meteor.isClient){
-  Meteor.subscribe('measures');
-  Meteor.subscribe('measureReports');
-  Meteor.subscribe('organizations');
-  Meteor.subscribe('locations');
+  Meteor.subscribe('Measures');
+  Meteor.subscribe('MeasureReports');
+  Meteor.subscribe('Organizations');
+  Meteor.subscribe('Locations');
 }
 
 
 if(Meteor.isServer){
-  Meteor.publish('measures', function(){
+  Meteor.publish('Measures', function(){
       return Measures.find();
   });    
-  Meteor.publish('measureReports', function(){
+  Meteor.publish('MeasureReports', function(){
     return MeasureReports.find();
   });    
-  Meteor.publish('organizations', function(){
+  Meteor.publish('Organizations', function(){
     return Organizations.find();
   });    
-  Meteor.publish('locations', function(){
+  Meteor.publish('Locations', function(){
     return Locations.find();
   });    
 

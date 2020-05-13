@@ -65,9 +65,9 @@
       "resourceTypes": ["Condition", "Device", "Encounter", "Immunization", "Medication", "MedicationOrder", "MedicationRequest", "MedicationStatement", "Observation", "Procedure"]
     },
     "defaults": {
-      "route": "/project-page",
-      "landingPage": "/project-page",
-      "homePage": "/project-page",
+      "route": "/saner-hsa-map",
+      "landingPage": "/saner-hsa-map",
+      "homePage": "/saner-hsa-map",
       "landingModal": {
         "open": true,
         "title": "Welcome to S.A.N.E.R.",
