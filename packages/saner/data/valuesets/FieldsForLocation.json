@@ -1,0 +1,52 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "FieldsForLocation",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Resource Fields for Location</h2><div><p>Field names in the Location Resource</p>\n</div><ul><li>Include all codes defined in <a href=\"CodeSystem-ResourceFieldsForLocation.html\"><code>http://hl7.org/fhir/us/saner/CodeSystem/ResourceFieldsForLocation</code></a></li></ul></div>"
+  },
+  "url" : "http://hl7.org/fhir/us/saner/ValueSet/FieldsForLocation",
+  "version" : "0.1.0",
+  "name" : "FieldsForLocation",
+  "title" : "Resource Fields for Location",
+  "status" : "active",
+  "date" : "2020-05-15T14:48:47+00:00",
+  "publisher" : "HL7 International",
+  "contact" : [
+    {
+      "name" : "HL7 Patient Administration Workgroup",
+      "telecom" : [
+        {
+          "system" : "url",
+          "value" : "http://hl7.org/Special/committees/pafm/index.cfm"
+        }
+      ]
+    },
+    {
+      "name" : "Audacious Inquiry",
+      "telecom" : [
+        {
+          "system" : "url",
+          "value" : "http://ainq.com"
+        }
+      ]
+    },
+    {
+      "name" : "Keith W. Boone",
+      "telecom" : [
+        {
+          "system" : "email",
+          "value" : "mailto:kboone@ainq.com"
+        }
+      ]
+    }
+  ],
+  "description" : "Field names in the Location Resource",
+  "compose" : {
+    "include" : [
+      {
+        "system" : "http://hl7.org/fhir/us/saner/CodeSystem/ResourceFieldsForLocation"
+      }
+    ]
+  }
+}
