@@ -76,7 +76,7 @@
     "validator": "10.9.0",
     "winston": "3.2.1"
   },
-  "devDependenciesDisabled": {
+  "devDependencies": {
     "chai": "4.2.0",
     "chai-nightwatch": "0.4.0",
     "conventional-changelog-cli": "^2.0.11",
