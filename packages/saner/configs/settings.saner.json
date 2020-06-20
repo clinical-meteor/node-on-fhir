@@ -60,9 +60,27 @@
         "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/ScreenShot-Geomapping.png"
       ]
     },
-    "loggingThreshold": "info",
+    "loggingThreshold": "debug",
     "capabilityStatement": {
       "resourceTypes": ["Condition", "Device", "Encounter", "Immunization", "Medication", "MedicationOrder", "MedicationRequest", "MedicationStatement", "Observation", "Procedure"]
+    },
+    "saner": {
+      "reporter": {
+        "reference": "Organization/Org-1065",
+        "display": "HEALTHSOUTH REHABILITATION HOSPITAL OF LITTLETON"
+      },
+      "location": {
+        "reference": "Location/Loc-Org-1065",
+        "display": "HEALTHSOUTH REHABILITATION HOSPITAL OF LITTLETON"
+      },
+      "measure": {
+        "reference": "Measure/12345",
+        "display": ""
+      },
+      "relayEndpoint": {
+        "reference": "Endpoint/12345",
+        "display": ""
+      }
     },
     "defaults": {
       "route": "/saner-hsa-map",
@@ -71,9 +89,10 @@
       "landingModal": {
         "open": true,
         "title": "Welcome to S.A.N.E.R.",
-        "component": "AboutDialog"
+        "component": "SanerAboutDialog"
       },
       "dateFormat": "YYYY-MM-DD",
+      "tableRowSize": "normal",
       "prominantHeader": true,
       "displayNavbars": true,
       "disableHeader": false,
@@ -98,27 +117,35 @@
           "/careplans",
           "/communications",
           "/communication-responses",
+          "/communication-requests",
+          "/communications",
           "/consents",
           "/contracts",          
+          "/conditions",
           "/devices",
           "/diagnostic-reports",
           "/endpoints",
+          "/encounters",
           "/example-route",
           "/explanation-of-benefits",
           "/goals",
+          "/immunizations",
           "/import-data",          
           "/imaging-studies",
           "/lists",
+          "/message-headers",
           "/medications",
           "/medication-orders",
           "/medication-statements",
+          "/observations",
           "/patients",
           "/practitioners",
           "/persons",
+          "/procedures",
           "/questionnaires",
           "/questionnaire-responses",
           "/risk-assessments",
-          "/subscriptions",
+          "/subscriptions",          
           "/tasks",
           "/valuesets",
           "/vitals-tracking"
@@ -177,20 +204,28 @@
     "storeHospitalIndexInMongo": true,
     "fhir": {
       "disableOauth": true,
+      "schemaValidation": {
+        "filter": false,
+        "validate": false
+      },
       "fhirPath": "baseR4",
       "rest": {
-        "Communication": {
-          "interactions": ["read", "create"]
+        "Location": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
         },
-        "CommunicationsResponse": true,
-        "Location": true,
-        "Measure": true,
+        "Measure": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
         "MeasureReport": {
-          "interactions": ["read", "create", "update", "delete"]
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
         },
-        "Organization": true,
-        "Questionnaire": true,
-        "QuestionnaireResponse": true
+        "Organization": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        }
       }
     }
   },

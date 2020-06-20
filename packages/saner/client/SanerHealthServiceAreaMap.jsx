@@ -16,7 +16,7 @@ import { get, cloneDeep } from 'lodash';
 import { MapDot } from './MapDot';
 
 import { HTTP } from 'meteor/http';
-
+import customGeoJsonLayer from '../geodata/health_service_areas_template';
 
 const AnyReactComponent = ({ text }) => <Card><CardContent>{text}</CardContent></Card>;
 
@@ -29,7 +29,7 @@ Session.setDefault('centroidAddress', "Chicago, IL");
 Session.setDefault('centroidLatitude', 41.8781136);
 Session.setDefault('centroidLongitude', -87.6297982);
 
-Session.setDefault('heatmapOpacity', 10);
+Session.setDefault('heatmapOpacity', 11);
 Session.setDefault('heatmapRadius', 0.5);
 Session.setDefault('heatmapMaxIntensity', 20);
 Session.setDefault('heatmapDissipating', true);
@@ -53,7 +53,7 @@ export class SanerHealthServiceAreaMap extends React.Component {
         lat: Session.get('centroidLatitude'),
         lng: Session.get('centroidLongitude')
       },
-      zoom: 9,
+      zoom: 7,
       layers: {
         heatmap: true,
         points: true
@@ -283,27 +283,48 @@ export class SanerHealthServiceAreaMap extends React.Component {
 
             //----------------------------------------------------------------------------------------------------
 
-            // // load US state outline polygons from a GeoJson file
-            let hsaShapeFile = Meteor.absoluteUrl() + 'packages/symptomatic_saner/geodata/health_service_areas_detailed.geojson';
-            console.log('hsaShapeFile', hsaShapeFile)
-            map.data.loadGeoJson(hsaShapeFile);
+
+            // let customGeoJsonLayer;
+            let markerCollection;
+
+            if(customGeoJsonLayer){
+              console.log('How about that.  Import successful.  customGeoJsonLayer', customGeoJsonLayer)
+                            
+              // customGeoJsonLayer.features.forEach(function(feature){
+              //   if(get(feature, 'geometry.coordinates[0]') && get(feature, 'geometry.coordinates[1]')){                    
+              //     dataLayer.push({
+              //       location: new maps.LatLng(get(feature, 'geometry.coordinates[1]'), get(feature, 'geometry.coordinates[0]')),                     
+              //       weight: 5});
+              //   }
+              // })   
+
+              markerCollection = map.data.addGeoJson(customGeoJsonLayer, { idPropertyName: 'id' });
+            } else {
+
+              
+              // load HSA boundary polygons from a GeoJson file
+              let hsaShapeFile = Meteor.absoluteUrl() + 'packages/symptomatic_saner/geodata/health_service_areas_detailed.geojson';
+              console.log('hsaShapeFile', hsaShapeFile)
+
+              markerCollection = map.data.loadGeoJson(hsaShapeFile);
+            }
 
             map.data.setStyle(function(feature){
-              var reimbursements = feature.getProperty("Reimburs");
+              var reimbursements = feature.getProperty("numBeds");
               //console.log('reimbursements', reimbursements);
               var color = '#ffffff';
-              if((1 < reimbursements) && (reimbursements < 7000)){
+              // var color = '#ff9d1b';
+              if((1 < reimbursements) && (reimbursements < 200)){
                   color = '#fff1df';
-              } else if ((7001 < reimbursements) && (reimbursements < 8000)){
+                  // color = '#ffd090';
+              } else if ((201 < reimbursements) && (reimbursements < 400)){
                   color = '#ffe0b8';
-              } else if ((8001 < reimbursements) && (reimbursements < 9000)){
+              } else if ((401 < reimbursements) && (reimbursements < 600)){
                   color = '#ffd090';
-              } else if ((9001 < reimbursements) && (reimbursements < 10000)){
-                  color = '#ffbf69';
-              } else if ((10001 < reimbursements) && (reimbursements < 11000)){
-                  color = '#ffae42';
-              } else if (12001 < reimbursements){
+                  // color = '#fff1df';
+              } else if (600 < reimbursements){
                   color = '#ff9d1b';
+                  // color = '#ffffff';
               }
 
               return {

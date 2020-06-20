@@ -4,6 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import  { useTracker } from './Tracker';
 
 import {
   fade,
@@ -156,6 +157,7 @@ const useTabStyles = makeStyles(theme => ({
     }
   });
 
+  
 
 
 export function SanerWorkflowTabs(props){
@@ -165,18 +167,43 @@ export function SanerWorkflowTabs(props){
   let location = useLocation();
   console.log('SanerWorkflowTabs.location', location)
 
+  let currentSelectionId = "";
+  currentSelectionId = useTracker(function(){
+    return Session.get('currentSelectionId');
+  }, [])
+
+  let selectedMeasureId = "";
+  selectedMeasureId = useTracker(function(){
+    return Session.get('selectedMeasureId');
+  }, [])
+
+  let selectedMeasureReportId = "";
+  selectedMeasureReportId = useTracker(function(){
+    return Session.get('selectedMeasureReportId');
+  }, [])
+
+  let selectedOrganizationId = "";
+  selectedOrganizationId = useTracker(function(){
+    return Session.get('selectedOrganizationId');
+  }, [])
+
+  let reportingRangeStartDate = "";
+  reportingRangeStartDate = useTracker(function(){
+    return Session.get('reportingRangeStartDate');
+  }, [])
+
   function parseIndexFromLocation(pathname){
     switch (pathname) {
-      case '/saner':
+      case '/measures':
         return 0;
         break;
       case '/measure-reports':
         return 1;
         break;
-      case '/saner-hsa-map':
+      case '/saner':
         return 2;
         break;
-      case '/saner-hrr-map':
+      case '/saner-hsa-map':
         return 3;
         break;
       default:
@@ -196,36 +223,65 @@ export function SanerWorkflowTabs(props){
 
     switch (newIndex) {
       case 0:
-        props.history.replace('/saner')
+        props.history.replace('/measures')
         break;
       case 1:
         props.history.replace('/measure-reports')
         break;
       case 2:
-        props.history.replace('/saner-hsa-map')
+        props.history.replace('/saner')
         break;
       case 3:
-        props.history.replace('/saner-hrr-map')
+        props.history.replace('/saner-hsa-map')
         break;
-  
     }   
   }
 
   let geocodingTab;
   let mapTab;
 
+  let defaultMeasure = get(Meteor, 'settings.public.saner.defaultMeasure', '');
+
+  let measureIdInfo;
+  let measureReportIdInfo;
+  let organizationIdInfo;
+  let reportingRangeInfo;
+
+  if(defaultMeasure){
+    measureIdInfo = <h3 style={{fontWeight: 300, marginLeft: '10px', marginRight: '10px'}}>{defaultMeasure}</h3>
+  } else {
+    if(selectedMeasureId){
+      measureIdInfo = <h3 style={{fontWeight: 300, marginLeft: '10px', marginRight: '10px'}}>{'Measure/' + selectedMeasureId}</h3>
+    }
+  }
+  if(selectedMeasureReportId){
+    measureReportIdInfo = <h3 style={{fontWeight: 300, marginLeft: '10px', marginRight: '10px'}}>{'MeasureReport/' + selectedMeasureReportId}</h3>
+  }
+  if(selectedMeasureReportId){
+    measureReportIdInfo = <h3 style={{fontWeight: 300, marginLeft: '10px', marginRight: '10px'}}>{'MeasureReport/' + selectedMeasureReportId}</h3>
+  }
+  if(selectedOrganizationId){
+    organizationIdInfo = <h3 style={{fontWeight: 300, marginLeft: '10px', marginRight: '10px'}}>{'Organization/' + selectedOrganizationId}</h3>
+  }
+  if(reportingRangeStartDate){
+    reportingRangeInfo = <h3 style={{fontWeight: 300, marginLeft: '10px', marginRight: '10px'}}>{'Reporting Range: ' + reportingRangeStartDate}</h3>
+  }
+  
 
   return (        
     <div style={{display: 'contents'}}>
       <div >
         <Tabs id="headerNavigationTabs" value={tabIndex} onChange={selectSlide} aria-label="simple tabs example" className={ tabClasses.menu_items }>        
-          <Tab id="leaderboardTab" label="Leaderboard" />
-          <Tab id="measureReportsTab" label="Measure Reports" />
-          <Tab id="hsaMapTab" label="Health Service Areas" />
-          <Tab id="hrrMapTab" label="Health Referal Region" />
+          <Tab id="measuresTab" label="Measures" />
+          <Tab id="measureReportsTab" label="Reports" />
+          <Tab id="leaderboardTab" label="Location Leaderboard" />
+          <Tab id="hsaMapTab" label="Health Service Area Map" />
         </Tabs>
-        <div id="headerUrl" aria-label="sitename" className={ tabClasses.menu_items_right }>        
-          <h3 id="fetchTab">{Session.get('fhirServerEndpoint')}</h3>          
+        <div id="headerUrl" aria-label="sitename" className={{width: '100%'}} className={ tabClasses.menu_items_right } >        
+          { measureIdInfo }
+          { measureReportIdInfo }
+          { organizationIdInfo }
+          { reportingRangeInfo }
         </div>
       </div>
     </div>
