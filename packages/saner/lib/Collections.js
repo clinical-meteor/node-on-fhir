@@ -1,11 +1,17 @@
 
 import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
+
+
+
 
 if(Meteor.isClient){
   Meteor.subscribe('Measures');
   Meteor.subscribe('MeasureReports');
   Meteor.subscribe('Organizations');
   Meteor.subscribe('Locations');
+
+  LeaderboardLocations = new Mongo.Collection('LeaderboardLocations', {connection: null});
 }
 
 

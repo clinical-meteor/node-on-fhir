@@ -13,6 +13,7 @@ import { Session } from 'meteor/session';
 
 import { useTracker, withTracker } from './Tracker';
 import CapabilityStatementCheck from '../core/CapabilityStatementCheck';
+import ErrorDialog from '../core/ErrorDialog';
 
 import { get } from 'lodash';
 
@@ -25,6 +26,9 @@ let dialogComponents = [];
 dialogComponents.push({
   "name": "CapabilityStatementCheck",
   "component": <CapabilityStatementCheck />
+}, {
+  "name": "ErrorDialog",
+  "component": <ErrorDialog />
 })
 
 // dynamic dialog components
@@ -42,16 +46,25 @@ Object.keys(Package).forEach(function(packageName){
 // App Session Variables  
 
 if(Meteor.isClient){
-  console.log('landingModal.open', get(Meteor, 'settings.public.defaults.landingModal.open', false))
+  // console.log('landingModal.open', get(Meteor, 'settings.public.defaults.landingModal.open', false))
   Session.setDefault('mainAppDialogOpen', get(Meteor, 'settings.public.defaults.landingModal.open', false));
   Session.setDefault('mainAppDialogComponent', get(Meteor, 'settings.public.defaults.landingModal.component', false));
   Session.setDefault('mainAppDialogTitle', get(Meteor, 'settings.public.defaults.landingModal.title', "JSON Viewer"));
   Session.setDefault('mainAppDialogJson', false);
+  Session.setDefault('mainAppDialogErrorMessage', '');
+  Session.setDefault('mainAppDialogErrorShowAgain', true);
 }
 
 export default function ScrollDialog(props) {
   let [open, setOpen] = React.useState(false);
   let [scroll, setScroll] = React.useState('paper');
+
+  let {
+    children, 
+    logger, 
+    appHeight,
+    ...otherProps
+  } = props;
 
   let mainAppDialogOpen = useTracker(function(){
     return Session.get('mainAppDialogOpen')
@@ -87,6 +100,11 @@ export default function ScrollDialog(props) {
     // return result;
   }, [props.lastUpdated]);
 
+  let errorMessage = "";
+  errorMessage = useTracker(function(){
+    return Session.get('mainAppDialogErrorMessage')
+  }, []);
+
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
     setScroll(scrollType);
@@ -114,13 +132,16 @@ export default function ScrollDialog(props) {
   if(dialogComponent){
     dialogComponents.forEach(function(reference){
       if(reference.name === dialogComponent){
-        console.log('Found a matching dialog component to render.')
+        logger.debug('Found a matching dialog component to render.')
         
         // did we find a matching component?
         dialogContentToRender = reference.component;
 
         // we want to pass in the content, so we attach it to the props object
         props.jsonContent = jsonContent;
+
+        // or the error message
+        props.errorMessage = errorMessage;
 
         // and pass the props object into the component that we're going to render in the dialog
         dialogContentToRender = React.cloneElement(
@@ -151,11 +172,11 @@ export default function ScrollDialog(props) {
       >
         <DialogTitle id="scroll-dialog-title">{dialogTitle}</DialogTitle>
         { dialogContentToRender }
-        <DialogActions>
+        {/* <DialogActions>
           <Button onClick={handleClose} color="primary">
             Close
           </Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </div>
   );

@@ -5,14 +5,16 @@ import SanerHealthReferralMap from './client/SanerHealthReferralMap';
 import SanerLeaderboard from './client/SanerLeaderboard';
 import ReportingPage from './client/ReportingPage';
 import SanerWorkflowTabs from './client/SanerWorkflowTabs';
-
-
+import SanerAboutDialog from './client/SanerAboutDialog';
+import SanerFetchDialog from './client/SanerFetchDialog';
+import FilterPreferencesDialog from './client/FilterPreferencesDialog';
 
 import { 
   ReportingButtons,
   OrganizationsButtons,
   MeasuresButtons,
-  MeasureReportsButtons
+  MeasureReportsButtons,
+  LeaderboardButtons
 } from './client/SanerFooterButtons';
 
 
@@ -38,6 +40,17 @@ var DynamicRoutes = [{
   'requireAuth': true
 }];
 
+let DialogComponents = [{
+  name: "SanerAboutDialog",
+  component: <SanerAboutDialog />
+}, {
+  name: "SanerFetchDialog",
+  component: <SanerFetchDialog />
+}, {
+  name: 'FilterPreferencesDialog',
+  component: <FilterPreferencesDialog />
+}]
+
 let FooterButtons = [{
   pathname: '/reporting',
   component: <ReportingButtons />
@@ -52,20 +65,19 @@ let FooterButtons = [{
   component: <MeasureReportsButtons />
 }, {
   pathname: '/saner',
-  component: <SanerLeaderboard />
-// }, {
-//   pathname: '/saner-hrr-map',
-//   component: <SanerHealthReferralMap />
-// }, {
-//   pathname: '/saner-hsa-map',
-//   component: <SanerHealthServiceAreaMap />
+  component: <LeaderboardButtons />
 }];
 
 let SidebarWorkflows = [{
+  primaryText: 'Geocoding',
+  to: '/geocoding',
+  iconName: 'location'
+}, {
   primaryText: 'S.A.N.E.R.',
   to: '/saner',
-  iconName: 'location'
+  iconName: 'mapO'
 }];
+
 
 let WorkflowTabs = [{
   name: "SanerWorkflowTabs",
@@ -74,7 +86,8 @@ let WorkflowTabs = [{
     "/saner",
     "/saner-hrr-map",
     "/saner-hsa-map",
-    "/measure-reports"
+    "/measure-reports",
+    "/measures"
   ]
 }]
 
@@ -88,6 +101,7 @@ export {
   FooterButtons,
   SidebarWorkflows,
   WorkflowTabs,
+  DialogComponents,
 
   ReportingPage
 };

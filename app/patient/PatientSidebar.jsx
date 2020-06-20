@@ -43,6 +43,8 @@ import {eyedropper} from 'react-icons-kit/fa/eyedropper'
 import {dashboard} from 'react-icons-kit/fa/dashboard' //Dashboard
 import {list} from 'react-icons-kit/fa/list' //Dashboard
 import {addressCardO} from 'react-icons-kit/fa/addressCardO'  // Address Card  
+import {mapO} from 'react-icons-kit/fa/mapO'
+import {map} from 'react-icons-kit/fa/map'
 
 import {ic_hearing} from 'react-icons-kit/md/ic_hearing'  // Condition?
 import {ic_fingerprint} from 'react-icons-kit/md/ic_fingerprint' // Biometric
@@ -62,16 +64,16 @@ import {shoppingBasket} from 'react-icons-kit/fa/shoppingBasket'
 // import {image} from 'react-icons-kit/fa/image' // Media 
 // import {eye} from 'react-icons-kit/fa/eye' // BodySite
 // import {barcode} from 'react-icons-kit/fa/barcode' // Barcode  
-// import {ambulance} from 'react-icons-kit/fa/ambulance' // Ambulance   
+import {ambulance} from 'react-icons-kit/fa/ambulance' // Ambulance   
 // import {medkit} from 'react-icons-kit/fa/medkit'  // SmartKit  
 // import {desktop} from 'react-icons-kit/fa/desktop' //Desktop  
 // import {tablet} from 'react-icons-kit/fa/tablet' // Tablet 
 // import {mobile} from 'react-icons-kit/fa/mobile' // Mobile 
 // import {laptop} from 'react-icons-kit/fa/laptop' // Laptop  
-// import {wheelchair} from 'react-icons-kit/fa/wheelchair' // Wheelchair   
+import {wheelchair} from 'react-icons-kit/fa/wheelchair' // Wheelchair   
 // import {signing} from 'react-icons-kit/fa/signing' // Handwash / Signing  
 // import {addressBook} from 'react-icons-kit/fa/addressBook' // Address Book  
-// import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition  
+import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition  
 // import {nuclear} from 'react-icons-kit/ionicons/nuclear' // Radiology  
 // import {pipette} from 'react-icons-kit/typicons/pipette' // Immunization ?
 
@@ -173,21 +175,24 @@ const styles = theme => ({
 
 
 export function PatientSidebar(props){
-  logger.info('PatientSidebar is rendering.');
-  logger.debug('client.app.patient.PatientSidebar');
+  logger.debug('PatientSidebar is rendering.');
+  logger.verbose('client.app.patient.PatientSidebar');
   logger.data('PatientSidebar.props', {data: props}, {source: "AppContainer.jsx"});
 
 
   function openPage(url, tabs){
-    logger.debug('client.app.patient.PatientSidebar.openPage', url, tabs);
+    logger.verbose('client.app.patient.PatientSidebar.openPage', url, tabs);
     props.history.replace(url)
 
     if(tabs){
       Session.set('workflowTabs', tabs)
     }
   }
+  function toggleAboutDialog(){
+    Session.toggle('mainAppDialogOpen');
+  }
   function handleLogout(){
-    logger.debug('client.app.patient.PatientSidebar.handleLogout', url);
+    logger.verbose('client.app.patient.PatientSidebar.handleLogout', url);
     Meteor.logout();
     logger.info('Logging user out.');
   }
@@ -363,7 +368,13 @@ export function PatientSidebar(props){
         case "picnic_basket":
           result = <Icon icon={shoppingBasket} />
           break;    
-      
+        case "map":
+          result = <Icon icon={map} />
+          break;    
+        case "mapO":
+          result = <Icon icon={mapO} />
+          break;    
+            
           
           
 
@@ -487,7 +498,7 @@ export function PatientSidebar(props){
 
   let aboutElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.About')){
-      aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button onClick={function(){ openPage('/about'); }} >
+      aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button onClick={function(){ toggleAboutDialog(); }} >
         <ListItemIcon >
           <Icon icon={documentIcon} className={props.classes.drawerIcons} />
         </ListItemIcon>

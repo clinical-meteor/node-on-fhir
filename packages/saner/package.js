@@ -23,20 +23,23 @@ Package.onUse(function(api) {
   api.addFiles('lib/Collections.js');
   api.addFiles('lib/Methods.js');
 
-  api.use('symptomatic:covid19-on-fhir');
-  api.use('symptomatic:covid19-geomapping');
+  api.addFiles('server/methods.js', "server");
 
   api.use('symptomatic:data-management');
+  api.use('symptomatic:covid19-on-fhir');
+  api.use('symptomatic:covid19-geomapping');
   api.use('symptomatic:fhir-uscore');
   api.use('symptomatic:vault-server');
-
-  api.use('symptomatic:vault-server@6.1.0');
   api.use('clinical:hl7-fhir-data-infrastructure@6.4.18');
-  api.imply('symptomatic:vault-server@6.1.0');
+
+  api.use('symptomatic:vault-server@6.2.0');
+  api.imply('symptomatic:vault-server@6.2.0');
 
   api.addAssets('geodata/health_service_areas.geojson', 'client');
   api.addAssets('geodata/health_service_areas_detailed.geojson', 'client');
   api.addAssets('geodata/health_referral_region_merged.geojson', 'client');
+
+  api.export('LeaderboardLocations', 'client');
   
   api.mainModule('index.jsx', 'client');
 });

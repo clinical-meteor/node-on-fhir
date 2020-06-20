@@ -1,9 +1,11 @@
 import ReportingMethods from '../lib/ReportingMethods';
 import { Meteor } from 'meteor/meteor';
+import { get } from 'lodash';
+import { Locations } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 Meteor.methods({
   initializeSampleMeasures: function(){
-    console.log('Initializing sample measures....')
+    console.log('Initializing sample measures..')
     ReportingMethods.initializeSampleMeasures();
   },
   initializeSampleMeasureReports: function(){
@@ -29,9 +31,15 @@ Meteor.methods({
     ReportingMethods.initializeSampleMeasures();
     ReportingMethods.initializeSampleMeasureReports();
     ReportingMethods.initializeMedicareInpatientFacilities();
+  },
+  burpLocations: function(){
+    console.log('Locations.find().fetch()')
+    console.log('Locations', Locations.find().fetch())
   }
 })
 
-// Meteor.startup(function(){
-//   Meteor.call('initializeAll');
-// })
+Meteor.startup(function(){
+  if(get(Meteor, 'settings.private.initializeSanerSampleData')){
+    Meteor.call('initializeAll');
+  }
+})
