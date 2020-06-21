@@ -61,7 +61,7 @@ const styles = theme => ({
 
 function Footer(props) {
   if(props.logger){
-    props.logger.debug('Rendering the application Footer.');
+    // props.logger.debug('Rendering the application Footer.');
     props.logger.verbose('package.care-cards.client.layout.Footer');  
     props.logger.data('Footer.props', {data: props}, {source: "FooterContainer.jsx"});
   }
@@ -90,21 +90,21 @@ function Footer(props) {
       }
     });
 
-    props.logger.info('Generated array of buttons to display.')
+    props.logger.debug('Generated array of buttons to display.')
     props.logger.trace('buttonRenderArray', buttonRenderArray)
 
     let renderDom;
     buttonRenderArray.forEach(function(buttonConfig){
       // right route
       if (pathname === buttonConfig.pathname){
-        props.logger.info('Found a route match for Footer buttons', pathname)
+        props.logger.debug('Found a route match for Footer buttons', pathname)
         // right security/function enabled
         if(buttonConfig.settings && (get(Meteor, buttonConfig.settings) === false)){
           // there was a settings criteria; and it was set to faulse            
           return false;
         } else {
           if(buttonConfig.component){
-            props.logger.info('Trying to render a button from package to the footer')
+            props.logger.debug('Trying to render a button from package to the footer')
             renderDom = buttonConfig.component;
           } else {
             renderDom = <div style={{marginTop: '-8px'}}>

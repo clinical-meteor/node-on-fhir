@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import { Icon } from 'react-icons-kit';
+import {ic_menu} from 'react-icons-kit/md/ic_menu'
+
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
@@ -15,7 +18,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 
 import { useTracker } from './Tracker';
-import { PatientChartNavigation } from '../patient/PatientChartNavigation';
+import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
@@ -30,11 +33,37 @@ if(Meteor.isClient){
   Session.setDefault('workflowTabs', "default");
 }
 
+// ==============================================================================
+// Dynamic Imports 
+
+let headerWorkflows = [];
+
+// default dialog component
+headerWorkflows.push({
+  name: "PatientChartWorkflowTabs",
+  component: <PatientChartWorkflowTabs />,
+  matchingPaths: [
+    "/patient-chart",
+    "/patient-quickchart"
+  ]
+})
+
+// dynamic dialog components
+Object.keys(Package).forEach(function(packageName){
+  if(Package[packageName].WorkflowTabs){
+    // we try to build up a route from what's specified in the package
+    Package[packageName].WorkflowTabs.forEach(function(componentReference){
+      headerWorkflows.push(componentReference);      
+    });    
+  }
+});
+
+
 
 function Header(props) {
   
   if(props.logger){
-    props.logger.debug('Rendering the application Header.');
+    // props.logger.trace('Rendering the application Header.');
     props.logger.verbose('package.care-cards.client.layout.Header');  
     props.logger.data('Header.props', {data: props}, {source: "HeaderContainer.jsx"});
   }
@@ -76,7 +105,11 @@ function Header(props) {
       flexGrow: 1,
       // background: props.theme.palette.appBar.main,
       // backgroundColor: props.theme.palette.appBar.main,
-      color: props.theme.palette.appBar.contrastText
+      color: props.theme.palette.appBar.contrastText,
+      paddingTop: '10px',
+      fontWeight: '200',
+      fontSize: '2.125rem',
+      float: 'left'
     },
     header_label: {
       paddingTop: '10px',
@@ -127,6 +160,7 @@ function Header(props) {
   }, [props.lastUpdated]);
 
 
+
   // ------------------------------------------------------------
   // Layout
 
@@ -135,17 +169,37 @@ function Header(props) {
     componentStyles.headerContainer.left = drawerWidth;
   }
 
-  let extendedHeaderItems;
+  let workflowTabsToRender;
+  let selectedWorkflow;
   if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
     componentStyles.headerContainer.height = '128px';
 
-    if(typeof props.headerNavigation === "function"){
-      extendedHeaderItems = props.headerNavigation(props);
-    }    
+    if(Meteor.isClient){
+      headerWorkflows.forEach(function(workflow){
+        if(Array.isArray(workflow.matchingPaths)){
+          if(workflow.matchingPaths.includes(window.location.pathname)){
+            console.log('Found a matching workflow component to render.')
+            
+            // did we find a matching component?
+            workflowTabsToRender = workflow.component;  
+          }  
 
-    if(workflowTabs === "patientchart"){
-      extendedHeaderItems = <PatientChartNavigation />
+          if(workflowTabsToRender){
+            workflowTabsToRender = React.cloneElement(
+              workflowTabsToRender, props 
+            );
+          }
+        }
+      })  
     }
+
+    // if(typeof props.headerNavigation === "function"){
+    //   workflowTabsToRender = props.headerNavigation(props);
+    // }    
+
+    // if(workflowTabs === "patientchart"){
+    //   workflowTabsToRender = <PatientChartWorkflowTabs />
+    // }
   }
 
   // ------------------------------------------------------------
@@ -199,7 +253,7 @@ function Header(props) {
       if(useDateRangeInQueries){
         if(selectedStartDate && selectedEndDate){
           dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-            <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Timespan: </Typography>
+            <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Date Range: </Typography>
             <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
               { getSearchDateRange() }
             </Typography>
@@ -223,7 +277,8 @@ function Header(props) {
           aria-label="Open drawer"
           onClick={ clickOnMenuButton }
         >
-          <MenuIcon />
+          {/* <MenuIcon /> */}
+          <Icon icon={ic_menu} size={32} />
         </IconButton>
         <Typography variant="h4" color="inherit" onClick={ function(){ goHome(); }} style={  componentStyles.title }>
           { parseTitle() }
@@ -232,7 +287,7 @@ function Header(props) {
         
         { dateTimeItems }        
         { demographicItems }
-        { extendedHeaderItems }
+        { workflowTabsToRender }
 
       </Toolbar>
     </AppBar>
