@@ -76,6 +76,7 @@
     "winston": "3.2.1"
   },
   "devDependencies": {
+    "babel-eslint": "10.1.0",
     "chai": "4.2.0",
     "chai-nightwatch": "0.4.0",
     "conventional-changelog-cli": "2.0.11",
