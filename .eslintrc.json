@@ -1,4 +1,5 @@
 {
+    "parser": "babel-eslint",
     "parserOptions": {
       "allowImportExportEverywhere": true,
       "sourceType": "module"
@@ -92,7 +93,7 @@
       "react/no-unused-prop-types": ["warn"],
       "import/newline-after-import": ["warn"],
       "comma-spacing": ["warn"],
-      "import/no-named-as-default": "off",
+      "import/no-named-as-default": ["warn"],
       "arrow-parens": ["warn"],
       "no-useless-constructor": ["warn"],
       "react/jsx-no-bind": ["warn"],
