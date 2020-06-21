@@ -21,8 +21,8 @@
     },
     "ignorePatterns": ["node_modules/", "packages/", "tests/"],
     "rules": {
-      "no-named-as-default-member": "off",
-      "react/require-extension": "off",
+      "no-named-as-default-member": ["off"],
+      "react/require-extension": ["off"],
       "indent": ["off", 4],
       "linebreak-style": ["error","unix"],
       "quotes": ["off","double"],
