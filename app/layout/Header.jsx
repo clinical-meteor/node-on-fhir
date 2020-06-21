@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import { Icon } from 'react-icons-kit';
+import {ic_menu} from 'react-icons-kit/md/ic_menu'
+
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
@@ -60,7 +63,7 @@ Object.keys(Package).forEach(function(packageName){
 function Header(props) {
   
   if(props.logger){
-    props.logger.debug('Rendering the application Header.');
+    // props.logger.trace('Rendering the application Header.');
     props.logger.verbose('package.care-cards.client.layout.Header');  
     props.logger.data('Header.props', {data: props}, {source: "HeaderContainer.jsx"});
   }
@@ -102,7 +105,11 @@ function Header(props) {
       flexGrow: 1,
       // background: props.theme.palette.appBar.main,
       // backgroundColor: props.theme.palette.appBar.main,
-      color: props.theme.palette.appBar.contrastText
+      color: props.theme.palette.appBar.contrastText,
+      paddingTop: '10px',
+      fontWeight: '200',
+      fontSize: '2.125rem',
+      float: 'left'
     },
     header_label: {
       paddingTop: '10px',
@@ -270,7 +277,8 @@ function Header(props) {
           aria-label="Open drawer"
           onClick={ clickOnMenuButton }
         >
-          <MenuIcon />
+          {/* <MenuIcon /> */}
+          <Icon icon={ic_menu} size={32} />
         </IconButton>
         <Typography variant="h4" color="inherit" onClick={ function(){ goHome(); }} style={  componentStyles.title }>
           { parseTitle() }

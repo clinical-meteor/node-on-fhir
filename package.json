@@ -1,6 +1,6 @@
 {
   "name": "node-on-fhir",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "private": true,
   "meteor": {
     "mainModule": {
@@ -36,7 +36,7 @@
     "verification-tests": "TEST_BROWSER_DRIVER: chrome meteor test --driver-package meteortesting:mocha --port 3002 --once --full-app"
   },
   "dependencies": {
-    "@babel/runtime": "7.9.2",
+    "@babel/runtime": "7.10.3",
     "@date-io/core": "1.3.6",
     "@date-io/moment": "1.3.13",
     "@material-ui/core": "4.5.1",
@@ -49,11 +49,11 @@
     "date-fns": "2.8.1",
     "fhir-kit-client": "1.4.2",
     "fhirclient": "2.1.0",
-    "json5": "2.1.3",
-    "lodash": "4.17.15",
-    "material-fhir-ui": "0.9.45",
+    "json5": "^2.1.3",
+    "lodash": "^4.17.15",
+    "material-fhir-ui": "0.9.46",
     "meteor-node-stubs": "0.4.1",
-    "moment": "2.24.0",
+    "moment": "^2.24.0",
     "papaparse": "5.2.0",
     "prop-types": "15.7.2",
     "react": "16.12.0",
@@ -61,14 +61,14 @@
     "react-helmet": "5.2.1",
     "react-icons-kit": "1.3.1",
     "react-katex": "2.0.2",
-    "react-mixin": "4.0.0",
+    "react-mixin": "^4.0.0",
     "react-multi-carousel": "2.5.5",
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
     "register-service-worker": "1.6.2",
     "setimmediate": "1.0.5",
-    "simpl-schema": "1.5.3",
-    "simple-oauth2": "2.2.1",
+    "simpl-schema": "1.7.3",
+    "simple-oauth2": "4.1.0",
     "simple-swizzle": "0.2.2",
     "styled-components": "4.4.0",
     "universal-url": "2.0.0",
@@ -76,22 +76,27 @@
     "winston": "3.2.1"
   },
   "devDependencies": {
+    "babel-eslint": "10.1.0",
     "chai": "4.2.0",
     "chai-nightwatch": "0.4.0",
-    "conventional-changelog-cli": "^2.0.11",
-    "babel-eslint": "10.1.0",
-    "chromedriver": "80.0.2",
-    "nightwatch": "1.3.4",
-    "eslint": "6.8.0",
-    "eslint-config-airbnb": "^11.1.0",
-    "eslint-import-resolver-meteor": "^0.3.3",
-    "eslint-plugin-import": "^1.15.0",
-    "eslint-plugin-jsx-a11y": "^2.2.2",
-    "eslint-plugin-meteor": "^4.0.0",
-    "eslint-plugin-react": "^6.2.2",
-
+    "conventional-changelog-cli": "2.0.11",
+    "eslint": "4.19.1",
+    "eslint-import-resolver-meteor": "0.4.0",
+    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-import": "2.21.2",
+    "eslint-plugin-meteor": "7.0.0",
+    "eslint-plugin-react": "7.20.0",
+    "eslint-plugin-react-hooks": "4.0.4",
+    "chromedriver": "83.0.0",
+    "nightwatch": "1.3.6",
     "selenium-webdriver": "3.6.0",
-    "shelljs": "^0.7.4"
+    "shelljs": "0.7.4"
+  },
+  "unusedDevLibs": {},
+  "desktopLibs": {
+    "electron": "6.1.7",
+    "electron-builder": "21.2.0",
+    "meteor-desktop": "2.2.5"
   },
   "unusedFhirLibs": {
     "@ahryman40k/ts-fhir-types": "4.0.23",
@@ -119,5 +124,6 @@
     "meteor-desktop": "2.2.5",
     "bcrypt": "3.0.6",
     "lighthouse": "5.6.0"
-  }
+  },
+  "eslintIgnore": ["node_modules/", "packages/", "tests/"]
 }
