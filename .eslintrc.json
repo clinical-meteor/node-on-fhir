@@ -34,7 +34,7 @@
       "react/jsx-boolean-value": ["off"],
       "import/no-absolute-path": 0,
       "import/extensions": 0,
-      "camelcase": ["warn"],
+      "camelcase": ["off"],
       "no-trailing-spaces": ["off"],
       "no-unused-vars": ["warn"],
       "max-len": ["off"],
