@@ -125,5 +125,5 @@
     "bcrypt": "3.0.6",
     "lighthouse": "5.6.0"
   },
-  "eslintIgnore": ["node_modules/", "packages/", "tests/"],
+  "eslintIgnore": ["node_modules/", "packages/", "tests/"]
 }
