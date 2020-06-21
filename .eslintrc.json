@@ -19,8 +19,7 @@
     ],
     "settings": {
       "import/resolver": "meteor"
-    },
-    "eslintIgnore": ["node_modules/", "packages/", "tests/"],
+    }, 
     "rules": {
       "no-named-as-default-member": ["off"],
       "react/require-extension": ["off"],
