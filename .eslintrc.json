@@ -91,7 +91,7 @@
       "react/no-unused-prop-types": ["warn"],
       "import/newline-after-import": ["warn"],
       "comma-spacing": ["warn"],
-      "import/no-named-as-default": ["warn"],
+      "import/no-named-as-default": "off",
       "arrow-parens": ["warn"],
       "no-useless-constructor": ["warn"],
       "react/jsx-no-bind": ["warn"],
