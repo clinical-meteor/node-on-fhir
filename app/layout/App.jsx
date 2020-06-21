@@ -82,7 +82,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       height: '100%',
       paddingTop: '0px',
       paddingBottom: '0px',
-      backgroundColor: theme.palette.background.default,
+      //backgroundColor: theme.palette.background.default,
       transition: theme.transitions.create('left', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -98,7 +98,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       height: '100%',
       paddingTop: '0px',
       paddingBottom: '0px',
-      backgroundColor: theme.palette.background.default,
+      //backgroundColor: theme.palette.background.default,
       transition: theme.transitions.create('left', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -349,8 +349,7 @@ export function App(props) {
 
   let searchParams = new URLSearchParams(useLocation().search);
   if(searchParams){
-    console.log("WE HAVE STATE", searchParams.state);
-    console.log("WE HAVE QUERY PARAMS");
+
     searchParams.forEach(function(value, key){
       console.log(key + ': ' + value); 
     });
@@ -529,6 +528,8 @@ export function App(props) {
     routingSwitchLogic = <ThemeProvider theme={theme} >
         <Switch location={ props.location } >
           { dynamicRoutes.map(route => <Route 
+            appHeight={appHeight}
+            appWidth={appWidth}
             name={route.name} 
             key={route.name} 
             path={route.path} 
@@ -561,7 +562,7 @@ export function App(props) {
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <CssBaseline />
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
-        <Footer drawerIsOpen={drawerIsOpen} { ...otherProps } location={props.location} />
+        <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
         <div id="appDrawerContainer" style={drawerStyle}>
           { drawer }
@@ -572,7 +573,7 @@ export function App(props) {
           })}>
           { routingSwitchLogic }
         </main>
-        <ScrollDialog />
+        <ScrollDialog {...otherProps} appHeight={appHeight} />
       </div>
     </AppCanvas>
   )

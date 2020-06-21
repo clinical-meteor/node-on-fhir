@@ -25,7 +25,7 @@ const styles = theme => ({
 
 function AppLoadingPage(props) {
   if(props.logger){
-    props.logger.info('Rendering the AppLoadingPage.');
+    // props.logger.debug('Rendering the AppLoadingPage.');
     props.logger.verbose('client.app.layout.AppLoadingPage');  
   }
 
