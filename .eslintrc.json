@@ -21,6 +21,7 @@
     },
     "ignorePatterns": ["node_modules/", "packages/", "tests/"],
     "rules": {
+      "react/require-extension": "off",
       "indent": ["off", 4],
       "linebreak-style": ["error","unix"],
       "quotes": ["off","double"],
