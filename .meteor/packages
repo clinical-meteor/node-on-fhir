@@ -79,6 +79,5 @@ clinical:hl7-fhir-data-infrastructure
 # symptomatic:gravity
 # symptomatic:saner
 
-# patientinsight:cardiac-scorecard
-# omega:meteor-desktop-watcher@=2.2.5
-# omega:meteor-desktop-bundler@=2.2.5
+omega:meteor-desktop-watcher@=2.2.5
+omega:meteor-desktop-bundler@=2.2.5

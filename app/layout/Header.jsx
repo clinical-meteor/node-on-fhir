@@ -109,7 +109,8 @@ function Header(props) {
       paddingTop: '10px',
       fontWeight: '200',
       fontSize: '2.125rem',
-      float: 'left'
+      float: 'left',
+      marginTop: '0px'
     },
     header_label: {
       paddingTop: '10px',
@@ -123,6 +124,14 @@ function Header(props) {
       paddingTop: '10px',
       fontSize: '1 rem',
       float: 'left'
+    },
+    menuButton: {
+      float: 'left',
+      color: props.theme.palette.appBar.contrastText,
+      background: props.theme.palette.appBar.main,
+      backgroundColor: props.theme.palette.appBar.main,
+      border: '0px none black',
+      paddingTop: '15px'
     }
   }
 
@@ -276,6 +285,7 @@ function Header(props) {
           color="inherit"
           aria-label="Open drawer"
           onClick={ clickOnMenuButton }
+          style={componentStyles.menuButton}
         >
           {/* <MenuIcon /> */}
           <Icon icon={ic_menu} size={32} />
