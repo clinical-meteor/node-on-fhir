@@ -110,7 +110,8 @@ function Header(props) {
       fontWeight: '200',
       fontSize: '2.125rem',
       float: 'left',
-      marginTop: '0px'
+      marginTop: '0px',
+      whiteSpace: 'nowrap'
     },
     header_label: {
       paddingTop: '10px',
@@ -128,8 +129,8 @@ function Header(props) {
     menuButton: {
       float: 'left',
       color: props.theme.palette.appBar.contrastText,
-      background: props.theme.palette.appBar.main,
-      backgroundColor: props.theme.palette.appBar.main,
+      background: 'inherit',
+      backgroundColor: 'inherit',
       border: '0px none black',
       paddingTop: '15px'
     }
@@ -158,20 +159,20 @@ function Header(props) {
     return Session.get("currentPatientId");
   }, [props.lastUpdated]);
 
-  let currentPatient = null;
-  currentPatient = useTracker(function(){
-    return Session.get("currentPatient");
-  }, [props.lastUpdated]);
+  let currentPatient = null;  
+  currentPatient = useTracker(function(){  
+    return Session.get("currentPatient");  
+  }, [props.lastUpdated]);  
 
-  let workflowTabs = "default";
-  workflowTabs = useTracker(function(){
-    return Session.get("workflowTabs");
-  }, [props.lastUpdated]);
+  let workflowTabs = "default";  
+  workflowTabs = useTracker(function(){  
+    return Session.get("workflowTabs");  
+  }, [props.lastUpdated]);  
 
 
 
-  // ------------------------------------------------------------
-  // Layout
+  // ------------------------------------------------------------  
+  // Layout  
 
   if(Meteor.isClient && props.drawerIsOpen){
     componentStyles.headerContainer.width = window.innerWidth - drawerWidth;
@@ -184,6 +185,7 @@ function Header(props) {
     componentStyles.headerContainer.height = '128px';
 
     if(Meteor.isClient){
+
       headerWorkflows.forEach(function(workflow){
         if(Array.isArray(workflow.matchingPaths)){
           if(workflow.matchingPaths.includes(window.location.pathname)){
@@ -199,7 +201,8 @@ function Header(props) {
             );
           }
         }
-      })  
+      }) 
+      
     }
 
     // if(typeof props.headerNavigation === "function"){
@@ -216,6 +219,7 @@ function Header(props) {
 
   function parseTitle(){
     let titleText = get(Meteor, 'settings.public.title', 'Node on FHIR');
+    let secondaryTitleText = get(Meteor, 'settings.public.secondaryTitle', '');
     let selectedPatient;
 
     if(Meteor.isClient){
@@ -227,6 +231,10 @@ function Header(props) {
           logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
         }    
       }
+    }
+
+    if(!Meteor.isCordova){
+      titleText = titleText + secondaryTitleText;
     }
 
     return titleText;    
@@ -250,33 +258,37 @@ function Header(props) {
 
   if(Meteor.isClient){
     // if we have a selected patient, we show that info
-    if(Session.get('selectedPatient')){
-      demographicItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-        <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Patient ID: </Typography>
-        <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
-          { parseId() }
-        </Typography>
-      </div>   
-    } else {
-      // otherwise, we default to population/search level info to display
-      if(useDateRangeInQueries){
-        if(selectedStartDate && selectedEndDate){
-          dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-            <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Date Range: </Typography>
-            <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
-              { getSearchDateRange() }
-            </Typography>
-          </div>   
-        }      
+    if(!Meteor.isCordova){
+      if(Session.get('selectedPatient')){
+        demographicItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+          <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Patient ID: </Typography>
+          <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+            { parseId() }
+          </Typography>
+        </div>   
+      } else {
+        // otherwise, we default to population/search level info to display
+        if(useDateRangeInQueries){
+          if(selectedStartDate && selectedEndDate){
+            dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+              <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Date Range: </Typography>
+              <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+                { getSearchDateRange() }
+              </Typography>
+            </div>   
+          }      
+        }
+        userItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+          <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
+          <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+            { currentUser }
+          </Typography>
+        </div>   
       }
-      userItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-        <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
-        <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
-          { currentUser }
-        </Typography>
-      </div>   
     }
   }
+
+
 
   return (
     <AppBar id="header" position="fixed" style={componentStyles.headerContainer}>
@@ -287,13 +299,13 @@ function Header(props) {
           onClick={ clickOnMenuButton }
           style={componentStyles.menuButton}
         >
-          {/* <MenuIcon /> */}
           <Icon icon={ic_menu} size={32} />
         </IconButton>
         <Typography variant="h4" color="inherit" onClick={ function(){ goHome(); }} style={  componentStyles.title }>
           { parseTitle() }
         </Typography>
 
+        
         
         { dateTimeItems }        
         { demographicItems }
