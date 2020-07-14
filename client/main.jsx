@@ -4,10 +4,10 @@ import { Session } from 'meteor/session';
 import ReactDOM from "react-dom";
 
 import { render } from 'react-dom';
-import AppContainer from '/app/layout/AppContainer'
+import AppContainer from '/app/layout/AppContainer';
 import { onPageLoad } from 'meteor/server-render';
 
-import { register } from 'register-service-worker'
+import { register } from 'register-service-worker';
 import { get } from 'lodash';
 
 onPageLoad(function(){
@@ -28,6 +28,10 @@ onPageLoad(function(){
   }
   if(searchParams.get('scope')){
     Session.set('smartOnFhir_scope', searchParams.get('scope'));
+  }
+
+  if(window.MobileAccessibility){
+    window.MobileAccessibility.usePreferredTextZoom(false);
   }
 
   ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));

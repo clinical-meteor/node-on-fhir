@@ -447,14 +447,20 @@ export function PatientSidebar(props){
 
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hiddenWorkflow', []).includes(element.to)){
-        workflowElements.push(
-          <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
-            <ListItemIcon >
-              { clonedIcon }
-            </ListItemIcon>
-            <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
-          </ListItem>
-        );
+
+        // lets also check there isn't an exclude on the route definition itself
+        if(element.excludeDevice && element.excludeDevice.includes(window.navigator.platform)){
+          // skip          
+        } else {
+          workflowElements.push(
+            <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
+              <ListItemIcon >
+                { clonedIcon }
+              </ListItemIcon>
+              <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+            </ListItem>
+          );
+        }
       }
     });
     workflowElements.push(<Divider className={props.classes.divider} key="workflow-modules-hr" />);

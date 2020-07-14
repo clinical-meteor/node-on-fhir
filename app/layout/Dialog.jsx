@@ -113,6 +113,7 @@ export default function ScrollDialog(props) {
   const handleClose = () => {
     //setOpen(false);
     Session.set('mainAppDialogOpen', false);
+    Session.set('lastUpdated', new Date())
     // Session.set('mainAppDialogJson', false);
     //Session.set('mainAppDialogJsonComponent', null);
   };
