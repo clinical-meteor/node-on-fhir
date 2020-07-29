@@ -28,6 +28,8 @@ if(Meteor.isClient){
 
   Session.setDefault('appHeight', window.innerHeight);
   Session.setDefault('appWidth', window.innerWidth);  
+  
+  Session.setDefault('displayNavbars', get(Meteor, 'settings.public.defaults.displayNavbars'));
 }
 
 
