@@ -95,7 +95,7 @@ function Header(props) {
       color: props.theme.palette.appBar.contrastText,
       width: '100%',
       zIndex: 1200,
-      transition: props.theme.transitions.create(['width', 'left'], {
+      transition: props.theme.transitions.create(['width', 'left', 'top'], {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
       }),
@@ -170,6 +170,14 @@ function Header(props) {
   }, [props.lastUpdated]);  
 
 
+  let displayNavbars = true;  
+  displayNavbars = useTracker(function(){  
+    return Session.get("displayNavbars");  
+  }, []);  
+
+  if(!displayNavbars){
+    componentStyles.headerContainer.top = '-128px'
+  }
 
   // ------------------------------------------------------------  
   // Layout  

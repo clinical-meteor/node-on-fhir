@@ -1,5 +1,6 @@
-
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+
 import React from 'react';
 // import { ReactMeteorData } from 'meteor/react-meteor-data';
 // import ReactMixin from 'react-mixin';
@@ -45,6 +46,8 @@ import {list} from 'react-icons-kit/fa/list' //Dashboard
 import {addressCardO} from 'react-icons-kit/fa/addressCardO'  // Address Card  
 import {mapO} from 'react-icons-kit/fa/mapO'
 import {map} from 'react-icons-kit/fa/map'
+
+import {ic_view_day} from 'react-icons-kit/md/ic_view_day'
 
 import {ic_hearing} from 'react-icons-kit/md/ic_hearing'  // Condition?
 import {ic_fingerprint} from 'react-icons-kit/md/ic_fingerprint' // Biometric
@@ -173,7 +176,6 @@ const styles = theme => ({
 
 
 
-
 export function PatientSidebar(props){
   logger.debug('PatientSidebar is rendering.');
   logger.verbose('client.app.patient.PatientSidebar');
@@ -194,6 +196,12 @@ export function PatientSidebar(props){
   function handleLogout(){
     logger.verbose('client.app.patient.PatientSidebar.handleLogout', url);
     Meteor.logout();
+    logger.info('Logging user out.');
+  }
+  function toggleNavbars(){
+    logger.verbose('client.app.patient.PatientSidebar.toggleNavbars');
+
+    Session.toggle('displayNavbars');
     logger.info('Logging user out.');
   }
   
@@ -554,6 +562,19 @@ export function PatientSidebar(props){
     </ListItem>);    
   };
 
+  //----------------------------------------------------------------------
+  // Navbars
+
+  let navbarElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Navbars')){
+    navbarElements.push(<ListItem id='navbarMenuItem' key='navbarMenuItem' button onClick={function(){ toggleNavbars(); }} >
+      <ListItemIcon >
+        <Icon icon={ic_view_day} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Navbars" className={props.classes.drawerText} />
+    </ListItem>);    
+  };
+
   return(
     <div id='patientSidebar'>
       { homePage }
@@ -575,6 +596,7 @@ export function PatientSidebar(props){
       { aboutElements }
       { privacyElements }
       { termsAndConditionElements }
+      { navbarElements }
       { logoutElements }
             
     </div>
