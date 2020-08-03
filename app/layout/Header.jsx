@@ -197,7 +197,7 @@ function Header(props) {
       headerWorkflows.forEach(function(workflow){
         if(Array.isArray(workflow.matchingPaths)){
           if(workflow.matchingPaths.includes(window.location.pathname)){
-            console.log('Found a matching workflow component to render.')
+            // console.log('Found a matching workflow component to render.')
             
             // did we find a matching component?
             workflowTabsToRender = workflow.component;  

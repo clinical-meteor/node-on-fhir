@@ -71,7 +71,7 @@ function AppLoadingPage(props) {
   //// other params
   // target-densitydpi=device-dpi, width=device-width, , 
 
-  console.log('Helmet.meta.viewportString', viewportString)
+  // console.log('Helmet.meta.viewportString', viewportString)
 
   if(get(Meteor, 'settings.public.socialmedia')){
     helmet = <Helmet>

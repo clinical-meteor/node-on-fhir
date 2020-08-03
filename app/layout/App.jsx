@@ -2,17 +2,12 @@
 // base layout
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
 
-// import ReactDOM from "react-dom";
-// import { Router, browserHistory } from 'react-router';
-// import styled from "styled-components";
-
 import {
   Switch,
   Route,
   useLocation,
   useParams
 } from "react-router-dom";
-
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
@@ -225,17 +220,17 @@ Object.keys(Package).forEach(function(packageName){
     });    
   }
   if(Package[packageName].HeaderNavigation){
-    console.log('Found a custom HeaderNavigation object in one of the packages.')
+    // logger.trace('Found a custom HeaderNavigation object in one of the packages.')
     headerNavigation = Package[packageName].HeaderNavigation;
   }
 
   if(Package[packageName].MainPage){
-    console.log('Found a custom MainPage object in one of the packages.')
+    // logger.trace('Found a custom MainPage object in one of the packages.')
     MainPage = Package[packageName].MainPage;
   }  
 
   if(Package[packageName].LaunchPage){
-    console.log('Found a custom LaunchPage object in one of the packages.')
+    // logger.trace('Found a custom LaunchPage object in one of the packages.')
     LaunchPage = Package[packageName].LaunchPage;
   }  
 
@@ -244,7 +239,7 @@ Object.keys(Package).forEach(function(packageName){
 let defaultHomeRoute = MainPage;
 let launchPage = LaunchPage;
 
-console.log('Loading the following dynamic routes: ', dynamicRoutes)
+// logger.debug('Loading the following dynamic routes: ', dynamicRoutes)
 // console.log('headerNavigation', headerNavigation)
 
 
@@ -554,7 +549,6 @@ export function App(props) {
     </ThemeProvider>
   }
 
-
   return(
     <AppCanvas { ...otherProps }>
       { helmet }
@@ -579,5 +573,4 @@ export function App(props) {
   )
 }
 
-// export default withStyles(styles, { withTheme: true })(App);
 export default App;
