@@ -93,6 +93,7 @@ import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition
 // import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering'
 // import {ic_devices} from 'react-icons-kit/md/ic_devices'
 
+import {signIn} from 'react-icons-kit/fa/signIn'
 
 const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -575,6 +576,28 @@ export function PatientSidebar(props){
     </ListItem>);    
   };
 
+  //----------------------------------------------------------------------
+  // LoginPage
+
+  let loginElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login')){
+    loginElements.push(<ListItem id='loginMenuItem' key='loginMenuItem' button onClick={function(){ openPage('/login'); }} >
+      <ListItemIcon >
+        <Icon icon={signIn} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Login" className={props.classes.drawerText} />
+    </ListItem>);    
+  };
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Register')){
+    loginElements.push(<ListItem id='registrationMenuItem' key='registrationMenuItem' button onClick={function(){ openPage('/registration'); }} >
+      <ListItemIcon >
+        <Icon icon={signIn} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Register" className={props.classes.drawerText} />
+    </ListItem>);    
+  };
+
+
   return(
     <div id='patientSidebar'>
       { homePage }
@@ -598,6 +621,7 @@ export function PatientSidebar(props){
       { termsAndConditionElements }
       { navbarElements }
       { logoutElements }
+      { loginElements }
             
     </div>
   );

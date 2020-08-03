@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BrowserRouter, withRouter } from "react-router-dom";
+import { BrowserRouter, withRouter, Router } from "react-router-dom";
 
 import { get } from 'lodash';
 
@@ -244,13 +244,15 @@ Meteor.startup(function(){
 
     let renderedApp;
     if(Meteor.isClient){
-      renderedApp = <BrowserRouter history={appHistory}>
+      // renderedApp = <BrowserRouter history={appHistory}>
+      renderedApp = <Router history={appHistory}>
         <ThemeProvider theme={theme} >
           <MuiThemeProvider theme={muiTheme}>
             <AppWithRouter logger={logger} />
           </MuiThemeProvider>
         </ThemeProvider>
-      </BrowserRouter>
+      </Router>
+      {/* </BrowserRouter> */}
     }
     if(Meteor.isServer){
       renderedApp = <ThemeProvider theme={theme} >

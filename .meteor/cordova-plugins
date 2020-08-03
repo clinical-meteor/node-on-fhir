@@ -2,6 +2,7 @@ com.telerik.plugins.healthkit@https://github.com/rossmartin/HealthKit.git#994bf6
 cordova-plugin-console@1.1.0
 cordova-plugin-device@2.0.3
 cordova-plugin-file@6.0.1
+cordova-plugin-geolocation@1.0.0
 cordova-plugin-splashscreen@4.1.0
 cordova-plugin-statusbar@2.3.0
 phonegap-plugin-mobile-accessibility@1.0.5

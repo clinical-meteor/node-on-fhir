@@ -76,9 +76,31 @@ clinical:hl7-fhir-data-infrastructure
 # symptomatic:gravity
 # symptomatic:saner
 
-
-
-
-
-
 symptomatic:saner
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mdg:geolocation

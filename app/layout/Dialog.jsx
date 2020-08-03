@@ -53,6 +53,7 @@ if(Meteor.isClient){
   Session.setDefault('mainAppDialogJson', false);
   Session.setDefault('mainAppDialogErrorMessage', '');
   Session.setDefault('mainAppDialogErrorShowAgain', true);
+  Session.setDefault('mainAppDialogmaxWidth', 'xl');
 }
 
 export default function ScrollDialog(props) {
@@ -63,8 +64,14 @@ export default function ScrollDialog(props) {
     children, 
     logger, 
     appHeight,
+    maxWidth,
     ...otherProps
   } = props;
+
+  maxWidth = useTracker(function(){
+    return Session.get('mainAppDialogmaxWidth')
+  }, []);
+
 
   let mainAppDialogOpen = useTracker(function(){
     return Session.get('mainAppDialogOpen')
@@ -168,6 +175,7 @@ export default function ScrollDialog(props) {
         open={open}
         onClose={handleClose}
         scroll={scroll}
+        maxWidth={maxWidth}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
