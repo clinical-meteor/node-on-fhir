@@ -68,7 +68,10 @@ function Header(props) {
     props.logger.data('Header.props', {data: props}, {source: "HeaderContainer.jsx"});
   }
 
-  const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+  let [drawerIsOpen, setDrawerIsOpen] = useState(false);
+  let [currentUser, setCurrentUser] = useState({
+    givenName: 'Anonymous'
+  });
 
   function clickOnMenuButton(){
     console.log('clickOnMenuButton');
@@ -175,6 +178,18 @@ function Header(props) {
     return Session.get("displayNavbars");  
   }, []);  
 
+  
+  currentUser = useTracker(function(){  
+    let currentUser = Session.get('currentUser');
+    let userName = '';
+    if(get(currentUser, 'givenName') || get(currentUser, 'familyName')){
+      userName = get(currentUser, 'givenName', '') + ' ' + get(currentUser, 'familyName', '');
+    } else {
+      userName = 'Anonymous'
+    }
+    return userName; 
+  }, []);  
+
   if(!displayNavbars){
     componentStyles.headerContainer.top = '-128px'
   }
@@ -248,9 +263,14 @@ function Header(props) {
     return titleText;    
   }
 
+  
   function parseId(){
-    let patient = Session.get('selectedPatient');
-    return get(patient, 'id', '');
+    
+    let patientId = '';
+    if(Meteor.isClient){
+      patientId = get(Session.get('selectedPatient'), 'id');
+    }
+    return patientId;
   }
 
   function getSearchDateRange(){
@@ -262,9 +282,10 @@ function Header(props) {
   let dateTimeItems;
   let userItems;
 
-  let currentUser = "Anonymous";
+
 
   if(Meteor.isClient){
+
     // if we have a selected patient, we show that info
     if(!Meteor.isCordova){
       if(Session.get('selectedPatient')){
@@ -286,12 +307,14 @@ function Header(props) {
             </div>   
           }      
         }
-        userItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+        if(get(Meteor, 'settings.public.defaults.displayUserNameInHeader')){
+          userItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
           <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
           <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
             { currentUser }
           </Typography>
-        </div>   
+        </div>             
+        }
       }
     }
   }
@@ -314,7 +337,7 @@ function Header(props) {
         </Typography>
 
         
-        
+        { userItems }
         { dateTimeItems }        
         { demographicItems }
         { workflowTabsToRender }
