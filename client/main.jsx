@@ -1,5 +1,8 @@
 import React from 'react';
+
 import { Meteor } from 'meteor/meteor';
+import { wrapMeteorClient } from '@accounts/meteor-adapter';
+
 import { Session } from 'meteor/session';
 import ReactDOM from "react-dom";
 
@@ -9,6 +12,22 @@ import { onPageLoad } from 'meteor/server-render';
 
 import { register } from 'register-service-worker';
 import { get } from 'lodash';
+
+import { AccountsClient } from '@accounts/client';
+import { AccountsClientPassword } from '@accounts/client-password';
+import { RestClient } from '@accounts/rest-client';
+
+const accountsRest = new RestClient({
+  apiHost: 'http://localhost:4000',
+  rootPath: '/accounts',
+});
+const accountsClient = new AccountsClient({}, accountsRest);
+const accountsPassword = new AccountsClientPassword(accountsClient);
+
+
+// console.log('AccountsClient', accountsClient)
+
+// wrapMeteorClient(Meteor, AccountsClient);
 
 onPageLoad(function(){
   console.log("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
@@ -64,3 +83,4 @@ onPageLoad(function(){
 //   }
 // });
 
+export { accountsClient, accountsRest, accountsPassword };

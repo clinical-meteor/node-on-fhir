@@ -14,6 +14,9 @@ import { Session } from 'meteor/session';
 import { useTracker, withTracker } from './Tracker';
 import CapabilityStatementCheck from '../core/CapabilityStatementCheck';
 import ErrorDialog from '../core/ErrorDialog';
+import LoginDialog from '../core/LoginDialog';
+import SignUpDialog from '../core/SignUpDialog';
+import LogoutDialog from '../core/LogoutDialog';
 
 import { get } from 'lodash';
 
@@ -29,7 +32,18 @@ dialogComponents.push({
 }, {
   "name": "ErrorDialog",
   "component": <ErrorDialog />
-})
+}, {
+  "name": "LoginDialog",
+  "component": <LoginDialog />
+}, {
+  "name": "SignUpDialog",
+  "component": <SignUpDialog />
+}, {
+  "name": "LogoutDialog",
+  "component": <LogoutDialog />
+});
+
+
 
 // dynamic dialog components
 Object.keys(Package).forEach(function(packageName){

@@ -579,15 +579,54 @@ export function PatientSidebar(props){
   //----------------------------------------------------------------------
   // LoginPage
 
+  function toggleLoginDialog(){
+    console.log('Toggle login dialog open/close.')
+    Session.set('mainAppDialogJson', false);
+
+    if(Session.get('currentUser')){
+      Session.set('mainAppDialogTitle', "Logout");
+      Session.set('mainAppDialogComponent', "LogoutDialog");
+    } else {
+      Session.set('mainAppDialogTitle', "Login");
+      Session.set('mainAppDialogComponent', "LoginDialog");      
+    }
+
+    Session.toggle('mainAppDialogOpen');
+  }
+
   let loginElements = [];
+  function determineDialogOrRouteLogin(loginElements){
+    if (get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.route')){
+      loginElements.push(<ListItem id='loginMenuItem' key='loginMenuItem' button onClick={function(){ openPage(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.route')); }} >
+        <ListItemIcon >
+          <Icon icon={signIn} className={props.classes.drawerIcons} />
+        </ListItemIcon>
+        <ListItemText primary="Login" className={props.classes.drawerText} />
+      </ListItem>);   
+    } else {
+      loginElements.push(<ListItem id='loginDialogMenuItem' key='loginDialogMenuItem' button onClick={function(){ toggleLoginDialog(); }} >
+        <ListItemIcon >
+          <Icon icon={signIn} className={props.classes.drawerIcons} />
+        </ListItemIcon>
+        <ListItemText primary="Login" className={props.classes.drawerText} />
+      </ListItem>);   
+    }
+  }
+
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login')){
-    loginElements.push(<ListItem id='loginMenuItem' key='loginMenuItem' button onClick={function(){ openPage('/login'); }} >
-      <ListItemIcon >
-        <Icon icon={signIn} className={props.classes.drawerIcons} />
-      </ListItemIcon>
-      <ListItemText primary="Login" className={props.classes.drawerText} />
-    </ListItem>);    
+
+    if(Meteor.isCordova){
+      if(["anywhere", "cordova"].includes(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.availability'))){
+        determineDialogOrRouteLogin(loginElements);
+      }  
+    } else {
+      if(["anywhere", "web"].includes(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.availability'))){
+        determineDialogOrRouteLogin(loginElements);
+      }    
+    }
   };
+
+
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Register')){
     loginElements.push(<ListItem id='registrationMenuItem' key='registrationMenuItem' button onClick={function(){ openPage('/registration'); }} >
       <ListItemIcon >

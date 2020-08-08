@@ -5,7 +5,7 @@
   "meteor": {
     "mainModule": {
       "client": "client/main.jsx",
-      "server": "server/main.js"
+      "server": "server/Main.js"
     },
     "testModule": "tests/main.js"
   },
@@ -37,10 +37,12 @@
   },
   "dependencies": {
     "@accounts/client": "0.28.0",
+    "@accounts/client-password": "0.28.0",
     "@accounts/meteor-adapter": "0.1.1",
     "@accounts/mongo": "0.28.0",
     "@accounts/password": "0.28.0",
     "@accounts/rest-express": "0.28.0",
+    "@accounts/rest-client": "0.28.0",
     "@accounts/server": "0.28.0",
     "@babel/runtime": "7.10.3",
     "@date-io/core": "1.3.6",
@@ -53,7 +55,11 @@
     "chart.js": "2.8.0",
     "classnames": "2.2.6",
     "clsx": "1.0.4",
+    "cors": "2.8.5",
+    "crypto-js": "4.0.0",
     "date-fns": "2.8.1",
+    "express": "4.17.1",
+    "formik": "2.1.5",
     "fhir-kit-client": "1.4.2",
     "fhirclient": "2.1.0",
     "json5": "^2.1.3",
@@ -61,6 +67,9 @@
     "material-fhir-ui": "0.9.46",
     "meteor-node-stubs": "0.4.1",
     "moment": "^2.24.0",
+    "mongodb": "3.6.0",
+    "mongoose": "5.9.27",
+    "json-schema-to-mongoose": "0.2.2",
     "papaparse": "5.2.0",
     "prop-types": "15.7.2",
     "react": "16.12.0",
