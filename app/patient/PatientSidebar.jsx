@@ -415,17 +415,23 @@ export function PatientSidebar(props){
       } else {
         clonedIcon = <Icon icon={fire} className={props.classes.drawerIcons} />
       }
+
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hidden', []).includes(element.to)){
-        dynamicElements.push(
-          <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
-            <ListItemIcon >
-              { clonedIcon }
-            </ListItemIcon>
-            <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
-          </ListItem>
-        );
+
+        // don't show the element unless it's public, or the user is signed in
+        if(!element.requireAuth || (element.requireAuth && Meteor.currentUser())){
+          dynamicElements.push(
+            <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
+              <ListItemIcon >
+                { clonedIcon }
+              </ListItemIcon>
+              <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+            </ListItem>
+          );  
+        }
       }
+
     });
     dynamicElements.push(<Divider className={props.classes.divider} key="dynamic-modules-hr" />);
     logger.trace('client.app.patient.PatientSidebar.dynamicElements: ' + dynamicElements.length);
@@ -457,10 +463,9 @@ export function PatientSidebar(props){
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hiddenWorkflow', []).includes(element.to)){
 
-        // lets also check there isn't an exclude on the route definition itself
-        if(element.excludeDevice && element.excludeDevice.includes(window.navigator.platform)){
-          // skip          
-        } else {
+        // don't show the element unless it's public, or the user is signed in
+        if(!element.requireAuth || (element.requireAuth && Meteor.currentUser())){
+
           workflowElements.push(
             <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
               <ListItemIcon >

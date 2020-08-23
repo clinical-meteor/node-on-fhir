@@ -81,7 +81,8 @@ const Login = function({ history }){
           // code: values.code
         });        
 
-        Session.set('mainAppDialogOpen', false)
+        Session.set('mainAppDialogOpen', false);
+        Session.set('lastUpdated', new Date());
 
         // history.push('/');
       } catch (error) {

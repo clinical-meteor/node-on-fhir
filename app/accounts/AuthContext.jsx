@@ -6,10 +6,21 @@ import { Session } from 'meteor/session';
 import { get, cloneDeep } from 'lodash';
 
 import { useTracker, withTracker } from '../layout/Tracker';
+import { Tracker } from 'meteor/tracker'
 
+const currentUserDep = new Tracker.Dependency();
 
 if(Meteor.isClient){
   Session.setDefault('currentUser', false);
+
+  Meteor.currentUser = function(){
+    return Session.get('currentUser');
+  }
+
+  // Meteor.userId = function(){
+  //   currentUserDep.depend();
+  //   return Session.get('currentUser');
+  // }
 }
 
 async function fetchUser(setAuthContextState){
@@ -18,6 +29,7 @@ async function fetchUser(setAuthContextState){
 
   if(Meteor.isClient){
     Session.set('currentUser', Object.assign({}, accountsUser));
+    currentUserDep.changed();
   }
 
   if(typeof setAuthContextState === "function"){
@@ -42,6 +54,9 @@ async function logout(){
 
   if(Meteor.isClient){
     Session.set('currentUser', false);
+    //Session.set('lastUpdated', new Date())
+
+    currentUserDep.changed();
   }
 };
 
