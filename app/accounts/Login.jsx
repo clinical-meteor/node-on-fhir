@@ -70,6 +70,7 @@ const Login = function({ history }){
       return errors;
     },
     onSubmit: async function(values, { setSubmitting }){
+
       console.log('AccountsClient: Submiting username and password for authentication.')
 
       try {
@@ -79,6 +80,13 @@ const Login = function({ history }){
           },
           password: values.password
           // code: values.code
+        }, function(error, result){
+          if(error){
+            console.log('loginWithService.error', error)
+          }
+          if(result){
+            console.log('loginWithService.result', result)
+          }
         });        
 
         Session.set('mainAppDialogOpen', false);

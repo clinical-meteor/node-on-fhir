@@ -96,7 +96,11 @@ const Logout = function({ history }){
   }
 
   async function logoutUser(){
-    await accountsClient.logout();    
+    console.log('accountsClient', accountsClient);
+    
+    let result = await accountsClient.logout();    
+    console.log('logout result', result);
+
     Session.set('currentUser', false)
     Session.set('mainAppDialogOpen', false);
   }

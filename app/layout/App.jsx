@@ -499,7 +499,8 @@ export function App(props) {
 
   headerTags.push(<meta key='theme' name="theme-color" content={themeColor} />)
   headerTags.push(<meta key='utf-8' charSet="utf-8" />);    
-  headerTags.push(<meta name="Description" key='description' property="description" content={get(Meteor, 'settings.public.title', "Node on FHIR")} />);
+  headerTags.push(<meta name="description" key='description' property="description" content={get(Meteor, 'settings.public.title', "Node on FHIR")} />);
+  headerTags.push(<title key='title'>{get(Meteor, 'settings.public.title', "Node on FHIR")}</title>);
 
   if(get(Meteor, 'settings.public.socialmedia')){
     //headerTags.push(<title>{socialmedia.title}</title>);    

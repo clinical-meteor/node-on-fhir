@@ -178,7 +178,7 @@ Meteor.startup(function(){
     paperTextColor: "rgba(0, 0, 0, 1) !important",
 
     backgroundCanvas: "rgba(255, 255, 255, 1) !important",
-    background: "linear-gradient(45deg, rgb(108, 183, 110) 30%, rgb(150, 202, 144) 90%)",
+    // background: "linear-gradient(45deg, rgb(108, 183, 110) 30%, rgb(150, 202, 144) 90%)",
 
     nivoTheme: "greens"
   }

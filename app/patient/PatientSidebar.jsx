@@ -7,6 +7,8 @@ import React from 'react';
 // import { Session } from 'meteor/session';
 // import { Random } from 'meteor/random';
 
+import { useTracker } from '../layout/Tracker';
+
 import { withStyles } from '@material-ui/core/styles';
 
 import { get } from 'lodash';
@@ -226,6 +228,13 @@ export function PatientSidebar(props){
       constructionZone.push(<Divider className={props.classes.divider} key='construction-hr' />);
     }
   }
+  
+  //----------------------------------------------------------------------
+  // Trackers
+
+  let currentUser = useTracker(function(){  
+    return Session.get('currentUser');    
+  }, [props.lastUpdated]);  
 
 
   //----------------------------------------------------------------------
@@ -420,7 +429,7 @@ export function PatientSidebar(props){
       if(!get(Meteor, 'settings.public.defaults.sidebar.hidden', []).includes(element.to)){
 
         // don't show the element unless it's public, or the user is signed in
-        if(!element.requireAuth || (element.requireAuth && Meteor.currentUser())){
+        if(!element.requireAuth || (element.requireAuth && currentUser)){
           dynamicElements.push(
             <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
               <ListItemIcon >
@@ -464,7 +473,7 @@ export function PatientSidebar(props){
       if(!get(Meteor, 'settings.public.defaults.sidebar.hiddenWorkflow', []).includes(element.to)){
 
         // don't show the element unless it's public, or the user is signed in
-        if(!element.requireAuth || (element.requireAuth && Meteor.currentUser())){
+        if(!element.requireAuth || (element.requireAuth && currentUser)){
 
           workflowElements.push(
             <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >

@@ -16,6 +16,7 @@ import { get, pick } from 'lodash';
 import { Random } from 'meteor/random';
 import { Meteor } from 'meteor/meteor';
 
+
 console.log('Initializing AccountsServer.')
 console.log('MONGO_URL: ' + process.env.MONGO_URL);
 
@@ -38,11 +39,11 @@ Meteor.startup(async function(){
 
 
 
-  const app = express();
+  // const app = express();
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(cors());
+  // app.use(bodyParser.json());
+  // app.use(bodyParser.urlencoded({ extended: true }));
+  // app.use(cors());
 
   // interface UserDoc extends mongoose.Document {
   //   givenName: string;
@@ -112,50 +113,152 @@ Meteor.startup(async function(){
     return userLoginRequest;
   });
 
-  /**
-   * Load and expose the accounts-js middleware
-   */
-  app.use(accountsExpress(accountsServer));
 
-  /**
-   * Return the current logged in user
-   */
-  app.get('/user', userLoader(accountsServer), function(req, res){
-    console.log('AccountsServer: GET /user', req);
 
-    res.json({ user: get(req, 'user', null) });
+  // /**
+  //  * Load and expose the accounts-js middleware
+  //  */
+  // app.use(accountsExpress(accountsServer));
+
+  JsonRoutes.Middleware.use(function (req, res, next) {
+
+    console.log('JsonRoutes.Middleware using accountsExpress()')
+    accountsExpress(accountsServer)
+    next();
   });
 
-  /**
-   * Expose a public route to edit user informations
-   * - route is protected
-   * - update the current logged in user in the db
-   */
-  app.put('/user', userLoader(accountsServer), async function (req, res){
-    console.log('AccountsServer: PUT /user', req);
+  // /**
+  //  * Return the current logged in user
+  //  */
+  // app.get('/user', userLoader(accountsServer), function(req, res){
+  //   console.log('AccountsServer: GET /user', req);
 
-    const userId = get(req, 'userId', null);
+  //   res.json({ user: get(req, 'user', null) });
+  // });
 
-    if (!userId) {
-      res.status(401);
-      res.json({ message: 'Unauthorized' });
-      return;
-    }
-
-    const user = await User.findById(userId).exec();
-
-    user.givenName = req.body.givenName;
-    user.familyName = req.body.familyName;
-
-    await user.save();
-    res.json(true);
+  JsonRoutes.add('get', '/user', function (req, res, next) {
+    console.log('AccountsServer: GET /user', req, res);
+    next();
   });
+
+
+  
 
   // app.post('/accounts/password/register', userLoader(accountsServer), async function (req, res){
   //   let body = get(req, 'body');
   //   console.log('body', 'body')
   //   res.json(true);
   // });
+
+  // JsonRoutes.add('get', '/accounts/password/register', function (req, res, next) {
+  //   console.log('AccountsServer: GET /accounts/password/register', req, res);
+
+  //   // userLoader(accountsServer);
+  //   // JsonRoutes.sendResult(res, {
+  //   //   data: true
+  //   // });
+  //   next();
+  // });
+
+  JsonRoutes.add('post', '/accounts/*', function (req, res, next) {
+    console.log('AccountsServer: POST /accounts/*', req, res);
+
+    next();
+  });
+  JsonRoutes.add('post', '/accounts/password', function (req, res, next) {
+    console.log('AccountsServer: POST /accounts/password', req, res);
+
+    next();
+  });
+  JsonRoutes.add('post', '/accounts/password/authenticate', async function (req, res, next) {
+    console.log('AccountsServer: POST /accounts/password/authenticate', req.body);
+
+    const loggedInUser = await accountsServer.loginWithService('password', req.body, req.infos);
+    console.log('loggedInUser', loggedInUser);
+    
+    JsonRoutes.sendResult(res, {
+      data: loggedInUser
+    });
+  });
+
+  JsonRoutes.add('post', '/accounts/logout', async function (req, res, next) {
+    console.log('AccountsServer: POST /accounts/logout');
+
+    let accessToken = req.headers?.Authorization || req.headers?.authorization || req.body?.accessToken || undefined;
+    accessToken = accessToken && accessToken.replace('Bearer ', '');
+    console.log('accessToken', accessToken)
+
+    const logoutResult = await accountsServer.logout( accessToken );
+    console.log('logoutResult', logoutResult)
+    
+    JsonRoutes.sendResult(res, {
+      data: {
+        message: 'User logged out.'
+      }
+    });
+  });
+
+  // /**
+  //  * Expose a public route to edit user informations
+  //  * - route is protected
+  //  * - update the current logged in user in the db
+  //  */
+  // app.put('/user', userLoader(accountsServer), async function (req, res){
+  //   console.log('AccountsServer: PUT /user', req);
+
+  //   const userId = get(req, 'userId', null);
+
+  //   if (!userId) {
+  //     res.status(401);
+  //     res.json({ message: 'Unauthorized' });
+  //     return;
+  //   }
+
+  //   const user = await User.findById(userId).exec();
+
+  //   user.givenName = req.body.givenName;
+  //   user.familyName = req.body.familyName;
+
+  //   await user.save();
+  //   res.json(true);
+  // });
+
+  JsonRoutes.add('post', '/accounts/user', async function (req, res, next) {
+    console.log('AccountsServer: POST /accounts/user', req.body);
+
+    let userLoaded = userLoader(accountsServer);
+    console.log('userLoaded', userLoaded);
+
+    const userId = get(req, 'userId', null);
+    console.log('userId', userId);
+
+    if (!userId) {
+      JsonRoutes.sendResult(res, {
+        code: 401,
+        data: {
+          message: 'Unauthorized'
+        }
+      });
+    } else {
+
+      let user = "";
+
+      // is this an update????
+      //   const user = await User.findById(userId).exec();
+
+      //   user.givenName = req.body.givenName;
+      //   user.familyName = req.body.familyName;
+
+      //   await user.save();
+      //   res.json(true);
+
+      
+      JsonRoutes.sendResult(res, {
+        data: user
+      });
+    }
+  });
+
 
   // app.post('/accounts/password/register', userLoader(accountsServer), async function (req, res){
   //   let body = get(req, 'body', false);
@@ -185,11 +288,10 @@ Meteor.startup(async function(){
   //   res.json(true);
   // });
 
-  app.listen(4000, function(){
-    console.log('AccountsServer: listening on port 4000');
-  });
+  // app.listen(get(Meteor, 'settings.public.accountsServer.port',), function(){
+  //   console.log('AccountsServer: listening on port 4000');
+  // });
 
 })
-
 
 
