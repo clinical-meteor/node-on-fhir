@@ -3,7 +3,7 @@ import { User } from '@accounts/types';
 import { accountsClient } from './Accounts';
 
 import { Session } from 'meteor/session';
-import { get, cloneDeep } from 'lodash';
+import { get, has, cloneDeep } from 'lodash';
 
 import { useTracker, withTracker } from '../layout/Tracker';
 import { Tracker } from 'meteor/tracker'
@@ -24,6 +24,8 @@ if(Meteor.isClient){
 }
 
 async function fetchUser(setAuthContextState){
+  console.log('AuthContext.fetchUser', setAuthContextState)
+
   const accountsUser = await accountsClient.getUser();
   console.log('AuthContext.accountsUser', accountsUser)
 
@@ -43,8 +45,22 @@ async function fetchUser(setAuthContextState){
 async function loginWithService(service, credentials){
   console.log('AuthContext.loginWithService()', service, credentials);
 
-  await accountsClient.loginWithService(service, credentials);
-  await fetchUser();
+  let loginResponse = await accountsClient.loginWithService(service, credentials);
+
+  if(Meteor.isClient){
+    Session.set('currentUser', get(loginResponse, 'user'));
+    currentUserDep.changed();
+  }
+
+  // if(typeof setAuthContextState === "function"){
+  //   setAuthContextState({ 
+  //     loading: false, 
+  //     user: Object.assign({}, accountsUser) 
+  //   });
+  // }
+
+  // let fetchUserResponse = await fetchUser();
+  // console.log('fetchUserResponse', fetchUserResponse)  
 };
 
 async function logout(){

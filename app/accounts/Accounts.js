@@ -4,10 +4,13 @@ import { SHA256 } from 'crypto-js';
 import { AccountsClient } from '@accounts/client';
 import { AccountsClientPassword } from '@accounts/client-password';
 import { RestClient } from '@accounts/rest-client';
+import { get } from 'lodash';
 
 const accountsRest = new RestClient({
-  apiHost: 'http://localhost:4000',
-  rootPath: '/accounts',
+  // apiHost: 'http://localhost:4000',
+  apiHost: get(Meteor, 'settings.public.accountsServer.host') + ":" + get(Meteor, 'settings.public.accountsServer.port'),
+  rootPath: '/accounts'
+
 });
 const accountsClient = new AccountsClient({}, accountsRest);
 const accountsPassword = new AccountsClientPassword(accountsClient, {
@@ -15,7 +18,7 @@ const accountsPassword = new AccountsClientPassword(accountsClient, {
   //   // Here we hash the password on the client before it's sent to the server
   //   const hashedPassword = SHA256(password);
   //   return hashedPassword.toString();
-  // },
+  // }
 });
 
 export { accountsClient, accountsRest, accountsPassword };

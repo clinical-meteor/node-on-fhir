@@ -18,8 +18,9 @@ import { AccountsClientPassword } from '@accounts/client-password';
 import { RestClient } from '@accounts/rest-client';
 
 const accountsRest = new RestClient({
-  apiHost: 'http://localhost:4000',
-  rootPath: '/accounts',
+  // apiHost: 'http://localhost:4000',
+  apiHost: get(Meteor, 'settings.public.accountsServer.host') + ":" + get(Meteor, 'settings.public.accountsServer.host'),
+  rootPath: '/accounts'
 });
 const accountsClient = new AccountsClient({}, accountsRest);
 const accountsPassword = new AccountsClientPassword(accountsClient);

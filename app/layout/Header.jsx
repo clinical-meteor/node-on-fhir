@@ -178,7 +178,6 @@ function Header(props) {
     return Session.get("displayNavbars");  
   }, []);  
 
-  
   currentUser = useTracker(function(){  
     let currentUser = Session.get('currentUser');
     let userName = '';
@@ -224,8 +223,7 @@ function Header(props) {
             );
           }
         }
-      }) 
-      
+      })       
     }
 
     // if(typeof props.headerNavigation === "function"){
