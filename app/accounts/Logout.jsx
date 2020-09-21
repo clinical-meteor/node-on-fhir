@@ -1,3 +1,11 @@
+// https://www.accountsjs.com/docs/strategies/password/  
+// https://www.accountsjs.com/docs/strategies/password-client/  
+// https://www.accountsjs.com/docs/handling-errors/  
+// https://www.accountsjs.com/docs/strategies/password/  
+// https://github.com/accounts-js/accounts/blob/master/packages/rest-express/src/express-middleware.ts  
+// https://github.com/accounts-js/accounts/blob/master/packages/rest-express/src/endpoints/password/register.ts  
+
+
 import React, { useState } from 'react';
 import { RouteComponentProps, Link as RouterLink } from 'react-router-dom';
 import {
