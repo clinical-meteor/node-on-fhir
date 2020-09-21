@@ -77,6 +77,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       height: '100%',
       paddingTop: '0px',
       paddingBottom: '0px',
+      background: 'inherit',
       //backgroundColor: theme.palette.background.default,
       transition: theme.transitions.create('left', {
         easing: theme.transitions.easing.sharp,
@@ -93,6 +94,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       height: '100%',
       paddingTop: '0px',
       paddingBottom: '0px',
+      background: 'inherit',
       //backgroundColor: theme.palette.background.default,
       transition: theme.transitions.create('left', {
         easing: theme.transitions.easing.sharp,

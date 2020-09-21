@@ -25,10 +25,10 @@ meteor-base@1.4.0             # Packages every Meteor app needs to have
 # tracker@1.2.0 (top level)         
 # webapp@1.7.5 (expanded above)  
 
-# SECURITY 
+# SECURITY  
 alanning:roles
 
-# DATA INFRASTRUCTURE
+# DATA INFRASTRUCTURE  
 mongo@1.10.0                   # The database Meteor supports right now
 reactive-var@1.0.11            # Reactive variable for tracker
 react-meteor-data             # React higher-order component for reactively tracking Meteor data
@@ -37,7 +37,7 @@ tracker@1.2.0
 http@1.4.2
 simple:json-routes@2.1.0
 
-# RENDERING
+# RENDERING  
 es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
 static-html                   # Define static page content in .html files
 standard-minifier-css@1.6.0   # CSS minifier run for production mode
@@ -77,7 +77,7 @@ clinical:hl7-fhir-data-infrastructure
 # symptomatic:gravity
 # symptomatic:saner
 
+# symptomatic:saner
 # symptomatic:gravity
-symptomatic:saner
-symptomatic:bluebutton
+# symptomatic:bluebutton
 mdg:geolocation

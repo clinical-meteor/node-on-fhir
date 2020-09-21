@@ -12,7 +12,7 @@ import { AccountsPassword, CreateUserErrors } from '@accounts/password';
 import accountsExpress, { userLoader } from '@accounts/rest-express';
 import { Mongo, MongoDBInterface } from '@accounts/mongo';
 
-import { get, pick } from 'lodash';
+import { get, has, pick } from 'lodash';
 import { Random } from 'meteor/random';
 import { Meteor } from 'meteor/meteor';
 
@@ -181,6 +181,8 @@ Meteor.startup(async function(){
     });
   });
 
+
+
   JsonRoutes.add('post', '/accounts/logout', async function (req, res, next) {
     console.log('AccountsServer: POST /accounts/logout');
 
@@ -288,10 +290,83 @@ Meteor.startup(async function(){
   //   res.json(true);
   // });
 
-  // app.listen(get(Meteor, 'settings.public.accountsServer.port',), function(){
-  //   console.log('AccountsServer: listening on port 4000');
-  // });
+  JsonRoutes.add('post', '/accounts/password/register', async function (req, res, next) {
+    console.log('AccountsServer: POST /accounts/password/register', req.body);
 
+
+    const user = get(req, "body.user");
+    console.log('user', user);
+
+    const accountsPassword = get(accountsServer.getServices(), "password");
+    // console.log('accountsPassword', accountsPassword)
+
+    let userId = "";
+    let dataPayload = {};
+
+    try {
+      userId = await accountsPassword.createUser(user);
+      console.log('userId', userId)
+    } catch (error) {
+      console.log('error', error)
+
+      // // If ambiguousErrorMessages is true we obfuscate the email or username already exist error
+      // // to prevent user enumeration during user creation
+      // if (
+      //   accountsServer.options.ambiguousErrorMessages &&
+      //   error instanceof AccountsJsError &&
+      //   (error.code === CreateUserErrors.EmailAlreadyExists ||
+      //     error.code === CreateUserErrors.UsernameAlreadyExists)
+      // ) {
+      //   return res.json({} as CreateUserResult);
+      // }
+
+      if(!accountsServer.options.ambiguousErrorMessages){
+        dataPayload = {}
+      } 
+
+      JsonRoutes.sendResult(res, {
+        code: 500,
+        data: dataPayload
+      });
+
+      throw error;
+    }
+
+    if (has(accountsServer, "options.enableAutologin")) {
+
+      if(!accountsServer.options.ambiguousErrorMessages){
+        dataPayload = {
+          userId: newUserId
+        }
+      } 
+
+      JsonRoutes.sendResult(res, {
+        code: 401,
+        data: dataPayload
+      });
+    }
+
+    // When initializing AccountsServer we check that enableAutologin and ambiguousErrorMessages options
+    // are not enabled at the same time
+    const createdUser = await accountsServer.findUserById(userId);
+    console.log('createdUser', createdUser)
+
+    // If we are here - user must be created successfully
+    // Explicitly saying this to Typescript compiler
+    const loginResult = await accountsServer.loginWithUser(createdUser, req.infos);
+    console.log('loginResult', loginResult)
+
+    dataPayload = {
+      userId: userId,
+      loginResult: loginResult
+    }
+    console.log('dataPayload', dataPayload)
+
+    JsonRoutes.sendResult(res, {
+      code: 200,
+      data: dataPayload
+    });
+  });
 })
 
 

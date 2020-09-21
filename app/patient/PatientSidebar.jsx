@@ -640,7 +640,6 @@ export function PatientSidebar(props){
     }
   };
 
-
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Register')){
     loginElements.push(<ListItem id='registrationMenuItem' key='registrationMenuItem' button onClick={function(){ openPage('/registration'); }} >
       <ListItemIcon >
@@ -652,7 +651,7 @@ export function PatientSidebar(props){
 
 
   return(
-    <div id='patientSidebar'>
+    <div id='patientSidebar' style={{marginBottom: '80px',}} >
       { homePage }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>
