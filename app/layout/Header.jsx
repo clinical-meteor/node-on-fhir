@@ -17,11 +17,10 @@ import { Session } from 'meteor/session';
 import { get } from 'lodash';
 import moment from 'moment';
 
-import { useTracker } from './Tracker';
 import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
-
+import { useTracker } from './Tracker';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -110,7 +109,10 @@ function Header(props) {
       fontWeight: '200',
       fontSize: '2.125rem',
       float: 'left',
-      marginTop: '0px'
+      marginTop: '0px',
+      position: 'fixed',
+      whiteSpace: 'nowrap',
+      display: 'inline-block'
     },
     header_label: {
       paddingTop: '10px',
@@ -290,7 +292,7 @@ function Header(props) {
           {/* <MenuIcon /> */}
           <Icon icon={ic_menu} size={32} />
         </IconButton>
-        <Typography variant="h4" color="inherit" onClick={ function(){ goHome(); }} style={  componentStyles.title }>
+        <Typography id="appTitle" variant="h4" color="inherit" onClick={ function(){ goHome(); }} style={  componentStyles.title }>
           { parseTitle() }
         </Typography>
 

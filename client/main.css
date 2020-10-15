@@ -26,3 +26,9 @@ a{
 .vis-inner {
   font-size: 60% !important;
 }
+
+
+
+.is-ios #header {
+  padding-top: 20px;
+}

@@ -57,6 +57,10 @@ import {envelopeO} from 'react-icons-kit/fa/envelopeO' // Correspondence
 import {ic_question_answer} from 'react-icons-kit/md/ic_question_answer'
 import {shoppingBasket} from 'react-icons-kit/fa/shoppingBasket'
 
+import {androidRadioButtonOn} from 'react-icons-kit/ionicons/androidRadioButtonOn'
+import {ic_healing} from 'react-icons-kit/md/ic_healing'
+import {ic_warning} from 'react-icons-kit/md/ic_warning'
+
 // import {ic_tune} from 'react-icons-kit/md/ic_tune'
 // import {flask} from 'react-icons-kit/fa/flask' // Substance 
 // import {cameraRetro} from 'react-icons-kit/fa/cameraRetro' // ImagingStudy
@@ -87,7 +91,7 @@ import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition
 // import {ic_signal_wifi_4_bar} from 'react-icons-kit/md/ic_signal_wifi_4_bar'
 // import {ic_signal_wifi_4_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_4_bar_lock'
 // import {ic_signal_wifi_off} from 'react-icons-kit/md/ic_signal_wifi_off'
-// import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering'
+import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering'
 // import {ic_devices} from 'react-icons-kit/md/ic_devices'
 
 
@@ -374,11 +378,18 @@ export function PatientSidebar(props){
         case "mapO":
           result = <Icon icon={mapO} />
           break;    
-            
-          
-          
-
-          
+        case "healthgraph":
+          result = <Icon icon={androidRadioButtonOn} />
+          break;    
+        case "ic_wifi_tethering":
+          result = <Icon icon={ic_wifi_tethering} />
+          break;    
+        case "ic_warning":
+          result = <Icon icon={ic_warning} />
+          break;    
+        case "ic_healing":
+          result = <Icon icon={ic_healing} />
+          break;    
         default:
           result = <Icon icon={fire} className={props.classes.drawerIcons} />
           break;
@@ -479,8 +490,44 @@ export function PatientSidebar(props){
 
 
   //----------------------------------------------------------------------
-  // Theming
+  // Data Management
 
+  let dataManagementElements = [];
+  let drawDataMgmDivider = false;
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.HealthRecords')){
+    drawDataMgmDivider = true;
+    dataManagementElements.push(<ListItem id='healthkitImportItem' key='healthkitImportItem' button onClick={function(){ openPage('/healthcard'); }} >
+      <ListItemIcon >
+        <Icon icon={addressCardO} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="HealthRecords" className={props.classes.drawerText}  />
+    </ListItem>);    
+  };
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DataImport')){
+    drawDataMgmDivider = true;
+    dataManagementElements.push(<ListItem id='dataImportItem' key='dataImportItem' button onClick={function(){ openPage('/data-import'); }} >
+      <ListItemIcon >
+        <Icon icon={fire} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Data Import" className={props.classes.drawerText}  />
+    </ListItem>);    
+  };
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DataExport')){
+    drawDataMgmDivider = true;
+    dataManagementElements.push(<ListItem id='dataExportItem' key='dataExportItem' button onClick={function(){ openPage('/data-export'); }} >
+      <ListItemIcon >
+        <Icon icon={fire} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Data Export" className={props.classes.drawerText}  />
+    </ListItem>);    
+  };
+
+  if(drawDataMgmDivider){
+    dataManagementElements.push(<Divider className={props.classes.divider} key="data-management-modules-hr" />);
+  }
+
+  //----------------------------------------------------------------------
+  // Theming
 
   let themingElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Theming')){
@@ -556,6 +603,8 @@ export function PatientSidebar(props){
         {/* <h4>Workflow</h4> */}
         { workflowElements }   
       </div>
+
+      { dataManagementElements }
 
       <div id='patientDynamicElements' key='patientDynamicElements'>
         {/* <h4>Data</h4> */}

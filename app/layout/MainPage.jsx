@@ -178,10 +178,15 @@ function MainPage(props){
     height: '52px'
   }
 
+  let paddingWidth = 84;
+  if(Meteor.isCordova){
+    paddingWidth = 20;
+  }
 
+  let cardWidth = window.innerWidth - paddingWidth;
 
   return (
-    <PageCanvas id='MainPage' style={pageStyle} headerHeight={headerHeight}>
+    <PageCanvas id='MainPage' style={pageStyle} headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth}>
         <Container maxWidth="lg" style={{paddingBottom: '80px'}}>
 
             <Button variant="contained" color="secondary" className={classes.fallout_button} href="https://github.com/symptomatic/covid19-on-fhir" >

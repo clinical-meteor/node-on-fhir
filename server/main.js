@@ -11,4 +11,11 @@ Meteor.startup(() => {
       "lang": "en"
     }
   })
+
+  WebApp.rawConnectHandlers.use(function(req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization, Content-Length, X-Requested-With');
+
+    return next();
+  });
 });

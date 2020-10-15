@@ -10,6 +10,9 @@ import { onPageLoad } from 'meteor/server-render';
 import { register } from 'register-service-worker'
 import { get } from 'lodash';
 
+// ===============================================================
+// HYDRATION / SERVER SIDE RENDERING
+
 onPageLoad(function(){
   console.log("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
   Session.set('last_reloaded_url', window.location.search)
@@ -33,6 +36,35 @@ onPageLoad(function(){
   ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
 });
 
+
+
+// ===============================================================
+// CORDOVA
+
+
+
+Meteor.startup(function(){
+  if(Meteor.isCordova){
+    // if(window.plugins){
+    //   console.log('window.plugins.webviewcolor', window.plugins.webviewcolor);
+    //   window.plugins.webviewcolor.change('#FF0000');
+    // }  
+  
+    if(window.cordova){
+      var platformId = window.cordova.platformId;
+
+      // this allows us to add some stylesheets for the 'notch' and similar viewport considerations
+      if (platformId) {
+        document.body.classList.add('is-' + platformId);
+      }
+    }
+  }
+});
+
+
+
+// ===============================================================
+// SERVICE WORKERS
 
 //  // we register a static file that's put in the /public folder
 // register('/service-worker.js', {

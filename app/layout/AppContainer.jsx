@@ -169,8 +169,8 @@ Meteor.startup(function(){
     errorColor: "rgb(128,20,60) !important",
     errorText: "#ffffff !important",
 
-    appBarColor: "#f5f5f5 !important",
-    appBarTextColor: "rgba(0, 0, 0, 1) !important",
+    // appBarColor: "#f5f5f5 !important",
+    // appBarTextColor: "rgba(0, 0, 0, 1) !important",
 
     paperColor: "#f5f5f5 !important",
     paperTextColor: "rgba(0, 0, 0, 1) !important",

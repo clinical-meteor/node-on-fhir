@@ -114,6 +114,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       backgroundColor: theme.palette.paper.main
     },
     drawerOpen: {
+      visibility: 'visible',
       width: drawerWidth,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -122,6 +123,20 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       backgroundColor: theme.palette.paper.main
     },
     drawerClose: {
+      visibility: 'visible',
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      overflowX: 'hidden',
+      width: theme.spacing(7) + 1,
+      [theme.breakpoints.up('sm')]: {
+        width: theme.spacing(9) + 1
+      },
+      backgroundColor: theme.palette.paper.main
+    },
+    drawerCloseMobile: {
+      visibility: 'hidden',
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -480,18 +495,23 @@ export function App(props) {
   let drawerStyle = {}
 
   let drawer;
+
+  let drawerCloseClass = classes.drawerClose;
+  if(Meteor.isCordova){
+    drawerCloseClass = classes.drawerCloseMobile;
+  }
   if(Meteor.isClient){
       drawer = <Drawer
         id='appDrawer'
         variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: drawerIsOpen,
-          [classes.drawerClose]: !drawerIsOpen
+          [drawerCloseClass]: !drawerIsOpen
         })}
         classes={{
           paper: clsx({
             [classes.drawerOpen]: drawerIsOpen,
-            [classes.drawerClose]: !drawerIsOpen
+            [drawerCloseClass]: !drawerIsOpen
           }),
         }}
         open={drawerIsOpen}

@@ -89,14 +89,16 @@ function AppLoadingPage(props) {
 
   let styles = {
     spinningIcon: {
+      display: 'inline-block',
       marginTop: '32px',
       width: '80px',
       height: '80px',
-      marginLeft: '-55%'
     },
     loadingMessage: {
       position: 'absolute',
-      left: '50%',
+      left: '0px',
+      width: '100%',
+      padding: '0px',
       top: '40%'
     }
   }
@@ -111,8 +113,8 @@ function AppLoadingPage(props) {
         <CssBaseline />
         <Header { ...otherProps } />
           <main id="appLoadingPage" style={{width: '100%', height: '100%', textAlign: 'center'}}>
-            <div style={ styles.loadingMessage }>
-              <h1 className="helveticas" style={{fontWeight: 200, marginLeft: '-50%'}}>This app is loading.</h1>
+            <div id="appLoadingMessage" style={ styles.loadingMessage }>
+              <h1 className="helveticas" style={{fontWeight: 200, width: '100%'}}>This app is loading.</h1>
               <Icon icon={spinner8} className="spinningIcon" style={styles.spinningIcon} size={80} />
             </div>
           </main>

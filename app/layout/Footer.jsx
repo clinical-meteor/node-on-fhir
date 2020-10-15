@@ -1,63 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useTracker } from './Tracker';
+
 
 import { Button, BottomNavigation} from '@material-ui/core';
-import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Meteor } from 'meteor/meteor';
 import { get } from 'lodash';
 
-import { makeStyles } from '@material-ui/styles';
+import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { useTracker } from './Tracker';
+
 
 const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
-// doesnt seem to be used by main app
-const styles = theme => ({
-  footer: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText
-  },
-  header: {
-    display: 'flex'
-  },
-  hide: {
-    display: 'none'
-  },
-  input: {
-    display: 'none'
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36,
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar
-  },
-  // footerContainer: {  
-  //   height: '64px',
-  //   position: 'fixed',
-  //   bottom: 0,
-  //   left: 0,
-  //   background: theme.palette.appBar.main,
-  //   backgroundColor: theme.palette.appBar.main,
-  //   color: theme.palette.appBar.contrastText,
-  //   width: '100%',
-  //   zIndex: 1300,
-  //   transition: theme.transitions.create(['width', 'left'], {
-  //     easing: theme.transitions.easing.sharp,
-  //     duration: theme.transitions.duration.leavingScreen
-  //   })
-  // }
-});
-
-
+// not being used?
+const styles = theme => ({});
 
 function Footer(props) {
   if(props.logger){
@@ -132,17 +90,18 @@ function Footer(props) {
   westNavbar = renderWestNavbar(get(props, 'location.pathname'));
   // }
 
-  let styles = {
+  let componentStyles = {
     footerContainer: {  
+      borderTop: '1px solid lightgray',
       height: '64px',
       position: 'fixed',
-      bottom: "0px",
-      left: "0px",
+      bottom: 0,
+      left: 0,
       background: props.theme.palette.appBar.main,
       backgroundColor: props.theme.palette.appBar.main,
       color: props.theme.palette.appBar.contrastText,
       width: '100%',
-      zIndex: 1300,
+      zIndex: 10000,
       transition: props.theme.transitions.create(['width', 'left'], {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
@@ -152,12 +111,12 @@ function Footer(props) {
   }
 
   if(Meteor.isClient && props.drawerIsOpen){
-    styles.footerContainer.width = (window.innerWidth - drawerWidth) + "px";
-    styles.footerContainer.left = drawerWidth + "px";
+    componentStyles.footerContainer.width = (window.innerWidth - drawerWidth) + "px";
+    componentStyles.footerContainer.left = drawerWidth + "px";
   }
 
   return (
-    <footer id="footerNavContainer" style={styles.footerContainer}>
+    <footer id="footerNavContainer" style={componentStyles.footerContainer}>
       <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" style={{backgroundColor: "inherit", justifyContent: 'left'}} >
         { westNavbar }
       </BottomNavigation>
