@@ -152,7 +152,6 @@
     }
   },
   "private": {
-    
     "fhir": {
       "disableOauth": true,
       "schemaValidation": {
