@@ -49,6 +49,7 @@
       ]
     },
     "loggingThreshold": "info",
+    "fhirAutoSubscribe": true,
     "capabilityStatement": {
       "resourceTypes": ["Condition", "Device", "Encounter", "Immunization", "Medication", "MedicationOrder", "MedicationRequest", "MedicationStatement", "Observation", "Procedure"]
     },
@@ -158,6 +159,7 @@
         "filter": false,
         "validate": false
       },
+      "autopublishSubscriptions": true,
       "fhirPath": "baseR4",
       "rest": {
         "Observation": {
