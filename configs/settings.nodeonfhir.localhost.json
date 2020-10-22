@@ -157,11 +157,22 @@
     }
   },
   "private": {
-    "disableOauth": true,
     "fhir": {
+      "disableOauth": true,
+      "schemaValidation": {
+        "filter": false,
+        "validate": false
+      },
+      "fhirPath": "baseR4",
       "rest": {
-        "Patient": true,
-        "Observation": true
+        "Observation": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "Patient": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        }
       }
     }
   }
