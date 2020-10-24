@@ -129,6 +129,11 @@
       "autosync": false,
       "magnets": []
     },
+    "accountsServer": {      
+      "database": "meteor",
+      "host": "http://localhost",
+      "port": 3000
+    },
     "modules": {
       "apps": {},
       "fhir": {
