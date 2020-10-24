@@ -68,7 +68,10 @@ function Header(props) {
     props.logger.data('Header.props', {data: props}, {source: "HeaderContainer.jsx"});
   }
 
-  const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+  let [drawerIsOpen, setDrawerIsOpen] = useState(false);
+  let [currentUser, setCurrentUser] = useState({
+    givenName: 'Anonymous'
+  });
 
   function clickOnMenuButton(){
     console.log('clickOnMenuButton');
@@ -95,7 +98,7 @@ function Header(props) {
       color: props.theme.palette.appBar.contrastText,
       width: '100%',
       zIndex: 1200,
-      transition: props.theme.transitions.create(['width', 'left'], {
+      transition: props.theme.transitions.create(['width', 'left', 'top'], {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
       }),
@@ -109,7 +112,9 @@ function Header(props) {
       paddingTop: '10px',
       fontWeight: '200',
       fontSize: '2.125rem',
-      float: 'left'
+      float: 'left',
+      marginTop: '0px',
+      whiteSpace: 'nowrap'
     },
     header_label: {
       paddingTop: '10px',
@@ -123,6 +128,14 @@ function Header(props) {
       paddingTop: '10px',
       fontSize: '1 rem',
       float: 'left'
+    },
+    menuButton: {
+      float: 'left',
+      color: props.theme.palette.appBar.contrastText,
+      background: 'inherit',
+      backgroundColor: 'inherit',
+      border: '0px none black',
+      paddingTop: '15px'
     }
   }
 
@@ -149,20 +162,39 @@ function Header(props) {
     return Session.get("currentPatientId");
   }, [props.lastUpdated]);
 
-  let currentPatient = null;
-  currentPatient = useTracker(function(){
-    return Session.get("currentPatient");
-  }, [props.lastUpdated]);
+  let currentPatient = null;  
+  currentPatient = useTracker(function(){  
+    return Session.get("currentPatient");  
+  }, [props.lastUpdated]);  
 
-  let workflowTabs = "default";
-  workflowTabs = useTracker(function(){
-    return Session.get("workflowTabs");
-  }, [props.lastUpdated]);
+  let workflowTabs = "default";  
+  workflowTabs = useTracker(function(){  
+    return Session.get("workflowTabs");  
+  }, [props.lastUpdated]);  
 
 
+  let displayNavbars = true;  
+  displayNavbars = useTracker(function(){  
+    return Session.get("displayNavbars");  
+  }, []);  
 
-  // ------------------------------------------------------------
-  // Layout
+  currentUser = useTracker(function(){  
+    let currentUser = Session.get('currentUser');
+    let userName = '';
+    if(get(currentUser, 'givenName') || get(currentUser, 'familyName')){
+      userName = get(currentUser, 'givenName', '') + ' ' + get(currentUser, 'familyName', '');
+    } else {
+      userName = 'Anonymous'
+    }
+    return userName; 
+  }, []);  
+
+  if(!displayNavbars){
+    componentStyles.headerContainer.top = '-128px'
+  }
+
+  // ------------------------------------------------------------  
+  // Layout  
 
   if(Meteor.isClient && props.drawerIsOpen){
     componentStyles.headerContainer.width = window.innerWidth - drawerWidth;
@@ -175,10 +207,11 @@ function Header(props) {
     componentStyles.headerContainer.height = '128px';
 
     if(Meteor.isClient){
+
       headerWorkflows.forEach(function(workflow){
         if(Array.isArray(workflow.matchingPaths)){
           if(workflow.matchingPaths.includes(window.location.pathname)){
-            console.log('Found a matching workflow component to render.')
+            // console.log('Found a matching workflow component to render.')
             
             // did we find a matching component?
             workflowTabsToRender = workflow.component;  
@@ -190,7 +223,7 @@ function Header(props) {
             );
           }
         }
-      })  
+      })       
     }
 
     // if(typeof props.headerNavigation === "function"){
@@ -207,6 +240,7 @@ function Header(props) {
 
   function parseTitle(){
     let titleText = get(Meteor, 'settings.public.title', 'Node on FHIR');
+    let secondaryTitleText = get(Meteor, 'settings.public.secondaryTitle', '');
     let selectedPatient;
 
     if(Meteor.isClient){
@@ -220,12 +254,21 @@ function Header(props) {
       }
     }
 
+    if(!Meteor.isCordova){
+      titleText = titleText + secondaryTitleText;
+    }
+
     return titleText;    
   }
 
+  
   function parseId(){
-    let patient = Session.get('selectedPatient');
-    return get(patient, 'id', '');
+    
+    let patientId = '';
+    if(Meteor.isClient){
+      patientId = get(Session.get('selectedPatient'), 'id');
+    }
+    return patientId;
   }
 
   function getSearchDateRange(){
@@ -237,37 +280,44 @@ function Header(props) {
   let dateTimeItems;
   let userItems;
 
-  let currentUser = "Anonymous";
+
 
   if(Meteor.isClient){
+
     // if we have a selected patient, we show that info
-    if(Session.get('selectedPatient')){
-      demographicItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-        <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Patient ID: </Typography>
-        <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
-          { parseId() }
-        </Typography>
-      </div>   
-    } else {
-      // otherwise, we default to population/search level info to display
-      if(useDateRangeInQueries){
-        if(selectedStartDate && selectedEndDate){
-          dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-            <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Date Range: </Typography>
-            <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
-              { getSearchDateRange() }
-            </Typography>
-          </div>   
-        }      
+    if(!Meteor.isCordova){
+      if(Session.get('selectedPatient')){
+        demographicItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+          <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Patient ID: </Typography>
+          <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+            { parseId() }
+          </Typography>
+        </div>   
+      } else {
+        // otherwise, we default to population/search level info to display
+        if(useDateRangeInQueries){
+          if(selectedStartDate && selectedEndDate){
+            dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+              <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Date Range: </Typography>
+              <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+                { getSearchDateRange() }
+              </Typography>
+            </div>   
+          }      
+        }
+        if(get(Meteor, 'settings.public.defaults.displayUserNameInHeader')){
+          userItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+          <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
+          <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+            { currentUser }
+          </Typography>
+        </div>             
+        }
       }
-      userItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-        <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
-        <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
-          { currentUser }
-        </Typography>
-      </div>   
     }
   }
+
+
 
   return (
     <AppBar id="header" position="fixed" style={componentStyles.headerContainer}>
@@ -276,8 +326,8 @@ function Header(props) {
           color="inherit"
           aria-label="Open drawer"
           onClick={ clickOnMenuButton }
+          style={componentStyles.menuButton}
         >
-          {/* <MenuIcon /> */}
           <Icon icon={ic_menu} size={32} />
         </IconButton>
         <Typography variant="h4" color="inherit" onClick={ function(){ goHome(); }} style={  componentStyles.title }>
@@ -285,6 +335,7 @@ function Header(props) {
         </Typography>
 
         
+        { userItems }
         { dateTimeItems }        
         { demographicItems }
         { workflowTabsToRender }

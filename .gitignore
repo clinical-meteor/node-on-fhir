@@ -12,3 +12,4 @@ resources/*
 chromedriver.log
 
 configs/settings.galaxy.json
+mobile-config.js

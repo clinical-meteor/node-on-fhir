@@ -1,10 +1,13 @@
-
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+
 import React from 'react';
 // import { ReactMeteorData } from 'meteor/react-meteor-data';
 // import ReactMixin from 'react-mixin';
 // import { Session } from 'meteor/session';
 // import { Random } from 'meteor/random';
+
+import { useTracker } from '../layout/Tracker';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -45,6 +48,8 @@ import {list} from 'react-icons-kit/fa/list' //Dashboard
 import {addressCardO} from 'react-icons-kit/fa/addressCardO'  // Address Card  
 import {mapO} from 'react-icons-kit/fa/mapO'
 import {map} from 'react-icons-kit/fa/map'
+
+import {ic_view_day} from 'react-icons-kit/md/ic_view_day'
 
 import {ic_hearing} from 'react-icons-kit/md/ic_hearing'  // Condition?
 import {ic_fingerprint} from 'react-icons-kit/md/ic_fingerprint' // Biometric
@@ -90,6 +95,7 @@ import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition
 // import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering'
 // import {ic_devices} from 'react-icons-kit/md/ic_devices'
 
+import {signIn} from 'react-icons-kit/fa/signIn'
 
 const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -173,7 +179,6 @@ const styles = theme => ({
 
 
 
-
 export function PatientSidebar(props){
   logger.debug('PatientSidebar is rendering.');
   logger.verbose('client.app.patient.PatientSidebar');
@@ -194,6 +199,12 @@ export function PatientSidebar(props){
   function handleLogout(){
     logger.verbose('client.app.patient.PatientSidebar.handleLogout', url);
     Meteor.logout();
+    logger.info('Logging user out.');
+  }
+  function toggleNavbars(){
+    logger.verbose('client.app.patient.PatientSidebar.toggleNavbars');
+
+    Session.toggle('displayNavbars');
     logger.info('Logging user out.');
   }
   
@@ -217,6 +228,13 @@ export function PatientSidebar(props){
       constructionZone.push(<Divider className={props.classes.divider} key='construction-hr' />);
     }
   }
+  
+  //----------------------------------------------------------------------
+  // Trackers
+
+  let currentUser = useTracker(function(){  
+    return Session.get('currentUser');    
+  }, [props.lastUpdated]);  
 
 
   //----------------------------------------------------------------------
@@ -406,17 +424,23 @@ export function PatientSidebar(props){
       } else {
         clonedIcon = <Icon icon={fire} className={props.classes.drawerIcons} />
       }
+
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hidden', []).includes(element.to)){
-        dynamicElements.push(
-          <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
-            <ListItemIcon >
-              { clonedIcon }
-            </ListItemIcon>
-            <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
-          </ListItem>
-        );
+
+        // don't show the element unless it's public, or the user is signed in
+        if(!element.requireAuth || (element.requireAuth && currentUser)){
+          dynamicElements.push(
+            <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
+              <ListItemIcon >
+                { clonedIcon }
+              </ListItemIcon>
+              <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+            </ListItem>
+          );  
+        }
       }
+
     });
     dynamicElements.push(<Divider className={props.classes.divider} key="dynamic-modules-hr" />);
     logger.trace('client.app.patient.PatientSidebar.dynamicElements: ' + dynamicElements.length);
@@ -447,14 +471,19 @@ export function PatientSidebar(props){
 
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hiddenWorkflow', []).includes(element.to)){
-        workflowElements.push(
-          <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
-            <ListItemIcon >
-              { clonedIcon }
-            </ListItemIcon>
-            <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
-          </ListItem>
-        );
+
+        // don't show the element unless it's public, or the user is signed in
+        if(!element.requireAuth || (element.requireAuth && currentUser)){
+
+          workflowElements.push(
+            <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
+              <ListItemIcon >
+                { clonedIcon }
+              </ListItemIcon>
+              <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+            </ListItem>
+          );
+        }
       }
     });
     workflowElements.push(<Divider className={props.classes.divider} key="workflow-modules-hr" />);
@@ -548,8 +577,81 @@ export function PatientSidebar(props){
     </ListItem>);    
   };
 
+  //----------------------------------------------------------------------
+  // Navbars
+
+  let navbarElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Navbars')){
+    navbarElements.push(<ListItem id='navbarMenuItem' key='navbarMenuItem' button onClick={function(){ toggleNavbars(); }} >
+      <ListItemIcon >
+        <Icon icon={ic_view_day} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Navbars" className={props.classes.drawerText} />
+    </ListItem>);    
+  };
+
+  //----------------------------------------------------------------------
+  // LoginPage
+
+  function toggleLoginDialog(){
+    console.log('Toggle login dialog open/close.')
+    Session.set('mainAppDialogJson', false);
+
+    if(Session.get('currentUser')){
+      Session.set('mainAppDialogTitle', "Logout");
+      Session.set('mainAppDialogComponent', "LogoutDialog");
+    } else {
+      Session.set('mainAppDialogTitle', "Login");
+      Session.set('mainAppDialogComponent', "LoginDialog");      
+    }
+
+    Session.toggle('mainAppDialogOpen');
+  }
+
+  let loginElements = [];
+  function determineDialogOrRouteLogin(loginElements){
+    if (get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.route')){
+      loginElements.push(<ListItem id='loginMenuItem' key='loginMenuItem' button onClick={function(){ openPage(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.route')); }} >
+        <ListItemIcon >
+          <Icon icon={signIn} className={props.classes.drawerIcons} />
+        </ListItemIcon>
+        <ListItemText primary="Login" className={props.classes.drawerText} />
+      </ListItem>);   
+    } else {
+      loginElements.push(<ListItem id='loginDialogMenuItem' key='loginDialogMenuItem' button onClick={function(){ toggleLoginDialog(); }} >
+        <ListItemIcon >
+          <Icon icon={signIn} className={props.classes.drawerIcons} />
+        </ListItemIcon>
+        <ListItemText primary="Login" className={props.classes.drawerText} />
+      </ListItem>);   
+    }
+  }
+
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login')){
+
+    if(Meteor.isCordova){
+      if(["anywhere", "cordova"].includes(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.availability'))){
+        determineDialogOrRouteLogin(loginElements);
+      }  
+    } else {
+      if(["anywhere", "web"].includes(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.availability'))){
+        determineDialogOrRouteLogin(loginElements);
+      }    
+    }
+  };
+
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Register')){
+    loginElements.push(<ListItem id='registrationMenuItem' key='registrationMenuItem' button onClick={function(){ openPage('/registration'); }} >
+      <ListItemIcon >
+        <Icon icon={signIn} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Register" className={props.classes.drawerText} />
+    </ListItem>);    
+  };
+
+
   return(
-    <div id='patientSidebar'>
+    <div id='patientSidebar' style={{marginBottom: '80px',}} >
       { homePage }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>
@@ -569,7 +671,9 @@ export function PatientSidebar(props){
       { aboutElements }
       { privacyElements }
       { termsAndConditionElements }
+      { navbarElements }
       { logoutElements }
+      { loginElements }
             
     </div>
   );

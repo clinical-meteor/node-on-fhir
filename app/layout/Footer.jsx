@@ -11,6 +11,7 @@ import { get } from 'lodash';
 
 import { makeStyles } from '@material-ui/styles';
 
+
 const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 // doesnt seem to be used by main app
@@ -143,6 +144,7 @@ function Footer(props) {
       color: props.theme.palette.appBar.contrastText,
       width: '100%',
       zIndex: 1300,
+      borderTop: '1px solid lightgray',
       transition: props.theme.transitions.create(['width', 'left'], {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
@@ -154,6 +156,15 @@ function Footer(props) {
   if(Meteor.isClient && props.drawerIsOpen){
     styles.footerContainer.width = (window.innerWidth - drawerWidth) + "px";
     styles.footerContainer.left = drawerWidth + "px";
+  }
+
+  let displayNavbars = true;  
+  displayNavbars = useTracker(function(){  
+    return Session.get("displayNavbars");  
+  }, []);  
+
+  if(!displayNavbars){
+    styles.footerContainer.bottom = '-64px'
   }
 
   return (

@@ -106,7 +106,7 @@ export class ThemePageOld extends React.Component {
     if(has(Meteor.settings, 'public.theme.backgroundImagePath')){
       resetString = get(Meteor.settings, 'public.theme.backgroundImagePath'); 
     }
-    Meteor.users.update({_id: Meteor.userId()}, {$set: {
+    Meteor.users.update({_id: get(Meteor.currentUser(), '_id')}, {$set: {
       'profile.theme.backgroundImagePath': resetString
     }});
   }
@@ -394,7 +394,7 @@ export class ThemePageOld extends React.Component {
     Session.set('backgroundColor', event.currentTarget.style['background-color']);
 
     // setUserTheme.call({
-    //   _id:  Meteor.userId(),
+    //   _id:  get(Meteor.currentUser(), '_id'),
     //   backgroundColor: event.currentTarget.style['background-color']
     // }, (error) => {
     //   if (error) {
@@ -415,7 +415,7 @@ export class ThemePageOld extends React.Component {
     Session.set('backgroundImagePath', path);
 
     // setUserTheme.call({
-    //   _id:  Meteor.userId(),
+    //   _id:  get(Meteor.currentUser(), '_id'),
     //   backgroundImagePath: path
     // }, (error) => {
     //   if (error) {
@@ -436,7 +436,7 @@ export class ThemePageOld extends React.Component {
     // // we're calling setUserTheme without any parameters, which will reset the theme
     // // and use the default video background
     // setUserTheme.call({
-    //   _id:  Meteor.userId()
+    //   _id:  get(Meteor.currentUser(), '_id')
     // }, (error) => {
     //   if (error) {
     //     Bert.alert(error.reason, 'danger');

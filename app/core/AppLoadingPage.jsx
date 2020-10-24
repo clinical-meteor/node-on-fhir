@@ -65,6 +65,14 @@ function AppLoadingPage(props) {
   // Social Media Registration
 
   let helmet;
+  let initialScale = "0.7"
+  let viewportString = "initial-scale=" + initialScale + ", minimal-ui, minimum-scale=" + initialScale +  ", maximum-scale=" + initialScale + ", width=device-width, height=device-height, user-scalable=no";
+
+  //// other params
+  // target-densitydpi=device-dpi, width=device-width, , 
+
+  // console.log('Helmet.meta.viewportString', viewportString)
+
   if(get(Meteor, 'settings.public.socialmedia')){
     helmet = <Helmet>
       <meta charSet="utf-8" />
@@ -81,6 +89,8 @@ function AppLoadingPage(props) {
       <meta name="theme-color" content={get(Meteor, 'settings.public.theme.palette.appBarColor', "#669f64 !important")} />   
     </Helmet>
   }
+
+  
 
   //--------------------------------------------------------------------------------
   // Styling
