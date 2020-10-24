@@ -49,6 +49,7 @@
       ]
     },
     "loggingThreshold": "info",
+    "fhirAutoSubscribe": true,
     "capabilityStatement": {
       "resourceTypes": ["Condition", "Device", "Encounter", "Immunization", "Medication", "MedicationOrder", "MedicationRequest", "MedicationStatement", "Observation", "Procedure"]
     },
@@ -123,6 +124,11 @@
       "upstreamSync": "http://meteor-on-fhir.meteorapp.com/fhir-3.0.0", 
       "autosync": false
     },
+    "accountsServer": {      
+      "database": "meteor",
+      "host": "http://localhost",
+      "port": 3000
+    },
     "modules": {
       "apps": {},
       "fhir": {
@@ -152,11 +158,23 @@
     }
   },
   "private": {
-    "disableOauth": true,
     "fhir": {
+      "disableOauth": true,
+      "schemaValidation": {
+        "filter": false,
+        "validate": false
+      },
+      "autopublishSubscriptions": true,
+      "fhirPath": "baseR4",
       "rest": {
-        "Patient": true,
-        "Observation": true
+        "Observation": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "Patient": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        }
       }
     }
   }

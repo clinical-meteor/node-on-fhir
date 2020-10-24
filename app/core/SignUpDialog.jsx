@@ -28,8 +28,9 @@ import JSON5 from 'json5';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
+import SignUp from '../accounts/SignUp';
 
-export function ErrorDialog(props){
+export function SignUpDialog(props){
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -47,7 +48,7 @@ export function ErrorDialog(props){
     errorMessage = jsonContent;
   }
 
-  console.log('ErrorDialog', errorMessage)
+  console.log('SignUpDialog', errorMessage)
 
   if(errorMessage){
     if(typeof errorMessage === "string"){
@@ -98,16 +99,16 @@ export function ErrorDialog(props){
 
 
   return(
-    <DialogContent id={id} className="ErrorDialog" style={{minWidth: '600px'}} dividers={scroll === 'paper'}>
-      { textToRender }
+    <DialogContent id={id} className="SignUpDialog" style={{minWidth: '600px'}} dividers={scroll === 'paper'}>      
+      <SignUp />
     </DialogContent>
   )
 }
 
-ErrorDialog.propTypes = {
+SignUpDialog.propTypes = {
   errorMessage: PropTypes.string
 }
-ErrorDialog.defaultProps = {}
+SignUpDialog.defaultProps = {}
 
 
-export default ErrorDialog;
+export default SignUpDialog;

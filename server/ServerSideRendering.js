@@ -10,13 +10,16 @@ import AppContainer from '/app/layout/AppContainer'
 // import AppLoadingPage from '/app/core/AppLoadingPage'
 
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
+import { get } from 'lodash';
 
 import theme from '/app/theme.js'
 // import { createLogger, addColors, format, transports, config } from 'winston';
-
+import ReactDOMServer from 'react-dom/server';
 
 onPageLoad((sink) => {
-  process.env.DEBUG && console.log('Application requested from client browser.  Initiating onPageLoad() pre-render.')
+  if(process.env.DEBUG){
+    console.log('Application requested from client browser.  Initiating onPageLoad() pre-render.')
+  }
 
   const context = {};
 
@@ -48,10 +51,13 @@ onPageLoad((sink) => {
   sink.renderIntoElementById('reactTarget', htmlString);
 
   const helmet = Helmet.renderStatic();
+
+
   // console.log("********:  HELMET", helmet);
   
   sink.appendToHead(helmet.meta.toString());
   sink.appendToHead(helmet.title.toString());
+  
 
   sink.appendToBody(`
     <script>

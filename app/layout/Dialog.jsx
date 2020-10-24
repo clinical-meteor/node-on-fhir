@@ -14,6 +14,9 @@ import { Session } from 'meteor/session';
 import { useTracker, withTracker } from './Tracker';
 import CapabilityStatementCheck from '../core/CapabilityStatementCheck';
 import ErrorDialog from '../core/ErrorDialog';
+import LoginDialog from '../core/LoginDialog';
+import SignUpDialog from '../core/SignUpDialog';
+import LogoutDialog from '../core/LogoutDialog';
 
 import { get } from 'lodash';
 
@@ -29,7 +32,18 @@ dialogComponents.push({
 }, {
   "name": "ErrorDialog",
   "component": <ErrorDialog />
-})
+}, {
+  "name": "LoginDialog",
+  "component": <LoginDialog />
+}, {
+  "name": "SignUpDialog",
+  "component": <SignUpDialog />
+}, {
+  "name": "LogoutDialog",
+  "component": <LogoutDialog />
+});
+
+
 
 // dynamic dialog components
 Object.keys(Package).forEach(function(packageName){
@@ -53,6 +67,7 @@ if(Meteor.isClient){
   Session.setDefault('mainAppDialogJson', false);
   Session.setDefault('mainAppDialogErrorMessage', '');
   Session.setDefault('mainAppDialogErrorShowAgain', true);
+  Session.setDefault('mainAppDialogmaxWidth', 'xl');
 }
 
 export default function ScrollDialog(props) {
@@ -63,8 +78,14 @@ export default function ScrollDialog(props) {
     children, 
     logger, 
     appHeight,
+    maxWidth,
     ...otherProps
   } = props;
+
+  maxWidth = useTracker(function(){
+    return Session.get('mainAppDialogmaxWidth')
+  }, []);
+
 
   let mainAppDialogOpen = useTracker(function(){
     return Session.get('mainAppDialogOpen')
@@ -113,6 +134,7 @@ export default function ScrollDialog(props) {
   const handleClose = () => {
     //setOpen(false);
     Session.set('mainAppDialogOpen', false);
+    Session.set('lastUpdated', new Date())
     // Session.set('mainAppDialogJson', false);
     //Session.set('mainAppDialogJsonComponent', null);
   };
@@ -167,6 +189,7 @@ export default function ScrollDialog(props) {
         open={open}
         onClose={handleClose}
         scroll={scroll}
+        maxWidth={maxWidth}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >

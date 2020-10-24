@@ -2,17 +2,12 @@
 // base layout
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
 
-// import ReactDOM from "react-dom";
-// import { Router, browserHistory } from 'react-router';
-// import styled from "styled-components";
-
 import {
   Switch,
   Route,
   useLocation,
   useParams
 } from "react-router-dom";
-
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
@@ -56,7 +51,7 @@ import PatientQuickChart from '../patient/PatientQuickChart'
 import LaunchPage from '../core/LaunchPage'
 
 import ConstructionZone from '../core/ConstructionZone';
-
+import ContextSlideOut from './ContextSlideOut';
 
 // ==============================================================================
 // Theming
@@ -82,6 +77,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       height: '100%',
       paddingTop: '0px',
       paddingBottom: '0px',
+      background: 'inherit',
       //backgroundColor: theme.palette.background.default,
       transition: theme.transitions.create('left', {
         easing: theme.transitions.easing.sharp,
@@ -98,6 +94,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       height: '100%',
       paddingTop: '0px',
       paddingBottom: '0px',
+      background: 'inherit',
       //backgroundColor: theme.palette.background.default,
       transition: theme.transitions.create('left', {
         easing: theme.transitions.easing.sharp,
@@ -225,17 +222,17 @@ Object.keys(Package).forEach(function(packageName){
     });    
   }
   if(Package[packageName].HeaderNavigation){
-    console.log('Found a custom HeaderNavigation object in one of the packages.')
+    // logger.trace('Found a custom HeaderNavigation object in one of the packages.')
     headerNavigation = Package[packageName].HeaderNavigation;
   }
 
   if(Package[packageName].MainPage){
-    console.log('Found a custom MainPage object in one of the packages.')
+    // logger.trace('Found a custom MainPage object in one of the packages.')
     MainPage = Package[packageName].MainPage;
   }  
 
   if(Package[packageName].LaunchPage){
-    console.log('Found a custom LaunchPage object in one of the packages.')
+    // logger.trace('Found a custom LaunchPage object in one of the packages.')
     LaunchPage = Package[packageName].LaunchPage;
   }  
 
@@ -244,7 +241,7 @@ Object.keys(Package).forEach(function(packageName){
 let defaultHomeRoute = MainPage;
 let launchPage = LaunchPage;
 
-console.log('Loading the following dynamic routes: ', dynamicRoutes)
+// logger.debug('Loading the following dynamic routes: ', dynamicRoutes)
 // console.log('headerNavigation', headerNavigation)
 
 
@@ -256,7 +253,7 @@ const requireAuth = (nextState, replace) => {
   // do we even need to authorize?
   if(get(Meteor, 'settings.public.defaults.requireAuthorization')){
     // yes, this is a restricted page
-    if (!Meteor.loggingIn() && !Meteor.userId()) {
+    if (!Meteor.loggingIn() && !Meteor.currentUser()) {
       // we're in the compiled desktop app that somebody purchased or downloaded
       // so no need to go to the landing page
       // lets just take them to the signin page
@@ -304,7 +301,7 @@ const requireAuth = (nextState, replace) => {
 
 // practitioner authentication function
 const requirePractitioner = (nextState, replace) => {
-  if (!Roles.userIsInRole(Meteor.userId(), 'practitioner')) {
+  if (!Roles.userIsInRole(get(Meteor.currentUser(), '_id'), 'practitioner')) {
     replace({
       pathname: '/need-to-be-practitioner',
       state: { nextPathname: nextState.location.pathname }
@@ -313,7 +310,7 @@ const requirePractitioner = (nextState, replace) => {
 };
 // practitioner authentication function
 const requreSysadmin = (nextState, replace) => {
-  if (!Roles.userIsInRole(Meteor.userId(), 'sysadmin')) {
+  if (!Roles.userIsInRole(get(Meteor.currentUser(), '_id'), 'sysadmin')) {
     replace({
       pathname: '/need-to-be-sysadmin',
       state: { nextPathname: nextState.location.pathname }
@@ -323,6 +320,56 @@ const requreSysadmin = (nextState, replace) => {
 
 
 
+
+// ==============================================================================
+// Main App Component
+
+import {
+  Card,
+  CardHeader
+} from '@material-ui/core';
+
+if(Meteor.isClient){
+  Session.setDefault('slideOutCardsVisible', true)
+}
+export function SlideOutCards(props){
+
+
+  const slideOutCardsVisible = useTracker(function(){
+    return Session.get('slideOutCardsVisible')
+  }, []);
+
+  console.log('slideOutCardsVisible', slideOutCardsVisible)
+
+  let overlayContainerStyle = {
+    position: 'fixed',
+    top: '0px',
+    left: '0px',
+    height: '100%', 
+    width: '100%'
+  }
+
+  let overlayStyle = {
+    position: 'absolute',
+    float: 'right',    
+    top: '128px',
+    right: '73px',
+    height: window.innerHeight - 64 + 'px',
+    width: '400px',
+    transition: '.7s'
+  }
+
+  if(slideOutCardsVisible){
+    overlayStyle.right = '-473px';
+  }
+
+
+  return <div id='slideoutCardsContainer' style={overlayContainerStyle}>
+    <Card id='slideoutCards' style={overlayStyle}>
+      <CardHeader title="Slideout" />
+    </Card>
+  </div>
+}
 
 
 // ==============================================================================
@@ -454,7 +501,8 @@ export function App(props) {
 
   headerTags.push(<meta key='theme' name="theme-color" content={themeColor} />)
   headerTags.push(<meta key='utf-8' charSet="utf-8" />);    
-  headerTags.push(<meta name="Description" key='description' property="description" content={get(Meteor, 'settings.public.title', "Node on FHIR")} />);
+  headerTags.push(<meta name="description" key='description' property="description" content={get(Meteor, 'settings.public.title', "Node on FHIR")} />);
+  headerTags.push(<title key='title'>{get(Meteor, 'settings.public.title', "Node on FHIR")}</title>);
 
   if(get(Meteor, 'settings.public.socialmedia')){
     //headerTags.push(<title>{socialmedia.title}</title>);    
@@ -554,7 +602,6 @@ export function App(props) {
     </ThemeProvider>
   }
 
-
   return(
     <AppCanvas { ...otherProps }>
       { helmet }
@@ -562,6 +609,7 @@ export function App(props) {
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <CssBaseline />
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
+        <ContextSlideOut { ...otherProps } />
         <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
         <div id="appDrawerContainer" style={drawerStyle}>
@@ -579,5 +627,4 @@ export function App(props) {
   )
 }
 
-// export default withStyles(styles, { withTheme: true })(App);
 export default App;
