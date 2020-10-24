@@ -149,6 +149,8 @@ jobs:
     - run: cat .meteor/versions
     - run: locale
 
+    - run: meteor list  
+
     # #- make sure we have our tests
     # - run: cd webapp/tests && ls -la
     # - run: git clone https://github.com/awatson1978/meteor-on-fhir-validation tests/nightwatch
