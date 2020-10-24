@@ -25,7 +25,7 @@ meteor-base@1.4.0             # Packages every Meteor app needs to have
 # tracker@1.2.0 (top level)         
 # webapp@1.7.5 (expanded above)  
 
-# SECURITY 
+# SECURITY  
 alanning:roles
 
 # DATA INFRASTRUCTURE
@@ -35,8 +35,9 @@ react-meteor-data             # React higher-order component for reactively trac
 session@1.2.0
 tracker@1.2.0
 http@1.4.2
+simple:json-routes@2.1.0
 
-# RENDERING
+# RENDERING  
 es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
 static-html                   # Define static page content in .html files
 standard-minifier-css@1.6.1   # CSS minifier run for production mode
@@ -70,12 +71,9 @@ clinical:hl7-fhir-data-infrastructure
 
 # WORKFLOW  
 # symptomatic:covid19-on-fhir
-# symptomatic:example-plugin
 # symptomatic:covid19-geomapping
 # symptomatic:covid19-reporting
 # symptomatic:data-management
-
-
 # symptomatic:gravity
 # symptomatic:saner
 

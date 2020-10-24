@@ -1,14 +1,34 @@
 import React from 'react';
+
 import { Meteor } from 'meteor/meteor';
+import { wrapMeteorClient } from '@accounts/meteor-adapter';
+
 import { Session } from 'meteor/session';
 import ReactDOM from "react-dom";
 
 import { render } from 'react-dom';
-import AppContainer from '/app/layout/AppContainer'
+import AppContainer from '/app/layout/AppContainer';
 import { onPageLoad } from 'meteor/server-render';
 
-import { register } from 'register-service-worker'
+import { register } from 'register-service-worker';
 import { get } from 'lodash';
+
+import { AccountsClient } from '@accounts/client';
+import { AccountsClientPassword } from '@accounts/client-password';
+import { RestClient } from '@accounts/rest-client';
+
+const accountsRest = new RestClient({
+  // apiHost: 'http://localhost:4000',
+  apiHost: get(Meteor, 'settings.public.accountsServer.host') + ":" + get(Meteor, 'settings.public.accountsServer.host'),
+  rootPath: '/accounts'
+});
+const accountsClient = new AccountsClient({}, accountsRest);
+const accountsPassword = new AccountsClientPassword(accountsClient);
+
+
+// console.log('AccountsClient', accountsClient)
+
+// wrapMeteorClient(Meteor, AccountsClient);
 
 onPageLoad(function(){
   console.log("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
@@ -28,6 +48,10 @@ onPageLoad(function(){
   }
   if(searchParams.get('scope')){
     Session.set('smartOnFhir_scope', searchParams.get('scope'));
+  }
+
+  if(window.MobileAccessibility){
+    window.MobileAccessibility.usePreferredTextZoom(false);
   }
 
   ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
@@ -60,3 +84,4 @@ onPageLoad(function(){
 //   }
 // });
 
+export { accountsClient, accountsRest, accountsPassword };
