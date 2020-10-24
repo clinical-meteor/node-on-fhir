@@ -88,9 +88,9 @@ const Login = function({ history }){
           },
           password: values.password
           // code: values.code
-        }, function(error, result){
-          if(error){
-            console.log('loginWithService.error', error)
+        }, function(err, result){
+          if(err){
+            console.log('loginWithService.err', err)
           }
           if(result){
             console.log('loginWithService.result', result)
@@ -101,8 +101,8 @@ const Login = function({ history }){
         Session.set('lastUpdated', new Date());
 
         // history.push('/');
-      } catch (error) {
-        setError(error.message);
+      } catch (err) {
+        setError(err.message);
         setSubmitting(false);
       }
     }
