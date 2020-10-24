@@ -91,8 +91,8 @@ const Logout = function({ history }){
         Session.set('mainAppDialogOpen', false)
 
         // history.push('/');
-      } catch (error) {
-        setError(error.message);
+      } catch (err) {
+        setError(err.message);
         setSubmitting(false);
       }
     }

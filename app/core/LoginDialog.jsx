@@ -58,7 +58,8 @@ export function LoginDialog(props){
     } else if(typeof errorMessage === "object") {
       textToRender = JSON.stringify(errorMessage, null, 2);
     }
-  }
+  } 
+  
 
   function handleTabChange(event, newIndex){
     setTabIndex(newIndex);
