@@ -49,6 +49,7 @@
       ]
     },
     "loggingThreshold": "debug",
+    "fhirAutoSubscribe": true,
     "capabilityStatement": {
       "resourceTypes": ["Condition", "Device", "Encounter", "Immunization", "Medication", "MedicationOrder", "MedicationRequest", "MedicationStatement", "Observation", "Procedure"]
     },
@@ -157,11 +158,25 @@
     }
   },
   "private": {
-    "disableOauth": true,
     "fhir": {
+      "disableOauth": true,
+      "schemaValidation": {
+        "filter": false,
+        "validate": false
+      },
+      "fhirPath": "baseR4",
+      "autopublishSubscriptions": true,
       "rest": {
-        "Patient": true,
-        "Observation": true
+        "Observation": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true,
+          "publication": true
+        },
+        "Patient": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true,
+          "publication": true
+        }
       }
     }
   }
