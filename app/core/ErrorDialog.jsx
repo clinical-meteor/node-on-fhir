@@ -36,7 +36,7 @@ export function ErrorDialog(props){
   let { 
     children, 
     id,
-    error,
+    // error,
     errorMessage,
     jsonContent,
     ...otherProps 
@@ -104,7 +104,9 @@ export function ErrorDialog(props){
   )
 }
 
-ErrorDialog.propTypes = {}
+ErrorDialog.propTypes = {
+  errorMessage: PropTypes.string
+}
 ErrorDialog.defaultProps = {}
 
 

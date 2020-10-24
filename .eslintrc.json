@@ -39,7 +39,7 @@
       "max-len": ["off"],
       "no-undef": ["warn"],
       "meteor/no-session": ["warn"],
-      "quote-props": ["warn"],
+      "quote-props": ["off"],
       "comma-dangle": ["warn"],
       "spaced-comment": ["warn"],
       "no-var": ["warn"],

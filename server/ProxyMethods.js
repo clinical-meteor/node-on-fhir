@@ -5,12 +5,17 @@ import { wrapMeteorServer } from '@accounts/meteor-adapter';
 import { HTTP } from 'meteor/http';
 import { get } from 'lodash';
 
+import { check } from 'meteor/check'
+
 AccountsServer.config({}); // Config your accounts server
  wrapMeteorServer(Meteor, AccountsServer);
 
 
 Meteor.methods({
     queryEndpoint: async function(fhirUrl, accessToken){
+      check(fhirUrl, String);
+      check(accessToken, String);
+
       if(this.userId){
         // check(fhirUrl, String)
         // check(accessToken, Match.Maybe(String));

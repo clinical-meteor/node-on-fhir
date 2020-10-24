@@ -3,13 +3,13 @@ import { SnackbarContent, makeStyles } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 
 const useStyles = makeStyles({
-  message: {
-    display: 'flex',
-    alignItems: 'center',
+  "message": {
+    "display": 'flex',
+    "alignItems": 'center',
   },
-  error: {
-    backgroundColor: green[600],
-  },
+  "error": {
+    "backgroundColor": green[600],
+  }
 });
 
 // interface SnackBarContentSuccessProps {
