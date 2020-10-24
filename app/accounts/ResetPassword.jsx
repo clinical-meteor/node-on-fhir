@@ -85,8 +85,8 @@ const ResetPassword = function({ match }){
           await accountsRest.resetPassword(match.params.token, values.newPassword);
           setSuccess('Your password has been reset successfully');
         }
-      } catch (error) {
-        setError(error.message);
+      } catch (err) {
+        setError(err.message);
       }
 
       setSubmitting(false);

@@ -107,16 +107,16 @@ const Signup = function({ history }){
         Session.set('mainAppDialogOpen', false)
 
         //history.push('/login');
-      } catch (error) {
-        setError(error.message);
+      } catch (err) {
+        setError(err.message);
         setSubmitting(false);
 
-        if (error instanceof AccountsJsError) {
+        if (err instanceof AccountsJsError) {
           // You can access the error message via `error.message`
           // Eg: "Email already exists"
           // You can access the code via `error.code`
           // Eg:
-          if (error.code === CreateUserErrors.EmailAlreadyExists) {
+          if (err.code === CreateUserErrors.EmailAlreadyExists) {
             // do some custom logic
             console.log("Email already exists.")
           }
