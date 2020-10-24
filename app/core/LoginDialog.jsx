@@ -39,7 +39,7 @@ export function LoginDialog(props){
   let { 
     children, 
     id,
-    error,
+    // error,
     errorMessage,
     jsonContent,
     ...otherProps 
@@ -108,7 +108,9 @@ export function LoginDialog(props){
   )
 }
 
-LoginDialog.propTypes = {}
+LoginDialog.propTypes = {
+  errorMessage: PropTypes.string
+}
 LoginDialog.defaultProps = {}
 
 

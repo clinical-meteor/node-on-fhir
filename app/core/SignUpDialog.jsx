@@ -37,7 +37,7 @@ export function SignUpDialog(props){
   let { 
     children, 
     id,
-    error,
+    // error,
     errorMessage,
     jsonContent,
     ...otherProps 
@@ -105,7 +105,9 @@ export function SignUpDialog(props){
   )
 }
 
-SignUpDialog.propTypes = {}
+SignUpDialog.propTypes = {
+  errorMessage: PropTypes.string
+}
 SignUpDialog.defaultProps = {}
 
 

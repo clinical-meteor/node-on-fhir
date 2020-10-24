@@ -4,15 +4,14 @@ import { get } from 'lodash';
 import { Meteor } from 'meteor/meteor';
 
 const useStyles = makeStyles(theme => ({
-  message: {
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '150%'
+  "message": {
+    "display": 'flex',
+    "alignItems": 'center',
+    "fontSize": '150%'
   },
-  error: {
-    // backgroundColor: theme.palette.error.light,
-    backgroundColor: get(Meteor, 'settings.public.theme.palette.primaryColor'),
-    width: '100%'
+  "error": {
+    "backgroundColor": get(Meteor, 'settings.public.theme.palette.primaryColor'),
+    "width": '100%'
   }
 }));
 
