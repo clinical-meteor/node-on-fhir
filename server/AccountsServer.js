@@ -122,7 +122,7 @@ Meteor.startup(async function(){
 
   JsonRoutes.Middleware.use(function (req, res, next) {
 
-    console.log('JsonRoutes.Middleware using accountsExpress()')
+    // console.log('JsonRoutes.Middleware using accountsExpress()')
     accountsExpress(accountsServer)
     next();
   });
