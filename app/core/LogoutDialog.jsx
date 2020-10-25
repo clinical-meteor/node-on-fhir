@@ -22,14 +22,17 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { get, has } from 'lodash';
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
 import { HTTP } from 'meteor/http';
 import JSON5 from 'json5';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
+import Logout from '../accounts/Logout';
 
-export function ErrorDialog(props){
+
+
+
+export function LogoutDialog(props){
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -47,7 +50,7 @@ export function ErrorDialog(props){
     errorMessage = jsonContent;
   }
 
-  console.log('ErrorDialog', errorMessage)
+  // console.log('LogoutDialog', errorMessage)
 
   if(errorMessage){
     if(typeof errorMessage === "string"){
@@ -98,16 +101,16 @@ export function ErrorDialog(props){
 
 
   return(
-    <DialogContent id={id} className="ErrorDialog" style={{minWidth: '600px'}} dividers={scroll === 'paper'}>
-      { textToRender }
+    <DialogContent id={id} className="LogoutDialog" style={{minWidth: '600px'}} dividers={scroll === 'paper'}>      
+      <Logout />
     </DialogContent>
   )
 }
 
-ErrorDialog.propTypes = {
+LogoutDialog.propTypes = {
   errorMessage: PropTypes.string
 }
-ErrorDialog.defaultProps = {}
+LogoutDialog.defaultProps = {}
 
 
-export default ErrorDialog;
+export default LogoutDialog;
