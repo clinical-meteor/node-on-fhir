@@ -113,6 +113,11 @@
       "upstreamSync": "http://meteor-on-fhir.meteorapp.com/fhir-3.0.0", 
       "autosync": false
     },
+    "accountsServer": {      
+      "database": "meteor",
+      "host": "http://localhost",
+      "port": 3000
+    },
     "modules": {
       "data": true,
       "forum": true,

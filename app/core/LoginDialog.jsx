@@ -22,14 +22,17 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { get, has } from 'lodash';
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
 import { HTTP } from 'meteor/http';
 import JSON5 from 'json5';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
+import Login from '../accounts/Login';
 
-export function ErrorDialog(props){
+
+
+
+export function LoginDialog(props){
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -47,7 +50,7 @@ export function ErrorDialog(props){
     errorMessage = jsonContent;
   }
 
-  console.log('ErrorDialog', errorMessage)
+  // console.log('LoginDialog', errorMessage)
 
   if(errorMessage){
     if(typeof errorMessage === "string"){
@@ -55,7 +58,8 @@ export function ErrorDialog(props){
     } else if(typeof errorMessage === "object") {
       textToRender = JSON.stringify(errorMessage, null, 2);
     }
-  }
+  } 
+  
 
   function handleTabChange(event, newIndex){
     setTabIndex(newIndex);
@@ -98,16 +102,16 @@ export function ErrorDialog(props){
 
 
   return(
-    <DialogContent id={id} className="ErrorDialog" style={{minWidth: '600px'}} dividers={scroll === 'paper'}>
-      { textToRender }
+    <DialogContent id={id} className="LoginDialog" style={{minWidth: '600px'}} dividers={scroll === 'paper'}>      
+      <Login />
     </DialogContent>
   )
 }
 
-ErrorDialog.propTypes = {
+LoginDialog.propTypes = {
   errorMessage: PropTypes.string
 }
-ErrorDialog.defaultProps = {}
+LoginDialog.defaultProps = {}
 
 
-export default ErrorDialog;
+export default LoginDialog;

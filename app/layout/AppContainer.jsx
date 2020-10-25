@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BrowserRouter, withRouter } from "react-router-dom";
+import { BrowserRouter, withRouter, Router } from "react-router-dom";
 
 import { get } from 'lodash';
 
@@ -28,6 +28,8 @@ if(Meteor.isClient){
 
   Session.setDefault('appHeight', window.innerHeight);
   Session.setDefault('appWidth', window.innerWidth);  
+  
+  Session.setDefault('displayNavbars', get(Meteor, 'settings.public.defaults.displayNavbars'));
 }
 
 
@@ -176,7 +178,7 @@ Meteor.startup(function(){
     paperTextColor: "rgba(0, 0, 0, 1) !important",
 
     backgroundCanvas: "rgba(255, 255, 255, 1) !important",
-    background: "linear-gradient(45deg, rgb(108, 183, 110) 30%, rgb(150, 202, 144) 90%)",
+    // background: "linear-gradient(45deg, rgb(108, 183, 110) 30%, rgb(150, 202, 144) 90%)",
 
     nivoTheme: "greens"
   }
@@ -242,13 +244,15 @@ Meteor.startup(function(){
 
     let renderedApp;
     if(Meteor.isClient){
-      renderedApp = <BrowserRouter history={appHistory}>
+      // renderedApp = <BrowserRouter history={appHistory}>
+      renderedApp = <Router history={appHistory}>
         <ThemeProvider theme={theme} >
           <MuiThemeProvider theme={muiTheme}>
             <AppWithRouter logger={logger} />
           </MuiThemeProvider>
         </ThemeProvider>
-      </BrowserRouter>
+      </Router>
+      {/* </BrowserRouter> */}
     }
     if(Meteor.isServer){
       renderedApp = <ThemeProvider theme={theme} >
