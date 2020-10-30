@@ -78,7 +78,7 @@ import {ambulance} from 'react-icons-kit/fa/ambulance' // Ambulance
 // import {laptop} from 'react-icons-kit/fa/laptop' // Laptop  
 import {wheelchair} from 'react-icons-kit/fa/wheelchair' // Wheelchair   
 // import {signing} from 'react-icons-kit/fa/signing' // Handwash / Signing  
-// import {addressBook} from 'react-icons-kit/fa/addressBook' // Address Book  
+import {addressBook} from 'react-icons-kit/fa/addressBook' // Address Book  
 import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition  
 // import {nuclear} from 'react-icons-kit/ionicons/nuclear' // Radiology  
 // import {pipette} from 'react-icons-kit/typicons/pipette' // Immunization ?
@@ -400,9 +400,13 @@ export function PatientSidebar(props){
         case "ic_healing":
           result = <Icon icon={ic_healing} />
           break;    
+        case "addressBook":
+          result = <Icon icon={addressBook} />
+          break;    
         default:
           result = <Icon icon={fire} className={props.classes.drawerIcons} />
-          break;
+          break;          
+
       }
     }
 
