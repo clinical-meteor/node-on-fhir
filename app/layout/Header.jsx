@@ -250,12 +250,18 @@ function Header(props) {
   
           titleText = FhirUtilities.pluckName(selectedPatient); 
           logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
-        }    
-      }
-    }
+        } else {
 
-    if(!Meteor.isCordova){
-      titleText = titleText + secondaryTitleText;
+          if(!Meteor.isCordova){      
+            titleText = titleText + secondaryTitleText;
+          }
+        }
+      } else {
+        if(!Meteor.isCordova){      
+          titleText = titleText + secondaryTitleText;
+        }
+
+      }
     }
 
     return titleText;    
@@ -263,13 +269,13 @@ function Header(props) {
 
   
   function parseId(){
-    
     let patientId = '';
     if(Meteor.isClient){
       patientId = get(Session.get('selectedPatient'), 'id');
     }
     return patientId;
   }
+
 
   function getSearchDateRange(){
     return moment(selectedStartDate).format("MMM DD, YYYY") + " until " + moment(selectedEndDate).format("MMM DD, YYYY")
