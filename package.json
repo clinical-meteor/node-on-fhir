@@ -97,14 +97,7 @@
     "validator": "10.9.0",
     "winston": "3.2.1"
   },
-  "devDependenciesBkup": {
-    "conventional-changelog-cli": "2.0.11",
-    "meteor-desktop": "2.2.5",
-    "shelljs": "0.7.4",
-    "electron": "6.1.7",
-    "electron-builder": "21.2.0"
-  },
-  "unusedDevLibs": {
+  "devDependencies": {
     "babel-eslint": "10.1.0",
     "chai": "4.2.0",
     "chai-nightwatch": "0.4.0",
@@ -118,6 +111,13 @@
     "eslint-plugin-react-hooks": "4.0.4",
     "nightwatch": "1.5.0",
     "selenium-webdriver": "3.6.0"
+  },
+  "devDependenciesBkup": {
+    "conventional-changelog-cli": "2.0.11",
+    "meteor-desktop": "2.2.5",
+    "shelljs": "0.7.4",
+    "electron": "6.1.7",
+    "electron-builder": "21.2.0"
   },
   "desktopLibs": {
     "electron": "6.1.7",
@@ -155,10 +155,5 @@
     "node_modules/",
     "packages/",
     "tests/"
-  ],
-  "devDependencies": {
-    "electron": "6.1.7",
-    "electron-builder": "21.2.0",
-    "meteor-desktop": "2.2.5"
-  }
+  ]
 }

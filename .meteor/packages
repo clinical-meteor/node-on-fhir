@@ -54,8 +54,8 @@ clinical:hl7-fhir-data-infrastructure@6.7.3
 
 
 # DESKTOP
-omega:meteor-desktop-watcher@=2.2.5
-omega:meteor-desktop-bundler@=2.2.5
+# omega:meteor-desktop-watcher@=2.2.5
+# omega:meteor-desktop-bundler@=2.2.5
 
 
 # CUSTOM PLUGINS
