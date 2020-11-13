@@ -24,46 +24,48 @@ function DynamicSpacer(props){
     return <br className="dynamicSpacer" style={{height: '40px'}}/>;
 }
   
+export function AutoDashboard(props){
+    let chartWidth = (window.innerWidth - 240) / 3;
 
-export class AutoDashboard extends React.Component {
-    static contextType = FhirClientContext;
-    getMeteorData() {
-        let data = {
-            encounters: [],
-            procedures: [],
-            conditions: [],
-            observations: [],
-            locations: [],
-            encountersCount: 0,
-            proceduresCount: 0,
-            conditionsCount: 0,
-            observationsCount: 0,
-            locationsCount: 0
-        }
-
-        if(Encounters){
-            data.encounters = Encounters.find().fetch()
-            data.encountersCount = Encounters.find().count()
-        }
-        if(Conditions){
-            data.conditions = Conditions.find().fetch()
-            data.conditionsCount = Conditions.find().count()
-        }
-        if(Procedures){
-            data.procedures = Procedures.find().fetch()
-            data.proceduresCount = Procedures.find().count()
-        }
-        if(Observations){
-            data.observations = Observations.find().fetch()
-            data.observationsCount = Observations.find().count()
-        }
-        if(Locations){
-            data.locations = Locations.find().fetch()
-            data.locationsCount = Locations.find().count()
-        }
-        return data;
+    let data = {
+        encounters: [],
+        procedures: [],
+        conditions: [],
+        observations: [],
+        locations: []
     }
-    loadData(ehrLaunchCapabilities) {
+
+
+    if(Conditions){
+        data.conditions = useTracker(function(){
+            return Conditions.find().fetch()
+        }, [])    
+    }
+    if(Encounters){
+        data.encounters = useTracker(function(){
+            return Encounters.find().fetch()
+        }, [])   
+    }
+    if(Procedures){
+        data.procedures = useTracker(function(){
+            return Procedures.find().fetch()
+        }, [])   
+    }
+    if(Observations){
+        data.observations = useTracker(function(){
+            return Observations.find().fetch()
+        }, [])   
+    }
+    if(Locations){
+        data.locations = useTracker(function(){
+            return Locations.find().fetch()
+        }, [])   
+    }
+
+
+
+
+    function loadData(ehrLaunchCapabilities) {
         const client = this.context.client;
 
         if(client){
@@ -246,7 +248,7 @@ export class AutoDashboard extends React.Component {
             }
         }
     }
-    renderChart({ systolic, diastolic }) {
+    function renderChart({ systolic, diastolic }) {
         this.chart = new ChartJS("myChart", {
             type: "line",
             data: {
@@ -298,13 +300,13 @@ export class AutoDashboard extends React.Component {
             }
         });
     }
-    shouldComponentUpdate() {
+    function shouldComponentUpdate() {
         return false;
     }
-    componentWillUnmount() {
+    function componentWillUnmount() {
         this.chart && this.chart.destroy();
     }
-    componentDidMount() {
+    function componentDidMount() {
         let self = this;
         
         console.log('AutoDashboard finished mounting into render tree.', get(window, '__PRELOADED_STATE__.url'));
@@ -335,105 +337,102 @@ export class AutoDashboard extends React.Component {
               })    
         }    
     }
-    render() {
-        let chartWidth = (window.innerWidth - 240) / 3;
 
-        return (
-            <Grid container style={{marginTop: '20px'}}>
-                <Grid item md={4} style={{paddingRight: '10px'}}>
-                    <StyledCard scrollable >
-                        <CardHeader title={this.data.encountersCount + " Encounters"} />
-                        <CardContent>
-                            <EncountersTable
-                                encounters={this.data.encounters}
-                                hideCheckboxes={true}
-                                hideActionIcons={true}
-                                hideSubjects={true}
-                                hideType={true}
-                                hideHistory={true}
-                                hideEndDateTime={true}
-                                count={this.data.encountersCount}
-                            />
-                        </CardContent>                    
-                    </StyledCard>
-                    <DynamicSpacer />
-                    <StyledCard scrollable >
-                        <CardHeader title={this.data.locationsCount + " Locations"} />
-                        <CardContent>
-                            <LocationsTable
-                                locations={this.data.locations}
-                                count={this.data.locationsCount}
-                            />
-                        </CardContent>                    
-                    </StyledCard>
-                </Grid>
-                <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
-                    <StyledCard scrollable >
-                        <CardHeader title={this.data.conditionsCount + " Conditions"} />
-                        <CardContent>
-                            <ConditionsTable
-                                conditions={this.data.conditions}
-                                displayCheckboxes={false}
-                                displayActionIcons={false}
-                                displayPatientReference={false}
-                                displayPatientName={false}
-                                displayAsserterName={false}
-                                displayEvidence={false}
-                                count={this.data.conditionsCount}
-                            />                                        
-                        </CardContent>                    
-                    </StyledCard>                
-                    <DynamicSpacer />
-                    <StyledCard scrollable>
-                        <CardHeader title={this.data.proceduresCount + " Procedures"} />
-                        <CardContent>
-                            <ProceduresTable 
-                                procedures={this.data.procedures}
-                                hideCheckboxes={true}
-                                hideActionIcons={true}
-                                hideIdentifier={true}
-                                hideCategory={true}
-                                hideSubject={true}
-                                hideBodySite={true}
-                                hidePerformedDateEnd={true}
-                                hideSubjectReference={true}
-                                hideBarcode={true}
-                                count={this.data.proceduresCount}
-                            />                                                                                                           
-                        </CardContent>                    
-                    </StyledCard>                
-                </Grid>
-                <Grid item md={4} style={{paddingLeft: '10px'}}>
-                    <StyledCard scrollable>
-                        <CardHeader title="Blood Pressure History" />
-                        <CardContent>
-                            <canvas id="myChart" width={chartWidth} height="400" />
-                        </CardContent>                    
-                    </StyledCard>
-                    <DynamicSpacer />
-                    <StyledCard scrollable >
-                        <CardHeader title={this.data.observationsCount + " Observations"} />
-                        <CardContent>
-                            <ObservationsTable 
-                                observations={this.data.observations}
-                                hideCheckboxes={true}
-                                hideActionIcons={true}
-                                hideSubject={true}
-                                hideDevices={true}
-                                hideValue={false}
-                                hideBarcodes={true}
-                                hideDenominator={true}
-                                hideNumerator={true}
-                                multiComponentValues={true}
-
-                                count={this.data.observationsCount}
-                            />                                                                                                           
-                        </CardContent>                    
-                    </StyledCard>  
-                </Grid>
+    return (
+        <Grid container style={{marginTop: '20px'}}>
+            <Grid item md={4} style={{paddingRight: '10px'}}>
+                <StyledCard scrollable >
+                    <CardHeader title={this.data.encountersCount + " Encounters"} />
+                    <CardContent>
+                        <EncountersTable
+                            encounters={this.data.encounters}
+                            hideCheckboxes={true}
+                            hideActionIcons={true}
+                            hideSubjects={true}
+                            hideType={true}
+                            hideHistory={true}
+                            hideEndDateTime={true}
+                            count={this.data.encountersCount}
+                        />
+                    </CardContent>                    
+                </StyledCard>
+                <DynamicSpacer />
+                <StyledCard scrollable >
+                    <CardHeader title={this.data.locationsCount + " Locations"} />
+                    <CardContent>
+                        <LocationsTable
+                            locations={this.data.locations}
+                            count={this.data.locationsCount}
+                        />
+                    </CardContent>                    
+                </StyledCard>
             </Grid>
-        )
-    }
+            <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+                <StyledCard scrollable >
+                    <CardHeader title={this.data.conditionsCount + " Conditions"} />
+                    <CardContent>
+                        <ConditionsTable
+                            conditions={this.data.conditions}
+                            displayCheckboxes={false}
+                            displayActionIcons={false}
+                            displayPatientReference={false}
+                            displayPatientName={false}
+                            displayAsserterName={false}
+                            displayEvidence={false}
+                            count={this.data.conditionsCount}
+                        />                                        
+                    </CardContent>                    
+                </StyledCard>                
+                <DynamicSpacer />
+                <StyledCard scrollable>
+                    <CardHeader title={this.data.proceduresCount + " Procedures"} />
+                    <CardContent>
+                        <ProceduresTable 
+                            procedures={this.data.procedures}
+                            hideCheckboxes={true}
+                            hideActionIcons={true}
+                            hideIdentifier={true}
+                            hideCategory={true}
+                            hideSubject={true}
+                            hideBodySite={true}
+                            hidePerformedDateEnd={true}
+                            hideSubjectReference={true}
+                            hideBarcode={true}
+                            count={this.data.proceduresCount}
+                        />                                                                                                           
+                    </CardContent>                    
+                </StyledCard>                
+            </Grid>
+            <Grid item md={4} style={{paddingLeft: '10px'}}>
+                <StyledCard scrollable>
+                    <CardHeader title="Blood Pressure History" />
+                    <CardContent>
+                        <canvas id="myChart" width={chartWidth} height="400" />
+                    </CardContent>                    
+                </StyledCard>
+                <DynamicSpacer />
+                <StyledCard scrollable >
+                    <CardHeader title={this.data.observationsCount + " Observations"} />
+                    <CardContent>
+                        <ObservationsTable 
+                            observations={this.data.observations}
+                            hideCheckboxes={true}
+                            hideActionIcons={true}
+                            hideSubject={true}
+                            hideDevices={true}
+                            hideValue={false}
+                            hideBarcodes={true}
+                            hideDenominator={true}
+                            hideNumerator={true}
+                            multiComponentValues={true}
+
+                            count={this.data.observationsCount}
+                        />                                                                                                           
+                    </CardContent>                    
+                </StyledCard>  
+            </Grid>
+        </Grid>
+    )
 }
-ReactMixin(AutoDashboard.prototype, ReactMeteorData);
+
 export default AutoDashboard;
