@@ -12,45 +12,27 @@ import moment from 'moment';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
-export class PatientDemographics extends React.Component {
-    static contextType = FhirClientContext;
+export function PatientDemographics(props){
+    const contextType = FhirClientContext;
 
-    constructor(props) {
-        super(props);
-    }
-    getMeteorData(){
-        let data = {
-            patient: false
-        }
-        if(Session.get('selectedPatient')){
-            data.patient = Session.get('selectedPatient');
-        }
-        return data;
-    }
-    componentDidMount() {
-        const client = this.context.client;
+    
+    let selectedPatient = useTracker(function(){
+        return Session.get('selectedPatient')
+    }, [])
 
-        if(get(client, 'patient')){
-            client.patient.read().then(patient => {
-                console.log("Received a paitent", patient)
-                Session.set('selectedPatient', patient)
-            })    
-        }
-    }
-    render() {
-      const { patient } = this.data;
-        console.log('PatientDemographics.patient', patient);
+    const { patient } = this.data;
+    console.log('PatientDemographics.patient', patient);
 
-      let displayName = FhirUtilities.pluckName(patient);
-      
-      let birthDate = "";
-      if(get(patient, 'birthDate')){
+    let displayName = FhirUtilities.pluckName(patient);
+  
+    let birthDate = "";
+    if(get(patient, 'birthDate')){
         birthDate = moment(get(patient, 'birthDate')).format("YYYY-MM-DD");
-      }
+    }
 
-      let demographicsContent;
+    let demographicsContent;
 
-      if(patient){
+    if(patient){
         demographicsContent = <div>
             <h1 className="helveticas" style={{marginBottom: '0px'}}>{displayName}</h1>
             <span style={{paddingRight: '10px'}}>
@@ -60,15 +42,27 @@ export class PatientDemographics extends React.Component {
                 Date of Birth: <b>{birthDate}</b>
             </span>
         </div>
-      }
-
-      return (
-        <div id="patienCanvasDemographcs">
-            { demographicsContent }
-        </div>
-      );
     }
+
+    // // deprecated
+    // // but this might be important logic
+    // function componentDidMount() {
+    //     const client = this.context.client;
+
+    //     if(get(client, 'patient')){
+    //         client.patient.read().then(patient => {
+    //             console.log("Received a paitent", patient)
+    //             Session.set('selectedPatient', patient)
+    //         })    
+    //     }
+    // }
+
+  return (
+    <div id="patienCanvasDemographcs">
+        { demographicsContent }
+    </div>
+  );
 }
 
-ReactMixin(PatientDemographics.prototype, ReactMeteorData);
+
 export default PatientDemographics;

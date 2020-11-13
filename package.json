@@ -5,7 +5,7 @@
   "meteor": {
     "mainModule": {
       "client": "client/main.jsx",
-      "server": "server/Main.js"
+      "server": "server/main.js"
     },
     "testModule": "tests/main.js"
   },
@@ -52,6 +52,7 @@
     "@material-ui/icons": "4.5.1",
     "@material-ui/pickers": "3.2.8",
     "@material-ui/styles": "4.9.0",
+    "@nivo/pie": "0.63.1",
     "body-parser": "1.19.0",
     "chart.js": "2.8.0",
     "classnames": "2.2.6",
@@ -81,7 +82,8 @@
     "react-helmet": "5.2.1",
     "react-icons-kit": "1.3.1",
     "react-katex": "2.0.2",
-    "react-mixin": "^4.0.0",
+    "react-meteor-data": "0.2.11",
+    "react-mixin": "4.0.0",
     "react-multi-carousel": "2.5.5",
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
@@ -95,12 +97,11 @@
     "validator": "10.9.0",
     "winston": "3.2.1"
   },
-  "devDependenciesBkup": {
+  "devDependencies": {
     "babel-eslint": "10.1.0",
     "chai": "4.2.0",
     "chai-nightwatch": "0.4.0",
     "chromedriver": "86.0.0",
-    "conventional-changelog-cli": "2.0.11",
     "eslint": "4.19.1",
     "eslint-import-resolver-meteor": "0.4.0",
     "eslint-plugin-import": "2.21.2",
@@ -108,12 +109,16 @@
     "eslint-plugin-meteor": "7.0.0",
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "4.0.4",
-    "meteor-desktop": "^2.2.5",
     "nightwatch": "1.5.0",
-    "selenium-webdriver": "3.6.0",
-    "shelljs": "0.7.4"
+    "selenium-webdriver": "3.6.0"
   },
-  "unusedDevLibs": {},
+  "devDependenciesBkup": {
+    "conventional-changelog-cli": "2.0.11",
+    "meteor-desktop": "2.2.5",
+    "shelljs": "0.7.4",
+    "electron": "6.1.7",
+    "electron-builder": "21.2.0"
+  },
   "desktopLibs": {
     "electron": "6.1.7",
     "electron-builder": "21.2.0",
