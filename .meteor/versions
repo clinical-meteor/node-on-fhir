@@ -62,8 +62,6 @@ mongo-dev-server@1.1.0
 mongo-id@1.0.7
 npdev:react-loadable@1.0.0
 npm-mongo@3.8.1
-omega:meteor-desktop-bundler@2.2.5
-omega:meteor-desktop-watcher@2.2.5
 ordered-dict@1.1.0
 promise@0.11.2
 raix:eventemitter@0.1.3
