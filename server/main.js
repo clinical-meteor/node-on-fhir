@@ -1,6 +1,9 @@
 import './ServerSideRendering.js';
-import './FhirSchemaImporter.js';
 import './AccountsServer.js';
+
+// need to upgrade mongoose, mongo, and the kerberose dependency
+// then we can re-enable
+// import './FhirSchemaImporter.js';
 
 import { Meteor } from 'meteor/meteor';
 import { WebApp } from 'meteor/webapp';
