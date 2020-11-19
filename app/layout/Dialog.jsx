@@ -67,7 +67,7 @@ if(Meteor.isClient){
   Session.setDefault('mainAppDialogJson', false);
   Session.setDefault('mainAppDialogErrorMessage', '');
   Session.setDefault('mainAppDialogErrorShowAgain', true);
-  Session.setDefault('mainAppDialogmaxWidth', 'xl');
+  Session.setDefault('mainAppDialogmaxWidth', get(Meteor, 'settings.public.defaults.landingModal.maxWidth', "xl"));
 }
 
 export default function ScrollDialog(props) {

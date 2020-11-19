@@ -138,6 +138,9 @@ Meteor.startup(async function(){
 
   JsonRoutes.add('get', '/user', function (req, res, next) {
     console.log('AccountsServer: GET /user', req, res);
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    
     next();
   });
 
@@ -163,15 +166,21 @@ Meteor.startup(async function(){
   JsonRoutes.add('post', '/accounts/*', function (req, res, next) {
     console.log('AccountsServer: POST /accounts/*', req, res);
 
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     next();
   });
   JsonRoutes.add('post', '/accounts/password', function (req, res, next) {
     console.log('AccountsServer: POST /accounts/password', req, res);
 
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     next();
   });
   JsonRoutes.add('post', '/accounts/password/authenticate', async function (req, res, next) {
     console.log('AccountsServer: POST /accounts/password/authenticate', req.body);
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
     const loggedInUser = await accountsServer.loginWithService('password', req.body, req.infos);
     console.log('loggedInUser', loggedInUser);
@@ -185,6 +194,8 @@ Meteor.startup(async function(){
 
   JsonRoutes.add('post', '/accounts/logout', async function (req, res, next) {
     console.log('AccountsServer: POST /accounts/logout');
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
     let accessToken = req.headers?.Authorization || req.headers?.authorization || req.body?.accessToken || undefined;
     accessToken = accessToken && accessToken.replace('Bearer ', '');
@@ -227,6 +238,8 @@ Meteor.startup(async function(){
 
   JsonRoutes.add('post', '/accounts/user', async function (req, res, next) {
     console.log('AccountsServer: POST /accounts/user', req.body);
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
     let userLoaded = userLoader(accountsServer);
     console.log('userLoaded', userLoaded);
@@ -293,6 +306,7 @@ Meteor.startup(async function(){
   JsonRoutes.add('post', '/accounts/password/register', async function (req, res, next) {
     console.log('AccountsServer: POST /accounts/password/register', req.body);
 
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
     const user = get(req, "body.user");
     console.log('user', user);

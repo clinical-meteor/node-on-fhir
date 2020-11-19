@@ -74,6 +74,7 @@ function AppLoadingPage(props) {
   // console.log('Helmet.meta.viewportString', viewportString)
 
   if(get(Meteor, 'settings.public.socialmedia')){
+    let socialmedia = get(Meteor, 'settings.public.socialmedia');
     helmet = <Helmet>
       <meta charSet="utf-8" />
       <title>{socialmedia.title}</title>
