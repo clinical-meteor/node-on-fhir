@@ -485,6 +485,7 @@ export function App(props) {
     image: get(Meteor, 'settings.public.socialmedia.image', ''),
     description: get(Meteor, 'settings.public.socialmedia.description', ''),
     site_name: get(Meteor, 'settings.public.socialmedia.site_name', ''),
+    author: get(Meteor, 'settings.public.socialmedia.author', '')
   }
 
   let helmet;
@@ -507,12 +508,13 @@ export function App(props) {
   if(get(Meteor, 'settings.public.socialmedia')){
     //headerTags.push(<title>{socialmedia.title}</title>);    
     headerTags.push(<link key='canonical' rel="canonical" href={socialmedia.url} />);    
-    headerTags.push(<meta key='og:title' property="og:title" content={socialmedia.title} />);
-    headerTags.push(<meta key='og:type' property="og:type" content={socialmedia.type} />);
-    headerTags.push(<meta key='og:url' property="og:url" content={socialmedia.url} />);
-    headerTags.push(<meta key='og:image' property="og:image" content={socialmedia.image} />);
-    headerTags.push(<meta key='og:description' property="og:description" content={socialmedia.description} />);
-    headerTags.push(<meta key='og:site_name' property="og:site_name" content={socialmedia.site_name} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:title' property="og:title" content={socialmedia.title} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:type' property="og:type" content={socialmedia.type} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:url' property="og:url" content={socialmedia.url} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:image' property="og:image" content={socialmedia.image} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:description' property="og:description" content={socialmedia.description} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:site_name' property="og:site_name" content={socialmedia.site_name} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:author' property="og:author" content={socialmedia.author} />);
   }
 
   helmet = <Helmet>
