@@ -53,6 +53,26 @@ import LaunchPage from '../core/LaunchPage'
 import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
+//=============================================================================================================================================
+// Analytics
+
+import ReactGA from 'react-ga';
+ReactGA.initialize(get(Meteor, 'settings.public.google.analytics.trackingCode'), {debug: get(Meteor, 'settings.public.google.analytics.debug', false)});
+
+function logPageView() {
+  ReactGA.pageview(window.location.pathname + window.location.search);
+  ReactGA.set({ page: window.location.pathname });
+};
+
+function usePageViews() {
+  let location = useLocation();
+  React.useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.set({ page: window.location.pathname });
+  }, [location]);
+}
+
+
 // ==============================================================================
 // Theming
 
@@ -419,7 +439,7 @@ export function App(props) {
     }        
   }
 
-
+  usePageViews();
 
   // ------------------------------------------------------------------
   // Styling & Theming
@@ -440,6 +460,7 @@ export function App(props) {
     if(get(props, 'location.pathname')){
       logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
       Session.set('pathname', props.location.pathname);  
+      logPageView()
     }
   }, [])
 
@@ -579,7 +600,7 @@ export function App(props) {
     }
 
     routingSwitchLogic = <ThemeProvider theme={theme} >
-        <Switch location={ props.location } >
+        <Switch location={ props.location }>
           { dynamicRoutes.map(route => <Route 
             appHeight={appHeight}
             appWidth={appWidth}
