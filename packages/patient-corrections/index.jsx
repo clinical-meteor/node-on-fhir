@@ -26,7 +26,7 @@ let FooterButtons = [{
   component: <TaskButtons />
 }];
 
+// let MainPage = PatientCorrectionsPage;
+// export { MainPage, SidebarWorkflows, DynamicRoutes, FooterButtons, PatientCorrectionsPage };
 
-let MainPage = PatientCorrectionsPage;
-
-export { MainPage, SidebarWorkflows, DynamicRoutes, FooterButtons, PatientCorrectionsPage };
+export { SidebarWorkflows, DynamicRoutes, FooterButtons, PatientCorrectionsPage };

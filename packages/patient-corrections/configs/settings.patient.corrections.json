@@ -1,7 +1,6 @@
 {
   "public": {
-    "title": "hGraph",
-    "secondaryTitle": " on FHIR",
+    "title": "Patient Corrections",
     "initializeSyntheaData": true,
     "theme": {
       "showVideoBackground": false,
@@ -39,9 +38,9 @@
       "showRegistration": true
     },
     "defaults": {
-      "route": "/healthgraph",
-      "landingPage": "/healthgraph",
-      "homePage": "/healthgraph",
+      "route": "/tasks",
+      "landingPage": "/tasks",
+      "homePage": "/tasks",
       "avatars": true,
       "barcodes": true,
       "hexgridMenu": false,
@@ -64,11 +63,11 @@
         "signInWith": false
       },
       "routes": {
-        "homePage": "/healthgraph",
-        "landingPage": "/healthgraph",
-        "adminWelcomePage": "/healthgraph",
-        "adminHomePage": "/healthgraph",
-        "adminDashboard": "/healthgraph"
+        "homePage": "/tasks",
+        "landingPage": "/tasks",
+        "adminWelcomePage": "/tasks",
+        "adminHomePage": "/tasks",
+        "adminDashboard": "/tasks"
       },
       "header":{
         "menuIcon": ""
@@ -82,8 +81,8 @@
           "Theme": false,
           "ConstructionZone": false,
           "Navbars": true,
-          "DataImport": false,
-          "DataExport": false,
+          "DataImport": true,
+          "DataExport": true,
           "HealthRecords": false,
           "Login": {
             "availability": "web"
@@ -96,16 +95,18 @@
           "/audit-events",
           "/biometrics-dashboard",
           "/body-mass-index",
-          "/communications",
-          "/communication-requests",
           "/communication-responses",
           "/bundles",
           "/careplan",
           "/care-plans",
+          "/careplans",
           "/consents",
           "/contracts",
           "/claims",
+          "/devices",
+          "/diagnostic-reports",
           "/endpoints",
+          "/encounters",
           "/explanation-of-benefits",
           "/example-route",
           "/experimental-analysis",
@@ -118,6 +119,7 @@
           "/locations",
           "/lists",
           "/measures",
+          "/medications",
           "/measure-reports",
           "/medication-orders",
           "/medication-statements",
@@ -125,13 +127,13 @@
           "/organizations",
           "/persons",
           "/practitioners",
+          "/procedures",
           "/risk-assessments",
           "/questionnaires",
           "/questionnaire-responses",
           "/subscriptions",
           "/workqueue",
-          "/vitals-tracking",
-          "/valuesets"
+          "/vitals-tracking"
         ]
       },
       "hiddenWorkflow": [
