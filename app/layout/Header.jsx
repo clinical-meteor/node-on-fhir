@@ -294,15 +294,17 @@ function Header(props) {
 
     // if we have a selected patient, we show that info
     if(!Meteor.isCordova){
-      if(Session.get('selectedPatient')){
-        demographicItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-          <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Patient ID: </Typography>
-          <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap className="barcode" >
-            <span className="barcode helvetica">
-              { parseId() }
-            </span>
-          </Typography>
-        </div>   
+      if(get(Meteor, 'settings.public.defaults.header.patientId')){
+        if(Session.get('selectedPatient')){
+          demographicItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+            <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Patient ID: </Typography>
+            <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap className="barcode" >
+              <span className="barcode helvetica">
+                { parseId() }
+              </span>
+            </Typography>
+          </div>     
+        }
       } else {
         // otherwise, we default to population/search level info to display
         if(useDateRangeInQueries){
