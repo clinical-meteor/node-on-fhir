@@ -3,11 +3,6 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// import { ReactMeteorData } from 'meteor/react-meteor-data';
-// import ReactMixin from 'react-mixin';
-// import { Session } from 'meteor/session';
-// import { Random } from 'meteor/random';
-
 import { withStyles } from '@material-ui/core/styles';
 
 import { get } from 'lodash';
