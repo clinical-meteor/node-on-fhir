@@ -131,8 +131,8 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
         width: theme.spacing(9) + 1
       },
       backgroundColor: theme.palette.paper.main,
-      opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 768)) ? 1 : 0,
-      left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 768)) ? '0px' : ('-' + theme.spacing(7) + 1 + 'px')
+      opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? 1 : 0,
+      left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? '0px' : ('-' + theme.spacing(7) + 1 + 'px')
     },
     drawerIcons: {
       fontSize: '120%',
