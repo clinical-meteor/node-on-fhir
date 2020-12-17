@@ -109,7 +109,7 @@ function Header(props) {
       // background: props.theme.palette.appBar.main,
       // backgroundColor: props.theme.palette.appBar.main,
       color: props.theme.palette.appBar.contrastText,
-      paddingTop: '10px',
+      paddingTop: '0px',
       fontWeight: '200',
       fontSize: '2.125rem',
       float: 'left',
@@ -192,7 +192,9 @@ function Header(props) {
   if(!displayNavbars){
     componentStyles.headerContainer.top = '-128px'
   }
-
+  if(get(Meteor, 'settings.public.defaults.disableHeader')){
+    componentStyles.headerContainer.display = 'none'
+  }
   // ------------------------------------------------------------  
   // Layout  
 
