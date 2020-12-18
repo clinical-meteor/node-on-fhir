@@ -88,9 +88,6 @@ standard-minifier-css@1.6.1
 standard-minifier-js@2.6.0
 static-html@1.2.2
 symptomatic:covid19-geomapping@0.4.10
-symptomatic:covid19-on-fhir@0.4.7
-symptomatic:covid19-saner@0.4.9
-symptomatic:fhir-uscore@0.4.8
 symptomatic:saner@0.5.10
 symptomatic:vault-server@6.2.1
 templating-tools@1.1.2
