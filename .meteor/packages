@@ -57,6 +57,7 @@ clinical:hl7-fhir-data-infrastructure
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
+# symptomatic:saner
 
 
 # symptomatic:healthkit-importer
