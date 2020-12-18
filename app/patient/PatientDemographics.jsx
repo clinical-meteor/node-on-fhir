@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactMeteorData } from 'meteor/react-meteor-data';
+import { ReactMeteorData, useTracker } from 'meteor/react-meteor-data';
 import ReactMixin  from 'react-mixin';
 
 import { FhirClientContext } from "../FhirClientContext";
@@ -20,7 +20,7 @@ export function PatientDemographics(props){
         return Session.get('selectedPatient')
     }, [])
 
-    const { patient } = this.data;
+    const { patient } = props;
     console.log('PatientDemographics.patient', patient);
 
     let displayName = FhirUtilities.pluckName(patient);
