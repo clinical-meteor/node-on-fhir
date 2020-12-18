@@ -132,14 +132,16 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
     },
     drawerOpen: {
       width: drawerWidth,
-      transition: theme.transitions.create('width', {
+      transition: theme.transitions.create(['width', 'left', 'opacity'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      backgroundColor: theme.palette.paper.main
+      backgroundColor: theme.palette.paper.main,
+      opacity: 1,
+      left: '0px'
     },
     drawerClose: {
-      transition: theme.transitions.create('width', {
+      transition: theme.transitions.create(['width', 'left', 'opacity'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
@@ -148,7 +150,9 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       [theme.breakpoints.up('sm')]: {
         width: theme.spacing(9) + 1
       },
-      backgroundColor: theme.palette.paper.main
+      backgroundColor: theme.palette.paper.main,
+      opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? 1 : 0,
+      left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? '0px' : ('-' + theme.spacing(7) + 1 + 'px')
     },
     drawerIcons: {
       fontSize: '120%',
