@@ -17,7 +17,7 @@ import { Session } from 'meteor/session';
 import { get } from 'lodash';
 import moment from 'moment';
 
-import { useTracker } from './Tracker';
+import { ReactMeteorData, useTracker } from 'meteor/react-meteor-data';
 import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
@@ -143,51 +143,54 @@ function Header(props) {
   // Trackers
 
   let selectedStartDate;
-  selectedStartDate = useTracker(function(){
-    return Session.get("fhirKitClientStartDate");
-  }, [props.lastUpdated]);
-
   let selectedEndDate;
-  selectedEndDate = useTracker(function(){
-    return Session.get("fhirKitClientEndDate");
-  }, [props.lastUpdated]);
-
   let useDateRangeInQueries;
-  useDateRangeInQueries = useTracker(function(){
-    return Session.get("useDateRangeInQueries");
-  }, [props.lastUpdated]);
-
   let currentPatientId = "";
-  currentPatientId = useTracker(function(){
-    return Session.get("currentPatientId");
-  }, [props.lastUpdated]);
-
   let currentPatient = null;  
-  currentPatient = useTracker(function(){  
-    return Session.get("currentPatient");  
-  }, [props.lastUpdated]);  
-
   let workflowTabs = "default";  
-  workflowTabs = useTracker(function(){  
-    return Session.get("workflowTabs");  
-  }, [props.lastUpdated]);  
-
-
   let displayNavbars = true;  
-  displayNavbars = useTracker(function(){  
-    return Session.get("displayNavbars");  
-  }, []);  
 
-  currentUser = useTracker(function(){  
-    let currentUser = Session.get('currentUser');
-    let userName = '';
-    if(get(currentUser, 'givenName') || get(currentUser, 'familyName')){
-      userName = get(currentUser, 'givenName', '') + ' ' + get(currentUser, 'familyName', '');
-    } else {
-      userName = 'Anonymous'
-    }
-    return userName; 
-  }, []);  
+
+  if(Meteor.isClient){
+    selectedStartDate = useTracker(function(){
+      return Session.get("fhirKitClientStartDate");
+    }, [props.lastUpdated]);
+    selectedEndDate = useTracker(function(){
+      return Session.get("fhirKitClientEndDate");
+    }, [props.lastUpdated]);
+  
+    useDateRangeInQueries = useTracker(function(){
+      return Session.get("useDateRangeInQueries");
+    }, [props.lastUpdated]);
+  
+    currentPatientId = useTracker(function(){
+      return Session.get("currentPatientId");
+    }, [props.lastUpdated]);
+  
+    currentPatient = useTracker(function(){  
+      return Session.get("currentPatient");  
+    }, [props.lastUpdated]);  
+  
+    workflowTabs = useTracker(function(){  
+      return Session.get("workflowTabs");  
+    }, [props.lastUpdated]);  
+  
+  
+    displayNavbars = useTracker(function(){  
+      return Session.get("displayNavbars");  
+    }, []);  
+
+    currentUser = useTracker(function(){  
+      let currentUser = Session.get('currentUser');
+      let userName = '';
+      if(get(currentUser, 'givenName') || get(currentUser, 'familyName')){
+        userName = get(currentUser, 'givenName', '') + ' ' + get(currentUser, 'familyName', '');
+      } else {
+        userName = 'Anonymous'
+      }
+      return userName; 
+    }, []);  
+  }
 
   if(!displayNavbars){
     componentStyles.headerContainer.top = '-128px'
@@ -337,7 +340,7 @@ function Header(props) {
         <IconButton
           color="inherit"
           aria-label="Open drawer"
-          onClick={ clickOnMenuButton }
+          onClick={ clickOnMenuButton.bind(this) }
           style={componentStyles.menuButton}
         >
           <Icon icon={ic_menu} size={32} />

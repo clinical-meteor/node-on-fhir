@@ -53,6 +53,26 @@ import LaunchPage from '../core/LaunchPage'
 import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
+//=============================================================================================================================================
+// Analytics
+
+import ReactGA from 'react-ga';
+ReactGA.initialize(get(Meteor, 'settings.public.google.analytics.trackingCode'), {debug: get(Meteor, 'settings.public.google.analytics.debug', false)});
+
+function logPageView() {
+  ReactGA.pageview(window.location.pathname + window.location.search);
+  ReactGA.set({ page: window.location.pathname });
+};
+
+function usePageViews() {
+  let location = useLocation();
+  React.useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.set({ page: window.location.pathname });
+  }, [location]);
+}
+
+
 // ==============================================================================
 // Theming
 
@@ -423,7 +443,7 @@ export function App(props) {
     }        
   }
 
-
+  usePageViews();
 
   // ------------------------------------------------------------------
   // Styling & Theming
@@ -444,6 +464,7 @@ export function App(props) {
     if(get(props, 'location.pathname')){
       logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
       Session.set('pathname', props.location.pathname);  
+      logPageView()
     }
   }, [])
 
@@ -489,6 +510,7 @@ export function App(props) {
     image: get(Meteor, 'settings.public.socialmedia.image', ''),
     description: get(Meteor, 'settings.public.socialmedia.description', ''),
     site_name: get(Meteor, 'settings.public.socialmedia.site_name', ''),
+    author: get(Meteor, 'settings.public.socialmedia.author', '')
   }
 
   let helmet;
@@ -503,20 +525,24 @@ export function App(props) {
     themeColor = rawColor;
   }
 
+  let initialScale = 0.8;
+
   headerTags.push(<meta key='theme' name="theme-color" content={themeColor} />)
   headerTags.push(<meta key='utf-8' charSet="utf-8" />);    
+  headerTags.push(<meta name="viewport" key='viewport' property="viewport" content={"initial-scale=" + initialScale + ", minimal-ui, minimum-scale=" + initialScale + ", maximum-scale=" + initialScale + ", width=device-width, height=device-height, user-scalable=no"} />);
   headerTags.push(<meta name="description" key='description' property="description" content={get(Meteor, 'settings.public.title', "Node on FHIR")} />);
   headerTags.push(<title key='title'>{get(Meteor, 'settings.public.title', "Node on FHIR")}</title>);
 
   if(get(Meteor, 'settings.public.socialmedia')){
     //headerTags.push(<title>{socialmedia.title}</title>);    
     headerTags.push(<link key='canonical' rel="canonical" href={socialmedia.url} />);    
-    headerTags.push(<meta key='og:title' property="og:title" content={socialmedia.title} />);
-    headerTags.push(<meta key='og:type' property="og:type" content={socialmedia.type} />);
-    headerTags.push(<meta key='og:url' property="og:url" content={socialmedia.url} />);
-    headerTags.push(<meta key='og:image' property="og:image" content={socialmedia.image} />);
-    headerTags.push(<meta key='og:description' property="og:description" content={socialmedia.description} />);
-    headerTags.push(<meta key='og:site_name' property="og:site_name" content={socialmedia.site_name} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:title' property="og:title" content={socialmedia.title} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:type' property="og:type" content={socialmedia.type} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:url' property="og:url" content={socialmedia.url} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:image' property="og:image" content={socialmedia.image} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:description' property="og:description" content={socialmedia.description} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:site_name' property="og:site_name" content={socialmedia.site_name} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:author' property="og:author" content={socialmedia.author} />);
   }
 
   helmet = <Helmet>
@@ -578,7 +604,7 @@ export function App(props) {
     }
 
     routingSwitchLogic = <ThemeProvider theme={theme} >
-        <Switch location={ props.location } >
+        <Switch location={ props.location }>
           { dynamicRoutes.map(route => <Route 
             appHeight={appHeight}
             appWidth={appWidth}

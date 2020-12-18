@@ -18,7 +18,7 @@ export function PatientDemographics(props){
         return Session.get('selectedPatient')
     }, [])
 
-    const { patient } = this.data;
+    const { patient } = props;
     console.log('PatientDemographics.patient', patient);
 
     let displayName = FhirUtilities.pluckName(patient);
