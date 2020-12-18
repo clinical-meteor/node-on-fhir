@@ -108,7 +108,8 @@ function AppLoadingPage(props) {
     loadingMessage: {
       position: 'absolute',
       left: '50%',
-      top: '40%'
+      top: '40%',
+      marginLeft: '-40px'
     }
   }
 
