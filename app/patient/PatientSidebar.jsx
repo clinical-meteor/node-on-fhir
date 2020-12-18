@@ -2,11 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 import React from 'react';
-// import { ReactMeteorData } from 'meteor/react-meteor-data';
-// import ReactMixin from 'react-mixin';
-// import { Session } from 'meteor/session';
-// import { Random } from 'meteor/random';
-
 import { useTracker } from '../layout/Tracker';
 
 import { withStyles } from '@material-ui/core/styles';

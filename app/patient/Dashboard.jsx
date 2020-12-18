@@ -1,7 +1,7 @@
 // yes, yes... this is a Class component, instead of a Pure Function
 // TODO:  refactor into a <PatientDataQuery /> pure function with hooks, effect, and context
 
-import { ReactMeteorData, useTracker } from 'meteor/react-meteor-data';
+import { useTracker } from 'meteor/react-meteor-data';
 import { useLocation, useParams, useHistory } from "react-router-dom";
 
 import React from "react";
