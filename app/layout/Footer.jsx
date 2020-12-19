@@ -171,7 +171,7 @@ function Footer(props) {
   }
 
   return (
-    <footer id="footerNavContainer" style={styles.footerContainer}>
+    <footer id="footerNavContainer" className="footerNavContainer" style={styles.footerContainer}>
       <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" style={{backgroundColor: "inherit", justifyContent: 'left'}} >
         { westNavbar }
       </BottomNavigation>

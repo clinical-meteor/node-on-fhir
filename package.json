@@ -71,7 +71,7 @@
     "formik": "^2.1.5",
     "json5": "^2.1.3",
     "lodash": "^4.17.15",
-    "material-fhir-ui": "0.10.56",
+    "material-fhir-ui": "0.10.60",
     "meteor-node-stubs": "0.4.1",
     "moment": "^2.24.0",
     "mongodb": "3.6.3",

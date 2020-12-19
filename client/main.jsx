@@ -26,9 +26,6 @@ const accountsClient = new AccountsClient({}, accountsRest);
 const accountsPassword = new AccountsClientPassword(accountsClient);
 
 
-// console.log('AccountsClient', accountsClient)
-
-// wrapMeteorClient(Meteor, AccountsClient);
 
 onPageLoad(function(){
   console.log("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);

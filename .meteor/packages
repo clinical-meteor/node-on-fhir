@@ -60,5 +60,6 @@ clinical:hl7-fhir-data-infrastructure
 # symptomatic:saner
 
 
-# symptomatic:healthkit-importer
-# goinvo:synthea-analysis
+symptomatic:vault-server-freemium
+symptomatic:healthkit-importer
+goinvo:synthea-analysis

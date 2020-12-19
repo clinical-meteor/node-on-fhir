@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/53290178/cordova-iphone-x-safe-area-after-layout-orientation-changes
+
 
 // base layout
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
@@ -639,7 +641,8 @@ export function App(props) {
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <CssBaseline />
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
-        <ContextSlideOut { ...otherProps } />
+        
+        {/* <ContextSlideOut { ...otherProps } /> */}
         <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
         <div id="appDrawerContainer" style={drawerStyle}>

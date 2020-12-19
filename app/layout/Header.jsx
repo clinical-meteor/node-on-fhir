@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import { Icon } from 'react-icons-kit';
-import {ic_menu} from 'react-icons-kit/md/ic_menu'
+import {ic_menu} from 'react-icons-kit/md/ic_menu';
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
@@ -65,7 +65,7 @@ function Header(props) {
   if(props.logger){
     // props.logger.trace('Rendering the application Header.');
     props.logger.verbose('package.care-cards.client.layout.Header');  
-    props.logger.data('Header.props', {data: props}, {source: "HeaderContainer.jsx"});
+    props.logger.data('Header.props', {data: props}, {source: "headerNavContainer.jsx"});
   }
 
   let [drawerIsOpen, setDrawerIsOpen] = useState(false);
@@ -87,12 +87,13 @@ function Header(props) {
   // ------------------------------------------------------------
   // Styling
 
+
   let componentStyles = {
-    headerContainer: {  
+    headerNavContainer: {  
       height: '64px',
       position: 'fixed',
-      top: 0,
-      left: 0,
+      top: "0px",
+      left: "0px",
       background: props.theme.palette.appBar.main,
       backgroundColor: props.theme.palette.appBar.main,
       color: props.theme.palette.appBar.contrastText,
@@ -106,14 +107,12 @@ function Header(props) {
     },
     title: {
       flexGrow: 1,
-      // background: props.theme.palette.appBar.main,
-      // backgroundColor: props.theme.palette.appBar.main,
       color: props.theme.palette.appBar.contrastText,
       paddingTop: '0px',
       fontWeight: '200',
       fontSize: '2.125rem',
       float: 'left',
-      marginTop: '0px',
+      marginTop: Meteor.isCordova ? '5px !important' : '0px',
       whiteSpace: 'nowrap'
     },
     header_label: {
@@ -135,9 +134,14 @@ function Header(props) {
       background: 'inherit',
       backgroundColor: 'inherit',
       border: '0px none black',
-      paddingTop: '15px'
+      paddingTop: '10px',
+      paddingLeft: '10px',
+      paddingRight: '10px',
+      cursor: 'pointer'
     }
   }
+
+  // console.log('componentStyles', componentStyles)
 
   // ------------------------------------------------------------
   // Trackers
@@ -193,23 +197,23 @@ function Header(props) {
   }
 
   if(!displayNavbars){
-    componentStyles.headerContainer.top = '-128px'
+    componentStyles.headerNavContainer.top = '-128px'
   }
   if(get(Meteor, 'settings.public.defaults.disableHeader')){
-    componentStyles.headerContainer.display = 'none'
+    componentStyles.headerNavContainer.display = 'none'
   }
   // ------------------------------------------------------------  
   // Layout  
 
   if(Meteor.isClient && props.drawerIsOpen){
-    componentStyles.headerContainer.width = window.innerWidth - drawerWidth;
-    componentStyles.headerContainer.left = drawerWidth;
+    componentStyles.headerNavContainer.width = window.innerWidth - drawerWidth;
+    componentStyles.headerNavContainer.left = drawerWidth;
   }
 
   let workflowTabsToRender;
   let selectedWorkflow;
   if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
-    componentStyles.headerContainer.height = '128px';
+    componentStyles.headerNavContainer.height = '128px';
 
     if(Meteor.isClient){
 
@@ -335,19 +339,17 @@ function Header(props) {
 
 
   return (
-    <AppBar id="header" position="fixed" style={componentStyles.headerContainer}>
-      <Toolbar disableGutters={!drawerIsOpen} >
-        <IconButton
-          color="inherit"
-          aria-label="Open drawer"
-          onClick={ clickOnMenuButton.bind(this) }
-          style={componentStyles.menuButton}
-        >
-          <Icon icon={ic_menu} size={32} />
-        </IconButton>
-        <Typography variant="h4" color="inherit" onClick={ function(){ goHome(); }} style={  componentStyles.title }>
+    <div id="header" className="headerNavContainer" position="fixed" style={componentStyles.headerNavContainer}>
+      <div style={{paddingTop: '10px'}}>
+          <Icon 
+            icon={ic_menu} 
+            size={32} 
+            onClick={ clickOnMenuButton.bind(this) }
+            style={componentStyles.menuButton}
+          />
+        <h4 onClick={ function(){ goHome(); }} style={  componentStyles.title }>
           { parseTitle() }
-        </Typography>
+        </h4>
 
         
         { userItems }
@@ -355,8 +357,8 @@ function Header(props) {
         { demographicItems }
         { workflowTabsToRender }
 
-      </Toolbar>
-    </AppBar>
+      </div>
+    </div>
   );
 }
 
