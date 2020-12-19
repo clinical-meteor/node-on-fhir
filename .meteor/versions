@@ -34,7 +34,7 @@ es5-shim@4.8.0
 fetch@0.1.1
 fourseven:scss@4.12.0
 geojson-utils@1.0.10
-goinvo:synthea-analysis@0.3.2
+goinvo:synthea-analysis@0.4.0
 hot-code-push@1.0.4
 html-tools@1.0.11
 htmljs@1.0.11
@@ -85,7 +85,7 @@ standard-minifier-css@1.6.1
 standard-minifier-js@2.6.0
 static-html@1.2.2
 symptomatic:healthkit-importer@0.7.0
-symptomatic:vault-server-freemium@6.2.5
+symptomatic:vault-server-freemium@6.2.6
 templating-tools@1.1.2
 tmeasday:check-npm-versions@0.3.2
 tracker@1.2.0

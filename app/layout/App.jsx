@@ -78,7 +78,7 @@ function usePageViews() {
 // ==============================================================================
 // Theming
 
-// import ThemePage from '../core/ThemePage';
+import ThemePage from '../core/ThemePage';
 
 
 import { ThemeProvider } from '@material-ui/styles';
