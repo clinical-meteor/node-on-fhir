@@ -9,17 +9,13 @@ base64@1.0.12
 binary-heap@1.0.11
 blaze-tools@1.0.10
 boilerplate-generator@1.7.1
-browser-policy@1.1.0
-browser-policy-common@1.0.11
-browser-policy-content@1.1.0
-browser-policy-framing@1.1.0
 caching-compiler@1.2.2
 caching-html-compiler@1.1.3
 callback-hook@1.3.0
 check@1.3.1
 clinical:extended-api@2.5.0
 clinical:fonts@1.2.0
-clinical:hl7-fhir-data-infrastructure@6.8.8
+clinical:hl7-fhir-data-infrastructure@6.8.9
 clinical:hl7-resource-datatypes@4.0.6
 ddp@1.4.0
 ddp-client@2.3.3
@@ -38,6 +34,7 @@ es5-shim@4.8.0
 fetch@0.1.1
 fourseven:scss@4.12.0
 geojson-utils@1.0.10
+goinvo:synthea-analysis@0.3.2
 hot-code-push@1.0.4
 html-tools@1.0.11
 htmljs@1.0.11
@@ -88,6 +85,7 @@ standard-minifier-css@1.6.1
 standard-minifier-js@2.6.0
 static-html@1.2.2
 symptomatic:healthkit-importer@0.7.0
+symptomatic:vault-server-freemium@6.2.5
 templating-tools@1.1.2
 tmeasday:check-npm-versions@0.3.2
 tracker@1.2.0
