@@ -341,12 +341,12 @@ function Header(props) {
   return (
     <div id="header" className="headerNavContainer" position="fixed" style={componentStyles.headerNavContainer}>
       <div style={{paddingTop: '10px'}}>
-          <Icon 
-            icon={ic_menu} 
-            size={32} 
-            onClick={ clickOnMenuButton.bind(this) }
-            style={componentStyles.menuButton}
-          />
+        <Icon 
+          icon={ic_menu} 
+          size={32} 
+          onClick={ clickOnMenuButton.bind(this) }
+          style={componentStyles.menuButton}
+        />
         <h4 onClick={ function(){ goHome(); }} style={  componentStyles.title }>
           { parseTitle() }
         </h4>
