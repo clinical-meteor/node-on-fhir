@@ -465,9 +465,7 @@ export function ThemePage(props){
 
             { themingAssets.map(asset => <Grid item md={2} key={asset.name}>
                 <StyledCard style={{marginBottom: '20px'}} >
-                  <img name={asset.name} src={asset.src} style={backgroundThumbnail} responsive onClick={onImageClick.bind(this, asset.src)} />
-                  {/* <Image responsive style={purpleTile} onClick={onColorClick} /> */}
-                  {/* <Image name={asset.name} src={asset.src} responsive style={whiteTile} onClick={onImageClick.bind(this, asset.src)} /> */}
+                  <img name={asset.name} src={asset.src} style={backgroundThumbnail} responsive="true" onClick={onImageClick.bind(this, asset.src)} />
                 </StyledCard>
               </Grid>)}
 
@@ -477,32 +475,32 @@ export function ThemePage(props){
           <Grid container>
             <Grid item md={2}>
               <StyledCard>
-                <img style={purpleTile} responsive onClick={onColorClick.bind(this)} />
+                <img style={purpleTile} responsive="true" onClick={onColorClick.bind(this)} />
               </StyledCard>
             </Grid>
             <Grid item md={2}>
               <StyledCard>
-                <img style={orangeTile} responsive onClick={onColorClick.bind(this)} />
+                <img style={orangeTile} responsive="true" onClick={onColorClick.bind(this)} />
               </StyledCard>
             </Grid>
             <Grid item md={2}>
               <StyledCard>
-                <img style={redTile} responsive onClick={onColorClick.bind(this)} />              
+                <img style={redTile} responsive="true" onClick={onColorClick.bind(this)} />              
               </StyledCard>
             </Grid>
             <Grid item md={2}>
               <StyledCard>
-                <img style={greenTile} responsive onClick={onColorClick.bind(this)} />
+                <img style={greenTile} responsive="true" onClick={onColorClick.bind(this)} />
               </StyledCard>
             </Grid>
             <Grid item md={2}>
               <StyledCard>
-                <img style={blueTile} responsive onClick={onColorClick.bind(this)} />
+                <img style={blueTile} responsive="true" onClick={onColorClick.bind(this)} />
               </StyledCard>
             </Grid>
             <Grid item md={2}>
               <StyledCard>
-                <img style={goldenrodTile} responsive onClick={onColorClick.bind(this)} />
+                <img style={goldenrodTile} responsive="true" onClick={onColorClick.bind(this)} />
               </StyledCard>
             </Grid>
           </Grid>
@@ -510,32 +508,32 @@ export function ThemePage(props){
           <Grid container>
             <Grid item md={2}>
               <StyledCard>
-                <img style={whiteTile} responsive onClick={onColorClick.bind(this)} />
+                <img style={whiteTile} responsive="true" onClick={onColorClick.bind(this)} />
               </StyledCard>
             </Grid>
             <Grid item md={2}>
               <StyledCard>
-                <img style={eggshellTile} responsive onClick={onColorClick.bind(this)} />
+                <img style={eggshellTile} responsive="true" onClick={onColorClick.bind(this)} />
               </StyledCard>
             </Grid>
             <Grid item md={2}>
               <StyledCard>
-                <img style={smokeTile} responsive onClick={onColorClick.bind(this)} />
+                <img style={smokeTile} responsive="true" onClick={onColorClick.bind(this)} />
               </StyledCard>
             </Grid>
             <Grid item md={2}>
               <StyledCard>
-                <img style={grayTile} responsive onClick={onColorClick.bind(this)} />
+                <img style={grayTile} responsive="true" onClick={onColorClick.bind(this)} />
               </StyledCard>
             </Grid>
             <Grid item md={2}>
               <StyledCard>
-                <img style={charcoalTile} responsive onClick={onColorClick.bind(this)} />
+                <img style={charcoalTile} responsive="true" onClick={onColorClick.bind(this)} />
               </StyledCard>
             </Grid>
             <Grid item md={2}>
               <StyledCard>
-                <img style={blackTile} responsive onClick={onColorClick.bind(this)} />
+                <img style={blackTile} responsive="true" onClick={onColorClick.bind(this)} />
               </StyledCard>
             </Grid>
           </Grid>
