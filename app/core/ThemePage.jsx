@@ -24,10 +24,6 @@ import { StyledCard } from 'material-fhir-ui';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
-
-import { ReactMeteorData } from 'meteor/react-meteor-data';
-import ReactMixin from 'react-mixin';
-
 import { withStyles } from '@material-ui/styles';
 
 let defaultState = { index: 0 };
@@ -452,7 +448,6 @@ export class ThemePageOld extends React.Component {
 }
 
 
-ReactMixin(ThemePageOld.prototype, ReactMeteorData);
 
 
 

@@ -3,8 +3,10 @@ body {
   font-family: sans-serif;
 
   overflow: hidden;
-}
 
+  padding-top: constant(safe-area-inset-top, 0px); /* iOS 11.0 */
+  padding-top: env(safe-area-inset-top, 0px); /* iOS 11.2 */
+}
 
 
 #reactTarget {
@@ -25,4 +27,9 @@ a{
 }
 .vis-inner {
   font-size: 60% !important;
+}
+
+.footerNavContainer {
+  margin-bottom: constant(safe-area-inset-bottom, 0px); /* iOS 11.0 */
+  margin-bottom: env(safe-area-inset-bottom, 0px); /* iOS 11.2 */
 }
