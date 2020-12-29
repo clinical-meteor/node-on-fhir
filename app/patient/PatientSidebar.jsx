@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useTracker } from '../layout/Tracker';
 
@@ -419,23 +420,17 @@ export function PatientSidebar(props){
       } else {
         clonedIcon = <Icon icon={fire} className={props.classes.drawerIcons} />
       }
-
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hidden', []).includes(element.to)){
-
-        // don't show the element unless it's public, or the user is signed in
-        if(!element.requireAuth || (element.requireAuth && currentUser)){
-          dynamicElements.push(
-            <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
-              <ListItemIcon >
-                { clonedIcon }
-              </ListItemIcon>
-              <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
-            </ListItem>
-          );  
-        }
+        dynamicElements.push(
+          <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
+            <ListItemIcon >
+              { clonedIcon }
+            </ListItemIcon>
+            <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+          </ListItem>
+        );
       }
-
     });
     dynamicElements.push(<Divider className={props.classes.divider} key="dynamic-modules-hr" />);
     logger.trace('client.app.patient.PatientSidebar.dynamicElements: ' + dynamicElements.length);
@@ -466,19 +461,14 @@ export function PatientSidebar(props){
 
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hiddenWorkflow', []).includes(element.to)){
-
-        // don't show the element unless it's public, or the user is signed in
-        if(!element.requireAuth || (element.requireAuth && currentUser)){
-
-          workflowElements.push(
-            <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
-              <ListItemIcon >
-                { clonedIcon }
-              </ListItemIcon>
-              <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
-            </ListItem>
-          );
-        }
+        workflowElements.push(
+          <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
+            <ListItemIcon >
+              { clonedIcon }
+            </ListItemIcon>
+            <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+          </ListItem>
+        );
       }
     });
     workflowElements.push(<Divider className={props.classes.divider} key="workflow-modules-hr" />);
@@ -503,8 +493,44 @@ export function PatientSidebar(props){
 
 
   //----------------------------------------------------------------------
-  // Theming
+  // Data Management
 
+  let dataManagementElements = [];
+  let drawDataMgmDivider = false;
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.HealthRecords')){
+    drawDataMgmDivider = true;
+    dataManagementElements.push(<ListItem id='healthkitImportItem' key='healthkitImportItem' button onClick={function(){ openPage('/healthcard'); }} >
+      <ListItemIcon >
+        <Icon icon={addressCardO} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="HealthRecords" className={props.classes.drawerText}  />
+    </ListItem>);    
+  };
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DataImport')){
+    drawDataMgmDivider = true;
+    dataManagementElements.push(<ListItem id='dataImportItem' key='dataImportItem' button onClick={function(){ openPage('/import-data'); }} >
+      <ListItemIcon >
+        <Icon icon={fire} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Data Import" className={props.classes.drawerText}  />
+    </ListItem>);    
+  };
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DataExport')){
+    drawDataMgmDivider = true;
+    dataManagementElements.push(<ListItem id='dataExportItem' key='dataExportItem' button onClick={function(){ openPage('/export-data'); }} >
+      <ListItemIcon >
+        <Icon icon={fire} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Data Export" className={props.classes.drawerText}  />
+    </ListItem>);    
+  };
+
+  if(drawDataMgmDivider){
+    dataManagementElements.push(<Divider className={props.classes.divider} key="data-management-modules-hr" />);
+  }
+
+  //----------------------------------------------------------------------
+  // Theming
 
   let themingElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Theming')){
@@ -644,15 +670,16 @@ export function PatientSidebar(props){
     </ListItem>);    
   };
 
-
   return(
-    <div id='patientSidebar' style={{marginBottom: '80px',}} >
+    <div id='patientSidebar'>
       { homePage }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>
         {/* <h4>Workflow</h4> */}
         { workflowElements }   
       </div>
+
+      { dataManagementElements }
 
       <div id='patientDynamicElements' key='patientDynamicElements'>
         {/* <h4>Data</h4> */}
@@ -675,3 +702,7 @@ export function PatientSidebar(props){
 }
 
 export default withStyles(styles, { withTheme: true })(PatientSidebar);
+
+PatientSidebar.propTypes = {
+  onClose: PropTypes.func
+}
