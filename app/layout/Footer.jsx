@@ -145,7 +145,7 @@ function Footer(props) {
       width: '100%',
       zIndex: 1300,
       borderTop: '1px solid lightgray',
-      transition: props.theme.transitions.create(['width', 'left'], {
+      transition: props.theme.transitions.create(['width', 'left', 'bottom'], {
         easing: props.theme.transitions.easing.sharp,
         duration: props.theme.transitions.duration.leavingScreen
       }),
@@ -166,12 +166,15 @@ function Footer(props) {
   if(!displayNavbars){
     styles.footerContainer.bottom = '-64px'
   }
+  if(get(Meteor, 'settings.public.defaults.disableFooter')){
+    styles.footerContainer.display = 'none'
+  }
 
   return (
     <footer id="footerNavContainer" style={styles.footerContainer}>
-      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" style={{backgroundColor: "inherit", justifyContent: 'left'}} >
+      <div id="footerNavigation" name="footerNavigation" position="static" style={{backgroundColor: "inherit", justifyContent: 'left'}} >
         { westNavbar }
-      </BottomNavigation>
+      </div>
     </footer>
   );
 }
