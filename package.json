@@ -94,17 +94,15 @@
     "simpl-schema": "1.7.3",
     "simple-oauth2": "4.1.0",
     "simple-swizzle": "0.2.2",
-    "styled-components": "4.4.0",
+    "styled-components": "5.2.1",
     "universal-url": "2.0.0",
     "validator": "10.9.0",
     "winston": "3.2.1"
   },
-  "devDependencies": {},
-  "devDependenciesBkup": {
+  "devDependencies": {
+    "babel-preset-meteor": "7.9.0",
+    "babel-plugin-styled-components": "1.12.0",
     "babel-eslint": "10.1.0",
-    "chai": "4.2.0",
-    "chai-nightwatch": "0.4.0",
-    "chromedriver": "86.0.0",
     "eslint": "4.19.1",
     "eslint-import-resolver-meteor": "0.4.0",
     "eslint-plugin-import": "2.21.2",
@@ -112,11 +110,16 @@
     "eslint-plugin-meteor": "7.0.0",
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "4.0.4",
+    "shelljs": "0.7.4"
+  },
+  "devDependenciesBkup": {
+    "chai": "4.2.0",
+    "chai-nightwatch": "0.4.0",
+    "chromedriver": "86.0.0",
     "nightwatch": "1.5.0",
     "selenium-webdriver": "3.6.0",
     "conventional-changelog-cli": "2.0.11",
     "meteor-desktop": "2.2.5",
-    "shelljs": "0.7.4",
     "electron": "6.1.7",
     "electron-builder": "21.2.0"
   },
