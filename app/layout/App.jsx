@@ -572,13 +572,13 @@ export function App(props) {
           paper: clsx({
             [classes.drawerOpen]: drawerIsOpen,
             [classes.drawerClose]: !drawerIsOpen
-          }),
+          })
         }}
         open={drawerIsOpen}
         style={drawerStyle}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose.bind(this)}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
@@ -644,9 +644,9 @@ export function App(props) {
         
         {/* <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } /> */}
 
-        {/* <div id="appDrawerContainer" style={drawerStyle}>
+        <div id="appDrawerContainer" style={drawerStyle}>
           { drawer }
-        </div> */}
+        </div>
         <main id='mainAppRouter' className={clsx({
             [classes.canvasOpen]: drawerIsOpen,
             [classes.canvas]: !drawerIsOpen
