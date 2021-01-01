@@ -10,7 +10,7 @@ import ChartJS from "chart.js";
 import { FhirClientContext } from "../FhirClientContext";
 import PatientCard from "./PatientCard";
 
-import { StyledCard } from 'material-fhir-ui';
+import { StyledCard } from 'fhir-starter';
 
 import Card from '@material-ui/core/CardContent';
 import CardContent from '@material-ui/core/CardContent';

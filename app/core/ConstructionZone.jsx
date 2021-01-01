@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect, useCallback } from 'react';
 import { CardHeader, CardContent, Typography, Box } from '@material-ui/core';
 
 import { get } from 'lodash';
-import { PageCanvas, StyledCard } from 'material-fhir-ui';
+import { PageCanvas, StyledCard } from 'fhir-starter';
 import { useTracker } from '../layout/Tracker';
 
 

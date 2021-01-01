@@ -9,7 +9,7 @@ import {
   CardContent,
   Grid
 } from '@material-ui/core';
-import { PageCanvas, StyledCard } from 'material-fhir-ui';
+import { PageCanvas, StyledCard } from 'fhir-starter';
 import { get } from 'lodash';
 
 import { oauth2 as SMART } from "fhirclient";

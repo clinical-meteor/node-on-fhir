@@ -18,7 +18,7 @@ import AppLoadingPage from '../core/AppLoadingPage.jsx';
 import { createLogger, addColors, format, transports } from 'winston';
 import 'setimmediate';
 
-import { PatientTable } from 'material-fhir-ui';
+import { PatientTable } from 'fhir-starter';
 
 
 // Global App-Wide Session Variables
