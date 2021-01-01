@@ -3,7 +3,7 @@ import FhirClientProvider from "../layout/FhirClientProvider";
 import Dashboard from "./Dashboard";
 import PatientDemographics from "./PatientDemographics";
 
-import { PageCanvas } from 'material-fhir-ui';
+import { PageCanvas } from 'fhir-starter';
 import { CardHeader, CardContent } from '@material-ui/core';
 import { useLocation, useParams, useHistory } from "react-router-dom";
 

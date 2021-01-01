@@ -44,22 +44,13 @@ clinical:hl7-fhir-data-infrastructure
 # mdg:meteor-apm-agent
 # bundle-visualizer
 
-# WORKFLOW  
-# symptomatic:covid19-on-fhir
-# symptomatic:covid19-geomapping
-# symptomatic:covid19-reporting
-# symptomatic:data-management
-# symptomatic:gravity
-# symptomatic:saner
-
-
 # DESKTOP
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-# symptomatic:saner
 
-
-symptomatic:vault-server-freemium
-symptomatic:healthkit-importer
-goinvo:synthea-analysis
+# WORKFLOW  
+# symptomatic:vault-server-freemium
+# symptomatic:immunization-card
+# goinvo:synthea-analysis  
+symptomatic:healthkit-importer  
