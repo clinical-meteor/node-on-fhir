@@ -1,13 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useTracker } from './Tracker';
+import React, { useState } from 'react';
 
-import { Button, BottomNavigation} from '@material-ui/core';
-import Toolbar from '@material-ui/core/Toolbar';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import { ReactMeteorData, useTracker } from 'meteor/react-meteor-data';
+
+import { Button, BottomNavigation} from '@material-ui/core';
+// import Toolbar from '@material-ui/core/Toolbar';
+
 import { Meteor } from 'meteor/meteor';
-import { get } from 'lodash';
+import { Session } from 'meteor/session';
+import { get, has, cloneDeep } from 'lodash';
 
 import { makeStyles } from '@material-ui/styles';
 
@@ -159,9 +162,12 @@ function Footer(props) {
   }
 
   let displayNavbars = true;  
-  displayNavbars = useTracker(function(){  
-    return Session.get("displayNavbars");  
-  }, []);  
+
+  if(Meteor.isClient){
+    displayNavbars = useTracker(function(){  
+      return Session.get("displayNavbars");  
+    }, []);    
+  }
 
   if(!displayNavbars){
     styles.footerContainer.bottom = '-64px'
@@ -178,6 +184,7 @@ function Footer(props) {
     </footer>
   );
 }
+
 
 Footer.propTypes = {
   logger: PropTypes.object,

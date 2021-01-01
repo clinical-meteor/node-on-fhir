@@ -16,7 +16,7 @@ import { Session } from 'meteor/session';
 import { Helmet } from "react-helmet";
 import { get, has } from 'lodash';
 
-import { useTracker, withTracker } from './Tracker';
+import { useTracker } from 'meteor/react-meteor-data';
 
 import ProjectPage from './MainPage.jsx';
 
@@ -642,12 +642,11 @@ export function App(props) {
         <CssBaseline />
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
         
-        {/* <ContextSlideOut { ...otherProps } /> */}
-        <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
+        {/* <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } /> */}
 
-        <div id="appDrawerContainer" style={drawerStyle}>
+        {/* <div id="appDrawerContainer" style={drawerStyle}>
           { drawer }
-        </div>
+        </div> */}
         <main id='mainAppRouter' className={clsx({
             [classes.canvasOpen]: drawerIsOpen,
             [classes.canvas]: !drawerIsOpen

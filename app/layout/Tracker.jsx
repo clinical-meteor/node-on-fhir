@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect, useCallback } from 'react';
-import { Tracker } from 'meteor/tracker';
+import { useTracker } from 'meteor/react-meteor-data';
 
 export function useTracker(reactiveFn, dependencies) {
   const [trackerData, setTrackerData] = useState(null);
