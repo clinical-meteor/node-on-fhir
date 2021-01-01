@@ -3,7 +3,7 @@ import { CardHeader, CardContent, Typography, Box } from '@material-ui/core';
 
 import { get } from 'lodash';
 import { PageCanvas, StyledCard } from 'fhir-starter';
-import { useTracker } from '../layout/Tracker';
+import { useTracker } from 'meteor/react-meteor-data';
 
 
 function TabPanel(props) {

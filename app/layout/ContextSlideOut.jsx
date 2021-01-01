@@ -4,7 +4,7 @@
 // import { Meteor } from 'meteor/meteor';
 // import { Session } from 'meteor/session';
 
-// import { useTracker, withTracker } from './Tracker';
+// import { useTracker } from 'meteor/react-meteor-data';
 // import CapabilityStatementCheck from '../core/CapabilityStatementCheck';
 // import ErrorDialog from '../core/ErrorDialog';
 

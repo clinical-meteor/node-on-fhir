@@ -17,6 +17,9 @@ import { AccountsClient } from '@accounts/client';
 import { AccountsClientPassword } from '@accounts/client-password';
 import { RestClient } from '@accounts/rest-client';
 
+import logger from '../app/Logger'
+
+
 const accountsRest = new RestClient({
   // apiHost: 'http://localhost:4000',
   apiHost: get(Meteor, 'settings.public.accountsServer.host') + ":" + get(Meteor, 'settings.public.accountsServer.host'),
@@ -28,7 +31,7 @@ const accountsPassword = new AccountsClientPassword(accountsClient);
 
 
 onPageLoad(function(){
-  console.log("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
+  logger.info("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
   Session.set('last_reloaded_url', window.location.search)
 
   const preloadedState = window.__PRELOADED_STATE__;
@@ -51,6 +54,7 @@ onPageLoad(function(){
     window.MobileAccessibility.usePreferredTextZoom(false);
   }
 
+  logger.info("Hydrating the reactTarget with AppContainer");
   ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
 });
 
