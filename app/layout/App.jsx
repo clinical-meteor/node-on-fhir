@@ -80,7 +80,7 @@ function usePageViews() {
 
 
 import { ThemeProvider } from '@material-ui/styles';
-import theme from '../theme';
+import theme from '../Theme';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 

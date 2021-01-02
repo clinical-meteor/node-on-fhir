@@ -68,6 +68,7 @@
     "express": "4.17.1",
     "fhir-kit-client": "1.5.3",
     "fhirclient": "2.1.0",
+    "fhir-starter": "0.11.2",
     "formik": "^2.1.5",
     "json5": "^2.1.3",
     "lodash": "^4.17.15",
