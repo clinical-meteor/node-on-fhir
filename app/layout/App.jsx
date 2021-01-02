@@ -642,7 +642,7 @@ export function App(props) {
         <CssBaseline />
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
         
-        {/* <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } /> */}
+        <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
         <div id="appDrawerContainer" style={drawerStyle}>
           { drawer }
