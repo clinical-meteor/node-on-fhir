@@ -29,12 +29,9 @@ const accountsClient = new AccountsClient({}, accountsRest);
 const accountsPassword = new AccountsClientPassword(accountsClient);
 
 
-// console.log('AccountsClient', accountsClient)
-
-// wrapMeteorClient(Meteor, AccountsClient);
 
 onPageLoad(function(){
-  console.log("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
+  logger.info("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
   Session.set('last_reloaded_url', window.location.search)
 
   const preloadedState = window.__PRELOADED_STATE__;
@@ -57,6 +54,7 @@ onPageLoad(function(){
     window.MobileAccessibility.usePreferredTextZoom(false);
   }
 
+  logger.info("Hydrating the reactTarget with AppContainer");
   ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
 });
 

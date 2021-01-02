@@ -8,7 +8,7 @@ import {
   CardContent,
   Grid
 } from '@material-ui/core';
-import { PageCanvas, StyledCard } from 'material-fhir-ui';
+import { PageCanvas, StyledCard } from 'fhir-starter';
 import { get } from 'lodash';
 
 import { Icon } from 'react-icons-kit'

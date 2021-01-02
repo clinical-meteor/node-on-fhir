@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 import React from 'react';
-import { useTracker } from '../layout/Tracker';
+import { useTracker } from 'meteor/react-meteor-data';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -503,6 +503,44 @@ export function PatientSidebar(props){
 
 
   //----------------------------------------------------------------------
+  // Data Management
+
+  let dataManagementElements = [];
+  let drawDataMgmDivider = false;
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.HealthRecords')){
+    drawDataMgmDivider = true;
+    dataManagementElements.push(<ListItem id='healthkitImportItem' key='healthkitImportItem' button onClick={function(){ openPage('/healthcard'); }} >
+      <ListItemIcon >
+        <Icon icon={addressCardO} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="HealthRecords" className={props.classes.drawerText}  />
+    </ListItem>);    
+  };
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DataImport')){
+    drawDataMgmDivider = true;
+    dataManagementElements.push(<ListItem id='dataImportItem' key='dataImportItem' button onClick={function(){ openPage('/import-data'); }} >
+      <ListItemIcon >
+        <Icon icon={fire} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Data Import" className={props.classes.drawerText}  />
+    </ListItem>);    
+  };
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DataExport')){
+    drawDataMgmDivider = true;
+    dataManagementElements.push(<ListItem id='dataExportItem' key='dataExportItem' button onClick={function(){ openPage('/export-data'); }} >
+      <ListItemIcon >
+        <Icon icon={fire} className={props.classes.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Data Export" className={props.classes.drawerText}  />
+    </ListItem>);    
+  };
+
+  if(drawDataMgmDivider){
+    dataManagementElements.push(<Divider className={props.classes.divider} key="data-management-modules-hr" />);
+  }
+
+
+  //----------------------------------------------------------------------
   // Theming
 
 
@@ -650,12 +688,12 @@ export function PatientSidebar(props){
       { homePage }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>
-        {/* <h4>Workflow</h4> */}
         { workflowElements }   
       </div>
 
+      { dataManagementElements }
+
       <div id='patientDynamicElements' key='patientDynamicElements'>
-        {/* <h4>Data</h4> */}
         { dynamicElements }   
       </div>
 
