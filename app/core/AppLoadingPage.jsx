@@ -10,7 +10,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 import Footer from '../layout/Footer.jsx';
 import Header from '../layout/Header.jsx';
-import theme from '../theme.js';
+import theme from '../Theme.js';
 
 import { Icon } from 'react-icons-kit'
 import { spinner8 } from 'react-icons-kit/icomoon/spinner8'

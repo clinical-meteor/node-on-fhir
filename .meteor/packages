@@ -60,5 +60,5 @@ clinical:hl7-fhir-data-infrastructure
 # symptomatic:saner
 
 
-# symptomatic:healthkit-importer
+symptomatic:healthkit-importer
 # goinvo:synthea-analysis

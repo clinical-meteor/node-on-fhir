@@ -17,6 +17,9 @@ import { AccountsClient } from '@accounts/client';
 import { AccountsClientPassword } from '@accounts/client-password';
 import { RestClient } from '@accounts/rest-client';
 
+import theme from '../app/Theme';
+import logger from '../app/Logger';
+
 const accountsRest = new RestClient({
   // apiHost: 'http://localhost:4000',
   apiHost: get(Meteor, 'settings.public.accountsServer.host') + ":" + get(Meteor, 'settings.public.accountsServer.host'),
