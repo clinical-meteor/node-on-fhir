@@ -8,7 +8,7 @@ import React from "react";
 import ChartJS from "chart.js";
 import { FhirClientContext } from "../FhirClientContext";
 
-import { StyledCard } from 'material-fhir-ui';
+import { StyledCard } from 'fhir-starter';
 
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';

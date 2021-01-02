@@ -4,6 +4,7 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
+babel-compiler@7.5.4
 meteor-base@1.4.0             # Packages every Meteor app needs to have
 
 # SECURITY  
@@ -36,29 +37,4 @@ clinical:fonts@1.2.0
 clinical:hl7-resource-datatypes@4.0.6
 clinical:hl7-fhir-data-infrastructure
 
-# TESTING
-# meteortesting:mocha
-# practicalmeteor:chai
-
-# PERFORMANCE MONITORING (Galaxy hosting provider)
-# mdg:meteor-apm-agent
-# bundle-visualizer
-
-# WORKFLOW  
-# symptomatic:covid19-on-fhir
-# symptomatic:covid19-geomapping
-# symptomatic:covid19-reporting
-# symptomatic:data-management
-# symptomatic:gravity
-# symptomatic:saner
-
-
-# DESKTOP
-# omega:meteor-desktop-watcher@=2.2.5
-# omega:meteor-desktop-bundler@=2.2.5
-
-# symptomatic:saner
-
-
-symptomatic:healthkit-importer
-# goinvo:synthea-analysis
+symptomatic:healthkit-importer  
