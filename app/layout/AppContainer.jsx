@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { BrowserRouter, withRouter, Router } from "react-router-dom";
+import { BrowserRouter, StaticRouter, withRouter, Router } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 import { get } from 'lodash';
 
@@ -21,7 +22,7 @@ import 'setimmediate';
 import { PatientTable } from 'fhir-starter';
 
 import logger from '../Logger';
-
+import theme from '../Theme';
 
 // Global App-Wide Session Variables
 
@@ -158,8 +159,8 @@ Meteor.startup(function(){
   // });
 
 
-  // Global Theming 
-  // This is necessary for the Material UI component render layer
+  // // Global Theming 
+  // // This is necessary for the Material UI component render layer
   let theme = {
     primaryColor: "rgb(108, 183, 110)",
     primaryText: "rgba(255, 255, 255, 1) !important",
@@ -245,26 +246,32 @@ Meteor.startup(function(){
     logger.data('AppContainer.props', {data: props}, {source: "AppContainer.jsx"});
 
     let renderedApp;
+    const context = {};
+
+    let routerContents = <ThemeProvider theme={theme} >
+      <MuiThemeProvider theme={muiTheme}>
+        <AppWithRouter logger={logger} suppressHydrationWarning={true} />          
+      </MuiThemeProvider>
+    </ThemeProvider>
+
     if(Meteor.isClient){
-      // renderedApp = <BrowserRouter history={appHistory}>
       renderedApp = <Router history={appHistory}>
-        <ThemeProvider theme={theme} >
-          <MuiThemeProvider theme={muiTheme}>
-            <AppWithRouter logger={logger} />
-          </MuiThemeProvider>
-        </ThemeProvider>
+        { routerContents }
       </Router>
-      {/* </BrowserRouter> */}
     }
     if(Meteor.isServer){
-      renderedApp = <ThemeProvider theme={theme} >
-        <MuiThemeProvider theme={muiTheme}>
-          <AppLoadingPage logger={logger} />
-        </MuiThemeProvider>
-      </ThemeProvider>      
+      renderedApp = <StaticRouter location={props.location} context={context} >
+        { routerContents }
+      </StaticRouter>
     }
 
     return renderedApp;  
+  }
+  AppContainer.propTypes = {
+    location: PropTypes.object
+  }
+  AppContainer.defaultProps = {
+    location: {}
   }
 
   export default AppContainer;

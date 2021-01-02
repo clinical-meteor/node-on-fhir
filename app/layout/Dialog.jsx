@@ -72,6 +72,7 @@ if(Meteor.isClient){
 
 export default function ScrollDialog(props) {
   let [open, setOpen] = React.useState(false);
+  let [mainAppDialogOpen, setMainAppDialogOpen] = React.useState(false);
   let [scroll, setScroll] = React.useState('paper');
 
   let {
@@ -82,14 +83,45 @@ export default function ScrollDialog(props) {
     ...otherProps
   } = props;
 
-  maxWidth = useTracker(function(){
-    return Session.get('mainAppDialogmaxWidth')
-  }, []);
+  let dialogComponent;
+  let dialogTitle = "";
+  let jsonContent = "";
+  let errorMessage = "";
 
+  if(Meteor.isClient){
+    maxWidth = useTracker(function(){
+      return Session.get('mainAppDialogmaxWidth')
+    }, []);
+  
+    mainAppDialogOpen = useTracker(function(){
+      return Session.get('mainAppDialogOpen')
+    }, []);
 
-  let mainAppDialogOpen = useTracker(function(){
-    return Session.get('mainAppDialogOpen')
-  }, []);
+    dialogTitle = useTracker(function(){
+      return Session.get('mainAppDialogTitle')
+    }, []);
+  
+    dialogComponent = useTracker(function(){
+      return Session.get('mainAppDialogComponent')
+    }, [props.lastUpdated]);
+  
+    errorMessage = useTracker(function(){
+      return Session.get('mainAppDialogErrorMessage')
+    }, []);
+  
+    jsonContent = useTracker(function(){
+      return Session.get('mainAppDialogJson');
+      // let result = "";
+      // let mainAppDialogJson = Session.get('mainAppDialogJson');
+      // if(typeof mainAppDialogJson === "string"){
+      //   result = mainAppDialogJson
+      // } else if(typeof mainAppDialogJson === "object") {
+      //   result = JSON.stringify(mainAppDialogJson, null, 2);
+      // }
+  
+      // return result;
+    }, [props.lastUpdated]);
+  }
 
   if(mainAppDialogOpen){
     open = mainAppDialogOpen
@@ -97,34 +129,6 @@ export default function ScrollDialog(props) {
     open = false;
   }
 
-  let dialogTitle = "";
-  dialogTitle = useTracker(function(){
-    return Session.get('mainAppDialogTitle')
-  }, []);
-
-  let dialogComponent;
-  dialogComponent = useTracker(function(){
-    return Session.get('mainAppDialogComponent')
-  }, [props.lastUpdated]);
-
-  let jsonContent = "";
-  jsonContent = useTracker(function(){
-    return Session.get('mainAppDialogJson');
-    // let result = "";
-    // let mainAppDialogJson = Session.get('mainAppDialogJson');
-    // if(typeof mainAppDialogJson === "string"){
-    //   result = mainAppDialogJson
-    // } else if(typeof mainAppDialogJson === "object") {
-    //   result = JSON.stringify(mainAppDialogJson, null, 2);
-    // }
-
-    // return result;
-  }, [props.lastUpdated]);
-
-  let errorMessage = "";
-  errorMessage = useTracker(function(){
-    return Session.get('mainAppDialogErrorMessage')
-  }, []);
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);

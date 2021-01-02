@@ -1,18 +1,19 @@
 import React from 'react';
 import { useLocation, useParams, useHistory } from "react-router-dom";
 
-import { renderToString } from 'react-dom/server';
 import { onPageLoad } from 'meteor/server-render';
+import { renderToString } from 'react-dom/server';
+import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 
 import { Helmet } from 'react-helmet';
 
 import AppContainer from '/app/layout/AppContainer'
 // import AppLoadingPage from '/app/core/AppLoadingPage'
 
-import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 import { get } from 'lodash';
 
-import theme from '/app/theme.js'
+import theme from '/app/Theme.js'
+
 // import { createLogger, addColors, format, transports, config } from 'winston';
 import ReactDOMServer from 'react-dom/server';
 
@@ -37,9 +38,8 @@ onPageLoad((sink) => {
 
 
   const htmlString = renderToString(sheets.collect(
-    <ThemeProvider theme={theme} >          
-      {/* <AppLoadingPage location={sink.request.url} /> */}
-      <AppContainer location={sink.request.url} />
+    <ThemeProvider theme={theme}  >          
+      <AppContainer location={sink.request.url} suppressHydrationWarning={true} />
     </ThemeProvider>  
   ));
 

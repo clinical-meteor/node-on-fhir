@@ -7,7 +7,7 @@ import { Session } from 'meteor/session';
 import ReactDOM from "react-dom";
 
 import { render } from 'react-dom';
-import AppContainer from '/app/layout/AppContainer';
+
 import { onPageLoad } from 'meteor/server-render';
 
 import { register } from 'register-service-worker';
@@ -16,9 +16,11 @@ import { get } from 'lodash';
 import { AccountsClient } from '@accounts/client';
 import { AccountsClientPassword } from '@accounts/client-password';
 import { RestClient } from '@accounts/rest-client';
+import AppContainer from '/app/layout/AppContainer';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import logger from '../app/Logger'
-
+import theme from '../app/Theme'
 
 const accountsRest = new RestClient({
   // apiHost: 'http://localhost:4000',
@@ -30,13 +32,18 @@ const accountsPassword = new AccountsClientPassword(accountsClient);
 
 
 
-onPageLoad(function(){
+onPageLoad(async function(sink){
   logger.info("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
   Session.set('last_reloaded_url', window.location.search)
+
+
 
   const preloadedState = window.__PRELOADED_STATE__;
 
   let searchParams = new URLSearchParams(get(preloadedState, 'url.path'));
+  logger.debug("main.searchParams", {data: searchParams});
+  
+
   if(searchParams.get('iss')){
     Session.set('smartOnFhir_iss', searchParams.get('iss'));
   }
@@ -55,7 +62,9 @@ onPageLoad(function(){
   }
 
   logger.info("Hydrating the reactTarget with AppContainer");
-  ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
+  await ReactDOM.hydrate(<ThemeProvider theme={theme} >          
+    <AppContainer location={preloadedState.url} suppressHydrationWarning={true} />
+  </ThemeProvider>, document.getElementById('reactTarget'));
 });
 
 

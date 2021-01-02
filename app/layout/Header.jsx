@@ -17,16 +17,18 @@ import { Session } from 'meteor/session';
 import { get } from 'lodash';
 import moment from 'moment';
 
-import { ReactMeteorData, useTracker } from 'meteor/react-meteor-data';
+import { useTracker } from 'meteor/react-meteor-data';
 import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
+import logger from '../Logger';
+import theme from '../Theme';
 
-const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
+// const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 // not being used?
-const styles = theme => ({});
+// const styles = theme => ({});
 
 if(Meteor.isClient){
   Session.setDefault('useDateRangeInQueries', get(Meteor, 'settings.public.defaults.useDateRangeInQueries', false));
@@ -61,14 +63,21 @@ Object.keys(Package).forEach(function(packageName){
 
 
 function Header(props) {
+
+  const {
+    handleDrawerOpen,
+    logger,
+    drawerIsOpen,
+    drawerWidth,
+    headerNavigation
+  } = props;
   
-  if(props.logger){
-    // props.logger.trace('Rendering the application Header.');
-    props.logger.verbose('package.care-cards.client.layout.Header');  
-    props.logger.data('Header.props', {data: props}, {source: "headerNavContainer.jsx"});
+  if(logger){
+    // logger.trace('Rendering the application Header.');
+    logger.verbose('package.care-cards.client.layout.Header');  
+    logger.data('Header.props', {data: props}, {source: "headerNavContainer.jsx"});
   }
 
-  let [drawerIsOpen, setDrawerIsOpen] = useState(false);
   let [currentUser, setCurrentUser] = useState({
     givenName: 'Anonymous'
   });
@@ -76,11 +85,11 @@ function Header(props) {
   function clickOnMenuButton(){
     console.log('clickOnMenuButton');
 
-    props.handleDrawerOpen.call(this);
+    handleDrawerOpen.call(this);
   };
 
   function goHome(){
-    props.history.replace('/');
+    history.replace('/');
   };
   
 
@@ -94,20 +103,22 @@ function Header(props) {
       position: 'fixed',
       top: "0px",
       left: "0px",
-      background: props.theme.palette.appBar.main,
-      backgroundColor: props.theme.palette.appBar.main,
-      color: props.theme.palette.appBar.contrastText,
+      background: theme.palette.appBar.main,
+      backgroundColor: theme.palette.appBar.main,
+      color: theme.palette.appBar.contrastText,
       width: '100%',
-      zIndex: 1200,
-      transition: props.theme.transitions.create(['width', 'left', 'top'], {
-        easing: props.theme.transitions.easing.sharp,
-        duration: props.theme.transitions.duration.leavingScreen
+      zIndex: 12000,
+      transition: theme.transitions.create(['width', 'left', 'top'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
       }),
-      filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
+      filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")",
+      paddingLeft: '10px',
+      paddingRight: '10px'
     },
     title: {
       flexGrow: 1,
-      color: props.theme.palette.appBar.contrastText,
+      color: theme.palette.appBar.contrastText,
       paddingTop: '0px',
       fontWeight: '200',
       fontSize: '2.125rem',
@@ -130,18 +141,22 @@ function Header(props) {
     },
     menuButton: {
       float: 'left',
-      color: props.theme.palette.appBar.contrastText,
+      color: theme.palette.appBar.contrastText,
       background: 'inherit',
       backgroundColor: 'inherit',
       border: '0px none black',
       paddingTop: '10px',
       paddingLeft: '10px',
-      paddingRight: '10px',
+      paddingRight: '20px',
       cursor: 'pointer'
     }
   }
 
-  // console.log('componentStyles', componentStyles)
+  // if(Meteor.isClient){
+  //   componentStyles.headerNavContainer.width = window.innerWidth + 'px';
+  // }
+
+
 
   // ------------------------------------------------------------
   // Trackers
@@ -205,10 +220,12 @@ function Header(props) {
   // ------------------------------------------------------------  
   // Layout  
 
-  if(Meteor.isClient && props.drawerIsOpen){
-    componentStyles.headerNavContainer.width = window.innerWidth - drawerWidth;
-    componentStyles.headerNavContainer.left = drawerWidth;
+  if(Meteor.isClient && drawerIsOpen){
+    componentStyles.headerNavContainer.width = (window.innerWidth - drawerWidth) + 'px';
+    componentStyles.headerNavContainer.left = drawerWidth + 'px';
   }
+
+
 
   let workflowTabsToRender;
   let selectedWorkflow;
@@ -235,8 +252,8 @@ function Header(props) {
       })       
     }
 
-    // if(typeof props.headerNavigation === "function"){
-    //   workflowTabsToRender = props.headerNavigation(props);
+    // if(typeof headerNavigation === "function"){
+    //   workflowTabsToRender = headerNavigation(props);
     // }    
 
     // if(workflowTabs === "patientchart"){
@@ -366,9 +383,12 @@ Header.propTypes = {
   logger: PropTypes.object,
   drawerIsOpen: PropTypes.bool,
   handleDrawerOpen: PropTypes.func,
-  headerNavigation: PropTypes.func
+  headerNavigation: PropTypes.func,
+  drawerWidth: PropTypes.number  
 }
 Header.defaultProps = {
+  drawerIsOpen: true,
+  drawerWidth: get(Meteor, 'settings.public.defaults.drawerWidth', 280),
   logger: {
     debug: function(){},
     info: function(){},
@@ -380,5 +400,5 @@ Header.defaultProps = {
   }
 }
 
-// export default Header;
-export default withStyles(styles, { withTheme: true })(Header);
+export default Header;
+// export default withStyles(styles, { withTheme: true })(Header);

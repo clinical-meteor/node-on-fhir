@@ -10,7 +10,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 import Footer from '../layout/Footer.jsx';
 import Header from '../layout/Header.jsx';
-import theme from '../theme.js';
+import theme from '../Theme.js';
 
 import { Icon } from 'react-icons-kit'
 import { spinner8 } from 'react-icons-kit/icomoon/spinner8'
@@ -19,42 +19,17 @@ import { oauth2 as SMART } from "fhirclient";
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
-const styles = theme => ({
-});
+
 
 
 function AppLoadingPage(props) {
+
+
   if(props.logger){
     // props.logger.debug('Rendering the AppLoadingPage.');
     props.logger.verbose('client.app.layout.AppLoadingPage');  
   }
 
-  // let searchParams = new URLSearchParams(useLocation().search);
-
-  // if(searchParams){
-  //   console.log("Storing state received by Loading page into Session variable.", searchParams.state);
-
-  //   searchParams.forEach(function(value, key){
-  //     console.log(key + ': ' + value); 
-  //   });
-
-  //   if(searchParams.get('iss')){
-  //     Session.set('smartOnFhir_iss', searchParams.get('iss'));
-  //   }
-  //   if(searchParams.get('launch')){
-  //     Session.set('smartOnFhir_launch', searchParams.get('launch'));
-  //   }
-  //   if(searchParams.get('code')){
-  //     Session.set('smartOnFhir_code', searchParams.get('code'));
-  //   }
-  //   if(searchParams.get('scope')){
-  //     Session.set('smartOnFhir_scope', searchParams.get('scope'));
-  //   }
-
-  //   if(searchParams.state){
-  //     Session.set('smartOnFhir_state', searchParams.state);
-  //   }        
-  // }
 
   //--------------------------------------------------------------------------------
   // Props
@@ -106,12 +81,26 @@ function AppLoadingPage(props) {
       position: 'absolute',
       left: '50%',
       top: '40%',
-      marginLeft: '-60px'
+      marginLeft: '-60px'      
+    },
+    loadingGuard: {
+      width: '100%', 
+      height: '100%',
+      display: 'inline-block'
     }
   }
 
   //--------------------------------------------------------------------------------
   // Render Component
+
+  let childrenToRender;
+
+  if(Meteor.isClient){
+    childrenToRender = children;
+    styles.loadingGuard.display = 'none';
+  }
+  
+
 
   return (
     <div { ...otherProps } >
@@ -119,16 +108,17 @@ function AppLoadingPage(props) {
       <div id='primaryFlexPanel' >
         <CssBaseline />
         <Header { ...otherProps } />
-          <main id="appLoadingPage" style={{width: '100%', height: '100%', textAlign: 'center'}}>
-            <div style={ styles.loadingMessage }>
+          <div id="appLoadingGuard" style={styles.loadingGuard}>
+            <div id="loadingMessage" style={ styles.loadingMessage }>
               <h1 className="helveticas" style={{fontWeight: 200, marginLeft: '-50%'}}>This app is loading.</h1>
               <Icon icon={spinner8} className="spinningIcon" style={styles.spinningIcon} size={80} />
             </div>
-          </main>
+          </div>
+          { childrenToRender }
         <Footer { ...otherProps } />
       </div>
     </div>
   );
 }
 
-export default withStyles(styles, { withTheme: true })(AppLoadingPage);
+export default AppLoadingPage

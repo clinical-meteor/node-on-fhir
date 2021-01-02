@@ -14,6 +14,9 @@ import { get, has, cloneDeep } from 'lodash';
 
 import { makeStyles } from '@material-ui/styles';
 
+import theme from '../Theme';
+import logger from '../Logger';
+
 
 const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -142,15 +145,15 @@ function Footer(props) {
       position: 'fixed',
       bottom: "0px",
       left: "0px",
-      background: props.theme.palette.appBar.main,
-      backgroundColor: props.theme.palette.appBar.main,
-      color: props.theme.palette.appBar.contrastText,
+      background: theme.palette.appBar.main,
+      backgroundColor: theme.palette.appBar.main,
+      color: theme.palette.appBar.contrastText,
       width: '100%',
       zIndex: 1300,
       borderTop: '1px solid lightgray',
-      transition: props.theme.transitions.create(['width', 'left', 'bottom'], {
-        easing: props.theme.transitions.easing.sharp,
-        duration: props.theme.transitions.duration.leavingScreen
+      transition: theme.transitions.create(['width', 'left', 'bottom'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
       }),
       filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
     }
@@ -178,9 +181,9 @@ function Footer(props) {
 
   return (
     <footer id="footerNavContainer" className="footerNavContainer" style={styles.footerContainer}>
-      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" style={{backgroundColor: "inherit", justifyContent: 'left'}} >
+      <div id="footerNavigation" name="footerNavigation" position="static" style={{backgroundColor: "inherit", justifyContent: 'left'}} >
         { westNavbar }
-      </BottomNavigation>
+      </div>
     </footer>
   );
 }
@@ -202,4 +205,5 @@ Footer.defaultProps = {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Footer);
+export default Footer;
+// export default withStyles(styles, { withTheme: true })(Footer);

@@ -82,9 +82,18 @@ function usePageViews() {
 
 
 import { ThemeProvider } from '@material-ui/styles';
-import theme from '../theme';
+import theme from '../Theme';
 
-const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
+let drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
+
+let startingOpacity = 0;
+let startingLeft = '0px';
+
+if(Meteor.isClient){
+  startingOpacity = get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072) ? 1 : 0;
+  startingLeft = get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072) ? '0px' : ('-' + theme.spacing(7) + 1) + 'px';  
+}
+
 
   const useStyles = makeStyles(theme => ({
     primaryFlexPanel: {
@@ -139,6 +148,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
         duration: theme.transitions.duration.enteringScreen,
       }),
       backgroundColor: theme.palette.paper.main,
+      zIndex: 12000,
       opacity: 1,
       left: '0px'
     },
@@ -153,8 +163,9 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
         width: theme.spacing(9) + 1
       },
       backgroundColor: theme.palette.paper.main,
-      opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? 1 : 0,
-      left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? '0px' : ('-' + theme.spacing(7) + 1 + 'px')
+      opacity: startingOpacity,
+      left: startingLeft,
+      zIndex: 1200
     },
     drawerIcons: {
       fontSize: '120%',
@@ -348,7 +359,7 @@ const requreSysadmin = (nextState, replace) => {
 
 
 // ==============================================================================
-// Main App Component
+// Helper Component
 
 import {
   Card,
@@ -414,7 +425,12 @@ export function App(props) {
   // ------------------------------------------------------------------
   // Props  
 
-  const { staticContext, startAdornment,  ...otherProps } = props;
+  const { 
+    children,
+    staticContext, 
+    startAdornment,  
+    ...otherProps 
+  } = props;
 
 
   // ------------------------------------------------------------------
@@ -473,14 +489,20 @@ export function App(props) {
   // ------------------------------------------------------------------
   // Trackers (Auto Update Variables)
 
-  const absoluteUrl = useTracker(function(){
-    logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
-    return Meteor.absoluteUrl();
-  }, []);
+  let absoluteUrl;
+  let selectedPatient;
 
-  const selectedPatient = useTracker(function(){
-    return Session.get('selectedPatient')
-  }, []);
+  if(Meteor.isClient){
+    absoluteUrl = useTracker(function(){
+      logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
+      return Meteor.absoluteUrl();
+    }, []);
+  
+    selectedPatient = useTracker(function(){
+      return Session.get('selectedPatient')
+    }, []);
+  }
+
 
 
   // ------------------------------------------------------------------
@@ -547,12 +569,48 @@ export function App(props) {
     headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:author' property="og:author" content={socialmedia.author} />);
   }
 
-  helmet = <Helmet>
-    { headerTags }
-  </Helmet>
+  if(Meteor.isClient){
+    helmet = <Helmet>
+      { headerTags }
+    </Helmet>
+  }
 
 
-  
+
+  //--------------------------------------------------------------------------------
+  // Styling
+
+  // const classes = useStyles();
+
+  let styles = {
+    spinningIcon: {
+      marginTop: '32px',
+      width: '80px',
+      height: '80px',
+      marginLeft: '-55%'
+    },
+    loadingMessage: {
+      position: 'absolute',
+      left: '50%',
+      top: '40%',
+      marginLeft: '-60px'      
+    },
+    loadingGuard: {
+      width: '100%', 
+      height: '100%',
+      display: 'inline-block'
+    }
+  }
+
+  //--------------------------------------------------------------------------------
+  // Render Component
+
+  let childrenToRender;
+
+  if(Meteor.isClient){
+    childrenToRender = children;
+    styles.loadingGuard.display = 'none';
+  }
 
   // ------------------------------------------------------------------
   // User Interface
@@ -562,6 +620,7 @@ export function App(props) {
   let drawer;
   if(Meteor.isClient){
       drawer = <Drawer
+        suppressHydrationWarning={true}
         id='appDrawer'
         variant="permanent"
         className={clsx(classes.drawer, {
@@ -578,7 +637,7 @@ export function App(props) {
         style={drawerStyle}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose.bind(this)}>
+          <IconButton onClick={handleDrawerClose.bind(this)} style={{paddingTop: '10px', paddingleft: '10px'}}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
@@ -642,10 +701,10 @@ export function App(props) {
         <CssBaseline />
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
         
-        {/* <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } /> */}
+        <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
-        <div id="appDrawerContainer" style={drawerStyle}>
-          { drawer }
+        <div id="appDrawerContainer" style={drawerStyle} suppressHydrationWarning={true}>
+          { drawer } 
         </div>
         <main id='mainAppRouter' className={clsx({
             [classes.canvasOpen]: drawerIsOpen,
@@ -653,7 +712,7 @@ export function App(props) {
           })}>
           { routingSwitchLogic }
         </main>
-        <ScrollDialog {...otherProps} appHeight={appHeight} />
+        <ScrollDialog {...otherProps} appHeight={appHeight} suppressHydrationWarning={true} />
       </div>
     </AppCanvas>
   )
