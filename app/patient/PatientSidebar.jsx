@@ -62,6 +62,7 @@ import {shoppingBasket} from 'react-icons-kit/fa/shoppingBasket'
 import {androidRadioButtonOn} from 'react-icons-kit/ionicons/androidRadioButtonOn'
 import {ic_healing} from 'react-icons-kit/md/ic_healing'
 import {ic_warning} from 'react-icons-kit/md/ic_warning'
+import {ic_format_list_bulleted} from 'react-icons-kit/md/ic_format_list_bulleted'
 
 // import {ic_tune} from 'react-icons-kit/md/ic_tune'
 // import {flask} from 'react-icons-kit/fa/flask' // Substance 
@@ -402,7 +403,10 @@ export function PatientSidebar(props){
           break;    
         case "addressBook":
           result = <Icon icon={addressBook} />
-          break;    
+          break;  
+        case "ic_format_list_bulleted":
+          result = <Icon icon={ic_format_list_bulleted} />
+          break;            
         default:
           result = <Icon icon={fire} className={props.classes.drawerIcons} />
           break;          

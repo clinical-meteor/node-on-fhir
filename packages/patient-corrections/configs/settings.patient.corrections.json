@@ -19,7 +19,7 @@
         "errorColor": "rgb(128,20,60) !important",
         "errorText": "#ffffff !important",
       
-        "appBarColor": "rgb(108, 183, 110) !important",
+        "appBarColor": "repeating-linear-gradient( 135deg, rgba(90,90,98, 0.8), rgba(90,90,98, 0.8) 20px, rgba(90,90,98, 0.85) 20px, rgba(90,90,98, 0.85) 40px ), url(http://s3-us-west-2.amazonaws.com/s.cdpn.io/3/old_map_@2X.png)",
         "appBarTextColor": "#ffffff !important",
       
         "paperColor": "#ffffff !important",
@@ -28,7 +28,7 @@
         "backgroundCanvas": "#eeeeee",
         "nivoTheme": "purple_orange"
       },
-      "grayscaleFilter": "0%"
+      "grayscaleFilter": "20%"
     },
     "home": {
       "showUnderConstruction": false,
@@ -38,9 +38,9 @@
       "showRegistration": true
     },
     "defaults": {
-      "route": "/tasks",
-      "landingPage": "/tasks",
-      "homePage": "/tasks",
+      "route": "/task-creator",
+      "landingPage": "/task-creator",
+      "homePage": "/task-creator",
       "avatars": true,
       "barcodes": true,
       "hexgridMenu": false,
@@ -63,11 +63,11 @@
         "signInWith": false
       },
       "routes": {
-        "homePage": "/tasks",
-        "landingPage": "/tasks",
-        "adminWelcomePage": "/tasks",
-        "adminHomePage": "/tasks",
-        "adminDashboard": "/tasks"
+        "homePage": "/task-creator",
+        "landingPage": "/task-creator",
+        "adminWelcomePage": "/task-creator",
+        "adminHomePage": "/task-creator",
+        "adminDashboard": "/task-creator"
       },
       "header":{
         "menuIcon": ""
@@ -175,11 +175,7 @@
       "default": {
         "status": "active",
         "channel": {
-          "endpoint": "https://syntheticmass.mitre.org/v1/fhir"
-        },
-        "auth": {
-          "username": "iPcaA8Qg4ElaTjOlm1fkoiPdC8AGEpJ6",
-          "password": "AI1yGzOfo06Gg3ku"
+          "endpoint": "http://localhost:3000/baseR4"
         }
       }
     },
@@ -204,6 +200,8 @@
   },
   "private": {
     "disableOauth": true,
+    "recordVersioningEnabled": true,
+    "initializePatients": true,
     "demo": {
       "nightlyDatabaseDrop": true
     },
@@ -216,15 +214,53 @@
       "autopublishSubscriptions": true,
       "fhirPath": "baseR4",
       "rest": {
-        "Task": {
+        "Condition": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "Communication": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "CommunicationRequest": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "DocumentReference": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "Observation": {
           "interactions": ["read", "create", "update", "delete"],
           "search": true
         },
         "Patient": {
           "interactions": ["read", "create", "update", "delete"],
           "search": true
+        },
+        "Provenance": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "Task": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "ValueSet": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
         }
       }
+    }
+  },
+  "galaxy.meteor.com": {
+    "env": {
+      "MONGO_URL": "mongodb+srv://healthadmin:X0R8R1H97vU0HhcM@covid19-qch1n.mongodb.net/covid19?retryWrites=true&w=majority",
+      "MONGO_OPLOG_URL": "mongodb+srv://oplog:nZyUkEwrf54QKDl5@covid19-qch1n.mongodb.net/local?retryWrites=true&w=majority&authSource=admin&ssl=true&replicaSet=Covid19-shard-0",
+      "NODE_ENV": "production",
+      "ROOT_URL": "https://patient-corrections.meteorapp.com",
+      "DEBUG": 1,
+      "TRACE": 0
     }
   }
 }

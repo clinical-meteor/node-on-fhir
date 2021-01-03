@@ -261,26 +261,6 @@ function MainPage(props){
                 { imageItems }
               </Carousel>
             </Card>
-
-          
-            
-
-              {/* <StyledCard margin={20} >
-                <CardHeader title="Getting Started" />
-                <CardContent>
-                  <pre>
-                    - install meteor
-                    - download github repo
-                    - install dependencies
-                    - run app
-                  </pre>
-                </CardContent>  
-              </StyledCard> */}
-
-
-
-
-
               
               <StyledCard margin={20} >
                 <CardHeader title="Features - Everything You Need; Kitchen Sink Included" />
@@ -491,7 +471,6 @@ function MainPage(props){
                 </CardContent>
               </StyledCard>
 
-
             <StyledCard>
               <CardHeader title="Open Source - With Professional Services and Plugins" subheader="Node on FHIR is open source, but it exists within an ecosystem of professional services and supports proprietary plugins." />
                 <CardMedia 
@@ -499,7 +478,6 @@ function MainPage(props){
                   title="Open Source - With Professional Services"
                   image="https://raw.githubusercontent.com/symptomatic/software-development-kit/master/images/ClientEngagementBuildPipeline.png" />                
             </StyledCard>
-
 
             <Button variant="contained" color="primary" className={classes.hero_button} href="https://github.com/symptomatic/node-on-fhir" >
               <Icon icon={github} size={48} /><CardHeader title="Download the Code" />

@@ -20,6 +20,9 @@ import LogoutDialog from '../core/LogoutDialog';
 
 import { get } from 'lodash';
 
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 // ==============================================================================
 // Dynamic Imports 
 
@@ -181,6 +184,9 @@ export default function ScrollDialog(props) {
     </pre>
   }  
 
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down(maxWidth));
+
   return (
     <div>
       {/* <Button onClick={handleClickOpen('paper')}>scroll=paper</Button>
@@ -189,9 +195,10 @@ export default function ScrollDialog(props) {
         open={open}
         onClose={handleClose}
         scroll={scroll}
-        maxWidth={maxWidth}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
+        fullWidth={true}
+        maxWidth={maxWidth}
       >
         <DialogTitle id="scroll-dialog-title">{dialogTitle}</DialogTitle>
         { dialogContentToRender }

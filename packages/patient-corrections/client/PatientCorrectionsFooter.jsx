@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
@@ -90,6 +90,8 @@ import {
 export function TaskButtons(props){
   const buttonClasses = buttonStyles();
 
+  let [onePageLayout, setOnePageLayout] = useState(Session.get('CovidLeaderboard.onePageLayout'));
+
   function initTasks(){
     console.log('Initializing tasks...');
 
@@ -100,6 +102,11 @@ export function TaskButtons(props){
 
     Meteor.call('dropTasks');    
   }
+  function toggleLayout(){
+    console.log('toggleLayout!');
+
+    Session.toggle('TasksPage.onePageLayout')
+  }
   function toggleChecklist(){
     console.log('Switching between Task History and Checklist modes...');
 
@@ -107,15 +114,46 @@ export function TaskButtons(props){
   }
   return (
     <MuiThemeProvider theme={muiTheme} >
-      <Button onClick={ initTasks.bind(this) } className={ buttonClasses.west_button }>
+      <Button className={buttonClasses.west_button} onClick={ toggleLayout.bind(this) } >
+        { LayoutHelpers.getCardLayoutIcon(onePageLayout) }
+      </Button>
+
+      {/* <Button onClick={ initTasks.bind(this) } className={ buttonClasses.west_button }>
         Initialize Tasks
       </Button>      
       <Button onClick={ dropTasks.bind(this) } className={ buttonClasses.west_button }>
         Drop Tasks
-      </Button>
+      </Button> */}
       <Button onClick={ toggleChecklist.bind(this) } className={ buttonClasses.east_button }>
         Toggle Checklist
       </Button>    
+    </MuiThemeProvider>
+  );
+}
+
+
+
+//============================================================================================================================
+// Task Buttons
+
+
+export function DocumentReferencesButtons(props){
+  const buttonClasses = buttonStyles();
+
+  let [onePageLayout, setOnePageLayout] = useState(Session.get('DocumentReferencesPage.onePageLayout'));
+
+
+  function toggleLayout(){
+    console.log('toggleLayout!');
+
+    Session.toggle('DocumentReferencesPage.onePageLayout')
+  }
+
+  return (
+    <MuiThemeProvider theme={muiTheme} >
+      <Button className={buttonClasses.west_button} onClick={ toggleLayout.bind(this) } >
+        { LayoutHelpers.getCardLayoutIcon(onePageLayout) }
+      </Button>
     </MuiThemeProvider>
   );
 }

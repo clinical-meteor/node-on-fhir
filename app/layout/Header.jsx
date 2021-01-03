@@ -135,7 +135,9 @@ function Header(props) {
       background: 'inherit',
       backgroundColor: 'inherit',
       border: '0px none black',
-      paddingTop: '15px'
+      paddingTop: '15px',
+      marginLeft: '10px',
+      marginRight: '10px'
     }
   }
 
