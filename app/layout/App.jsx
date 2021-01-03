@@ -488,7 +488,7 @@ export function App(props) {
 
   function handleDrawerOpen(){
     logger.trace('App.handleDrawerOpen()')
-    setDrawerIsOpen(true);
+    setDrawerIsOpen(!drawerIsOpen);
   };
 
   function handleDrawerClose(){

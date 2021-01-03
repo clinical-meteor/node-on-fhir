@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -22,11 +23,12 @@ import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
+import theme from '../Theme'
+import logger from '../Logger'
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
-// not being used?
-const styles = theme => ({});
+
 
 if(Meteor.isClient){
   Session.setDefault('useDateRangeInQueries', get(Meteor, 'settings.public.defaults.useDateRangeInQueries', false));
@@ -58,7 +60,65 @@ Object.keys(Package).forEach(function(packageName){
   }
 });
 
+// ==============================================================================
+// Theming
 
+const useStyles = makeStyles(theme => ({
+  headerNavContainer: {  
+    height: '64px',
+    position: 'fixed',
+    top: "0px",
+    left: "0px",
+    background: theme.palette.appBar.main,
+    backgroundColor: theme.palette.appBar.main,
+    color: theme.palette.appBar.contrastText,
+    width: '100%',
+    zIndex: 1200,
+    transition: theme.transitions.create(['width', 'left', 'top'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
+  },
+  title: {
+    flexGrow: 1,
+    color: theme.palette.appBar.contrastText,
+    paddingTop: '0px',
+    fontWeight: '200',
+    fontSize: '2.125rem',
+    float: 'left',
+    marginTop: Meteor.isCordova ? '5px !important' : '0px',
+    whiteSpace: 'nowrap'
+  },
+  header_label: {
+    paddingTop: '10px',
+    fontWeight: 'bold',
+    fontSize: '1 rem',
+    float: 'left',
+    paddingRight: '10px',
+    paddingLeft: '40px'
+  },
+  header_text: {
+    paddingTop: '10px',
+    fontSize: '1 rem',
+    float: 'left'
+  },
+  menuButton: {
+    float: 'left',
+    color: theme.palette.appBar.contrastText,
+    background: 'inherit',
+    backgroundColor: 'inherit',
+    border: '0px none black',
+    paddingTop: '10px',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    cursor: 'pointer'
+  }
+}));
+
+
+// ==============================================================================
+// Main Component
 
 function Header(props) {
   
@@ -88,58 +148,7 @@ function Header(props) {
   // Styling
 
 
-  let componentStyles = {
-    headerNavContainer: {  
-      height: '64px',
-      position: 'fixed',
-      top: "0px",
-      left: "0px",
-      background: props.theme.palette.appBar.main,
-      backgroundColor: props.theme.palette.appBar.main,
-      color: props.theme.palette.appBar.contrastText,
-      width: '100%',
-      zIndex: 1200,
-      transition: props.theme.transitions.create(['width', 'left', 'top'], {
-        easing: props.theme.transitions.easing.sharp,
-        duration: props.theme.transitions.duration.leavingScreen
-      }),
-      filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
-    },
-    title: {
-      flexGrow: 1,
-      color: props.theme.palette.appBar.contrastText,
-      paddingTop: '0px',
-      fontWeight: '200',
-      fontSize: '2.125rem',
-      float: 'left',
-      marginTop: Meteor.isCordova ? '5px !important' : '0px',
-      whiteSpace: 'nowrap'
-    },
-    header_label: {
-      paddingTop: '10px',
-      fontWeight: 'bold',
-      fontSize: '1 rem',
-      float: 'left',
-      paddingRight: '10px',
-      paddingLeft: '40px'
-    },
-    header_text: {
-      paddingTop: '10px',
-      fontSize: '1 rem',
-      float: 'left'
-    },
-    menuButton: {
-      float: 'left',
-      color: props.theme.palette.appBar.contrastText,
-      background: 'inherit',
-      backgroundColor: 'inherit',
-      border: '0px none black',
-      paddingTop: '10px',
-      paddingLeft: '10px',
-      paddingRight: '10px',
-      cursor: 'pointer'
-    }
-  }
+  let componentStyles = useStyles();
 
   // console.log('componentStyles', componentStyles)
 
@@ -304,8 +313,8 @@ function Header(props) {
       if(get(Meteor, 'settings.public.defaults.header.patientId')){
         if(Session.get('selectedPatient')){
           demographicItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-            <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Patient ID: </Typography>
-            <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap className="barcode" >
+            <Typography variant="h6" color="inherit" className={ componentStyles.header_label }>Patient ID: </Typography>
+            <Typography variant="h6" color="inherit" className={ componentStyles.header_text } noWrap className="barcode" >
               <span className="barcode helvetica">
                 { parseId() }
               </span>
@@ -317,8 +326,8 @@ function Header(props) {
         if(useDateRangeInQueries){
           if(selectedStartDate && selectedEndDate){
             dateTimeItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-              <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>Date Range: </Typography>
-              <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+              <Typography variant="h6" color="inherit" className={ componentStyles.header_label }>Date Range: </Typography>
+              <Typography variant="h6" color="inherit" className={ componentStyles.header_text } noWrap >
                 { getSearchDateRange() }
               </Typography>
             </div>   
@@ -326,8 +335,8 @@ function Header(props) {
         }
         if(get(Meteor, 'settings.public.defaults.displayUserNameInHeader')){
           userItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
-          <Typography variant="h6" color="inherit" style={ componentStyles.header_label }>User: </Typography>
-          <Typography variant="h6" color="inherit" style={ componentStyles.header_text } noWrap >
+          <Typography variant="h6" color="inherit" className={ componentStyles.header_label }>User: </Typography>
+          <Typography variant="h6" color="inherit" className={ componentStyles.header_text } noWrap >
             { currentUser }
           </Typography>
         </div>             
@@ -339,15 +348,15 @@ function Header(props) {
 
 
   return (
-    <div id="header" className="headerNavContainer" position="fixed" style={componentStyles.headerNavContainer}>
+    <div id="header" className="headerNavContainer" position="fixed" className={componentStyles.headerNavContainer}>
       <div style={{paddingTop: '10px'}}>
           <Icon 
             icon={ic_menu} 
             size={32} 
             onClick={ clickOnMenuButton.bind(this) }
-            style={componentStyles.menuButton}
+            className={componentStyles.menuButton}
           />
-        <h4 onClick={ function(){ goHome(); }} style={  componentStyles.title }>
+        <h4 onClick={ function(){ goHome(); }} className={  componentStyles.title }>
           { parseTitle() }
         </h4>
 
@@ -380,5 +389,5 @@ Header.defaultProps = {
   }
 }
 
-// export default Header;
-export default withStyles(styles, { withTheme: true })(Header);
+export default Header;
+// export default withStyles(styles, { withTheme: true })(Header);
