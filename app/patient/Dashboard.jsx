@@ -1,7 +1,7 @@
 // yes, yes... this is a Class component, instead of a Pure Function
 // TODO:  refactor into a <PatientDataQuery /> pure function with hooks, effect, and context
 
-import { ReactMeteorData } from 'meteor/react-meteor-data';
+import { useTracker } from 'meteor/react-meteor-data';
 import { useLocation, useParams, useHistory } from "react-router-dom";
 
 import React from "react";
@@ -10,7 +10,7 @@ import ChartJS from "chart.js";
 import { FhirClientContext } from "../FhirClientContext";
 import PatientCard from "./PatientCard";
 
-import { StyledCard } from 'material-fhir-ui';
+import { StyledCard } from 'fhir-starter';
 
 import Card from '@material-ui/core/CardContent';
 import CardContent from '@material-ui/core/CardContent';
@@ -235,7 +235,7 @@ export function Dashboard(props){
                     ]
                 },
                 title: {
-                    text: this.data.graphTitle,
+                    text: data.graphTitle,
                     display: true,
                     fontSize: 20
                 }
@@ -261,15 +261,15 @@ export function Dashboard(props){
     </StyledCard>
 
     let locationCard = [];
-    if(this.data.locationsCount > 0){
+    if(data.locationsCount > 0){
         displayNoDataCard = false;
-        if(this.data.selectedPatient){
+        if(data.selectedPatient){
             locationCard.push(<StyledCard scrollable >
-                <CardHeader title={this.data.locationsCount + " Locations"} />
+                <CardHeader title={data.locationsCount + " Locations"} />
                 <CardContent>
                     <LocationsTable
-                        locations={this.data.locations}
-                        count={this.data.locationsCount}
+                        locations={data.locations}
+                        count={data.locationsCount}
                     />
                 </CardContent>                    
             </StyledCard>);
@@ -281,21 +281,21 @@ export function Dashboard(props){
     }
 
     let conditionCard = [];
-    if(this.data.conditionsCount > 0){
+    if(data.conditionsCount > 0){
         displayNoDataCard = false;
-        if(this.data.selectedPatient){
+        if(data.selectedPatient){
             conditionCard.push(<StyledCard scrollable >
-                <CardHeader title={this.data.conditionsCount + " Conditions"} />
+                <CardHeader title={data.conditionsCount + " Conditions"} />
                 <CardContent>
                     <ConditionsTable
-                        conditions={this.data.conditions}
+                        conditions={data.conditions}
                         displayCheckboxes={false}
                         displayActionIcons={false}
                         displayPatientReference={false}
                         displayPatientName={false}
                         displayAsserterName={false}
                         displayEvidence={false}
-                        count={this.data.conditionsCount}
+                        count={data.conditionsCount}
                     />                                        
                 </CardContent>                    
             </StyledCard>);
@@ -307,14 +307,14 @@ export function Dashboard(props){
     }
 
     let procedureCard = [];
-    if(this.data.proceduresCount > 0){
+    if(data.proceduresCount > 0){
         displayNoDataCard = false;
-        if(this.data.selectedPatient){
+        if(data.selectedPatient){
             procedureCard.push(<StyledCard scrollable>
-                <CardHeader title={this.data.proceduresCount + " Procedures"} />
+                <CardHeader title={data.proceduresCount + " Procedures"} />
                 <CardContent>
                     <ProceduresTable 
-                        procedures={this.data.procedures}
+                        procedures={data.procedures}
                         hideCheckboxes={true}
                         hideActionIcons={true}
                         hideIdentifier={true}
@@ -325,7 +325,7 @@ export function Dashboard(props){
                         hideSubjectReference={true}
                         hideBarcode={true}
                         hideNotes={true}
-                        count={this.data.proceduresCount}
+                        count={data.proceduresCount}
                     />                                                                                                           
                 </CardContent>                    
             </StyledCard>);
@@ -338,21 +338,21 @@ export function Dashboard(props){
     }
 
     let encounterCard = [];
-    if(this.data.encountersCount > 0){
+    if(data.encountersCount > 0){
         displayNoDataCard = false;
-        if(this.data.selectedPatient){
+        if(data.selectedPatient){
             encounterCard.push(<StyledCard scrollable >
-                <CardHeader title={this.data.encountersCount + " Encounters"} />
+                <CardHeader title={data.encountersCount + " Encounters"} />
                 <CardContent>
                     <EncountersTable
-                        encounters={this.data.encounters}
+                        encounters={data.encounters}
                         hideCheckboxes={true}
                         hideActionIcons={true}
                         hideSubjects={true}
                         hideType={true}
                         hideHistory={true}
                         hideEndDateTime={true}
-                        count={this.data.encountersCount}
+                        count={data.encountersCount}
                     />
                 </CardContent>                    
             </StyledCard>);
@@ -365,20 +365,20 @@ export function Dashboard(props){
 
 
     let immunizationCard = [];
-    if(this.data.immunizationsCount > 0){
+    if(data.immunizationsCount > 0){
         displayNoDataCard = false;
-        if(this.data.selectedPatient){
+        if(data.selectedPatient){
             immunizationCard.push(<StyledCard scrollable >
-                <CardHeader title={this.data.immunizationsCount + " Immunizations"} />
+                <CardHeader title={data.immunizationsCount + " Immunizations"} />
                 <CardContent>
                     <ImmunizationsTable
-                        immunizations={this.data.immunizations }   
+                        immunizations={data.immunizations }   
                         hideCheckbox={true}
                         hideActionIcons={true}
                         hideIdentifier={true}
                         hidePerformer={true}
                         hidePatient={true}
-                        count={this.data.immunizationsCount}
+                        count={data.immunizationsCount}
                     />                                        
                 </CardContent>                    
             </StyledCard>);
@@ -390,15 +390,15 @@ export function Dashboard(props){
     }
 
     let medicationCard = [];
-    if(this.data.medicationsCount > 0){
+    if(data.medicationsCount > 0){
         displayNoDataCard = false;
-        if(this.data.selectedPatient){
+        if(data.selectedPatient){
             medicationCard.push(<StyledCard scrollable >
-                <CardHeader title={this.data.medicationOrdersCount + " Medication Orders"} />
+                <CardHeader title={data.medicationOrdersCount + " Medication Orders"} />
                 <CardContent>
                     <MedicationOrdersTable
-                        medicationOrders={this.data.medicationOrders}                                
-                        count={this.data.medicationOrdersCount}
+                        medicationOrders={data.medicationOrders}                                
+                        count={data.medicationOrdersCount}
                     />                                        
                 </CardContent>                    
             </StyledCard>)
@@ -410,21 +410,21 @@ export function Dashboard(props){
     }
 
     let medicationRequestCard = [];
-    if(this.data.medicationRequestsCount > 0){
+    if(data.medicationRequestsCount > 0){
         displayNoDataCard = false;
-        if(this.data.selectedPatient){
+        if(data.selectedPatient){
             medicationRequestCard.push(<StyledCard scrollable>
-                <CardHeader title={this.data.medicationRequestsCount + " Medication Requests"} />
+                <CardHeader title={data.medicationRequestsCount + " Medication Requests"} />
                 <CardContent>
                     <MedicationRequestsTable
-                        medicationRequests={this.data.medicationRequests}     
+                        medicationRequests={data.medicationRequests}     
                         hideCheckbox={true}           
                         hideActionIcons={true}               
                         hideIdentifier={true}
                         hidePatient={true}
                         hideDosageInstructions={true}
                         hideBarcode={true}
-                        count={this.data.medicationRequestsCount}
+                        count={data.medicationRequestsCount}
                     />                                        
                 </CardContent>                    
             </StyledCard>)
@@ -438,18 +438,18 @@ export function Dashboard(props){
 
 
     let medicationStatementCard = [];
-    if(this.data.medicationStatementsCount > 0){
+    if(data.medicationStatementsCount > 0){
         displayNoDataCard = false;
-        if(this.data.selectedPatient){
+        if(data.selectedPatient){
             medicationStatementCard.push(<StyledCard scrollable>
-                <CardHeader title={this.data.medicationStatementsCount + " Medication Statements"} />
+                <CardHeader title={data.medicationStatementsCount + " Medication Statements"} />
                 <CardContent>
                     <MedicationStatementsTable
-                        medicationStatements={this.data.medicationStatements}    
+                        medicationStatements={data.medicationStatements}    
                         hideCheckbox={true}            
                         hideActionIcons={true}      
                         hideIdentifier={true}          
-                        count={this.data.medicationStatementsCount}
+                        count={data.medicationStatementsCount}
                     />                                        
                 </CardContent>                    
             </StyledCard>)
@@ -463,15 +463,15 @@ export function Dashboard(props){
 
     let observationCard = [];
     let bloodPressureChart = [];
-    if(this.data.observationsCount > 0){
+    if(data.observationsCount > 0){
         displayNoDataCard = false;
         displayNoChartingCard = false;
-        if(this.data.selectedPatient){
+        if(data.selectedPatient){
             observationCard.push(<StyledCard scrollable >
-                <CardHeader title={this.data.observationsCount + " Observations"} />
+                <CardHeader title={data.observationsCount + " Observations"} />
                 <CardContent>
                     <ObservationsTable 
-                        observations={this.data.observations}
+                        observations={data.observations}
                         hideCheckboxes={true}
                         hideActionIcons={true}
                         hideSubject={true}
@@ -492,7 +492,7 @@ export function Dashboard(props){
                             Session.set('selectedObservationType', get(selectedObservation, 'code.coding[0].display'))
                             Session.set('selectedObservationCode', get(selectedObservation, 'code.coding[0].code'))
                         }}
-                        count={this.data.observationsCount}
+                        count={data.observationsCount}
                     />                                                                                                           
                 </CardContent>                    
             </StyledCard>)
@@ -504,7 +504,7 @@ export function Dashboard(props){
         
 
         bloodPressureChart.push(<StyledCard scrollable>
-            <CardHeader title={this.data.graphTitle} />
+            <CardHeader title={data.graphTitle} />
             <CardContent>
                 <canvas id="myChart" width={chartWidth} height="400" />
             </CardContent>                    
@@ -541,7 +541,7 @@ export function Dashboard(props){
         <Grid container style={{marginTop: '20px'}}>
             <Grid item lg={3} style={{paddingRight: '10px'}}>
                 <PatientCard 
-                    patient={this.data.selectedPatient} 
+                    patient={data.selectedPatient} 
                     displayName={false}
                 />
                 <DynamicSpacer height={40} />

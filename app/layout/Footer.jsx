@@ -1,72 +1,70 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useTracker } from './Tracker';
+import React, { useState } from 'react';
 
-import { Button, BottomNavigation} from '@material-ui/core';
-import Toolbar from '@material-ui/core/Toolbar';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import { ReactMeteorData, useTracker } from 'meteor/react-meteor-data';
+
+import { Button, BottomNavigation} from '@material-ui/core';
+// import Toolbar from '@material-ui/core/Toolbar';
+
 import { Meteor } from 'meteor/meteor';
-import { get } from 'lodash';
+import { Session } from 'meteor/session';
+import { get, has, cloneDeep } from 'lodash';
 
 import { makeStyles } from '@material-ui/styles';
-
+import theme from '../Theme';
+import logger from '../Logger';
 
 const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
-// doesnt seem to be used by main app
-const styles = theme => ({
+
+// ==============================================================================
+// Theming
+
+const useStyles = makeStyles(theme => ({
+  footerContainer: {  
+    height: '64px',
+    position: 'fixed',
+    bottom: "0px",
+    left: "0px",
+    background: theme.palette.appBar.main,
+    backgroundColor: theme.palette.appBar.main,
+    color: theme.palette.appBar.contrastText,
+    width: '100%',
+    zIndex: 1300,
+    borderTop: '1px solid lightgray',
+    transition: theme.transitions.create(['width', 'left', 'bottom'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
+  },
   footer: {
     flexGrow: 1,
     backgroundColor: theme.palette.appBar.main,
     color: theme.palette.appBar.contrastText
   },
-  header: {
-    display: 'flex'
-  },
-  hide: {
-    display: 'none'
-  },
-  input: {
-    display: 'none'
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36,
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar
-  },
-  // footerContainer: {  
-  //   height: '64px',
-  //   position: 'fixed',
-  //   bottom: 0,
-  //   left: 0,
-  //   background: theme.palette.appBar.main,
-  //   backgroundColor: theme.palette.appBar.main,
-  //   color: theme.palette.appBar.contrastText,
-  //   width: '100%',
-  //   zIndex: 1300,
-  //   transition: theme.transitions.create(['width', 'left'], {
-  //     easing: theme.transitions.easing.sharp,
-  //     duration: theme.transitions.duration.leavingScreen
-  //   })
-  // }
-});
+  footerNavigation: {
+    backgroundColor: "inherit", 
+    justifyContent: 'left'
+  }
+}));
 
 
+// ==============================================================================
+// Main Component
 
 function Footer(props) {
+  let styles = useStyles();
+
   if(props.logger){
     // props.logger.debug('Rendering the application Footer.');
     props.logger.verbose('package.care-cards.client.layout.Footer');  
     props.logger.data('Footer.props', {data: props}, {source: "FooterContainer.jsx"});
   }
-  
+
+
   // const pathname = useTracker(function(){
   //   props.logger.info('Pathname was recently updated.  Updating the Footer action buttons.');
   //   return Session.get('pathname');
@@ -133,25 +131,6 @@ function Footer(props) {
   westNavbar = renderWestNavbar(get(props, 'location.pathname'));
   // }
 
-  let styles = {
-    footerContainer: {  
-      height: '64px',
-      position: 'fixed',
-      bottom: "0px",
-      left: "0px",
-      background: props.theme.palette.appBar.main,
-      backgroundColor: props.theme.palette.appBar.main,
-      color: props.theme.palette.appBar.contrastText,
-      width: '100%',
-      zIndex: 1300,
-      borderTop: '1px solid lightgray',
-      transition: props.theme.transitions.create(['width', 'left'], {
-        easing: props.theme.transitions.easing.sharp,
-        duration: props.theme.transitions.duration.leavingScreen
-      }),
-      filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
-    }
-  }
 
   if(Meteor.isClient && props.drawerIsOpen){
     styles.footerContainer.width = (window.innerWidth - drawerWidth) + "px";
@@ -159,28 +138,36 @@ function Footer(props) {
   }
 
   let displayNavbars = true;  
-  displayNavbars = useTracker(function(){  
-    return Session.get("displayNavbars");  
-  }, []);  
+
+  if(Meteor.isClient){
+    displayNavbars = useTracker(function(){  
+      return Session.get("displayNavbars");  
+    }, []);    
+  }
 
   if(!displayNavbars){
     styles.footerContainer.bottom = '-64px'
   }
+  if(get(Meteor, 'settings.public.defaults.disableFooter')){
+    styles.footerContainer.display = 'none'
+  }
 
   return (
-    <footer id="footerNavContainer" style={styles.footerContainer}>
-      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" style={{backgroundColor: "inherit", justifyContent: 'left'}} >
+    <footer id="footerNavContainer" className={styles.footerContainer}>
+      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" className={styles.footerNavigation} >
         { westNavbar }
       </BottomNavigation>
     </footer>
   );
 }
 
+
 Footer.propTypes = {
   logger: PropTypes.object,
   drawerIsOpen: PropTypes.bool
 }
 Footer.defaultProps = {
+  drawerIsOpen: false,
   logger: {
     debug: function(){},
     info: function(){},
@@ -192,4 +179,4 @@ Footer.defaultProps = {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Footer);
+export default Footer;

@@ -1,0 +1,122 @@
+{
+    "resourceType" : "CodeSystem",
+    "id" : "hipaa-business-status-mapping",
+    "url" : "http://hl7.org/fhir/hipaa-business-status-mapping",
+    "version" : "4.0.1",
+    "name" : "HipaaBusinessStatusMappings",
+    "title" : "HIPAA/HTTP Business Status Mappings",
+    "status" : "draft",
+    "experimental" : false,
+    "date" : "2019-11-01T09:29:23+11:00",
+    "publisher" : "TBD",
+    "description" : "HIPAA/GDPR correction workflow (internally based on an extended set of HTTP response codes)",
+    "caseSensitive" : true,
+    "valueSet" : "http://hl7.org/fhir/ValueSet/assert-response-code-types",
+    "content" : "complete",    
+    "concept" : [{
+      "code" : 200,
+      "display" : "Okay",
+      "definition" : "This is what is currently in the medical record."
+    },
+    {
+      "code" : 201,
+      "display" : "Request Created",
+      "definition" : "An entry was created within the medical record."
+    },
+    {
+      "code" : 202,
+      "display" : "Request Accepted",
+      "definition" : "The correction request was accepted but not yet acted upon."
+    },
+    {
+      "code" : 204,
+      "display" : "No Valid Content",
+      "definition" : "The correction request did not contain valid content."
+    },
+    {
+      "code" : 205,
+      "display" : "Reset Content",
+      "definition" : "The server asks the client to check the contents and resend the correction request."
+    },
+    {
+      "code" : 303,
+      "display" : "See Other Resource",
+      "definition" : "The server asks the client to submit the correction request on another URI."
+    },
+    {
+      "code" : 304,
+      "display" : "Not Modified",
+      "definition" : "The correction request did not meet requirements to make the necessary changes."
+    },
+    {
+      "code" : 401,
+      "display" : "Unauthorized Request",
+      "definition" : "The correction request was made for a patient or resource that the requesting account is not authorized to make changes for. (i.e. wrong patient)"
+    },
+    {
+      "code" : 403,
+      "display" : "Forbidden Change",
+      "definition" : "The client does not have access rights to make this correction request.  (i.e. hospital supply management system)"
+    },
+    {
+      "code" : 404,
+      "display" : "Record Not Found",
+      "definition" : "The correction request references errors in the record that cannot be found or replicated."
+    },
+    {
+      "code" : 406,
+      "display" : "Request Not Acceptable",
+      "definition" : "The correction request specifies changes that don't conform to the servers capabilities.  (i.e. wrong code system)"
+    },
+    {
+      "code" : 407,
+      "display" : "Proxy Sign-Off Required",
+      "definition" : "The correction request requires the sign-off from a proxy, such as the nurse or physician who wrote the note."
+    },
+    {
+      "code" : 409,
+      "display" : "Conflicting Requests",
+      "definition" : "The correction request conflicts with the current state of the server (i.e. 2 correction requests for opposite changes)"
+    },
+    {
+      "code" : 412,
+      "display" : "Precondition Failed",
+      "definition" : "The correction request failed a precondition, such as a medication statement or records of receipts."
+    },
+    {
+      "code" : 428,
+      "display" : "Precondition Required",
+      "definition" : "The correction request has a precondition, such as contraindicating lab results or records of receipts."
+    }, 
+    {
+      "code" : 451,
+      "display" : "Unavailable for Legal Reasons",
+      "definition" : "The correction request was not made due to legal reasons (i.e. mental health laws, incarceration laws, etc)"
+    },
+    {
+      "code" : 601,
+      "display" : "Applied As Requested",
+      "definition" : "The correction request was applied as requested."
+    },
+    {
+      "code" : 602,
+      "display" : "Applied With Variations",
+      "definition" : "The correction request was applied as requested with variations."
+    },
+    {
+      "code" : 603,
+      "display" : "Rejected",
+      "definition" : "The correction request was received and rejected."
+    },  
+    {
+      "code" : 604,
+      "display" : "Rejected With Additional Info",
+      "definition" : "The correction request was received and rejected with additional information."
+    },  
+    {
+      "code" : 605,
+      "display" : "Rejected With Rebuttal",
+      "definition" : "The correction request was received and rejected with rebuttal."
+    }
+    ]
+  }

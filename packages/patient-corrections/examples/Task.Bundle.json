@@ -1,0 +1,159 @@
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+        {
+            "resourceType": "Task",
+            "id": "dc8295cc-90aa-4720-8dfe-e7a9d23ce1df",
+            "meta": {
+                "versionId": "12",
+                "lastUpdated": "2020-05-15T13:23:23.539+00:00"
+            },
+            "status": "completed",
+            "intent": "order",
+            "priority": "stat",
+            "for": {
+                "reference": "Patient/a77e2a4d-b92f-415c-bed2-cf7f3531540c",
+                "display": "Jack Torphy"
+            },
+            "authoredOn": "2020-04-11T22:25:05+00:00",
+            "lastModified": "2020-04-11T22:25:05+00:00",
+            "requester": {
+                "reference": "Organization/dbff2b03-3eaa-46c3-b993-4db825b17f6b",
+                "display": "Onyx Medical Center"
+            },
+            "owner": {
+                "identifier": {
+                    "system": "http://nationalinsurers.com/identifiers",
+                    "value": "12345"
+                }
+            },
+            "input": [
+                {
+                    "type": {
+                        "text": "Questionnaire Order"
+                    },
+                    "valueReference": {
+                        "reference": "Questionnaire/9a287af1-14c6-45ba-a4f0-f41bfd25d313",
+                        "type": "Questionnaire"
+                    }
+                }
+            ]
+        },
+        {
+            "resourceType": "Task",
+            "id": "785a169e-ab52-4797-bfaa-f55851516637",
+            "meta": {
+                "versionId": "2",
+                "lastUpdated": "2020-05-14T16:14:31.159+00:00"
+            },
+            "status": "completed",
+            "intent": "order",
+            "priority": "stat",
+            "for": {
+                "reference": "Patient/a77e2a4d-b92f-415c-bed2-cf7f3531540c",
+                "display": "Jack Torphy"
+            },
+            "authoredOn": "2020-04-11T22:25:05+00:00",
+            "lastModified": "2020-04-11T22:25:05+00:00",
+            "requester": {
+                "reference": "Organization/dbff2b03-3eaa-46c3-b993-4db825b17f6b",
+                "display": "Onyx Medical Center"
+            },
+            "owner": {
+                "identifier": {
+                    "system": "http://nationalinsurers.com/identifiers",
+                    "value": "12345"
+                }
+            },
+            "input": [
+                {
+                    "type": {
+                        "text": "Questionnaire Order"
+                    },
+                    "valueReference": {
+                        "reference": "Questionnaire/d2ff1d83-f772-448c-b5df-04b66b5ef0f2",
+                        "type": "Questionnaire"
+                    }
+                }
+            ]
+        },
+        {
+            "resourceType": "Task",
+            "id": "dc8295cc-90aa-4720-8dfe-e7a9d23ce1df",
+            "meta": {
+                "versionId": "12",
+                "lastUpdated": "2020-05-15T13:23:23.539+00:00"
+            },
+            "status": "completed",
+            "intent": "order",
+            "priority": "stat",
+            "for": {
+                "reference": "Patient/a77e2a4d-b92f-415c-bed2-cf7f3531540c",
+                "display": "Jack Torphy"
+            },
+            "authoredOn": "2020-04-11T22:25:05+00:00",
+            "lastModified": "2020-04-11T22:25:05+00:00",
+            "requester": {
+                "reference": "Organization/dbff2b03-3eaa-46c3-b993-4db825b17f6b",
+                "display": "Onyx Medical Center"
+            },
+            "owner": {
+                "identifier": {
+                    "system": "http://nationalinsurers.com/identifiers",
+                    "value": "12345"
+                }
+            },
+            "input": [
+                {
+                    "type": {
+                        "text": "Questionnaire Order"
+                    },
+                    "valueReference": {
+                        "reference": "Questionnaire/9a287af1-14c6-45ba-a4f0-f41bfd25d313",
+                        "type": "Questionnaire"
+                    }
+                }
+            ]
+        },
+        {
+            "resourceType": "Task",
+            "id": "785a169e-ab52-4797-bfaa-f55851516637",
+            "meta": {
+                "versionId": "2",
+                "lastUpdated": "2020-05-14T16:14:31.159+00:00"
+            },
+            "status": "completed",
+            "intent": "order",
+            "priority": "stat",
+            "for": {
+                "reference": "Patient/a77e2a4d-b92f-415c-bed2-cf7f3531540c",
+                "display": "Jack Torphy"
+            },
+            "authoredOn": "2020-04-11T22:25:05+00:00",
+            "lastModified": "2020-04-11T22:25:05+00:00",
+            "requester": {
+                "reference": "Organization/dbff2b03-3eaa-46c3-b993-4db825b17f6b",
+                "display": "Onyx Medical Center"
+            },
+            "owner": {
+                "identifier": {
+                    "system": "http://nationalinsurers.com/identifiers",
+                    "value": "12345"
+                }
+            },
+            "input": [
+                {
+                    "type": {
+                        "text": "Questionnaire Order"
+                    },
+                    "valueReference": {
+                        "reference": "Questionnaire/d2ff1d83-f772-448c-b5df-04b66b5ef0f2",
+                        "type": "Questionnaire"
+                    }
+                }
+            ]
+        }
+    ],
+    "total": 4
+}

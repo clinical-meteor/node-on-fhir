@@ -5,8 +5,7 @@ import { accountsClient } from './Accounts';
 import { Session } from 'meteor/session';
 import { get, has, cloneDeep } from 'lodash';
 
-import { useTracker, withTracker } from '../layout/Tracker';
-import { Tracker } from 'meteor/tracker'
+import { useTracker } from 'meteor/react-meteor-data';
 
 const currentUserDep = new Tracker.Dependency();
 

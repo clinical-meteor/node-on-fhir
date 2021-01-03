@@ -1,0 +1,80 @@
+{
+    "resourceType": "CapabilityStatement",
+    "url": "https://gravity.meteorapp.com/baseR4",
+    "name": "Patient Corrections",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "Symptomatic, LLC",
+    "kind": "capability",
+    "date": "2020-12-15T23:16:35.032Z",
+    "software": {
+        "version": "6.1.0",
+        "name": "Vault Server",
+        "releaseDate": "2020-12-15T23:16:35.032Z"
+    },
+    "format": [
+        "json"
+    ],
+    "rest": [
+        {
+            "mode": "server",
+            "security": {
+                "service": [],
+                "extension": []
+            },
+            "resource": [
+                {
+                    "type": "Patient",
+                    "interaction": [
+                        {
+                            "code": "read"
+                        },
+                        {
+                            "code": "create"
+                        },
+                        {
+                            "code": "update"
+                        },
+                        {
+                            "code": "delete"
+                        }
+                    ]
+                },
+                {
+                    "type": "Task",
+                    "interaction": [
+                        {
+                            "code": "read"
+                        },
+                        {
+                            "code": "create"
+                        },
+                        {
+                            "code": "update"
+                        },
+                        {
+                            "code": "delete"
+                        }
+                    ]
+                },
+                {
+                    "type": "ValueSet",
+                    "interaction": [
+                        {
+                            "code": "read"
+                        },
+                        {
+                            "code": "create"
+                        },
+                        {
+                            "code": "update"
+                        },
+                        {
+                            "code": "delete"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

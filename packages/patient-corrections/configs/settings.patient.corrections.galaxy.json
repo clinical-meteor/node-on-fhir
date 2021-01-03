@@ -1,11 +1,7 @@
 {
   "public": {
-    "title": "Synthea Surfer",
-    "synthea": {
-      "autoInitialize": true,
-      "numPatientsToInitialize": 20,
-      "showScanDirectoryButton": true
-    },
+    "title": "Patient Corrections",
+    "initializeSyntheaData": true,
     "theme": {
       "showVideoBackground": false,
       "defaultVideo": "/VideoBackgrounds/GrayWaves.mp4",
@@ -23,7 +19,7 @@
         "errorColor": "rgb(128,20,60) !important",
         "errorText": "#ffffff !important",
       
-        "appBarColor": "rgb(108, 183, 110) !important",
+        "appBarColor": "repeating-linear-gradient( 135deg, rgba(90,90,98, 0.8), rgba(90,90,98, 0.8) 20px, rgba(90,90,98, 0.85) 20px, rgba(90,90,98, 0.85) 40px ), url(http://s3-us-west-2.amazonaws.com/s.cdpn.io/3/old_map_@2X.png)",
         "appBarTextColor": "#ffffff !important",
       
         "paperColor": "#ffffff !important",
@@ -32,7 +28,7 @@
         "backgroundCanvas": "#eeeeee",
         "nivoTheme": "purple_orange"
       },
-      "grayscaleFilter": "0%"
+      "grayscaleFilter": "20%"
     },
     "home": {
       "showUnderConstruction": false,
@@ -42,16 +38,9 @@
       "showRegistration": true
     },
     "defaults": {
-      "route": "/healthgraph",
-      "landingPage": "/healthgraph",
-      "homePage": "/healthgraph",
-      "landingModal": {
-        "open": true,
-        "title": "Welcome to Synthea Surfer",
-        "component": "SyntheaAboutDialog",
-        "welcomeMessageText": "Please select the output directory where Synthea put the synthetic data.",
-        "sourceCodeUrl": "/Volumes/FhirCode/Code/GoInvo/synthea/output"
-      },
+      "route": "/task-creator",
+      "landingPage": "/task-creator",
+      "homePage": "/task-creator",
       "avatars": true,
       "barcodes": true,
       "hexgridMenu": false,
@@ -74,11 +63,11 @@
         "signInWith": false
       },
       "routes": {
-        "homePage": "/healthgraph",
-        "landingPage": "/healthgraph",
-        "adminWelcomePage": "/healthgraph",
-        "adminHomePage": "/healthgraph",
-        "adminDashboard": "/healthgraph"
+        "homePage": "/task-creator",
+        "landingPage": "/task-creator",
+        "adminWelcomePage": "/task-creator",
+        "adminHomePage": "/task-creator",
+        "adminDashboard": "/task-creator"
       },
       "header":{
         "menuIcon": ""
@@ -92,8 +81,8 @@
           "Theme": false,
           "ConstructionZone": false,
           "Navbars": true,
-          "DataImport": false,
-          "DataExport": false,
+          "DataImport": true,
+          "DataExport": true,
           "HealthRecords": false,
           "Login": {
             "availability": "web"
@@ -106,19 +95,21 @@
           "/audit-events",
           "/biometrics-dashboard",
           "/body-mass-index",
-          "/communications",
-          "/communication-requests",
           "/communication-responses",
           "/bundles",
           "/careplan",
           "/care-plans",
+          "/careplans",
           "/consents",
           "/contracts",
           "/claims",
+          "/devices",
+          "/diagnostic-reports",
           "/endpoints",
+          "/encounters",
+          "/explanation-of-benefits",
           "/example-route",
           "/experimental-analysis",
-          "/explanation-of-benefits",
           "/goals",
           "/hello-world",
           "/imaging-studies",
@@ -128,6 +119,7 @@
           "/locations",
           "/lists",
           "/measures",
+          "/medications",
           "/measure-reports",
           "/medication-orders",
           "/medication-statements",
@@ -135,14 +127,13 @@
           "/organizations",
           "/persons",
           "/practitioners",
+          "/procedures",
           "/risk-assessments",
           "/questionnaires",
           "/questionnaire-responses",
           "/subscriptions",
-          "/tasks",
           "/workqueue",
-          "/vitals-tracking",
-          "/valuesets"
+          "/vitals-tracking"
         ]
       },
       "hiddenWorkflow": [
@@ -150,8 +141,7 @@
         "/bulk-data-downloader",
         "/bulk-data-launcher",
         "/data-pipelines",
-        "/data-management",
-        "/experimental-analysis"
+        "/data-management"
       ],
       "adminHidden":  [
         "/allergies",
@@ -185,11 +175,7 @@
       "default": {
         "status": "active",
         "channel": {
-          "endpoint": "https://syntheticmass.mitre.org/v1/fhir"
-        },
-        "auth": {
-          "username": "iPcaA8Qg4ElaTjOlm1fkoiPdC8AGEpJ6",
-          "password": "AI1yGzOfo06Gg3ku"
+          "endpoint": "https://patient-corrections.symptomatic.io/baseR4"
         }
       }
     },
@@ -209,39 +195,72 @@
         "ContinuityOfCare": true,
         "Videoconferencing": true,
         "ZygoteAvatar": true        
-      },
-      "fhir": {
-        "AllergyIntolerances": true,
-        "AuditEvents": true,
-        "BodySites": true,
-        "CarePlans": true,
-        "Conditions": true,
-        "Devices": true,
-        "DiagnosticReports": true,
-        "Goals": true,
-        "ImagingStudies": true,
-        "Immunizations": true,
-        "Locations": true,
-        "Lists": true,
-        "Medications": true,
-        "MedicationOrders": true,
-        "MedicationStatements": true,
-        "Organizations": true,
-        "Observations": true,
-        "Patients": true,
-        "Practitioners": true,
-        "Procedures": true,
-        "Questionnaires": true,
-        "RiskAssessments": true
-      }
+      }      
     }
   },
   "private": {
-    "practitionerAccessCode": "hippocrates",
-    "sysadminAccessCode": "rootaccess",
     "disableOauth": true,
+    "recordVersioningEnabled": true,
+    "initializePatients": true,
     "demo": {
       "nightlyDatabaseDrop": true
+    },
+    "fhir": {
+      "disableOauth": true,
+      "schemaValidation": {
+        "filter": false,
+        "validate": false
+      },
+      "autopublishSubscriptions": true,
+      "fhirPath": "baseR4",
+      "rest": {
+        "Condition": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "Communication": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "CommunicationRequest": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "DocumentReference": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "Observation": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "Patient": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "Provenance": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "Task": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "ValueSet": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        }
+      }
+    }
+  },
+  "galaxy.meteor.com": {
+    "env": {
+      "MONGO_URL": "mongodb+srv://healthadmin:X0R8R1H97vU0HhcM@covid19-qch1n.mongodb.net/covid19?retryWrites=true&w=majority",
+      "MONGO_OPLOG_URL": "mongodb+srv://oplog:nZyUkEwrf54QKDl5@covid19-qch1n.mongodb.net/local?retryWrites=true&w=majority&authSource=admin&ssl=true&replicaSet=Covid19-shard-0",
+      "NODE_ENV": "production",
+      "ROOT_URL": "https://patient-corrections.meteorapp.com",
+      "DEBUG": 1,
+      "TRACE": 0
     }
   }
 }

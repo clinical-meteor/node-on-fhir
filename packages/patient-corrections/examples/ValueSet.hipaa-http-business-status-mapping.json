@@ -1,0 +1,126 @@
+{
+  "resourceType": "ValueSet",
+  "id": "hipaa-http-business-status-mapping",
+  "url": "http://hl7.org/fhir/us/core/ValueSet/hipaa-http-business-status-mapping",
+  "version": "3.1.0",
+  "name": "HipaaHttpBusinessStatusMappings",
+  "title": "HIPAA Business Statuses",
+  "status": "active",
+  "date": "2019-05-21T00:00:00+10:00",
+  "publisher": "Symptomatic, LLC",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "other",
+          "value": "http://chat.fhir.org"
+        }
+      ]
+    }
+  ],
+  "description": "The codes are ",
+  "jurisdiction": [
+    {
+      "coding": [
+        {
+          "system": "urn:iso:std:iso:3166",
+          "code": "US",
+          "display": "United States of America"
+        }
+      ]
+    }
+  ],
+  "compose": {
+    "include": [
+      {
+        "system": "urn:oid:2.16.840.1.113883.6.238",
+        "concept": [
+          {
+            "code": "200",
+            "display": "Okay"
+          },
+          {
+            "code" : "201",
+            "display" : "Request Created"
+          },
+          {
+            "code" : "202",
+            "display" : "Request Accepted"
+          },
+          {
+            "code" : "204",
+            "display" : "No Valid Content"
+          },
+          {
+            "code" : "205",
+            "display" : "Reset Content"
+          },
+          {
+            "code" : "303",
+            "display" : "See Other Resource"
+          },
+          {
+            "code" : "304",
+            "display" : "Not Modified"
+          },
+          {
+            "code" : "401",
+            "display" : "Unauthorized Request"
+          },
+          {
+            "code" : "403",
+            "display" : "Forbidden Change"
+          },
+          {
+            "code" : "404",
+            "display" : "Record Not Found"
+          },
+          {
+            "code" : "406",
+            "display" : "Request Not Acceptable"
+          },
+          {
+            "code" : "407",
+            "display" : "Proxy Sign-Off Required"
+          },
+          {
+            "code" : "409",
+            "display" : "Conflicting Requests"
+          },
+          {
+            "code" : "412",
+            "display" : "Precondition Failed"
+          },
+          {
+            "code" : "428",
+            "display" : "Precondition Required"
+          }, 
+          {
+            "code" : "451",
+            "display" : "Unavailable for Legal Reasons"
+          },
+          {
+            "code" : "601",
+            "display" : "Applied As Requested"
+          },
+          {
+            "code" : "602",
+            "display" : "Applied With Variations"
+          },
+          {
+            "code" : "603",
+            "display" : "Rejected"
+          },  
+          {
+            "code" : "604",
+            "display" : "Rejected With Additional Info"
+          },  
+          {
+            "code" : "605",
+            "display" : "Rejected With Rebuttal"
+          }
+        ]
+      }
+    ]
+  }
+}

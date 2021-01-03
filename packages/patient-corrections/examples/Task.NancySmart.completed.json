@@ -1,0 +1,37 @@
+{
+    "resourceType": "Task",
+    "meta": {
+        "lastUpdated": "2020-12-15T21:27:19.502Z"
+    },
+    "status": "completed",
+    "intent": "order",
+    "priority": "stat",
+    "for": {
+        "reference": "Patient/12724066",
+        "display": "SMART, NANCY"
+    },
+    "authoredOn": "2020-04-11T22:25:05.000Z",
+    "lastModified": "2020-04-11T22:25:05.000Z",
+    "requester": {
+        "reference": "Organization/dbff2b03-3eaa-46c3-b993-4db825b17f6b",
+        "display": "Onyx Medical Center"
+    },
+    "owner": {
+        "identifier": {
+            "system": "http://nationalinsurers.com/identifiers",
+            "value": "12345"
+        }
+    },
+    "input": [
+        {
+            "type": {
+                "text": "Questionnaire Order"
+            },
+            "valueReference": {
+                "reference": "Questionnaire/9a287af1-14c6-45ba-a4f0-f41bfd25d313",
+                "type": "Questionnaire"
+            }
+        }
+    ],
+    "id": "ivvyTE27wBBMR4LQY"
+}
