@@ -19,8 +19,6 @@ import { oauth2 as SMART } from "fhirclient";
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
-const styles = theme => ({
-});
 
 
 function AppLoadingPage(props) {
@@ -131,4 +129,4 @@ function AppLoadingPage(props) {
   );
 }
 
-export default withStyles(styles, { withTheme: true })(AppLoadingPage);
+export default AppLoadingPage
