@@ -10,7 +10,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 import Footer from '../layout/Footer.jsx';
 import Header from '../layout/Header.jsx';
-import theme from '../theme.js';
+import theme from '../Theme.js';
 
 import { Icon } from 'react-icons-kit'
 import { spinner8 } from 'react-icons-kit/icomoon/spinner8'
@@ -19,8 +19,6 @@ import { oauth2 as SMART } from "fhirclient";
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
-const styles = theme => ({
-});
 
 
 function AppLoadingPage(props) {
@@ -65,13 +63,8 @@ function AppLoadingPage(props) {
   // Social Media Registration
 
   let helmet;
-  let initialScale = "0.7"
+  let initialScale = (get(Meteor, 'settings.public.defaults.initialScale', "0.7")).toString();
   let viewportString = "initial-scale=" + initialScale + ", minimal-ui, minimum-scale=" + initialScale +  ", maximum-scale=" + initialScale + ", width=device-width, height=device-height, user-scalable=no";
-
-  //// other params
-  // target-densitydpi=device-dpi, width=device-width, , 
-
-  // console.log('Helmet.meta.viewportString', viewportString)
 
   if(get(Meteor, 'settings.public.socialmedia')){
     let socialmedia = get(Meteor, 'settings.public.socialmedia');
@@ -88,6 +81,8 @@ function AppLoadingPage(props) {
       <meta property="og:site_name" content={socialmedia.site_name} />   
 
       <meta name="theme-color" content={get(Meteor, 'settings.public.theme.palette.appBarColor', "#669f64 !important")} />   
+
+      { viewportString }
     </Helmet>
   }
 
@@ -108,7 +103,8 @@ function AppLoadingPage(props) {
     loadingMessage: {
       position: 'absolute',
       left: '50%',
-      top: '40%'
+      top: '40%',
+      marginLeft: '-60px'
     }
   }
 
@@ -133,4 +129,4 @@ function AppLoadingPage(props) {
   );
 }
 
-export default withStyles(styles, { withTheme: true })(AppLoadingPage);
+export default AppLoadingPage

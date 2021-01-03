@@ -19,7 +19,7 @@ import {
 } from '@material-ui/core';
 import { get, has } from 'lodash';
 
-import { StyledCard } from 'material-fhir-ui';
+import { StyledCard } from 'fhir-starter';
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
