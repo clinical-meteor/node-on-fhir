@@ -36,3 +36,11 @@ body {
   margin-bottom: constant(safe-area-inset-bottom, 0px); /* iOS 11.0 */
   margin-bottom: env(safe-area-inset-bottom, 0px); /* iOS 11.2 */
 }
+
+.dangerouslySetInnerHTML div{
+  width: 100%;
+}
+.dangerouslySetInnerHTML div table{
+  width: 100% !important;
+  position: 'relative';
+}

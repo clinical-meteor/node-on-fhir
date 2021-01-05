@@ -1,5 +1,6 @@
 // base layout
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -22,6 +23,8 @@ import { get } from 'lodash';
 
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import logger from '../Logger';
 
 // ==============================================================================
 // Dynamic Imports 
@@ -73,26 +76,74 @@ if(Meteor.isClient){
   Session.setDefault('mainAppDialogmaxWidth', get(Meteor, 'settings.public.defaults.landingModal.maxWidth', "xl"));
 }
 
-export default function ScrollDialog(props) {
-  let [open, setOpen] = React.useState(false);
-  let [scroll, setScroll] = React.useState('paper');
+export function ScrollDialog(props) {
+
+  //-----------------------------------
+  // Properties
 
   let {
     children, 
     logger, 
     appHeight,
+    showDialogActions,
     maxWidth,
     ...otherProps
   } = props;
 
-  maxWidth = useTracker(function(){
-    return Session.get('mainAppDialogmaxWidth')
-  }, []);
+
+  //-----------------------------------
+  // Data State  
+
+  let [mainAppDialogOpen, setMainAppDialogOpen] = React.useState(false);
+  let [open, setOpen] = React.useState(false);
+  let [scroll, setScroll] = React.useState('paper');
+
+  let [dialogTitle, setDialogTitle] = React.useState("");
+  let [dialogComponent, setDialogComponent] = React.useState(null);
+  let [jsonContent, setJsonContent] = React.useState("");
+  let [errorMessage, setRrrorMessage] = React.useState("");
+
+  
+  //-----------------------------------
+  // Component Lifecycle
+
+  const descriptionElementRef = React.useRef(null);
+  React.useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
 
 
-  let mainAppDialogOpen = useTracker(function(){
-    return Session.get('mainAppDialogOpen')
-  }, []);
+  //-----------------------------------
+  // Reactive Data 
+
+  if(Meteor.isClient){
+    maxWidth = useTracker(function(){
+      return Session.get('mainAppDialogmaxWidth')
+    }, []);  
+    mainAppDialogOpen = useTracker(function(){
+      return Session.get('mainAppDialogOpen')
+    }, []);
+    dialogTitle = useTracker(function(){
+      return Session.get('mainAppDialogTitle')
+    }, []);
+  
+    dialogComponent = useTracker(function(){
+      return Session.get('mainAppDialogComponent')
+    }, [props.lastUpdated]);
+  
+    jsonContent = useTracker(function(){
+      return Session.get('mainAppDialogJson');
+    }, [props.lastUpdated]);
+  
+    errorMessage = useTracker(function(){
+      return Session.get('mainAppDialogErrorMessage')
+    }, []);
+  }
 
   if(mainAppDialogOpen){
     open = mainAppDialogOpen
@@ -100,34 +151,8 @@ export default function ScrollDialog(props) {
     open = false;
   }
 
-  let dialogTitle = "";
-  dialogTitle = useTracker(function(){
-    return Session.get('mainAppDialogTitle')
-  }, []);
-
-  let dialogComponent;
-  dialogComponent = useTracker(function(){
-    return Session.get('mainAppDialogComponent')
-  }, [props.lastUpdated]);
-
-  let jsonContent = "";
-  jsonContent = useTracker(function(){
-    return Session.get('mainAppDialogJson');
-    // let result = "";
-    // let mainAppDialogJson = Session.get('mainAppDialogJson');
-    // if(typeof mainAppDialogJson === "string"){
-    //   result = mainAppDialogJson
-    // } else if(typeof mainAppDialogJson === "object") {
-    //   result = JSON.stringify(mainAppDialogJson, null, 2);
-    // }
-
-    // return result;
-  }, [props.lastUpdated]);
-
-  let errorMessage = "";
-  errorMessage = useTracker(function(){
-    return Session.get('mainAppDialogErrorMessage')
-  }, []);
+  //-----------------------------------
+  // Helper Functions 
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -142,16 +167,9 @@ export default function ScrollDialog(props) {
     //Session.set('mainAppDialogJsonComponent', null);
   };
 
-  const descriptionElementRef = React.useRef(null);
-  React.useEffect(() => {
-    if (open) {
-      const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
-        descriptionElement.focus();
-      }
-    }
-  }, [open]);
 
+  //-----------------------------------
+  // Render Functions 
 
   let dialogContentToRender;
   if(dialogComponent){
@@ -184,6 +202,18 @@ export default function ScrollDialog(props) {
     </pre>
   }  
 
+  let dialogActions;
+  if(showDialogActions){
+    dialogActions = <DialogActions>
+    <Button onClick={handleClose} color="primary">
+      Close
+    </Button>
+  </DialogActions>
+  }
+
+  //-----------------------------------
+  // Main Render
+
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down(maxWidth));
 
@@ -202,12 +232,17 @@ export default function ScrollDialog(props) {
       >
         <DialogTitle id="scroll-dialog-title">{dialogTitle}</DialogTitle>
         { dialogContentToRender }
-        {/* <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Close
-          </Button>
-        </DialogActions> */}
+        { dialogActions }
       </Dialog>
     </div>
   );
 }
+
+ScrollDialog.propTypes = {
+  showDialogActions: PropTypes.bool
+};
+ScrollDialog.defaultProps = {
+  showDialogActions: false
+};
+
+export default ScrollDialog;

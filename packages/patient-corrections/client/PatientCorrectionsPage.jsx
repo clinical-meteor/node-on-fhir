@@ -3,7 +3,6 @@ import {
   CardContent,
   Grid,
   FormControl,
-  InputLabel,
   Input,
   InputAdornment,
   Button
@@ -19,7 +18,7 @@ import { HTTP } from 'meteor/http';
 import React, { useState }  from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 
-import { StyledCard, PageCanvas } from 'material-fhir-ui';
+import { StyledCard, PageCanvas } from 'fhir-starter';
 
 import TaskDetail from './TaskDetail';
 
@@ -32,7 +31,7 @@ import { LayoutHelpers, Tasks, TasksTable } from 'meteor/clinical:hl7-fhir-data-
 import TasksDeduplicated from '../lib/Collections';
 
 import { Icon } from 'react-icons-kit';
-import {ic_code} from 'react-icons-kit/md/ic_code'
+import {ic_code} from 'react-icons-kit/md/ic_code';
 
 
 
@@ -53,7 +52,7 @@ import {ic_code} from 'react-icons-kit/md/ic_code'
   Session.setDefault('selectedTask', false);
   Session.setDefault('fhirVersion', 'v1.0.2');
   Session.setDefault('tasksArray', []);
-  Session.setDefault('TasksPage.onePageLayout', false)
+  Session.setDefault('PatientCorrectionsPage.onePageLayout', false)
 
 
   //===========================================================================
@@ -199,7 +198,7 @@ import {ic_code} from 'react-icons-kit/md/ic_code'
 Session.setDefault('taskChecklistMode', false)
 Session.setDefault('displayTaskJson', false)
 
-export function TasksPage(props){
+export function PatientCorrectionsPage(props){
   let classes = useStyles();
 
   let [fhirServerUrl, setFhirServerUrl] = useState(get(Meteor, "settings.public.interfaces.default.channel.endpoint"));
@@ -222,7 +221,7 @@ export function TasksPage(props){
 
 
   data.onePageLayout = useTracker(function(){
-    return Session.get('TasksPage.onePageLayout');
+    return Session.get('PatientCorrectionsPage.onePageLayout');
   }, [])
   data.selectedTaskId = useTracker(function(){
     return Session.get('selectedTaskId');
@@ -334,7 +333,7 @@ export function TasksPage(props){
     Session.set('taskPageTabIndex', 1);
   }
   function handleRowClick(taskId, foo, bar){
-    console.log('TasksPage.handleRowClick', taskId)
+    console.log('PatientCorrectionsPage.handleRowClick', taskId)
     let task = TasksDeduplicated.findOne({id: taskId});
 
     Session.set('selectedTaskId', get(task, 'id'));
@@ -409,6 +408,20 @@ export function TasksPage(props){
     taskDetails = <pre>
       { JSON.stringify(data.selectedTask, null, 2) }
     </pre>
+    // taskDetails = <TextField
+    //   id="descriptionInput"
+    //   name="descriptionInput"
+    //   label="Description"
+    //   value={ JSON.stringify(data.selectedTask, null, 2) }
+    //   fullWidth           
+    //   multiline
+    //   rows={4}
+    //   rowsMax={10}
+    //   variant="outlined"
+    //   InputLabelProps={{
+    //     shrink: true,
+    //   }}
+    // />
   } else {
     taskDetails = <TaskDetail 
       id='taskDetails' 
@@ -451,7 +464,7 @@ export function TasksPage(props){
 
       <Grid item lg={4}>
         {/* <CardHeader title="1. Select server"  /> */}
-        <StyledCard scrollabl margin={20} >
+        <StyledCard scrollable margin={20} >
           <CardContent>
             <FormControl style={{width: '100%', marginTop: '20px'}}>
               <InputAdornment className={classes.label}>FHIR Task Server URL</InputAdornment>
@@ -525,7 +538,7 @@ export function TasksPage(props){
     
   }
 
-  console.log('TasksPage.data', data)
+  console.log('PatientCorrectionsPage.data', data)
 
   return (
     <PageCanvas id="tasksPage" headerHeight={headerHeight}>
@@ -537,4 +550,4 @@ export function TasksPage(props){
 }
 
 
-export default TasksPage;
+export default PatientCorrectionsPage;

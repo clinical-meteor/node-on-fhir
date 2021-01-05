@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
+import clsx from 'clsx';
 
 import PropTypes from 'prop-types';
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 
+import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 
 import { Icon } from 'react-icons-kit';
 import {ic_menu} from 'react-icons-kit/md/ic_menu';
+import MenuIcon from '@material-ui/icons/Menu';
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
@@ -18,103 +20,140 @@ import { Session } from 'meteor/session';
 import { get } from 'lodash';
 import moment from 'moment';
 
-import { ReactMeteorData, useTracker } from 'meteor/react-meteor-data';
+import { useTracker } from 'meteor/react-meteor-data';
 import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
-import theme from '../Theme'
-import logger from '../Logger'
+import theme from '../Theme';
+import logger from '../Logger';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
-
-
 
 if(Meteor.isClient){
   Session.setDefault('useDateRangeInQueries', get(Meteor, 'settings.public.defaults.useDateRangeInQueries', false));
   Session.setDefault('workflowTabs', "default");
 }
 
-// ==============================================================================
-// Dynamic Imports 
 
-let headerWorkflows = [];
-
-// default dialog component
-headerWorkflows.push({
-  name: "PatientChartWorkflowTabs",
-  component: <PatientChartWorkflowTabs />,
-  matchingPaths: [
-    "/patient-chart",
-    "/patient-quickchart"
-  ]
-})
-
-// dynamic dialog components
-Object.keys(Package).forEach(function(packageName){
-  if(Package[packageName].WorkflowTabs){
-    // we try to build up a route from what's specified in the package
-    Package[packageName].WorkflowTabs.forEach(function(componentReference){
-      headerWorkflows.push(componentReference);      
-    });    
-  }
-});
 
 // ==============================================================================
 // Theming
 
-const useStyles = makeStyles(theme => ({
-  headerNavContainer: {  
-    height: '64px',
-    position: 'fixed',
-    top: "0px",
-    left: "0px",
-    background: theme.palette.appBar.main,
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText,
-    width: '100%',
-    zIndex: 1200,
-    transition: theme.transitions.create(['width', 'left', 'top'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
-  },
-  title: {
-    flexGrow: 1,
-    color: theme.palette.appBar.contrastText,
-    paddingTop: '0px',
-    fontWeight: '200',
-    fontSize: '2.125rem',
-    float: 'left',
-    marginTop: Meteor.isCordova ? '5px !important' : '0px',
-    whiteSpace: 'nowrap'
-  },
-  header_label: {
-    paddingTop: '10px',
-    fontWeight: 'bold',
-    fontSize: '1 rem',
-    float: 'left',
-    paddingRight: '10px',
-    paddingLeft: '40px'
-  },
-  header_text: {
-    paddingTop: '10px',
-    fontSize: '1 rem',
-    float: 'left'
-  },
-  menuButton: {
-    float: 'left',
-    color: theme.palette.appBar.contrastText,
-    background: 'inherit',
-    backgroundColor: 'inherit',
-    border: '0px none black',
-    paddingTop: '10px',
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    cursor: 'pointer'
-  }
-}));
+const useStyles = makeStyles(function(theme){
+  return {
+    // headerNavContainer: {  
+    //   height: '64px',
+    //   position: 'fixed',
+    //   display: 'flex',
+    //   top: "0px",
+    //   left: "0px",
+    //   background: theme.palette.appBar.main,
+    //   backgroundColor: theme.palette.appBar.main,
+    //   color: theme.palette.appBar.contrastText,
+    //   width: '100%',
+    //   zIndex: 12000,
+    //   transition: theme.transitions.create(['width', 'left', 'top'], {
+    //     easing: theme.transitions.easing.sharp,
+    //     duration: theme.transitions.duration.leavingScreen
+    //   }),
+    //   filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
+    // },
+    appBar: {
+      paddingTop: '0px',
+      paddingLeft: '0px',
+      background: 'inherit',
+      display: 'flex',
+      justifyContent: 'flex-start',
+      flexWrap: 'nowrap',
+      width: '100%',
+      height: get(Meteor, 'settings.public.defaults.prominantHeader') ? '128px' : '64px',
+      zIndex: 13000,
+      // transition: theme.transitions.create(['width', 'margin'], {
+      transition: theme.transitions.create(['width', 'left', 'top'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      }),
+      background: theme.palette.appBar.main,
+      backgroundColor: theme.palette.appBar.main,
+      color: theme.palette.appBar.contrastText,
+      filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
+    },     
+    appBarShift: {
+      marginLeft: drawerWidth,
+      width: `calc(100% - ${drawerWidth}px)`,
+      height: get(Meteor, 'settings.public.defaults.prominantHeader') ? '128px' : '64px',
+      transition: theme.transitions.create(['width', 'margin'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+    hamburgerMenuButton: {
+      // left: '0px',
+      marginTop: '0px',
+      marginLeft: '20px',
+      marginRight: '20px',
+      zIndex: 100000,
+      background: 'inherit',
+      zIndex: 100000,
+      background: 'inherit',
+      width: '32px !important',
+      display: 'inline-flex',
+      position: 'inherit',
+      float: 'left',
+      left: '-20px'      
+    },
+    // hamburgerMenuIcon: {
+    //   display: 'inline-flex',
+    //   float: 'left',
+    //   color: theme.palette.appBar.contrastText,
+    //   position: 'absolute',
+    //   padding: '20px',
+    //   cursor: 'pointer',
+    //   marginTop: '0px',
+    //   zIndex: 10,
+    //   backgroundColor: 'inherit'
+    // },
+    appTitle: {
+      fontWeight: '200',
+      fontSize: '2.125rem',
+      display: 'inline-flex',
+      float: 'left',
+      position: 'inherit'
+      // position: 'relative',
+      // display: 'inline-flex',
+      // top: '0px',
+      // left: '0px',
+      // width: '100%',
+      // margin: '0px',
+      // paddingTop: '10px',
+      // paddingLeft: '80px',
+      // height: get(Meteor, 'settings.public.defaults.prominantHeader') ? '128px' : '64px',
+      // whiteSpace: 'nowrap',
+      // color: theme.palette.appBar.contrastText,
+      // background: 'inherit',
+      // backgroundColor: 'none',
+      // zIndex: -1
+    },
+    header_label: {
+      paddingTop: '10px',
+      fontWeight: 'bold',
+      fontSize: '1 rem',
+      float: 'left',
+      paddingRight: '10px',
+      paddingLeft: '40px'
+    },
+    header_text: {
+      paddingTop: '10px',
+      fontSize: '1 rem',
+      float: 'left'
+    },
+    hide: {
+      left: '0px',
+      display: 'none'
+    }
+  };
+});
 
 
 // ==============================================================================
@@ -128,7 +167,7 @@ function Header(props) {
     props.logger.data('Header.props', {data: props}, {source: "headerNavContainer.jsx"});
   }
 
-  let [drawerIsOpen, setDrawerIsOpen] = useState(false);
+  let [drawerIsOpen, setDrawerIsOpen] = useState(props.drawerIsOpen);
   let [currentUser, setCurrentUser] = useState({
     givenName: 'Anonymous'
   });
@@ -206,25 +245,52 @@ function Header(props) {
   }
 
   if(!displayNavbars){
-    componentStyles.headerNavContainer.top = '-128px'
+    componentStyles.appBar.top = '-128px'
   }
   if(get(Meteor, 'settings.public.defaults.disableHeader')){
-    componentStyles.headerNavContainer.display = 'none'
+    componentStyles.appBar.display = 'none'
   }
   // ------------------------------------------------------------  
   // Layout  
 
   if(Meteor.isClient && props.drawerIsOpen){
-    componentStyles.headerNavContainer.width = window.innerWidth - drawerWidth;
-    componentStyles.headerNavContainer.left = drawerWidth;
+    componentStyles.appBar.width = window.innerWidth - drawerWidth;
+    componentStyles.appBar.left = drawerWidth;
   }
 
   let workflowTabsToRender;
   let selectedWorkflow;
   if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
-    componentStyles.headerNavContainer.height = '128px';
+    componentStyles.appBar.height = '128px';
 
     if(Meteor.isClient){
+
+
+      // ==============================================================================
+      // Dynamic Imports 
+
+      let headerWorkflows = [];
+
+      // default dialog component
+      headerWorkflows.push({
+        name: "PatientChartWorkflowTabs",
+        component: <PatientChartWorkflowTabs />,
+        matchingPaths: [
+          "/patient-chart",
+          "/patient-quickchart"
+        ]
+      })
+
+      // dynamic dialog components
+      Object.keys(Package).forEach(function(packageName){
+        if(Package[packageName].WorkflowTabs){
+          // we try to build up a route from what's specified in the package
+          Package[packageName].WorkflowTabs.forEach(function(componentReference){
+            headerWorkflows.push(componentReference);      
+          });    
+        }
+      });
+
 
       headerWorkflows.forEach(function(workflow){
         if(Array.isArray(workflow.matchingPaths)){
@@ -243,14 +309,6 @@ function Header(props) {
         }
       })       
     }
-
-    // if(typeof props.headerNavigation === "function"){
-    //   workflowTabsToRender = props.headerNavigation(props);
-    // }    
-
-    // if(workflowTabs === "patientchart"){
-    //   workflowTabsToRender = <PatientChartWorkflowTabs />
-    // }
   }
 
   // ------------------------------------------------------------
@@ -345,29 +403,43 @@ function Header(props) {
     }
   }
 
+  console.log('Header.drawerIsOpen', drawerIsOpen)
+  console.log('Header.componentStyles', componentStyles)
+  console.log('Header.componentStyles.appTitle', componentStyles.appTitle)
 
-
-  return (
-    <div id="header" className="headerNavContainer" position="fixed" className={componentStyles.headerNavContainer}>
-      <div style={{paddingTop: '10px'}}>
-          <Icon 
-            icon={ic_menu} 
-            size={32} 
+  return (      
+      <AppBar id="header" color="inherit" position="fixed" className={clsx(componentStyles.appBar, {
+          [componentStyles.appBarShift]: drawerIsOpen
+        })}>
+        <Toolbar>
+          <IconButton
+            id="hamburgerMenuButton"
+            color="inherit"
+            aria-label="open drawer"
             onClick={ clickOnMenuButton.bind(this) }
-            className={componentStyles.menuButton}
-          />
-        <h4 onClick={ function(){ goHome(); }} className={  componentStyles.title }>
-          { parseTitle() }
-        </h4>
+            edge="start"
+            className={clsx(componentStyles.hamburgerMenuButton, {
+              [componentStyles.hide]: drawerIsOpen
+            })}
+          >
+            {/* <MenuIcon id="hamburgerMenuIcon" /> */}
+            <Icon 
+              id="hamburgerMenuIcon"
+              icon={ic_menu} 
+              size={32}             
+            />
+          </IconButton>
+          <div id="appTitle" className={componentStyles.appTitle} classes={componentStyles.appTitle}>
+            { parseTitle() }
+          </div>
+        </Toolbar>
 
-        
         { userItems }
         { dateTimeItems }        
         { demographicItems }
         { workflowTabsToRender }
 
-      </div>
-    </div>
+      </AppBar>
   );
 }
 
@@ -378,6 +450,7 @@ Header.propTypes = {
   headerNavigation: PropTypes.func
 }
 Header.defaultProps = {
+  drawerIsOpen: false,
   logger: {
     debug: function(){},
     info: function(){},
@@ -390,4 +463,3 @@ Header.defaultProps = {
 }
 
 export default Header;
-// export default withStyles(styles, { withTheme: true })(Header);

@@ -21,7 +21,7 @@ import { Session } from 'meteor/session';
 
 import { get, set  } from 'lodash';
 
-import { PatientsTable } from 'material-fhir-ui';
+import { PatientsTable } from 'fhir-starter';
 
 
 

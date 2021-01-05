@@ -1,23 +1,19 @@
 
 import React from 'react';
 import PatientCorrectionsPage from './client/PatientCorrectionsPage';
-import TasksPage from './client/TasksPage';
 import PatientPickList from './client/PatientPickList';
 import TasksDeduplicated from './lib/Collections'
 
 import { 
   TaskButtons,
-  DocumentReferencesButtons
+  DocumentReferencesButtons,
+  CompositionsButtons
 } from './client/PatientCorrectionsFooter';
 
 
 var DynamicRoutes = [{
-  'name': 'TasksPage',
-  'path': '/task-creator',
-  'component': TasksPage
-}, {
   'name': 'PatientCorrectionsPage',
-  'path': '/patient-corrections',
+  'path': '/task-creator',
   'component': PatientCorrectionsPage
 }];
 
@@ -34,6 +30,9 @@ let FooterButtons = [{
 }, {
   pathname: '/document-references',
   component: <DocumentReferencesButtons />
+}, {
+  pathname: '/compositions',
+  component: <CompositionsButtons />
 }];
 
 
@@ -42,6 +41,6 @@ let DialogComponents = [{
   component: <PatientPickList />
 }]
 
-let MainPage = TasksPage;
+let MainPage = PatientCorrectionsPage;
 
 export { MainPage, DialogComponents, TasksDeduplicated, SidebarWorkflows, DynamicRoutes, FooterButtons, PatientCorrectionsPage };

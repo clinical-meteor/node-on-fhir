@@ -2,7 +2,7 @@
 
 import { UsCoreMethods } from 'meteor/symptomatic:fhir-uscore';
 import { Meteor } from 'meteor/meteor';
-import { DocumentReferences, Tasks, ValueSets } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { Compositions, DocumentReferences, Tasks, ValueSets } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { Mongo } from 'meteor/mongo';
 import {TasksDedulpicated} from '../lib/Collections'
 
@@ -10,15 +10,27 @@ import {TasksDedulpicated} from '../lib/Collections'
 import { get, set, cloneDeep } from 'lodash';
 import hipaaBusinessStatuses from '../examples/ValueSet.hipaa-http-business-status-mapping';
 import sampleDocumentReference from '../examples/DocumentReference.generic';
+import consultNote from '../examples/Composition.ConsultNote';
 
 Meteor.startup(function(){
+    console.log('Initializing records for Patient Corrections server.', 
+        ValueSets.find().count(),
+        DocumentReferences.find().count(),
+        Compositions.find().count()
+    )
     if(ValueSets.find().count() === 0){
+        console.log('Initializing ValueSets')
         ValueSets.insert(hipaaBusinessStatuses, {filter: false, validate: false})
         DocumentReferences.insert(sampleDocumentReference, {filter: false, validate: false})
         UsCoreMethods.initializeValueSets();        
     }
     if(DocumentReferences.find().count() === 0){
+        console.log('Initializing DocumentReferences');
         DocumentReferences.insert(sampleDocumentReference, {filter: false, validate: false})
+    }    
+    if(Compositions.find().count() === 0){
+        console.log('Initializing Compositions');
+        Compositions.insert(consultNote, {filter: false, validate: false})
     }    
 })
 

@@ -18,13 +18,13 @@ import { spinner8 } from 'react-icons-kit/icomoon/spinner8'
 import { oauth2 as SMART } from "fhirclient";
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
-
+import logger from '../Logger';
 
 
 function AppLoadingPage(props) {
-  if(props.logger){
-    // props.logger.debug('Rendering the AppLoadingPage.');
-    props.logger.verbose('client.app.layout.AppLoadingPage');  
+  if(logger){
+    // logger.debug('Rendering the AppLoadingPage.');
+    logger.verbose('client.app.layout.AppLoadingPage');  
   }
 
   // let searchParams = new URLSearchParams(useLocation().search);

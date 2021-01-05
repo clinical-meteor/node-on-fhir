@@ -1,6 +1,6 @@
 Package.describe({
     name: 'symptomatic:patient-corrections',
-    version: '0.4.0',
+    version: '0.4.1',
     summary: 'Implementation of the HL7 Patient Empowerment implementation guide for Patient Corrections',
     git: 'https://github.com/symptomatic/patient-corrections',
     documentation: 'README.md'
@@ -19,7 +19,7 @@ Package.onUse(function(api) {
     api.use('clinical:hl7-fhir-data-infrastructure');
     api.use('clinical:accounts-famous-dead-people')
 
-    api.use('symptomatic:data-management');
+    // api.use('symptomatic:data-management');
     api.use('symptomatic:fhir-uscore');
     api.use('symptomatic:vault-server-freemium');
     

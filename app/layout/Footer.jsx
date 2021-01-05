@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.appBar.main,
     color: theme.palette.appBar.contrastText,
     width: '100%',
-    zIndex: 1300,
+    zIndex: 13000,
     borderTop: '1px solid lightgray',
     transition: theme.transitions.create(['width', 'left', 'bottom'], {
       easing: theme.transitions.easing.sharp,
@@ -153,7 +153,7 @@ function Footer(props) {
   }
 
   return (
-    <footer id="footerNavContainer" className={styles.footerContainer}>
+    <footer id="footerContainer" className={styles.footerContainer}>
       <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" className={styles.footerNavigation} >
         { westNavbar }
       </BottomNavigation>

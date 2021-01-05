@@ -59,6 +59,8 @@ import {warning} from 'react-icons-kit/fa/warning'
 
 import Carousel from 'react-multi-carousel';
 
+import logger from '../Logger';
+
 const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: 345,

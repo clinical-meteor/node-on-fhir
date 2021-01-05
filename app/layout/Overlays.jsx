@@ -22,6 +22,8 @@ import {
   Button,
 } from '@material-ui/core';
 
+import logger from '../Logger';
+
 // ==============================================================================
 // Dynamic Imports 
 

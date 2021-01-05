@@ -25,6 +25,8 @@ import { makeStyles, useTheme } from '@material-ui/styles';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
+import logger from '../Logger';
+
 
 const useStyles = makeStyles(theme => ({
   card: {

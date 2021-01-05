@@ -48,7 +48,7 @@
       "showPatientNameInHeader": true,
       "notificationMenu": false,
       "searchbarVisible": true,
-      "prominantHeader": true,
+      "prominantHeader": false,
       "displayNavbars": true,
       "disableHeader": false,
       "disableFooter": false,
@@ -73,6 +73,7 @@
         "menuIcon": ""
       },
       "sidebar": {
+        "minibarVisible": true,
         "menuItems": {
           "HomePage": false,
           "FhirResources": false,
@@ -80,7 +81,7 @@
           "SidebarWorkflows": true,
           "Theme": false,
           "ConstructionZone": false,
-          "Navbars": true,
+          "Navbars": false,
           "DataImport": true,
           "DataExport": true,
           "HealthRecords": false,
@@ -223,6 +224,10 @@
           "search": true
         },
         "CommunicationRequest": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
+        "Composition": {
           "interactions": ["read", "create", "update", "delete"],
           "search": true
         },

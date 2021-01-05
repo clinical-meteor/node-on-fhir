@@ -19,6 +19,8 @@ import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { Encounters, Procedures, Conditions, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { get } from 'lodash';
 
+import logger from '../Logger';
+
 function DynamicSpacer(props){
     return <br className="dynamicSpacer" style={{height: '40px'}}/>;
 }

@@ -73,6 +73,7 @@
         "menuIcon": ""
       },
       "sidebar": {
+        "minibarVisible": true,
         "menuItems": {
           "HomePage": false,
           "FhirResources": false,
@@ -80,7 +81,7 @@
           "SidebarWorkflows": true,
           "Theme": false,
           "ConstructionZone": false,
-          "Navbars": true,
+          "Navbars": false,
           "DataImport": true,
           "DataExport": true,
           "HealthRecords": false,
@@ -226,6 +227,10 @@
           "interactions": ["read", "create", "update", "delete"],
           "search": true
         },
+        "Composition": {
+          "interactions": ["read", "create", "update", "delete"],
+          "search": true
+        },
         "DocumentReference": {
           "interactions": ["read", "create", "update", "delete"],
           "search": true
@@ -259,7 +264,7 @@
       "MONGO_OPLOG_URL": "mongodb+srv://oplog:nZyUkEwrf54QKDl5@covid19-qch1n.mongodb.net/local?retryWrites=true&w=majority&authSource=admin&ssl=true&replicaSet=Covid19-shard-0",
       "NODE_ENV": "production",
       "ROOT_URL": "https://patient-corrections.meteorapp.com",
-      "DEBUG": 1,
+      "DEBUG": 0,
       "TRACE": 0
     }
   }

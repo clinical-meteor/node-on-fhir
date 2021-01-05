@@ -7,7 +7,7 @@ import { Mongo } from 'meteor/mongo';
 // import { BaseSchema, DomainResourceSchema, HumanNameSchema, IdentifierSchema, ContactPointSchema, AddressSchema, ReferenceSchema, SignatureSchema } from 'meteor/clinical:hl7-resource-datatypes';
 
 
-import { Conditions, Communications, CommunicationRequests, DocumentReferences, Observations, Patients, Tasks, ValueSets } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { Conditions, Communications, CommunicationRequests, Compositions, DocumentReferences, Observations, Patients, Tasks, ValueSets } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 TasksDeduplicated = new Mongo.Collection('TasksDeduplicated');
 
@@ -17,6 +17,7 @@ if(Meteor.isClient){
   Meteor.subscribe('Conditions');
   Meteor.subscribe('Communications');
   Meteor.subscribe('CommunicationRequests');
+  Meteor.subscribe('Compositions');
   Meteor.subscribe('DocumentReferences');
   Meteor.subscribe('Tasks');
   Meteor.subscribe('TasksDeduplicated');
@@ -37,6 +38,9 @@ if(Meteor.isServer){
   }); 
   Meteor.publish('CommunicationRequests', function(){
     return CommunicationRequests.find();
+  }); 
+  Meteor.publish('Compositions', function(){
+    return Compositions.find();
   }); 
   Meteor.publish('DocumentReferences', function(){
     return DocumentReferences.find();

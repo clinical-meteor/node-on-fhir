@@ -3,6 +3,8 @@
 
 // base layout
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
+
 
 import {
   Switch,
@@ -27,6 +29,7 @@ import AppCanvas from './AppCanvas.jsx';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import ScrollDialog from './Dialog';
+import Minibar from './Minibar.jsx';
 
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -35,18 +38,17 @@ import Toolbar from '@material-ui/core/Toolbar';
 import clsx from 'clsx';
 import moment from 'moment';
 
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import MenuIcon from '@material-ui/icons/Menu';
 
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
-import PatientSidebar from '../patient/PatientSidebar'
 import AppLoadingPage from '../core/AppLoadingPage'
 import PatientChart from '../patient/PatientChart'
 import PatientQuickChart from '../patient/PatientQuickChart'
@@ -55,11 +57,15 @@ import LaunchPage from '../core/LaunchPage'
 import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
+import logger from '../Logger';
+
 //=============================================================================================================================================
 // Analytics
 
 import ReactGA from 'react-ga';
-ReactGA.initialize(get(Meteor, 'settings.public.google.analytics.trackingCode'), {debug: get(Meteor, 'settings.public.google.analytics.debug', false)});
+if(has(Meteor, 'settings.public.google.analytics')){
+  ReactGA.initialize(get(Meteor, 'settings.public.google.analytics.trackingCode'), {debug: get(Meteor, 'settings.public.google.analytics.debug', false)});
+}
 
 function logPageView() {
   ReactGA.pageview(window.location.pathname + window.location.search);
@@ -88,7 +94,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
   const useStyles = makeStyles(theme => ({
     primaryFlexPanel: {
-      display: 'flex',
+      display: 'block',
     },
     canvas: {
       flexGrow: 1,
@@ -105,7 +111,8 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      display: 'block'
+      display: 'block',
+      zIndex: 1
     },
     canvasOpen: {
       flexGrow: 1,
@@ -122,51 +129,10 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      display: 'block'
+      display: 'block',
+      zIndex: 1
     },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: 'nowrap',
-      position: 'absolute', 
-      zIndex: 1100,
-      backgroundColor: theme.palette.paper.main
-    },
-    drawerOpen: {
-      width: drawerWidth,
-      transition: theme.transitions.create(['width', 'left', 'opacity'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      backgroundColor: theme.palette.paper.main,
-      opacity: 1,
-      left: '0px'
-    },
-    drawerClose: {
-      transition: theme.transitions.create(['width', 'left', 'opacity'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: 'hidden',
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9) + 1
-      },
-      backgroundColor: theme.palette.paper.main,
-      opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? 1 : 0,
-      left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? '0px' : ('-' + theme.spacing(7) + 1 + 'px')
-    },
-    drawerIcons: {
-      fontSize: '120%',
-      paddingLeft: '8px',
-      paddingRight: '2px'
-    },
-    divider: {
-      height: '2px'
-    },
-    drawerText: {
-      textDecoration: 'none !important'
-    },
+    
     hide: {
       display: 'none',
     },
@@ -176,7 +142,7 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
     },
     toolbar: {
       display: 'inline-block',
-      minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
+      height: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
       float: 'left'
     },
     title: {
@@ -208,6 +174,19 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       bottom: '10px'
     }
   }));
+
+
+// ==============================================================================
+// Window Resizing
+
+function getWindowWidth(){
+  let result = 0;
+  if(Meteor.isClient){
+    result = window.innerWidth;
+  }
+  return result;
+}
+
 
   // custom hook to listen to the resize event
   function useWindowSize() {
@@ -473,14 +452,20 @@ export function App(props) {
   // ------------------------------------------------------------------
   // Trackers (Auto Update Variables)
 
-  const absoluteUrl = useTracker(function(){
-    logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
-    return Meteor.absoluteUrl();
-  }, []);
+  let absoluteUrl;
+  let selectedPatient;
 
-  const selectedPatient = useTracker(function(){
-    return Session.get('selectedPatient')
-  }, []);
+  if(Meteor.isClient){
+    absoluteUrl = useTracker(function(){
+      logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
+      return Meteor.absoluteUrl();
+    }, []);
+  
+    selectedPatient = useTracker(function(){
+      return Session.get('selectedPatient')
+    }, []);  
+  }
+
 
 
   // ------------------------------------------------------------------
@@ -547,47 +532,7 @@ export function App(props) {
     headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:author' property="og:author" content={socialmedia.author} />);
   }
 
-  helmet = <Helmet>
-    { headerTags }
-  </Helmet>
 
-
-  
-
-  // ------------------------------------------------------------------
-  // User Interface
-
-  let drawerStyle = {}
-
-  let drawer;
-  if(Meteor.isClient){
-      drawer = <Drawer
-        id='appDrawer'
-        variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: drawerIsOpen,
-          [classes.drawerClose]: !drawerIsOpen
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: drawerIsOpen,
-            [classes.drawerClose]: !drawerIsOpen
-          })
-        }}
-        open={drawerIsOpen}
-        style={drawerStyle}
-      >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose.bind(this)}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </div>
-        <Divider className={classes.divider} />
-        <List>
-          <PatientSidebar { ...otherProps } />
-        </List>
-      </Drawer>
-  }
 
   // ------------------------------------------------------------------
   // Page Routing  
@@ -635,18 +580,15 @@ export function App(props) {
   }
 
   return(
-    <AppCanvas { ...otherProps }>
-      { helmet }
+    <AppCanvas id='appCanvas' { ...otherProps }>
+      <Helmet>{ headerTags }</Helmet>
 
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <CssBaseline />
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
-        
         <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
-
-        <div id="appDrawerContainer" style={drawerStyle}>
-          { drawer }
-        </div>
+        <Minibar drawerIsOpen={drawerIsOpen} { ...otherProps } />  
+        
         <main id='mainAppRouter' className={clsx({
             [classes.canvasOpen]: drawerIsOpen,
             [classes.canvas]: !drawerIsOpen

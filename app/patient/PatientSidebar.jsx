@@ -702,7 +702,7 @@ export function PatientSidebar(props){
 
 
   return(
-    <div id='patientSidebar' style={{marginBottom: '80px',}} >
+    <div id='patientSidebar' style={{marginBottom: '80px', color: 'black'}} >
       { homePage }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>

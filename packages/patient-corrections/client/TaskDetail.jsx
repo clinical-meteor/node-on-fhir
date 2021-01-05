@@ -57,39 +57,50 @@ import PatientPickList from './PatientPickList'
   // THEMING
 
 import { ThemeProvider, makeStyles } from '@material-ui/styles';
-const useStyles = makeStyles(theme => ({
-  button: {
-    background: theme.background,
-    border: 0,
-    borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: theme.buttonText,
-    height: 48,
-    padding: '0 30px',
-  },
-  input: {
-    marginBottom: '20px'
-  },
-  compactInput: {
-    marginBottom: '10px'
-  },
-  label: {
-    paddingBottom: '10px'
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '25ch',
+const useStyles = makeStyles(function(theme){
+  return {
+    button: {
+      background: theme.background,
+      border: 0,
+      borderRadius: 3,
+      boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+      color: theme.buttonText,
+      height: 48,
+      padding: '0 30px',
     },
+    input: {
+      marginBottom: '20px'
+    },
+    compactInput: {
+      marginBottom: '10px'
+    },
+    label: {
+      paddingBottom: '10px'
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+      display: 'block'
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+    root: {
+      '& .MuiTextField-root': {
+        margin: theme.spacing(1),
+        width: '25ch',
+      },
+    },
+    fromControl: {
+      width: '100%', 
+      marginTop: '20px',
+      display: 'block'
+    },
+    taskDetails: {
+      display: 'block'
+    }
   }
-}));
+});
 
 
 
@@ -213,10 +224,10 @@ function TaskDetail(props){
   }
 
   return(
-    <div className='TaskDetails'>
+    <div id="taskDetails" name="taskDetails" className={classes.taskDetails}>
         <Grid container spacing={3}>
           <Grid item xs={6}>
-            <FormControl style={{width: '100%', marginTop: '20px'}}>
+            <FormControl className={classes.fromControl}>
               <InputAdornment className={classes.label}>For</InputAdornment>
               <Input
                 id="forInput"
@@ -230,10 +241,8 @@ function TaskDetail(props){
                 </InputAdornment>}
                 fullWidth              
               />          
-            </FormControl>
-
-  
-            <FormControl style={{width: '100%', marginTop: '20px'}}>
+            </FormControl> 
+            <FormControl className={classes.fromControl}>
               <InputAdornment className={classes.label}>Based On</InputAdornment>
               <Input
                 id="basedOnInput"
@@ -246,7 +255,7 @@ function TaskDetail(props){
                 fullWidth              
               />       
             </FormControl>     
-            <FormControl style={{width: '100%', marginTop: '20px'}}>
+            <FormControl className={classes.fromControl}>
               <InputAdornment className={classes.label}>Focus</InputAdornment>
               <Input
                 id="focusInput"
@@ -260,7 +269,7 @@ function TaskDetail(props){
             </FormControl> 
           </Grid>
           <Grid item xs={6}>
-            <FormControl style={{width: '100%', marginTop: '20px'}}>
+            <FormControl className={classes.fromControl}>
               <InputAdornment className={classes.label}>Identifier</InputAdornment>
               <Input
                 id="identifierInput"
@@ -272,8 +281,7 @@ function TaskDetail(props){
                 fullWidth              
               />       
             </FormControl> 
-
-            <FormControl style={{width: '100%', marginTop: '20px'}}>
+            <FormControl className={classes.fromControl}>
               <InputAdornment className={classes.label}>Part Of</InputAdornment>
               <Input
                 id="partOfInput"
@@ -285,8 +293,7 @@ function TaskDetail(props){
                 fullWidth              
               />          
             </FormControl>
-
-            <FormControl style={{width: '100%', marginTop: '20px'}}>
+            <FormControl className={classes.fromControl}>
               <InputAdornment className={classes.label}>Group Identifier</InputAdornment>
               <Input
                 id="groupIdentifierInput"
@@ -298,16 +305,17 @@ function TaskDetail(props){
                 fullWidth              
               />
             </FormControl>  
-
-   
           </Grid>
+
+          
           <Grid item xs={3}>
-            <FormControl style={{width: '100%', marginTop: '20px'}}>
+            <FormControl className={classes.fromControl}>
               <InputAdornment id="priority-select-label" className={classes.label}>Priority</InputAdornment>
               <Select
                 id="priority-select"
                 value={get(activeTask, 'priority', 'routine')}
                 onChange={handleChangePriority.bind(this)}
+                fullWidth
               >
                 <MenuItem value="routine">Routine</MenuItem>
                 <MenuItem value="urgent">Urgent</MenuItem>
@@ -317,12 +325,13 @@ function TaskDetail(props){
             </FormControl>
           </Grid>
           <Grid item xs={3}>
-            <FormControl style={{width: '100%', marginTop: '20px'}}>
+            <FormControl className={classes.fromControl}>
               <InputAdornment id="status-select-label" className={classes.label}>Status</InputAdornment>
               <Select
                 id="status-select"
                 value={get(activeTask, 'status', 'draft')}
                 onChange={handleChangeStatus.bind(this)}
+                fullWidth
               >
                 <MenuItem value="draft">Draft</MenuItem>
                 <MenuItem value="requested">Requested</MenuItem>
@@ -340,12 +349,13 @@ function TaskDetail(props){
             </FormControl>
           </Grid>
           <Grid item xs={3}>
-            <FormControl style={{width: '100%', marginTop: '20px'}}>
+            <FormControl className={classes.fromControl}>
               <InputAdornment className={classes.label}>Business Status</InputAdornment>
               <Select
                 id="businessStatusSelect"
                 value={get(activeTask, 'businessStatus.coding[0].code', '200')}
                 onChange={handleChangeBusinessStatus.bind(this)}
+                fullWidth
               >
                 { businessStatusMenuItems }
               </Select>
@@ -354,7 +364,7 @@ function TaskDetail(props){
           </Grid>
 
           <Grid item xs={12}>
-            <FormControl style={{width: '100%', marginTop: '20px'}}>
+            <FormControl className={classes.fromControl}>
               <TextField
                 id="descriptionInput"
                 name="descriptionInput"
@@ -371,7 +381,6 @@ function TaskDetail(props){
                 }}
               />
             </FormControl>
-                             
           </Grid>
           
           

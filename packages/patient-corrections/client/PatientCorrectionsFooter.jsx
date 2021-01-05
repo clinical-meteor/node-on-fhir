@@ -134,7 +134,7 @@ export function TaskButtons(props){
 
 
 //============================================================================================================================
-// Task Buttons
+// Document References Buttons
 
 
 export function DocumentReferencesButtons(props){
@@ -157,6 +157,34 @@ export function DocumentReferencesButtons(props){
     </MuiThemeProvider>
   );
 }
+
+
+//============================================================================================================================
+// Compositinos Buttons
+
+
+export function CompositionsButtons(props){
+  const buttonClasses = buttonStyles();
+
+  let [onePageLayout, setOnePageLayout] = useState(Session.get('CompositionsPage.onePageLayout'));
+
+
+  function toggleLayout(){
+    console.log('toggleLayout!');
+
+    Session.toggle('CompositionsPage.onePageLayout')
+  }
+
+  return (
+    <MuiThemeProvider theme={muiTheme} >
+      <Button className={buttonClasses.west_button} onClick={ toggleLayout.bind(this) } >
+        { LayoutHelpers.getCardLayoutIcon(onePageLayout) }
+      </Button>
+    </MuiThemeProvider>
+  );
+}
+
+
 
 
 

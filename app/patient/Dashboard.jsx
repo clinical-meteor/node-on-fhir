@@ -21,6 +21,8 @@ import { Session } from 'meteor/session';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
+import logger from '../Logger';
+
 import { 
     DynamicSpacer, 
 
