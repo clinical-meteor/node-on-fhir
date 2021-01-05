@@ -31,20 +31,16 @@ import Footer from './Footer.jsx';
 import ScrollDialog from './Dialog';
 import Minibar from './Minibar.jsx';
 
-import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import clsx from 'clsx';
 import moment from 'moment';
-
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MenuIcon from '@material-ui/icons/Menu';
-
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';

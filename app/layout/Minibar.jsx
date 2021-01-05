@@ -143,7 +143,7 @@ function Minibar(props) {
   logger.debug('Minibar.drawerIsOpen', drawerIsOpen)
   logger.debug('Minibar.componentStyles', componentStyles)
 
-  let renderElements = <div id="minibarPlaceHolder"></div>;
+  let renderElements = <div id="minibarDrawer"></div>;
   if(Meteor.isClient){
     if(get(Meteor, 'settings.public.defaults.sidebar.minibarVisible')){
       renderElements = <div id="appDrawerContainer" className={classes.appDrawerContainer}>
