@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/53290178/cordova-iphone-x-safe-area-after-layout-orientation-changes
+
 
 // base layout
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
@@ -14,7 +16,7 @@ import { Session } from 'meteor/session';
 import { Helmet } from "react-helmet";
 import { get, has } from 'lodash';
 
-import { useTracker, withTracker } from './Tracker';
+import { useTracker } from 'meteor/react-meteor-data';
 
 import ProjectPage from './MainPage.jsx';
 
@@ -53,6 +55,26 @@ import LaunchPage from '../core/LaunchPage'
 import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
+//=============================================================================================================================================
+// Analytics
+
+import ReactGA from 'react-ga';
+ReactGA.initialize(get(Meteor, 'settings.public.google.analytics.trackingCode'), {debug: get(Meteor, 'settings.public.google.analytics.debug', false)});
+
+function logPageView() {
+  ReactGA.pageview(window.location.pathname + window.location.search);
+  ReactGA.set({ page: window.location.pathname });
+};
+
+function usePageViews() {
+  let location = useLocation();
+  React.useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.set({ page: window.location.pathname });
+  }, [location]);
+}
+
+
 // ==============================================================================
 // Theming
 
@@ -60,7 +82,7 @@ import ContextSlideOut from './ContextSlideOut';
 
 
 import { ThemeProvider } from '@material-ui/styles';
-import theme from '../theme';
+import theme from '../Theme';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -112,14 +134,16 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
     },
     drawerOpen: {
       width: drawerWidth,
-      transition: theme.transitions.create('width', {
+      transition: theme.transitions.create(['width', 'left', 'opacity'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      backgroundColor: theme.palette.paper.main
+      backgroundColor: theme.palette.paper.main,
+      opacity: 1,
+      left: '0px'
     },
     drawerClose: {
-      transition: theme.transitions.create('width', {
+      transition: theme.transitions.create(['width', 'left', 'opacity'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
@@ -128,7 +152,9 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
       [theme.breakpoints.up('sm')]: {
         width: theme.spacing(9) + 1
       },
-      backgroundColor: theme.palette.paper.main
+      backgroundColor: theme.palette.paper.main,
+      opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? 1 : 0,
+      left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? '0px' : ('-' + theme.spacing(7) + 1 + 'px')
     },
     drawerIcons: {
       fontSize: '120%',
@@ -419,7 +445,7 @@ export function App(props) {
     }        
   }
 
-
+  usePageViews();
 
   // ------------------------------------------------------------------
   // Styling & Theming
@@ -440,6 +466,7 @@ export function App(props) {
     if(get(props, 'location.pathname')){
       logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
       Session.set('pathname', props.location.pathname);  
+      logPageView()
     }
   }, [])
 
@@ -461,7 +488,7 @@ export function App(props) {
 
   function handleDrawerOpen(){
     logger.trace('App.handleDrawerOpen()')
-    setDrawerIsOpen(true);
+    setDrawerIsOpen(!drawerIsOpen);
   };
 
   function handleDrawerClose(){
@@ -485,6 +512,7 @@ export function App(props) {
     image: get(Meteor, 'settings.public.socialmedia.image', ''),
     description: get(Meteor, 'settings.public.socialmedia.description', ''),
     site_name: get(Meteor, 'settings.public.socialmedia.site_name', ''),
+    author: get(Meteor, 'settings.public.socialmedia.author', '')
   }
 
   let helmet;
@@ -499,20 +527,24 @@ export function App(props) {
     themeColor = rawColor;
   }
 
+  let initialScale = 0.8;
+
   headerTags.push(<meta key='theme' name="theme-color" content={themeColor} />)
   headerTags.push(<meta key='utf-8' charSet="utf-8" />);    
+  headerTags.push(<meta name="viewport" key='viewport' property="viewport" content={"initial-scale=" + initialScale + ", minimal-ui, minimum-scale=" + initialScale + ", maximum-scale=" + initialScale + ", width=device-width, height=device-height, user-scalable=no"} />);
   headerTags.push(<meta name="description" key='description' property="description" content={get(Meteor, 'settings.public.title', "Node on FHIR")} />);
   headerTags.push(<title key='title'>{get(Meteor, 'settings.public.title', "Node on FHIR")}</title>);
 
   if(get(Meteor, 'settings.public.socialmedia')){
     //headerTags.push(<title>{socialmedia.title}</title>);    
     headerTags.push(<link key='canonical' rel="canonical" href={socialmedia.url} />);    
-    headerTags.push(<meta key='og:title' property="og:title" content={socialmedia.title} />);
-    headerTags.push(<meta key='og:type' property="og:type" content={socialmedia.type} />);
-    headerTags.push(<meta key='og:url' property="og:url" content={socialmedia.url} />);
-    headerTags.push(<meta key='og:image' property="og:image" content={socialmedia.image} />);
-    headerTags.push(<meta key='og:description' property="og:description" content={socialmedia.description} />);
-    headerTags.push(<meta key='og:site_name' property="og:site_name" content={socialmedia.site_name} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:title' property="og:title" content={socialmedia.title} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:type' property="og:type" content={socialmedia.type} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:url' property="og:url" content={socialmedia.url} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:image' property="og:image" content={socialmedia.image} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:description' property="og:description" content={socialmedia.description} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:site_name' property="og:site_name" content={socialmedia.site_name} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:author' property="og:author" content={socialmedia.author} />);
   }
 
   helmet = <Helmet>
@@ -540,13 +572,13 @@ export function App(props) {
           paper: clsx({
             [classes.drawerOpen]: drawerIsOpen,
             [classes.drawerClose]: !drawerIsOpen
-          }),
+          })
         }}
         open={drawerIsOpen}
         style={drawerStyle}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose.bind(this)}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
@@ -574,7 +606,7 @@ export function App(props) {
     }
 
     routingSwitchLogic = <ThemeProvider theme={theme} >
-        <Switch location={ props.location } >
+        <Switch location={ props.location }>
           { dynamicRoutes.map(route => <Route 
             appHeight={appHeight}
             appWidth={appWidth}
@@ -609,7 +641,7 @@ export function App(props) {
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <CssBaseline />
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
-        <ContextSlideOut { ...otherProps } />
+        
         <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
         <div id="appDrawerContainer" style={drawerStyle}>

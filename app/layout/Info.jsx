@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withTracker } from 'meteor/react-meteor-data';
+import { withTracker } from '@ledgy/react-meteor-data';
 import Links from '../api/links';
 
 class Info extends Component {

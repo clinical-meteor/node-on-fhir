@@ -1,10 +1,9 @@
 body {
-  padding: 10px;
+  padding: 0px;
   font-family: sans-serif;
 
   overflow: hidden;
 }
-
 
 
 #reactTarget {
@@ -25,4 +24,15 @@ a{
 }
 .vis-inner {
   font-size: 60% !important;
+}
+
+/* https://stackoverflow.com/questions/53290178/cordova-iphone-x-safe-area-after-layout-orientation-changes */
+
+body {
+  margin-top: constant(safe-area-inset-top, 0px); /* iOS 11.0 */
+  margin-top: env(safe-area-inset-top, 0px); /* iOS 11.2 */
+}
+.footerNavContainer {
+  margin-bottom: constant(safe-area-inset-bottom, 0px); /* iOS 11.0 */
+  margin-bottom: env(safe-area-inset-bottom, 0px); /* iOS 11.2 */
 }
