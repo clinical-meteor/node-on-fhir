@@ -24,7 +24,7 @@ import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import theme from '../Theme'
-import logger from '../Logger'
+// import logger from '../Logger'
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -121,12 +121,14 @@ const useStyles = makeStyles(theme => ({
 // Main Component
 
 function Header(props) {
-  
-  if(props.logger){
-    // props.logger.trace('Rendering the application Header.');
-    props.logger.verbose('package.care-cards.client.layout.Header');  
-    props.logger.data('Header.props', {data: props}, {source: "headerNavContainer.jsx"});
+  if(typeof logger === "undefined"){
+    logger = props.logger;
   }
+  
+  // if(logger){
+  //   // logger.verbose('package.care-cards.client.layout.Header');  
+  //   // logger.data('Header.props', {data: props}, {source: "headerNavContainer.jsx"});
+  // }
 
   let [drawerIsOpen, setDrawerIsOpen] = useState(false);
   let [currentUser, setCurrentUser] = useState({
@@ -267,7 +269,7 @@ function Header(props) {
           selectedPatient = Session.get("selectedPatient");
   
           titleText = FhirUtilities.pluckName(selectedPatient); 
-          logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
+          // logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
         } else {
 
           if(!Meteor.isCordova){      
@@ -372,22 +374,10 @@ function Header(props) {
 }
 
 Header.propTypes = {
-  logger: PropTypes.object,
   drawerIsOpen: PropTypes.bool,
   handleDrawerOpen: PropTypes.func,
   headerNavigation: PropTypes.func
 }
-Header.defaultProps = {
-  logger: {
-    debug: function(){},
-    info: function(){},
-    warn: function(){},
-    trace: function(){},
-    data: function(){},
-    verbose: function(){},
-    error: function(){}
-  }
-}
+Header.defaultProps = {}
 
 export default Header;
-// export default withStyles(styles, { withTheme: true })(Header);
