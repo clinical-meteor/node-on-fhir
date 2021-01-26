@@ -100,12 +100,11 @@
     "validator": "10.9.0",
     "winston": "3.2.1"
   },
-  "devDependencies": {},
-  "devDependenciesBkup": {
+  "devDependencies": {
     "babel-eslint": "10.1.0",
     "chai": "4.2.0",
     "chai-nightwatch": "0.4.0",
-    "chromedriver": "86.0.0",
+    "chromedriver": "88.0.0",
     "eslint": "4.19.1",
     "eslint-import-resolver-meteor": "0.4.0",
     "eslint-plugin-import": "2.21.2",
@@ -120,6 +119,8 @@
     "shelljs": "0.7.4",
     "electron": "6.1.7",
     "electron-builder": "21.2.0"
+  },
+  "devDependenciesBkup": {
   },
   "desktopLibs": {
     "electron": "6.1.7",
