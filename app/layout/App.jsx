@@ -55,7 +55,7 @@ import LaunchPage from '../core/LaunchPage'
 import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
-// import logger from '../Logger';
+import logger from '../Logger';
 
 //=============================================================================================================================================
 // Analytics
@@ -250,17 +250,17 @@ Object.keys(Package).forEach(function(packageName){
     });    
   }
   if(Package[packageName].HeaderNavigation){
-    // // logger.trace('Found a custom HeaderNavigation object in one of the packages.')
+    // logger.trace('Found a custom HeaderNavigation object in one of the packages.')
     headerNavigation = Package[packageName].HeaderNavigation;
   }
 
   if(Package[packageName].MainPage){
-    // // logger.trace('Found a custom MainPage object in one of the packages.')
+    // logger.trace('Found a custom MainPage object in one of the packages.')
     MainPage = Package[packageName].MainPage;
   }  
 
   if(Package[packageName].LaunchPage){
-    // // logger.trace('Found a custom LaunchPage object in one of the packages.')
+    // logger.trace('Found a custom LaunchPage object in one of the packages.')
     LaunchPage = Package[packageName].LaunchPage;
   }  
 
@@ -269,7 +269,7 @@ Object.keys(Package).forEach(function(packageName){
 let defaultHomeRoute = MainPage;
 let launchPage = LaunchPage;
 
-// // logger.debug('Loading the following dynamic routes: ', dynamicRoutes)
+// logger.debug('Loading the following dynamic routes: ', dynamicRoutes)
 // console.log('headerNavigation', headerNavigation)
 
 
@@ -408,9 +408,9 @@ export function App(props) {
   //   logger = props.logger;
   // }
   
-  // logger.debug('Rendering the main App.');
-  // logger.verbose('client.app.layout.App');
-  // logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
+  logger.debug('Rendering the main App.');
+  logger.verbose('client.app.layout.App');
+  logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
 
 
   // ------------------------------------------------------------------
@@ -466,7 +466,7 @@ export function App(props) {
 
   useEffect(() => {
     if(get(props, 'location.pathname')){
-      // logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
+      logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
       Session.set('pathname', props.location.pathname);  
       logPageView()
     }
@@ -476,7 +476,7 @@ export function App(props) {
   // Trackers (Auto Update Variables)
 
   const absoluteUrl = useTracker(function(){
-    // logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
+    logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
     return Meteor.absoluteUrl();
   }, []);
 
@@ -489,13 +489,13 @@ export function App(props) {
   // User Interface Methods
 
   function handleDrawerOpen(){
-    // logger.trace('App.handleDrawerOpen()')
+    logger.trace('App.handleDrawerOpen()')
     setDrawerIsOpen(!drawerIsOpen);
   };
 
   function handleDrawerClose(){
     setDrawerIsOpen(false);
-    // logger.trace('App.handleDrawerClose()')
+    logger.trace('App.handleDrawerClose()')
 
   };
 
