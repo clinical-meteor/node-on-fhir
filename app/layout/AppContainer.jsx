@@ -20,7 +20,7 @@ import 'setimmediate';
 
 import { PatientTable } from 'fhir-starter';
 
-import logger from '../Logger';
+// import logger from '../Logger';
 
 
 // Global App-Wide Session Variables
@@ -240,9 +240,9 @@ Meteor.startup(function(){
   const AppWithRouter = withRouter(App);
 
   function AppContainer(props){
-    logger.debug('Rendering the AppContainer');
-    logger.verbose('client.app.layout.AppContainer');
-    logger.data('AppContainer.props', {data: props}, {source: "AppContainer.jsx"});
+    // logger.debug('Rendering the AppContainer');
+    // logger.verbose('client.app.layout.AppContainer');
+    // logger.data('AppContainer.props', {data: props}, {source: "AppContainer.jsx"});
 
     let renderedApp;
     if(Meteor.isClient){
@@ -250,7 +250,7 @@ Meteor.startup(function(){
       renderedApp = <Router history={appHistory}>
         <ThemeProvider theme={theme} >
           <MuiThemeProvider theme={muiTheme}>
-            <AppWithRouter logger={logger} />
+            <AppWithRouter />
           </MuiThemeProvider>
         </ThemeProvider>
       </Router>
@@ -259,7 +259,7 @@ Meteor.startup(function(){
     if(Meteor.isServer){
       renderedApp = <ThemeProvider theme={theme} >
         <MuiThemeProvider theme={muiTheme}>
-          <AppLoadingPage logger={logger} />
+          <AppLoadingPage />
         </MuiThemeProvider>
       </ThemeProvider>      
     }
