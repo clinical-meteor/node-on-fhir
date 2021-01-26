@@ -20,6 +20,8 @@ import LogoutDialog from '../core/LogoutDialog';
 
 import { get } from 'lodash';
 
+import logger from '../Logger';
+
 // ==============================================================================
 // Dynamic Imports 
 
@@ -76,7 +78,6 @@ export default function ScrollDialog(props) {
 
   let {
     children, 
-    logger, 
     appHeight,
     maxWidth,
     ...otherProps

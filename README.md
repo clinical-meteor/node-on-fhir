@@ -50,15 +50,6 @@ curl https://install.meteor.com/ | sh
 git clone https://github.com/symptomatic/node-on-fhir  
 cd node-on-fhir
 
-# download the node-on-fhir application
-git clone https://github.com/symptomatic/node-on-fhir  
-cd node-on-fhir
-
-# download custom packages
-cd packages
-git https://github.com/symptomatic/covid19-on-fhir
-cd node-on-fhir
-
 # install dependencies
 meteor npm install
 
@@ -69,12 +60,23 @@ meteor yarn install
 # this will automatically launch a mongo instance
 meteor run --settings configs/settings.nodeonfhir.json  
 
+# stop the application with Ctrl-C
+
+# download custom packages
+cd packages
+git clone https://github.com/symptomatic/covid19-on-fhir
+cd ..
+
 # alternatively, run the config from a plugin
 meteor run --settings packages/covid19-on-fhir/configs/settings.covid19.json  --extra-packages symptomatic:covid19-on-fhir
 
 # when you're ready to deploy, you'll need to add the package to the app (meteor deploy won't accept --extra-packages)
 meteor add symptomatic:covid19-on-fhir
+```
 
+## Deployment
+
+```
 # test the code minification doesnt break anything
 meteor run --settings packages/covid19-on-fhir/configs/settings.covid19.json --production
 
