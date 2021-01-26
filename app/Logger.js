@@ -2,7 +2,7 @@
 import { createLogger, addColors, format, transports } from 'winston';
 import { get } from 'lodash';
 import { Meteor } from 'meteor/meteor';
-
+import 'setimmediate';
 
 
   // some functions that do log level filtering
