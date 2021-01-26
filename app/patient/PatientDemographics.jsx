@@ -9,6 +9,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { useTracker } from 'meteor/react-meteor-data';
 
 export function PatientDemographics(props){
     const contextType = FhirClientContext;
