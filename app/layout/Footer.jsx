@@ -58,23 +58,27 @@ const useStyles = makeStyles(theme => ({
 function Footer(props) {
   let styles = useStyles();
 
-  if(props.logger){
-    // props.logger.debug('Rendering the application Footer.');
-    props.logger.verbose('package.care-cards.client.layout.Footer');  
-    props.logger.data('Footer.props', {data: props}, {source: "FooterContainer.jsx"});
+  // if(typeof logger === "undefined"){
+  //   logger = props.logger;
+  // } 
+
+  if(logger){
+    logger.debug('Rendering the application Footer.');
+    logger.verbose('package.care-cards.client.layout.Footer');  
+    logger.data('Footer.props', {data: props}, {source: "FooterContainer.jsx"});
   }
 
 
   // const pathname = useTracker(function(){
-  //   props.logger.info('Pathname was recently updated.  Updating the Footer action buttons.');
+  //   logger.info('Pathname was recently updated.  Updating the Footer action buttons.');
   //   return Session.get('pathname');
   //   // return window.location.pathname;
   // }, [props.lastUpdated]);
 
 
   function renderWestNavbar(pathname){
-    props.logger.trace('Checking packages for action buttons that match the following pathname: ' + pathname);
-    props.logger.verbose('package.care-cards.client.layout.Footer.renderWestNavbar');
+    logger.trace('Checking packages for action buttons that match the following pathname: ' + pathname);
+    logger.verbose('package.care-cards.client.layout.Footer.renderWestNavbar');
 
     let self = this;
 
@@ -89,21 +93,21 @@ function Footer(props) {
       }
     });
 
-    props.logger.debug('Generated array of buttons to display.')
-    props.logger.trace('buttonRenderArray', buttonRenderArray)
+    logger.debug('Generated array of buttons to display.')
+    logger.trace('buttonRenderArray', buttonRenderArray)
 
     let renderDom;
     buttonRenderArray.forEach(function(buttonConfig){
       // right route
       if (pathname === buttonConfig.pathname){
-        props.logger.debug('Found a route match for Footer buttons', pathname)
+        logger.debug('Found a route match for Footer buttons', pathname)
         // right security/function enabled
         if(buttonConfig.settings && (get(Meteor, buttonConfig.settings) === false)){
           // there was a settings criteria; and it was set to faulse            
           return false;
         } else {
           if(buttonConfig.component){
-            props.logger.debug('Trying to render a button from package to the footer')
+            logger.debug('Trying to render a button from package to the footer')
             renderDom = buttonConfig.component;
           } else {
             renderDom = <div style={{marginTop: '-8px'}}>
@@ -163,20 +167,11 @@ function Footer(props) {
 
 
 Footer.propTypes = {
-  logger: PropTypes.object,
+
   drawerIsOpen: PropTypes.bool
 }
 Footer.defaultProps = {
-  drawerIsOpen: false,
-  logger: {
-    debug: function(){},
-    info: function(){},
-    warn: function(){},
-    trace: function(){},
-    data: function(){},
-    verbose: function(){},
-    error: function(){}
-  }
+  drawerIsOpen: false
 }
 
 export default Footer;

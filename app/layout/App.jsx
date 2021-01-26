@@ -55,6 +55,8 @@ import LaunchPage from '../core/LaunchPage'
 import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
+import logger from '../Logger';
+
 //=============================================================================================================================================
 // Analytics
 
@@ -402,9 +404,9 @@ export function SlideOutCards(props){
 // Main App Component
 
 export function App(props) {
-  if(typeof logger === "undefined"){
-    logger = props.logger;
-  }
+  // if(typeof logger === "undefined"){
+  //   logger = props.logger;
+  // }
   
   logger.debug('Rendering the main App.');
   logger.verbose('client.app.layout.App');
