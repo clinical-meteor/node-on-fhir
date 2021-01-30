@@ -574,6 +574,7 @@ export function App(props) {
         }}
         open={drawerIsOpen}
         style={drawerStyle}
+        { ...otherProps }
       >
         <div className={classes.toolbar}>
           <IconButton onClick={handleDrawerClose}>
@@ -581,7 +582,7 @@ export function App(props) {
           </IconButton>
         </div>
         <Divider className={classes.divider} />
-        <List>
+        <List { ...otherProps }>
           <PatientSidebar { ...otherProps } />
         </List>
       </Drawer>
