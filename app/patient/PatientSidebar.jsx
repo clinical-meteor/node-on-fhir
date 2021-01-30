@@ -637,7 +637,7 @@ export function PatientSidebar(props){
           <Icon icon={signIn} className={props.classes.drawerIcons} />
         </ListItemIcon>
         <ListItemText primary="Login" className={props.classes.drawerText} />
-      </ListItem>);   
+      </ListItem>);
     } else {
       loginElements.push(<ListItem id='loginDialogMenuItem' key='loginDialogMenuItem' button onClick={function(){ toggleLoginDialog(); }} >
         <ListItemIcon >
