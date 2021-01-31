@@ -4,6 +4,7 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
+babel-compiler@7.5.4
 meteor-base@1.4.0             # Packages every Meteor app needs to have
 
 # SECURITY  
@@ -57,8 +58,8 @@ clinical:hl7-fhir-data-infrastructure
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-symptomatic:saner
-symptomatic:data-management
+# symptomatic:saner
+# symptomatic:data-management
 
-datarobot:waters
+# datarobot:waters
 

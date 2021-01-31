@@ -33,6 +33,7 @@ import { get, has } from 'lodash';
     defaultAppTheme = Object.assign(defaultAppTheme, get(Meteor, 'settings.public.theme.palette'));
   }
 
+  
   const theme = createMuiTheme({
     typography: {
       useNextVariants: true,

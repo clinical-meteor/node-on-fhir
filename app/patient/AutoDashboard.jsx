@@ -8,13 +8,14 @@ import React from "react";
 import ChartJS from "chart.js";
 import { FhirClientContext } from "../FhirClientContext";
 
-import { StyledCard } from 'material-fhir-ui';
+import { StyledCard } from 'fhir-starter';
 
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { useTracker } from 'meteor/react-meteor-data';
 
 import { Encounters, Procedures, Conditions, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { get } from 'lodash';
