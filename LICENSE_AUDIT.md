@@ -17,7 +17,7 @@ fhirpath	MIT	MIT	Other
 hl7v2	MIT	MIT	MIT  
 json-schema-resource-validation	ISC	ISC	MIT  
 lodash	MIT	MIT	Other  
-material-fhir-ui	MIT	MIT	MIT  
+fhir-starter	MIT	MIT	MIT  
 meteor-node-stubs	MIT	MIT	MIT  
 react	MIT	MIT	MIT  
 react-dom	MIT	MIT	MIT  

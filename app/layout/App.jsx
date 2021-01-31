@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/53290178/cordova-iphone-x-safe-area-after-layout-orientation-changes
+
 
 // base layout
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
@@ -14,7 +16,7 @@ import { Session } from 'meteor/session';
 import { Helmet } from "react-helmet";
 import { get, has } from 'lodash';
 
-import { useTracker, withTracker } from './Tracker';
+import { useTracker } from 'meteor/react-meteor-data';
 
 import ProjectPage from './MainPage.jsx';
 
@@ -53,6 +55,8 @@ import LaunchPage from '../core/LaunchPage'
 import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
+import logger from '../Logger';
+
 //=============================================================================================================================================
 // Analytics
 
@@ -80,7 +84,7 @@ function usePageViews() {
 
 
 import { ThemeProvider } from '@material-ui/styles';
-import theme from '../theme';
+import theme from '../Theme';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -400,9 +404,9 @@ export function SlideOutCards(props){
 // Main App Component
 
 export function App(props) {
-  if(typeof logger === "undefined"){
-    logger = props.logger;
-  }
+  // if(typeof logger === "undefined"){
+  //   logger = props.logger;
+  // }
   
   logger.debug('Rendering the main App.');
   logger.verbose('client.app.layout.App');
@@ -486,7 +490,7 @@ export function App(props) {
 
   function handleDrawerOpen(){
     logger.trace('App.handleDrawerOpen()')
-    setDrawerIsOpen(true);
+    setDrawerIsOpen(!drawerIsOpen);
   };
 
   function handleDrawerClose(){
@@ -570,14 +574,14 @@ export function App(props) {
           paper: clsx({
             [classes.drawerOpen]: drawerIsOpen,
             [classes.drawerClose]: !drawerIsOpen
-          }),
+          })
         }}
         open={drawerIsOpen}
         style={drawerStyle}
         { ...otherProps }
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose.bind(this)}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
@@ -640,7 +644,7 @@ export function App(props) {
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <CssBaseline />
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
-        <ContextSlideOut { ...otherProps } />
+        <ContextSlideOut />
         <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
         <div id="appDrawerContainer" style={drawerStyle}>

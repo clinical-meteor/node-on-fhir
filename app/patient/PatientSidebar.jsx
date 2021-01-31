@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useTracker } from '../layout/Tracker';
+import { useTracker } from 'meteor/react-meteor-data';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -16,16 +16,16 @@ import ListItemLink from '@material-ui/core/ListItemText';
 
 import Divider from '@material-ui/core/Divider';
 
-import { Icon } from 'react-icons-kit'
-import {logOut} from 'react-icons-kit/ionicons/logOut'
-import {documentIcon} from 'react-icons-kit/ionicons/documentIcon'
-import {modx} from 'react-icons-kit/fa/modx'
-import {home} from 'react-icons-kit/fa/home'
-import {fire} from 'react-icons-kit/icomoon/fire'
+import { Icon } from 'react-icons-kit';
+import {logOut} from 'react-icons-kit/ionicons/logOut';
+import {documentIcon} from 'react-icons-kit/ionicons/documentIcon';
+import {modx} from 'react-icons-kit/fa/modx';
+import {home} from 'react-icons-kit/fa/home';
+import {fire} from 'react-icons-kit/icomoon/fire';
 
-import {user} from 'react-icons-kit/fa/user'
-import {users} from 'react-icons-kit/fa/users'
-import {userMd} from 'react-icons-kit/fa/userMd'
+import {user} from 'react-icons-kit/fa/user';
+import {users} from 'react-icons-kit/fa/users';
+import {userMd} from 'react-icons-kit/fa/userMd';
 
 import {ic_devices} from 'react-icons-kit/md/ic_devices';  // Devices
 import {ic_transfer_within_a_station} from 'react-icons-kit/md/ic_transfer_within_a_station' // Encounters 
@@ -45,7 +45,7 @@ import {addressCardO} from 'react-icons-kit/fa/addressCardO'  // Address Card
 import {mapO} from 'react-icons-kit/fa/mapO'
 import {map} from 'react-icons-kit/fa/map'
 
-import {ic_view_day} from 'react-icons-kit/md/ic_view_day'
+import {ic_view_day} from 'react-icons-kit/md/ic_view_day';
 
 import {ic_hearing} from 'react-icons-kit/md/ic_hearing'  // Condition?
 import {ic_fingerprint} from 'react-icons-kit/md/ic_fingerprint' // Biometric
@@ -78,18 +78,18 @@ import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition
 // import {nuclear} from 'react-icons-kit/ionicons/nuclear' // Radiology  
 // import {pipette} from 'react-icons-kit/typicons/pipette' // Immunization ?
 
-// import {ic_signal_wifi_0_bar} from 'react-icons-kit/md/ic_signal_wifi_0_bar'
-// import {ic_signal_wifi_1_bar} from 'react-icons-kit/md/ic_signal_wifi_1_bar'
-// import {ic_signal_wifi_1_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_1_bar_lock'
-// import {ic_signal_wifi_2_bar} from 'react-icons-kit/md/ic_signal_wifi_2_bar'
-// import {ic_signal_wifi_2_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_2_bar_lock'
-// import {ic_signal_wifi_3_bar} from 'react-icons-kit/md/ic_signal_wifi_3_bar'
-// import {ic_signal_wifi_3_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_3_bar_lock'
-// import {ic_signal_wifi_4_bar} from 'react-icons-kit/md/ic_signal_wifi_4_bar'
-// import {ic_signal_wifi_4_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_4_bar_lock'
-// import {ic_signal_wifi_off} from 'react-icons-kit/md/ic_signal_wifi_off'
-// import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering'
-// import {ic_devices} from 'react-icons-kit/md/ic_devices'
+// import {ic_signal_wifi_0_bar} from 'react-icons-kit/md/ic_signal_wifi_0_bar';
+// import {ic_signal_wifi_1_bar} from 'react-icons-kit/md/ic_signal_wifi_1_bar';
+// import {ic_signal_wifi_1_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_1_bar_lock';
+// import {ic_signal_wifi_2_bar} from 'react-icons-kit/md/ic_signal_wifi_2_bar';
+// import {ic_signal_wifi_2_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_2_bar_lock';
+// import {ic_signal_wifi_3_bar} from 'react-icons-kit/md/ic_signal_wifi_3_bar';
+// import {ic_signal_wifi_3_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_3_bar_lock';
+// import {ic_signal_wifi_4_bar} from 'react-icons-kit/md/ic_signal_wifi_4_bar';
+// import {ic_signal_wifi_4_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_4_bar_lock';
+// import {ic_signal_wifi_off} from 'react-icons-kit/md/ic_signal_wifi_off';
+// import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering';
+// import {ic_devices} from 'react-icons-kit/md/ic_devices';
 
 import {signIn} from 'react-icons-kit/fa/signIn'
 
@@ -148,10 +148,12 @@ const styles = theme => ({
   drawerIcons: {
     fontSize: '200%',
     paddingLeft: '10px',
-    paddingRight: '2px'
+    paddingRight: '2px',
+    color: theme.palette.paper.contrastText
   },
   drawerText: {
-    textDecoration: 'none !important'
+    textDecoration: 'none !important',
+    color: theme.palette.paper.contrastText
   },
   hide: {
     display: 'none',
@@ -675,14 +677,12 @@ export function PatientSidebar(props){
       { homePage }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>
-        {/* <h4>Workflow</h4> */}
         { workflowElements }   
       </div>
 
       { dataManagementElements }
 
       <div id='patientDynamicElements' key='patientDynamicElements'>
-        {/* <h4>Data</h4> */}
         { dynamicElements }   
       </div>
 

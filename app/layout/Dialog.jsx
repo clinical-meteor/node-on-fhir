@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
-import { useTracker, withTracker } from './Tracker';
+import { useTracker } from 'meteor/react-meteor-data';
 import CapabilityStatementCheck from '../core/CapabilityStatementCheck';
 import ErrorDialog from '../core/ErrorDialog';
 import LoginDialog from '../core/LoginDialog';
@@ -19,6 +19,8 @@ import SignUpDialog from '../core/SignUpDialog';
 import LogoutDialog from '../core/LogoutDialog';
 
 import { get } from 'lodash';
+
+import logger from '../Logger';
 
 // ==============================================================================
 // Dynamic Imports 
@@ -76,7 +78,6 @@ export default function ScrollDialog(props) {
 
   let {
     children, 
-    logger, 
     appHeight,
     maxWidth,
     ...otherProps

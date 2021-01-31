@@ -21,7 +21,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import { get } from 'lodash';
-import { PageCanvas, StyledCard } from 'material-fhir-ui';
+import { PageCanvas, StyledCard } from 'fhir-starter';
 
 import { Icon } from 'react-icons-kit';
 import { github } from 'react-icons-kit/fa/github';

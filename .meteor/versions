@@ -3,7 +3,7 @@ alanning:roles@3.2.3
 aldeed:collection2@3.0.6
 allow-deny@1.1.0
 autoupdate@1.6.0
-babel-compiler@7.5.3
+babel-compiler@7.5.4
 babel-runtime@1.5.0
 base64@1.0.12
 binary-heap@1.0.11
@@ -90,7 +90,7 @@ standard-minifier-js@2.6.0
 static-html@1.2.2
 symptomatic:covid19-geomapping@0.4.10
 symptomatic:data-management@0.8.6
-symptomatic:saner@0.6.1
+symptomatic:saner@0.6.2
 symptomatic:vault-server@6.2.1
 templating-tools@1.1.2
 tmeasday:check-npm-versions@0.3.2
