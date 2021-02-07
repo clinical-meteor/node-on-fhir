@@ -15,7 +15,7 @@ callback-hook@1.3.0
 check@1.3.1
 clinical:extended-api@2.5.0
 clinical:fonts@1.2.0
-clinical:hl7-fhir-data-infrastructure@6.10.1
+clinical:hl7-fhir-data-infrastructure@6.10.16
 clinical:hl7-resource-datatypes@4.0.6
 ddp@1.4.0
 ddp-client@2.3.3
@@ -83,6 +83,7 @@ standard-minifier-css@1.6.1
 standard-minifier-js@2.6.0
 static-html@1.2.2
 symptomatic:healthkit-importer@0.7.1
+symptomatic:immunization-card@0.7.1
 templating-tools@1.1.2
 tmeasday:check-npm-versions@0.3.2
 tracker@1.2.0
