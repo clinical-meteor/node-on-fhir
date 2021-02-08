@@ -14,7 +14,7 @@ import { get } from 'lodash';
 
 import { oauth2 as SMART } from "fhirclient";
 
-
+import logger from '../Logger';
 
 // ==============================================================================
 // Styling
@@ -27,9 +27,9 @@ const styles = theme => ({});
 // Main Component
 
 function LaunchPage(props) {
-  if(props.logger){
-    props.logger.info('Rendering the LaunchPage.');
-    props.logger.verbose('client.app.layout.LaunchPage');  
+  if(logger){
+    logger.info('Rendering the LaunchPage.');
+    logger.verbose('client.app.layout.LaunchPage');  
   }
 
   //--------------------------------------------------------------------------------
