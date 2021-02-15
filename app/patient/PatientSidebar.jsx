@@ -12,19 +12,20 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemLink from '@material-ui/core/ListItemText';
+import Badge from '@material-ui/core/Badge';
 
 import Divider from '@material-ui/core/Divider';
 
-import { Icon } from 'react-icons-kit'
-import {logOut} from 'react-icons-kit/ionicons/logOut'
-import {documentIcon} from 'react-icons-kit/ionicons/documentIcon'
-import {modx} from 'react-icons-kit/fa/modx'
-import {home} from 'react-icons-kit/fa/home'
-import {fire} from 'react-icons-kit/icomoon/fire'
+import { Icon } from 'react-icons-kit';
+import {logOut} from 'react-icons-kit/ionicons/logOut';
+import {documentIcon} from 'react-icons-kit/ionicons/documentIcon';
+import {modx} from 'react-icons-kit/fa/modx';
+import {home} from 'react-icons-kit/fa/home';
+import {fire} from 'react-icons-kit/icomoon/fire';
 
-import {user} from 'react-icons-kit/fa/user'
-import {users} from 'react-icons-kit/fa/users'
-import {userMd} from 'react-icons-kit/fa/userMd'
+import {user} from 'react-icons-kit/fa/user';
+import {users} from 'react-icons-kit/fa/users';
+import {userMd} from 'react-icons-kit/fa/userMd';
 
 import {ic_devices} from 'react-icons-kit/md/ic_devices';  // Devices
 import {ic_transfer_within_a_station} from 'react-icons-kit/md/ic_transfer_within_a_station' // Encounters 
@@ -44,7 +45,7 @@ import {addressCardO} from 'react-icons-kit/fa/addressCardO'  // Address Card
 import {mapO} from 'react-icons-kit/fa/mapO'
 import {map} from 'react-icons-kit/fa/map'
 
-import {ic_view_day} from 'react-icons-kit/md/ic_view_day'
+import {ic_view_day} from 'react-icons-kit/md/ic_view_day';
 
 import {ic_hearing} from 'react-icons-kit/md/ic_hearing'  // Condition?
 import {ic_fingerprint} from 'react-icons-kit/md/ic_fingerprint' // Biometric
@@ -54,8 +55,8 @@ import {stethoscope} from 'react-icons-kit/fa/stethoscope' // Device
 import {umbrella} from 'react-icons-kit/fa/umbrella' // ExplanationOfBeneft,
 
 import {envelopeO} from 'react-icons-kit/fa/envelopeO' // Correspondence 
-import {ic_question_answer} from 'react-icons-kit/md/ic_question_answer'
-import {shoppingBasket} from 'react-icons-kit/fa/shoppingBasket'
+import {ic_question_answer} from 'react-icons-kit/md/ic_question_answer';
+import {shoppingBasket} from 'react-icons-kit/fa/shoppingBasket';
 
 // import {ic_tune} from 'react-icons-kit/md/ic_tune'
 // import {flask} from 'react-icons-kit/fa/flask' // Substance 
@@ -90,9 +91,9 @@ import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition
 // import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering'
 // import {ic_devices} from 'react-icons-kit/md/ic_devices'
 
-import {signIn} from 'react-icons-kit/fa/signIn'
+import {signIn} from 'react-icons-kit/fa/signIn';
 
-const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
+const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 360);
 
 const styles = theme => ({
   header: {
@@ -152,6 +153,11 @@ const styles = theme => ({
   drawerText: {
     textDecoration: 'none !important'
   },
+  drawerTextTag: {
+    float: 'right',
+    textAlign: 'right',
+    fontWeight: 'bold'
+  },
   hide: {
     display: 'none',
   },
@@ -178,6 +184,38 @@ export function PatientSidebar(props){
   logger.debug('PatientSidebar is rendering.');
   logger.verbose('client.app.patient.PatientSidebar');
   logger.data('PatientSidebar.props', {data: props}, {source: "AppContainer.jsx"});
+
+  let collectionCounts = {
+    AllergyIntolerances: 0,
+    Conditions: 0,
+    Immunizations: 0,
+    MedicationOrders: 0,
+    Observations: 0,
+    Patients: 0,
+    Procedures: 0
+  };
+
+  collectionCounts.AllergyIntolerances = useTracker(function(){
+    return AllergyIntolerances.find().count();
+  })
+  collectionCounts.Conditions = useTracker(function(){
+    return Conditions.find().count();
+  })
+  collectionCounts.Immunizations = useTracker(function(){
+    return Immunizations.find().count();
+  })
+  collectionCounts.MedicationOrders = useTracker(function(){
+    return MedicationOrders.find().count();
+  })
+  collectionCounts.Observations = useTracker(function(){
+    return Observations.find().count();
+  })
+  collectionCounts.Patients = useTracker(function(){
+    return Patients.find().count();
+  })
+  collectionCounts.Procedures = useTracker(function(){
+    return Procedures.find().count();
+  })
 
 
   function openPage(url, tabs){
@@ -425,12 +463,20 @@ export function PatientSidebar(props){
 
         // don't show the element unless it's public, or the user is signed in
         if(!element.requireAuth || (element.requireAuth && currentUser)){
+
+          let elementCount = 0;
+          if(collectionCounts[element.collectionName]){
+            elementCount = collectionCounts[element.collectionName]
+          }
+
           dynamicElements.push(
             <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
               <ListItemIcon >
                 { clonedIcon }
               </ListItemIcon>
               <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+              <Badge badgeContent={elementCount} color="primary"  style={{marginRight: '10px'}} />
+              {/* <ListItemText primary={elementCount} className={props.classes.drawerTextTag}  /> */}
             </ListItem>
           );  
         }

@@ -2,7 +2,8 @@
 import { createLogger, addColors, format, transports } from 'winston';
 import { get } from 'lodash';
 import { Meteor } from 'meteor/meteor';
-import 'setimmediate';
+
+import "setimmediate";
 
 
   // some functions that do log level filtering
@@ -105,5 +106,9 @@ if(typeof window === "object"){
 logger.on('error', function (error) { 
   console.error('Winston just blew up.', error)
 });
+
+if(Meteor.isClient){
+  window.logger = logger;
+}
 
 export default logger;
