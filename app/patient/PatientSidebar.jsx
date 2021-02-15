@@ -475,7 +475,7 @@ export function PatientSidebar(props){
                 { clonedIcon }
               </ListItemIcon>
               <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
-              <Badge badgeContent={elementCount} color="primary"  />
+              <Badge badgeContent={elementCount} color="primary"  style={{marginRight: '10px'}} />
               {/* <ListItemText primary={elementCount} className={props.classes.drawerTextTag}  /> */}
             </ListItem>
           );  
