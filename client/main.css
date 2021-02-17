@@ -32,7 +32,7 @@ body {
   margin-top: constant(safe-area-inset-top, 0px); /* iOS 11.0 */
   margin-top: env(safe-area-inset-top, 0px); /* iOS 11.2 */
 }
-.footerNavContainer {
-  margin-bottom: constant(safe-area-inset-bottom, 0px); /* iOS 11.0 */
-  margin-bottom: env(safe-area-inset-bottom, 0px); /* iOS 11.2 */
+footer {
+  margin-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
+  margin-bottom: env(safe-area-inset-bottom); /* iOS 11.2 */
 }
