@@ -117,7 +117,7 @@
     "conventional-changelog-cli": "2.0.11",
     "meteor-desktop": "2.2.5",
     "shelljs": "0.7.4",
-    "electron": "6.1.7",
+    "electron": "9.4.0",
     "electron-builder": "21.2.0"
   },
   "devDependenciesBkup": {},
