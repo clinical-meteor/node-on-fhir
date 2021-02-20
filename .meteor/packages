@@ -5,7 +5,11 @@
 # but you can also edit it by hand.
 
 babel-compiler@7.6.0
-meteor-base@1.4.0             # Packages every Meteor app needs to have
+meteor@1.9.3
+webapp@1.10.0
+ddp@1.4.0
+livedata@1.0.18
+es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
 
 # SECURITY  
 alanning:roles
@@ -20,7 +24,6 @@ http@1.4.2
 simple:json-routes@2.1.0
 
 # RENDERING  
-es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
 static-html                   # Define static page content in .html files
 standard-minifier-css@1.7.2   # CSS minifier run for production mode
 standard-minifier-js@2.6.0    # JS minifier run for production mode
@@ -40,3 +43,5 @@ clinical:hl7-fhir-data-infrastructure
 # symptomatic:data-management
 # symptomatic:healthkit-importer  
 # symptomatic:immunization-card
+
+# goinvo:hgraph-mobile
