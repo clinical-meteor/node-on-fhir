@@ -3,6 +3,7 @@ body {
   font-family: sans-serif;
 
   overflow: hidden;
+  background-color: "#000000"
 }
 
 
@@ -13,6 +14,7 @@ body {
   left: 0;
   right: 0;
   overflow: auto;
+  background-color: "#f2f2f2"
 }
 
 a{
