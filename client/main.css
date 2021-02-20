@@ -29,10 +29,28 @@ a{
 /* https://stackoverflow.com/questions/53290178/cordova-iphone-x-safe-area-after-layout-orientation-changes */
 
 body {
-  margin-top: constant(safe-area-inset-top, 0px); /* iOS 11.0 */
-  margin-top: env(safe-area-inset-top, 0px); /* iOS 11.2 */
+  margin-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
+  margin-bottom: env(safe-area-inset-bottom); /* iOS 11.2 */
+
+  margin-top: constant(safe-area-inset-top); /* iOS 11.0 */
+  margin-top: env(safe-area-inset-top); /* iOS 11.2 */
+
+  margin-left: constant(safe-area-inset-left, 0px); /* iOS 11.0 */
+  margin-left: env(safe-area-inset-left, 0px); /* iOS 11.2 */
+
+  margin-right: constant(safe-area-inset-right, 0px); /* iOS 11.0 */
+  margin-right: env(safe-area-inset-right, 0px); /* iOS 11.2 */
 }
 footer {
   margin-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
   margin-bottom: env(safe-area-inset-bottom); /* iOS 11.2 */
+
+  margin-top: constant(safe-area-inset-top); /* iOS 11.0 */
+  margin-top: env(safe-area-inset-top); /* iOS 11.2 */
+
+  margin-left: constant(safe-area-inset-left, 0px); /* iOS 11.0 */
+  margin-left: env(safe-area-inset-left, 0px); /* iOS 11.2 */
+
+  margin-right: constant(safe-area-inset-right, 0px); /* iOS 11.0 */
+  margin-right: env(safe-area-inset-right, 0px); /* iOS 11.2 */
 }

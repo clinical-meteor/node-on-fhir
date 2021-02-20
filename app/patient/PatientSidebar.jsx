@@ -93,89 +93,91 @@ import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition
 
 import {signIn} from 'react-icons-kit/fa/signIn';
 
-const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 360);
+import useStyles from '../Styles';
 
-const styles = theme => ({
-  header: {
-    display: 'flex'
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    })
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    })
-  },
-  canvas: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    paddingLeft: '73px'
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    backgroundColor: '#fafafa'
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    backgroundColor: '#fafafa'
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1
-    },
-    backgroundColor: '#fafafa'
-  },
-  drawerIcons: {
-    fontSize: '200%',
-    paddingLeft: '10px',
-    paddingRight: '2px'
-  },
-  drawerText: {
-    textDecoration: 'none !important'
-  },
-  drawerTextTag: {
-    float: 'right',
-    textAlign: 'right',
-    fontWeight: 'bold'
-  },
-  hide: {
-    display: 'none',
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36,
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar
-  },
-  divider: {
-    height: '2px'
-  }
-});
+// const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 360);
+
+// const styles = theme => ({
+//   header: {
+//     display: 'flex'
+//   },
+//   appBar: {
+//     zIndex: theme.zIndex.drawer + 1,
+//     transition: theme.transitions.create(['width', 'margin'], {
+//       easing: theme.transitions.easing.sharp,
+//       duration: theme.transitions.duration.leavingScreen,
+//     })
+//   },
+//   appBarShift: {
+//     marginLeft: drawerWidth,
+//     width: `calc(100% - ${drawerWidth}px)`,
+//     transition: theme.transitions.create(['width', 'margin'], {
+//       easing: theme.transitions.easing.sharp,
+//       duration: theme.transitions.duration.enteringScreen,
+//     })
+//   },
+//   canvas: {
+//     flexGrow: 1,
+//     padding: theme.spacing(3),
+//     paddingLeft: '73px'
+//   },
+//   drawer: {
+//     width: drawerWidth,
+//     flexShrink: 0,
+//     whiteSpace: 'nowrap',
+//     backgroundColor: '#fafafa'
+//   },
+//   drawerOpen: {
+//     width: drawerWidth,
+//     transition: theme.transitions.create('width', {
+//       easing: theme.transitions.easing.sharp,
+//       duration: theme.transitions.duration.enteringScreen,
+//     }),
+//     backgroundColor: '#fafafa'
+//   },
+//   drawerClose: {
+//     transition: theme.transitions.create('width', {
+//       easing: theme.transitions.easing.sharp,
+//       duration: theme.transitions.duration.leavingScreen,
+//     }),
+//     overflowX: 'hidden',
+//     width: theme.spacing(7) + 1,
+//     [theme.breakpoints.up('sm')]: {
+//       width: theme.spacing(9) + 1
+//     },
+//     backgroundColor: '#fafafa'
+//   },
+//   drawerIcons: {
+//     fontSize: '200%',
+//     paddingLeft: '10px',
+//     paddingRight: '2px'
+//   },
+//   drawerText: {
+//     textDecoration: 'none !important'
+//   },
+//   drawerTextTag: {
+//     float: 'right',
+//     textAlign: 'right',
+//     fontWeight: 'bold'
+//   },
+//   hide: {
+//     display: 'none',
+//   },
+//   menuButton: {
+//     marginLeft: 12,
+//     marginRight: 36,
+//   },
+//   toolbar: {
+//     display: 'flex',
+//     alignItems: 'center',
+//     justifyContent: 'flex-end',
+//     padding: '0 8px',
+//     ...theme.mixins.toolbar
+//   },
+//   divider: {
+//     height: '2px'
+//   }
+// });
 
 
 
@@ -184,6 +186,8 @@ export function PatientSidebar(props){
   logger.debug('PatientSidebar is rendering.');
   logger.verbose('client.app.patient.PatientSidebar');
   logger.data('PatientSidebar.props', {data: props}, {source: "AppContainer.jsx"});
+
+  let styles = useStyles();
 
   let collectionCounts = {
     AllergyIntolerances: 0,
@@ -197,25 +201,25 @@ export function PatientSidebar(props){
 
   collectionCounts.AllergyIntolerances = useTracker(function(){
     return AllergyIntolerances.find().count();
-  })
+  }, [])
   collectionCounts.Conditions = useTracker(function(){
     return Conditions.find().count();
-  })
+  }, [])
   collectionCounts.Immunizations = useTracker(function(){
     return Immunizations.find().count();
-  })
+  }, [])
   collectionCounts.MedicationOrders = useTracker(function(){
     return MedicationOrders.find().count();
-  })
+  }, [])
   collectionCounts.Observations = useTracker(function(){
     return Observations.find().count();
-  })
+  }, [])
   collectionCounts.Patients = useTracker(function(){
     return Patients.find().count();
-  })
+  }, [])
   collectionCounts.Procedures = useTracker(function(){
     return Procedures.find().count();
-  })
+  }, [])
 
 
   function openPage(url, tabs){
@@ -252,13 +256,13 @@ export function PatientSidebar(props){
       constructionZone.push(
         <ListItem id='constructionZoneItem' key='constructionZoneItem' button onClick={function(){ openPage('/construction-zone'); }} >
           <ListItemIcon >
-            <Icon icon={modx} className={props.classes.drawerIcons} />
+            <Icon icon={modx} className={styles.drawerIcons} />
           </ListItemIcon>
-          <ListItemText primary='Construction Zone' className={props.classes.drawerText}  />
+          <ListItemText primary='Construction Zone' className={styles.drawerText}  />
         </ListItem>
       );
 
-      constructionZone.push(<Divider className={props.classes.divider} key='construction-hr' />);
+      constructionZone.push(<Divider className={styles.divider} key='construction-hr' />);
     }
   }
   
@@ -279,13 +283,13 @@ export function PatientSidebar(props){
       fhirResources.push(
         <ListItem id='fhirResourcesItem' key='fhirResourcesItem' button onClick={function(){ openPage('/fhir-resources-index'); }} >
           <ListItemIcon >
-            <Icon icon={fire} className={props.classes.drawerIcons} />
+            <Icon icon={fire} className={styles.drawerIcons} />
           </ListItemIcon>
-          <ListItemText primary='FHIR Resources' className={props.classes.drawerText}  />
+          <ListItemText primary='FHIR Resources' className={styles.drawerText}  />
         </ListItem>
       );
 
-      fhirResources.push(<Divider className={props.classes.divider} key='resources-hr' />);
+      fhirResources.push(<Divider className={styles.divider} key='resources-hr' />);
     //}
   }
 
@@ -327,7 +331,7 @@ export function PatientSidebar(props){
   // Dynamic Modules  
 
   function parseIcon(iconName){
-    let result = <Icon icon={fire} className={props.classes.drawerIcons} />
+    let result = <Icon icon={fire} className={styles.drawerIcons} />
 
     if(typeof iconName === "string"){
       switch (iconName) {
@@ -390,8 +394,7 @@ export function PatientSidebar(props){
           break;    
         case "addressCardO":
           result = <Icon icon={addressCardO} />
-          break;    
-
+          break;   
         case "ic_hearing":
           result = <Icon icon={ic_hearing} />
           break;    
@@ -425,13 +428,9 @@ export function PatientSidebar(props){
         case "mapO":
           result = <Icon icon={mapO} />
           break;    
-            
-          
-          
-
           
         default:
-          result = <Icon icon={fire} className={props.classes.drawerIcons} />
+          result = <Icon icon={fire} className={styles.drawerIcons} />
           break;
       }
     }
@@ -452,10 +451,10 @@ export function PatientSidebar(props){
       // // we want to pass in the props
       if(clonedIcon){
         clonedIcon = React.cloneElement(clonedIcon, {
-          className: props.classes.drawerIcons 
+          className: styles.drawerIcons 
         });
       } else {
-        clonedIcon = <Icon icon={fire} className={props.classes.drawerIcons} />
+        clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
       }
 
       // the excludes array will hide routes
@@ -474,16 +473,16 @@ export function PatientSidebar(props){
               <ListItemIcon >
                 { clonedIcon }
               </ListItemIcon>
-              <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+              <ListItemText primary={element.primaryText} className={styles.drawerText}  />
               <Badge badgeContent={elementCount} color="primary"  style={{marginRight: '10px'}} />
-              {/* <ListItemText primary={elementCount} className={props.classes.drawerTextTag}  /> */}
+              {/* <ListItemText primary={elementCount} className={styles.drawerTextTag}  /> */}
             </ListItem>
           );  
         }
       }
 
     });
-    dynamicElements.push(<Divider className={props.classes.divider} key="dynamic-modules-hr" />);
+    dynamicElements.push(<Divider className={styles.divider} key="dynamic-modules-hr" />);
     logger.trace('client.app.patient.PatientSidebar.dynamicElements: ' + dynamicElements.length);
   }
 
@@ -504,10 +503,10 @@ export function PatientSidebar(props){
       // // we want to pass in the props
       if(clonedIcon){
         clonedIcon = React.cloneElement(clonedIcon, {
-          className: props.classes.drawerIcons 
+          className: styles.drawerIcons 
         });
       } else {
-        clonedIcon = <Icon icon={fire} className={props.classes.drawerIcons} />
+        clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
       }
 
       // the excludes array will hide routes
@@ -521,13 +520,13 @@ export function PatientSidebar(props){
               <ListItemIcon >
                 { clonedIcon }
               </ListItemIcon>
-              <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+              <ListItemText primary={element.primaryText} className={styles.drawerText}  />
             </ListItem>
           );
         }
       }
     });
-    workflowElements.push(<Divider className={props.classes.divider} key="workflow-modules-hr" />);
+    workflowElements.push(<Divider className={styles.divider} key="workflow-modules-hr" />);
     logger.trace('client.app.patient.PatientSidebar.workflowElements: ' + workflowElements.length);
   }
 
@@ -540,11 +539,11 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.HomePage')){
       homePage.push(<ListItem id='homePageItem' key='homeItem' button onClick={function(){ openPage(homePageUrl); }} >
         <ListItemIcon >
-          <Icon icon={home} className={props.classes.drawerIcons} />
+          <Icon icon={home} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="Home Page" className={props.classes.drawerText}  />
+        <ListItemText primary="Home Page" className={styles.drawerText}  />
       </ListItem>);    
-      homePage.push(<Divider className={props.classes.divider} key="home-page-hr" />);
+      homePage.push(<Divider className={styles.divider} key="home-page-hr" />);
   };
 
 
@@ -557,32 +556,32 @@ export function PatientSidebar(props){
     drawDataMgmDivider = true;
     dataManagementElements.push(<ListItem id='healthkitImportItem' key='healthkitImportItem' button onClick={function(){ openPage('/healthcard'); }} >
       <ListItemIcon >
-        <Icon icon={addressCardO} className={props.classes.drawerIcons} />
+        <Icon icon={addressCardO} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="HealthRecords" className={props.classes.drawerText}  />
+      <ListItemText primary="HealthRecords" className={styles.drawerText}  />
     </ListItem>);    
   };
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DataImport')){
     drawDataMgmDivider = true;
     dataManagementElements.push(<ListItem id='dataImportItem' key='dataImportItem' button onClick={function(){ openPage('/import-data'); }} >
       <ListItemIcon >
-        <Icon icon={fire} className={props.classes.drawerIcons} />
+        <Icon icon={fire} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Data Import" className={props.classes.drawerText}  />
+      <ListItemText primary="Data Import" className={styles.drawerText}  />
     </ListItem>);    
   };
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DataExport')){
     drawDataMgmDivider = true;
     dataManagementElements.push(<ListItem id='dataExportItem' key='dataExportItem' button onClick={function(){ openPage('/export-data'); }} >
       <ListItemIcon >
-        <Icon icon={fire} className={props.classes.drawerIcons} />
+        <Icon icon={fire} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Data Export" className={props.classes.drawerText}  />
+      <ListItemText primary="Data Export" className={styles.drawerText}  />
     </ListItem>);    
   };
 
   if(drawDataMgmDivider){
-    dataManagementElements.push(<Divider className={props.classes.divider} key="data-management-modules-hr" />);
+    dataManagementElements.push(<Divider className={styles.divider} key="data-management-modules-hr" />);
   }
 
 
@@ -594,9 +593,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Theming')){
       themingElements.push(<ListItem id='themingItem' key='themingItem' button onClick={function(){ openPage('/theming'); }} >
         <ListItemIcon >
-          <Icon icon={documentIcon} className={props.classes.drawerIcons} />
+          <Icon icon={documentIcon} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="Theming" className={props.classes.drawerText}  />
+        <ListItemText primary="Theming" className={styles.drawerText}  />
       </ListItem>);    
   };
 
@@ -608,9 +607,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.About')){
       aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button onClick={function(){ toggleAboutDialog(); }} >
         <ListItemIcon >
-          <Icon icon={documentIcon} className={props.classes.drawerIcons} />
+          <Icon icon={documentIcon} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="About" className={props.classes.drawerText}  />
+        <ListItemText primary="About" className={styles.drawerText}  />
       </ListItem>);    
   };
 
@@ -622,9 +621,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Privacy')){
       privacyElements.push(<ListItem id='privacyItem' key='privacyItem' button onClick={function(){ openPage('/privacy'); }} >
         <ListItemIcon >
-          <Icon icon={documentIcon} className={props.classes.drawerIcons} />
+          <Icon icon={documentIcon} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="Privacy" className={props.classes.drawerText}  />
+        <ListItemText primary="Privacy" className={styles.drawerText}  />
       </ListItem>);    
   };
 
@@ -636,9 +635,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.TermsAndConditions')){
     termsAndConditionElements.push(<ListItem id='termsItem' key='termsItem' button onClick={function(){ openPage('/terms-and-conditions'); }} >
       <ListItemIcon >
-        <Icon icon={documentIcon} className={props.classes.drawerIcons} />
+        <Icon icon={documentIcon} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Terms and Conditions" className={props.classes.drawerText}  />
+      <ListItemText primary="Terms and Conditions" className={styles.drawerText}  />
     </ListItem>);    
   };
 
@@ -650,9 +649,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Logout')){
     logoutElements.push(<ListItem id='logoutMenuItem' key='logoutMenuItem' button onClick={function(){ openPage('/signin'); }} >
       <ListItemIcon >
-        <Icon icon={logOut} className={props.classes.drawerIcons} />
+        <Icon icon={logOut} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Logout" className={props.classes.drawerText} onClick={function(){ handleLogout(); }} />
+      <ListItemText primary="Logout" className={styles.drawerText} onClick={function(){ handleLogout(); }} />
     </ListItem>);    
   };
 
@@ -663,9 +662,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Navbars')){
     navbarElements.push(<ListItem id='navbarMenuItem' key='navbarMenuItem' button onClick={function(){ toggleNavbars(); }} >
       <ListItemIcon >
-        <Icon icon={ic_view_day} className={props.classes.drawerIcons} />
+        <Icon icon={ic_view_day} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Navbars" className={props.classes.drawerText} />
+      <ListItemText primary="Navbars" className={styles.drawerText} />
     </ListItem>);    
   };
 
@@ -692,16 +691,16 @@ export function PatientSidebar(props){
     if (get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.route')){
       loginElements.push(<ListItem id='loginMenuItem' key='loginMenuItem' button onClick={function(){ openPage(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.route')); }} >
         <ListItemIcon >
-          <Icon icon={signIn} className={props.classes.drawerIcons} />
+          <Icon icon={signIn} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="Login" className={props.classes.drawerText} />
+        <ListItemText primary="Login" className={styles.drawerText} />
       </ListItem>);   
     } else {
       loginElements.push(<ListItem id='loginDialogMenuItem' key='loginDialogMenuItem' button onClick={function(){ toggleLoginDialog(); }} >
         <ListItemIcon >
-          <Icon icon={signIn} className={props.classes.drawerIcons} />
+          <Icon icon={signIn} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="Login" className={props.classes.drawerText} />
+        <ListItemText primary="Login" className={styles.drawerText} />
       </ListItem>);   
     }
   }
@@ -722,9 +721,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Register')){
     loginElements.push(<ListItem id='registrationMenuItem' key='registrationMenuItem' button onClick={function(){ openPage('/registration'); }} >
       <ListItemIcon >
-        <Icon icon={signIn} className={props.classes.drawerIcons} />
+        <Icon icon={signIn} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Register" className={props.classes.drawerText} />
+      <ListItemText primary="Register" className={styles.drawerText} />
     </ListItem>);    
   };
 
@@ -758,4 +757,4 @@ export function PatientSidebar(props){
   );
 }
 
-export default withStyles(styles, { withTheme: true })(PatientSidebar);
+export default PatientSidebar;

@@ -56,6 +56,9 @@ import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
 import logger from '../Logger';
+import useStyles from '../Styles';
+
+import { useSwipeable } from 'react-swipeable';
 
 //=============================================================================================================================================
 // Analytics
@@ -88,130 +91,131 @@ import theme from '../Theme';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
-  const useStyles = makeStyles(theme => ({
-    primaryFlexPanel: {
-      display: 'flex',
-    },
-    canvas: {
-      flexGrow: 1,
-      position: "absolute",
-      left: 0,
-      top: 0,
-      width: '100%',
-      height: '100%',
-      paddingTop: '0px',
-      paddingBottom: '0px',
-      background: 'inherit',
-      //backgroundColor: theme.palette.background.default,
-      transition: theme.transitions.create('left', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      display: 'block'
-    },
-    canvasOpen: {
-      flexGrow: 1,
-      position: "absolute",
-      left: drawerWidth,
-      top: 0,
-      width: '100%',
-      height: '100%',
-      paddingTop: '0px',
-      paddingBottom: '0px',
-      background: 'inherit',
-      //backgroundColor: theme.palette.background.default,
-      transition: theme.transitions.create('left', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      display: 'block'
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: 'nowrap',
-      position: 'absolute', 
-      zIndex: 1100,
-      backgroundColor: theme.palette.paper.main
-    },
-    drawerOpen: {
-      width: drawerWidth,
-      transition: theme.transitions.create(['width', 'left', 'opacity'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      backgroundColor: theme.palette.paper.main,
-      opacity: 1,
-      left: '0px'
-    },
-    drawerClose: {
-      transition: theme.transitions.create(['width', 'left', 'opacity'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: 'hidden',
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9) + 1
-      },
-      backgroundColor: theme.palette.paper.main,
-      opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? 1 : 0,
-      left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? '0px' : ('-' + theme.spacing(7) + 1 + 'px')
-    },
-    drawerIcons: {
-      fontSize: '120%',
-      paddingLeft: '8px',
-      paddingRight: '2px'
-    },
-    divider: {
-      height: '2px'
-    },
-    drawerText: {
-      textDecoration: 'none !important'
-    },
-    hide: {
-      display: 'none',
-    },
-    menuButton: {
-      marginRight: 36,
-      float: 'left'
-    },
-    toolbar: {
-      display: 'inline-block',
-      minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
-      float: 'left'
-    },
-    title: {
-      paddingTop: '10px'
-    },
-    header_label: {
-      paddingTop: '10px',
-      fontWeight: 'bold',
-      fontSize: '1 rem',
-      float: 'left',
-      paddingRight: '10px'
-    },
-    header_text: {
-      paddingTop: '10px',
-      fontSize: '1 rem',
-      float: 'left'
-    },
-    northeast_title: {
-      paddingTop: '10px',
-      float: 'right',
-      position: 'absolute',
-      paddingRight: '20px',
-      right: '0px',
-      top: '0px',
-      fontWeight: 'normal'
-    },
-    menu_items: {
-      position: 'absolute',
-      bottom: '10px'
-    }
-  }));
+// const useStyles = makeStyles(theme => ({
+  //   primaryFlexPanel: {
+  //     display: 'flex',
+  //   },
+  //   canvas: {
+  //     flexGrow: 1,
+  //     position: "absolute",
+  //     left: 0,
+  //     top: 0,
+  //     width: '100%',
+  //     height: '100%',
+  //     paddingTop: '0px',
+  //     paddingBottom: '0px',
+  //     background: 'inherit',
+  //     //backgroundColor: theme.palette.background.default,
+  //     transition: theme.transitions.create('left', {
+  //       easing: theme.transitions.easing.sharp,
+  //       duration: theme.transitions.duration.leavingScreen,
+  //     }),
+  //     display: 'block'
+  //   },
+  //   canvasOpen: {
+  //     flexGrow: 1,
+  //     position: "absolute",
+  //     left: drawerWidth,
+  //     top: 0,
+  //     width: '100%',
+  //     height: '100%',
+  //     paddingTop: '0px',
+  //     paddingBottom: '0px',
+  //     background: 'inherit',
+  //     //backgroundColor: theme.palette.background.default,
+  //     transition: theme.transitions.create('left', {
+  //       easing: theme.transitions.easing.sharp,
+  //       duration: theme.transitions.duration.enteringScreen,
+  //     }),
+  //     display: 'block'
+  //   },
+  //   drawer: {
+  //     width: drawerWidth,
+  //     flexShrink: 0,
+  //     whiteSpace: 'nowrap',
+  //     position: 'absolute', 
+  //     zIndex: 1100,
+  //     backgroundColor: theme.palette.paper.main
+  //   },
+  //   drawerOpen: {
+  //     width: drawerWidth,
+  //     transition: theme.transitions.create(['width', 'left', 'opacity'], {
+  //       easing: theme.transitions.easing.sharp,
+  //       duration: theme.transitions.duration.enteringScreen,
+  //     }),
+  //     backgroundColor: theme.palette.paper.main,
+  //     opacity: 1,
+  //     left: '0px'
+  //   },
+  //   drawerClose: {
+  //     transition: theme.transitions.create(['width', 'left', 'opacity'], {
+  //       easing: theme.transitions.easing.sharp,
+  //       duration: theme.transitions.duration.leavingScreen,
+  //     }),
+  //     overflowX: 'hidden',
+  //     width: theme.spacing(7) + 1,
+  //     [theme.breakpoints.up('sm')]: {
+  //       width: theme.spacing(9) + 1
+  //     },
+  //     backgroundColor: theme.palette.paper.main,
+  //     opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? 1 : 0,
+  //     left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? '0px' : ('-' + theme.spacing(7) + 1 + 'px')
+  //   },
+  //   drawerIcons: {
+  //     fontSize: '120%',
+  //     paddingLeft: '8px',
+  //     paddingRight: '2px'
+  //   },
+  //   divider: {
+  //     height: '2px'
+  //   },
+  //   drawerText: {
+  //     textDecoration: 'none !important'
+  //   },
+  //   hide: {
+  //     display: 'none',
+  //   },
+  //   menuButton: {
+  //     marginRight: 36,
+  //     float: 'left'
+  //   },
+  //   toolbar: {
+  //     display: 'inline-block',
+  //     minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
+  //     float: 'left'
+  //   },
+  //   title: {
+  //     paddingTop: '10px'
+  //   },
+  //   header_label: {
+  //     paddingTop: '10px',
+  //     fontWeight: 'bold',
+  //     fontSize: '1 rem',
+  //     float: 'left',
+  //     paddingRight: '10px'
+  //   },
+  //   header_text: {
+  //     paddingTop: '10px',
+  //     fontSize: '1 rem',
+  //     float: 'left'
+  //   },
+  //   northeast_title: {
+  //     paddingTop: '10px',
+  //     float: 'right',
+  //     position: 'absolute',
+  //     paddingRight: '20px',
+  //     right: '0px',
+  //     top: '0px',
+  //     fontWeight: 'normal'
+  //   },
+  //   menu_items: {
+  //     position: 'absolute',
+  //     bottom: '10px'
+  //   }
+  // }));
 
   // custom hook to listen to the resize event
+
   function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
 
@@ -228,6 +232,9 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
     }
     return size;
   }
+
+
+
 
 
 // ==============================================================================
@@ -413,6 +420,10 @@ export function App(props) {
   logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
 
 
+
+
+
+
   // ------------------------------------------------------------------
   // Props  
 
@@ -460,6 +471,33 @@ export function App(props) {
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [appWidth, appHeight] = useWindowSize();
+
+
+    // ------------------------------------------------------------------
+  // User Interfaces
+  
+  const drawerHandlers = useSwipeable({
+    // onSwiped: function(eventData){
+    //   console.log("User Swiped!", eventData)
+    // },
+    onSwipedLeft: function(eventData){
+      console.log("User SwipedLeft!", eventData)
+      setDrawerIsOpen(false)
+    },
+    onSwipedRight: function(eventData){
+      console.log("User SwipedRight!", eventData)
+      setDrawerIsOpen(true)
+    },
+    onSwipedUp: function(eventData){
+      console.log("User SwipedUp!", eventData)
+    },
+    onSwiping: function(eventData){
+      console.log("User Swiping!", eventData)
+    },
+    onTap: function(eventData){
+      console.log("User Tapped!", eventData)
+    }
+  });
 
   // ------------------------------------------------------------------
   // Pathname Updates
@@ -646,7 +684,7 @@ export function App(props) {
         
         <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
-        <div id="appDrawerContainer" style={drawerStyle}>
+        <div id="appDrawerContainer" style={drawerStyle} {...drawerHandlers}>
           { drawer }
         </div>
         <main id='mainAppRouter' className={clsx({

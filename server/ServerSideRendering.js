@@ -40,7 +40,6 @@ onPageLoad((sink) => {
 
   const htmlString = renderToString(sheets.collect(
     <ThemeProvider theme={theme} >          
-      {/* <AppLoadingPage location={sink.request.url} /> */}
       <AppContainer location={sink.request.url} />
     </ThemeProvider>  
   ));
