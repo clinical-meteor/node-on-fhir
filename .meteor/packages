@@ -41,4 +41,4 @@ clinical:hl7-fhir-data-infrastructure
 # symptomatic:healthkit-importer  
 # symptomatic:immunization-card
 
-goinvo:hgraph-mobile
+# goinvo:hgraph-mobile
