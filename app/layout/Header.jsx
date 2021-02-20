@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
-import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -25,6 +25,7 @@ import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import theme from '../Theme';
 import logger from '../Logger';
+import useStyles from '../Styles';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
@@ -60,61 +61,61 @@ Object.keys(Package).forEach(function(packageName){
   }
 });
 
-// ==============================================================================
-// Theming
+// // ==============================================================================
+// // Theming
 
-const useStyles = makeStyles(theme => ({
-  headerNavContainer: {  
-    height: '64px',
-    position: 'fixed',
-    top: "0px",
-    left: "0px",
-    background: theme.palette.appBar.main,
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText,
-    width: '100%',
-    zIndex: 1200,
-    transition: theme.transitions.create(['width', 'left', 'top'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
-  },
-  title: {
-    flexGrow: 1,
-    color: theme.palette.appBar.contrastText,
-    paddingTop: '0px',
-    fontWeight: '200',
-    fontSize: '2.125rem',
-    float: 'left',
-    marginTop: Meteor.isCordova ? '5px !important' : '0px',
-    whiteSpace: 'nowrap'
-  },
-  header_label: {
-    paddingTop: '10px',
-    fontWeight: 'bold',
-    fontSize: '1 rem',
-    float: 'left',
-    paddingRight: '10px',
-    paddingLeft: '40px'
-  },
-  header_text: {
-    paddingTop: '10px',
-    fontSize: '1 rem',
-    float: 'left'
-  },
-  menuButton: {
-    float: 'left',
-    color: theme.palette.appBar.contrastText,
-    background: 'inherit',
-    backgroundColor: 'inherit',
-    border: '0px none black',
-    paddingTop: '10px',
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    cursor: 'pointer'
-  }
-}));
+// const useStyles = makeStyles(theme => ({
+//   headerNavContainer: {  
+//     height: '64px',
+//     position: 'fixed',
+//     top: "0px",
+//     left: "0px",
+//     background: theme.palette.appBar.main,
+//     backgroundColor: theme.palette.appBar.main,
+//     color: theme.palette.appBar.contrastText,
+//     width: '100%',
+//     zIndex: 1200,
+//     transition: theme.transitions.create(['width', 'left', 'top'], {
+//       easing: theme.transitions.easing.sharp,
+//       duration: theme.transitions.duration.leavingScreen
+//     }),
+//     filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
+//   },
+//   title: {
+//     flexGrow: 1,
+//     color: theme.palette.appBar.contrastText,
+//     paddingTop: '0px',
+//     fontWeight: '200',
+//     fontSize: '2.125rem',
+//     float: 'left',
+//     marginTop: Meteor.isCordova ? '5px !important' : '0px',
+//     whiteSpace: 'nowrap'
+//   },
+//   header_label: {
+//     paddingTop: '10px',
+//     fontWeight: 'bold',
+//     fontSize: '1 rem',
+//     float: 'left',
+//     paddingRight: '10px',
+//     paddingLeft: '40px'
+//   },
+//   header_text: {
+//     paddingTop: '10px',
+//     fontSize: '1 rem',
+//     float: 'left'
+//   },
+//   menuButton: {
+//     float: 'left',
+//     color: theme.palette.appBar.contrastText,
+//     background: 'inherit',
+//     backgroundColor: 'inherit',
+//     border: '0px none black',
+//     paddingTop: '10px',
+//     paddingLeft: '20px',
+//     paddingRight: '20px',
+//     cursor: 'pointer'
+//   }
+// }));
 
 
 // ==============================================================================
@@ -152,7 +153,7 @@ function Header(props) {
 
   let componentStyles = useStyles();
 
-  // console.log('componentStyles', componentStyles)
+  console.log('Header.styles', componentStyles)
 
   // ------------------------------------------------------------
   // Trackers
@@ -207,12 +208,12 @@ function Header(props) {
     }, []);  
   }
 
-  if(!displayNavbars){
-    componentStyles.headerNavContainer.top = '-128px'
-  }
-  if(get(Meteor, 'settings.public.defaults.disableHeader')){
-    componentStyles.headerNavContainer.display = 'none'
-  }
+  // if(!displayNavbars){
+  //   componentStyles.headerNavContainer.top = '-128px'
+  // }
+  // if(get(Meteor, 'settings.public.defaults.disableHeader')){
+  //   componentStyles.headerNavContainer.display = 'none'
+  // }
   // ------------------------------------------------------------  
   // Layout  
 
@@ -223,11 +224,8 @@ function Header(props) {
 
   let workflowTabsToRender;
   let selectedWorkflow;
-  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
-    componentStyles.headerNavContainer.height = '128px';
-
+  if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){    
     if(Meteor.isClient){
-
       headerWorkflows.forEach(function(workflow){
         if(Array.isArray(workflow.matchingPaths)){
           if(workflow.matchingPaths.includes(window.location.pathname)){
@@ -353,10 +351,11 @@ function Header(props) {
     <div id="header" className="headerNavContainer" position="fixed" className={componentStyles.headerNavContainer}>
       <div style={{paddingTop: '10px'}}>
           <Icon 
+            id="sidebarMenuButton"
             icon={ic_menu} 
             size={32} 
             onClick={ clickOnMenuButton.bind(this) }
-            className={componentStyles.menuButton}
+            className={componentStyles.sidebarMenuButton}
           />
         <h4 onClick={ function(){ goHome(); }} className={  componentStyles.title }>
           { parseTitle() }
