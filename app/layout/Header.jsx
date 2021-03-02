@@ -153,7 +153,7 @@ function Header(props) {
 
   let componentStyles = useStyles();
 
-  console.log('Header.styles', componentStyles)
+  // console.log('Header.styles', componentStyles)
 
   // ------------------------------------------------------------
   // Trackers
