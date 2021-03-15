@@ -116,7 +116,7 @@ function AppLoadingPage(props) {
     <div { ...otherProps } >
       { helmet }
       <div id='primaryFlexPanel' >
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <Header { ...otherProps } />
           <main id="appLoadingPage" style={{width: '100%', height: '100%', textAlign: 'center'}}>
             <div style={ styles.loadingMessage }>

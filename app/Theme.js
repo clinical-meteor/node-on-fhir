@@ -3,71 +3,89 @@ import { get, has } from 'lodash';
 
   // Global Theming 
   // This is necessary for the Material UI component render layer
-  let defaultAppTheme = {
-    primaryColor: "rgb(108, 183, 110)",
-    primaryText: "rgba(255, 255, 255, 1) !important",
+export const defaultAppPalette = {
+  primaryColor: "rgb(108, 183, 110)",
+  primaryText: "rgba(255, 255, 255, 1) !important",
 
-    secondaryColor: "rgb(108, 183, 110)",
-    secondaryText: "rgba(255, 255, 255, 1) !important",
+  secondaryColor: "rgb(108, 183, 110)",
+  secondaryText: "rgba(255, 255, 255, 1) !important",
 
-    cardColor: "rgba(255, 255, 255, 1) !important",
-    cardTextColor: "rgba(0, 0, 0, 1) !important",
+  cardColor: "rgba(255, 255, 255, 1) !important",
+  cardTextColor: "rgba(0, 0, 0, 1) !important",
 
-    errorColor: "rgb(128,20,60) !important",
-    errorText: "#ffffff !important",
+  errorColor: "rgb(128,20,60) !important",
+  errorText: "#ffffff !important",
 
-    appBarColor: "#f5f5f5 !important",
-    appBarTextColor: "rgba(0, 0, 0, 1) !important",
+  appBarColor: "#f5f5f5 !important",
+  appBarTextColor: "rgba(0, 0, 0, 1) !important",
 
-    paperColor: "#f5f5f5 !important",
-    paperTextColor: "rgba(0, 0, 0, 1) !important",
+  paperColor: "#f5f5f5 !important",
+  paperTextColor: "rgba(0, 0, 0, 1) !important",
 
-    backgroundCanvas: "rgba(255, 255, 255, 1) !important",
-    background: "linear-gradient(45deg, rgb(108, 183, 110) 30%, rgb(150, 202, 144) 90%)",
+  canvasColor: "rgba(255, 255, 255, 1) !important",
+  canvasTextColor: "rgba(0, 0, 0, 1) !important",
 
-    nivoTheme: "greens"
-  }
+  bodyBackground: "#000000",
 
-  // if we have a globally defined theme from a settings file
-  if(get(Meteor, 'settings.public.theme.palette')){
-    defaultAppTheme = Object.assign(defaultAppTheme, get(Meteor, 'settings.public.theme.palette'));
-  }
+  nivoTheme: "greens"
+}
 
-  const theme = createMuiTheme({
+// convert our const into a variable
+let themedAppPalette = defaultAppPalette;
+
+// and then assign a globally defined theme from a settings file, if available
+if(get(Meteor, 'settings.public.theme.palette')){
+  themedAppPalette = Object.assign(defaultAppPalette, get(Meteor, 'settings.public.theme.palette'));
+}
+
+
+// then feed the themed palette into the muiTheme generator.
+export const theme = createMuiTheme({
     typography: {
       useNextVariants: true,
     },
     palette: {
       primary: {
-        main: defaultAppTheme.primaryColor,
-        contrastText: defaultAppTheme.primaryText
+        main: themedAppPalette.primaryColor,
+        contrastText: themedAppPalette.primaryText
       },
       secondary: {
-        main: defaultAppTheme.secondaryColor,
-        contrastText: defaultAppTheme.errorText
+        main: themedAppPalette.secondaryColor,
+        contrastText: themedAppPalette.errorText
       },
       appBar: {
-        main: defaultAppTheme.appBarColor,
-        contrastText: defaultAppTheme.appBarTextColor
+        main: themedAppPalette.appBarColor,
+        contrastText: themedAppPalette.appBarTextColor
       },
       cards: {
-        main: defaultAppTheme.cardColor,
-        contrastText: defaultAppTheme.cardTextColor
+        main: themedAppPalette.cardColor,
+        contrastText: themedAppPalette.cardTextColor
       },
       paper: {
-        main: defaultAppTheme.paperColor,
-        contrastText: defaultAppTheme.paperTextColor
+        main: themedAppPalette.paperColor,
+        contrastText: themedAppPalette.paperTextColor
       },
       error: {
-        main: defaultAppTheme.errorColor,
-        contrastText: defaultAppTheme.secondaryText
+        main: themedAppPalette.errorColor,
+        contrastText: themedAppPalette.secondaryText
       },
       background: {
-        default: defaultAppTheme.backgroundCanvas
+        default: get(themedAppPalette, "bodyBackground", "#000000") 
       },
       contrastThreshold: 3,
       tonalOffset: 0.2
+    },
+    overrides: {
+      MuiCssBaseline: {
+        "@global": {
+            body: {
+                backgroundColor: "black",
+                background: "black"
+            }
+        }
+      }
     }
   });
 
+  // et viola!
   export default theme;
