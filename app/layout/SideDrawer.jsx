@@ -140,11 +140,16 @@ function SideDrawer(props) {
   // Rendering
 
   let drawerVarient = "temporary";
-  let drawerClassNames;
+  let drawerContainerClassNames = styles.drawerContents;;
+  let drawerContentsClassNames = styles.drawerContents;
 
   if(!get(Meteor, 'settings.public.defaults.disableCanvasSlide')){
     drawerVarient = "persistent";
-    drawerClassNames = clsx(classes.drawer, {
+    drawerContainerClassNames = clsx(classes.drawer, {
+      [classes.drawerOpen]: drawerIsOpen,
+      [classes.drawerClose]: !drawerIsOpen
+    })
+    drawerContentsClassNames = clsx(classes.drawer, {
       [classes.drawerOpen]: drawerIsOpen,
       [classes.drawerClose]: !drawerIsOpen
     })
@@ -158,8 +163,8 @@ function SideDrawer(props) {
           id="appDrawer"
           variant={drawerVarient}
           anchor="left"
-          className={styles.drawerContents}
-          classes={{paper: styles.drawerContents}}
+          className={drawerContentsClassNames}
+          classes={{paper: drawerContentsClassNames}}
           open={drawerIsOpen}
           onClose={handleDrawerClose.bind(this)}
           onOpen={handleDrawerOpen.bind(this)}
@@ -183,7 +188,7 @@ function SideDrawer(props) {
 
 
   return (
-    <aside id="appDrawerContainer" className={drawerClassNames} classes={drawerClassNames} style={{width: drawerWidth}} >
+    <aside id="appDrawerContainer" className={drawerContainerClassNames} classes={drawerContainerClassNames} style={{width: drawerWidth}} >
       { containerContents }
     </aside> 
   );
