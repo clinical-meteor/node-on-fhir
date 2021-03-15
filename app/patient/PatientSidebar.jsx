@@ -16,6 +16,9 @@ import Badge from '@material-ui/core/Badge';
 
 import Divider from '@material-ui/core/Divider';
 
+//==========================================================================================
+// Icons
+
 import { Icon } from 'react-icons-kit';
 import {logOut} from 'react-icons-kit/ionicons/logOut';
 import {documentIcon} from 'react-icons-kit/ionicons/documentIcon';
@@ -93,94 +96,15 @@ import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition
 
 import {signIn} from 'react-icons-kit/fa/signIn';
 
+
+//==========================================================================================
+// Styling
+
 import useStyles from '../Styles';
 
-// const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 360);
 
-// const styles = theme => ({
-//   header: {
-//     display: 'flex'
-//   },
-//   appBar: {
-//     zIndex: theme.zIndex.drawer + 1,
-//     transition: theme.transitions.create(['width', 'margin'], {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.leavingScreen,
-//     })
-//   },
-//   appBarShift: {
-//     marginLeft: drawerWidth,
-//     width: `calc(100% - ${drawerWidth}px)`,
-//     transition: theme.transitions.create(['width', 'margin'], {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.enteringScreen,
-//     })
-//   },
-//   canvas: {
-//     flexGrow: 1,
-//     padding: theme.spacing(3),
-//     paddingLeft: '73px'
-//   },
-//   drawer: {
-//     width: drawerWidth,
-//     flexShrink: 0,
-//     whiteSpace: 'nowrap',
-//     backgroundColor: '#fafafa'
-//   },
-//   drawerOpen: {
-//     width: drawerWidth,
-//     transition: theme.transitions.create('width', {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.enteringScreen,
-//     }),
-//     backgroundColor: '#fafafa'
-//   },
-//   drawerClose: {
-//     transition: theme.transitions.create('width', {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.leavingScreen,
-//     }),
-//     overflowX: 'hidden',
-//     width: theme.spacing(7) + 1,
-//     [theme.breakpoints.up('sm')]: {
-//       width: theme.spacing(9) + 1
-//     },
-//     backgroundColor: '#fafafa'
-//   },
-//   drawerIcons: {
-//     fontSize: '200%',
-//     paddingLeft: '10px',
-//     paddingRight: '2px'
-//   },
-//   drawerText: {
-//     textDecoration: 'none !important'
-//   },
-//   drawerTextTag: {
-//     float: 'right',
-//     textAlign: 'right',
-//     fontWeight: 'bold'
-//   },
-//   hide: {
-//     display: 'none',
-//   },
-//   menuButton: {
-//     marginLeft: 12,
-//     marginRight: 36,
-//   },
-//   toolbar: {
-//     display: 'flex',
-//     alignItems: 'center',
-//     justifyContent: 'flex-end',
-//     padding: '0 8px',
-//     ...theme.mixins.toolbar
-//   },
-//   divider: {
-//     height: '2px'
-//   }
-// });
-
-
-
+//==========================================================================================
+// Main Component
 
 export function PatientSidebar(props){
   logger.debug('PatientSidebar is rendering.');
@@ -242,7 +166,13 @@ export function PatientSidebar(props){
     logger.verbose('client.app.patient.PatientSidebar.toggleNavbars');
 
     Session.toggle('displayNavbars');
-    logger.info('Logging user out.');
+    logger.info('Toggling Navbars');
+  }
+  function openDocumentationLink(){
+    logger.verbose('client.app.patient.PatientSidebar.openDocumentationLink');
+
+    window.open(get(Meteor, 'settings.public.defaults.sidebar.links.documentation', 'https://www.hgraph.org/'))
+    logger.info('Open documentation website');
   }
   
 
@@ -613,6 +543,19 @@ export function PatientSidebar(props){
       </ListItem>);    
   };
 
+  //----------------------------------------------------------------------
+  // Documentation
+
+  let documentationElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Documentation')){
+      documentationElements.push(<ListItem id='documentationItem' key='documentationItem' button onClick={function(){ openDocumentationLink(); }} >
+        <ListItemIcon >
+          <Icon icon={documentIcon} className={styles.drawerIcons} />
+        </ListItemIcon>
+        <ListItemText primary="Documentation" className={styles.drawerText}  />
+      </ListItem>);    
+  };
+
 
   //----------------------------------------------------------------------
   // Privacy
@@ -747,6 +690,7 @@ export function PatientSidebar(props){
 
       { themingElements }
       { aboutElements }
+      { documentationElements }
       { privacyElements }
       { termsAndConditionElements }
       { navbarElements }

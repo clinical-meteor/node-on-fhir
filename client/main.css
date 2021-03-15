@@ -1,9 +1,13 @@
 body {
   padding: 0px;
-  font-family: sans-serif;
-
+  font-family: Roboto,Helvetica,Arial,sans-serif;
   overflow: hidden;
-  background-color: "#000000"
+  background: black;
+  background-color: black !important;
+
+  letter-spacing: 0.01071em;
+  line-height: 1.43;
+  font-size: 0.875rem;
 }
 
 
@@ -14,7 +18,7 @@ body {
   left: 0;
   right: 0;
   overflow: auto;
-  background-color: "#f2f2f2"
+  background: #f2f2f2;
 }
 
 a{

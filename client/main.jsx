@@ -30,7 +30,7 @@ const accountsRest = new RestClient({
 const accountsClient = new AccountsClient({}, accountsRest);
 const accountsPassword = new AccountsClientPassword(accountsClient);
 
-
+const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 onPageLoad(async function(){
   logger.info("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
