@@ -104,7 +104,7 @@ let rawStyles = {
       background: 'inherit',
       //backgroundColor: theme.palette.background.default,
       transition: theme.transitions.create('left', {
-        easing: theme.transitions.easing.sharp,
+        easing: theme.transitions.easing.easeInOut,
         duration: theme.transitions.duration.leavingScreen,
       }),
       display: 'block'
@@ -121,7 +121,7 @@ let rawStyles = {
       background: 'inherit',
       //backgroundColor: theme.palette.background.default,
       transition: theme.transitions.create('left', {
-        easing: theme.transitions.easing.sharp,
+        easing: theme.transitions.easing.easeIn,
         duration: theme.transitions.duration.enteringScreen,
       }),
       display: 'block',
@@ -138,6 +138,7 @@ let rawStyles = {
           easing: theme.transitions.easing.easeInOut,
           duration: theme.transitions.duration.enteringScreen
         }),
+      left: '0px'
     },
     drawerContents: {
       width: drawerWidth,
@@ -153,9 +154,10 @@ let rawStyles = {
         duration: theme.transitions.duration.enteringScreen
       }),
       backgroundColor: 'inherit',
+      position: 'relative',
       // backgroundColor: theme.palette.paper.main,
       // opacity: 1,
-      left: 0
+      left: '0px'
     },
     drawerClose: {
       transition: theme.transitions.create(['left'], {
@@ -168,10 +170,11 @@ let rawStyles = {
         width: theme.spacing(9) + 1
       },
       backgroundColor: 'inherit',
+      position: 'relative',
       // backgroundColor: theme.palette.paper.main,
       // opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? 1 : 0,
       // left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? '0px' : ('-' + drawerWidth + 'px')
-      left: 0 - drawerWidth
+      left: (0 - drawerWidth) + "px"      
     },
     drawerPaper: {
       width: drawerWidth,
