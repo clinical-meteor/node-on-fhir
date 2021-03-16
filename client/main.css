@@ -1,8 +1,13 @@
 body {
   padding: 0px;
-  font-family: sans-serif;
-
+  font-family: Roboto,Helvetica,Arial,sans-serif;
   overflow: hidden;
+  background: black;
+  background-color: black !important;
+
+  letter-spacing: 0.01071em;
+  line-height: 1.43;
+  font-size: 0.875rem;
 }
 
 
@@ -13,6 +18,7 @@ body {
   left: 0;
   right: 0;
   overflow: auto;
+  background: #f2f2f2;
 }
 
 a{
@@ -29,10 +35,28 @@ a{
 /* https://stackoverflow.com/questions/53290178/cordova-iphone-x-safe-area-after-layout-orientation-changes */
 
 body {
-  margin-top: constant(safe-area-inset-top, 0px); /* iOS 11.0 */
-  margin-top: env(safe-area-inset-top, 0px); /* iOS 11.2 */
+  margin-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
+  margin-bottom: env(safe-area-inset-bottom); /* iOS 11.2 */
+
+  margin-top: constant(safe-area-inset-top); /* iOS 11.0 */
+  margin-top: env(safe-area-inset-top); /* iOS 11.2 */
+
+  margin-left: constant(safe-area-inset-left, 0px); /* iOS 11.0 */
+  margin-left: env(safe-area-inset-left, 0px); /* iOS 11.2 */
+
+  margin-right: constant(safe-area-inset-right, 0px); /* iOS 11.0 */
+  margin-right: env(safe-area-inset-right, 0px); /* iOS 11.2 */
 }
-.footerNavContainer {
-  margin-bottom: constant(safe-area-inset-bottom, 0px); /* iOS 11.0 */
-  margin-bottom: env(safe-area-inset-bottom, 0px); /* iOS 11.2 */
+footer {
+  margin-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
+  margin-bottom: env(safe-area-inset-bottom); /* iOS 11.2 */
+
+  margin-top: constant(safe-area-inset-top); /* iOS 11.0 */
+  margin-top: env(safe-area-inset-top); /* iOS 11.2 */
+
+  margin-left: constant(safe-area-inset-left, 0px); /* iOS 11.0 */
+  margin-left: env(safe-area-inset-left, 0px); /* iOS 11.2 */
+
+  margin-right: constant(safe-area-inset-right, 0px); /* iOS 11.0 */
+  margin-right: env(safe-area-inset-right, 0px); /* iOS 11.2 */
 }
