@@ -36,7 +36,23 @@ let rawStyles = {
       fontSize: '2.125rem',
       float: 'left',
       marginTop: Meteor.isCordova ? '5px !important' : '0px',
-      whiteSpace: 'nowrap'
+      whiteSpace: 'nowrap',
+      position: 'absolute',
+      top: '10px',
+      left: '64px'
+    },
+    title_cordova: {
+      flexGrow: 1,
+      color: theme.palette.appBar.contrastText,
+      paddingTop: '0px',
+      fontWeight: '200',
+      fontSize: '2.125rem',
+      float: 'left',
+      marginTop: Meteor.isCordova ? '5px !important' : '0px',
+      whiteSpace: 'nowrap',
+      position: 'absolute',
+      top: '5px',
+      left: '64px'
     },
     header_label: {
       paddingTop: '10px',

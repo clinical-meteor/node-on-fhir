@@ -82,7 +82,6 @@ standard-minifier-css@1.7.2
 standard-minifier-js@2.6.0
 static-html@1.2.2
 symptomatic:healthkit-importer@0.8.3
-symptomatic:immunization-card@0.7.2
 symptomatic:orbital@0.6.1
 templating-tools@1.1.2
 tmeasday:check-npm-versions@0.3.2
