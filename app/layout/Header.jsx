@@ -153,7 +153,7 @@ function Header(props) {
 
   let componentStyles = useStyles();
 
-  console.log('Header.styles', componentStyles)
+  // console.log('Header.styles', componentStyles)
 
   // ------------------------------------------------------------
   // Trackers
@@ -345,7 +345,10 @@ function Header(props) {
     }
   }
 
-
+  let titleClass = componentStyles.title;
+  if(Meteor.isCordova){
+    titleClass = componentStyles.title_cordova;
+  }
 
   return (
     <div id="header" className="headerNavContainer" position="fixed" className={componentStyles.headerNavContainer}>
@@ -357,7 +360,7 @@ function Header(props) {
             onClick={ clickOnMenuButton.bind(this) }
             className={componentStyles.sidebarMenuButton}
           />
-        <h4 onClick={ function(){ goHome(); }} className={  componentStyles.title }>
+        <h4 onClick={ function(){ goHome(); }} className={ titleClass }>
           { parseTitle() }
         </h4>
 

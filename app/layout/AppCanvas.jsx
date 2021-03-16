@@ -7,7 +7,7 @@ function AppCanvas(props) {
   const { children, startAdornment, ...otherProps } = props;
 
   return (
-    <div id="appCanvas" { ...otherProps } >
+    <div id="appCanvas" { ...otherProps } style={{overflow: 'hidden'}}>
       { children }
     </div>
   );
