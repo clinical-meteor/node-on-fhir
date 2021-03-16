@@ -36,7 +36,23 @@ let rawStyles = {
       fontSize: '2.125rem',
       float: 'left',
       marginTop: Meteor.isCordova ? '5px !important' : '0px',
-      whiteSpace: 'nowrap'
+      whiteSpace: 'nowrap',
+      position: 'absolute',
+      top: '10px',
+      left: '64px'
+    },
+    title_cordova: {
+      flexGrow: 1,
+      color: theme.palette.appBar.contrastText,
+      paddingTop: '0px',
+      fontWeight: '200',
+      fontSize: '2.125rem',
+      float: 'left',
+      marginTop: Meteor.isCordova ? '5px !important' : '0px',
+      whiteSpace: 'nowrap',
+      position: 'absolute',
+      top: '5px',
+      left: '64px'
     },
     header_label: {
       paddingTop: '10px',
@@ -63,161 +79,173 @@ let rawStyles = {
       cursor: 'pointer'
     },
     footerNavContainer: {  
-        height: '64px',
-        position: 'fixed',
-        bottom: "0px",
-        left: "0px",
-        background: theme.palette.appBar.main,
-        backgroundColor: theme.palette.appBar.main,
-        color: theme.palette.appBar.contrastText,
-        width: '100%',
-        zIndex: 1300,
-        borderTop: '1px solid lightgray',
-        transition: theme.transitions.create(['width', 'left', 'bottom'], {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen
-        }),
-        filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
-      },
-      footer: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.appBar.main,
-        color: theme.palette.appBar.contrastText
-      },
-      footerNavigation: {
-        backgroundColor: "inherit", 
-        justifyContent: 'left',
-        position: 'absolute'
-      },
-      primaryFlexPanel: {
-        display: 'flex',
-      },
-      canvas: {
-        flexGrow: 1,
-        position: "absolute",
-        left: 0,
-        top: 0,
-        width: '100%',
-        height: '100%',
-        paddingTop: '0px',
-        paddingBottom: '0px',
-        background: 'inherit',
-        //backgroundColor: theme.palette.background.default,
-        transition: theme.transitions.create('left', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        display: 'block'
-      },
-      canvasOpen: {
-        flexGrow: 1,
-        position: "fixed",
-        left: drawerWidth,
-        top: 0,
-        width: '100%',
-        height: '100%',
-        paddingTop: '0px',
-        paddingBottom: '0px',
-        background: 'inherit',
-        //backgroundColor: theme.palette.background.default,
-        transition: theme.transitions.create('left', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-        display: 'block',
-        overflowX: 'hidden'
-      },
-      drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-        position: 'absolute', 
-        zIndex: 1100,
-        backgroundColor: theme.palette.paper.main,
-        transition: theme.transitions.create(['left', 'opacity'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen
-          }),
-        },
-      drawerOpen: {
-        width: drawerWidth,
-        transition: theme.transitions.create(['left', 'opacity'], {
-          easing: theme.transitions.easing.sharp,
+      height: '64px',
+      position: 'fixed',
+      bottom: "0px",
+      left: "0px",
+      background: theme.palette.appBar.main,
+      backgroundColor: theme.palette.appBar.main,
+      color: theme.palette.appBar.contrastText,
+      width: '100%',
+      zIndex: 1300,
+      borderTop: '1px solid lightgray',
+      transition: theme.transitions.create(['width', 'left', 'bottom'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      }),
+      filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
+    },
+    footer: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.appBar.main,
+      color: theme.palette.appBar.contrastText
+    },
+    footerNavigation: {
+      backgroundColor: "inherit", 
+      justifyContent: 'left',
+      position: 'absolute'
+    },
+    primaryFlexPanel: {
+      display: 'flex',
+    },
+    canvas: {
+      flexGrow: 1,
+      position: "absolute",
+      left: 0,
+      top: 0,
+      width: '100%',
+      height: '100%',
+      paddingTop: '0px',
+      paddingBottom: '0px',
+      background: 'inherit',
+      //backgroundColor: theme.palette.background.default,
+      transition: theme.transitions.create('left', {
+        easing: theme.transitions.easing.easeInOut,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      display: 'block'
+    },
+    canvasOpen: {
+      flexGrow: 1,
+      position: "fixed",
+      left: drawerWidth,
+      top: 0,
+      width: '100%',
+      height: '100%',
+      paddingTop: '0px',
+      paddingBottom: '0px',
+      background: 'inherit',
+      //backgroundColor: theme.palette.background.default,
+      transition: theme.transitions.create('left', {
+        easing: theme.transitions.easing.easeIn,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      display: 'block',
+      overflowX: 'hidden'
+    },
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+      whiteSpace: 'nowrap',
+      position: 'absolute', 
+      zIndex: 1100,
+      backgroundColor: theme.palette.paper.main,
+      transition: theme.transitions.create(['left'], {
+          easing: theme.transitions.easing.easeInOut,
           duration: theme.transitions.duration.enteringScreen
         }),
-        backgroundColor: theme.palette.paper.main,
-        opacity: 1,
-        left: 0
+      left: '0px'
+    },
+    drawerContents: {
+      width: drawerWidth,
+      flexShrink: 0,
+      whiteSpace: 'nowrap',
+      position: 'absolute', 
+      zIndex: 1100,
+    },
+    drawerOpen: {
+      width: drawerWidth,
+      transition: theme.transitions.create(['left'], {
+        easing: theme.transitions.easing.easeIn,
+        duration: theme.transitions.duration.enteringScreen
+      }),
+      backgroundColor: 'inherit',
+      position: 'relative',
+      // backgroundColor: theme.palette.paper.main,
+      // opacity: 1,
+      left: '0px'
+    },
+    drawerClose: {
+      transition: theme.transitions.create(['left'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      overflowX: 'hidden',
+      width: theme.spacing(7) + 1,
+      [theme.breakpoints.up('sm')]: {
+        width: theme.spacing(9) + 1
       },
-      drawerClose: {
-        transition: theme.transitions.create(['left', 'opacity'], {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        overflowX: 'hidden',
-        width: theme.spacing(7) + 1,
-        [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9) + 1
-        },
-        backgroundColor: theme.palette.paper.main,
-        opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? 1 : 0,
-        // left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? '0px' : ('-' + drawerWidth + 'px')
-        left: 0 - drawerWidth
-      },
-      drawerPaper: {
-        width: drawerWidth,
-      },
-      drawerIcons: {
-        fontSize: '200%',
-        paddingLeft: '10px',
-        paddingRight: '2px'
-      },
-      divider: {
-        height: '2px'
-      },
-      drawerText: {
-        textDecoration: 'none !important'
-      },
-      hide: {
-        display: 'none',
-      },
-      menuButton: {
-        marginRight: 36,
-        float: 'left'
-      },
-      toolbar: {
-        display: 'inline-block',
-        minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
-        float: 'left'
-      },
-      header_label: {
-        paddingTop: '10px',
-        fontWeight: 'bold',
-        fontSize: '1 rem',
-        float: 'left',
-        paddingRight: '10px'
-      },
-      header_text: {
-        paddingTop: '10px',
-        fontSize: '1 rem',
-        float: 'left'
-      },
-      northeast_title: {
-        paddingTop: '10px',
-        float: 'right',
-        position: 'absolute',
-        paddingRight: '20px',
-        right: '0px',
-        top: '0px',
-        fontWeight: 'normal'
-      },
-      menu_items: {
-        position: 'absolute',
-        bottom: '10px'
-      },
-      divider: {
-        height: '2px'
-      }
+      backgroundColor: 'inherit',
+      position: 'relative',
+      // backgroundColor: theme.palette.paper.main,
+      // opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? 1 : 0,
+      // left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? '0px' : ('-' + drawerWidth + 'px')
+      left: (0 - drawerWidth) + "px"      
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    drawerIcons: {
+      fontSize: '200%',
+      paddingLeft: '10px',
+      paddingRight: '2px'
+    },
+    divider: {
+      height: '2px'
+    },
+    drawerText: {
+      textDecoration: 'none !important'
+    },
+    hide: {
+      display: 'none',
+    },
+    menuButton: {
+      marginRight: 36,
+      float: 'left'
+    },
+    toolbar: {
+      display: 'inline-block',
+      minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
+      float: 'left'
+    },
+    header_label: {
+      paddingTop: '10px',
+      fontWeight: 'bold',
+      fontSize: '1 rem',
+      float: 'left',
+      paddingRight: '10px'
+    },
+    header_text: {
+      paddingTop: '10px',
+      fontSize: '1 rem',
+      float: 'left'
+    },
+    northeast_title: {
+      paddingTop: '10px',
+      float: 'right',
+      position: 'absolute',
+      paddingRight: '20px',
+      right: '0px',
+      top: '0px',
+      fontWeight: 'normal'
+    },
+    menu_items: {
+      position: 'absolute',
+      bottom: '10px'
+    },
+    divider: {
+      height: '2px'
+    }
   }
 
 
