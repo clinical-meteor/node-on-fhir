@@ -246,6 +246,8 @@ function Header(props) {
   }
 
 
+
+
   // ------------------------------------------------------------
   // Helper Methods
 
@@ -338,14 +340,11 @@ function Header(props) {
     }
   }
 
-<<<<<<< HEAD
-=======
   let titleClass = componentStyles.title;
   if(Meteor.isCordova){
     titleClass = componentStyles.title_cordova;
   }
 
->>>>>>> development
   return (
     <div id="header" className="headerNavContainer" position="fixed" className={componentStyles.headerNavContainer}>
       <div style={{paddingTop: '10px'}}>
