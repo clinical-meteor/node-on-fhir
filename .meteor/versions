@@ -18,11 +18,7 @@ callback-hook@1.3.0
 check@1.3.1
 clinical:extended-api@2.5.1
 clinical:fonts@1.2.0
-<<<<<<< HEAD
-clinical:hl7-fhir-data-infrastructure@6.10.19
-=======
 clinical:hl7-fhir-data-infrastructure@6.11.4
->>>>>>> development
 clinical:hl7-resource-datatypes@4.0.6
 datarobot:waters@0.6.0
 ddp@1.4.0
