@@ -4,14 +4,20 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-babel-compiler@7.5.4
-meteor-base@1.4.0             # Packages every Meteor app needs to have
+babel-compiler@7.6.0
+meteor@1.9.3
+webapp@1.10.0
+ddp@1.4.0
+livedata@1.0.18
+es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
+# hot-code-push               # Doesnt belong on every deployment.  
+
 
 # SECURITY  
 alanning:roles
 
 # DATA INFRASTRUCTURE
-mongo@1.10.0                   # The database Meteor supports right now
+mongo@1.10.1                   # The database Meteor supports right now
 reactive-var@1.0.11            # Reactive variable for tracker
 react-meteor-data@2.1.2        # React higher-order component for reactively tracking Meteor data
 session@1.2.0
@@ -20,12 +26,11 @@ http@1.4.2
 simple:json-routes@2.1.0
 
 # RENDERING  
-es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
 static-html                   # Define static page content in .html files
-standard-minifier-css@1.6.1   # CSS minifier run for production mode
+standard-minifier-css@1.7.2   # CSS minifier run for production mode
 standard-minifier-js@2.6.0    # JS minifier run for production mode
 mobile-experience@1.1.0       # Packages for a great mobile UX
-ecmascript@0.14.3             # Enable ECMAScript2015+ syntax in app code
+ecmascript@0.15.0             # Enable ECMAScript2015+ syntax in app code
 shell-server@0.5.0            # Server-side component of the `meteor shell` command
 server-render@0.3.1
 npdev:react-loadable
@@ -35,6 +40,9 @@ fourseven:scss
 clinical:extended-api@2.5.0
 clinical:fonts@1.2.0
 clinical:hl7-resource-datatypes@4.0.6
-clinical:hl7-fhir-data-infrastructure
+clinical:hl7-fhir-data-infrastructure 
 
+# symptomatic:data-management
 # symptomatic:healthkit-importer  
+# symptomatic:immunization-card
+

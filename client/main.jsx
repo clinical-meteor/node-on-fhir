@@ -7,7 +7,6 @@ import { Session } from 'meteor/session';
 import ReactDOM from "react-dom";
 
 import { render } from 'react-dom';
-import AppContainer from '/app/layout/AppContainer';
 import { onPageLoad } from 'meteor/server-render';
 
 import { register } from 'register-service-worker';
@@ -20,6 +19,9 @@ import { RestClient } from '@accounts/rest-client';
 import theme from '../app/Theme';
 import logger from '../app/Logger';
 
+import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
+
+
 const accountsRest = new RestClient({
   // apiHost: 'http://localhost:4000',
   apiHost: get(Meteor, 'settings.public.accountsServer.host') + ":" + get(Meteor, 'settings.public.accountsServer.host'),
@@ -28,13 +30,14 @@ const accountsRest = new RestClient({
 const accountsClient = new AccountsClient({}, accountsRest);
 const accountsPassword = new AccountsClientPassword(accountsClient);
 
+const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-
-onPageLoad(function(){
+onPageLoad(async function(){
   logger.info("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
   Session.set('last_reloaded_url', window.location.search)
 
   const preloadedState = window.__PRELOADED_STATE__;
+  const AppContainer = (await import("/app/layout/AppContainer.jsx")).default;
 
   let searchParams = new URLSearchParams(get(preloadedState, 'url.path'));
   if(searchParams.get('iss')){
@@ -54,10 +57,51 @@ onPageLoad(function(){
     window.MobileAccessibility.usePreferredTextZoom(false);
   }
 
+  const jssStyles = document.querySelectorAll('jss-server-side');
+	if (jssStyles && jssStyles.parentNode) jssStyles.parentNode.removeChild(jssStyles);
+
+  const jssMakeStyles = document.querySelectorAll('[data-meta="makeStyles"]');
+	if (jssMakeStyles && jssMakeStyles.parentNode) jssMakeStyles.parentNode.removeChild(jssStyles);
+
+
   logger.info("Hydrating the reactTarget with AppContainer");
   ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
 });
 
+
+//========================================================================
+// HOT CODE PUSH RESUME
+
+// // this disables hot-push reloading!!!
+// // have to rebuild through the cordova pipeline to deploy updates
+// if(Meteor.isCordova){
+//   Reload._onMigrate(function (retry) {
+
+//     // remove any lingering styles from the last migration
+//     const oldMigrationStyles = document.querySelectorAll('jss-client-migration');
+//     if (oldMigrationStyles && oldMigrationStyles.parentNode) oldMigrationStyles.parentNode.removeChild(oldMigrationStyles);
+  
+//     // prepare to collect style sheets
+//     const sheets = new ServerStyleSheets();
+
+//     // do a secondary render of the application
+//     // to calculate style sheets in this environment
+//     const htmlString = renderToString(sheets.collect(
+//       <ThemeProvider theme={theme} >          
+//         <AppContainer location={get(window, 'location.pathname')} />
+//       </ThemeProvider>  
+//     ));
+
+//     // attach style sheets to app
+//     const $style = document.createElement("jss-client-migration");
+//     document.head.appendChild($style);
+
+//     return [true];
+//   });
+// }
+
+//========================================================================
+// WEB WORKERS (MULTITHREADED SCALING)
 
 //  // we register a static file that's put in the /public folder
 // register('/service-worker.js', {

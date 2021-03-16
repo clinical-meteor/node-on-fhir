@@ -27,26 +27,12 @@ import AppCanvas from './AppCanvas.jsx';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import ScrollDialog from './Dialog';
+import SideDrawer from './SideDrawer';
 
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 
 import clsx from 'clsx';
-import moment from 'moment';
 
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-
-import PatientSidebar from '../patient/PatientSidebar'
 import AppLoadingPage from '../core/AppLoadingPage'
 import PatientChart from '../patient/PatientChart'
 import PatientQuickChart from '../patient/PatientQuickChart'
@@ -56,23 +42,32 @@ import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
 import logger from '../Logger';
+import useStyles from '../Styles';
+
+import { useSwipeable } from 'react-swipeable';
 
 //=============================================================================================================================================
 // Analytics
 
+let analyticsTrackingCode = get(Meteor, 'settings.public.google.analytics.trackingCode')
+
 import ReactGA from 'react-ga';
-ReactGA.initialize(get(Meteor, 'settings.public.google.analytics.trackingCode'), {debug: get(Meteor, 'settings.public.google.analytics.debug', false)});
+ReactGA.initialize(analyticsTrackingCode, {debug: get(Meteor, 'settings.public.google.analytics.debug', false)});
 
 function logPageView() {
-  ReactGA.pageview(window.location.pathname + window.location.search);
-  ReactGA.set({ page: window.location.pathname });
+  if(analyticsTrackingCode){
+    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.set({ page: window.location.pathname });  
+  }
 };
 
 function usePageViews() {
   let location = useLocation();
   React.useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
-    ReactGA.set({ page: window.location.pathname });
+    if(analyticsTrackingCode){
+      ReactGA.pageview(window.location.pathname + window.location.search);
+      ReactGA.set({ page: window.location.pathname });  
+    }
   }, [location]);
 }
 
@@ -88,130 +83,8 @@ import theme from '../Theme';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
-  const useStyles = makeStyles(theme => ({
-    primaryFlexPanel: {
-      display: 'flex',
-    },
-    canvas: {
-      flexGrow: 1,
-      position: "absolute",
-      left: 0,
-      top: 0,
-      width: '100%',
-      height: '100%',
-      paddingTop: '0px',
-      paddingBottom: '0px',
-      background: 'inherit',
-      //backgroundColor: theme.palette.background.default,
-      transition: theme.transitions.create('left', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      display: 'block'
-    },
-    canvasOpen: {
-      flexGrow: 1,
-      position: "absolute",
-      left: drawerWidth,
-      top: 0,
-      width: '100%',
-      height: '100%',
-      paddingTop: '0px',
-      paddingBottom: '0px',
-      background: 'inherit',
-      //backgroundColor: theme.palette.background.default,
-      transition: theme.transitions.create('left', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      display: 'block'
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: 'nowrap',
-      position: 'absolute', 
-      zIndex: 1100,
-      backgroundColor: theme.palette.paper.main
-    },
-    drawerOpen: {
-      width: drawerWidth,
-      transition: theme.transitions.create(['width', 'left', 'opacity'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      backgroundColor: theme.palette.paper.main,
-      opacity: 1,
-      left: '0px'
-    },
-    drawerClose: {
-      transition: theme.transitions.create(['width', 'left', 'opacity'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: 'hidden',
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9) + 1
-      },
-      backgroundColor: theme.palette.paper.main,
-      opacity: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? 1 : 0,
-      left: (get(Meteor, 'settings.public.defaults.sidebar.minibarVisible') && (window.innerWidth > 1072)) ? '0px' : ('-' + theme.spacing(7) + 1 + 'px')
-    },
-    drawerIcons: {
-      fontSize: '120%',
-      paddingLeft: '8px',
-      paddingRight: '2px'
-    },
-    divider: {
-      height: '2px'
-    },
-    drawerText: {
-      textDecoration: 'none !important'
-    },
-    hide: {
-      display: 'none',
-    },
-    menuButton: {
-      marginRight: 36,
-      float: 'left'
-    },
-    toolbar: {
-      display: 'inline-block',
-      minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
-      float: 'left'
-    },
-    title: {
-      paddingTop: '10px'
-    },
-    header_label: {
-      paddingTop: '10px',
-      fontWeight: 'bold',
-      fontSize: '1 rem',
-      float: 'left',
-      paddingRight: '10px'
-    },
-    header_text: {
-      paddingTop: '10px',
-      fontSize: '1 rem',
-      float: 'left'
-    },
-    northeast_title: {
-      paddingTop: '10px',
-      float: 'right',
-      position: 'absolute',
-      paddingRight: '20px',
-      right: '0px',
-      top: '0px',
-      fontWeight: 'normal'
-    },
-    menu_items: {
-      position: 'absolute',
-      bottom: '10px'
-    }
-  }));
-
   // custom hook to listen to the resize event
+
   function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
 
@@ -228,6 +101,9 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
     }
     return size;
   }
+
+
+
 
 
 // ==============================================================================
@@ -413,6 +289,10 @@ export function App(props) {
   logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
 
 
+
+
+
+
   // ------------------------------------------------------------------
   // Props  
 
@@ -460,6 +340,33 @@ export function App(props) {
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [appWidth, appHeight] = useWindowSize();
+
+
+  // // ------------------------------------------------------------------
+  // // User Interfaces
+  
+  // const drawerHandlers = useSwipeable({
+  //   // onSwiped: function(eventData){
+  //   //   console.log("User Swiped!", eventData)
+  //   // },
+  //   onSwipedLeft: function(eventData){
+  //     console.log("User SwipedLeft!", eventData)
+  //     setDrawerIsOpen(false)
+  //   },
+  //   onSwipedRight: function(eventData){
+  //     console.log("User SwipedRight!", eventData)
+  //     setDrawerIsOpen(true)
+  //   },
+  //   onSwipedUp: function(eventData){
+  //     console.log("User SwipedUp!", eventData)
+  //   },
+  //   onSwiping: function(eventData){
+  //     console.log("User Swiping!", eventData)
+  //   },
+  //   onTap: function(eventData){
+  //     console.log("User Tapped!", eventData)
+  //   }
+  // });
 
   // ------------------------------------------------------------------
   // Pathname Updates
@@ -556,40 +463,43 @@ export function App(props) {
 
   
 
-  // ------------------------------------------------------------------
-  // User Interface
+  // // ------------------------------------------------------------------
+  // // User Interface
 
-  let drawerStyle = {}
+  // let drawerVarient = "persistent";
+  // if(get(Meteor, 'settings.public.defaults.disableCanvasSlide')){
+  //   drawerVarient = "temporary";
+  // } 
 
-  let drawer;
-  if(Meteor.isClient){
-      drawer = <Drawer
-        id='appDrawer'
-        variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: drawerIsOpen,
-          [classes.drawerClose]: !drawerIsOpen
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: drawerIsOpen,
-            [classes.drawerClose]: !drawerIsOpen
-          })
-        }}
-        open={drawerIsOpen}
-        style={drawerStyle}
-      >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose.bind(this)}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </div>
-        <Divider className={classes.divider} />
-        <List>
-          <PatientSidebar { ...otherProps } />
-        </List>
-      </Drawer>
-  }
+  // let drawer;
+  // if(Meteor.isClient){
+  //     drawer = <Drawer
+  //       id='appDrawer'
+  //       anchor="left"
+  //       variant={drawerVarient}
+  //       className={clsx(classes.drawer, {
+  //         [classes.drawerOpen]: drawerIsOpen,
+  //         [classes.drawerClose]: !drawerIsOpen
+  //       })}
+  //       classes={{
+  //         paper: clsx({
+  //           [classes.drawerOpen]: drawerIsOpen,
+  //           [classes.drawerClose]: !drawerIsOpen
+  //         })
+  //       }}
+  //       open={drawerIsOpen}
+  //     >
+  //       <div className={classes.toolbar}>
+  //         <IconButton onClick={handleDrawerClose.bind(this)} style={{width: '64px', height: '64px'}}>
+  //           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+  //         </IconButton>
+  //       </div>
+  //       <Divider className={classes.divider} />
+  //       <List>
+  //         <PatientSidebar { ...otherProps } />
+  //       </List>
+  //     </Drawer>
+  // }
 
   // ------------------------------------------------------------------
   // Page Routing  
@@ -636,23 +546,29 @@ export function App(props) {
     </ThemeProvider>
   }
 
+  let canvasSlide;
+  if(!get(Meteor, 'settings.public.defaults.disableCanvasSlide')){
+    canvasSlide = clsx({
+      [classes.canvasOpen]: drawerIsOpen,
+      [classes.canvas]: !drawerIsOpen
+    })
+  } else {
+    canvasSlide = clsx(classes.canvas)
+  }
+
+
   return(
     <AppCanvas { ...otherProps }>
       { helmet }
-
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
-        <CssBaseline />
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
-        
+        <SideDrawer drawerIsOpen={drawerIsOpen} onDrawerClose={function(){setDrawerIsOpen(false)}}  { ...otherProps } />        
         <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
-        <div id="appDrawerContainer" style={drawerStyle}>
+        {/* <div id="appDrawerContainer" {...drawerHandlers}>
           { drawer }
-        </div>
-        <main id='mainAppRouter' className={clsx({
-            [classes.canvasOpen]: drawerIsOpen,
-            [classes.canvas]: !drawerIsOpen
-          })}>
+        </div> */}
+        <main id='mainAppRouter' className={canvasSlide}>
           { routingSwitchLogic }
         </main>
         <ScrollDialog {...otherProps} appHeight={appHeight} />

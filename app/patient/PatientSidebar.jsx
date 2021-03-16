@@ -12,19 +12,23 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemLink from '@material-ui/core/ListItemText';
+import Badge from '@material-ui/core/Badge';
 
 import Divider from '@material-ui/core/Divider';
 
-import { Icon } from 'react-icons-kit'
-import {logOut} from 'react-icons-kit/ionicons/logOut'
-import {documentIcon} from 'react-icons-kit/ionicons/documentIcon'
-import {modx} from 'react-icons-kit/fa/modx'
-import {home} from 'react-icons-kit/fa/home'
-import {fire} from 'react-icons-kit/icomoon/fire'
+//==========================================================================================
+// Icons
 
-import {user} from 'react-icons-kit/fa/user'
-import {users} from 'react-icons-kit/fa/users'
-import {userMd} from 'react-icons-kit/fa/userMd'
+import { Icon } from 'react-icons-kit';
+import {logOut} from 'react-icons-kit/ionicons/logOut';
+import {documentIcon} from 'react-icons-kit/ionicons/documentIcon';
+import {modx} from 'react-icons-kit/fa/modx';
+import {home} from 'react-icons-kit/fa/home';
+import {fire} from 'react-icons-kit/icomoon/fire';
+
+import {user} from 'react-icons-kit/fa/user';
+import {users} from 'react-icons-kit/fa/users';
+import {userMd} from 'react-icons-kit/fa/userMd';
 
 import {ic_devices} from 'react-icons-kit/md/ic_devices';  // Devices
 import {ic_transfer_within_a_station} from 'react-icons-kit/md/ic_transfer_within_a_station' // Encounters 
@@ -44,7 +48,7 @@ import {addressCardO} from 'react-icons-kit/fa/addressCardO'  // Address Card
 import {mapO} from 'react-icons-kit/fa/mapO'
 import {map} from 'react-icons-kit/fa/map'
 
-import {ic_view_day} from 'react-icons-kit/md/ic_view_day'
+import {ic_view_day} from 'react-icons-kit/md/ic_view_day';
 
 import {ic_hearing} from 'react-icons-kit/md/ic_hearing'  // Condition?
 import {ic_fingerprint} from 'react-icons-kit/md/ic_fingerprint' // Biometric
@@ -54,8 +58,22 @@ import {stethoscope} from 'react-icons-kit/fa/stethoscope' // Device
 import {umbrella} from 'react-icons-kit/fa/umbrella' // ExplanationOfBeneft,
 
 import {envelopeO} from 'react-icons-kit/fa/envelopeO' // Correspondence 
-import {ic_question_answer} from 'react-icons-kit/md/ic_question_answer'
-import {shoppingBasket} from 'react-icons-kit/fa/shoppingBasket'
+import {ic_question_answer} from 'react-icons-kit/md/ic_question_answer';
+import {shoppingBasket} from 'react-icons-kit/fa/shoppingBasket';
+
+import {lifeRing} from 'react-icons-kit/fa/lifeRing'
+import {dotCircle} from 'react-icons-kit/metrize/dotCircle'
+import {sun} from 'react-icons-kit/metrize/sun'
+import {ic_album} from 'react-icons-kit/md/ic_album'
+
+import {info} from 'react-icons-kit/metrize/info'
+import {question} from 'react-icons-kit/metrize/question'
+
+import {ic_account_balance_wallet} from 'react-icons-kit/md/ic_account_balance_wallet'
+import {ticket} from 'react-icons-kit/icomoon/ticket'
+
+
+
 
 // import {ic_tune} from 'react-icons-kit/md/ic_tune'
 // import {flask} from 'react-icons-kit/fa/flask' // Substance 
@@ -90,94 +108,56 @@ import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition
 // import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering'
 // import {ic_devices} from 'react-icons-kit/md/ic_devices'
 
-import {signIn} from 'react-icons-kit/fa/signIn'
-
-const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
-
-const styles = theme => ({
-  header: {
-    display: 'flex'
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    })
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    })
-  },
-  canvas: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    paddingLeft: '73px'
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    backgroundColor: '#fafafa'
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    backgroundColor: '#fafafa'
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1
-    },
-    backgroundColor: '#fafafa'
-  },
-  drawerIcons: {
-    fontSize: '200%',
-    paddingLeft: '10px',
-    paddingRight: '2px'
-  },
-  drawerText: {
-    textDecoration: 'none !important'
-  },
-  hide: {
-    display: 'none',
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36,
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar
-  },
-  divider: {
-    height: '2px'
-  }
-});
+import {signIn} from 'react-icons-kit/fa/signIn';
 
 
+//==========================================================================================
+// Styling
 
+import useStyles from '../Styles';
+
+
+//==========================================================================================
+// Main Component
 
 export function PatientSidebar(props){
   logger.debug('PatientSidebar is rendering.');
   logger.verbose('client.app.patient.PatientSidebar');
   logger.data('PatientSidebar.props', {data: props}, {source: "AppContainer.jsx"});
+
+  let styles = useStyles();
+
+  let collectionCounts = {
+    AllergyIntolerances: 0,
+    Conditions: 0,
+    Immunizations: 0,
+    MedicationOrders: 0,
+    Observations: 0,
+    Patients: 0,
+    Procedures: 0
+  };
+
+  collectionCounts.AllergyIntolerances = useTracker(function(){
+    return AllergyIntolerances.find().count();
+  }, [])
+  collectionCounts.Conditions = useTracker(function(){
+    return Conditions.find().count();
+  }, [])
+  collectionCounts.Immunizations = useTracker(function(){
+    return Immunizations.find().count();
+  }, [])
+  collectionCounts.MedicationOrders = useTracker(function(){
+    return MedicationOrders.find().count();
+  }, [])
+  collectionCounts.Observations = useTracker(function(){
+    return Observations.find().count();
+  }, [])
+  collectionCounts.Patients = useTracker(function(){
+    return Patients.find().count();
+  }, [])
+  collectionCounts.Procedures = useTracker(function(){
+    return Procedures.find().count();
+  }, [])
 
 
   function openPage(url, tabs){
@@ -200,7 +180,13 @@ export function PatientSidebar(props){
     logger.verbose('client.app.patient.PatientSidebar.toggleNavbars');
 
     Session.toggle('displayNavbars');
-    logger.info('Logging user out.');
+    logger.info('Toggling Navbars');
+  }
+  function openDocumentationLink(){
+    logger.verbose('client.app.patient.PatientSidebar.openDocumentationLink');
+
+    window.open(get(Meteor, 'settings.public.defaults.sidebar.links.documentation', 'https://www.hgraph.org/'))
+    logger.info('Open documentation website');
   }
   
 
@@ -214,13 +200,13 @@ export function PatientSidebar(props){
       constructionZone.push(
         <ListItem id='constructionZoneItem' key='constructionZoneItem' button onClick={function(){ openPage('/construction-zone'); }} >
           <ListItemIcon >
-            <Icon icon={modx} className={props.classes.drawerIcons} />
+            <Icon icon={modx} className={styles.drawerIcons} />
           </ListItemIcon>
-          <ListItemText primary='Construction Zone' className={props.classes.drawerText}  />
+          <ListItemText primary='Construction Zone' className={styles.drawerText}  />
         </ListItem>
       );
 
-      constructionZone.push(<Divider className={props.classes.divider} key='construction-hr' />);
+      constructionZone.push(<Divider className={styles.divider} key='construction-hr' />);
     }
   }
   
@@ -241,13 +227,13 @@ export function PatientSidebar(props){
       fhirResources.push(
         <ListItem id='fhirResourcesItem' key='fhirResourcesItem' button onClick={function(){ openPage('/fhir-resources-index'); }} >
           <ListItemIcon >
-            <Icon icon={fire} className={props.classes.drawerIcons} />
+            <Icon icon={fire} className={styles.drawerIcons} />
           </ListItemIcon>
-          <ListItemText primary='FHIR Resources' className={props.classes.drawerText}  />
+          <ListItemText primary='FHIR Resources' className={styles.drawerText}  />
         </ListItem>
       );
 
-      fhirResources.push(<Divider className={props.classes.divider} key='resources-hr' />);
+      fhirResources.push(<Divider className={styles.divider} key='resources-hr' />);
     //}
   }
 
@@ -289,7 +275,7 @@ export function PatientSidebar(props){
   // Dynamic Modules  
 
   function parseIcon(iconName){
-    let result = <Icon icon={fire} className={props.classes.drawerIcons} />
+    let result = <Icon icon={fire} className={styles.drawerIcons} />
 
     if(typeof iconName === "string"){
       switch (iconName) {
@@ -352,8 +338,7 @@ export function PatientSidebar(props){
           break;    
         case "addressCardO":
           result = <Icon icon={addressCardO} />
-          break;    
-
+          break;   
         case "ic_hearing":
           result = <Icon icon={ic_hearing} />
           break;    
@@ -387,13 +372,33 @@ export function PatientSidebar(props){
         case "mapO":
           result = <Icon icon={mapO} />
           break;    
-            
-          
-          
-
+        case "lifeRing":
+          result = <Icon icon={lifeRing} />
+          break;    
+        case "dotCircle":
+          result = <Icon icon={dotCircle} />
+          break;    
+        case "sun":
+          result = <Icon icon={sun} />
+          break;   
+        case "info":
+          result = <Icon icon={info} />
+          break;   
+        case "question":
+          result = <Icon icon={question} />
+          break;     
+        case "ic_account_balance_wallet":
+          result = <Icon icon={ic_account_balance_wallet} />
+          break;     
+        case "ticket":
+          result = <Icon icon={ticket} />
+          break;   
+        case "ic_album":
+          result = <Icon icon={ic_album} />
+          break;    
           
         default:
-          result = <Icon icon={fire} className={props.classes.drawerIcons} />
+          result = <Icon icon={fire} className={styles.drawerIcons} />
           break;
       }
     }
@@ -414,10 +419,10 @@ export function PatientSidebar(props){
       // // we want to pass in the props
       if(clonedIcon){
         clonedIcon = React.cloneElement(clonedIcon, {
-          className: props.classes.drawerIcons 
+          className: styles.drawerIcons 
         });
       } else {
-        clonedIcon = <Icon icon={fire} className={props.classes.drawerIcons} />
+        clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
       }
 
       // the excludes array will hide routes
@@ -425,19 +430,27 @@ export function PatientSidebar(props){
 
         // don't show the element unless it's public, or the user is signed in
         if(!element.requireAuth || (element.requireAuth && currentUser)){
+
+          let elementCount = 0;
+          if(collectionCounts[element.collectionName]){
+            elementCount = collectionCounts[element.collectionName]
+          }
+
           dynamicElements.push(
             <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
               <ListItemIcon >
                 { clonedIcon }
               </ListItemIcon>
-              <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+              <ListItemText primary={element.primaryText} className={styles.drawerText}  />
+              <Badge badgeContent={elementCount} color="primary"  style={{marginRight: '10px'}} />
+              {/* <ListItemText primary={elementCount} className={styles.drawerTextTag}  /> */}
             </ListItem>
           );  
         }
       }
 
     });
-    dynamicElements.push(<Divider className={props.classes.divider} key="dynamic-modules-hr" />);
+    dynamicElements.push(<Divider className={styles.divider} key="dynamic-modules-hr" />);
     logger.trace('client.app.patient.PatientSidebar.dynamicElements: ' + dynamicElements.length);
   }
 
@@ -458,10 +471,10 @@ export function PatientSidebar(props){
       // // we want to pass in the props
       if(clonedIcon){
         clonedIcon = React.cloneElement(clonedIcon, {
-          className: props.classes.drawerIcons 
+          className: styles.drawerIcons 
         });
       } else {
-        clonedIcon = <Icon icon={fire} className={props.classes.drawerIcons} />
+        clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
       }
 
       // the excludes array will hide routes
@@ -475,13 +488,13 @@ export function PatientSidebar(props){
               <ListItemIcon >
                 { clonedIcon }
               </ListItemIcon>
-              <ListItemText primary={element.primaryText} className={props.classes.drawerText}  />
+              <ListItemText primary={element.primaryText} className={styles.drawerText}  />
             </ListItem>
           );
         }
       }
     });
-    workflowElements.push(<Divider className={props.classes.divider} key="workflow-modules-hr" />);
+    workflowElements.push(<Divider className={styles.divider} key="workflow-modules-hr" />);
     logger.trace('client.app.patient.PatientSidebar.workflowElements: ' + workflowElements.length);
   }
 
@@ -494,11 +507,11 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.HomePage')){
       homePage.push(<ListItem id='homePageItem' key='homeItem' button onClick={function(){ openPage(homePageUrl); }} >
         <ListItemIcon >
-          <Icon icon={home} className={props.classes.drawerIcons} />
+          <Icon icon={home} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="Home Page" className={props.classes.drawerText}  />
+        <ListItemText primary="Home Page" className={styles.drawerText}  />
       </ListItem>);    
-      homePage.push(<Divider className={props.classes.divider} key="home-page-hr" />);
+      homePage.push(<Divider className={styles.divider} key="home-page-hr" />);
   };
 
 
@@ -511,32 +524,32 @@ export function PatientSidebar(props){
     drawDataMgmDivider = true;
     dataManagementElements.push(<ListItem id='healthkitImportItem' key='healthkitImportItem' button onClick={function(){ openPage('/healthcard'); }} >
       <ListItemIcon >
-        <Icon icon={addressCardO} className={props.classes.drawerIcons} />
+        <Icon icon={addressCardO} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="HealthRecords" className={props.classes.drawerText}  />
+      <ListItemText primary="HealthRecords" className={styles.drawerText}  />
     </ListItem>);    
   };
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DataImport')){
     drawDataMgmDivider = true;
     dataManagementElements.push(<ListItem id='dataImportItem' key='dataImportItem' button onClick={function(){ openPage('/import-data'); }} >
       <ListItemIcon >
-        <Icon icon={fire} className={props.classes.drawerIcons} />
+        <Icon icon={fire} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Data Import" className={props.classes.drawerText}  />
+      <ListItemText primary="Data Import" className={styles.drawerText}  />
     </ListItem>);    
   };
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DataExport')){
     drawDataMgmDivider = true;
     dataManagementElements.push(<ListItem id='dataExportItem' key='dataExportItem' button onClick={function(){ openPage('/export-data'); }} >
       <ListItemIcon >
-        <Icon icon={fire} className={props.classes.drawerIcons} />
+        <Icon icon={fire} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Data Export" className={props.classes.drawerText}  />
+      <ListItemText primary="Data Export" className={styles.drawerText}  />
     </ListItem>);    
   };
 
   if(drawDataMgmDivider){
-    dataManagementElements.push(<Divider className={props.classes.divider} key="data-management-modules-hr" />);
+    dataManagementElements.push(<Divider className={styles.divider} key="data-management-modules-hr" />);
   }
 
 
@@ -548,9 +561,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Theming')){
       themingElements.push(<ListItem id='themingItem' key='themingItem' button onClick={function(){ openPage('/theming'); }} >
         <ListItemIcon >
-          <Icon icon={documentIcon} className={props.classes.drawerIcons} />
+          <Icon icon={documentIcon} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="Theming" className={props.classes.drawerText}  />
+        <ListItemText primary="Theming" className={styles.drawerText}  />
       </ListItem>);    
   };
 
@@ -562,9 +575,22 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.About')){
       aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button onClick={function(){ toggleAboutDialog(); }} >
         <ListItemIcon >
-          <Icon icon={documentIcon} className={props.classes.drawerIcons} />
+          <Icon icon={info} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="About" className={props.classes.drawerText}  />
+        <ListItemText primary="About" className={styles.drawerText}  />
+      </ListItem>);    
+  };
+
+  //----------------------------------------------------------------------
+  // Documentation
+
+  let documentationElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Documentation')){
+      documentationElements.push(<ListItem id='documentationItem' key='documentationItem' button onClick={function(){ openDocumentationLink(); }} >
+        <ListItemIcon >
+          <Icon icon={question} className={styles.drawerIcons} />
+        </ListItemIcon>
+        <ListItemText primary="Documentation" className={styles.drawerText}  />
       </ListItem>);    
   };
 
@@ -576,9 +602,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Privacy')){
       privacyElements.push(<ListItem id='privacyItem' key='privacyItem' button onClick={function(){ openPage('/privacy'); }} >
         <ListItemIcon >
-          <Icon icon={documentIcon} className={props.classes.drawerIcons} />
+          <Icon icon={documentIcon} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="Privacy" className={props.classes.drawerText}  />
+        <ListItemText primary="Privacy" className={styles.drawerText}  />
       </ListItem>);    
   };
 
@@ -590,9 +616,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.TermsAndConditions')){
     termsAndConditionElements.push(<ListItem id='termsItem' key='termsItem' button onClick={function(){ openPage('/terms-and-conditions'); }} >
       <ListItemIcon >
-        <Icon icon={documentIcon} className={props.classes.drawerIcons} />
+        <Icon icon={documentIcon} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Terms and Conditions" className={props.classes.drawerText}  />
+      <ListItemText primary="Terms and Conditions" className={styles.drawerText}  />
     </ListItem>);    
   };
 
@@ -604,9 +630,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Logout')){
     logoutElements.push(<ListItem id='logoutMenuItem' key='logoutMenuItem' button onClick={function(){ openPage('/signin'); }} >
       <ListItemIcon >
-        <Icon icon={logOut} className={props.classes.drawerIcons} />
+        <Icon icon={logOut} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Logout" className={props.classes.drawerText} onClick={function(){ handleLogout(); }} />
+      <ListItemText primary="Logout" className={styles.drawerText} onClick={function(){ handleLogout(); }} />
     </ListItem>);    
   };
 
@@ -617,9 +643,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Navbars')){
     navbarElements.push(<ListItem id='navbarMenuItem' key='navbarMenuItem' button onClick={function(){ toggleNavbars(); }} >
       <ListItemIcon >
-        <Icon icon={ic_view_day} className={props.classes.drawerIcons} />
+        <Icon icon={ic_view_day} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Navbars" className={props.classes.drawerText} />
+      <ListItemText primary="Navbars" className={styles.drawerText} />
     </ListItem>);    
   };
 
@@ -646,16 +672,16 @@ export function PatientSidebar(props){
     if (get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.route')){
       loginElements.push(<ListItem id='loginMenuItem' key='loginMenuItem' button onClick={function(){ openPage(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login.route')); }} >
         <ListItemIcon >
-          <Icon icon={signIn} className={props.classes.drawerIcons} />
+          <Icon icon={signIn} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="Login" className={props.classes.drawerText} />
+        <ListItemText primary="Login" className={styles.drawerText} />
       </ListItem>);   
     } else {
       loginElements.push(<ListItem id='loginDialogMenuItem' key='loginDialogMenuItem' button onClick={function(){ toggleLoginDialog(); }} >
         <ListItemIcon >
-          <Icon icon={signIn} className={props.classes.drawerIcons} />
+          <Icon icon={signIn} className={styles.drawerIcons} />
         </ListItemIcon>
-        <ListItemText primary="Login" className={props.classes.drawerText} />
+        <ListItemText primary="Login" className={styles.drawerText} />
       </ListItem>);   
     }
   }
@@ -676,9 +702,9 @@ export function PatientSidebar(props){
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Register')){
     loginElements.push(<ListItem id='registrationMenuItem' key='registrationMenuItem' button onClick={function(){ openPage('/registration'); }} >
       <ListItemIcon >
-        <Icon icon={signIn} className={props.classes.drawerIcons} />
+        <Icon icon={signIn} className={styles.drawerIcons} />
       </ListItemIcon>
-      <ListItemText primary="Register" className={props.classes.drawerText} />
+      <ListItemText primary="Register" className={styles.drawerText} />
     </ListItem>);    
   };
 
@@ -702,6 +728,7 @@ export function PatientSidebar(props){
 
       { themingElements }
       { aboutElements }
+      { documentationElements }
       { privacyElements }
       { termsAndConditionElements }
       { navbarElements }
@@ -712,4 +739,4 @@ export function PatientSidebar(props){
   );
 }
 
-export default withStyles(styles, { withTheme: true })(PatientSidebar);
+export default PatientSidebar;
