@@ -17,15 +17,6 @@ import Badge from '@material-ui/core/Badge';
 
 import Divider from '@material-ui/core/Divider';
 
-<<<<<<< HEAD
-import { Icon } from 'react-icons-kit';
-import {logOut} from 'react-icons-kit/ionicons/logOut';
-import {documentIcon} from 'react-icons-kit/ionicons/documentIcon';
-import {modx} from 'react-icons-kit/fa/modx';
-import {home} from 'react-icons-kit/fa/home';
-import {fire} from 'react-icons-kit/icomoon/fire';
-
-=======
 //==========================================================================================
 // Icons
 
@@ -36,7 +27,6 @@ import {modx} from 'react-icons-kit/fa/modx';
 import {home} from 'react-icons-kit/fa/home';
 import {fire} from 'react-icons-kit/icomoon/fire';
 
->>>>>>> development
 import {user} from 'react-icons-kit/fa/user';
 import {users} from 'react-icons-kit/fa/users';
 import {userMd} from 'react-icons-kit/fa/userMd';
