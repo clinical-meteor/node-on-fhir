@@ -241,17 +241,12 @@ function Header(props) {
             );
           }
         }
-      })       
-    }
-
-    // if(typeof props.headerNavigation === "function"){
-    //   workflowTabsToRender = props.headerNavigation(props);
-    // }    
-
-    // if(workflowTabs === "patientchart"){
-    //   workflowTabsToRender = <PatientChartWorkflowTabs />
-    // }
+      })
+    }     
   }
+
+
+
 
   // ------------------------------------------------------------
   // Helper Methods

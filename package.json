@@ -36,14 +36,14 @@
     "verification-tests": "TEST_BROWSER_DRIVER: chrome meteor test --driver-package meteortesting:mocha --port 3002 --once --full-app"
   },
   "dependencies": {
-    "@accounts/client": "0.28.0",
-    "@accounts/client-password": "0.28.0",
+    "@accounts/client": "0.30.0",
+    "@accounts/client-password": "0.30.0",
     "@accounts/meteor-adapter": "0.1.1",
-    "@accounts/mongo": "0.28.0",
-    "@accounts/password": "0.28.0",
-    "@accounts/rest-client": "0.28.0",
-    "@accounts/rest-express": "0.28.0",
-    "@accounts/server": "0.28.0",
+    "@accounts/mongo": "0.30.0",
+    "@accounts/password": "0.30.0",
+    "@accounts/rest-client": "0.30.0",
+    "@accounts/rest-express": "0.30.0",
+    "@accounts/server": "0.30.0",
     "@accounts/types": "^0.29.0",
     "@babel/runtime": "7.10.3",
     "@date-io/core": "1.3.6",
@@ -129,6 +129,8 @@
     "meteor-desktop": "^2.2.5"
   },
   "unusedFhirLibs": {
+    "mllp-node": "2.0.0",
+    "@dotbase/hl7-v2-message": "1.0.1",
     "@ahryman40k/ts-fhir-types": "4.0.23",
     "@asymmetrik/node-fhir-server-core": "2.0.7",
     "@asymmetrik/sof-scope-checker": "1.0.2",

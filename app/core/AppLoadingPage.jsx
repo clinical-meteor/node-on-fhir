@@ -105,7 +105,7 @@ function AppLoadingPage(props) {
       position: 'absolute',
       left: '50%',
       top: '40%',
-      marginLeft: '-60px'
+      marginLeft: '-40px'
     }
   }
 

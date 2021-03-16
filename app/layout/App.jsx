@@ -391,7 +391,6 @@ export function App(props) {
     return Session.get('selectedPatient')
   }, []);
 
-
   // ------------------------------------------------------------------
   // User Interface Methods
 
@@ -409,7 +408,6 @@ export function App(props) {
   function goHome(){
     props.history.replace('/');
   };
-
 
   // ------------------------------------------------------------------
   // Social Media Registration  
