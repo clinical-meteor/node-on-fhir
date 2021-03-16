@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { ReactMeteorData, useTracker } from 'meteor/react-meteor-data';
+import { useTracker } from 'meteor/react-meteor-data';
 
 import { Button, BottomNavigation} from '@material-ui/core';
 // import Toolbar from '@material-ui/core/Toolbar';
@@ -13,43 +13,10 @@ import { Session } from 'meteor/session';
 import { get, has, cloneDeep } from 'lodash';
 
 import { makeStyles } from '@material-ui/styles';
+
 import theme from '../Theme';
 import logger from '../Logger';
-
-const drawerWidth = get(Meteor, 'settings.public.defaults.drawerWidth', 280);
-
-
-// ==============================================================================
-// Theming
-
-const useStyles = makeStyles(theme => ({
-  footerContainer: {  
-    height: '64px',
-    position: 'fixed',
-    bottom: "0px",
-    left: "0px",
-    background: theme.palette.appBar.main,
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText,
-    width: '100%',
-    zIndex: 1300,
-    borderTop: '1px solid lightgray',
-    transition: theme.transitions.create(['width', 'left', 'bottom'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
-  },
-  footer: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.appBar.main,
-    color: theme.palette.appBar.contrastText
-  },
-  footerNavigation: {
-    backgroundColor: "inherit", 
-    justifyContent: 'left'
-  }
-}));
+import useStyles from '../Styles';
 
 
 // ==============================================================================
@@ -136,10 +103,6 @@ function Footer(props) {
   // }
 
 
-  if(Meteor.isClient && props.drawerIsOpen){
-    styles.footerContainer.width = (window.innerWidth - drawerWidth) + "px";
-    styles.footerContainer.left = drawerWidth + "px";
-  }
 
   let displayNavbars = true;  
 
@@ -157,10 +120,10 @@ function Footer(props) {
   }
 
   return (
-    <footer id="footerNavContainer" className={styles.footerContainer}>
-      <div id="footerNavigation" name="footerNavigation" position="static" style={{backgroundColor: "inherit", justifyContent: 'left'}} >
+    <footer id="footerNavContainer" className={styles.footerNavContainer}>
+      <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" className={styles.footerNavigation} >
         { westNavbar }
-      </div>
+      </BottomNavigation>
     </footer>
   );
 }

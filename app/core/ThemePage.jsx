@@ -180,7 +180,7 @@ export class ThemePageOld extends React.Component {
     }     
 
     return(
-      <div id='aboutPage'>
+      <div id='themePage'>
         <div>
           <Grid container spacing={3} >
             <Grid item md={3} style={controlPaneStyle}>
