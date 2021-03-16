@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 
@@ -95,18 +96,18 @@ import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition
 // import {nuclear} from 'react-icons-kit/ionicons/nuclear' // Radiology  
 // import {pipette} from 'react-icons-kit/typicons/pipette' // Immunization ?
 
-// import {ic_signal_wifi_0_bar} from 'react-icons-kit/md/ic_signal_wifi_0_bar'
-// import {ic_signal_wifi_1_bar} from 'react-icons-kit/md/ic_signal_wifi_1_bar'
-// import {ic_signal_wifi_1_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_1_bar_lock'
-// import {ic_signal_wifi_2_bar} from 'react-icons-kit/md/ic_signal_wifi_2_bar'
-// import {ic_signal_wifi_2_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_2_bar_lock'
-// import {ic_signal_wifi_3_bar} from 'react-icons-kit/md/ic_signal_wifi_3_bar'
-// import {ic_signal_wifi_3_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_3_bar_lock'
-// import {ic_signal_wifi_4_bar} from 'react-icons-kit/md/ic_signal_wifi_4_bar'
-// import {ic_signal_wifi_4_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_4_bar_lock'
-// import {ic_signal_wifi_off} from 'react-icons-kit/md/ic_signal_wifi_off'
-// import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering'
-// import {ic_devices} from 'react-icons-kit/md/ic_devices'
+// import {ic_signal_wifi_0_bar} from 'react-icons-kit/md/ic_signal_wifi_0_bar';
+// import {ic_signal_wifi_1_bar} from 'react-icons-kit/md/ic_signal_wifi_1_bar';
+// import {ic_signal_wifi_1_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_1_bar_lock';
+// import {ic_signal_wifi_2_bar} from 'react-icons-kit/md/ic_signal_wifi_2_bar';
+// import {ic_signal_wifi_2_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_2_bar_lock';
+// import {ic_signal_wifi_3_bar} from 'react-icons-kit/md/ic_signal_wifi_3_bar';
+// import {ic_signal_wifi_3_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_3_bar_lock';
+// import {ic_signal_wifi_4_bar} from 'react-icons-kit/md/ic_signal_wifi_4_bar';
+// import {ic_signal_wifi_4_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_4_bar_lock';
+// import {ic_signal_wifi_off} from 'react-icons-kit/md/ic_signal_wifi_off';
+// import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering';
+// import {ic_devices} from 'react-icons-kit/md/ic_devices';
 
 import {signIn} from 'react-icons-kit/fa/signIn';
 
@@ -424,7 +425,6 @@ export function PatientSidebar(props){
       } else {
         clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
       }
-
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hidden', []).includes(element.to)){
 
@@ -448,7 +448,6 @@ export function PatientSidebar(props){
           );  
         }
       }
-
     });
     dynamicElements.push(<Divider className={styles.divider} key="dynamic-modules-hr" />);
     logger.trace('client.app.patient.PatientSidebar.dynamicElements: ' + dynamicElements.length);
@@ -552,10 +551,8 @@ export function PatientSidebar(props){
     dataManagementElements.push(<Divider className={styles.divider} key="data-management-modules-hr" />);
   }
 
-
   //----------------------------------------------------------------------
   // Theming
-
 
   let themingElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Theming')){
@@ -708,9 +705,8 @@ export function PatientSidebar(props){
     </ListItem>);    
   };
 
-
   return(
-    <div id='patientSidebar' style={{marginBottom: '80px',}} >
+    <div id='patientSidebar'>
       { homePage }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>
