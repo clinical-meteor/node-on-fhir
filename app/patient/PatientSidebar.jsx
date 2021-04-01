@@ -72,6 +72,7 @@ import {question} from 'react-icons-kit/metrize/question'
 
 import {ic_account_balance_wallet} from 'react-icons-kit/md/ic_account_balance_wallet'
 import {ticket} from 'react-icons-kit/icomoon/ticket'
+import {qrcode} from 'react-icons-kit/fa/qrcode'
 
 
 
@@ -397,6 +398,10 @@ export function PatientSidebar(props){
         case "ic_album":
           result = <Icon icon={ic_album} />
           break;    
+        case "qrcode":
+          result = <Icon icon={qrcode} />
+          break;    
+          
           
         default:
           result = <Icon icon={fire} className={styles.drawerIcons} />
@@ -565,12 +570,13 @@ export function PatientSidebar(props){
   };
 
 
+
   //----------------------------------------------------------------------
   // About
 
   let aboutElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.About')){
-      aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button onClick={function(){ toggleAboutDialog(); }} >
+      aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button onClick={function(){ openPage('/about'); }} >
         <ListItemIcon >
           <Icon icon={info} className={styles.drawerIcons} />
         </ListItemIcon>
@@ -588,6 +594,21 @@ export function PatientSidebar(props){
           <Icon icon={question} className={styles.drawerIcons} />
         </ListItemIcon>
         <ListItemText primary="Documentation" className={styles.drawerText}  />
+      </ListItem>);    
+  };
+
+
+
+  //----------------------------------------------------------------------
+  // Marketing
+
+  let marketingElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Marketing')){
+      marketingElements.push(<ListItem id='marketingItem' key='marketingItem' button onClick={function(){ openPage('/marketing'); }} >
+        <ListItemIcon >
+          <Icon icon={question} className={styles.drawerIcons} />
+        </ListItemIcon>
+        <ListItemText primary="Marketing" className={styles.drawerText}  />
       </ListItem>);    
   };
 
@@ -725,6 +746,7 @@ export function PatientSidebar(props){
       { themingElements }
       { aboutElements }
       { documentationElements }
+      { marketingElements }
       { privacyElements }
       { termsAndConditionElements }
       { navbarElements }

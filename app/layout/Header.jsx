@@ -139,6 +139,18 @@ function Header(props) {
   function clickOnMenuButton(){
     console.log('clickOnMenuButton');
 
+    if(window.QRScanner){
+      window.QRScanner.hide();  
+    }
+
+    document.getElementById("reactCanvas").setAttribute("style", "background: " + get(Meteor, 'settings.public.theme.palette.canvasColor', "#f2f2f2") + ";");
+    document.body.setAttribute("style", "background: black;");
+
+    if(document.getElementById("footerNavContainer")){
+      document.getElementById("footerNavContainer").setAttribute("style", "background: " + get(Meteor, 'settings.public.theme.palette.appBarColor', "#000000") + ";");
+      document.getElementById("footerNavContainer").setAttribute("style", "border-top: 1px solid lightgrey;");  
+    }
+
     props.handleDrawerOpen.call(this);
   };
 
@@ -214,6 +226,8 @@ function Header(props) {
   // if(get(Meteor, 'settings.public.defaults.disableHeader')){
   //   componentStyles.headerNavContainer.display = 'none'
   // }
+
+
   // ------------------------------------------------------------  
   // Layout  
 
