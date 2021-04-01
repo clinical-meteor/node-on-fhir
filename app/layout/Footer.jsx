@@ -112,15 +112,23 @@ function Footer(props) {
     }, []);    
   }
 
-  if(!displayNavbars){
-    styles.footerContainer.bottom = '-64px'
-  }
+
+  let footerContainerOverride = {};
+
   if(get(Meteor, 'settings.public.defaults.disableFooter')){
-    styles.footerContainer.display = 'none'
+    footerContainerOverride.display = 'none'
+  }
+  if(!displayNavbars){
+    footerContainerOverride.bottom = '-64px'
+    footerContainerOverride.height = '64px'
+  }
+  if(Meteor.isCordova){
+    footerContainerOverride.bottom = '-114px';  //64px footer + -50px safearea 
+    footerContainerOverride.height = '114px';   //64px footer + -50px safearea 
   }
 
   return (
-    <footer id="footerNavContainer" className={styles.footerNavContainer}>
+    <footer id="footerNavContainer" className={styles.footerNavContainer} style={footerContainerOverride}>
       <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" className={styles.footerNavigation} >
         { westNavbar }
       </BottomNavigation>

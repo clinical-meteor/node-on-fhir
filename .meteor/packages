@@ -24,6 +24,8 @@ session@1.2.0
 tracker@1.2.0
 http@1.4.2
 simple:json-routes@2.1.0
+typescript@4.1.2              # Enable TypeScript syntax in .ts and .tsx modules
+
 
 # RENDERING  
 static-html                   # Define static page content in .html files
@@ -35,6 +37,7 @@ shell-server@0.5.0            # Server-side component of the `meteor shell` comm
 server-render@0.3.1
 npdev:react-loadable
 fourseven:scss
+
 
 # CLINICAL INFRASTRUCTURE
 clinical:extended-api@2.5.0
@@ -66,8 +69,8 @@ clinical:hl7-fhir-data-infrastructure
 # symptomatic:saner
 # symptomatic:data-management
 
-# datarobot:waters
 # symptomatic:data-management
 # symptomatic:healthkit-importer  
 # symptomatic:immunization-card
 
+symptomatic:vaccine-wallet

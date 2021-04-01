@@ -11,6 +11,16 @@ import theme from './Theme';
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 let rawStyles = {
+    primary: {
+      color: theme.palette.primary.contrastText,
+      background: theme.palette.primary.main,
+      backgroundColor: theme.palette.primary.main
+    },
+    secondary: {
+      color: theme.palette.secondary.contrastText,
+      background: theme.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.main
+    },
     headerNavContainer: {  
       height: '64px',
       position: 'fixed',

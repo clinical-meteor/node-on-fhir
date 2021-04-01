@@ -4,7 +4,7 @@ import { useLocation, useParams, useHistory } from "react-router-dom";
 import { CssBaseline } from '@material-ui/core';
 
 import { Helmet } from "react-helmet";
-import { get } from 'lodash';
+import { has, get } from 'lodash';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
@@ -69,21 +69,31 @@ function AppLoadingPage(props) {
 
   if(get(Meteor, 'settings.public.socialmedia')){
     let socialmedia = get(Meteor, 'settings.public.socialmedia');
+
+     let appIdMeta;
+
+    if(has(socialmedia, 'app_id')){
+      appIdMeta = <meta property="fb:app_id" content={get(socialmedia, 'app_id')} /> 
+    }
+
     helmet = <Helmet>
       <meta charSet="utf-8" />
       <title>{socialmedia.title}</title>
       <link rel="canonical" href={socialmedia.url} />
 
-      <meta property="og:title" content={socialmedia.title} />
-      <meta property="og:type" content={socialmedia.type} />
-      <meta property="og:url" content={socialmedia.url} />
-      <meta property="og:image" content={socialmedia.image} />
-      <meta property="og:description" content={socialmedia.description} />
-      <meta property="og:site_name" content={socialmedia.site_name} />   
+      <meta property="og:title" content={get(socialmedia, 'title')} />
+      <meta property="og:type" content={get(socialmedia, 'type')} />
+      <meta property="og:url" content={get(socialmedia, 'url')} />
+      <meta property="og:image" content={get(socialmedia, 'image')} />
+      <meta property="og:description" content={get(socialmedia, 'description')} />
+      <meta property="og:site_name" content={get(socialmedia, 'site_name')} />   
+      
+      {appIdMeta}
 
       <meta name="theme-color" content={get(Meteor, 'settings.public.theme.palette.appBarColor', "#669f64 !important")} />   
 
-      { viewportString }
+      {/* <meta name="viewport" content={ viewportString } /> */}
+      
     </Helmet>
   }
 

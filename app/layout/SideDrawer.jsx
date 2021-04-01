@@ -177,7 +177,7 @@ function SideDrawer(props) {
           </div>
           <Divider className={styles.divider} />
           <List>
-            <PatientSidebar { ...otherProps } />
+            <PatientSidebar history={props.history} { ...otherProps } />
           </List>
         </Drawer>
       </React.Fragment>

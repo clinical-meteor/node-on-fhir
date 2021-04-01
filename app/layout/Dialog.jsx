@@ -69,7 +69,7 @@ if(Meteor.isClient){
   Session.setDefault('mainAppDialogJson', false);
   Session.setDefault('mainAppDialogErrorMessage', '');
   Session.setDefault('mainAppDialogErrorShowAgain', true);
-  Session.setDefault('mainAppDialogmaxWidth', get(Meteor, 'settings.public.defaults.landingModal.maxWidth', "xl"));
+  Session.setDefault('mainAppDialogmaxWidth', get(Meteor, 'settings.public.defaults.modals.maxWidth', "xl"));
 }
 
 export default function ScrollDialog(props) {
@@ -111,15 +111,6 @@ export default function ScrollDialog(props) {
   let jsonContent = "";
   jsonContent = useTracker(function(){
     return Session.get('mainAppDialogJson');
-    // let result = "";
-    // let mainAppDialogJson = Session.get('mainAppDialogJson');
-    // if(typeof mainAppDialogJson === "string"){
-    //   result = mainAppDialogJson
-    // } else if(typeof mainAppDialogJson === "object") {
-    //   result = JSON.stringify(mainAppDialogJson, null, 2);
-    // }
-
-    // return result;
   }, [props.lastUpdated]);
 
   let errorMessage = "";
