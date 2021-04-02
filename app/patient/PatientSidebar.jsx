@@ -187,7 +187,7 @@ export function PatientSidebar(props){
   function openDocumentationLink(){
     logger.verbose('client.app.patient.PatientSidebar.openDocumentationLink');
 
-    window.open(get(Meteor, 'settings.public.defaults.sidebar.links.documentation', 'https://www.hgraph.org/'))
+    window.open(get(Meteor, 'settings.public.defaults.sidebar.links.documentation', 'https://www.symptomatic.io'), '_system')
     logger.info('Open documentation website');
   }
   
