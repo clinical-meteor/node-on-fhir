@@ -14,10 +14,11 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 
-import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities } from 'fhir-starter';
+
 import { useTracker } from 'meteor/react-meteor-data';
 
-import { Encounters, Procedures, Conditions, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+// import { Encounters, Procedures, Conditions, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { get } from 'lodash';
 
 function DynamicSpacer(props){
@@ -340,7 +341,7 @@ export function AutoDashboard(props){
 
     return (
         <Grid container style={{marginTop: '20px'}}>
-            <Grid item md={4} style={{paddingRight: '10px'}}>
+            {/* <Grid item md={4} style={{paddingRight: '10px'}}>
                 <StyledCard scrollable >
                     <CardHeader title={this.data.encountersCount + " Encounters"} />
                     <CardContent>
@@ -430,7 +431,7 @@ export function AutoDashboard(props){
                         />                                                                                                           
                     </CardContent>                    
                 </StyledCard>  
-            </Grid>
+            </Grid> */}
         </Grid>
     )
 }

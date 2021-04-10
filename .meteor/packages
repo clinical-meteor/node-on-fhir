@@ -7,17 +7,14 @@
 babel-compiler@7.6.0
 meteor@1.9.3
 webapp@1.10.0
-ddp@1.4.0
-livedata@1.0.18
+# ddp@1.4.0
+# livedata@1.0.18
 es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
 # hot-code-push               # Doesnt belong on every deployment.  
 
 
-# SECURITY  
-alanning:roles
-
 # DATA INFRASTRUCTURE
-mongo@1.10.1                   # The database Meteor supports right now
+# mongo@1.10.1                   # The database Meteor supports right now
 reactive-var@1.0.11            # Reactive variable for tracker
 react-meteor-data@2.1.2        # React higher-order component for reactively tracking Meteor data
 session@1.2.0
@@ -35,14 +32,4 @@ shell-server@0.5.0            # Server-side component of the `meteor shell` comm
 server-render@0.3.1
 npdev:react-loadable
 fourseven:scss
-
-# CLINICAL INFRASTRUCTURE
-clinical:extended-api@2.5.0
-clinical:fonts@1.2.0
-clinical:hl7-resource-datatypes@4.0.6
-clinical:hl7-fhir-data-infrastructure 
-
-# symptomatic:data-management
-# symptomatic:healthkit-importer  
-# symptomatic:immunization-card
 

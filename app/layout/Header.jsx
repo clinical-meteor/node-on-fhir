@@ -21,7 +21,7 @@ import moment from 'moment';
 import { ReactMeteorData, useTracker } from 'meteor/react-meteor-data';
 import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 
-import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities } from 'fhir-starter';
 
 import theme from '../Theme';
 import logger from '../Logger';

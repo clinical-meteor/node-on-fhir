@@ -8,7 +8,8 @@ import { Meteor } from 'meteor/meteor';
 import { get } from 'lodash';
 import moment from 'moment';
 
-import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities } from 'fhir-starter';
+
 import { useTracker } from 'meteor/react-meteor-data';
 
 export function PatientDemographics(props){

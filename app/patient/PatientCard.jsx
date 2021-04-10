@@ -23,7 +23,8 @@ let set = _.set;
 
 import { makeStyles, useTheme } from '@material-ui/styles';
 
-import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities } from 'fhir-starter';
+
 
 
 const useStyles = makeStyles(theme => ({

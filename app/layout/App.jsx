@@ -558,7 +558,7 @@ export function App(props) {
 
 
   return(
-    <AppCanvas { ...otherProps }>
+    <AppCanvas id="appCanvas" { ...otherProps }>
       { helmet }
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />

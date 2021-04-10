@@ -25,7 +25,7 @@ import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http';
 import JSON5 from 'json5';
 
-import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities } from 'fhir-starter';
 
 import Login from '../accounts/Login';
 

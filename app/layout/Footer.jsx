@@ -113,10 +113,10 @@ function Footer(props) {
   }
 
   if(!displayNavbars){
-    styles.footerContainer.bottom = '-64px'
+    styles.footerNavContainer.bottom = '-64px'
   }
-  if(get(Meteor, 'settings.public.defaults.disableFooter')){
-    styles.footerContainer.display = 'none'
+  if(get(Meteor, 'settings.public.defaults.disableFooter', false)){
+    styles.footerNavContainer.display = 'none'
   }
 
   return (

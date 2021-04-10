@@ -19,35 +19,36 @@ import Grid from '@material-ui/core/Grid';
 
 import { Session } from 'meteor/session';
 
-import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities } from 'fhir-starter';
 
-import { 
-    DynamicSpacer, 
 
-    Conditions,
-    Devices,
-    Encounters, 
-    Locations,
-    Immunizations,
-    Medications,
-    MedicationOrders,
-    MedicationRequests,
-    MedicationStatements, 
-    Observations,
-    Procedures,
+// import { 
+//     DynamicSpacer, 
+
+//     Conditions,
+//     Devices,
+//     Encounters, 
+//     Locations,
+//     Immunizations,
+//     Medications,
+//     MedicationOrders,
+//     MedicationRequests,
+//     MedicationStatements, 
+//     Observations,
+//     Procedures,
   
-    ConditionsTable,
-    EncountersTable,
-    DevicesTable,
-    LocationsTable,
-    ImmunizationsTable,
-    MedicationsTable,
-    MedicationOrdersTable,
-    MedicationRequestsTable,
-    MedicationStatementsTable, 
-    ObservationsTable,
-    ProceduresTable
-} from 'meteor/clinical:hl7-fhir-data-infrastructure';
+//     ConditionsTable,
+//     EncountersTable,
+//     DevicesTable,
+//     LocationsTable,
+//     ImmunizationsTable,
+//     MedicationsTable,
+//     MedicationOrdersTable,
+//     MedicationRequestsTable,
+//     MedicationStatementsTable, 
+//     ObservationsTable,
+//     ProceduresTable
+// } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { get } from 'lodash';
 
 if(Meteor.isClient){
@@ -539,7 +540,7 @@ export function Dashboard(props){
 
     return (
         <Grid container style={{marginTop: '20px'}}>
-            <Grid item lg={3} style={{paddingRight: '10px'}}>
+            {/* <Grid item lg={3} style={{paddingRight: '10px'}}>
                 <PatientCard 
                     patient={data.selectedPatient} 
                     displayName={false}
@@ -561,7 +562,7 @@ export function Dashboard(props){
             <Grid item lg={3} style={{paddingLeft: '10px'}}>
                 { bloodPressureChart }                    
                 { noChartingCard }
-            </Grid>
+            </Grid> */}
         </Grid>
     )
 }

@@ -26,7 +26,7 @@ import { Session } from 'meteor/session';
 import { HTTP } from 'meteor/http';
 import JSON5 from 'json5';
 
-import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities } from 'fhir-starter';
 
 
 export function ErrorDialog(props){
