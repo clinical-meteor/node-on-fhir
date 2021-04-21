@@ -1,6 +1,6 @@
 import './ServerSideRendering.js';
 import './AccountsServer.js';
-import './smart-health-cards.js';
+import './SmartHealthCards.js';
 
 // need to upgrade mongoose, mongo, and the kerberose dependency
 // then we can re-enable
