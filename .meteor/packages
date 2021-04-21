@@ -74,4 +74,4 @@ clinical:hl7-fhir-data-infrastructure
 # symptomatic:immunization-card
 
 symptomatic:vaccine-wallet
-# symptomatic:data-management
+#symptomatic:data-management

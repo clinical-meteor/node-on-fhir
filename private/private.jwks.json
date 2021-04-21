@@ -2,6 +2,7 @@
     "keys": [
         {
             "kty": "EC",
+            "d": "hp2_IVKLNhXUZCqz38TBnp4fHqsMq-dVwxDNhnTtRYI",
             "use": "sig",
             "crv": "P-256",
             "kid": "yRwxp3sb7ldGlbGcw42zkcamMCo_9QZqUqKR6ZFQtH8",
