@@ -70,6 +70,9 @@ if(Meteor.isClient){
   Session.setDefault('mainAppDialogErrorMessage', '');
   Session.setDefault('mainAppDialogErrorShowAgain', true);
   Session.setDefault('mainAppDialogmaxWidth', get(Meteor, 'settings.public.defaults.modals.maxWidth', "xl"));
+
+
+  Session.setDefault('showDialogTitle', true);
 }
 
 export default function ScrollDialog(props) {
@@ -117,6 +120,17 @@ export default function ScrollDialog(props) {
   errorMessage = useTracker(function(){
     return Session.get('mainAppDialogErrorMessage')
   }, []);
+
+
+  let showDialogTitle = useTracker(function(){
+    let title = Session.get('mainAppDialogTitle');
+    if(title.length === 0){ 
+      return false;
+    } else {
+      return true;      
+    }
+  }, []);
+  
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -173,10 +187,25 @@ export default function ScrollDialog(props) {
     </pre>
   }  
 
+
+
+  let dialogTitleToRender;
+  let dialogActionsToRender;
+  if(showDialogTitle){
+    dialogTitleToRender = <DialogTitle id="scroll-dialog-title">{dialogTitle}</DialogTitle>
+  }
+
+  let showDialogActions = false;
+  if(showDialogActions){
+    dialogActionsToRender = <DialogActions>
+      <Button onClick={handleClose} color="primary">
+        Close
+      </Button>
+    </DialogActions>
+  }
+
   return (
     <div>
-      {/* <Button onClick={handleClickOpen('paper')}>scroll=paper</Button>
-      <Button onClick={handleClickOpen('body')}>scroll=body</Button> */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -184,14 +213,10 @@ export default function ScrollDialog(props) {
         maxWidth={maxWidth}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
-      >
-        <DialogTitle id="scroll-dialog-title">{dialogTitle}</DialogTitle>
+      >        
+        { dialogTitleToRender }
         { dialogContentToRender }
-        {/* <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Close
-          </Button>
-        </DialogActions> */}
+        { dialogActionsToRender }        
       </Dialog>
     </div>
   );

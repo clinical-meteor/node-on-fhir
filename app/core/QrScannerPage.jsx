@@ -38,20 +38,31 @@ import {ticket} from 'react-icons-kit/entypo/ticket'
 import QRScanner from 'cordova-plugin-qrscanner';
 
 
-function displayContents(err, text){
+function displayContents(err, token){
   if(err){
   // an error occurred, or the scan was canceled (error code 6)
     console.log('displayContents().err', err)
-  } else {
-    // alert(text);
+  } else if(token){
+    // alert(token);
+    console.log('displayContents().token', token);
 
-    // Session.set('receivedQrMessage', JSON.parse(text));
-    Session.set('mainAppDialogJson', JSON.parse(text));
-    Session.set('mainAppDialogTitle', "Immunization HealthCard");
-    // Session.set('mainAppDialogComponent', "ImmunizationHealthCardDialog");
-    Session.set('mainAppDialogComponent', "PreviewQrDataDialog");
-    Session.set('lastUpdated', new Date())
-    Session.set('mainAppDialogOpen', true);  
+    Meteor.call('parseHealthCard', token, function(error, decodedHealthCard){
+      if(error){
+        console.log('parseHealthCard.error', error)
+      } else {
+        console.log('parseHealthCard.decodedHealthCard', decodedHealthCard)
+
+        Session.set('mainAppDialogJson', JSON.parse(decodedHealthCard));
+        Session.set('mainAppDialogTitle', "Immunization HealthCard");
+        Session.set('mainAppDialogComponent', "PreviewQrDataDialog");
+        Session.set('lastUpdated', new Date())
+        Session.set('mainAppDialogOpen', true);    
+      }
+    });
+
+    
+  } else {
+    console.log("displayContents() didn't receive an err or text")
   }
 }
 
@@ -205,7 +216,7 @@ export function QrScannerPage(props){
   }
 
   return (
-    <PageCanvas id='window.QrScannerPage' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{overflowX: 'hidden', marginBottom: '80px', background: 'transparent'}}>
+    <PageCanvas id='QrScannerPage' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{overflowX: 'hidden', marginBottom: '80px', background: 'transparent'}}>
       <Container maxWidth="md" style={{height: containerHeight}}>
         <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', paddingBottom: '20px'}}>
           <Button color="primary" variant="contained" onClick={activateCamera.bind(this)} style={{width: '100%', marginTop: '20px'}}>

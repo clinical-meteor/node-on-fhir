@@ -74,8 +74,10 @@ import {ic_account_balance_wallet} from 'react-icons-kit/md/ic_account_balance_w
 import {ticket} from 'react-icons-kit/icomoon/ticket'
 import {qrcode} from 'react-icons-kit/fa/qrcode'
 
-
-
+import {ic_playlist_add_check} from 'react-icons-kit/md/ic_playlist_add_check'
+import {ic_list} from 'react-icons-kit/md/ic_list'
+import {balanceScale} from 'react-icons-kit/fa/balanceScale'
+import {heartO} from 'react-icons-kit/fa/heartO'
 
 // import {ic_tune} from 'react-icons-kit/md/ic_tune'
 // import {flask} from 'react-icons-kit/fa/flask' // Substance 
@@ -95,7 +97,7 @@ import {wheelchair} from 'react-icons-kit/fa/wheelchair' // Wheelchair
 // import {addressBook} from 'react-icons-kit/fa/addressBook' // Address Book  
 import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition  
 // import {nuclear} from 'react-icons-kit/ionicons/nuclear' // Radiology  
-// import {pipette} from 'react-icons-kit/typicons/pipette' // Immunization ?
+import {pipette} from 'react-icons-kit/typicons/pipette' // Immunization ?
 
 // import {ic_signal_wifi_0_bar} from 'react-icons-kit/md/ic_signal_wifi_0_bar';
 // import {ic_signal_wifi_1_bar} from 'react-icons-kit/md/ic_signal_wifi_1_bar';
@@ -400,7 +402,20 @@ export function PatientSidebar(props){
           break;    
         case "qrcode":
           result = <Icon icon={qrcode} />
-          break;    
+          break;   
+        case "ic_playlist_add_check":
+          result = <Icon icon={ic_playlist_add_check} />
+          break;   
+        case "ic_list":
+          result = <Icon icon={ic_list} />
+          break;   
+        case "balanceScale":
+          result = <Icon icon={balanceScale} />
+          break;   
+        case "heartO":
+          result = <Icon icon={heartO} />
+          break;   
+          
           
           
         default:
