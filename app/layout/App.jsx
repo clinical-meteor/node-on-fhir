@@ -83,6 +83,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import theme from '../Theme';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
+const defaultCanvasColor =  get(Meteor, 'settings.public.theme.palette.canvasColor', "#f2f2f2");
 
   // custom hook to listen to the resize event
 
@@ -402,6 +403,7 @@ export function App(props) {
 
     if(document.getElementById("reactCanvas") && !Meteor.isCordova){
       document.getElementById("reactCanvas").setAttribute("style", "bottom: 0px");
+      document.getElementById("reactCanvas").setAttribute("background", defaultCanvasColor);
     }
   }, [])
 
@@ -614,9 +616,6 @@ export function App(props) {
         <SideDrawer drawerIsOpen={drawerIsOpen} onDrawerClose={function(){setDrawerIsOpen(false)}}  { ...otherProps } />        
         <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
-        {/* <div id="appDrawerContainer" {...drawerHandlers}>
-          { drawer }
-        </div> */}
         <main id='mainAppRouter' className={canvasSlide}>
           { routingSwitchLogic }
         </main>

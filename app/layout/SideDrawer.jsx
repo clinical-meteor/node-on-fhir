@@ -167,7 +167,7 @@ function SideDrawer(props) {
           classes={{paper: drawerContentsClassNames}}
           open={drawerIsOpen}
           onClose={handleDrawerClose.bind(this)}
-          onOpen={handleDrawerOpen.bind(this)}
+          // onOpen={handleDrawerOpen.bind(this)}
           {...drawerHandlers}
         >
           <div className={styles.toolbar}>
