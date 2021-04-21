@@ -157,10 +157,9 @@ export function decodeNumeric(shcString){
 
 }
 Meteor.methods({
-    async signHealthCard(recordToSign){
+    signHealthCard: async function(recordToSign){
         console.log('================SIGNING HEALTHCARD=============================')
         console.log('');
-
 
         console.log('');
         console.log('---------------Verified Credential------------------------')        
@@ -255,7 +254,7 @@ Meteor.methods({
 
         return shcNumericString;
     },
-    async parseHealthCard(healthCardToken){
+    parseHealthCard: async function(healthCardToken){
         console.log('==============================================================================')
         console.log('parseHealthCard().healthCardToken', healthCardToken)
 
@@ -267,7 +266,7 @@ Meteor.methods({
 
         return dataPayload;
     },
-    async verifyHealthCard(json_web_signature){
+    verifyHealthCard: async function(json_web_signature){
         console.log('');
         console.log('================VERIFYING SIGNATURE=======================')
         console.log('');
