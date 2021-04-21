@@ -9,8 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { Icon } from 'react-icons-kit';
-import {ic_menu} from 'react-icons-kit/md/ic_menu';
+
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
@@ -35,6 +34,20 @@ if(Meteor.isClient){
   Session.setDefault('useDateRangeInQueries', get(Meteor, 'settings.public.defaults.useDateRangeInQueries', false));
   Session.setDefault('workflowTabs', "default");
 }
+
+
+// ==============================================================================
+// Icons  
+import { Icon } from 'react-icons-kit';
+import {ic_menu} from 'react-icons-kit/md/ic_menu';
+import {ic_donut_large} from 'react-icons-kit/md/ic_donut_large';
+import {ic_track_changes} from 'react-icons-kit/md/ic_track_changes';
+import {ic_gps_not_fixed} from 'react-icons-kit/md/ic_gps_not_fixed';
+import {ic_gps_off} from 'react-icons-kit/md/ic_gps_off';
+import {ic_radio_button_checked} from 'react-icons-kit/md/ic_radio_button_checked';
+import {ic_radio_button_unchecked} from 'react-icons-kit/md/ic_radio_button_unchecked';
+
+let headerMenuIcon = ic_radio_button_checked;
 
 // ==============================================================================
 // Dynamic Imports 
@@ -364,8 +377,8 @@ function Header(props) {
       <div style={{paddingTop: '10px'}}>
           <Icon 
             id="sidebarMenuButton"
-            icon={ic_menu} 
-            size={32} 
+            icon={headerMenuIcon} 
+            size={36} 
             onClick={ clickOnMenuButton.bind(this) }
             className={componentStyles.sidebarMenuButton}
           />
