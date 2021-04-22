@@ -20,7 +20,9 @@ import LogoutDialog from '../core/LogoutDialog';
 
 import { get } from 'lodash';
 
+import theme from '../Theme';
 import logger from '../Logger';
+import useStyles from '../Styles';
 
 // ==============================================================================
 // Dynamic Imports 
@@ -69,13 +71,26 @@ if(Meteor.isClient){
   Session.setDefault('mainAppDialogJson', false);
   Session.setDefault('mainAppDialogErrorMessage', '');
   Session.setDefault('mainAppDialogErrorShowAgain', true);
-  Session.setDefault('mainAppDialogmaxWidth', get(Meteor, 'settings.public.defaults.modals.maxWidth', "xl"));
+  Session.setDefault('mainAppDialogMaxWidth', get(Meteor, 'settings.public.defaults.modals.maxWidth', "xl"));
 
 
   Session.setDefault('showDialogTitle', true);
 }
 
 export default function ScrollDialog(props) {
+  if(typeof logger === "undefined"){
+    logger = props.logger;
+  }
+
+  // ------------------------------------------------------------
+  // Styling
+
+  let classes = useStyles();
+
+
+  // ------------------------------------------------------------
+  // State
+
   let [open, setOpen] = React.useState(false);
   let [scroll, setScroll] = React.useState('paper');
 
@@ -87,7 +102,7 @@ export default function ScrollDialog(props) {
   } = props;
 
   maxWidth = useTracker(function(){
-    return Session.get('mainAppDialogmaxWidth')
+    return Session.get('mainAppDialogMaxWidth')
   }, []);
 
 
@@ -205,14 +220,22 @@ export default function ScrollDialog(props) {
   }
 
   return (
-    <div>
+    <div id="mainDialogContainer">
       <Dialog
+        id="mainDialog"
         open={open}
         onClose={handleClose}
         scroll={scroll}
         maxWidth={maxWidth}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
+        classes={{
+          container: classes.mainAppDialogContainer,
+          paper: classes.mainAppDialogPaper 
+        }}        
+        style={{
+          marginLeft: '0px', marginRight: '0px', 
+          paddingLeft: '0px', paddingRight: '0px'}}
       >        
         { dialogTitleToRender }
         { dialogContentToRender }
