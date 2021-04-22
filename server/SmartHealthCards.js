@@ -269,7 +269,7 @@ Meteor.methods({
         return dataPayload;
     },
     verifyHealthCard: async function(json_web_signature){
-        check(healthCardToken, String);
+        check(json_web_signature, String);
         console.log('');
         console.log('================VERIFYING SIGNATURE=======================')
         console.log('');
@@ -372,8 +372,8 @@ Meteor.methods({
 
         return decompressed_string;
     },
-    decodeHealthCard: async function(token){
-        check(token, String);
+    decodeHealthCard: async function(json_web_signature){
+        check(json_web_signature, String);
         console.log('================DECODE HEALTHCARD==========================')
         
         console.log(json_web_signature)
