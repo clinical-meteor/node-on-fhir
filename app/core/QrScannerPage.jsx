@@ -216,8 +216,8 @@ export function QrScannerPage(props){
   }
 
   return (
-    <PageCanvas id='QrScannerPage' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{overflowX: 'hidden', marginBottom: '80px', background: 'transparent'}}>
-      <Container maxWidth="md" style={{height: containerHeight}}>
+    <PageCanvas id='QrScannerPage' headerHeight={headerHeight} paddingLeft={0} paddingRight={0} style={{overflowX: 'hidden', marginBottom: '80px', background: 'transparent'}}>
+      <Container id="QrScannerContainer" maxWidth="lg" style={{height: containerHeight}}>
         <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', paddingBottom: '20px'}}>
           <Button color="primary" variant="contained" onClick={activateCamera.bind(this)} style={{width: '100%', marginTop: '20px'}}>
             <CardHeader title="Scan Vaccine Code"  />   
