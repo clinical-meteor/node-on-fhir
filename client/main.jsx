@@ -64,8 +64,8 @@ onPageLoad(async function(){
 	if (jssMakeStyles && jssMakeStyles.parentNode) jssMakeStyles.parentNode.removeChild(jssStyles);
 
 
-  logger.info("Hydrating the reactTarget with AppContainer");
-  ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
+  logger.info("Hydrating the reactCanvas with AppContainer");
+  ReactDOM.hydrate(<AppContainer />, document.getElementById('reactCanvas'));
 });
 
 

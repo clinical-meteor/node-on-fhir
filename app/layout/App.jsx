@@ -38,6 +38,7 @@ import PatientChart from '../patient/PatientChart'
 import PatientQuickChart from '../patient/PatientQuickChart'
 import LaunchPage from '../core/LaunchPage'
 
+import QrScannerPage from '../core/QrScannerPage';
 import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
@@ -82,6 +83,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import theme from '../Theme';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
+const defaultCanvasColor =  get(Meteor, 'settings.public.theme.palette.canvasColor', "#f2f2f2");
 
   // custom hook to listen to the resize event
 
@@ -222,7 +224,12 @@ const requreSysadmin = (nextState, replace) => {
   }
 };
 
+// // ==============================================================================
+// // In App Browser
 
+// if(Meteor.isCordova){
+//   window.open = cordova.InAppBrowser.open;
+// }
 
 
 // ==============================================================================
@@ -274,6 +281,20 @@ export function SlideOutCards(props){
     </Card>
   </div>
 }
+
+
+
+
+
+
+
+// ==============================================================================
+// Main App Component
+
+if(Meteor.isClient){
+  Session.setDefault('canvasBackgroundColor', "#f2f2f2")
+}
+
 
 
 // ==============================================================================
@@ -368,6 +389,8 @@ export function App(props) {
   //   }
   // });
 
+
+
   // ------------------------------------------------------------------
   // Pathname Updates
 
@@ -376,6 +399,11 @@ export function App(props) {
       logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
       Session.set('pathname', props.location.pathname);  
       logPageView()
+    }
+
+    if(document.getElementById("reactCanvas") && !Meteor.isCordova){
+      document.getElementById("reactCanvas").setAttribute("style", "bottom: 0px");
+      document.getElementById("reactCanvas").setAttribute("background", defaultCanvasColor);
     }
   }, [])
 
@@ -391,6 +419,23 @@ export function App(props) {
     return Session.get('selectedPatient')
   }, []);
 
+
+  // const canvasBackgroundColor = useTracker(function(){    
+  //   let canvasBackgroundColor = Session.get('canvasBackgroundColor')    
+  //   console.log('canvasBackgroundColor updated', canvasBackgroundColor)
+
+  //   if(canvasBackgroundColor && document.getElementById("reactCanvas")){
+  //     document.getElementById("reactCanvas").setAttribute("style", "background: " + canvasBackgroundColor + ";");
+  //     document.body.setAttribute("style", "background: inherit !important;");
+
+  //     // if(document.getElementById("footerNavContainer")){
+  //     //   document.getElementById("footerNavContainer").setAttribute("style", "background: " + canvasBackgroundColor + " !important;");
+  //     //   document.getElementById("footerNavContainer").setAttribute("style", "border-top: none;");  
+  //     // }
+  //   } else {
+  //   }
+  //   return canvasBackgroundColor;
+  // }, []);
 
   // ------------------------------------------------------------------
   // User Interface Methods
@@ -409,7 +454,6 @@ export function App(props) {
   function goHome(){
     props.history.replace('/');
   };
-
 
   // ------------------------------------------------------------------
   // Social Media Registration  
@@ -507,6 +551,7 @@ export function App(props) {
   let routingSwitchLogic;
   let themingRoute;
   let constructionRoute;
+  let qrScannerRoute;
 
   if(Meteor.isClient){
 
@@ -516,15 +561,20 @@ export function App(props) {
     if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ConstructionZone')){
       themingRoute = <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
     }
+    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.QrScanner')){
+      qrScannerRoute = <Route id='QrScannerPage' path="/qr-scanner" component={ QrScannerPage } />
+    }
+    
 
     routingSwitchLogic = <ThemeProvider theme={theme} >
-        <Switch location={ props.location }>
+        <Switch location={props.location} history={props.history} >
           { dynamicRoutes.map(route => <Route 
             appHeight={appHeight}
             appWidth={appWidth}
             name={route.name} 
             key={route.name} 
             path={route.path} 
+            history={props.history}
             component={ route.component } 
             onEnter={ route.requireAuth ? requireAuth : null } 
             { ...otherProps }
@@ -532,6 +582,7 @@ export function App(props) {
 
         { themingRoute }
         { constructionRoute }
+        { qrScannerRoute }
         
         ProjectPage
 
@@ -565,9 +616,6 @@ export function App(props) {
         <SideDrawer drawerIsOpen={drawerIsOpen} onDrawerClose={function(){setDrawerIsOpen(false)}}  { ...otherProps } />        
         <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
-        {/* <div id="appDrawerContainer" {...drawerHandlers}>
-          { drawer }
-        </div> */}
         <main id='mainAppRouter' className={canvasSlide}>
           { routingSwitchLogic }
         </main>

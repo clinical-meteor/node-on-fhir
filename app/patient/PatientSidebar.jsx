@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 
@@ -71,9 +72,12 @@ import {question} from 'react-icons-kit/metrize/question'
 
 import {ic_account_balance_wallet} from 'react-icons-kit/md/ic_account_balance_wallet'
 import {ticket} from 'react-icons-kit/icomoon/ticket'
+import {qrcode} from 'react-icons-kit/fa/qrcode'
 
-
-
+import {ic_playlist_add_check} from 'react-icons-kit/md/ic_playlist_add_check'
+import {ic_list} from 'react-icons-kit/md/ic_list'
+import {balanceScale} from 'react-icons-kit/fa/balanceScale'
+import {heartO} from 'react-icons-kit/fa/heartO'
 
 // import {ic_tune} from 'react-icons-kit/md/ic_tune'
 // import {flask} from 'react-icons-kit/fa/flask' // Substance 
@@ -93,20 +97,20 @@ import {wheelchair} from 'react-icons-kit/fa/wheelchair' // Wheelchair
 // import {addressBook} from 'react-icons-kit/fa/addressBook' // Address Book  
 import {iosNutrition} from 'react-icons-kit/ionicons/iosNutrition' // Nutrition  
 // import {nuclear} from 'react-icons-kit/ionicons/nuclear' // Radiology  
-// import {pipette} from 'react-icons-kit/typicons/pipette' // Immunization ?
+import {pipette} from 'react-icons-kit/typicons/pipette' // Immunization ?
 
-// import {ic_signal_wifi_0_bar} from 'react-icons-kit/md/ic_signal_wifi_0_bar'
-// import {ic_signal_wifi_1_bar} from 'react-icons-kit/md/ic_signal_wifi_1_bar'
-// import {ic_signal_wifi_1_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_1_bar_lock'
-// import {ic_signal_wifi_2_bar} from 'react-icons-kit/md/ic_signal_wifi_2_bar'
-// import {ic_signal_wifi_2_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_2_bar_lock'
-// import {ic_signal_wifi_3_bar} from 'react-icons-kit/md/ic_signal_wifi_3_bar'
-// import {ic_signal_wifi_3_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_3_bar_lock'
-// import {ic_signal_wifi_4_bar} from 'react-icons-kit/md/ic_signal_wifi_4_bar'
-// import {ic_signal_wifi_4_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_4_bar_lock'
-// import {ic_signal_wifi_off} from 'react-icons-kit/md/ic_signal_wifi_off'
-// import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering'
-// import {ic_devices} from 'react-icons-kit/md/ic_devices'
+// import {ic_signal_wifi_0_bar} from 'react-icons-kit/md/ic_signal_wifi_0_bar';
+// import {ic_signal_wifi_1_bar} from 'react-icons-kit/md/ic_signal_wifi_1_bar';
+// import {ic_signal_wifi_1_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_1_bar_lock';
+// import {ic_signal_wifi_2_bar} from 'react-icons-kit/md/ic_signal_wifi_2_bar';
+// import {ic_signal_wifi_2_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_2_bar_lock';
+// import {ic_signal_wifi_3_bar} from 'react-icons-kit/md/ic_signal_wifi_3_bar';
+// import {ic_signal_wifi_3_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_3_bar_lock';
+// import {ic_signal_wifi_4_bar} from 'react-icons-kit/md/ic_signal_wifi_4_bar';
+// import {ic_signal_wifi_4_bar_lock} from 'react-icons-kit/md/ic_signal_wifi_4_bar_lock';
+// import {ic_signal_wifi_off} from 'react-icons-kit/md/ic_signal_wifi_off';
+// import {ic_wifi_tethering} from 'react-icons-kit/md/ic_wifi_tethering';
+// import {ic_devices} from 'react-icons-kit/md/ic_devices';
 
 import {signIn} from 'react-icons-kit/fa/signIn';
 
@@ -185,7 +189,7 @@ export function PatientSidebar(props){
   function openDocumentationLink(){
     logger.verbose('client.app.patient.PatientSidebar.openDocumentationLink');
 
-    window.open(get(Meteor, 'settings.public.defaults.sidebar.links.documentation', 'https://www.hgraph.org/'))
+    window.open(get(Meteor, 'settings.public.defaults.sidebar.links.documentation', 'https://www.symptomatic.io'), '_system')
     logger.info('Open documentation website');
   }
   
@@ -396,6 +400,23 @@ export function PatientSidebar(props){
         case "ic_album":
           result = <Icon icon={ic_album} />
           break;    
+        case "qrcode":
+          result = <Icon icon={qrcode} />
+          break;   
+        case "ic_playlist_add_check":
+          result = <Icon icon={ic_playlist_add_check} />
+          break;   
+        case "ic_list":
+          result = <Icon icon={ic_list} />
+          break;   
+        case "balanceScale":
+          result = <Icon icon={balanceScale} />
+          break;   
+        case "heartO":
+          result = <Icon icon={heartO} />
+          break;   
+          
+          
           
         default:
           result = <Icon icon={fire} className={styles.drawerIcons} />
@@ -424,7 +445,6 @@ export function PatientSidebar(props){
       } else {
         clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
       }
-
       // the excludes array will hide routes
       if(!get(Meteor, 'settings.public.defaults.sidebar.hidden', []).includes(element.to)){
 
@@ -448,7 +468,6 @@ export function PatientSidebar(props){
           );  
         }
       }
-
     });
     dynamicElements.push(<Divider className={styles.divider} key="dynamic-modules-hr" />);
     logger.trace('client.app.patient.PatientSidebar.dynamicElements: ' + dynamicElements.length);
@@ -552,10 +571,8 @@ export function PatientSidebar(props){
     dataManagementElements.push(<Divider className={styles.divider} key="data-management-modules-hr" />);
   }
 
-
   //----------------------------------------------------------------------
   // Theming
-
 
   let themingElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Theming')){
@@ -568,12 +585,13 @@ export function PatientSidebar(props){
   };
 
 
+
   //----------------------------------------------------------------------
   // About
 
   let aboutElements = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.About')){
-      aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button onClick={function(){ toggleAboutDialog(); }} >
+      aboutElements.push(<ListItem id='aboutItem' key='aboutItem' button onClick={function(){ openPage('/about'); }} >
         <ListItemIcon >
           <Icon icon={info} className={styles.drawerIcons} />
         </ListItemIcon>
@@ -591,6 +609,21 @@ export function PatientSidebar(props){
           <Icon icon={question} className={styles.drawerIcons} />
         </ListItemIcon>
         <ListItemText primary="Documentation" className={styles.drawerText}  />
+      </ListItem>);    
+  };
+
+
+
+  //----------------------------------------------------------------------
+  // Marketing
+
+  let marketingElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Marketing')){
+      marketingElements.push(<ListItem id='marketingItem' key='marketingItem' button onClick={function(){ openPage('/marketing'); }} >
+        <ListItemIcon >
+          <Icon icon={question} className={styles.drawerIcons} />
+        </ListItemIcon>
+        <ListItemText primary="Marketing" className={styles.drawerText}  />
       </ListItem>);    
   };
 
@@ -708,9 +741,8 @@ export function PatientSidebar(props){
     </ListItem>);    
   };
 
-
   return(
-    <div id='patientSidebar' style={{marginBottom: '80px',}} >
+    <div id='patientSidebar'>
       { homePage }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>
@@ -729,6 +761,7 @@ export function PatientSidebar(props){
       { themingElements }
       { aboutElements }
       { documentationElements }
+      { marketingElements }
       { privacyElements }
       { termsAndConditionElements }
       { navbarElements }
