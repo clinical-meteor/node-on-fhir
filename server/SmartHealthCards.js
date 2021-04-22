@@ -158,6 +158,7 @@ export function decodeNumeric(shcString){
 }
 Meteor.methods({
     signHealthCard: async function(recordToSign){
+        check(recordToSign, Object);
         console.log('================SIGNING HEALTHCARD=============================')
         console.log('');
 
@@ -255,6 +256,7 @@ Meteor.methods({
         return shcNumericString;
     },
     parseHealthCard: async function(healthCardToken){
+        check(healthCardToken, Object);
         console.log('==============================================================================')
         console.log('parseHealthCard().healthCardToken', healthCardToken)
 
@@ -267,6 +269,7 @@ Meteor.methods({
         return dataPayload;
     },
     verifyHealthCard: async function(json_web_signature){
+        check(healthCardToken, String);
         console.log('');
         console.log('================VERIFYING SIGNATURE=======================')
         console.log('');
@@ -370,36 +373,37 @@ Meteor.methods({
         return decompressed_string;
     },
     async decodeHealthCard(token){
+        check(token, String);
         console.log('================DECODE HEALTHCARD==========================')
-    
-    console.log(json_web_signature)
+        
+        console.log(json_web_signature)
 
-    console.log('')
-    console.log('------------JWS Payload-----------------------------------')
-    console.log('')
+        console.log('')
+        console.log('------------JWS Payload-----------------------------------')
+        console.log('')
 
-    const parts = json_web_signature.split('.');
-    const rawPayload = parts[1].trim();
-    console.log(rawPayload)
+        const parts = json_web_signature.split('.');
+        const rawPayload = parts[1].trim();
+        console.log(rawPayload)
 
-    console.log('')
-    // console.log('------------Payload Buffer (atob, base64)-----------------')
-    console.log('------------Payload Buffer (atob)-----------------')
-    console.log('')
+        console.log('')
+        // console.log('------------Payload Buffer (atob, base64)-----------------')
+        console.log('------------Payload Buffer (atob)-----------------')
+        console.log('')
 
-    // per Matt Printz
-    // let buffer_from_base64_payload_atob = Buffer.from(rawPayload_atob);
-    let buffer_from_base64_payload_atob = Buffer.from(rawPayload_atob, 'base64');
-    console.log(buffer_from_base64_payload_atob);
+        // per Matt Printz
+        // let buffer_from_base64_payload_atob = Buffer.from(rawPayload_atob);
+        let buffer_from_base64_payload_atob = Buffer.from(rawPayload_atob, 'base64');
+        console.log(buffer_from_base64_payload_atob);
 
-    console.log('')
-    console.log('------------Decompressed Payload--------------------------')
-    console.log('')
-    
-    const decompressed = zlib.inflateRawSync(buffer_from_base64_payload_atob);    
-    // const decompressed = InflateAuto.inflateAutoSync(buffer_from_base64_payload_atob);    
-    const decompressed_string = decompressed.toString('utf8')      
-    console.log(decompressed_string); 
+        console.log('')
+        console.log('------------Decompressed Payload--------------------------')
+        console.log('')
+        
+        const decompressed = zlib.inflateRawSync(buffer_from_base64_payload_atob);    
+        // const decompressed = InflateAuto.inflateAutoSync(buffer_from_base64_payload_atob);    
+        const decompressed_string = decompressed.toString('utf8')      
+        console.log(decompressed_string); 
 
     return decompressed_string;
     }
