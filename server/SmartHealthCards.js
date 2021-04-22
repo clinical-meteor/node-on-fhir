@@ -372,7 +372,7 @@ Meteor.methods({
 
         return decompressed_string;
     },
-    async decodeHealthCard(token){
+    decodeHealthCard: async function(token){
         check(token, String);
         console.log('================DECODE HEALTHCARD==========================')
         
