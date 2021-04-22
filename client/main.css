@@ -11,14 +11,15 @@ body {
 }
 
 
-#reactTarget {
+#reactCanvas {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: 0px;
+  bottom: -44px;  
+  left: 0px;
+  right: 0px;
   overflow: auto;
   background: #f2f2f2;
+  margin-top: 0px;
 }
 
 a{
