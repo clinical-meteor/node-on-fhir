@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check'
+
 import { HTTP } from 'meteor/http';
 import { Random } from 'meteor/random';
 import { get, has, findIndex } from 'lodash';
@@ -256,7 +258,7 @@ Meteor.methods({
         return shcNumericString;
     },
     parseHealthCard: async function(healthCardToken){
-        check(healthCardToken, Object);
+        check(healthCardToken, String);
         console.log('==============================================================================')
         console.log('parseHealthCard().healthCardToken', healthCardToken)
 

@@ -257,7 +257,18 @@ let rawStyles = {
     },
     divider: {
       height: '2px'
+    },
+    mainAppDialogPaper: {
+      width: '100%',
+      marginLeft: '0px',
+      marginRight: '0px'
+    },
+    mainAppDialogContainer: {
+      width: '100%',
+      paddingLeft: '40px',
+      paddingRight: '40px'
     }
+
   }
 
 
