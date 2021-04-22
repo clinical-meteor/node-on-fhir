@@ -13,3 +13,10 @@ chromedriver.log
 
 configs/settings.galaxy.json
 mobile-config.js
+
+
+certs/*
+public/.well-known/*.pem
+public/.well-known/*.jwks.json
+private/*.pem
+private/*.jwks.json
