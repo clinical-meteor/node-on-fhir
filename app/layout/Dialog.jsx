@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
-import { useTracker, withTracker } from './Tracker';
+import { useTracker } from 'meteor/react-meteor-data';
 import CapabilityStatementCheck from '../core/CapabilityStatementCheck';
 import ErrorDialog from '../core/ErrorDialog';
 import LoginDialog from '../core/LoginDialog';
@@ -19,6 +19,10 @@ import SignUpDialog from '../core/SignUpDialog';
 import LogoutDialog from '../core/LogoutDialog';
 
 import { get } from 'lodash';
+
+import theme from '../Theme';
+import logger from '../Logger';
+import useStyles from '../Styles';
 
 // ==============================================================================
 // Dynamic Imports 
@@ -67,23 +71,38 @@ if(Meteor.isClient){
   Session.setDefault('mainAppDialogJson', false);
   Session.setDefault('mainAppDialogErrorMessage', '');
   Session.setDefault('mainAppDialogErrorShowAgain', true);
-  Session.setDefault('mainAppDialogmaxWidth', 'xl');
+  Session.setDefault('mainAppDialogMaxWidth', get(Meteor, 'settings.public.defaults.modals.maxWidth', "xl"));
+
+
+  Session.setDefault('showDialogTitle', true);
 }
 
 export default function ScrollDialog(props) {
+  if(typeof logger === "undefined"){
+    logger = props.logger;
+  }
+
+  // ------------------------------------------------------------
+  // Styling
+
+  let classes = useStyles();
+
+
+  // ------------------------------------------------------------
+  // State
+
   let [open, setOpen] = React.useState(false);
   let [scroll, setScroll] = React.useState('paper');
 
   let {
     children, 
-    logger, 
     appHeight,
     maxWidth,
     ...otherProps
   } = props;
 
   maxWidth = useTracker(function(){
-    return Session.get('mainAppDialogmaxWidth')
+    return Session.get('mainAppDialogMaxWidth')
   }, []);
 
 
@@ -110,21 +129,23 @@ export default function ScrollDialog(props) {
   let jsonContent = "";
   jsonContent = useTracker(function(){
     return Session.get('mainAppDialogJson');
-    // let result = "";
-    // let mainAppDialogJson = Session.get('mainAppDialogJson');
-    // if(typeof mainAppDialogJson === "string"){
-    //   result = mainAppDialogJson
-    // } else if(typeof mainAppDialogJson === "object") {
-    //   result = JSON.stringify(mainAppDialogJson, null, 2);
-    // }
-
-    // return result;
   }, [props.lastUpdated]);
 
   let errorMessage = "";
   errorMessage = useTracker(function(){
     return Session.get('mainAppDialogErrorMessage')
   }, []);
+
+
+  let showDialogTitle = useTracker(function(){
+    let title = Session.get('mainAppDialogTitle');
+    if(title.length === 0){ 
+      return false;
+    } else {
+      return true;      
+    }
+  }, []);
+  
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -181,25 +202,44 @@ export default function ScrollDialog(props) {
     </pre>
   }  
 
+
+
+  let dialogTitleToRender;
+  let dialogActionsToRender;
+  if(showDialogTitle){
+    dialogTitleToRender = <DialogTitle id="scroll-dialog-title">{dialogTitle}</DialogTitle>
+  }
+
+  let showDialogActions = false;
+  if(showDialogActions){
+    dialogActionsToRender = <DialogActions>
+      <Button onClick={handleClose} color="primary">
+        Close
+      </Button>
+    </DialogActions>
+  }
+
   return (
-    <div>
-      {/* <Button onClick={handleClickOpen('paper')}>scroll=paper</Button>
-      <Button onClick={handleClickOpen('body')}>scroll=body</Button> */}
+    <div id="mainDialogContainer">
       <Dialog
+        id="mainDialog"
         open={open}
         onClose={handleClose}
         scroll={scroll}
         maxWidth={maxWidth}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
-      >
-        <DialogTitle id="scroll-dialog-title">{dialogTitle}</DialogTitle>
+        classes={{
+          container: classes.mainAppDialogContainer,
+          paper: classes.mainAppDialogPaper 
+        }}        
+        style={{
+          marginLeft: '0px', marginRight: '0px', 
+          paddingLeft: '0px', paddingRight: '0px'}}
+      >        
+        { dialogTitleToRender }
         { dialogContentToRender }
-        {/* <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Close
-          </Button>
-        </DialogActions> */}
+        { dialogActionsToRender }        
       </Dialog>
     </div>
   );

@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/53290178/cordova-iphone-x-safe-area-after-layout-orientation-changes
+
 
 // base layout
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
@@ -14,7 +16,7 @@ import { Session } from 'meteor/session';
 import { Helmet } from "react-helmet";
 import { get, has } from 'lodash';
 
-import { useTracker, withTracker } from './Tracker';
+import { useTracker } from 'meteor/react-meteor-data';
 
 import ProjectPage from './MainPage.jsx';
 
@@ -25,33 +27,51 @@ import AppCanvas from './AppCanvas.jsx';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import ScrollDialog from './Dialog';
+import SideDrawer from './SideDrawer';
 
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 
 import clsx from 'clsx';
-import moment from 'moment';
 
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-
-import PatientSidebar from '../patient/PatientSidebar'
 import AppLoadingPage from '../core/AppLoadingPage'
 import PatientChart from '../patient/PatientChart'
 import PatientQuickChart from '../patient/PatientQuickChart'
 import LaunchPage from '../core/LaunchPage'
 
+import QrScannerPage from '../core/QrScannerPage';
 import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
+
+import logger from '../Logger';
+import useStyles from '../Styles';
+
+import { useSwipeable } from 'react-swipeable';
+
+//=============================================================================================================================================
+// Analytics
+
+let analyticsTrackingCode = get(Meteor, 'settings.public.google.analytics.trackingCode')
+
+import ReactGA from 'react-ga';
+ReactGA.initialize(analyticsTrackingCode, {debug: get(Meteor, 'settings.public.google.analytics.debug', false)});
+
+function logPageView() {
+  if(analyticsTrackingCode){
+    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.set({ page: window.location.pathname });  
+  }
+};
+
+function usePageViews() {
+  let location = useLocation();
+  React.useEffect(() => {
+    if(analyticsTrackingCode){
+      ReactGA.pageview(window.location.pathname + window.location.search);
+      ReactGA.set({ page: window.location.pathname });  
+    }
+  }, [location]);
+}
+
 
 // ==============================================================================
 // Theming
@@ -60,130 +80,13 @@ import ContextSlideOut from './ContextSlideOut';
 
 
 import { ThemeProvider } from '@material-ui/styles';
-import theme from '../theme';
+import theme from '../Theme';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
-
-  const useStyles = makeStyles(theme => ({
-    primaryFlexPanel: {
-      display: 'flex',
-    },
-    canvas: {
-      flexGrow: 1,
-      position: "absolute",
-      left: 0,
-      top: 0,
-      width: '100%',
-      height: '100%',
-      paddingTop: '0px',
-      paddingBottom: '0px',
-      background: 'inherit',
-      //backgroundColor: theme.palette.background.default,
-      transition: theme.transitions.create('left', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      display: 'block'
-    },
-    canvasOpen: {
-      flexGrow: 1,
-      position: "absolute",
-      left: drawerWidth,
-      top: 0,
-      width: '100%',
-      height: '100%',
-      paddingTop: '0px',
-      paddingBottom: '0px',
-      background: 'inherit',
-      //backgroundColor: theme.palette.background.default,
-      transition: theme.transitions.create('left', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      display: 'block'
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: 'nowrap',
-      position: 'absolute', 
-      zIndex: 1100,
-      backgroundColor: theme.palette.paper.main
-    },
-    drawerOpen: {
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      backgroundColor: theme.palette.paper.main
-    },
-    drawerClose: {
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: 'hidden',
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9) + 1
-      },
-      backgroundColor: theme.palette.paper.main
-    },
-    drawerIcons: {
-      fontSize: '120%',
-      paddingLeft: '8px',
-      paddingRight: '2px'
-    },
-    divider: {
-      height: '2px'
-    },
-    drawerText: {
-      textDecoration: 'none !important'
-    },
-    hide: {
-      display: 'none',
-    },
-    menuButton: {
-      marginRight: 36,
-      float: 'left'
-    },
-    toolbar: {
-      display: 'inline-block',
-      minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
-      float: 'left'
-    },
-    title: {
-      paddingTop: '10px'
-    },
-    header_label: {
-      paddingTop: '10px',
-      fontWeight: 'bold',
-      fontSize: '1 rem',
-      float: 'left',
-      paddingRight: '10px'
-    },
-    header_text: {
-      paddingTop: '10px',
-      fontSize: '1 rem',
-      float: 'left'
-    },
-    northeast_title: {
-      paddingTop: '10px',
-      float: 'right',
-      position: 'absolute',
-      paddingRight: '20px',
-      right: '0px',
-      top: '0px',
-      fontWeight: 'normal'
-    },
-    menu_items: {
-      position: 'absolute',
-      bottom: '10px'
-    }
-  }));
+const defaultCanvasColor =  get(Meteor, 'settings.public.theme.palette.canvasColor', "#f2f2f2");
 
   // custom hook to listen to the resize event
+
   function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
 
@@ -200,6 +103,9 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
     }
     return size;
   }
+
+
+
 
 
 // ==============================================================================
@@ -318,7 +224,12 @@ const requreSysadmin = (nextState, replace) => {
   }
 };
 
+// // ==============================================================================
+// // In App Browser
 
+// if(Meteor.isCordova){
+//   window.open = cordova.InAppBrowser.open;
+// }
 
 
 // ==============================================================================
@@ -372,17 +283,35 @@ export function SlideOutCards(props){
 }
 
 
+
+
+
+
+
+// ==============================================================================
+// Main App Component
+
+if(Meteor.isClient){
+  Session.setDefault('canvasBackgroundColor', "#f2f2f2")
+}
+
+
+
 // ==============================================================================
 // Main App Component
 
 export function App(props) {
-  if(typeof logger === "undefined"){
-    logger = props.logger;
-  }
+  // if(typeof logger === "undefined"){
+  //   logger = props.logger;
+  // }
   
   logger.debug('Rendering the main App.');
   logger.verbose('client.app.layout.App');
   logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
+
+
+
+
 
 
   // ------------------------------------------------------------------
@@ -419,7 +348,7 @@ export function App(props) {
     }        
   }
 
-
+  usePageViews();
 
   // ------------------------------------------------------------------
   // Styling & Theming
@@ -433,6 +362,35 @@ export function App(props) {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [appWidth, appHeight] = useWindowSize();
 
+
+  // // ------------------------------------------------------------------
+  // // User Interfaces
+  
+  // const drawerHandlers = useSwipeable({
+  //   // onSwiped: function(eventData){
+  //   //   console.log("User Swiped!", eventData)
+  //   // },
+  //   onSwipedLeft: function(eventData){
+  //     console.log("User SwipedLeft!", eventData)
+  //     setDrawerIsOpen(false)
+  //   },
+  //   onSwipedRight: function(eventData){
+  //     console.log("User SwipedRight!", eventData)
+  //     setDrawerIsOpen(true)
+  //   },
+  //   onSwipedUp: function(eventData){
+  //     console.log("User SwipedUp!", eventData)
+  //   },
+  //   onSwiping: function(eventData){
+  //     console.log("User Swiping!", eventData)
+  //   },
+  //   onTap: function(eventData){
+  //     console.log("User Tapped!", eventData)
+  //   }
+  // });
+
+
+
   // ------------------------------------------------------------------
   // Pathname Updates
 
@@ -440,6 +398,12 @@ export function App(props) {
     if(get(props, 'location.pathname')){
       logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
       Session.set('pathname', props.location.pathname);  
+      logPageView()
+    }
+
+    if(document.getElementById("reactCanvas") && !Meteor.isCordova){
+      document.getElementById("reactCanvas").setAttribute("style", "bottom: 0px");
+      document.getElementById("reactCanvas").setAttribute("background", defaultCanvasColor);
     }
   }, [])
 
@@ -456,12 +420,29 @@ export function App(props) {
   }, []);
 
 
+  // const canvasBackgroundColor = useTracker(function(){    
+  //   let canvasBackgroundColor = Session.get('canvasBackgroundColor')    
+  //   console.log('canvasBackgroundColor updated', canvasBackgroundColor)
+
+  //   if(canvasBackgroundColor && document.getElementById("reactCanvas")){
+  //     document.getElementById("reactCanvas").setAttribute("style", "background: " + canvasBackgroundColor + ";");
+  //     document.body.setAttribute("style", "background: inherit !important;");
+
+  //     // if(document.getElementById("footerNavContainer")){
+  //     //   document.getElementById("footerNavContainer").setAttribute("style", "background: " + canvasBackgroundColor + " !important;");
+  //     //   document.getElementById("footerNavContainer").setAttribute("style", "border-top: none;");  
+  //     // }
+  //   } else {
+  //   }
+  //   return canvasBackgroundColor;
+  // }, []);
+
   // ------------------------------------------------------------------
   // User Interface Methods
 
   function handleDrawerOpen(){
     logger.trace('App.handleDrawerOpen()')
-    setDrawerIsOpen(true);
+    setDrawerIsOpen(!drawerIsOpen);
   };
 
   function handleDrawerClose(){
@@ -474,7 +455,6 @@ export function App(props) {
     props.history.replace('/');
   };
 
-
   // ------------------------------------------------------------------
   // Social Media Registration  
 
@@ -485,6 +465,7 @@ export function App(props) {
     image: get(Meteor, 'settings.public.socialmedia.image', ''),
     description: get(Meteor, 'settings.public.socialmedia.description', ''),
     site_name: get(Meteor, 'settings.public.socialmedia.site_name', ''),
+    author: get(Meteor, 'settings.public.socialmedia.author', '')
   }
 
   let helmet;
@@ -499,20 +480,24 @@ export function App(props) {
     themeColor = rawColor;
   }
 
+  let initialScale = 0.8;
+
   headerTags.push(<meta key='theme' name="theme-color" content={themeColor} />)
   headerTags.push(<meta key='utf-8' charSet="utf-8" />);    
+  headerTags.push(<meta name="viewport" key='viewport' property="viewport" content={"initial-scale=" + initialScale + ", minimal-ui, minimum-scale=" + initialScale + ", maximum-scale=" + initialScale + ", width=device-width, height=device-height, user-scalable=no"} />);
   headerTags.push(<meta name="description" key='description' property="description" content={get(Meteor, 'settings.public.title', "Node on FHIR")} />);
   headerTags.push(<title key='title'>{get(Meteor, 'settings.public.title', "Node on FHIR")}</title>);
 
   if(get(Meteor, 'settings.public.socialmedia')){
     //headerTags.push(<title>{socialmedia.title}</title>);    
     headerTags.push(<link key='canonical' rel="canonical" href={socialmedia.url} />);    
-    headerTags.push(<meta key='og:title' property="og:title" content={socialmedia.title} />);
-    headerTags.push(<meta key='og:type' property="og:type" content={socialmedia.type} />);
-    headerTags.push(<meta key='og:url' property="og:url" content={socialmedia.url} />);
-    headerTags.push(<meta key='og:image' property="og:image" content={socialmedia.image} />);
-    headerTags.push(<meta key='og:description' property="og:description" content={socialmedia.description} />);
-    headerTags.push(<meta key='og:site_name' property="og:site_name" content={socialmedia.site_name} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:title' property="og:title" content={socialmedia.title} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:type' property="og:type" content={socialmedia.type} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:url' property="og:url" content={socialmedia.url} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:image' property="og:image" content={socialmedia.image} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:description' property="og:description" content={socialmedia.description} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:site_name' property="og:site_name" content={socialmedia.site_name} />);
+    headerTags.push(<meta prefix="og: http://ogp.me/ns#" key='og:author' property="og:author" content={socialmedia.author} />);
   }
 
   helmet = <Helmet>
@@ -522,40 +507,43 @@ export function App(props) {
 
   
 
-  // ------------------------------------------------------------------
-  // User Interface
+  // // ------------------------------------------------------------------
+  // // User Interface
 
-  let drawerStyle = {}
+  // let drawerVarient = "persistent";
+  // if(get(Meteor, 'settings.public.defaults.disableCanvasSlide')){
+  //   drawerVarient = "temporary";
+  // } 
 
-  let drawer;
-  if(Meteor.isClient){
-      drawer = <Drawer
-        id='appDrawer'
-        variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: drawerIsOpen,
-          [classes.drawerClose]: !drawerIsOpen
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: drawerIsOpen,
-            [classes.drawerClose]: !drawerIsOpen
-          }),
-        }}
-        open={drawerIsOpen}
-        style={drawerStyle}
-      >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </div>
-        <Divider className={classes.divider} />
-        <List>
-          <PatientSidebar { ...otherProps } />
-        </List>
-      </Drawer>
-  }
+  // let drawer;
+  // if(Meteor.isClient){
+  //     drawer = <Drawer
+  //       id='appDrawer'
+  //       anchor="left"
+  //       variant={drawerVarient}
+  //       className={clsx(classes.drawer, {
+  //         [classes.drawerOpen]: drawerIsOpen,
+  //         [classes.drawerClose]: !drawerIsOpen
+  //       })}
+  //       classes={{
+  //         paper: clsx({
+  //           [classes.drawerOpen]: drawerIsOpen,
+  //           [classes.drawerClose]: !drawerIsOpen
+  //         })
+  //       }}
+  //       open={drawerIsOpen}
+  //     >
+  //       <div className={classes.toolbar}>
+  //         <IconButton onClick={handleDrawerClose.bind(this)} style={{width: '64px', height: '64px'}}>
+  //           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+  //         </IconButton>
+  //       </div>
+  //       <Divider className={classes.divider} />
+  //       <List>
+  //         <PatientSidebar { ...otherProps } />
+  //       </List>
+  //     </Drawer>
+  // }
 
   // ------------------------------------------------------------------
   // Page Routing  
@@ -563,6 +551,7 @@ export function App(props) {
   let routingSwitchLogic;
   let themingRoute;
   let constructionRoute;
+  let qrScannerRoute;
 
   if(Meteor.isClient){
 
@@ -572,15 +561,20 @@ export function App(props) {
     if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ConstructionZone')){
       themingRoute = <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
     }
+    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.QrScanner')){
+      qrScannerRoute = <Route id='QrScannerPage' path="/qr-scanner" component={ QrScannerPage } />
+    }
+    
 
     routingSwitchLogic = <ThemeProvider theme={theme} >
-        <Switch location={ props.location } >
+        <Switch location={props.location} history={props.history} >
           { dynamicRoutes.map(route => <Route 
             appHeight={appHeight}
             appWidth={appWidth}
             name={route.name} 
             key={route.name} 
             path={route.path} 
+            history={props.history}
             component={ route.component } 
             onEnter={ route.requireAuth ? requireAuth : null } 
             { ...otherProps }
@@ -588,6 +582,7 @@ export function App(props) {
 
         { themingRoute }
         { constructionRoute }
+        { qrScannerRoute }
         
         ProjectPage
 
@@ -602,23 +597,26 @@ export function App(props) {
     </ThemeProvider>
   }
 
+  let canvasSlide;
+  if(!get(Meteor, 'settings.public.defaults.disableCanvasSlide')){
+    canvasSlide = clsx({
+      [classes.canvasOpen]: drawerIsOpen,
+      [classes.canvas]: !drawerIsOpen
+    })
+  } else {
+    canvasSlide = clsx(classes.canvas)
+  }
+
+
   return(
     <AppCanvas { ...otherProps }>
       { helmet }
-
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
-        <CssBaseline />
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
-        <ContextSlideOut { ...otherProps } />
+        <SideDrawer drawerIsOpen={drawerIsOpen} onDrawerClose={function(){setDrawerIsOpen(false)}}  { ...otherProps } />        
         <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
 
-        <div id="appDrawerContainer" style={drawerStyle}>
-          { drawer }
-        </div>
-        <main id='mainAppRouter' className={clsx({
-            [classes.canvasOpen]: drawerIsOpen,
-            [classes.canvas]: !drawerIsOpen
-          })}>
+        <main id='mainAppRouter' className={canvasSlide}>
           { routingSwitchLogic }
         </main>
         <ScrollDialog {...otherProps} appHeight={appHeight} />
