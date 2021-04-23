@@ -126,13 +126,13 @@ We want to make sure that you have a handle on git, feature branches, pull-reque
 
 ## Hacking on NPM Packages 
 
-After you've begun diving into the code, you may find that you want to edit some of the user interface components.  You will need to `npm link` the `material-fhir-ui` package.  
+After you've begun diving into the code, you may find that you want to edit some of the user interface components.  You will need to `npm link` the `fhir-starter` package.  
 ```
-git clone https://github.com/clinical-meteor/material-fhir-ui packages/material-fhir-ui  
-meteor npm link packages/material-fhir-ui
+git clone https://github.com/clinical-meteor/fhir-starter packages/fhir-starter  
+meteor npm link packages/fhir-starter
 ```
 
-We recommend doing all development of the `material-fhir-ui` library within the main application `core/ConstructionZone.jsx` page or on CodeSandbox.io or some similar service, and then submitting a pull request for publication.  We currently do not support development of the `material-fhir-ui` library from within an Atmosphere package.
+We recommend doing all development of the `fhir-starter` library within the main application `core/ConstructionZone.jsx` page or on CodeSandbox.io or some similar service, and then submitting a pull request for publication.  We currently do not support development of the `fhir-starter` library from within an Atmosphere package.
 
 Lastly, you may need to re-link the package each time you make updates.  :/  There is a `rollup --watch` command that you can use to ease this task; but its a bit brittle and easy to forget to run.   
 

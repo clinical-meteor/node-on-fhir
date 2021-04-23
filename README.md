@@ -51,34 +51,35 @@ git clone https://github.com/symptomatic/node-on-fhir
 cd node-on-fhir
 
 # install dependencies
+meteor npm install
+
+# alternative, use yarn if you'd like a more modern package manager
 meteor yarn install
 
 # run the application in local development mode
 # this will automatically launch a mongo instance
-# you will want to create your own settings file 
-# and a plugin if you have assets you want to keep private
-meteor run --settings configs/settings.nodeonfhir.json  --extra-packages symptomatic:example-plugin
+meteor run --settings configs/settings.nodeonfhir.json  
 
-# build and minifiy the application
-meteor add symptomatic:example-plugin
-meteor build --directory ../output
+# stop the application with Ctrl-C
 
-# run the node application  
-# warning!  we don't have a mongo instance yet
-# you will need to specify a MONGO_URL
+# download custom packages
+cd packages
+git clone https://github.com/symptomatic/covid19-on-fhir
+git clone https://github.com/symptomatic/vault-server-freemium
+cd ..
 
-cd ../output
-more README
+# run the application again, using the config from the Covid19 on FHIR package, and using the Vault FHIR server
+meteor run --settings packages/covid19-on-fhir/configs/settings.covid19.json  --extra-packages symptomatic:covid19-on-fhir,symptomatic:vault-server-freemium
 
-cd programs/server 
-npm install
-export MONGO_URL='mongodb://user:password@host:port/databasename'
-export ROOT_URL='http://example.com'
-export METEOR_SETTINGS=`(cat configs/settings.nodeonfhir.json)`
-node main.js
+# using a NEW TERMINAL (or the Postman utility)
+# query the server metadata to view the conformance statement
+curl http://localhost:3000/baseR4/metadata
 
-# or if you're looking for a one-liner
-MONGO_URL='mongodb://user:password@host:port/databasename' PORT=4200 ROOT_URL=http://localhost METEOR_SETTINGS=`(cat ../../node-on-fhir/configs/settings.nodeonfhir.json)` node main.js
+# GET/POST data to the FHIR server
+curl http://localhost:3000/baseR4/Patient
+curl http://localhost:3000/baseR4/Organization
+curl http://localhost:3000/baseR4/Observation
+
 ```
 
 ## Important Links    

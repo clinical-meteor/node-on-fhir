@@ -4,11 +4,14 @@ import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react'
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
-import { useTracker, withTracker } from './Tracker';
+import { useTracker } from 'meteor/react-meteor-data';
 import CapabilityStatementCheck from '../core/CapabilityStatementCheck';
 import ErrorDialog from '../core/ErrorDialog';
 
 import { get } from 'lodash';
+
+import logger from '../Logger';
+import theme from '../Theme';
 
 import {
   makeStyles,
@@ -67,7 +70,6 @@ export function ContextSlideOut(props) {
 
   let {
     children, 
-    logger, 
     jsonContent,
     ...otherProps
   } = props;
@@ -138,6 +140,11 @@ export function ContextSlideOut(props) {
     height: window.innerHeight - 64 + 'px',
     width: '400px',
     transition: '.6s'
+  }
+
+  if(get(Meteor, 'settings.public.defaults.darkModeEnabled')){
+    overlayStyle.color = theme.palette.appBar.contrastText;
+    overlayStyle.backgroundColor = theme.palette.appBar.main;
   }
 
   if(slideOutCardsVisible){

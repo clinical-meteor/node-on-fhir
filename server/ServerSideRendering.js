@@ -12,7 +12,9 @@ import AppContainer from '/app/layout/AppContainer'
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 import { get } from 'lodash';
 
-import theme from '/app/theme.js'
+import theme from '/app/Theme.js'
+import logger from '../app/Logger';
+
 // import { createLogger, addColors, format, transports, config } from 'winston';
 import ReactDOMServer from 'react-dom/server';
 
@@ -38,7 +40,6 @@ onPageLoad((sink) => {
 
   const htmlString = renderToString(sheets.collect(
     <ThemeProvider theme={theme} >          
-      {/* <AppLoadingPage location={sink.request.url} /> */}
       <AppContainer location={sink.request.url} />
     </ThemeProvider>  
   ));
@@ -48,7 +49,7 @@ onPageLoad((sink) => {
 
   // Grab the CSS from the sheets.
   sink.appendToHead(`<style id="jss-server-side">${sheets.toString()}</style>`);
-  sink.renderIntoElementById('reactTarget', htmlString);
+  sink.renderIntoElementById('reactCanvas', htmlString);
 
   const helmet = Helmet.renderStatic();
 

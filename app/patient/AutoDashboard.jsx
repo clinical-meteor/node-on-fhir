@@ -1,23 +1,23 @@
 // yes, yes... this is a Class component, instead of a Pure Function
 // TODO:  refactor into a <PatientDataQuery /> pure function with hooks, effect, and context
 
-import { ReactMeteorData } from 'meteor/react-meteor-data';
-import ReactMixin  from 'react-mixin';
+
 import { useLocation, useParams, useHistory } from "react-router-dom";
 
-import React from "react";
+import React, {useEffect, useContext} from "react";
 import ChartJS from "chart.js";
 import { FhirClientContext } from "../FhirClientContext";
 
-import { StyledCard } from 'material-fhir-ui';
+import { StyledCard } from 'fhir-starter';
 
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { useTracker } from 'meteor/react-meteor-data';
 
-import { Encounters, Procedures, Conditions, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { get } from 'lodash';
 
 function DynamicSpacer(props){
@@ -25,6 +25,9 @@ function DynamicSpacer(props){
 }
   
 export function AutoDashboard(props){
+
+    const client = useContext(FhirClientContext);
+
     let chartWidth = (window.innerWidth - 240) / 3;
 
     let data = {
@@ -32,8 +35,22 @@ export function AutoDashboard(props){
         procedures: [],
         conditions: [],
         observations: [],
-        locations: []
+        locations: [],
+        immunizations: [],
+        selectedPatientId: '',
+        selectedPatient: null,
+        patients: []
     }
+
+    data.selectedPatientId = useTracker(function(){
+        return Session.get('selectedPatientId');
+    }, []);
+    data.selectedPatient = useTracker(function(){
+        return Patients.findOne({_id: Session.get('selectedPatientId')});
+    }, []);
+    data.patients = useTracker(function(){
+        return Patients.find().fetch();
+    }, []);
 
 
     if(Conditions){
@@ -61,12 +78,16 @@ export function AutoDashboard(props){
             return Locations.find().fetch()
         }, [])   
     }
+    if(Immunizations){
+        data.immunizations = useTracker(function(){
+            return Immunizations.find().fetch()
+        }, [])   
+    }
 
 
 
 
     function loadData(ehrLaunchCapabilities) {
-        const client = this.context.client;
 
         if(client){
             const observationQuery = new URLSearchParams();
@@ -303,12 +324,13 @@ export function AutoDashboard(props){
     function shouldComponentUpdate() {
         return false;
     }
-    function componentWillUnmount() {
-        this.chart && this.chart.destroy();
-    }
-    function componentDidMount() {
-        let self = this;
-        
+    // function componentWillUnmount() {
+    //     this.chart && this.chart.destroy();
+    // }
+
+    useEffect(function(){
+        console.log('AutoDashboard.useEffect()');
+
         console.log('AutoDashboard finished mounting into render tree.', get(window, '__PRELOADED_STATE__.url'));
 
         let metadataRoute = "";
@@ -333,62 +355,88 @@ export function AutoDashboard(props){
                 console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);
                 Session.set('ehrLaunchCapabilities', ehrLaunchCapabilities)
     
-                self.loadData(ehrLaunchCapabilities);
+                loadData(ehrLaunchCapabilities);
               })    
         }    
-    }
+
+        return function(){
+            console.log('useEffect().destroy()')
+            // chart.destroy()
+        };
+      }, []);
+
+      
+
 
     return (
         <Grid container style={{marginTop: '20px'}}>
             <Grid item md={4} style={{paddingRight: '10px'}}>
                 <StyledCard scrollable >
-                    <CardHeader title={this.data.encountersCount + " Encounters"} />
+                    <CardHeader title={data.immunizations.length + " Immunizations"} />
                     <CardContent>
-                        <EncountersTable
-                            encounters={this.data.encounters}
-                            hideCheckboxes={true}
-                            hideActionIcons={true}
-                            hideSubjects={true}
-                            hideType={true}
-                            hideHistory={true}
-                            hideEndDateTime={true}
-                            count={this.data.encountersCount}
-                        />
-                    </CardContent>                    
-                </StyledCard>
-                <DynamicSpacer />
-                <StyledCard scrollable >
-                    <CardHeader title={this.data.locationsCount + " Locations"} />
-                    <CardContent>
-                        <LocationsTable
-                            locations={this.data.locations}
-                            count={this.data.locationsCount}
-                        />
-                    </CardContent>                    
-                </StyledCard>
-            </Grid>
-            <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
-                <StyledCard scrollable >
-                    <CardHeader title={this.data.conditionsCount + " Conditions"} />
-                    <CardContent>
-                        <ConditionsTable
-                            conditions={this.data.conditions}
+                        <ImmunizationsTable
+                            immunizations={data.immunizations}
                             displayCheckboxes={false}
                             displayActionIcons={false}
                             displayPatientReference={false}
                             displayPatientName={false}
                             displayAsserterName={false}
                             displayEvidence={false}
-                            count={this.data.conditionsCount}
+                            count={data.immunizations.length}
+                        />                                        
+                    </CardContent>                    
+                </StyledCard>                
+                <DynamicSpacer />
+                <StyledCard scrollable >
+                    <CardHeader title={data.encounters.length + " Encounters"} />
+                    <CardContent>
+                        <EncountersTable
+                            encounters={data.encounters}
+                            hideCheckboxes={true}
+                            hideActionIcons={true}
+                            hideSubjects={true}
+                            hideType={true}
+                            hideHistory={true}
+                            hideEndDateTime={true}
+                            count={data.encounters.length}
+                        />
+                    </CardContent>                    
+                </StyledCard>
+                <DynamicSpacer />
+                <StyledCard scrollable >
+                    <CardHeader title={data.locations.length + " Locations"} />
+                    <CardContent>
+                        <LocationsTable
+                            locations={data.locations}
+                            count={data.locations.length}
+                        />
+                    </CardContent>                    
+                </StyledCard>
+                
+            </Grid>
+            <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+
+                <StyledCard scrollable >
+                    <CardHeader title={data.conditions.length + " Conditions"} />
+                    <CardContent>
+                        <ConditionsTable
+                            conditions={data.conditions}
+                            displayCheckboxes={false}
+                            displayActionIcons={false}
+                            displayPatientReference={false}
+                            displayPatientName={false}
+                            displayAsserterName={false}
+                            displayEvidence={false}
+                            count={data.conditions.length}
                         />                                        
                     </CardContent>                    
                 </StyledCard>                
                 <DynamicSpacer />
                 <StyledCard scrollable>
-                    <CardHeader title={this.data.proceduresCount + " Procedures"} />
+                    <CardHeader title={data.procedures.length + " Procedures"} />
                     <CardContent>
                         <ProceduresTable 
-                            procedures={this.data.procedures}
+                            procedures={data.procedures}
                             hideCheckboxes={true}
                             hideActionIcons={true}
                             hideIdentifier={true}
@@ -398,7 +446,7 @@ export function AutoDashboard(props){
                             hidePerformedDateEnd={true}
                             hideSubjectReference={true}
                             hideBarcode={true}
-                            count={this.data.proceduresCount}
+                            count={data.procedures.length}
                         />                                                                                                           
                     </CardContent>                    
                 </StyledCard>                
@@ -412,10 +460,10 @@ export function AutoDashboard(props){
                 </StyledCard>
                 <DynamicSpacer />
                 <StyledCard scrollable >
-                    <CardHeader title={this.data.observationsCount + " Observations"} />
+                    <CardHeader title={data.observations.length + " Observations"} />
                     <CardContent>
                         <ObservationsTable 
-                            observations={this.data.observations}
+                            observations={data.observations}
                             hideCheckboxes={true}
                             hideActionIcons={true}
                             hideSubject={true}
@@ -426,7 +474,7 @@ export function AutoDashboard(props){
                             hideNumerator={true}
                             multiComponentValues={true}
 
-                            count={this.data.observationsCount}
+                            count={data.observations.length}
                         />                                                                                                           
                     </CardContent>                    
                 </StyledCard>  
