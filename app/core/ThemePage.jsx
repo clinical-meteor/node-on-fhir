@@ -19,14 +19,10 @@ import {
 } from '@material-ui/core';
 import { get, has } from 'lodash';
 
-import { StyledCard } from 'material-fhir-ui';
+import { StyledCard } from 'fhir-starter';
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
-
-
-import { ReactMeteorData } from 'meteor/react-meteor-data';
-import ReactMixin from 'react-mixin';
 
 import { withStyles } from '@material-ui/styles';
 
@@ -184,7 +180,7 @@ export class ThemePageOld extends React.Component {
     }     
 
     return(
-      <div id='aboutPage'>
+      <div id='themePage'>
         <div>
           <Grid container spacing={3} >
             <Grid item md={3} style={controlPaneStyle}>
@@ -452,7 +448,6 @@ export class ThemePageOld extends React.Component {
 }
 
 
-ReactMixin(ThemePageOld.prototype, ReactMeteorData);
 
 
 
