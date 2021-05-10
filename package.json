@@ -105,7 +105,7 @@
     "register-service-worker": "1.6.2",
     "rfc4648": "^1.4.0",
     "setimmediate": "1.0.5",
-    "simpl-schema": "1.7.3",
+    "simpl-schema": "1.10.2",
     "simple-oauth2": "4.1.0",
     "simple-swizzle": "0.2.2",
     "styled-components": "4.4.0",
