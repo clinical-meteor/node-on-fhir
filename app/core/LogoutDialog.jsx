@@ -101,7 +101,7 @@ export function LogoutDialog(props){
 
 
   return(
-    <DialogContent id={id} className="LogoutDialog" style={{minWidth: '600px'}} dividers={scroll === 'paper'}>      
+    <DialogContent id={id} className="LogoutDialog" dividers={scroll === 'paper'}>      
       <Logout />
     </DialogContent>
   )
