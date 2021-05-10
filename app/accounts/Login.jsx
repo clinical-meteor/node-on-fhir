@@ -111,6 +111,7 @@ const Login = function({ history }){
   function openRegisterAccountDialog(){
     Session.set('mainAppDialogTitle', 'Register New Account');
     Session.set('mainAppDialogComponent', 'SignUpDialog');
+    Session.set('mainAppDialogMaxWidth', "sm");
   }
 
   return (
@@ -174,7 +175,7 @@ const Login = function({ history }){
                   helperText={formik.touched.code && formik.errors.code}
                 />
               </Grid> */}
-              <Grid item xs={8} md={3}>
+              <Grid item xs={4} md={3}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -189,7 +190,7 @@ const Login = function({ history }){
                   <Button color="primary" >Reset password</Button>
                 </Grid>
               </Grid> */}
-              <Grid item xs={8} md={5}>
+              <Grid item xs={8} md={9}>
                 <Grid container justify="flex-end" alignContent="center">
                   <Button color="primary" onClick={ openRegisterAccountDialog } >Register new account</Button>
                 </Grid>
