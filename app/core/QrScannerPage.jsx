@@ -57,6 +57,7 @@ function displayContents(err, token){
         Session.set('mainAppDialogComponent', "PreviewQrDataDialog");
         Session.set('lastUpdated', new Date())
         Session.set('mainAppDialogOpen', true);    
+        Session.set('mainAppDialogMaxWidth', "md");
       }
     });
 
