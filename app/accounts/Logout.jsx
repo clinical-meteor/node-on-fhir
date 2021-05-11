@@ -27,7 +27,11 @@ import { useAuth } from './AuthContext';
 import { UnauthenticatedContainer } from './UnauthenticatedContainer';
 import { accountsClient } from './Accounts';
 
-import { get } from 'lodash';
+import { get, has } from 'lodash';
+import { useTracker } from 'meteor/react-meteor-data';
+import { Session } from 'meteor/session';
+
+
 
 const useStyles = makeStyles(theme => ({
   cardContent: {
@@ -55,6 +59,11 @@ const ResetPasswordLink = React.forwardRef((props, ref) => (
 const Logout = function({ history }){
   const classes = useStyles();
   const { loginWithService, logout } = useAuth();
+
+
+  //-----------------------------------------------------------
+  // State Management
+
   const [error, setError] = useState();
   const formik = useFormik({
     initialValues: {
@@ -98,9 +107,22 @@ const Logout = function({ history }){
     }
   });
 
+
+
+  //-----------------------------------------------------------
+  // Trackers 
+
+  let currentUser = useTracker(function(){
+    return Session.get('currentUser');
+  }, [])
+
+  //-----------------------------------------------------------
+  // Helper Functions
+
   function openRegisterAccountDialog(){
     Session.set('mainAppDialogTitle', 'Register New Account');
     Session.set('mainAppDialogComponent', 'SignUpDialog');
+    Session.set('mainAppDialogMaxWidth', "sm");
   }
 
   async function logoutUser(){
@@ -113,9 +135,21 @@ const Logout = function({ history }){
     Session.set('mainAppDialogOpen', false);
   }
 
+
+  let username = get(currentUser, 'givenName') + ' ' + get(currentUser, 'familyName');
+
+  if(has(currentUser, 'username')){
+    username = get(currentUser, 'username');
+  } 
+  
+  if(has(currentUser, 'fullLegalName')){
+    username = get(currentUser, 'fullLegalName');
+  } 
+  
+
   return (
     <UnauthenticatedContainer>
-      <Snackbar
+      {/* <Snackbar
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'center'
@@ -126,7 +160,7 @@ const Logout = function({ history }){
         }}
       >
         <SnackBarContentError message={error} />
-      </Snackbar>
+      </Snackbar> */}
 
             <Grid container spacing={3} style={{marginTop: '0px', paddingTop: '0px'}}>
               <Grid item md={12}>
@@ -138,7 +172,7 @@ const Logout = function({ history }){
                   fullWidth={true}
                   type="username"
                   id="username"
-                  defaultValue={ get(Session.get('currentUser'), 'givenName') + ' ' + get(Session.get('currentUser'), 'familyName')}
+                  defaultValue={ username }
                   // disabled
                   style={{marginBottom: '20px'}}
                 />
