@@ -48,7 +48,7 @@ export function SignUpDialog(props){
     errorMessage = jsonContent;
   }
 
-  console.log('SignUpDialog', errorMessage)
+  // console.log('SignUpDialog', errorMessage)
 
   if(errorMessage){
     if(typeof errorMessage === "string"){

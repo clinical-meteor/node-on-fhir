@@ -22,7 +22,7 @@ let rawStyles = {
       backgroundColor: theme.palette.secondary.main
     },
     headerNavContainer: {  
-      height: '64px',
+      height: '4em',
       position: 'fixed',
       top: "0px",
       left: "0px",
@@ -48,8 +48,8 @@ let rawStyles = {
       marginTop: Meteor.isCordova ? '5px !important' : '0px',
       whiteSpace: 'nowrap',
       position: 'absolute',
-      top: '10px',
-      left: '64px'
+      top: '0.15em',
+      left: '1.5em'
     },
     title_cordova: {
       flexGrow: 1,
@@ -61,8 +61,8 @@ let rawStyles = {
       marginTop: Meteor.isCordova ? '5px !important' : '0px',
       whiteSpace: 'nowrap',
       position: 'absolute',
-      top: '5px',
-      left: '64px'
+      top: '0.15em',
+      left: '4em'
     },
     header_label: {
       paddingTop: '10px',
@@ -83,13 +83,15 @@ let rawStyles = {
       background: 'inherit',
       backgroundColor: 'inherit',
       border: '0px none black',
-      paddingTop: '5px',
-      paddingLeft: '15px',
-      paddingRight: '20px',
-      cursor: 'pointer'
+      top: '0px',
+      paddingTop: '0.5em',
+      paddingLeft: '1em',
+      paddingRight: '1.5em',
+      cursor: 'pointer',
+      fontSize: '1rem'
     },
     footerNavContainer: {  
-      height: '64px',
+      height: '4em',
       position: 'fixed',
       bottom: "0px",
       left: "0px",
