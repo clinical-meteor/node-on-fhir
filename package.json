@@ -72,7 +72,7 @@
     "date-fns": "2.8.1",
     "express": "4.17.1",
     "fhir-kit-client": "1.5.3",
-    "fhir-starter": "0.11.27",
+    "fhir-starter": "0.11.39",
     "fhirclient": "2.1.0",
     "formik": "^2.1.5",
     "inflate-auto": "^2.1.0",

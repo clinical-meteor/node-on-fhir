@@ -25,7 +25,7 @@ import AppContainer from "/app/layout/AppContainer.jsx";
 
 const accountsRest = new RestClient({
   // apiHost: 'http://localhost:4000',
-  apiHost: get(Meteor, 'settings.public.accountsServer.host') + ":" + get(Meteor, 'settings.public.accountsServer.host'),
+  apiHost: get(Meteor, 'settings.public.interfaces.accountsServer.host') + ":" + get(Meteor, 'settings.public.interfaces.accountsServer.host'),
   rootPath: '/accounts'
 });
 const accountsClient = new AccountsClient({}, accountsRest);

@@ -20,7 +20,7 @@
 // import moment from 'moment';
 
 // import { PageCanvas, StyledCard, PatientTable } from 'material-fhir-ui';
-// import { useTracker } from './Tracker';
+
 
 // function DynamicSpacer(props){
 //   return <br className="dynamicSpacer" style={{height: '40px'}}/>;
