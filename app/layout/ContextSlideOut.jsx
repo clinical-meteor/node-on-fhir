@@ -10,6 +10,12 @@ import ErrorDialog from '../core/ErrorDialog';
 
 import { get } from 'lodash';
 
+<<<<<<< HEAD
+=======
+import logger from '../Logger';
+import theme from '../Theme';
+
+>>>>>>> 0780404105c46eea250194ac45066b0a4cbf10fa
 import {
   makeStyles,
   Card,
@@ -22,8 +28,11 @@ import {
   Button,
 } from '@material-ui/core';
 
+<<<<<<< HEAD
 import logger from '../Logger';
 
+=======
+>>>>>>> 0780404105c46eea250194ac45066b0a4cbf10fa
 // ==============================================================================
 // Dynamic Imports 
 
@@ -74,6 +83,13 @@ export function ContextSlideOut(props) {
   } = props;
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> 0780404105c46eea250194ac45066b0a4cbf10fa
   let contextOpen = useTracker(function(){
     return Session.get('contextOpen')
   }, []);
@@ -135,6 +151,11 @@ export function ContextSlideOut(props) {
     height: window.innerHeight - 64 + 'px',
     width: get(Meteor, 'settings.public.defaults.drawerWidth', 400) + 'px',
     transition: '.6s'
+  }
+
+  if(get(Meteor, 'settings.public.defaults.darkModeEnabled')){
+    overlayStyle.color = theme.palette.appBar.contrastText;
+    overlayStyle.backgroundColor = theme.palette.appBar.main;
   }
 
   if(slideOutCardsVisible){

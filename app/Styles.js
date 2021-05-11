@@ -11,6 +11,16 @@ import theme from './Theme';
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 let rawStyles = {
+    primary: {
+      color: theme.palette.primary.contrastText,
+      background: theme.palette.primary.main,
+      backgroundColor: theme.palette.primary.main
+    },
+    secondary: {
+      color: theme.palette.secondary.contrastText,
+      background: theme.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.main
+    },
     headerNavContainer: {  
       height: '64px',
       position: 'fixed',
@@ -90,8 +100,8 @@ let rawStyles = {
       background: 'inherit',
       backgroundColor: 'inherit',
       border: '0px none black',
-      paddingTop: '10px',
-      paddingLeft: '20px',
+      paddingTop: '5px',
+      paddingLeft: '15px',
       paddingRight: '20px',
       cursor: 'pointer'
     },
@@ -145,9 +155,9 @@ let rawStyles = {
     },
     canvas: {
       flexGrow: 1,
-      position: "absolute",
-      left: 0,
-      top: 0,
+      position: "fixed",
+      left: "0px",
+      top: "0px",
       width: '100%',
       height: '100%',
       paddingTop: '0px',
@@ -158,6 +168,7 @@ let rawStyles = {
         easing: theme.transitions.easing.easeInOut,
         duration: theme.transitions.duration.leavingScreen,
       }),
+      overflowY: 'scroll',
       display: 'block'
     },
     canvasOpen: {
@@ -176,6 +187,7 @@ let rawStyles = {
         duration: theme.transitions.duration.enteringScreen,
       }),
       display: 'block',
+      overflowY: 'scroll',
       overflowX: 'hidden'
     },
     drawer: {
@@ -280,7 +292,18 @@ let rawStyles = {
     },
     divider: {
       height: '2px'
+    },
+    mainAppDialogPaper: {
+      width: '100%',
+      marginLeft: '0px',
+      marginRight: '0px'
+    },
+    mainAppDialogContainer: {
+      width: '100%',
+      paddingLeft: '40px',
+      paddingRight: '40px'
     }
+
   }
 
 

@@ -43,7 +43,7 @@ Meteor.startup(function(){
   let appHistory;
   
   if(Meteor.isClient){
-    appHistory = createBrowserHistory();
+    window.appHistory = createBrowserHistory();
   }
 
   // we need this so that pages and routes know their location and history
@@ -57,7 +57,7 @@ Meteor.startup(function(){
     let renderedApp;
     if(Meteor.isClient){
       // renderedApp = <BrowserRouter history={appHistory}>
-      renderedApp = <Router history={appHistory}>
+      renderedApp = <Router history={window.appHistory}>
         <ThemeProvider theme={defaultAppPalette} >
           <MuiThemeProvider theme={theme}>
             <CssBaseline />
