@@ -20,8 +20,6 @@
 // import moment from 'moment';
 
 // import { PageCanvas, StyledCard, PatientTable } from 'material-fhir-ui';
-// import { useTracker } from './Tracker';
-
 
 // import { Icon } from 'react-icons-kit';
 // import { github } from 'react-icons-kit/fa/github';

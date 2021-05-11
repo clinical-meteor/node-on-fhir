@@ -62,22 +62,22 @@ import {envelopeO} from 'react-icons-kit/fa/envelopeO' // Correspondence
 import {ic_question_answer} from 'react-icons-kit/md/ic_question_answer';
 import {shoppingBasket} from 'react-icons-kit/fa/shoppingBasket';
 
-import {lifeRing} from 'react-icons-kit/fa/lifeRing'
-import {dotCircle} from 'react-icons-kit/metrize/dotCircle'
-import {sun} from 'react-icons-kit/metrize/sun'
-import {ic_album} from 'react-icons-kit/md/ic_album'
+import {lifeRing} from 'react-icons-kit/fa/lifeRing';
+import {dotCircle} from 'react-icons-kit/metrize/dotCircle';
+import {sun} from 'react-icons-kit/metrize/sun';
+import {ic_album} from 'react-icons-kit/md/ic_album';
 
-import {info} from 'react-icons-kit/metrize/info'
-import {question} from 'react-icons-kit/metrize/question'
+import {info} from 'react-icons-kit/metrize/info';
+import {question} from 'react-icons-kit/metrize/question';
 
-import {ic_account_balance_wallet} from 'react-icons-kit/md/ic_account_balance_wallet'
-import {ticket} from 'react-icons-kit/icomoon/ticket'
-import {qrcode} from 'react-icons-kit/fa/qrcode'
+import {ic_account_balance_wallet} from 'react-icons-kit/md/ic_account_balance_wallet';
+import {ticket} from 'react-icons-kit/icomoon/ticket';
+import {qrcode} from 'react-icons-kit/fa/qrcode';
 
-import {ic_playlist_add_check} from 'react-icons-kit/md/ic_playlist_add_check'
-import {ic_list} from 'react-icons-kit/md/ic_list'
-import {balanceScale} from 'react-icons-kit/fa/balanceScale'
-import {heartO} from 'react-icons-kit/fa/heartO'
+import {ic_playlist_add_check} from 'react-icons-kit/md/ic_playlist_add_check';
+import {ic_list} from 'react-icons-kit/md/ic_list';
+import {balanceScale} from 'react-icons-kit/fa/balanceScale';
+import {heartO} from 'react-icons-kit/fa/heartO';
 
 // import {ic_tune} from 'react-icons-kit/md/ic_tune'
 // import {flask} from 'react-icons-kit/fa/flask' // Substance 
@@ -133,22 +133,68 @@ export function PatientSidebar(props){
 
   let collectionCounts = {
     AllergyIntolerances: 0,
+    AuditEvents: 0,
+    Bundles: 0,
+    CarePlans: 0,
+    CareTeams: 0,
     Conditions: 0,
+    Consents: 0,
+    Communications: 0,
+    CommunicationRequests: 0,
+    Encounters: 0,
+    Goals: 0,
     Immunizations: 0,
+    Lists: 0,
     MedicationOrders: 0,
     Observations: 0,
     Patients: 0,
-    Procedures: 0
+    Procedures: 0,
+    Practitioners: 0,
+    Persons: 0,
+    Questionnaires: 0,
+    QuestionnaireResources: 0,
+    Tasks: 0,
+    ValueSets: 0
   };
 
   collectionCounts.AllergyIntolerances = useTracker(function(){
     return AllergyIntolerances.find().count();
   }, [])
+  collectionCounts.AuditEvents = useTracker(function(){
+    return AuditEvents.find().count();
+  }, [])
+  collectionCounts.Bundles = useTracker(function(){
+    return Bundles.find().count();
+  }, [])
+  collectionCounts.CarePlans = useTracker(function(){
+    return CarePlans.find().count();
+  }, [])
+  collectionCounts.CareTeams = useTracker(function(){
+    return CareTeams.find().count();
+  }, [])
+  collectionCounts.Communications = useTracker(function(){
+    return Communications.find().count();
+  }, [])
+  collectionCounts.CommunicationRequests = useTracker(function(){
+    return CommunicationRequests.find().count();
+  }, [])
   collectionCounts.Conditions = useTracker(function(){
     return Conditions.find().count();
   }, [])
+  collectionCounts.Consents = useTracker(function(){
+    return Consents.find().count();
+  }, [])
+  collectionCounts.Encounters = useTracker(function(){
+    return Encounters.find().count();
+  }, [])
+  collectionCounts.Goals = useTracker(function(){
+    return Goals.find().count();
+  }, [])
   collectionCounts.Immunizations = useTracker(function(){
     return Immunizations.find().count();
+  }, [])
+  collectionCounts.Lists = useTracker(function(){
+    return Lists.find().count();
   }, [])
   collectionCounts.MedicationOrders = useTracker(function(){
     return MedicationOrders.find().count();
@@ -161,6 +207,24 @@ export function PatientSidebar(props){
   }, [])
   collectionCounts.Procedures = useTracker(function(){
     return Procedures.find().count();
+  }, [])
+  collectionCounts.Practitioners = useTracker(function(){
+    return Practitioners.find().count();
+  }, [])
+  collectionCounts.Persons = useTracker(function(){
+    return Persons.find().count();
+  }, [])
+  collectionCounts.Questionnaires = useTracker(function(){
+    return Questionnaires.find().count();
+  }, [])
+  collectionCounts.QuestionnaireResponses = useTracker(function(){
+  return QuestionnaireResponses.find().count();
+  }, [])
+  collectionCounts.Tasks = useTracker(function(){
+    return Tasks.find().count();
+  }, [])
+  collectionCounts.ValueSets = useTracker(function(){
+    return ValueSets.find().count();
   }, [])
 
 
@@ -688,6 +752,7 @@ export function PatientSidebar(props){
   function toggleLoginDialog(){
     console.log('Toggle login dialog open/close.')
     Session.set('mainAppDialogJson', false);
+    Session.set('mainAppDialogMaxWidth', "sm");
 
     if(Session.get('currentUser')){
       Session.set('mainAppDialogTitle', "Logout");
