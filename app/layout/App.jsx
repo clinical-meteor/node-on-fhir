@@ -564,10 +564,8 @@ export function App(props) {
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
         <SideDrawer drawerIsOpen={drawerIsOpen} onDrawerClose={function(){setDrawerIsOpen(false)}}  { ...otherProps } />        
         <Footer drawerIsOpen={drawerIsOpen} location={props.location} { ...otherProps } />
+        <ContextSlideOut drawerIsOpen={drawerIsOpen} onDrawerClose={function(){setDrawerIsOpen(false)}}  { ...otherProps } />
 
-        {/* <div id="appDrawerContainer" {...drawerHandlers}>
-          { drawer }
-        </div> */}
         <main id='mainAppRouter' className={canvasSlide}>
           { routingSwitchLogic }
         </main>
