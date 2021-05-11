@@ -49,6 +49,10 @@ clinical:hl7-fhir-data-infrastructure
 percolate:synced-cron
 
 symptomatic:saner 
+symptomatic:data-management
+datarobot:waters
+
+
 # TESTING
 # meteortesting:mocha
 # practicalmeteor:chai
@@ -63,19 +67,14 @@ symptomatic:saner
 # symptomatic:covid19-reporting
 
 # symptomatic:gravity
-# symptomatic:saner
 
 
 # DESKTOP
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-# symptomatic:saner
-# symptomatic:data-management
 
-# symptomatic:data-management
+
 # symptomatic:healthkit-importer  
 # symptomatic:immunization-card
-
 # symptomatic:vaccine-wallet
-# symptomatic:data-management

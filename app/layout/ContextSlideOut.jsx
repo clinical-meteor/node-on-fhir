@@ -10,12 +10,9 @@ import ErrorDialog from '../core/ErrorDialog';
 
 import { get } from 'lodash';
 
-<<<<<<< HEAD
-=======
 import logger from '../Logger';
 import theme from '../Theme';
 
->>>>>>> 0780404105c46eea250194ac45066b0a4cbf10fa
 import {
   makeStyles,
   Card,
@@ -28,11 +25,6 @@ import {
   Button,
 } from '@material-ui/core';
 
-<<<<<<< HEAD
-import logger from '../Logger';
-
-=======
->>>>>>> 0780404105c46eea250194ac45066b0a4cbf10fa
 // ==============================================================================
 // Dynamic Imports 
 
@@ -83,13 +75,10 @@ export function ContextSlideOut(props) {
   } = props;
 
 
-<<<<<<< HEAD
-=======
 
 
 
 
->>>>>>> 0780404105c46eea250194ac45066b0a4cbf10fa
   let contextOpen = useTracker(function(){
     return Session.get('contextOpen')
   }, []);
