@@ -21,6 +21,7 @@ import logger from '../app/Logger';
 
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 
+import AppContainer from "/app/layout/AppContainer.jsx";
 
 const accountsRest = new RestClient({
   // apiHost: 'http://localhost:4000',
@@ -37,9 +38,13 @@ onPageLoad(async function(){
   Session.set('last_reloaded_url', window.location.search)
 
   const preloadedState = window.__PRELOADED_STATE__;
-  const AppContainer = (await import("/app/layout/AppContainer.jsx")).default;
+  logger.debug("onPageLoad().preloadedState", preloadedState);
+
+  // const AppContainer = (await import("/app/layout/AppContainer.jsx")).default;
 
   let searchParams = new URLSearchParams(get(preloadedState, 'url.path'));
+  logger.debug("onPageLoad().searchParams", searchParams);
+  
   if(searchParams.get('iss')){
     Session.set('smartOnFhir_iss', searchParams.get('iss'));
   }
@@ -64,8 +69,8 @@ onPageLoad(async function(){
 	if (jssMakeStyles && jssMakeStyles.parentNode) jssMakeStyles.parentNode.removeChild(jssStyles);
 
 
-  logger.info("Hydrating the reactTarget with AppContainer");
-  ReactDOM.hydrate(<AppContainer />, document.getElementById('reactTarget'));
+  logger.info("Hydrating the reactCanvas with AppContainer");
+  ReactDOM.hydrate(<AppContainer />, document.getElementById('reactCanvas'));
 });
 
 

@@ -38,7 +38,6 @@ if(get(Meteor, 'settings.public.theme.palette')){
   themedAppPalette = Object.assign(defaultAppPalette, get(Meteor, 'settings.public.theme.palette'));
 }
 
-
 // then feed the themed palette into the muiTheme generator.
 export const theme = createMuiTheme({
     typography: {

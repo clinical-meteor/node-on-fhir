@@ -49,7 +49,7 @@ onPageLoad((sink) => {
 
   // Grab the CSS from the sheets.
   sink.appendToHead(`<style id="jss-server-side">${sheets.toString()}</style>`);
-  sink.renderIntoElementById('reactTarget', htmlString);
+  sink.renderIntoElementById('reactCanvas', htmlString);
 
   const helmet = Helmet.renderStatic();
 

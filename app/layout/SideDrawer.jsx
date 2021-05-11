@@ -167,7 +167,7 @@ function SideDrawer(props) {
           classes={{paper: drawerContentsClassNames}}
           open={drawerIsOpen}
           onClose={handleDrawerClose.bind(this)}
-          onOpen={handleDrawerOpen.bind(this)}
+          // onOpen={handleDrawerOpen.bind(this)}
           {...drawerHandlers}
         >
           <div className={styles.toolbar}>
@@ -177,7 +177,7 @@ function SideDrawer(props) {
           </div>
           <Divider className={styles.divider} />
           <List>
-            <PatientSidebar { ...otherProps } />
+            <PatientSidebar history={props.history} { ...otherProps } />
           </List>
         </Drawer>
       </React.Fragment>

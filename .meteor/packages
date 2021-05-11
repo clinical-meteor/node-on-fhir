@@ -24,6 +24,8 @@ session@1.2.0
 tracker@1.2.0
 http@1.4.2
 simple:json-routes@2.1.0
+typescript@4.1.2              # Enable TypeScript syntax in .ts and .tsx modules
+
 
 # RENDERING  
 static-html                   # Define static page content in .html files
@@ -36,16 +38,44 @@ server-render@0.3.1
 npdev:react-loadable
 fourseven:scss
 
+
 # CLINICAL INFRASTRUCTURE
 clinical:extended-api@2.5.0
 clinical:fonts@1.2.0
 clinical:hl7-resource-datatypes@4.0.6
 clinical:hl7-fhir-data-infrastructure 
 
-symptomatic:data-management
-# symptomatic:healthkit-importer  
-# symptomatic:immunization-card
 
 percolate:synced-cron
 
 symptomatic:saner 
+# TESTING
+# meteortesting:mocha
+# practicalmeteor:chai
+
+# PERFORMANCE MONITORING (Galaxy hosting provider)
+# mdg:meteor-apm-agent
+# bundle-visualizer
+
+# WORKFLOW  
+# symptomatic:covid19-on-fhir
+# symptomatic:covid19-geomapping
+# symptomatic:covid19-reporting
+
+# symptomatic:gravity
+# symptomatic:saner
+
+
+# DESKTOP
+# omega:meteor-desktop-watcher@=2.2.5
+# omega:meteor-desktop-bundler@=2.2.5
+
+# symptomatic:saner
+# symptomatic:data-management
+
+# symptomatic:data-management
+# symptomatic:healthkit-importer  
+# symptomatic:immunization-card
+
+# symptomatic:vaccine-wallet
+# symptomatic:data-management
