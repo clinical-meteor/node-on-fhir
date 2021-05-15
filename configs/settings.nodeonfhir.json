@@ -48,7 +48,7 @@
         "https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/ScreenShot-Geomapping.png"
       ]
     },
-    "loggingThreshold": "info",
+    "loggingThreshold": "trace",
     "fhirAutoSubscribe": true,
     "capabilityStatement": {
       "resourceTypes": ["Condition", "Device", "Encounter", "Immunization", "Medication", "MedicationOrder", "MedicationRequest", "MedicationStatement", "Observation", "Procedure"]
