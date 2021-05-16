@@ -72,16 +72,7 @@ clinical:hl7-fhir-data-infrastructure
 # symptomatic:data-management
 # symptomatic:healthkit-importer  
 # symptomatic:immunization-card
-# symptomatic:vaccine-wallet
 
-### Healthflow
+symptomatic:vaccine-wallet
 #symptomatic:data-management
-#healthflow:core
-#symptomatic:continuity-of-care
-#symptomatic:timelines
-#symptomatic:gravity
-#awatson1978:accounts-muppets
-#clinical:accounts-housemd
-#clinical:accounts-famous-dead-people
-#symptomatic:fhir-uscore
-#symptomatic:vault-server-freemium
+
