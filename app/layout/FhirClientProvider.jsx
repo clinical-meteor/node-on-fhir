@@ -48,7 +48,7 @@ export class FhirClientProvider extends React.Component {
           <Grid item md={6}>
             <StyledCard scrollable margin={20} >
               <CardHeader title="Unable to Connect" 
-                subheader="Covid19 Patient Chart Analysis requires the app to be launched from an Electronic Health Record (EHR)."
+                subheader="Chart Quickview requires the app to be launched from an Electronic Health Record (EHR)."
               />
               <CardContent style={{textAlign: 'center'}}>
                 <Icon icon={warning} className="warningIcon" style={styles.warningIcon} size={48} />

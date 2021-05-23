@@ -88,12 +88,21 @@ export function AutoDashboard(props){
 
 
     function loadData(ehrLaunchCapabilities) {
+        console.log('Loading data', ehrLaunchCapabilities)
 
         if(client){
             const observationQuery = new URLSearchParams();
-            // observationQuery.set("code", "http://loinc.org|55284-4");
-            observationQuery.set("patient", client.patient.id);
-            observationQuery.set("category", "vital-signs");
+            // console.log('observationQuery', observationQuery);
+
+            if(client.patient){
+                console.log('client.patient', client.patient)
+
+                // observationQuery.set("code", "http://loinc.org|55284-4");
+                observationQuery.set("patient", client.patient.id);            
+                observationQuery.set("category", "vital-signs");
+            } else {
+                console.log('No client.patient found.  :(')
+            }
             
             console.log('Observation Query', observationQuery);
     
@@ -267,6 +276,8 @@ export function AutoDashboard(props){
             } catch (error) {
                 alert("We had an error fetching data.", error)
             }
+        } else {
+            console.log('FhirClientContext not instantiated')
         }
     }
     function renderChart({ systolic, diastolic }) {
@@ -339,8 +350,15 @@ export function AutoDashboard(props){
 
         } else if (get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl') && get(window, '__PRELOADED_STATE__.url.query.code')){
             // SMART HEALTH IT DEBUGING 
+            // following doesnt work on logica sandbox
             metadataRoute = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl') + get(window, '__PRELOADED_STATE__.url.query.code') + "/fhir/metadata"
         } 
+        // else if (get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl')){
+        //     // this probably doesnt work for SMART HealthIT
+        //     // but is better because it doesn't hardcode /fhir into the url
+        //     // which we can add in the `fhirServiceUrl`
+        //     metadataRoute = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl') + "metadata";
+        // } 
 
         if(metadataRoute){            
             console.log('Checking the metadata route: ' + metadataRoute);
@@ -376,12 +394,9 @@ export function AutoDashboard(props){
                     <CardContent>
                         <ImmunizationsTable
                             immunizations={data.immunizations}
-                            displayCheckboxes={false}
-                            displayActionIcons={false}
-                            displayPatientReference={false}
-                            displayPatientName={false}
-                            displayAsserterName={false}
-                            displayEvidence={false}
+                            hideCheckbox={true}
+                            hideActionIcons={true}
+                            hidePatient={true}
                             count={data.immunizations.length}
                         />                                        
                     </CardContent>                    
@@ -421,12 +436,11 @@ export function AutoDashboard(props){
                     <CardContent>
                         <ConditionsTable
                             conditions={data.conditions}
-                            displayCheckboxes={false}
-                            displayActionIcons={false}
-                            displayPatientReference={false}
-                            displayPatientName={false}
-                            displayAsserterName={false}
-                            displayEvidence={false}
+                            hideCheckbox={true}
+                            hideActionIcons={true}
+                            hidePatientReference={true}
+                            hidePatientName={true}
+                            hideAsserterName={true}
                             count={data.conditions.length}
                         />                                        
                     </CardContent>                    
@@ -437,7 +451,7 @@ export function AutoDashboard(props){
                     <CardContent>
                         <ProceduresTable 
                             procedures={data.procedures}
-                            hideCheckboxes={true}
+                            hideCheckbox={true}
                             hideActionIcons={true}
                             hideIdentifier={true}
                             hideCategory={true}
@@ -464,12 +478,12 @@ export function AutoDashboard(props){
                     <CardContent>
                         <ObservationsTable 
                             observations={data.observations}
-                            hideCheckboxes={true}
+                            hideCheckbox={true}
                             hideActionIcons={true}
                             hideSubject={true}
                             hideDevices={true}
                             hideValue={false}
-                            hideBarcodes={true}
+                            hideBarcode={true}
                             hideDenominator={true}
                             hideNumerator={true}
                             multiComponentValues={true}

@@ -7,6 +7,35 @@ Please take a moment to review this document in order to make the contribution p
 Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project. In return, they should reciprocate that respect in addressing your issue or assessing patches and features.
 
 
+
+## Debugging Code
+
+There are two important mechanisms for debugging.  Setting an environment variable on the command line:
+
+```js
+DEBUG=true meteor run --settings settings.json
+```
+
+And also setting the following flags in the Meteor.settings file:
+
+```js
+{
+  "public": {
+    "loggingThreshold": "trace"  //debug, info, warn, trace
+  },
+  "private": {},
+  "galaxy": {
+    "env": {
+      "MONGO_URL": "mongodb://....",
+      "DEBUG": 1,
+      "TRACE": 1
+    }
+  }
+}
+```
+
+
+
 ### Testing Policy 
 Tests should be added for any major functionality that's submitted as a pull request.  A lack of tests in the pull request are a qualifying reason to reject the merge request.  
 
@@ -151,4 +180,6 @@ Lastly, you may need to re-link the package each time you make updates.  :/  The
 - Arrow functions vs `function`.  Arrow functions and destructuring are nice, but are terse and difficult to follow and maintain.  Use in this codebase is discouraged.  There are many programmers rushing to the latest ES6 tutorials and trying to embrace all the latest programing syntax.  Arrows have their time and place, but will be considered a sign of not having read the contributing guidelines.  
 
 - Destructuring objects - `props` are one place where destructuring makes sense.  In most other places, overuse of destructuring causes code to be difficult to read, and therefore difficult to maintain.
+
+
 

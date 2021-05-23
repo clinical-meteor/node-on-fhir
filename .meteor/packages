@@ -75,13 +75,15 @@ clinical:hl7-fhir-data-infrastructure
 # symptomatic:vaccine-wallet
 
 ### Healthflow
-#symptomatic:data-management
-#healthflow:core
-#symptomatic:continuity-of-care
-#symptomatic:timelines
-#symptomatic:gravity
-#awatson1978:accounts-muppets
-#clinical:accounts-housemd
-#clinical:accounts-famous-dead-people
-#symptomatic:fhir-uscore
-#symptomatic:vault-server-freemium
+symptomatic:data-management
+healthflow:core
+symptomatic:continuity-of-care
+symptomatic:timelines
+symptomatic:gravity
+awatson1978:accounts-muppets
+symptomatic:fhir-uscore
+symptomatic:vault-server-freemium
+
+clinical:hipaa-logger
+clinical:accounts-housemd
+clinical:accounts-famous-dead-people

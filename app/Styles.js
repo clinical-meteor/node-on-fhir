@@ -115,7 +115,8 @@ let rawStyles = {
     footerNavigation: {
       backgroundColor: "inherit", 
       justifyContent: 'left',
-      position: 'absolute'
+      position: 'absolute',
+      width: '100%'
     },
     primaryFlexPanel: {
       display: 'flex',
