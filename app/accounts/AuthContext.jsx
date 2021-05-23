@@ -15,11 +15,30 @@ if(Meteor.isClient){
   Meteor.currentUser = function(){
     return Session.get('currentUser');
   }
+  Meteor.currentUserId = function(){
+    let currentUser = Session.get('currentUser');
+    return get(currentUser, '_id');
+  }
+  Meteor.currentPatient = function(){
+    return Session.get('currentPatient');
+  }
+  Meteor.currentPatientId = function(){
+    return Session.get('currentPatientId');
+  }
+  Meteor.currentPractitioner = function(){
+    return Session.get('currentPractitioner');
+  }
+  Meteor.currentPractitionerId = function(){
+    return Session.get('currentPractitionerId');
+  }
+  Meteor.currentUserReference = function(){
+    let user = Session.get('currentUser');
 
-  // Meteor.userId = function(){
-  //   currentUserDep.depend();
-  //   return Session.get('currentUser');
-  // }
+    return {
+      display: get(user, 'fullLegalName', ''),
+      reference: "Patient/" + get(user, 'id')
+    }
+  }
 }
 
 async function fetchUser(setAuthContextState){
@@ -45,6 +64,7 @@ async function loginWithService(service, credentials){
   console.log('AuthContext.loginWithService()', service, credentials);
 
   let loginResponse = await accountsClient.loginWithService(service, credentials);
+  console.log('loginResponse', loginResponse)
 
   if(Meteor.isClient){
     Session.set('currentUser', get(loginResponse, 'user'));

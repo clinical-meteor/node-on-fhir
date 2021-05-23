@@ -138,7 +138,7 @@ export function ContextSlideOut(props) {
     right: '0px',
     // right: '73px',  // some offset and negative space is aesthetic
     height: window.innerHeight - 64 + 'px',
-    width: '400px',
+    width: get(Meteor, 'settings.public.defaults.drawerWidth', 400) + 'px',
     transition: '.6s'
   }
 
