@@ -112,6 +112,14 @@ function Footer(props) {
     }, []);    
   }
 
+  let footerNavContainerClass = styles.footerNavContainer;
+
+  if(!displayNavbars){
+    footerNavContainerClass = styles.footerNavContainer_hidden;
+  }
+  if(get(Meteor, 'settings.public.defaults.disableFooter')){
+    footerNavContainerClass = styles.footerNavContainer_hidden;
+  }
 
   let footerContainerOverride = {};
 
@@ -128,7 +136,7 @@ function Footer(props) {
   }
 
   return (
-    <footer id="footerNavContainer" className={styles.footerNavContainer} style={footerContainerOverride}>
+    <footer id="footerNavContainer" className={footerNavContainerClass} style={footerContainerOverride}>
       <BottomNavigation id="footerNavigation" name="footerNavigation" position="static" className={styles.footerNavigation} >
         { westNavbar }
       </BottomNavigation>

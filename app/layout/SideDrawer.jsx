@@ -186,9 +186,15 @@ function SideDrawer(props) {
   // ------------------------------------------------------------------
   // Rendering
 
+  let appDrawerContainerStyle = {
+    position: 'absolute',
+    height: '100%',
+    width: drawerWidth,
+    zIndex: 0
+  }
 
   return (
-    <aside id="appDrawerContainer" className={drawerContainerClassNames} classes={drawerContainerClassNames} style={{width: drawerWidth}} >
+    <aside id="appDrawerContainer" className={drawerContainerClassNames} classes={drawerContainerClassNames} style={appDrawerContainerStyle} >
       { containerContents }
     </aside> 
   );
