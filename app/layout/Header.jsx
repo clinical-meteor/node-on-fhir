@@ -191,7 +191,6 @@ function Header(props) {
   let workflowTabs = "default";  
   let displayNavbars = true;  
 
-
   if(Meteor.isClient){
     selectedStartDate = useTracker(function(){
       return Session.get("fhirKitClientStartDate");
@@ -329,10 +328,11 @@ function Header(props) {
 
 
   if(Meteor.isClient){
-
+    // console.log('Header.Meteor.isClient')
     // if we have a selected patient, we show that info
     if(!Meteor.isCordova){
-      if(get(Meteor, 'settings.public.defaults.header.patientId')){
+      // console.log('Header.Meteor.!isCordova')
+      if(get(Meteor, 'settings.public.defaults.header.enablePatientOveride')){
         if(Session.get('selectedPatient')){
           demographicItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
             <Typography variant="h6" color="inherit" className={ componentStyles.header_label }>Patient ID: </Typography>
@@ -344,6 +344,7 @@ function Header(props) {
           </div>     
         }
       } else {
+        // console.log('Header.Meteor.!patientId')
         // otherwise, we default to population/search level info to display
         if(useDateRangeInQueries){
           if(selectedStartDate && selectedEndDate){
@@ -356,7 +357,7 @@ function Header(props) {
           }      
         }
         if(get(Meteor, 'settings.public.defaults.displayUserNameInHeader')){
-          userItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
+          userItems = <div style={{float: 'right', top: '5px', position: 'absolute', right: '20px'}}>
           <Typography variant="h6" color="inherit" className={ componentStyles.header_label }>User: </Typography>
           <Typography variant="h6" color="inherit" className={ componentStyles.header_text } noWrap >
             { currentUser }
@@ -367,18 +368,31 @@ function Header(props) {
     }
   }
 
+
+
+
+
+  let headerNavContainerClass = componentStyles.headerNavContainer;
+
+  if(!displayNavbars){
+    headerNavContainerClass = componentStyles.headerNavContainer_hidden;
+  }
+  if(get(Meteor, 'settings.public.defaults.disableHeader')){
+    headerNavContainerClass = componentStyles.headerNavContainer_hidden;
+  }
+
   let titleClass = componentStyles.title;
   if(Meteor.isCordova){
     titleClass = componentStyles.title_cordova;
   }
 
   return (
-    <div id="header" className="headerNavContainer" position="fixed" className={componentStyles.headerNavContainer}>
+    <div id="header" className="headerNavContainer" position="fixed" className={headerNavContainerClass}>
       <div style={{paddingTop: '10px'}}>
           <Icon 
             id="sidebarMenuButton"
             icon={headerMenuIcon} 
-            size={36} 
+            size={28} 
             onClick={ clickOnMenuButton.bind(this) }
             className={componentStyles.sidebarMenuButton}
           />
