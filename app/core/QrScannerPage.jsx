@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-
+import { useTracker } from 'meteor/react-meteor-data';
 
 import { get } from 'lodash';
 import { Meteor } from 'meteor/meteor';
@@ -15,7 +15,44 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 
+import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+
 import { PageCanvas } from 'fhir-starter';
+
+
+if(Meteor.isClient){
+  Session.setDefault('adult_icu_bed_utilization', 0);
+}
+
+//==========================================================================================
+// Dynamic Theme
+
+import { HTTP } from 'meteor/http';
+
+Meteor.startup(function(){
+
+  if(Meteor.isClient){
+    if(window.navigator){
+      window.navigator.geolocation.getCurrentPosition(function(position){
+        Session.set('myLatitude', get(position, 'coords.latitude'));  
+        Session.set('myLongitude', get(position, 'coords.longitude'));  
+  
+        let icuCapacityUrl = "https://healthzones.symptomatic.us/icu-capacity-at-my-location?latitude=" + get(position, 'coords.latitude') + "&longitude=" + get(position, 'coords.longitude')
+        console.log('icuCapacityUrl', icuCapacityUrl);
+      
+        HTTP.get(icuCapacityUrl, function(error, result){
+          if(error) console.log('error', error)
+          if(result) {
+            let parsedResults = JSON.parse(result.content); 
+            console.log('parsedResults', parsedResults)
+      
+            Session.set('adult_icu_bed_utilization', get(parsedResults, 'adult_icu_bed_utilization'))            
+          }
+        })    
+      })  
+    }  
+  }
+})
 
 
 
@@ -57,6 +94,7 @@ function displayContents(err, token){
         Session.set('mainAppDialogComponent', "PreviewQrDataDialog");
         Session.set('lastUpdated', new Date())
         Session.set('mainAppDialogOpen', true);    
+        Session.set('mainAppDialogMaxWidth', "md");
       }
     });
 
@@ -97,6 +135,9 @@ function onDone(err, status){
   }
 }
 
+
+
+
 //==========================================================================================
 // Main Component
 
@@ -112,7 +153,9 @@ export function QrScannerPage(props){
     selectedPatientId: '',
     fluVaccinated: false,
     rubellaVaccinated: false,
-    coronavirusVaccinated: false
+    coronavirusVaccinated: false,
+    buttonColor: "#666666",
+    adult_icu_bed_utilization: 0
   };
 
   let iconStyle = {
@@ -124,6 +167,11 @@ export function QrScannerPage(props){
   }
 
   let [torchEnabled, setTorchEnabled] = useState(false);
+  let [icuCapacity, setIcuCapacity] = useState(0);
+
+
+  //------------------------------------------------------------------------------------
+  // Lifecycle
 
   useEffect(function(){
     if(window.QRScanner){
@@ -143,6 +191,18 @@ export function QrScannerPage(props){
       }
     }
   }, [])
+
+
+  //------------------------------------------------------------------------------------
+  // Trackers
+
+  data.adult_icu_bed_utilization = useTracker(function(){
+    return Session.get('adult_icu_bed_utilization')
+  }, []);
+
+
+  //------------------------------------------------------------------------------------
+  // Helper Functions
 
   function activateCamera(){
     console.log('activating camera; getting status, scan, show')
@@ -191,6 +251,84 @@ export function QrScannerPage(props){
     }
   }
 
+  function parseColor(metric){
+    let color = '#000000';
+
+    if(get(Meteor, 'settings.public.defaults.darkModeEnabled')){      
+
+      //---------------------------------
+      // orange on black
+      if((0 < metric) && (metric <= .1)){
+        color = '#000000';
+      } else if ((.1 < metric) && (metric <= .2)){
+        color = '#1c0702';
+      } else if ((.2 < metric) && (metric <= .3)){
+        color = '#2d0f07';
+      } else if ((.3 < metric) && (metric <= .4)){
+        color = '#3f110b';
+      } else if ((.4 < metric) && (metric <= .5)){
+        color = '#52130e';
+      } else if ((.5 < metric) && (metric <= .6)){
+        color = '#66140f';
+      } else if ((.6 < metric) && (metric <= .7)){
+        color = '#7a1410';
+      } else if ((.7 < metric) && (metric <= .8)){
+        color = '#8f130f';
+      } else if ((.8 < metric) && (metric <= .9)){
+        color = '#a5100e';
+      } else if ((.9 < metric) && (metric <= 1)){
+        color = '#ba0d0b';
+      } else if (1 < metric){
+        color = '#d00707';
+      }
+    } else {
+
+      //---------------------------------
+      // HHS purples 
+      if((0 < metric) && (metric <= .1)){
+        color = '#dee8f2';
+      } else if ((.1 < metric) && (metric <= .2)){
+        color = '#ced8e9';
+      } else if ((.2 < metric) && (metric <= .3)){
+        color = '#bec7e0';
+      } else if ((.3 < metric) && (metric <= .4)){
+        color = '#adb7d7';
+      } else if ((.4 < metric) && (metric <= .5)){
+        color = '#9da7ce';
+      } else if ((.5 < metric) && (metric <= .6)){
+        color = '#8d97c5';
+      } else if ((.6 < metric) && (metric <= .7)){
+        color = '#954e94';
+      } else if ((.7 < metric) && (metric <= .8)){
+        color = '#a34282';
+      } else if ((.8 < metric) && (metric <= .9)){
+        color = '#b13771';
+      } else if ((.9 < metric) && (metric <= 1)){
+        color = '#c02b5f';
+      } else if (1 < metric){
+        color = '#dc143c';
+      }
+    }
+    
+    return color;
+  }
+
+
+
+  const ColorButton = withStyles((theme) => ({
+    root: {
+      color: "#ffffff",
+      backgroundColor: parseColor(data.adult_icu_bed_utilization),
+      '&:hover': {
+        backgroundColor: parseColor(data.adult_icu_bed_utilization)
+      },
+    },
+  }))(Button);
+
+
+
+
+
   // function openVaccineFinderUrl(){
   //   window.open(get(Meteor, 'settings.public.vaccineWallet.vaccineFinderUrl', 'https://www.cdc.gov/vaccines/covid-19/reporting/vaccinefinder/about.html'));
   // }
@@ -219,14 +357,14 @@ export function QrScannerPage(props){
     <PageCanvas id='QrScannerPage' headerHeight={headerHeight} paddingLeft={0} paddingRight={0} style={{overflowX: 'hidden', marginBottom: '80px', background: 'transparent'}}>
       <Container id="QrScannerContainer" maxWidth="lg" style={{height: containerHeight}}>
         <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', paddingBottom: '20px'}}>
-          <Button color="primary" variant="contained" onClick={activateCamera.bind(this)} style={{width: '100%', marginTop: '20px'}}>
+          <ColorButton color="primary" variant="contained" onClick={activateCamera.bind(this)} style={{width: '100%', marginTop: '20px'}}>
             <CardHeader title="Scan Vaccine Code"  />   
-          </Button>
+          </ColorButton>
 
           <div style={{width: '200px', height: '200px', border: '1px solid grey', borderRadius: '5px', position: 'relative', marginTop: '100px', marginBottom: '100px', left: '50%', marginLeft: '-100px'}}></div>
-          <Button color="primary" variant="contained" onClick={toggleLight.bind(this)} style={{width: '100%',  marginTop: '20px', marginBottom: '20x'}}>
+          <ColorButton color="primary" variant="contained" onClick={toggleLight.bind(this)} style={{width: '100%',  marginTop: '20px', marginBottom: '20x'}}>
             <CardHeader title={torchString} />   
-          </Button>
+          </ColorButton>
         </div>
       </Container>    
     </PageCanvas>

@@ -16,6 +16,10 @@ import { get, has, pick } from 'lodash';
 import { Random } from 'meteor/random';
 import { Meteor } from 'meteor/meteor';
 
+import { FhirUtilities, Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import moment from 'moment';
+
+
 
 console.log('Initializing AccountsServer.')
 console.log('MONGO_URL: ' + process.env.MONGO_URL);
@@ -63,18 +67,69 @@ Meteor.startup(async function(){
     // Inside we can apply our logic to validate the user fields
     validateNewUser: function(user){
       console.log("AccountsServer: Validating new user.")
-      // For example we can allow only some kind of emails
-      if (user.email.endsWith('.xyz')) {
-        console.error('Invalid email.');
-        throw new Error('Invalid email.');
+
+      if(get(Meteor, 'settings.public.defaults.registration.displayFullLegalName')){
+        if (!user.fullLegalName) {
+          throw new Error('Full legal name is required.');
+        }
+        if (user.fullLegalName.length < 3) {
+          throw new Error('Full legal name too short');
+        }        
+      }
+      if(get(Meteor, 'settings.public.defaults.registration.displayNickname')){
+        if (!user.nickname) {
+          throw new Error('Nickname name is required');
+        }
+        if (user.nickname.length < 3) {
+          throw new Error('Nickname name too short');
+        }        
+      }
+      if(get(Meteor, 'settings.public.defaults.registration.displayGivenAndFamily')){
+        if (!user.givenName) {
+          throw new Error('Given name is required');
+        }
+        if (user.givenName.length < 3) {
+          throw new Error('Given name too short');
+        }
+        // if (!user.familyName) {
+        //   throw new Error('First name is required');
+        // }
+        // if (user.familyName.length < 3) {
+        //   throw new Error('First name too short');
+        // }     
       }
 
-      if (!user.givenName) {
-        throw new Error('First name is required');
+      if(get(Meteor, 'settings.public.defaults.registration.displayFirstAndLast')){
+        if (!user.firstName) {
+          throw new Error('First name is required');
+        }
+        if (user.firstName.length < 3) {
+          throw new Error('First name too short');
+        }
+        if (!user.lastName) {
+          throw new Error('Last name is required');
+        }
+        if (user.lastName.length < 3) {
+          throw new Error('Last name too short');
+        }     
       }
-      if (user.givenName.length < 3) {
-        throw new Error('First name too short');
+      if(get(Meteor, 'settings.public.defaults.registration.displayEmail')){
+        // For example we can allow only some kind of emails
+        if (user.email.endsWith('.xyz')) {
+          console.error('Invalid email.');
+          throw new Error('Invalid email.');
+        }
       }
+      if(get(Meteor, 'settings.public.defaults.registration.displayUsername')){
+        // For example we can allow only some kind of emails
+        if (!user.username) {
+          throw new Error('Username is required');
+        }
+        if (user.username.length < 3) {
+          throw new Error('Username too short');
+        }  
+      }
+
 
       if(get(Meteor, 'settings.private.invitationCode')){
         if (!user.invitationCode) {
@@ -88,8 +143,8 @@ Meteor.startup(async function(){
         }  
       }
       
-      console.log('New User: ', user);
-      return pick(user, ['username', 'email', 'password', 'familyName', 'givenName']);
+      console.log('New User: ', user);      
+      return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname']);
     }
   });
 
@@ -309,38 +364,43 @@ Meteor.startup(async function(){
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     const user = get(req, "body.user");
-    console.log('user', user);
+    console.log('Registering a new user.', user);
 
-    const accountsPassword = get(accountsServer.getServices(), "password");
-    // console.log('accountsPassword', accountsPassword)
+    const accountsPasswordService = get(accountsServer.getServices(), "password");    
 
     let userId = "";
     let dataPayload = {};
 
     try {
-      userId = await accountsPassword.createUser(user);
+      userId = await accountsPasswordService.createUser(user);
       console.log('userId', userId)
     } catch (error) {
       console.log('error', error)
 
-      // // If ambiguousErrorMessages is true we obfuscate the email or username already exist error
-      // // to prevent user enumeration during user creation
+      // // // If ambiguousErrorMessages is true we obfuscate the email or username already exist error
+      // // // to prevent user enumeration during user creation
       // if (
       //   accountsServer.options.ambiguousErrorMessages &&
       //   error instanceof AccountsJsError &&
       //   (error.code === CreateUserErrors.EmailAlreadyExists ||
       //     error.code === CreateUserErrors.UsernameAlreadyExists)
-      // ) {
-      //   return res.json({} as CreateUserResult);
-      // }
+      // ) 
+      
+      
 
-      if(!accountsServer.options.ambiguousErrorMessages){
-        dataPayload = {}
-      } 
+
+      // if(!accountsServer.options.ambiguousErrorMessages){
+      //   dataPayload = {
+      //     errorMessage: error
+      //   }
+      // } 
+      dataPayload = {
+        errorMessage: error
+      }
 
       JsonRoutes.sendResult(res, {
         code: 500,
-        data: dataPayload
+        data: error
       });
 
       throw error;
@@ -364,6 +424,49 @@ Meteor.startup(async function(){
     // are not enabled at the same time
     const createdUser = await accountsServer.findUserById(userId);
     console.log('createdUser', createdUser)
+
+    console.log('Great time to create a Patient record.');
+
+    console.log('typeof createdUser._id', typeof createdUser._id)
+    console.log('typeof createdUser.id', typeof createdUser.id)
+
+    if(!Patients.findOne({id: get(createdUser, 'id')})){
+      let newPatient = {
+        _id: '',  
+        id: '',
+        resourceType: "Patient",
+        active: true,
+        name: [{
+          use: 'usual',
+          text: '',
+          given: [],
+          family: ''
+        }]
+      }
+
+      if(has(createdUser, '_id')){
+        newPatient._id = createdUser._id._str;
+      }
+      if(has(createdUser, 'id')){
+        newPatient.id = createdUser.id;
+      }
+
+      if(has(createdUser, 'fullLegalName')){
+        let nameArray = createdUser.fullLegalName.split(" ");
+        if(Array.isArray(nameArray)){
+          nameArray.forEach(function(name){
+            newPatient.name[0].given.push(name);
+          })
+          newPatient.name[0].text = get(createdUser, 'fullLegalName', '')
+          newPatient.name[0].family = nameArray[nameArray.length - 1];
+        }
+      }
+
+      Patients.insert(newPatient)
+    }
+
+
+    console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');
 
     // If we are here - user must be created successfully
     // Explicitly saying this to Typescript compiler
