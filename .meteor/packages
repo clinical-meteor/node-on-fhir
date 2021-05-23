@@ -73,9 +73,9 @@ datarobot:waters
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-
-
 # symptomatic:healthkit-importer  
 # symptomatic:immunization-card
+
 # symptomatic:vaccine-wallet
+# symptomatic:data-management
 
