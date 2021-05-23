@@ -191,7 +191,6 @@ function Header(props) {
   let workflowTabs = "default";  
   let displayNavbars = true;  
 
-
   if(Meteor.isClient){
     selectedStartDate = useTracker(function(){
       return Session.get("fhirKitClientStartDate");
@@ -369,13 +368,26 @@ function Header(props) {
     }
   }
 
+
+
+
+
+  let headerNavContainerClass = componentStyles.headerNavContainer;
+
+  if(!displayNavbars){
+    headerNavContainerClass = componentStyles.headerNavContainer_hidden;
+  }
+  if(get(Meteor, 'settings.public.defaults.disableHeader')){
+    headerNavContainerClass = componentStyles.headerNavContainer_hidden;
+  }
+
   let titleClass = componentStyles.title;
   if(Meteor.isCordova){
     titleClass = componentStyles.title_cordova;
   }
 
   return (
-    <div id="header" className="headerNavContainer" position="fixed" className={componentStyles.headerNavContainer}>
+    <div id="header" className="headerNavContainer" position="fixed" className={headerNavContainerClass}>
       <div style={{paddingTop: '10px'}}>
           <Icon 
             id="sidebarMenuButton"
