@@ -48,9 +48,9 @@ clinical:hl7-fhir-data-infrastructure
 
 percolate:synced-cron
 
-symptomatic:saner 
-symptomatic:data-management
-datarobot:waters
+# symptomatic:saner 
+# symptomatic:data-management
+# datarobot:waters
 
 
 # TESTING
