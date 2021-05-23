@@ -189,7 +189,8 @@ function SideDrawer(props) {
   let appDrawerContainerStyle = {
     position: 'absolute',
     height: '100%',
-    width: drawerWidth
+    width: drawerWidth,
+    zIndex: 0
   }
 
   return (

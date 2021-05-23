@@ -78,18 +78,4 @@ datarobot:waters
 # symptomatic:healthkit-importer  
 # symptomatic:immunization-card
 # symptomatic:vaccine-wallet
-<<<<<<< HEAD
-=======
 
-### Healthflow
-#symptomatic:data-management
-#healthflow:core
-#symptomatic:continuity-of-care
-#symptomatic:timelines
-#symptomatic:gravity
-#awatson1978:accounts-muppets
-#clinical:accounts-housemd
-#clinical:accounts-famous-dead-people
-#symptomatic:fhir-uscore
-#symptomatic:vault-server-freemium
->>>>>>> development

@@ -59,7 +59,7 @@ const LogInLink = React.forwardRef(function(props, ref){
 const Signup = function({ history }){
   const classes = useStyles();
 
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
   const { loginWithService } = useAuth();
 
   const formik = useFormik({
@@ -130,7 +130,7 @@ const Signup = function({ history }){
     onSubmit: async function(values, { setSubmitting }){
       console.log('Submitting sign-up details and creating a new user.')
       try {
-        let createUserResult = await accountsPassword.createUser({
+        await accountsPassword.createUser({
           givenName: values.givenName,
           familyName: values.familyName,
           firstName: values.firstName,
@@ -143,7 +143,7 @@ const Signup = function({ history }){
           invitationCode: values.invitationCode,
         });
 
-        console.log('createUserResult', createUserResult)
+        // console.log('userId', userId)
 
         // let user = await accountsClient.getUser();
         // console.log('SignUp.user', user)
@@ -152,22 +152,21 @@ const Signup = function({ history }){
 
         //history.push('/login');
       } catch (err) {
-        setError(err.message);
-        setSubmitting(false);
+        // console.log('Caught an err', err)
+        // console.log('Caught an err (typeof)', typeof err)
+        // console.log('Caught an err.code', err.code)
+        // console.log('Caught an err.message', err.message)
+        // console.log('Caught an err.EmailAlreadyExists', err.EmailAlreadyExists)
+        console.log('Caught an err.stringify', JSON.stringify(err))
 
-        if (err instanceof AccountsJsError) {
-          // You can access the error message via `error.message`
-          // Eg: "Email already exists"
-          // You can access the code via `error.code`
-          // Eg:
-          if (err.code === CreateUserErrors.EmailAlreadyExists) {
-            // do some custom logic
-            console.log("Email already exists.")
-          }
-        } else {
-          // Else means it's an internal server error so you probably want to obfuscate it and return
-          // a generic "Internal server error" to the user.
+
+
+
+        if (err.code === "EmailAlreadyExists") {
+          console.log("Email already exists.")
+          setError("Email already exists.");
         }
+        setSubmitting(false);
       }
 
       console.log('Logging in with the same information.')
@@ -178,6 +177,7 @@ const Signup = function({ history }){
         password: values.password
         // code: values.code
       });  
+      console.log('loginResult', loginResult)
     }
   });
 
@@ -222,7 +222,7 @@ const Signup = function({ history }){
           type="text"
           value={formik.values.nickname}
           onChange={formik.handleChange}
-          error={Boolean(formik.errors.nickname && formik.touched.nickname)}git 
+          error={Boolean(formik.errors.nickname && formik.touched.nickname)}
           helperText={formik.touched.nickname && formik.errors.nickname}
         />
       </Grid>
@@ -357,7 +357,7 @@ const Signup = function({ history }){
           vertical: 'top',
           horizontal: 'center',
         }}
-        open={!!error}
+        open={error}
         onClose={() => setError(undefined)}
       >
         <SnackBarContentError message={error} />
