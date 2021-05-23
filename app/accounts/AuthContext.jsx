@@ -64,6 +64,7 @@ async function loginWithService(service, credentials){
   console.log('AuthContext.loginWithService()', service, credentials);
 
   let loginResponse = await accountsClient.loginWithService(service, credentials);
+  console.log('loginResponse', loginResponse)
 
   if(Meteor.isClient){
     Session.set('currentUser', get(loginResponse, 'user'));

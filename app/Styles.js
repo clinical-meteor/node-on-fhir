@@ -29,6 +29,24 @@ let rawStyles = {
       background: theme.palette.appBar.main,
       backgroundColor: theme.palette.appBar.main,
       color: theme.palette.appBar.contrastText,
+      borderBottom: '1px solid lightgray',
+      width: '100%',
+      zIndex: 1200,
+      margin: '0px',
+      transition: theme.transitions.create(['width', 'left', 'top'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      }),
+      filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
+    },
+    headerNavContainer_hidden: {
+      height: '64px',
+      position: 'fixed',
+      top: "-128px",
+      left: "0px",
+      background: theme.palette.appBar.main,
+      backgroundColor: theme.palette.appBar.main,
+      color: theme.palette.appBar.contrastText,
       width: '100%',
       zIndex: 1200,
       margin: '0px',
@@ -94,6 +112,23 @@ let rawStyles = {
       height: '4em',
       position: 'fixed',
       bottom: "0px",
+      left: "0px",
+      background: theme.palette.appBar.main,
+      backgroundColor: theme.palette.appBar.main,
+      color: theme.palette.appBar.contrastText,
+      width: '100%',
+      zIndex: 1300,
+      borderTop: '1px solid lightgray',
+      transition: theme.transitions.create(['width', 'left', 'bottom'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      }),
+      filter: "grayscale(" + get(Meteor, 'settings.public.theme.grayscaleFilter', "0%") + ")"
+    },
+    footerNavContainer_hidden: {  
+      height: '64px',
+      position: 'fixed',
+      bottom: "-64px",
       left: "0px",
       background: theme.palette.appBar.main,
       backgroundColor: theme.palette.appBar.main,
