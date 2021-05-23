@@ -29,6 +29,7 @@ let rawStyles = {
       background: theme.palette.appBar.main,
       backgroundColor: theme.palette.appBar.main,
       color: theme.palette.appBar.contrastText,
+      borderBottom: '1px solid lightgray',
       width: '100%',
       zIndex: 1200,
       margin: '0px',

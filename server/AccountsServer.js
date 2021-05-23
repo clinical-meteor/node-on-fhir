@@ -364,38 +364,43 @@ Meteor.startup(async function(){
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     const user = get(req, "body.user");
-    console.log('user', user);
+    console.log('Registering a new user.', user);
 
-    const accountsPassword = get(accountsServer.getServices(), "password");
-    // console.log('accountsPassword', accountsPassword)
+    const accountsPasswordService = get(accountsServer.getServices(), "password");    
 
     let userId = "";
     let dataPayload = {};
 
     try {
-      userId = await accountsPassword.createUser(user);
+      userId = await accountsPasswordService.createUser(user);
       console.log('userId', userId)
     } catch (error) {
       console.log('error', error)
 
-      // // If ambiguousErrorMessages is true we obfuscate the email or username already exist error
-      // // to prevent user enumeration during user creation
+      // // // If ambiguousErrorMessages is true we obfuscate the email or username already exist error
+      // // // to prevent user enumeration during user creation
       // if (
       //   accountsServer.options.ambiguousErrorMessages &&
       //   error instanceof AccountsJsError &&
       //   (error.code === CreateUserErrors.EmailAlreadyExists ||
       //     error.code === CreateUserErrors.UsernameAlreadyExists)
-      // ) {
-      //   return res.json({} as CreateUserResult);
-      // }
+      // ) 
+      
+      
 
-      if(!accountsServer.options.ambiguousErrorMessages){
-        dataPayload = {}
-      } 
+
+      // if(!accountsServer.options.ambiguousErrorMessages){
+      //   dataPayload = {
+      //     errorMessage: error
+      //   }
+      // } 
+      dataPayload = {
+        errorMessage: error
+      }
 
       JsonRoutes.sendResult(res, {
         code: 500,
-        data: dataPayload
+        data: error
       });
 
       throw error;
