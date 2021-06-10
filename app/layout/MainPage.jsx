@@ -109,20 +109,7 @@ function MainPage(props){
   let code = " # download meteorjs \n curl https://install.meteor.com/ | sh \n\n # clone the repository \n git clone https://github.com/symptomatic/node-on-fhir \n\n # change into the directory \n cd node-on-fhir \n\n # install the dependencies \n meteor npm install \n\n # run the app (with settings) \n meteor run --settings configs/settings.nodeonfhir.localhost.json --extra-packages symptomatic:example-plugin ";
 
 
-  //----------------------------------------------------------------------
-  // Page Styling 
 
-  let headerHeight = 64;
-  if(get(Meteor, 'settings.public.defaults.prominantHeader')){
-    headerHeight = 128;
-  }
-
-  let pageStyle = {
-    paddingLeft: '100px', 
-    paddingRight: '100px',
-    position: 'absolute',
-    top: '0px'
-  }
 
 
   //----------------------------------------------------------------------
@@ -152,10 +139,26 @@ function MainPage(props){
     window.open(url);
     // props.history.replace(url)
   }
+
+  //----------------------------------------------------------------------
+  // Page Styling 
+
+  let headerHeight = 64;
+  if(get(Meteor, 'settings.public.defaults.prominantHeader')){
+    headerHeight = 128;
+  }
+
+  let pageStyle = {
+    paddingLeft: '100px', 
+    paddingRight: '100px',
+    position: 'absolute',
+    top: '0px'
+  }
+
   //----------------------------------------------------------------------
   // Main Render Method  
 
-  let carouselImages = get(Meteor, 'settings.public.projectPage.carouselImages', [])
+  let carouselImages = get(Meteor, 'settings.public.projectPage.carouselImages', []);
 
   let imageItems = [];
   carouselImages.forEach(function(url, index){
@@ -178,11 +181,21 @@ function MainPage(props){
     height: '52px'
   }
 
+  if(Meteor.isCordova){
+    pageStyle.width = window.innerWidth + "px";
+    pageStyle.padding = 20;
+    pageStyle.marginLeft = '0px';
+    pageStyle.marginRight = '0px';
+  }
+
 
 
   return (
-    <PageCanvas id='MainPage' style={pageStyle} headerHeight={headerHeight}>
-        <Container maxWidth="lg" style={{paddingBottom: '80px'}}>
+    <PageCanvas id='MainPage' style={pageStyle} headerHeight={headerHeight} paddingLeft={pageStyle.padding} paddingRight={pageStyle.padding}>
+        <Grid container justify="center" style={{paddingBottom: '80px'}}>
+          <Grid item xs={4}>
+
+          </Grid>
 
             <Button variant="contained" color="secondary" className={classes.fallout_button} href="https://github.com/symptomatic/covid19-on-fhir" >
               <Icon icon={warning} size={24} /><CardHeader title="Announcement" subheader="Due to pandemic, we have discontinued the old example plugin, and will now be offering Covid19-on-FHIR as the example." />
@@ -262,26 +275,6 @@ function MainPage(props){
               </Carousel>
             </Card>
 
-          
-            
-
-              {/* <StyledCard margin={20} >
-                <CardHeader title="Getting Started" />
-                <CardContent>
-                  <pre>
-                    - install meteor
-                    - download github repo
-                    - install dependencies
-                    - run app
-                  </pre>
-                </CardContent>  
-              </StyledCard> */}
-
-
-
-
-
-              
               <StyledCard margin={20} >
                 <CardHeader title="Features - Everything You Need; Kitchen Sink Included" />
                 <CardContent>
@@ -558,7 +551,7 @@ function MainPage(props){
               </CardActionArea>
             </StyledCard>
 
-      </Container>
+      </Grid>
     </PageCanvas>
   );
 }
