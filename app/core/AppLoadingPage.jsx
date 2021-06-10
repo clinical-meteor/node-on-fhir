@@ -64,8 +64,9 @@ function AppLoadingPage(props) {
   // Social Media Registration
 
   let helmet;
-  let initialScale = (get(Meteor, 'settings.public.defaults.initialScale', "0.7")).toString();
-  let viewportString = "initial-scale=" + initialScale + ", minimal-ui, minimum-scale=" + initialScale +  ", maximum-scale=" + initialScale + ", width=device-width, height=device-height, user-scalable=no";
+  let initialScale = (get(Meteor, 'settings.public.defaults.initialScale', 1.0)).toString();
+  // let viewportString = "initial-scale=" + initialScale + ", minimal-ui, minimum-scale=" + initialScale +  ", maximum-scale=" + initialScale + ", width=device-width, height=device-height, user-scalable=no";
+  let viewportString = "initial-scale=" + initialScale + ", minimal-ui, minimum-scale=" + initialScale +  ", maximum-scale=" + initialScale + ", width=device-width, height=device-height";
 
   if(get(Meteor, 'settings.public.socialmedia')){
     let socialmedia = get(Meteor, 'settings.public.socialmedia');
