@@ -63,6 +63,7 @@
       "displayNavbars": true,
       "disableHeader": false,
       "disableFooter": false,
+      "initialScale": 1.0,
       "paginationLimit": 100,
       "subscriptionLimit": 1000,
       "sidebar": {
