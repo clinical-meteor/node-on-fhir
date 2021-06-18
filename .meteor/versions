@@ -2,7 +2,6 @@ accounts-base@1.9.0
 alanning:roles@3.2.3
 aldeed:collection2@3.0.6
 allow-deny@1.1.0
-autoupdate@1.7.0
 babel-compiler@7.6.1
 babel-runtime@1.5.0
 base64@1.0.12
@@ -33,8 +32,6 @@ es5-shim@4.8.0
 fetch@0.1.1
 fourseven:scss@4.12.0
 geojson-utils@1.0.10
-healthflow:core@0.1.0
-hot-code-push@1.0.4
 html-tools@1.1.1
 htmljs@1.1.0
 http@1.4.3
@@ -46,7 +43,6 @@ localstorage@1.2.0
 logging@1.2.0
 matb33:collection-hooks@1.0.1
 meteor@1.9.3
-meteor-base@1.4.0
 minifier-css@1.5.4
 minifier-js@2.6.0
 minimongo@1.6.2
