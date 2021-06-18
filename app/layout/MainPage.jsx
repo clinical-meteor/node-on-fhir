@@ -182,7 +182,7 @@ function MainPage(props){
   }
 
   if(Meteor.isCordova){
-    pageStyle.width = window.innerWidth + "px";
+    pageStyle.width = '100%';
     pageStyle.padding = 20;
     pageStyle.marginLeft = '0px';
     pageStyle.marginRight = '0px';
