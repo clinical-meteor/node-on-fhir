@@ -1,5 +1,4 @@
 import React from "react";
-import FhirClientProvider from "../layout/FhirClientProvider";
 import Dashboard from "./Dashboard";
 import PatientDemographics from "./PatientDemographics";
 
@@ -10,10 +9,7 @@ import { useLocation, useParams, useHistory } from "react-router-dom";
 import { oauth2 as SMART } from "fhirclient";
 import { get } from 'lodash';
 
-/**
- * Wraps everything into `FhirClientProvider` so that any component
- * can have access to the fhir client through the context.
- */
+
 export default function PatientChart() {
     let headerHeight = 64;
     if(get(Meteor, 'settings.public.defaults.prominantHeader')){

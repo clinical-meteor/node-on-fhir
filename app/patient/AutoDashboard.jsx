@@ -17,8 +17,10 @@ import Grid from '@material-ui/core/Grid';
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { useTracker } from 'meteor/react-meteor-data';
 
-import { Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { CarePlans, CareTeams, Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, CarePlansTable, CareTeamsTable, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { get } from 'lodash';
+
+import PatientCard from './PatientCard';
 
 function DynamicSpacer(props){
     return <br className="dynamicSpacer" style={{height: '40px'}}/>;
@@ -39,17 +41,23 @@ export function AutoDashboard(props){
         immunizations: [],
         selectedPatientId: '',
         selectedPatient: null,
-        patients: []
+        patients: [],
+        quickchartTabIndex: 0
     }
 
     data.selectedPatientId = useTracker(function(){
         return Session.get('selectedPatientId');
     }, []);
     data.selectedPatient = useTracker(function(){
-        return Patients.findOne({_id: Session.get('selectedPatientId')});
+        return Session.get('selectedPatient');
+        // return Patients.findOne({_id: Session.get('selectedPatientId')});
     }, []);
     data.patients = useTracker(function(){
         return Patients.find().fetch();
+    }, []);
+
+    data.quickchartTabIndex = useTracker(function(){
+        return Session.get('quickchartTabIndex')
     }, []);
 
 
@@ -87,12 +95,18 @@ export function AutoDashboard(props){
 
 
 
-    function loadData(ehrLaunchCapabilities) {
+    function fetchPatientData(ehrLaunchCapabilities) {
 
         if(client){
             const observationQuery = new URLSearchParams();
             // observationQuery.set("code", "http://loinc.org|55284-4");
-            observationQuery.set("patient", client.patient.id);
+            if(client.patient){
+                observationQuery.set("patient", client.patient);
+
+                if(client.patient.id){
+                    observationQuery.set("patient", client.patient.id);
+                }    
+            }
             observationQuery.set("category", "vital-signs");
             
             console.log('Observation Query', observationQuery);
@@ -227,16 +241,16 @@ export function AutoDashboard(props){
                     console.log('medicationOrderUrl', medicationOrderUrl);
         
                     client.request(medicationOrderUrl, {
-                            pageLimit: 0,
-                            flat: true
-                        }).then(medicationOrders => {
-                            if(medicationOrders){
-                                console.log('PatientAutoDashboard.medicationOrders', medicationOrders)
-                                medicationOrders.forEach(procedure => {
-                                    MedicationOrders.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-                                });    
-                            }
-                        });
+                        pageLimit: 0,
+                        flat: true
+                    }).then(medicationOrders => {
+                        if(medicationOrders){
+                            console.log('PatientAutoDashboard.medicationOrders', medicationOrders)
+                            medicationOrders.forEach(procedure => {
+                                MedicationOrders.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+                            });    
+                        }
+                    });
                 }
 
                 if(ehrLaunchCapabilities.MedicationRequest === true){
@@ -331,6 +345,36 @@ export function AutoDashboard(props){
     useEffect(function(){
         console.log('AutoDashboard.useEffect()');
 
+
+        let fhirclientState = Session.get('fhirclient.state');
+
+        if(fhirclientState){
+            console.log('fhirclientState', fhirclientState)
+            let patientUrl = "";
+            let accessToken = "";
+
+            accessToken = fhirclientState.access_token;
+            patientUrl = fhirclientState.serverUrl + "/Patient";
+
+            console.log('Query Endpoint: ', patientUrl)
+            console.log('AccessToken:    ', accessToken)
+      
+            var httpHeaders = { headers: {
+                'Accept': ['application/json', 'application/fhir+json'],
+                'Access-Control-Allow-Origin': '*'          
+            }}
+    
+            if(get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken')){
+                accessToken = get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken');
+            }
+    
+            if(accessToken){
+                httpHeaders.headers["Authorization"] = 'Bearer ' + accessToken;
+            }
+    
+            console.log('patientUrl.httpHeaders', httpHeaders)    
+        }
+
         console.log('AutoDashboard finished mounting into render tree.', get(window, '__PRELOADED_STATE__.url'));
 
         let metadataRoute = "";
@@ -355,7 +399,7 @@ export function AutoDashboard(props){
                 console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);
                 Session.set('ehrLaunchCapabilities', ehrLaunchCapabilities)
     
-                loadData(ehrLaunchCapabilities);
+                fetchPatientData(ehrLaunchCapabilities);
               })    
         }    
 
@@ -365,121 +409,254 @@ export function AutoDashboard(props){
         };
       }, []);
 
-      
 
+    
+
+    let patientIntake = <Grid container style={{marginTop: '20px'}}>
+        <Grid item md={4} style={{paddingRight: '10px'}}>
+            <CardHeader title="Who?" />
+            <PatientCard patient={data.selectedPatient} />
+            <DynamicSpacer />
+            <StyledCard scrollable >
+                <CardHeader title={data.locations.length + " Care Teams"} />
+                <CardContent>
+                    <CareTeamsTable
+                        locations={data.locations}
+                        count={data.locations.length}
+                    />
+                </CardContent>                    
+            </StyledCard>
+            <DynamicSpacer />
+            <CardHeader title="Where?" />
+            <StyledCard scrollable >
+                <CardHeader title={data.encounters.length + " Encounters"} />
+                <CardContent>
+                    <EncountersTable
+                        encounters={data.encounters}
+                        hideCheckboxes={true}
+                        hideActionIcons={true}
+                        hideSubjects={true}
+                        hideType={true}
+                        hideHistory={true}
+                        hideEndDateTime={true}
+                        count={data.encounters.length}
+                    />
+                </CardContent>                    
+            </StyledCard>
+            <DynamicSpacer />
+            <StyledCard scrollable >
+                <CardHeader title={data.locations.length + " Locations"} />
+                <CardContent>
+                    <LocationsTable
+                        locations={data.locations}
+                        count={data.locations.length}
+                    />
+                </CardContent>                    
+            </StyledCard>
+            
+        </Grid>
+        <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+            <CardHeader title="What?" />
+            <StyledCard scrollable >
+                <CardHeader title={data.conditions.length + " Conditions"} />
+                <CardContent>
+                    <ConditionsTable
+                        conditions={data.conditions}
+                        hideCheckbox={true}
+                        hideActionIcons={true}
+                        hidePatientName={true}
+                        hidePatientReference={true}
+                        hideAsserterName={true}
+                        hideEvidence={true}
+                        hideCategory={false}
+                        hideBarcode={true}
+                        hideDates={false}
+                        count={data.conditions.length}
+                    />                                        
+                </CardContent>                    
+            </StyledCard>                
+            <DynamicSpacer />
+            <StyledCard scrollable >
+                <CardHeader title={data.immunizations.length + " Immunizations"} />
+                <CardContent>
+                    <ImmunizationsTable
+                        immunizations={data.immunizations}
+                        hideCheckbox={true}
+                        hideIdentifier={true}
+                        hideActionIcons={true}
+                        hidePatient={true}
+                        hidePerformer={true}
+                        hideVaccineCode={false}
+                        hideVaccineCodeText={false}
+                        count={data.immunizations.length}
+                    />                                        
+                </CardContent>                    
+            </StyledCard>                
+            <DynamicSpacer />
+            <StyledCard scrollable>
+                <CardHeader title={data.procedures.length + " Procedures"} />
+                <CardContent>
+                    <ProceduresTable 
+                        procedures={data.procedures}
+                        hideCheckbox={true}
+                        hideActionIcons={true}
+                        hideIdentifier={true}
+                        hideCategory={true}
+                        hideSubject={true}
+                        hideBodySite={true}
+                        hidePerformedDateEnd={true}
+                        hideSubjectReference={true}
+                        hideBarcode={true}
+                        count={data.procedures.length}
+                    />                                                                                                           
+                </CardContent>                    
+            </StyledCard>                
+        </Grid>
+        <Grid item md={4} style={{paddingLeft: '10px'}}>
+            <CardHeader title="How?" />
+            <StyledCard scrollable >
+                <CardHeader title={data.locations.length + " Care Plans"} />
+                <CardContent>
+                    <CarePlansTable
+                        locations={data.locations}
+                        count={data.locations.length}
+                    />
+                </CardContent>                    
+            </StyledCard>
+            <DynamicSpacer />
+            
+            <StyledCard scrollable >
+                <CardHeader title={data.observations.length + " Observations"} />
+                <CardContent>
+                    <ObservationsTable 
+                        observations={data.observations}
+                        hideCheckbox={true}
+                        hideActionIcons={true}
+                        hideSubject={true}
+                        hideDevices={true}
+                        hideValue={false}
+                        hideBarcode={true}
+                        hideDenominator={true}
+                        hideNumerator={true}
+                        multiComponentValues={true}
+
+                        count={data.observations.length}
+                    />                                                                                                           
+                </CardContent>                    
+            </StyledCard>  
+        </Grid>
+    </Grid>
+
+    let patientChart = <Grid container style={{marginTop: '20px'}} justify="center">
+        <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+            <PatientCard patient={data.selectedPatient} />
+            <DynamicSpacer />
+            <StyledCard scrollable >
+                <CardHeader title={data.encounters.length + " Encounters"} />
+                <CardContent>
+                    <EncountersTable
+                        encounters={data.encounters}
+                        hideCheckboxes={true}
+                        hideActionIcons={true}
+                        hideSubjects={true}
+                        hideType={true}
+                        hideHistory={true}
+                        hideEndDateTime={true}
+                        count={data.encounters.length}
+                    />
+                </CardContent>                    
+            </StyledCard>
+            <DynamicSpacer />
+            <StyledCard scrollable >
+                <CardHeader title={data.conditions.length + " Conditions"} />
+                <CardContent>
+                    <ConditionsTable
+                        conditions={data.conditions}
+                        hideCheckbox={true}
+                        hideActionIcons={true}
+                        hidePatientName={true}
+                        hidePatientReference={true}
+                        hideAsserterName={true}
+                        hideEvidence={true}
+                        hideCategory={false}
+                        hideBarcode={true}
+                        hideDates={false}
+                        count={data.conditions.length}
+                    />                                        
+                </CardContent>                    
+            </StyledCard>                
+            <DynamicSpacer />
+            <StyledCard scrollable >
+                <CardHeader title={data.immunizations.length + " Immunizations"} />
+                <CardContent>
+                    <ImmunizationsTable
+                        immunizations={data.immunizations}
+                        hideCheckbox={true}
+                        hideIdentifier={true}
+                        hideActionIcons={true}
+                        hidePatient={true}
+                        hidePerformer={true}
+                        hideVaccineCode={false}
+                        hideVaccineCodeText={false}
+                        count={data.immunizations.length}
+                    />                                        
+                </CardContent>                    
+            </StyledCard>                
+            <DynamicSpacer />
+            <StyledCard scrollable>
+                <CardHeader title={data.procedures.length + " Procedures"} />
+                <CardContent>
+                    <ProceduresTable 
+                        procedures={data.procedures}
+                        hideCheckbox={true}
+                        hideActionIcons={true}
+                        hideIdentifier={true}
+                        hideCategory={true}
+                        hideSubject={true}
+                        hideBodySite={true}
+                        hidePerformedDateEnd={true}
+                        hideSubjectReference={true}
+                        hideBarcode={true}
+                        count={data.procedures.length}
+                    />                                                                                                           
+                </CardContent>                    
+            </StyledCard>                
+            <DynamicSpacer />            
+            <StyledCard scrollable >
+                <CardHeader title={data.observations.length + " Observations"} />
+                <CardContent>
+                    <ObservationsTable 
+                        observations={data.observations}
+                        hideCheckbox={true}
+                        hideActionIcons={true}
+                        hideSubject={true}
+                        hideDevices={true}
+                        hideValue={false}
+                        hideBarcode={true}
+                        hideDenominator={true}
+                        hideNumerator={true}
+                        multiComponentValues={true}
+
+                        count={data.observations.length}
+                    />                                                                                                           
+                </CardContent>                    
+            </StyledCard>  
+        </Grid>        
+    </Grid>
+
+    let autoDashboardContent = patientIntake;
+
+    switch (data.quickchartTabIndex) {
+        case 0:
+            autoDashboardContent = patientIntake;
+            break;
+        case 1:
+            autoDashboardContent = patientChart;
+            break;
+    }
 
     return (
-        <Grid container style={{marginTop: '20px'}}>
-            <Grid item md={4} style={{paddingRight: '10px'}}>
-                <StyledCard scrollable >
-                    <CardHeader title={data.immunizations.length + " Immunizations"} />
-                    <CardContent>
-                        <ImmunizationsTable
-                            immunizations={data.immunizations}
-                            displayCheckboxes={false}
-                            displayActionIcons={false}
-                            displayPatientReference={false}
-                            displayPatientName={false}
-                            displayAsserterName={false}
-                            displayEvidence={false}
-                            count={data.immunizations.length}
-                        />                                        
-                    </CardContent>                    
-                </StyledCard>                
-                <DynamicSpacer />
-                <StyledCard scrollable >
-                    <CardHeader title={data.encounters.length + " Encounters"} />
-                    <CardContent>
-                        <EncountersTable
-                            encounters={data.encounters}
-                            hideCheckboxes={true}
-                            hideActionIcons={true}
-                            hideSubjects={true}
-                            hideType={true}
-                            hideHistory={true}
-                            hideEndDateTime={true}
-                            count={data.encounters.length}
-                        />
-                    </CardContent>                    
-                </StyledCard>
-                <DynamicSpacer />
-                <StyledCard scrollable >
-                    <CardHeader title={data.locations.length + " Locations"} />
-                    <CardContent>
-                        <LocationsTable
-                            locations={data.locations}
-                            count={data.locations.length}
-                        />
-                    </CardContent>                    
-                </StyledCard>
-                
-            </Grid>
-            <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
-
-                <StyledCard scrollable >
-                    <CardHeader title={data.conditions.length + " Conditions"} />
-                    <CardContent>
-                        <ConditionsTable
-                            conditions={data.conditions}
-                            displayCheckboxes={false}
-                            displayActionIcons={false}
-                            displayPatientReference={false}
-                            displayPatientName={false}
-                            displayAsserterName={false}
-                            displayEvidence={false}
-                            count={data.conditions.length}
-                        />                                        
-                    </CardContent>                    
-                </StyledCard>                
-                <DynamicSpacer />
-                <StyledCard scrollable>
-                    <CardHeader title={data.procedures.length + " Procedures"} />
-                    <CardContent>
-                        <ProceduresTable 
-                            procedures={data.procedures}
-                            hideCheckboxes={true}
-                            hideActionIcons={true}
-                            hideIdentifier={true}
-                            hideCategory={true}
-                            hideSubject={true}
-                            hideBodySite={true}
-                            hidePerformedDateEnd={true}
-                            hideSubjectReference={true}
-                            hideBarcode={true}
-                            count={data.procedures.length}
-                        />                                                                                                           
-                    </CardContent>                    
-                </StyledCard>                
-            </Grid>
-            <Grid item md={4} style={{paddingLeft: '10px'}}>
-                <StyledCard scrollable>
-                    <CardHeader title="Blood Pressure History" />
-                    <CardContent>
-                        <canvas id="myChart" width={chartWidth} height="400" />
-                    </CardContent>                    
-                </StyledCard>
-                <DynamicSpacer />
-                <StyledCard scrollable >
-                    <CardHeader title={data.observations.length + " Observations"} />
-                    <CardContent>
-                        <ObservationsTable 
-                            observations={data.observations}
-                            hideCheckboxes={true}
-                            hideActionIcons={true}
-                            hideSubject={true}
-                            hideDevices={true}
-                            hideValue={false}
-                            hideBarcodes={true}
-                            hideDenominator={true}
-                            hideNumerator={true}
-                            multiComponentValues={true}
-
-                            count={data.observations.length}
-                        />                                                                                                           
-                    </CardContent>                    
-                </StyledCard>  
-            </Grid>
-        </Grid>
+       autoDashboardContent
     )
 }
 
