@@ -11,10 +11,6 @@ import { useLocation, useParams, useHistory } from "react-router-dom";
 import { oauth2 as SMART } from "fhirclient";
 import { get } from 'lodash';
 
-/**
- * Wraps everything into `FhirClientProvider` so that any component
- * can have access to the fhir client through the context.
- */
 export default function PatientQuickChart(props) {
     logger.info('Rendering the PatientQuickChart');
     logger.verbose('app.patientPatientQuickChart');
@@ -35,20 +31,14 @@ export default function PatientQuickChart(props) {
       fhirServerEndpoint = Session.get('smartOnFhir_iss')
     }
 
-    let contentToRender;
-    if(SMART.ready()){
-      contentToRender = <FhirClientProvider>
+    logger.debug('PatientQuickChart.searchParams', {data: searchParams}, {source: "PatientQuickChart.jsx"});
+
+    let contentToRender = <FhirClientProvider>
         <PageCanvas id='patientQuickChart' headerHeight={headerHeight} >
-          <PatientDemographics />
+          {/* <PatientDemographics /> */}
           <AutoDashboard fhirServerEndpoint={fhirServerEndpoint} />
         </PageCanvas>
       </FhirClientProvider>
-    } else {
-      contentToRender = <PageCanvas id='patientQuickChart' headerHeight={headerHeight} >
-        <PatientDemographics />
-        <AutoDashboard fhirServerEndpoint={fhirServerEndpoint} />
-      </PageCanvas>
-    }
     
     return (contentToRender);
 }

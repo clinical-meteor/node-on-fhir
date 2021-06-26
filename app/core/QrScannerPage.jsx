@@ -44,7 +44,7 @@ Meteor.startup(function(){
           if(error) console.log('error', error)
           if(result) {
             let parsedResults = JSON.parse(result.content); 
-            console.log('parsedResults', parsedResults)
+            console.log('QrScannerPage.parsedResults', parsedResults)
       
             Session.set('adult_icu_bed_utilization', get(parsedResults, 'adult_icu_bed_utilization'))            
           }

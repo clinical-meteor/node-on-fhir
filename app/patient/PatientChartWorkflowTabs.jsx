@@ -150,7 +150,12 @@ const useTabStyles = makeStyles(theme => ({
     }
   });
 
+//========================================================================================================
+// Main Component
 
+if(Meteor.isClient){
+  Session.setDefault('quickchartTabIndex', 0)
+}
 //========================================================================================================
 // Main Component
 
@@ -163,8 +168,10 @@ export function PatientChartWorkflowTabs(props){
 
   function parseIndexFromLocation(pathname){
     switch (pathname) {
-      case '/patient-chart':
+      case '/patient-intake':
         return 0;
+      case '/patient-chart':
+      return 1;
       default:
         return 0;
     }
@@ -181,7 +188,10 @@ export function PatientChartWorkflowTabs(props){
 
     switch (newIndex) {
       case 0:
-        props.history.replace('/patient-chart')
+        Session.set('quickchartTabIndex', 0)
+        break;
+      case 1:
+        Session.set('quickchartTabIndex', 1)
         break;
       default:
         break;
@@ -192,6 +202,7 @@ export function PatientChartWorkflowTabs(props){
     <div style={{display: 'contents'}}>
       <div >
         <Tabs id="headerNavigationTabs" value={tabIndex} onChange={selectSlide} aria-label="simple tabs example" className={ tabClasses.menu_items }>        
+          <Tab id="fetchTab" label="Patient Intake" />
           <Tab id="fetchTab" label="Patient Chart" />
         </Tabs>
         <div id="headerUrl" aria-label="sitename" className={ tabClasses.menu_items_right }>        
