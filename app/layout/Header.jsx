@@ -14,7 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
-import { get } from 'lodash';
+import { get, has } from 'lodash';
 import moment from 'moment';
 
 import { ReactMeteorData, useTracker } from 'meteor/react-meteor-data';
@@ -223,8 +223,30 @@ function Header(props) {
     currentUser = useTracker(function(){  
       let currentUser = Session.get('currentUser');
       let userName = '';
-      if(get(currentUser, 'givenName') || get(currentUser, 'familyName')){
+      // Meteor Accounts
+      if(has(currentUser, 'givenName') || has(currentUser, 'familyName')){
         userName = get(currentUser, 'givenName', '') + ' ' + get(currentUser, 'familyName', '');
+
+      // Patient, R4
+      } else if(has(currentUser, 'name[0].text')) {
+        userName = get(currentUser, 'name[0].text', '');
+      // Patient, R4
+      } else if(has(currentUser, 'name[0].given[0]') || has(currentUser, 'name[0].family')) {
+        userName = get(currentUser, 'name[0].given[0]', '') + ' ' + get(currentUser, 'name[0].family', '');
+      // Patient, DSTU2
+      } else if(has(currentUser, 'name[0].given[0]') || has(currentUser, 'name[0].family[0]')) {
+        userName = get(currentUser, 'name[0].given[0]', '') + ' ' + get(currentUser, 'name[0].family[0]', '');
+
+        // Practitioner, R4
+      } else if(has(currentUser, 'name.text')) {
+        userName = get(currentUser, 'name.text', '');
+      // Practitioner, R4
+      } else if(has(currentUser, 'name.given[0]') || has(currentUser, 'name.family')) {
+        userName = get(currentUser, 'name[0].given[0]', '') + ' ' + get(currentUser, 'name[0].family', '');
+      // Practitioner, DSTU2
+      } else if(has(currentUser, 'name.given[0]') || has(currentUser, 'name.family[0]')) {
+        userName = get(currentUser, 'name[0].given[0]', '') + ' ' + get(currentUser, 'name[0].family[0]', '');
+
       } else {
         userName = 'Anonymous'
       }
@@ -332,7 +354,7 @@ function Header(props) {
     // if we have a selected patient, we show that info
     if(!Meteor.isCordova){
       // console.log('Header.Meteor.!isCordova')
-      if(get(Meteor, 'settings.public.defaults.header.enablePatientOveride')){
+      if(get(Meteor, 'settings.public.defaults.enablePatientOveride')){
         if(Session.get('selectedPatient')){
           demographicItems = <div style={{float: 'right', top: '10px', position: 'absolute', right: '20px'}}>
             <Typography variant="h6" color="inherit" className={ componentStyles.header_label }>Patient ID: </Typography>

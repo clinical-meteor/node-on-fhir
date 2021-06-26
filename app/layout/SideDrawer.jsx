@@ -52,8 +52,6 @@ function SideDrawer(props) {
     ...otherProps 
   } = props; 
 
-  logger.debug('SideDrawer.styles', styles)
-
   if(logger){
     logger.debug('Rendering the application SideDrawer.');
     logger.verbose('app.layout.SideDrawer');  
