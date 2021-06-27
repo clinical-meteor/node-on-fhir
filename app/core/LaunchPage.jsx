@@ -40,7 +40,8 @@ function LaunchPage(props) {
   //--------------------------------------------------------------------------------
   // Query Parameters
 
-  let searchParams = new URLSearchParams(useLocation().search);
+  let useLocationSearch = useLocation().search
+  let searchParams = new URLSearchParams(useLocationSearch);
 
 
   //--------------------------------------------------------------------------------
@@ -48,10 +49,19 @@ function LaunchPage(props) {
 
   useEffect(function(){
 
+    let smartOnFhirConfig;
+    if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
+      Meteor.settings.public.smartOnFhir.forEach(function(config){
+          if(useLocationSearch.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
+              smartOnFhirConfig = config;
+          }
+      })
+    }
+
     let smartConfig = {
-      clientId: get(Meteor, 'settings.public.smartOnFhir[0].client_id'),
-      scope: get(Meteor, 'settings.public.smartOnFhir[0].scope'),
-      redirectUri: get(Meteor, 'settings.public.smartOnFhir[0].redirect_uri')  // ./fhir-quer
+      clientId: get(smartOnFhirConfig, 'client_id'),
+      scope: get(smartOnFhirConfig, 'scope'),
+      redirectUri: get(smartOnFhirConfig, 'redirect_uri')  // ./fhir-quer
     }
 
     if(searchParams.get('iss')){
@@ -59,16 +69,16 @@ function LaunchPage(props) {
       // this is how we typically launch from the big EHR systems
       smartConfig.iss = searchParams.get('iss')      
       //Session.set('smartOnFhir_iss', searchParams.get('iss'))
-    } else if (get(Meteor, 'settings.public.smartOnFhir[0].iss')){
+    } else if (get(smartOnFhirConfig, 'iss')){
       // if we're testing how the launcher works, we can set the iss in the settings file
       // this is marginally useful in blockchain and multi-tenant hosting environments
-      smartConfig.iss = get(Meteor, 'settings.public.smartOnFhir[0].iss');
-      //Session.set('smartOnFhir_iss', get(Meteor, 'settings.public.smartOnFhir[0].iss'))
+      smartConfig.iss = get(smartOnFhirConfig, 'iss');
+      //Session.set('smartOnFhir_iss', get(smartOnFhirConfig, 'iss'))
     } else {
       // otherwise, we resort to using a stand-alone app without launch context
       // this is mostly used for HAPI test servers, not Cerner and Epic
-      smartConfig.fhirServiceUrl = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl');
-      //Session.set('smartOnFhir_iss', get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl'))
+      smartConfig.fhirServiceUrl = get(smartOnFhirConfig, 'fhirServiceUrl');
+      //Session.set('smartOnFhir_iss', get(smartOnFhirConfig, 'settings.public.smartOnFhir[0].fhirServiceUrl'))
     }
 
     SMART.authorize(smartConfig);

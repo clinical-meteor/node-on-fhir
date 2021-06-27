@@ -1,0 +1,61 @@
+{
+  "resourceType":"StructureDefinition",
+  "id":"covid19-bed-capacity",
+  "url":"http://github.com/symptomatic/covid19-reporting/specifications/covid19-bed-capacity",
+  "version":"1.0.1",
+  "name":"Covid19 Bed Capacity Summary",
+  "title":"Covid19 Bed Capacity Summary",
+  "status":"active",
+  "publisher": "Symptomatic",
+  "contact": [
+      {
+          "name":"Symptomatic, LLC",
+          "telecom": [
+              {
+                  "system":"email",
+                  "value":"abigail@symptomatic.io",
+                  "use":"work"
+              }
+          ]
+      }
+  ],
+  "description":"The number of beds available at a given location.  This is not-authoritative, and intended for presentation layer logic.",
+  "copyright":"MIT",
+  "fhirVersion":"4.0.1",
+  "kind":"complex-type",
+  "abstract":false,
+  "contextType":"resource",
+  "context": [
+      "Location.component"
+  ],
+  "type":"Extension",
+  "baseDefinition":"http://hl7.org/fhir/StructureDefinition/Extension",
+  "derivation":"constraint",
+  "differential":{
+      "element": [
+          {
+              "id":"Extension",
+              "path":"Extension",
+              "short":"LocationBedCount",
+              "definition":"The number of beds in a location",
+          },
+          {
+              "id":"Extension.url",
+              "path":"Extension.url",
+              "fixedUri":"http://nictiz.nl/fhir/StructureDefinition/zib-FamilySituation-LivingAtHomeIndicator"
+          },
+          {
+              "id":"Extension.value[x]:valuePositiveInt",
+              "path":"Extension.valuePositiveInt",
+              "sliceName":"valuePositiveInt",
+              "short":"LocationBedCount",
+              "definition":"An indication stating whether the child lives at home.",
+              "type": [
+                  {
+                      "code":"positiveInt"
+                  }
+              ]
+          }
+      ]
+  }
+}

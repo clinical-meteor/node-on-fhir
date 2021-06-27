@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@nivo/bar": "0.62.0",
+    "google-map-react": "1.1.7",
+    "papaparse": "5.2.0",
+    "parse-address": "1.1.2",
+    "haversine-calculator": "1.0.3"
+  }
+}
