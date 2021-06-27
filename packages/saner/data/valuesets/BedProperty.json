@@ -1,0 +1,63 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "BedProperty",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Bed Property</h2><div><p>This value set describes other properties of a bed, such as the ability to support isolation.</p>\n</div><ul><li>Include these codes as defined in <a href=\"CodeSystem-BedType.html\"><code>http://hl7.org/fhir/us/saner/CodeSystem/BedType</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"CodeSystem-BedType.html#BedType-NEGISO\">NEGISO</a></td><td>Negative Pressure Isolation Unit</td><td>Beds in a negative pressure isolation environment</td></tr><tr><td><a href=\"CodeSystem-BedType.html#BedType-OTHISO\">OTHISO</a></td><td>Other Isolation Unit</td><td>Beds in an other (non-negative pressure) isolation environment</td></tr><tr><td><a href=\"CodeSystem-BedType.html#BedType-NONISO\">NONISO</a></td><td>Non-isolating unit</td><td>Bed in a unit that does not support isolation</td></tr></table></li></ul></div>"
+  },
+  "url" : "http://hl7.org/fhir/us/saner/ValueSet/BedProperty",
+  "version" : "0.1.0",
+  "name" : "BedProperty",
+  "title" : "Bed Property",
+  "status" : "active",
+  "date" : "2020-05-15T14:48:47+00:00",
+  "publisher" : "HL7 International",
+  "contact" : [
+    {
+      "name" : "HL7 Patient Administration Workgroup",
+      "telecom" : [
+        {
+          "system" : "url",
+          "value" : "http://hl7.org/Special/committees/pafm/index.cfm"
+        }
+      ]
+    },
+    {
+      "name" : "Audacious Inquiry",
+      "telecom" : [
+        {
+          "system" : "url",
+          "value" : "http://ainq.com"
+        }
+      ]
+    },
+    {
+      "name" : "Keith W. Boone",
+      "telecom" : [
+        {
+          "system" : "email",
+          "value" : "mailto:kboone@ainq.com"
+        }
+      ]
+    }
+  ],
+  "description" : "This value set describes other properties of a bed, such as the ability to support isolation.",
+  "compose" : {
+    "include" : [
+      {
+        "system" : "http://hl7.org/fhir/us/saner/CodeSystem/BedType",
+        "concept" : [
+          {
+            "code" : "NEGISO"
+          },
+          {
+            "code" : "OTHISO"
+          },
+          {
+            "code" : "NONISO"
+          }
+        ]
+      }
+    ]
+  }
+}

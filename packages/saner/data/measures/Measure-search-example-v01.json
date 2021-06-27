@@ -1,0 +1,1448 @@
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "total": 29,
+    "link": [
+        {
+            "relation": "self",
+            "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure?context=covid19"
+        }
+    ],
+    "entry": [
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/erpDBndMnJbDcARBc8hK5iQ3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/erpDBndMnJbDcARBc8hK5iQ3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "erpDBndMnJbDcARBc8hK5iQ3",
+                "name": "MR COVID-19 SCREENING RATE",
+                "title": "Screening Rate",
+                "status": "draft",
+                "date": "2020-03-28T15:56:29Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "Percentage of patients with a face-to-face, telehealth, telephone, or admission encounter for whom a COVID-19 communicable disease screening was performed.",
+                "group": [
+                    {
+                        "population": [
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "numerator",
+                                            "display": "Numerator"
+                                        }
+                                    ]
+                                },
+                                "description": "Patients for whom a COVID-19 communicable disease screening was performed."
+                            },
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "denominator",
+                                            "display": "Denominator"
+                                        }
+                                    ]
+                                },
+                                "description": "Patients with a face-to-face, telehealth, telephone, or admission encounter."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e.ev-ttkAg3YKGZqfYcTc5g3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e.ev-ttkAg3YKGZqfYcTc5g3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "e.ev-ttkAg3YKGZqfYcTc5g3",
+                "name": "MR COVID-19 PRESUMPTIVE POSITIVE COUNT",
+                "title": "Total Presumptive Positive Count",
+                "status": "draft",
+                "date": "2020-03-28T16:00:22Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The total number of patients for whom a presumptive positive result for a COVID-19 test was documented."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eZYOIUgakUiwzbT1-tdRoVw3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eZYOIUgakUiwzbT1-tdRoVw3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "eZYOIUgakUiwzbT1-tdRoVw3",
+                "name": "MR COVID-19 PRESUMPTIVE POSITIVE COUNT (0-3 YEARS OLD)",
+                "title": "Total Presumptive Positive Count (0-3 YEARS OLD)",
+                "status": "draft",
+                "date": "2020-03-28T16:00:41Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The total number of patients for whom a presumptive positive result for a COVID-19 test was documented. Only patients three years old or younger will be evaluated."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eSdd7-fzTpLid3wVtWvjqPg3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eSdd7-fzTpLid3wVtWvjqPg3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "eSdd7-fzTpLid3wVtWvjqPg3",
+                "name": "MR COVID-19 PRESUMPTIVE POSITIVE COUNT (4-18 YEARS OLD)",
+                "title": "Total Presumptive Positive Count (4-18 YEARS OLD)",
+                "status": "draft",
+                "date": "2020-03-28T16:00:59Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The total number of patients for whom a presumptive positive result for a COVID-19 test was documented. Only patients 4 to 18 years old will be evaluated."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/evA5yKQsGCRBBBYJAag08UA3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/evA5yKQsGCRBBBYJAag08UA3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "evA5yKQsGCRBBBYJAag08UA3",
+                "name": "MR COVID-19 PRESUMPTIVE POSITIVE COUNT (19-44 YEARS OLD)",
+                "title": "Total Presumptive Positive Count (19-44 YEARS OLD)",
+                "status": "draft",
+                "date": "2020-03-28T16:01:19Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The total number of patients for whom a presumptive positive result to a test for COVID-19 was documented. Only patients 19 to 44 years old will be evaluated."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e8S5SGB-OnyvJjJeRKtT19A3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e8S5SGB-OnyvJjJeRKtT19A3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "e8S5SGB-OnyvJjJeRKtT19A3",
+                "name": "MR COVID-19 PRESUMPTIVE POSITIVE COUNT (45-54 YEARS OLD)",
+                "title": "Total Presumptive Positive Count (45-54 YEARS OLD)",
+                "status": "draft",
+                "date": "2020-03-28T16:01:36Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The total number of patients for whom a presumptive positive result for a COVID-19 test was documented.  Only patients 45 to 54 years old will be evaluated."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ej59BEg.dTMjz2s3SvymJQg3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ej59BEg.dTMjz2s3SvymJQg3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "ej59BEg.dTMjz2s3SvymJQg3",
+                "name": "MR COVID-19 PRESUMPTIVE POSITIVE COUNT (55-64 YEARS OLD)",
+                "title": "Total Presumptive Positive Count (55-64 YEARS OLD)",
+                "status": "draft",
+                "date": "2020-03-28T16:01:51Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The total number of patients for whom a presumptive positive result for a COVID-19 test was documented.  Only patients 55 to 64 years old will be evaluated."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e6WywTwWHfrEsDFxPV-oJKw3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e6WywTwWHfrEsDFxPV-oJKw3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "e6WywTwWHfrEsDFxPV-oJKw3",
+                "name": "MR COVID-19 PRESUMPTIVE POSITIVE COUNT (65-74 YEARS OLD)",
+                "title": "Total Presumptive Positive Count (65-74 YEARS OLD)",
+                "status": "draft",
+                "date": "2020-03-28T16:02:13Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The total number of patients for whom a presumptive positive result for a COVID-19 test was documented.  Only patients 65 to 74 years old will be evaluated."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e4EkC.Xc6U29ts6GIcGIraw3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e4EkC.Xc6U29ts6GIcGIraw3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "e4EkC.Xc6U29ts6GIcGIraw3",
+                "name": "MR COVID-19 PRESUMPTIVE POSITIVE COUNT (75-84 YEARS OLD)",
+                "title": "Total Presumptive Positive Count (75-84 YEARS OLD)",
+                "status": "draft",
+                "date": "2020-03-28T16:02:33Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The total number of patients for whom a presumptive positive result for a COVID-19 test was documented. Only patients 75 to 84 years old will be evaluated."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e.DOkPonTPpwmxfRcjzzomg3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e.DOkPonTPpwmxfRcjzzomg3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "e.DOkPonTPpwmxfRcjzzomg3",
+                "name": "MR COVID-19 PRESUMPTIVE POSITIVE COUNT (85+ YEARS OLD)",
+                "title": "Total Presumptive Positive Count (85+ YEARS OLD)",
+                "status": "draft",
+                "date": "2020-03-28T16:02:58Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The total number of patients for whom a presumptive positive result for a COVID-19 test was documented. Only patients 85 years old or older will be evaluated."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ewI0ZVWv7CVDRIvFBNRoTMw3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ewI0ZVWv7CVDRIvFBNRoTMw3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "ewI0ZVWv7CVDRIvFBNRoTMw3",
+                "name": "MR COVID-19 TOTAL TESTS",
+                "title": "Total Tests",
+                "status": "draft",
+                "date": "2020-03-28T15:59:47Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The number of patients for whom a test for COVID-19 was ordered."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eYVT0jvqIqzdFp-2YKZbfxQ3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eYVT0jvqIqzdFp-2YKZbfxQ3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "eYVT0jvqIqzdFp-2YKZbfxQ3",
+                "name": "MR COVID-19 PENDING TESTS",
+                "title": "Pending Tests",
+                "status": "draft",
+                "date": "2020-03-28T15:59:27Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The number of patients for whom a test for COVID-19 has been ordered, but for whom a final result has not been documented."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eCW9bePDKp.URB07prN2RJA3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eCW9bePDKp.URB07prN2RJA3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "eCW9bePDKp.URB07prN2RJA3",
+                "name": "MR COVID-19 ENCOUNTERS WITH A PRESUMPTIVE POSITIVE TEST",
+                "title": "Presumptive Positive Percentage",
+                "status": "draft",
+                "date": "2020-03-28T15:54:49Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The percentage of face-to-face, telehealth, telephone, or admission encounters for which a presumptive positive COVID-19 case is identified. The results for this metric are not stratified by age. This metric helps to identify what percentage of resources are going towards treating COVID-19 patients.",
+                "group": [
+                    {
+                        "population": [
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "numerator",
+                                            "display": "Numerator"
+                                        }
+                                    ]
+                                },
+                                "description": "Patients with a COVID-19 screening which is presumptive positive.\r\nNote: It is not necessary for the visit to be in the denominator to be in the numerator, but it is necessary that they be in the age stratification."
+                            },
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "denominator",
+                                            "display": "Denominator"
+                                        }
+                                    ]
+                                },
+                                "description": "Face-to-face, telehealth, telephone, or admission encounters with a patient."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eJH3oV1SuQ626eJBsaRLCHw3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eJH3oV1SuQ626eJBsaRLCHw3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "eJH3oV1SuQ626eJBsaRLCHw3",
+                "name": "MR COVID-19 ENCOUNTERS WITH A PRESUMPTIVE POSITIVE TEST (0-3 YEARS OLD)",
+                "title": "Presumptive Positive Percentage (0-3 Years Old)",
+                "status": "draft",
+                "date": "2020-03-28T15:56:56Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The percentage of face-to-face, telehealth, telephone, or admission encounters for which a presumptive positive COVID-19 case is identified. Only patients three years old or younger will be evaluated. This metric helps to identify what percentage of resources are going towards treating COVID-19 patients.",
+                "group": [
+                    {
+                        "population": [
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "numerator",
+                                            "display": "Numerator"
+                                        }
+                                    ]
+                                },
+                                "description": "Patients with a COVID-19 screening which is presumptive positive.\r\nNote: It is not necessary for the visit to be in the denominator to be in the numerator, but it is necessary that they be in the age stratification."
+                            },
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "denominator",
+                                            "display": "Denominator"
+                                        }
+                                    ]
+                                },
+                                "description": "Face-to-face, telehealth, telephone, or admission encounters with a patient three years old or younger."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e8vmNFrOox-GJBGItPBxWcw3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e8vmNFrOox-GJBGItPBxWcw3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "e8vmNFrOox-GJBGItPBxWcw3",
+                "name": "MR COVID-19 ENCOUNTERS WITH A PRESUMPTIVE POSITIVE TEST (4-18 YEARS OLD)",
+                "title": "Presumptive Positive Percentage (4-18 Years Old)",
+                "status": "draft",
+                "date": "2020-03-28T16:00:05Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The percentage of face-to-face, telehealth, telephone, or admission encounters for which a presumptive positive COVID-19 case is identified. Only patients 4 to 18 years old will be evaluated. This metric helps to identify what percentage of resources are going towards treating COVID-19 patients.",
+                "group": [
+                    {
+                        "population": [
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "numerator",
+                                            "display": "Numerator"
+                                        }
+                                    ]
+                                },
+                                "description": "Patients with a COVID-19 screening which is presumptive positive.\r\nNote: It is not necessary for the visit to be in the denominator to be in the numerator, but it is necessary that they be in the age stratification."
+                            },
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "denominator",
+                                            "display": "Denominator"
+                                        }
+                                    ]
+                                },
+                                "description": "Face-to-face, telehealth, telephone, or admission encounters with a patient between the age of 4 and 18."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/egtvMCb0JaWLE08AqqAwhTQ3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/egtvMCb0JaWLE08AqqAwhTQ3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "egtvMCb0JaWLE08AqqAwhTQ3",
+                "name": "MR COVID-19 ENCOUNTERS WITH A PRESUMPTIVE POSITIVE TEST (19-44 YEARS OLD)",
+                "title": "Presumptive Positive Percentage (19-44 Years Old)",
+                "status": "draft",
+                "date": "2020-03-28T15:57:20Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The percentage of face-to-face, telehealth, telephone, or admission encounters for which a presumptive positive COVID-19 case is identified. Only patients 19 to 44 years old will be evaluated. This metric helps to identify what percentage of resources are going towards treating COVID-19 patients.",
+                "group": [
+                    {
+                        "population": [
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "numerator",
+                                            "display": "Numerator"
+                                        }
+                                    ]
+                                },
+                                "description": "Patients with a COVID-19 screening which is presumptive positive.\r\nNote: It is not necessary for the visit to be in the denominator to be in the numerator, but it is necessary that they be in the age stratification."
+                            },
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "denominator",
+                                            "display": "Denominator"
+                                        }
+                                    ]
+                                },
+                                "description": "Face-to-face, telehealth, telephone, or admission encounters with a patient between the age of 19 and 44."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eJ2c.392Qb6j9PP3mD9zsFg3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eJ2c.392Qb6j9PP3mD9zsFg3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "eJ2c.392Qb6j9PP3mD9zsFg3",
+                "name": "MR COVID-19 ENCOUNTERS WITH A PRESUMPTIVE POSITIVE TEST (45-54 YEARS OLD)",
+                "title": "Presumptive Positive Percentage (45-54 Years Old)",
+                "status": "draft",
+                "date": "2020-03-28T15:57:49Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The percentage of face-to-face, telehealth, telephone, or admission encounters for which a presumptive positive COVID-19 case is identified. Only patients 45 to 54 years old will be evaluated. This metric helps to identify what percentage of resources are going towards treating COVID-19 patients.",
+                "group": [
+                    {
+                        "population": [
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "numerator",
+                                            "display": "Numerator"
+                                        }
+                                    ]
+                                },
+                                "description": "Patients with a COVID-19 screening which is presumptive positive.\r\nNote: It is not necessary for the visit to be in the denominator to be in the numerator, but it is necessary that they be in the age stratification."
+                            },
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "denominator",
+                                            "display": "Denominator"
+                                        }
+                                    ]
+                                },
+                                "description": "Face-to-face, telehealth, telephone, or admission encounters with a patient between the age of 45 and 54."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/enrLcsV3itRpI.096Gy-9Pw3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/enrLcsV3itRpI.096Gy-9Pw3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "enrLcsV3itRpI.096Gy-9Pw3",
+                "name": "MR COVID-19 ENCOUNTERS WITH A PRESUMPTIVE POSITIVE TEST (55-64 YEARS OLD)",
+                "title": "Presumptive Positive Percentage (55-64 Years Old)",
+                "status": "draft",
+                "date": "2020-03-28T15:58:10Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The percentage of face-to-face, telehealth, telephone, or admission encounters for which a presumptive positive COVID-19 case is identified. Only patients 55 to 64 years old will be evaluated. This metric helps to identify what percentage of resources are going towards treating COVID-19 patients.",
+                "group": [
+                    {
+                        "population": [
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "numerator",
+                                            "display": "Numerator"
+                                        }
+                                    ]
+                                },
+                                "description": "Patients with a COVID-19 screening which is presumptive positive.\r\nNote: It is not necessary for the visit to be in the denominator to be in the numerator, but it is necessary that they be in the age stratification."
+                            },
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "denominator",
+                                            "display": "Denominator"
+                                        }
+                                    ]
+                                },
+                                "description": "Face-to-face, telehealth, telephone, or admission encounters with a patient between the age of 55 and 64."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eTn1T91iFg9iVtraiHeK.pA3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eTn1T91iFg9iVtraiHeK.pA3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "eTn1T91iFg9iVtraiHeK.pA3",
+                "name": "MR COVID-19 ENCOUNTERS WITH A PRESUMPTIVE POSITIVE TEST (65-74 YEARS OLD)",
+                "title": "Presumptive Positive Percentage (65-74 Years Old)",
+                "status": "draft",
+                "date": "2020-03-28T15:58:23Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The percentage of face-to-face, telehealth, telephone, or admission encounters for which a presumptive positive COVID-19 case is identified. Only patients 65 to 74 years old will be evaluated. This metric helps to identify what percentage of resources are going towards treating COVID-19 patients.",
+                "group": [
+                    {
+                        "population": [
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "numerator",
+                                            "display": "Numerator"
+                                        }
+                                    ]
+                                },
+                                "description": "Patients with a COVID-19 screening which is presumptive positive.\r\nNote: It is not necessary for the visit to be in the denominator to be in the numerator, but it is necessary that they be in the age stratification."
+                            },
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "denominator",
+                                            "display": "Denominator"
+                                        }
+                                    ]
+                                },
+                                "description": "Face-to-face, telehealth, telephone, or admission encounters with a patient between the age of 65 and 74."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e6Hq9k11NDdrDbwnFWBcrRg3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e6Hq9k11NDdrDbwnFWBcrRg3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "e6Hq9k11NDdrDbwnFWBcrRg3",
+                "name": "MR COVID-19 ENCOUNTERS WITH A PRESUMPTIVE POSITIVE TEST (75-84 YEARS OLD)",
+                "title": "Presumptive Positive Percentage (75-84 Years Old)",
+                "status": "draft",
+                "date": "2020-03-28T15:58:48Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The percentage of face-to-face, telehealth, telephone, or admission encounters for which a presumptive positive COVID-19 case is identified. Only patients 75 to 84 years old will be evaluated. This metric helps to identify what percentage of resources are going towards treating COVID-19 patients.",
+                "group": [
+                    {
+                        "population": [
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "numerator",
+                                            "display": "Numerator"
+                                        }
+                                    ]
+                                },
+                                "description": "Patients with a COVID-19 screening which is presumptive positive.\r\nNote: It is not necessary for the visit to be in the denominator to be in the numerator, but it is necessary that they be in the age stratification."
+                            },
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "denominator",
+                                            "display": "Denominator"
+                                        }
+                                    ]
+                                },
+                                "description": "Face-to-face, telehealth, telephone, or admission encounters with a patient between the age of 75 and 84."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ef1WowtwrCOVy7RCOEvIGaw3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ef1WowtwrCOVy7RCOEvIGaw3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "ef1WowtwrCOVy7RCOEvIGaw3",
+                "name": "MR COVID-19 ENCOUNTERS WITH A PRESUMPTIVE POSITIVE TEST (85+ YEARS OLD)",
+                "title": "Presumptive Postive Percentage (85+ Years Old)",
+                "status": "draft",
+                "date": "2020-03-28T15:59:09Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The percentage of face-to-face, telehealth, telephone, or admission encounters for which a presumptive positive COVID-19 case is identified. Only patients 85 years old and older will be evaluated. This metric helps to identify what percentage of resources are going towards treating COVID-19 patients.",
+                "group": [
+                    {
+                        "population": [
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "numerator",
+                                            "display": "Numerator"
+                                        }
+                                    ]
+                                },
+                                "description": "Patients with a COVID-19 screening which is presumptive positive.\r\nNote: It is not necessary for the visit to be in the denominator to be in the numerator, but it is necessary that they be in the age stratification."
+                            },
+                            {
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "code": "denominator",
+                                            "display": "Denominator"
+                                        }
+                                    ]
+                                },
+                                "description": "Face-to-face, telehealth, telephone, or admission encounters with a patient age 85 or older."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ebcA39oGJZ7r9EsEggECMnA3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ebcA39oGJZ7r9EsEggECMnA3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "ebcA39oGJZ7r9EsEggECMnA3",
+                "name": "ICU Active Ventilator Episodes",
+                "title": "Active Ventilator Episodes",
+                "status": "draft",
+                "date": "2020-03-27T22:38:01Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e8-H2kvdTuFUBWb2RX967fw3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e8-H2kvdTuFUBWb2RX967fw3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "e8-H2kvdTuFUBWb2RX967fw3",
+                "name": "ICU Total Ventilators",
+                "title": "Total Ventilators",
+                "status": "draft",
+                "date": "2020-03-25T21:03:09Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ],
+                "description": "The number of ventilators available for use."
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ePE6S3IJzoSLHZG1iND5iuw3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ePE6S3IJzoSLHZG1iND5iuw3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "ePE6S3IJzoSLHZG1iND5iuw3",
+                "name": "Grand Central - Capacity Management - ICU Open Beds Snapshot",
+                "title": "ICU Open Beds",
+                "status": "draft",
+                "date": "2020-03-27T19:21:40Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eZNYFSnqdwbNR8An3OO-6xg3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eZNYFSnqdwbNR8An3OO-6xg3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "eZNYFSnqdwbNR8An3OO-6xg3",
+                "name": "Grand Central - Capacity Management - Non-Intensive Acute Open Beds Snapshot",
+                "title": "Non-Intensive Acute Open Beds",
+                "status": "draft",
+                "date": "2020-03-27T19:21:40Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eITsn0EDA7Ix4c-h4Ij4now3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eITsn0EDA7Ix4c-h4Ij4now3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "eITsn0EDA7Ix4c-h4Ij4now3",
+                "name": "Grand Central - Number of COVID-19 IP Admissions",
+                "title": "Number of COVID-19 IP Admissions",
+                "status": "draft",
+                "date": "2020-03-26T19:53:42Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e3LkL.7-dOlRPyQ-IA3v6jQ3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/e3LkL.7-dOlRPyQ-IA3v6jQ3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "e3LkL.7-dOlRPyQ-IA3v6jQ3",
+                "name": "Grand Central - Capacity Management - COVID-19 ICU Occupied Beds Snapshot",
+                "title": "COVID-19 Patients in ICU Beds",
+                "status": "draft",
+                "date": "2020-03-28T16:03:19Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eQZXf.pl2YlOUEWBTQgIgdg3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/eQZXf.pl2YlOUEWBTQgIgdg3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "eQZXf.pl2YlOUEWBTQgIgdg3",
+                "name": "Grand Central - COVID-19 - Number of IP Discharge Days",
+                "title": "Number of COVID-19 IP Discharge Days",
+                "status": "draft",
+                "date": "2020-03-26T21:30:03Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "link": [
+                {
+                    "relation": "self",
+                    "url": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ehKO60lw4RjlvDe.90F8fJA3"
+                }
+            ],
+            "fullUrl": "https://vs-icx.epic.com/Interconnect-CDE/api/FHIR/R4/Measure/ehKO60lw4RjlvDe.90F8fJA3",
+            "resource": {
+                "resourceType": "Measure",
+                "id": "ehKO60lw4RjlvDe.90F8fJA3",
+                "name": "Grand Central - COVID-19 - Number of IP Discharges",
+                "title": "Number of COVID-19 IP Discharges",
+                "status": "draft",
+                "date": "2020-03-27T20:08:58Z",
+                "publisher": "Epic",
+                "contact": [
+                    {
+                        "name": "Michael Donnelly",
+                        "telecom": [
+                            {
+                                "system": "url",
+                                "value": "https://chat.fhir.org/#narrow/stream/226195-Covid-19-Response/topic/Example.20Measure.20definition",
+                                "rank": 1
+                            },
+                            {
+                                "system": "email",
+                                "value": "michael.donnelly@epic.com",
+                                "rank": 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "OperationOutcome",
+                "issue": [
+                    {
+                        "severity": "warning",
+                        "code": "invalid",
+                        "details": {
+                            "coding": [
+                                {
+                                    "system": "urn:oid:1.2.840.114350.1.13.861.1.7.2.657369",
+                                    "code": "59101",
+                                    "display": "Content invalid against the specification or a profile."
+                                }
+                            ],
+                            "text": "Content invalid against the specification or a profile."
+                        },
+                        "diagnostics": "No system provided for identifier covid19.",
+                        "location": [
+                            "/f:context"
+                        ],
+                        "expression": [
+                            "context"
+                        ]
+                    }
+                ]
+            },
+            "search": {
+                "mode": "outcome"
+            }
+        }
+    ]
+}

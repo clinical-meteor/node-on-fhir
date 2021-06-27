@@ -16,7 +16,16 @@ export default function PatientChart() {
       headerHeight = 128;
     }
 
-    let fhirServerEndpoint = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', 'http://localhost:3100/baseR4');
+
+    let fhirServerEndpoint = 'http://localhost:3100/baseR4';
+    if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
+      Meteor.settings.public.smartOnFhir.forEach(function(config){
+          if(useLocation().search.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
+              fhirServerEndpoint = get(config, 'fhirServiceUrl') + get(window, '__PRELOADED_STATE__.url.query.code') + "/fhir/metadata"
+          }
+      })
+    }    
+
 
     let searchParams = new URLSearchParams(useLocation().search);
     if(searchParams.get('iss')){
@@ -25,8 +34,8 @@ export default function PatientChart() {
     }
 
     let contentToRender = <PageCanvas id='patientChart' headerHeight={headerHeight} >
-        <PatientDemographics />
-        <Dashboard fhirServerEndpoint={fhirServerEndpoint} />
-      </PageCanvas>    
+      <PatientDemographics />
+      <Dashboard fhirServerEndpoint={fhirServerEndpoint} />
+    </PageCanvas>    
     return (contentToRender);
 }

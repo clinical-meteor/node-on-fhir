@@ -1,0 +1,41 @@
+{
+  type: 'Feature',
+  properties: {
+    OBJECTID: 1001,
+    ID: '0007892363',
+    NAME: 'COLORADO RIVER MEDICAL CENTER',
+    ADDRESS: '1401 BAILEY AVENUE',
+    CITY: 'NEEDLES',
+    STATE: 'CA',
+    ZIP: '92363',
+    ZIP4: 'NOT AVAILABLE',
+    TELEPHONE: 'NOT AVAILABLE',
+    TYPE: 'GENERAL ACUTE CARE',
+    STATUS: 'OPEN',
+    POPULATION: 25,
+    COUNTY: 'SAN BERNARDINO',
+    COUNTYFIPS: '06071',
+    COUNTRY: 'USA',
+    LATITUDE: 34.8330659210001,
+    LONGITUDE: -114.617493964,
+    NAICS_CODE: '622110',
+    NAICS_DESC: 'GENERAL MEDICAL AND SURGICAL HOSPITALS',
+    SOURCE: 'http://www.oshpd.ca.gov/HID/Facility-Listing.html',
+    SOURCEDATE: '2018-08-08T00:00:00.000Z',
+    VAL_METHOD: 'IMAGERY/OTHER',
+    VAL_DATE: '2014-02-10T00:00:00.000Z',
+    WEBSITE: 'http://www.cityofneedles.com/Hospitals.asp',
+    STATE_ID: 'NOT AVAILABLE',
+    ALT_NAME: 'NOT AVAILABLE',
+    ST_FIPS: '06',
+    OWNER: 'GOVERNMENT - LOCAL',
+    TTL_STAFF: -999,
+    BEDS: 25,
+    TRAUMA: 'NOT AVAILABLE',
+    HELIPAD: 'Y'
+  },
+  geometry: {
+    type: 'Point',
+    coordinates: [ -114.61749396399995, 34.83306592100008 ]
+  }
+}

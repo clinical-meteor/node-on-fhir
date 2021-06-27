@@ -1,0 +1,78 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "DecadeAgeBrackets",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Age Brackets By Decade</h2><div><p>A Value Set of age groups generally by decade except youth (under 20), or over 80, commonly used for stratification in public health dashboards</p>\n</div><ul><li>Include these codes as defined in <a href=\"CodeSystem-AgeBracket.html\"><code>http://hl7.org/fhir/us/saner/CodeSystem/AgeBracket</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td>under20</td><td>&lt; 20</td><td>Less than 20 years in age</td></tr><tr><td>20to29</td><td>20 - 29</td><td>20 to 29 years in age</td></tr><tr><td>30to39</td><td>30 - 39</td><td>30 to 39 years in age</td></tr><tr><td>40to49</td><td>40 - 49</td><td>40 to 49 years in age</td></tr><tr><td>50to59</td><td>50 - 59</td><td>50 to 59 years in age</td></tr><tr><td>60to69</td><td>60 - 59</td><td>60 to 69 years in age</td></tr><tr><td>70to79</td><td>70 - 79</td><td>70 to 79 years in age</td></tr><tr><td>80plus</td><td>80+</td><td>80 or more years in age</td></tr></table></li></ul></div>"
+  },
+  "url" : "http://hl7.org/fhir/us/saner/ValueSet/DecadeAgeBrackets",
+  "version" : "0.1.0",
+  "name" : "DecadeAgeBrackets",
+  "title" : "Age Brackets By Decade",
+  "status" : "active",
+  "date" : "2020-05-15T14:48:47+00:00",
+  "publisher" : "HL7 International",
+  "contact" : [
+    {
+      "name" : "HL7 Patient Administration Workgroup",
+      "telecom" : [
+        {
+          "system" : "url",
+          "value" : "http://hl7.org/Special/committees/pafm/index.cfm"
+        }
+      ]
+    },
+    {
+      "name" : "Audacious Inquiry",
+      "telecom" : [
+        {
+          "system" : "url",
+          "value" : "http://ainq.com"
+        }
+      ]
+    },
+    {
+      "name" : "Keith W. Boone",
+      "telecom" : [
+        {
+          "system" : "email",
+          "value" : "mailto:kboone@ainq.com"
+        }
+      ]
+    }
+  ],
+  "description" : "A Value Set of age groups generally by decade except youth (under 20), or over 80, commonly used for stratification in public health dashboards",
+  "compose" : {
+    "include" : [
+      {
+        "system" : "http://hl7.org/fhir/us/saner/CodeSystem/AgeBracket",
+        "concept" : [
+          {
+            "code" : "under20"
+          },
+          {
+            "code" : "20to29"
+          },
+          {
+            "code" : "30to39"
+          },
+          {
+            "code" : "40to49"
+          },
+          {
+            "code" : "50to59"
+          },
+          {
+            "code" : "60to69"
+          },
+          {
+            "code" : "70to79"
+          },
+          {
+            "code" : "80plus"
+          }
+        ]
+      }
+    ]
+  }
+}
