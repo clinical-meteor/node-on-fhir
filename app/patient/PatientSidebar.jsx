@@ -630,6 +630,15 @@ export function PatientSidebar(props){
       <ListItemText primary="Data Export" className={styles.drawerText}  />
     </ListItem>);    
   };
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.SmartLauncher')){
+    drawDataMgmDivider = true;
+    dataManagementElements.push(<ListItem id='smartLauncherItem' key='smartLauncherItem' button onClick={function(){ openPage('/smart-launcher'); }} >
+      <ListItemIcon >
+        <Icon icon={fire} className={styles.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Smart Launcher" className={styles.drawerText}  />
+    </ListItem>);    
+  };
 
   if(drawDataMgmDivider){
     dataManagementElements.push(<Divider className={styles.divider} key="data-management-modules-hr" />);

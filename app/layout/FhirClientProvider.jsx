@@ -34,6 +34,12 @@ import { Patients, Encounters, Procedures, Conditions, Immunizations, Immunizati
 
 
 
+// Epic Provider R4 Launch Page
+// http://localhost:3000/launcher?iss=https%3A%2F%2Ffhir.epic.com%2Finterconnect-fhir-oauth%2Fapi%2FFHIR%2FR4&launch=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ1cm46b2lkOmZoaXIiLCJjbGllbnRfaWQiOiI2NDFmOGIzZS05Yjk3LTRiOTgtYWM0ZC01NGJlYmU1OTc5YjAiLCJlcGljLmVjaSI6InVybjplcGljOk9wZW4uRXBpYy1jdXJyZW50IiwiZXBpYy5tZXRhZGF0YSI6IlZ5UVFmX3pwNXNfYVNRNTQydDFVTG5JcFlYZzI3YkhNRjBvaFJWUFVYX1dvbmktdzFqWVgzdU5MR1JwQ2ItYmtYWTNweUo0LS1YNW5YR0pyUWI2RXFQMHVXTmNMa2laZFJHWGpHQWpfUmdjbk04WWlkYWNsSWRuMlJIZVNNZFE1IiwiZXBpYy50b2tlbnR5cGUiOiJsYXVuY2giLCJleHAiOjE2MjQ2OTI5NTIsImlhdCI6MTYyNDY5MjY1MiwiaXNzIjoidXJuOm9pZDpmaGlyIiwianRpIjoiZTNjMTNhMTItYWRmMS00ZDVkLWE2NjItODFiZjVjNDk1YzA0IiwibmJmIjoxNjI0NjkyNjUyLCJzdWIiOiJldk5wLUtoWXdPT3FBWm4xcFoyZW51QTMifQ.mB5pSId3lRxo7I03U1WavPWoxBHso2b3jVaAm-qf8CLt20ufmSGlwbCw3LSKXWJxKC68U_hso4Kj_kDuZto89LaZ_8g-1LH5VO21Pgd3-tjMqSZ_8Kb_Fx1cqHZ4KFftpjAvhxh_8kXXmXERxrgVRNgxBIz5EH8tKUMWNaqDaRH9l_I8ESFXkzgEC3JOJK-m8LalKlEM2lv6t-N0HK-a8kKoSUObZP39qqe65Dhz8o51CjdFinxk-HXI9bbsCipFqaF4bCaCpDNxTnTPiyrDrb1SGKkI0S-BIhAiVs-afqFkbXYF_0z-KRb--PKguZC5gfdACLgBTXBL3RhOfJDKKg
+// http://localhost:3000/launcher?iss=https%3A%2F%2Ffhir.epic.com%2Finterconnect-fhir-oauth%2Fapi%2FFHIR%2FR4&launch=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ1cm46b2lkOmZoaXIiLCJjbGllbnRfaWQiOiI2NDFmOGIzZS05Yjk3LTRiOTgtYWM0ZC01NGJlYmU1OTc5YjAiLCJlcGljLmVjaSI6InVybjplcGljOk9wZW4uRXBpYy1jdXJyZW50IiwiZXBpYy5tZXRhZGF0YSI6Ii00SGRQREdJLUhIYnZjSGU4dEVWY1o0aDMyV2picjhiSlh2OXRobnJnY0V5TWFHR3NwSndENERyYUxGc0cwNnJWcFN0MEpMS2I0X3pEdEc1UDM0LWNUTDJaaTRqLVA4N0VzYW0tcHAwNU50MUtMbFdMdTJ1cHBlMHJRYTFyVUVtIiwiZXBpYy50b2tlbnR5cGUiOiJsYXVuY2giLCJleHAiOjE2MjQ2OTMwMjAsImlhdCI6MTYyNDY5MjcyMCwiaXNzIjoidXJuOm9pZDpmaGlyIiwianRpIjoiNDIzYjJlZGQtOWE0Zi00ZjkyLTkxM2QtNTM1YWI1YjM0Y2M0IiwibmJmIjoxNjI0NjkyNzIwLCJzdWIiOiJldk5wLUtoWXdPT3FBWm4xcFoyZW51QTMifQ.FyZHYwHdYzXccFPJp6fNcl4CQ1-q6lvUfo2jfxI2nX1FmemPszmYOBV4ifHyRBgg92wfz1gFZU9y2tTDH1p6yVVIj73mQat9zYSJ4qQgkIeogXz1KUk-hO86oHG-iN9h_lq_rZee67Hvf4csd6XsDSvHHuw5uAW2hJwHpt5RPxtLVjlpr-8caZ4AJTIBdJyxx8MKVG1WE7Vz8-ShE7_xVKjNPSmL-wOWx7AK0E-zDD5fjhNIwrI9C_G6kJysbHDEdblnMw6adMGbiGqFJK5Umoqs2Xu8wFiIaf_hdzlnxtSFcwAH5MxyyW88S0jEUQdvMKYTtUekmzq1wBWsd1m2lQ
+// dob=%DOB%&user=%SYSLOGIN%
+
+
 function fetchPatientData(ehrLaunchCapabilities, client) {
 
   if(client){
@@ -72,12 +78,12 @@ function fetchPatientData(ehrLaunchCapabilities, client) {
                   if (code === "8480-6") {
                     bpMap.systolic.push({
                       x: new Date(observation.effectiveDateTime),
-                      y: c.valueQuantity.value
+                      y: get(c , 'valueQuantity.value')
                     });
                   } else if (code === "8462-4") {
                     bpMap.diastolic.push({
                       x: new Date(observation.effectiveDateTime),
-                      y: c.valueQuantity.value
+                      y: get(c , 'valueQuantity.value')
                     });
                   }
                 });
@@ -168,47 +174,47 @@ function fetchPatientData(ehrLaunchCapabilities, client) {
         });
       }
 
-      if(ehrLaunchCapabilities.MedicationOrder === true){
-        const medicationOrderQuery = new URLSearchParams();
-        medicationOrderQuery.set("patient", get(client, 'patient.id'));
-        console.log('MedicationOrder Query', medicationOrderQuery);
+      // if(ehrLaunchCapabilities.MedicationOrder === true){
+      //   const medicationOrderQuery = new URLSearchParams();
+      //   medicationOrderQuery.set("patient", get(client, 'patient.id'));
+      //   console.log('MedicationOrder Query', medicationOrderQuery);
 
-        let medicationOrderUrl = 'MedicationOrder?' + medicationOrderQuery
-        console.log('medicationOrderUrl', medicationOrderUrl);
+      //   let medicationOrderUrl = 'MedicationOrder?' + medicationOrderQuery
+      //   console.log('medicationOrderUrl', medicationOrderUrl);
 
-        client.request(medicationOrderUrl, {
-            pageLimit: 0,
-            flat: true
-        }).then(medicationOrders => {
-          if(medicationOrders){
-            console.log('PatientAutoDashboard.medicationOrders', medicationOrders)
-            medicationOrders.forEach(procedure => {
-              MedicationOrders._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-            });    
-          }
-        });
-      }
+      //   client.request(medicationOrderUrl, {
+      //       pageLimit: 0,
+      //       flat: true
+      //   }).then(medicationOrders => {
+      //     if(medicationOrders){
+      //       console.log('PatientAutoDashboard.medicationOrders', medicationOrders)
+      //       medicationOrders.forEach(procedure => {
+      //         MedicationOrders._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+      //       });    
+      //     }
+      //   });
+      // }
 
-      if(ehrLaunchCapabilities.MedicationRequest === true){
-        const medicationRequestQuery = new URLSearchParams();
-        medicationRequestQuery.set("patient", get(client, 'patient.id'));
-        console.log('MedicationRequest Query', medicationRequestQuery);
+      // if(ehrLaunchCapabilities.MedicationRequest === true){
+      //   const medicationRequestQuery = new URLSearchParams();
+      //   medicationRequestQuery.set("patient", get(client, 'patient.id'));
+      //   console.log('MedicationRequest Query', medicationRequestQuery);
 
-        let medicationRequestUrl = 'MedicationRequest?' + medicationRequestQuery
-        console.log('medicationRequestUrl', medicationRequestUrl);
+      //   let medicationRequestUrl = 'MedicationRequest?' + medicationRequestQuery
+      //   console.log('medicationRequestUrl', medicationRequestUrl);
 
-        client.request(medicationRequestUrl, {
-          pageLimit: 0,
-          flat: true
-        }).then(medicationRequests => {
-          if(medicationRequests){
-            console.log('PatientAutoDashboard.medicationRequests', medicationRequests)
-            medicationRequests.forEach(procedure => {
-                MedicationRequests._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-            });    
-          }
-        });
-      }
+      //   client.request(medicationRequestUrl, {
+      //     pageLimit: 0,
+      //     flat: true
+      //   }).then(medicationRequests => {
+      //     if(medicationRequests){
+      //       console.log('PatientAutoDashboard.medicationRequests', medicationRequests)
+      //       medicationRequests.forEach(procedure => {
+      //           MedicationRequests._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+      //       });    
+      //     }
+      //   });
+      // }
 
     } catch (error) {
         alert("We had an error fetching data.", error)
@@ -219,12 +225,12 @@ function fetchPatientData(ehrLaunchCapabilities, client) {
 
 export class FhirClientProvider extends React.Component {
   constructor(props) {
-      super(props);
-      this.state = {
-        client: null,
-        error: null
-      };
-      this.setClient = client => this.setState({ client });
+    super(props);
+    this.state = {
+      client: null,
+      error: null
+    };
+    this.setClient = client => this.setState({ client });
   }
 
   render() {
