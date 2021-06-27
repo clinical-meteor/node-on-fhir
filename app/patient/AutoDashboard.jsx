@@ -342,6 +342,8 @@ export function AutoDashboard(props){
     //     this.chart && this.chart.destroy();
     // }
 
+    let useLocationSearch = useLocation().search;
+
     useEffect(function(){
         console.log('AutoDashboard.useEffect()');
 
@@ -380,10 +382,15 @@ export function AutoDashboard(props){
         let metadataRoute = "";
         if(get(window, '__PRELOADED_STATE__.url.query.iss')){
             metadataRoute = get(window, '__PRELOADED_STATE__.url.query.iss');
-
-        } else if (get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl') && get(window, '__PRELOADED_STATE__.url.query.code')){
-            // SMART HEALTH IT DEBUGING 
-            metadataRoute = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl') + get(window, '__PRELOADED_STATE__.url.query.code') + "/fhir/metadata"
+        } else {
+            if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
+                let smartOnFhirArray = get(Meteor, 'settings.public.smartOnFhir');
+                smartOnFhirArray.forEach(function(config){
+                    if(useLocationSearch.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
+                        metadataRoute = get(config, 'fhirServiceUrl') + get(window, '__PRELOADED_STATE__.url.query.code');
+                    }
+                })
+            }            
         } 
 
         if(metadataRoute){            
@@ -468,7 +475,6 @@ export function AutoDashboard(props){
                         hidePatientReference={true}
                         hideAsserterName={true}
                         hideEvidence={true}
-                        hideCategory={false}
                         hideBarcode={true}
                         hideDates={false}
                         count={data.conditions.length}
@@ -578,7 +584,6 @@ export function AutoDashboard(props){
                         hidePatientReference={true}
                         hideAsserterName={true}
                         hideEvidence={true}
-                        hideCategory={false}
                         hideBarcode={true}
                         hideDates={false}
                         count={data.conditions.length}
