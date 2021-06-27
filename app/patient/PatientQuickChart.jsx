@@ -11,6 +11,8 @@ import { useLocation, useParams, useHistory } from "react-router-dom";
 import { oauth2 as SMART } from "fhirclient";
 import { get } from 'lodash';
 
+
+
 export default function PatientQuickChart(props) {
     logger.info('Rendering the PatientQuickChart');
     logger.verbose('app.patientPatientQuickChart');
@@ -21,7 +23,14 @@ export default function PatientQuickChart(props) {
       headerHeight = 128;
     }
 
-    let fhirServerEndpoint = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', 'http://localhost:3100/baseR4');
+    let fhirServerEndpoint = 'http://localhost:3100/baseR4';
+    // if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
+    //   Meteor.settings.public.smartOnFhir.forEach(function(config){
+    //       if(useLocation().search.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
+    //           fhirServerEndpoint = get(config, 'fhirServiceUrl') + get(window, '__PRELOADED_STATE__.url.query.code');
+    //       }
+    //   })
+    // }
 
     let searchParams = new URLSearchParams(useLocation().search);
     if(searchParams.get('iss')){
@@ -31,11 +40,12 @@ export default function PatientQuickChart(props) {
       fhirServerEndpoint = Session.get('smartOnFhir_iss')
     }
 
+
+
     logger.debug('PatientQuickChart.searchParams', {data: searchParams}, {source: "PatientQuickChart.jsx"});
 
     let contentToRender = <FhirClientProvider>
         <PageCanvas id='patientQuickChart' headerHeight={headerHeight} >
-          {/* <PatientDemographics /> */}
           <AutoDashboard fhirServerEndpoint={fhirServerEndpoint} />
         </PageCanvas>
       </FhirClientProvider>
