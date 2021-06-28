@@ -24,35 +24,6 @@ if(Meteor.isClient){
   Session.setDefault('adult_icu_bed_utilization', 0);
 }
 
-//==========================================================================================
-// Dynamic Theme
-
-import { HTTP } from 'meteor/http';
-
-Meteor.startup(function(){
-
-  if(Meteor.isClient){
-    if(window.navigator){
-      window.navigator.geolocation.getCurrentPosition(function(position){
-        Session.set('myLatitude', get(position, 'coords.latitude'));  
-        Session.set('myLongitude', get(position, 'coords.longitude'));  
-  
-        let icuCapacityUrl = "https://healthzones.symptomatic.us/icu-capacity-at-my-location?latitude=" + get(position, 'coords.latitude') + "&longitude=" + get(position, 'coords.longitude')
-        console.log('icuCapacityUrl', icuCapacityUrl);
-      
-        HTTP.get(icuCapacityUrl, function(error, result){
-          if(error) console.log('error', error)
-          if(result) {
-            let parsedResults = JSON.parse(result.content); 
-            console.log('parsedResults', parsedResults)
-      
-            Session.set('adult_icu_bed_utilization', get(parsedResults, 'adult_icu_bed_utilization'))            
-          }
-        })    
-      })  
-    }  
-  }
-})
 
 
 

@@ -37,6 +37,7 @@ import AppLoadingPage from '../core/AppLoadingPage'
 import PatientChart from '../patient/PatientChart'
 import PatientQuickChart from '../patient/PatientQuickChart'
 import LaunchPage from '../core/LaunchPage'
+import SmartLauncher from '../layout/SmartLauncher'
 
 import QrScannerPage from '../core/QrScannerPage';
 import ConstructionZone from '../core/ConstructionZone';
@@ -47,7 +48,7 @@ import useStyles from '../Styles';
 
 import { useSwipeable } from 'react-swipeable';
 
-//=============================================================================================================================================
+//===============================================================================================================
 // Analytics
 
 let analyticsTrackingCode = get(Meteor, 'settings.public.google.analytics.trackingCode')
@@ -145,7 +146,7 @@ Object.keys(Package).forEach(function(packageName){
 });
 
 let defaultHomeRoute = MainPage;
-let launchPage = LaunchPage;
+let defaultLaunchPage = LaunchPage;
 
 // logger.debug('Loading the following dynamic routes: ', dynamicRoutes)
 // console.log('headerNavigation', headerNavigation)
@@ -588,9 +589,11 @@ export function App(props) {
         ProjectPage
 
         <Route name='ProjectPage' key='ProjectPage' path="/project-page" exact component={ ProjectPage } />                
+        <Route name='SmartLauncher' key='SmartLauncher' path="/smart-launcher" exact component={ SmartLauncher } />                
         <Route name='patientChartRoute' key='patientChartPage' path="/patient-chart" exact component={ PatientChart } />                
+        <Route name='patientIntakeRoute' key='patientIntakePage' path="/patient-intake" exact component={ PatientQuickChart } />       
         <Route name='quickChartRoute' key='quickChartPage' path="/patient-quickchart" exact component={ PatientQuickChart } />                
-        <Route name='launchRoute' key='smartOnFhirLaunchPage' path="/launcher" exact component={ launchPage } />                
+        <Route name='launchRoute' key='defaultLaunchPage' path="/launcher" exact component={ defaultLaunchPage } />                
         <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />                
         <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" exact component={ defaultHomeRoute } />                
         <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              

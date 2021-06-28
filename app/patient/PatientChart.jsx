@@ -1,5 +1,4 @@
 import React from "react";
-import FhirClientProvider from "../layout/FhirClientProvider";
 import Dashboard from "./Dashboard";
 import PatientDemographics from "./PatientDemographics";
 
@@ -10,17 +9,23 @@ import { useLocation, useParams, useHistory } from "react-router-dom";
 import { oauth2 as SMART } from "fhirclient";
 import { get } from 'lodash';
 
-/**
- * Wraps everything into `FhirClientProvider` so that any component
- * can have access to the fhir client through the context.
- */
+
 export default function PatientChart() {
     let headerHeight = 64;
     if(get(Meteor, 'settings.public.defaults.prominantHeader')){
       headerHeight = 128;
     }
 
-    let fhirServerEndpoint = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', 'http://localhost:3100/baseR4');
+
+    let fhirServerEndpoint = 'http://localhost:3100/baseR4';
+    if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
+      Meteor.settings.public.smartOnFhir.forEach(function(config){
+          if(useLocation().search.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
+              fhirServerEndpoint = get(config, 'fhirServiceUrl') + get(window, '__PRELOADED_STATE__.url.query.code') + "/fhir/metadata"
+          }
+      })
+    }    
+
 
     let searchParams = new URLSearchParams(useLocation().search);
     if(searchParams.get('iss')){
@@ -29,8 +34,8 @@ export default function PatientChart() {
     }
 
     let contentToRender = <PageCanvas id='patientChart' headerHeight={headerHeight} >
-        <PatientDemographics />
-        <Dashboard fhirServerEndpoint={fhirServerEndpoint} />
-      </PageCanvas>    
+      <PatientDemographics />
+      <Dashboard fhirServerEndpoint={fhirServerEndpoint} />
+    </PageCanvas>    
     return (contentToRender);
 }

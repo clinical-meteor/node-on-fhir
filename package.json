@@ -73,7 +73,7 @@
     "express": "4.17.1",
     "fhir-kit-client": "1.5.3",
     "fhir-starter": "0.11.39",
-    "fhirclient": "2.1.0",
+    "fhirclient": "2.4.0",
     "formik": "^2.1.5",
     "inflate-auto": "^2.1.0",
     "jose": "3.11.5",

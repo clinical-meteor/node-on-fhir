@@ -1,0 +1,35 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "covid-19-cond",
+  "url" : "http://hl7.org/fhir/ValueSet/covid-19-cond",
+  "version" : "0.0.1",
+  "name" : "COVID19ConditionCodes",
+  "title" : "COVID-19 related Condition codes",
+  "status" : "draft",
+  "experimental" : false,
+  "date" : "2020-03-11",
+  "publisher" : "FHIR Project",
+  "description" : "All SNOMED CT Condition codes for COVID-19, SNOMED CT",
+  "copyright" : "The value set itself is licensed under creative commons public domain, but the use of SNOMED CT is subject to the licensing conditions of SNOMED CT: This value set includes content from SNOMED Clinical Terms® (SNOMED CT®) which is copyright of the International Health Terminology Standards Development Organisation (IHTSDO) (trading as SNOMED International). Implementers of this value set must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomed-ct  or info@snomed.org.",
+  "compose" : {
+    "include" : [
+      {
+        "system" : " http://snomed.info/sct",
+        "concept" : [
+          {
+            "code" : "840539006",
+            "display" : "COVID-19"
+          },
+          {
+            "code" : "840544004",
+            "display" : "Suspected disease caused by SARS-CoV-2"
+          },
+          {
+            "code" : "840546002",
+            "display" : "Exposure to SARS-CoV-2"
+          }         
+        ]
+      }
+    ]
+  }
+}
