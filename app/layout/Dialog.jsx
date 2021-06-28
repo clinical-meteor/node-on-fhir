@@ -71,7 +71,7 @@ if(Meteor.isClient){
   Session.setDefault('mainAppDialogJson', false);
   Session.setDefault('mainAppDialogErrorMessage', '');
   Session.setDefault('mainAppDialogErrorShowAgain', true);
-  Session.setDefault('mainAppDialogMaxWidth', get(Meteor, 'settings.public.defaults.modals.maxWidth', "xl"));
+  Session.setDefault('mainAppDialogMaxWidth', get(Meteor, 'settings.public.defaults.landingModal.maxWidth', "xl"));
 
 
   Session.setDefault('showDialogTitle', true);

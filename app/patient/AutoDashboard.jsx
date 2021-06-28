@@ -281,6 +281,8 @@ export function AutoDashboard(props){
             } catch (error) {
                 alert("We had an error fetching data.", error)
             }
+        } else {
+            console.log('FhirClientContext not instantiated')
         }
     }
     function renderChart({ systolic, diastolic }) {
@@ -392,6 +394,12 @@ export function AutoDashboard(props){
                 })
             }            
         } 
+        // else if (get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl')){
+        //     // this probably doesnt work for SMART HealthIT
+        //     // but is better because it doesn't hardcode /fhir into the url
+        //     // which we can add in the `fhirServiceUrl`
+        //     metadataRoute = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl') + "metadata";
+        // } 
 
         if(metadataRoute){            
             console.log('Checking the metadata route: ' + metadataRoute);
