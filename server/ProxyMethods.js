@@ -24,10 +24,7 @@ Meteor.methods({
     
           console.log('Query Endpoint: ', fhirUrl)
           console.log('AccessToken:    ', accessToken)
-  
-          var self = this;
     
-          var queryResult;
           var httpHeaders = { headers: {
               'Accept': ['application/json', 'application/fhir+json'],
               'Access-Control-Allow-Origin': '*'          

@@ -1,0 +1,123 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "covid-19-obs",
+  "url" : "http://hl7.org/fhir/ValueSet/covid-19-obs",
+  "version" : "0.0.1",
+  "name" : "COVID19ObservationCodes",
+  "title" : "COVID-19 related Observation codes",
+  "status" : "draft",
+  "experimental" : false,
+  "date" : "2020-30-11",
+  "publisher" : "FHIR Project",
+  "description" : "All LOINC Observation codes for COVID-19",
+  "copyright" : "The value set itself is licensed under creative commons public domain, but the LOINC® codes are copyright © 1995 Regenstrief Institute, Inc. and the LOINC Committee, and available at no cost under the license at http://loinc.org/terms-of-use",
+  "compose" : {
+    "include" : [
+      {
+        "system" : "http://loinc.org",
+        "concept" : [
+          {
+            "code" : "94531-1",
+            "display" : "SARS-CoV-2 RNA Pnl Resp NAA+probe"
+          },
+          {
+            "code" : "94532-9",
+            "display" : "SARS+SARS-Lk+SARS-CoV-2+MERS Ql NAA-prb"
+          },
+          {
+            "code" : "94534-5",
+            "display" : "SARS-CoV-2 RdRp gene Resp Ql NAA+probe"
+          },
+          {
+            "code" : "94533-7",
+            "display" : "SARS-CoV-2 N gene Resp Ql NAA+probe"
+          },
+          {
+            "code" : "94500-6",
+            "display" : "SARS-CoV-2 RNA Resp Ql NAA+probe"
+          },
+          {
+            "code" : "94502-2",
+            "display" : "SARS+SARS-Lk+SARS-CoV-2 RNA Resp Ql NAA"
+          },
+          {
+            "code" : "94503-0",
+            "display" : "SARS-CoV-2 IgG+IgM Pnl SerPl IA"
+          },
+          {
+            "code" : "94505-5",
+            "display" : "SARS-CoV-2 IgG SerPl IA-aCnc"
+          },
+          {
+            "code" : "94506-3",
+            "display" : "SARS-CoV-2 IgM SerPl IA-aCnc"
+          },
+          {
+            "code" : "94504-8",
+            "display" : "SARS-CoV-2 IgG+IgM Pnl SerPl IA-aCnc"
+          },
+          {
+            "code" : "94508-9",
+            "display" : "SARS-CoV-2 IgM SerPl Ql IA"
+          },
+          {
+            "code" : "94509-7",
+            "display" : "SARS-CoV-2 E gene Ct XXX Qn NAA+probe"
+          },
+          {
+            "code" : "94507-1",
+            "display" : "SARS-CoV-2 IgG SerPl Ql IA"
+          },
+          {
+            "code" : "94510-5",
+            "display" : "SARS-CoV-2 N gene Ct XXX Qn NAA+probe"
+          },
+          {
+            "code" : "94511-3",
+            "display" : "SARS-CoV-2 ORF1ab Ct XXX Qn NAA+probe"
+          },
+          {
+            "code" : "94306-8",
+            "display" : "SARS-CoV-2 RNA Pnl XXX NAA+probe"
+          },
+          {
+            "code" : "94307-6",
+            "display" : "SARS-CoV-2 N gene XXX Ql NAA N1"
+          },
+          {
+            "code" : "94308-4",
+            "display" : "SARS-CoV-2 N gene XXX Ql NAA N2"
+          },
+          {
+            "code" : "94309-2",
+            "display" : "SARS-CoV-2 RNA XXX Ql NAA+probe"
+          },
+          {
+            "code" : "94312-6",
+            "display" : "SARS-CoV-2 N gene Ct XXX Qn NAA N2"
+          },
+          {
+            "code" : "94311-8",
+            "display" : "SARS-CoV-2 N gene Ct XXX Qn NAA N1"
+          },
+          {
+            "code" : "94314-2",
+            "display" : "SARS-CoV-2 RdRp gene XXX Ql NAA+probe"
+          },
+          {
+            "code" : "94315-9",
+            "display" : "SARS-CoV-2 E gene XXX Ql NAA+probe"
+          },
+          {
+            "code" : "94316-7",
+            "display" : "SARS-CoV-2 N gene XXX Ql NAA+probe"
+          },
+          {
+            "code" : "94479-3",
+            "display" : "HCoV 229E RNA Lower Resp Ql NAA+non-prob"
+          }
+        ]
+      }
+    ]
+  }
+}
