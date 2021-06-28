@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<widget id="io.symptomatic.saner" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>S.A.N.E.R.</name>
+  <description>Situational Awareness for Novel Epidemic Response</description>
+  <author href="https://saner.symptomatic.io" email="inquiries@symptomatic.healthcare">Abigail Watson</author>
+  <preference name="webviewbounce" value="false"/>
+  <preference name="DisallowOverscroll" value="true"/>
+  <preference name="AutoHideSplashScreen" value="false"/>
+  <!-- <preference name="WKWebViewOnly" value="true"/> -->
+  <preference name="SwiftVersion" value="5"/>
+  <preference name="SplashScreen" value="screen"/>
+  <preference name="SplashScreenDelay" value="5000"/>
+  <preference name="FadeSplashScreenDuration" value="250"/>
+  <preference name="ShowSplashScreenSpinner" value="false"/>
+  <preference name="StatusBarOverlaysWebView" value="false"/>
+  <preference name="StatusBarStyle" value="default"/>
+  <preference name="StatusBarBackgroundColor" value="#000000"/>
+  <preference name="BackgroundColor" value="0xff0000ff"/>
+  <preference name="HideKeyboardFormAccessoryBar" value="true"/>
+  <preference name="Orientation" value="default"/>
+  <preference name="iosPersistentFileLocation" value="Compatibility"/>
+  <preference name="BackupWebStorage" value="local"/>
+  <content src="http://localhost:12072/"/>
+  <allow-intent href="tel:*"/>
+  <allow-intent href="geo:*"/>
+  <allow-intent href="mailto:*"/>
+  <allow-intent href="sms:*"/>
+  <allow-intent href="market:*"/>
+  <allow-intent href="itms:*"/>
+  <allow-intent href="itms-apps:*"/>
+  <allow-navigation href="http://localhost"/>
+  <allow-navigation href="http://localhost:3000"/>
+  <access origin="*://localhost"/>
+  <access origin="*://10.0.2.2"/>
+  <access origin="*://saner.symptomatic.io"/>
+  <platform name="ios">
+      <preference name="Orientation" value="all"/>
+    <icon src="resources/iphone_2x.icon.png" width="120" height="120"/>
+    <icon src="resources/iphone_3x.icon.png" width="180" height="180"/>
+    <icon src="resources/ipad_2x.icon.png" width="152" height="152"/>
+    <icon src="resources/ipad_pro.icon.png" width="167" height="167"/>
+    <icon src="resources/ios_settings_2x.icon.png" width="58" height="58"/>
+    <icon src="resources/ios_spotlight_2x.icon.png" width="80" height="80"/>
+    <icon src="resources/ios_spotlight_3x.icon.png" width="120" height="120"/>
+    <icon src="resources/ios_notification_2x.icon.png" width="40" height="40"/>
+    <icon src="resources/ios_notification_3x.icon.png" width="60" height="60"/>
+    <icon src="resources/ipad.icon.png" width="76" height="76"/>
+    <icon src="resources/ios_settings.icon.png" width="29" height="29"/>
+    <icon src="resources/ios_spotlight.icon.png" width="40" height="40"/>
+    <icon src="resources/ipad_app_legacy.icon.png" width="72" height="72"/>
+    <icon src="resources/ipad_app_legacy_2x.icon.png" width="144" height="144"/>
+    <splash src="resources/iphone5.splash.png" width="640" height="1136"/>
+    <splash src="resources/iphone6.splash.png" width="750" height="1334"/>
+    <splash src="resources/iphone6p_portrait.splash.png" width="1242" height="2208"/>
+    <splash src="resources/iphone6p_landscape.splash.png" width="2208" height="1242"/>
+    <splash src="resources/ipad_portrait_2x.splash.png" width="1536" height="2048"/>
+    <splash src="resources/ipad_landscape_2x.splash.png" width="2048" height="1536"/>
+    <splash src="resources/iphone.splash.png" width="320" height="480"/>
+    <splash src="resources/iphone_2x.splash.png" width="640" height="960"/>
+    <splash src="resources/ipad_portrait.splash.png" width="768" height="1024"/>
+    <splash src="resources/ipad_landscape.splash.png" width="1024" height="768"/>
+  </platform>
+  <platform name="android">
+    <icon src="resources/android_mdpi.icon.png" width="48" height="48"/>
+    <icon src="resources/android_hdpi.icon.png" width="72" height="72"/>
+    <icon src="resources/android_xhdpi.icon.png" width="96" height="96"/>
+    <icon src="resources/android_xxhdpi.icon.png" width="144" height="144"/>
+    <icon src="resources/android_xxxhdpi.icon.png" width="192" height="192"/>
+    <splash src="resources/android_mdpi_portrait.splash.png" width="320" height="480" density="port-mdpi"/>
+  </platform>
+</widget>

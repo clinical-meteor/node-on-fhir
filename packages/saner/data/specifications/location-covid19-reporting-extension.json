@@ -1,0 +1,70 @@
+{
+  "resourceType": "Location",
+  "extension": [
+    {
+      "url": "http://github.com/symptomatic/covid19-reporting/specifications/covid19-bed-capacity",
+      "valuePositiveInt": 25
+    },
+    {
+      "url": "http://github.com/symptomatic/covid19-reporting/specifications/covid19-current-population",
+      "valuePositiveInt": 30
+    },
+    {
+      "url": "http://github.com/symptomatic/covid19-reporting/specifications/covid19-reporting-date",
+      "valueDate": "2020-04-02T10:30:10+01:00"
+    },
+    {
+      "url": "http://github.com/symptomatic/covid19-reporting/specifications/covid19-available-capacity",
+      "valueQuantity": {
+        "value": "120",
+        "unit": "%"
+      }
+    },
+    {
+      "url": "http://github.com/symptomatic/covid19-reporting/specifications/covid19-capacity-overage",
+      "valuePositiveInt": 5
+    }
+  ],
+  "id": "1001",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Burgers UMC, South Wing, second floor</div>"
+  },
+  "identifier": [
+    {
+      "value": "0007892363"
+    }
+  ],
+  "status": "active",
+  "name": "COLORADO RIVER MEDICAL CENTER",
+  "alias": [
+    "BU MC, SW, F2",
+    "Burgers University Medical Center, South Wing, second floor"
+  ],
+  "description": "Second floor of the Old South Wing, formerly in use by Psychiatry",
+  "mode": "instance",
+  "address": {
+    "use": "work",
+    "line": [
+      "1401 BAILEY AVENUE"
+    ],
+    "city": "NEEDLES",
+    "postalCode": "92363",
+    "state": "CA",
+    "country": "USA"
+  },
+  "physicalType": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+        "code": "si",
+        "display": "Site"
+      }
+    ]
+  },
+  "position": {
+    "longitude": -114.61749396399995,
+    "latitude": 34.83306592100008,
+    "altitude": 0
+  }
+}
