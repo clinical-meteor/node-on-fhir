@@ -98,48 +98,51 @@ export default function Launcher(){
     const client = useContext(FhirClientContext);
     
 
-    /**
-     * This is configured to make a Standalone Launch, just in case it
-     * is loaded directly. An EHR can still launch it by passing `iss`
-     * and `launch` url parameters
-     */
-    function onChangeProvider(event,context) {
-        console.log(event.target.value);
-        const providerKey = event.target.value
-        const fhirconfig = config[event.target.value]
+    // /**
+    //  * This is configured to make a Standalone Launch, just in case it
+    //  * is loaded directly. An EHR can still launch it by passing `iss`
+    //  * and `launch` url parameters
+    //  */
+    // function onChangeProvider(event,context) {
+    //     console.log(event.target.value);
+    //     const providerKey = event.target.value
+    //     const fhirconfig = config[event.target.value]
 
-        // put your client id in .env.local (ignored by .gitignore)
-        const secret_client_id = "REACT_APP_CLIENT_ID_" + providerKey
-        if( secret_client_id in process.env ) {
-            fhirconfig.client_id = process.env[secret_client_id]
-        }
+    //     // put your client id in .env.local (ignored by .gitignore)
+    //     const secret_client_id = "REACT_APP_CLIENT_ID_" + providerKey
+    //     if( secret_client_id in process.env ) {
+    //         fhirconfig.client_id = process.env[secret_client_id]
+    //     }
 
-        const options = {
-            clientId: fhirconfig.client_id,
-            scope: fhirconfig.scope,
-            redirectUri: fhirconfig.redirectUri,
+    //     const options = {
+    //         clientId: fhirconfig.client_id,
+    //         scope: fhirconfig.scope,
+    //         redirectUri: fhirconfig.redirectUri,
 
-            // WARNING: completeInTarget=true is needed to make this work
-            // in the codesandbox frame. It is otherwise not needed if the
-            // target is not another frame or window but since the entire
-            // example works in a frame here, it gets confused without
-            // setting this!
-            //completeInTarget: true
-        }
-        if( fhirconfig.client_id === 'OPEN' ) {
-            options.fhirServiceUrl = fhirconfig.url
-            options.patientId = fhirconfig.patientId
-        } else {
-            options.iss = fhirconfig.url
-        }
+    //         // WARNING: completeInTarget=true is needed to make this work
+    //         // in the codesandbox frame. It is otherwise not needed if the
+    //         // target is not another frame or window but since the entire
+    //         // example works in a frame here, it gets confused without
+    //         // setting this!
+    //         //completeInTarget: true
+    //     }
+    //     if(fhirconfig.client_secret){
+    //         options.clientSecret = fhirconfig.client_secret;
+    //     }
+    //     if( fhirconfig.client_id === 'OPEN' ) {
+    //         options.fhirServiceUrl = fhirconfig.url
+    //         options.patientId = fhirconfig.patientId
+    //     } else {
+    //         options.iss = fhirconfig.url
+    //     }
 
-        if(fhirconfig.patientId) {
-            context.setPatientId(fhirconfig.patientId)
-        }
+    //     if(fhirconfig.patientId) {
+    //         context.setPatientId(fhirconfig.patientId)
+    //     }
 
-        alert(`options:  ${JSON.stringify(options)}`)
-        SMART.authorize(options);
-    }
+    //     alert(`options:  ${JSON.stringify(options)}`)
+    //     SMART.authorize(options);
+    // }
 
     function handleRowClick(config, event){
 
@@ -157,6 +160,9 @@ export default function Launcher(){
             // example works in a frame here, it gets confused without
             // setting this!
             //completeInTarget: true
+        }
+        if(fhirconfig.client_secret){
+            options.clientSecret = fhirconfig.client_secret;
         }
         if( config.client_id === 'OPEN' ) {
             options.fhirServiceUrl = config.fhirServiceUrl;
@@ -221,7 +227,7 @@ export default function Launcher(){
     return (
         <PageCanvas id='SmartLauncher' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{paddingTop: '128px'}} >
             <Grid container justify="center" spacing={3}>
-                <Grid item xs={12} sm={4} md={4} >
+                <Grid item xs={12} sm={8} md={6} lg={4} >
                     <CardHeader title="Participating Health Networks" />
                     <StyledCard>
                         <Table>

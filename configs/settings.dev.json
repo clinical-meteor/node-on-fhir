@@ -1,0 +1,436 @@
+{
+    "public": {
+      "title": "Healthflow.io",
+      "theme": {
+        "showVideoBackground": false,
+        "defaultVideo": "/VideoBackgrounds/GrayWaves.mp4",
+        "backgroundImagePath": "/backgrounds/medical/Gradient.jpg",
+        "palette": {
+          "primaryColor": "#008080",  
+          "primaryText": "rgba(255,255,255, 1) !important",
+        
+          "secondaryColor": "#444444",
+          "secondaryText": "rgba(255, 255, 255, 1) !important",
+        
+          "cardColor": "#ffffff !important",
+          "cardTextColor": "rgba(0, 0, 0, 1) !important",
+        
+          "errorColor": "rgb(128,20,60) !important",
+          "errorText": "#ffffff !important",
+        
+          "appBarColor": "#000000 !important",
+          "appBarTextColor": "#ffffff !important",
+        
+          "paperColor": "#ffffff !important",
+          "paperTextColor": "rgba(0, 0, 0, 1) !important",
+        
+          "bodyBackground": "#000000",
+  
+          "canvasColor": "#f2f2f2",
+  
+          "nivoTheme": "purple_orange"
+        },
+        "referenceRanges": {
+          "narrow": ["#69343b", "#415c4d", "#69343b"]  
+        },
+        "grayscaleFilter": "0%"
+      },
+      "loggingThreshold": "trace",
+      "capabilityStatement": {
+        "resourceTypes": ["AuditEvents", "Bundle", "CarePlan", "CareTeam", "Condition", "Consent", "Communication", "CommunicationRequest", "DocumentReference", "Endpoint", "List", "Goal", "Organization", "Patient", "Practitioner", "Questionnaire", "QuestionnaireResponse", "Task", "ValueSet"]
+      },
+      "smartOnFhir": [{
+        "type": "Sandbox",
+        "launchContext": "Provider",
+        "fhirVersion": "DSTU2", 
+        "vendor": "Epic",
+        "vendorKeyword": "epic",
+        "client_id": "641f8b3e-9b97-4b98-ac4d-54bebe5979b0",
+        "scope": "launch online_access openid fhirUser profile CarePlan.read CareTeam.read Condition.read Consent.read DocumentReference.read Encounter.read Goal.read Immunization.read Observation.read Patient.read Person.read Procedure.read Questionnaire.read QuestionnaireResponse.read RelatedPerson.read",
+        "fhirServiceUrl": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
+        "redirect_uri": "./patient-quickchart",
+        "iss": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
+        "patientId": null
+      }, {
+        "type": "Sandbox",
+        "launchContext": "Patient",
+        "fhirVersion": "R4", 
+        "vendor": "Cerner",
+        "vendorKeyword": "cerner",
+        "client_id": "b6797eb7-6bfe-4245-bbc4-78d2947a850d",
+        "scope": "launch/patient online_access openid profile patient/CarePlan.read patient/CareTeam.read patient/Condition.read patient/Consent.read patient/DocumentReference.read patient/Encounter.read patient/Goal.read patient/Immunization.read patient/Observation.read patient/Patient.read patient/Person.read patient/Procedure.read patient/Questionnaire.read patient/QuestionnaireResponse.read patient/RelatedPerson.read",
+        "fhirServiceUrl": "https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
+        "redirect_uri": "./patient-quickchart",
+        "iss": "https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
+        "patientId": null
+      }, {
+        "type": "Sandbox",
+        "launchContext": "Provider",
+        "fhirVersion": "R4", 
+        "vendor": "Cerner",
+        "vendorKeyword": "cerner",
+        "client_id": "a64fc49c-7f0c-4dd4-9c7a-742389e2b61d",
+        "scope": "launch launch/patient online_access openid fhirUser profile patient/CarePlan.read patient/CareTeam.read patient/Condition.read patient/Consent.read patient/DocumentReference.read patient/Encounter.read patient/Goal.read patient/Immunization.read patient/Observation.read patient/Patient.read patient/Person.read patient/Procedure.read patient/Questionnaire.read patient/QuestionnaireResponse.read patient/RelatedPerson.read  user/CarePlan.read user/CareTeam.read user/Condition.read user/Consent.read user/DocumentReference.read user/Encounter.read user/Goal.read user/Immunization.read user/Observation.read user/Practitioner.read user/Person.read user/Procedure.read user/Questionnaire.read user/QuestionnaireResponse.read user/RelatedPerson.read",
+        "fhirServiceUrl": "https://fhir-ehr-code.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
+        "redirect_uri": "./patient-quickchart",
+        "iss": "https://fhir-ehr-code.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
+        "patientId": null
+      }, {
+        "type": "Sandbox",
+        "launchContext": "Patient",
+        "fhirVersion": "DSTU2", 
+        "vendor": "Epic",
+        "vendorKeyword": "epic",
+        "client_id": "98a8bee8-f411-4183-851b-f8c9a8658245",
+        "scope": "launch online_access openid fhirUser profile CarePlan.read CareTeam.read Condition.read Consent.read DocumentReference.read Encounter.read Goal.read Immunization.read Observation.read Patient.read Person.read Procedure.read Questionnaire.read QuestionnaireResponse.read RelatedPerson.read",
+        "fhirServiceUrl": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
+        "redirect_uri": "./patient-quickchart",
+        "iss": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
+        "patientId": null
+      }],
+      "socialmedia": {
+        "title": "Healthflow.io",
+        "type": "article",
+        "url": "https://healthflow.meteorapp.com/",
+        "image": "https://healthflow.meteorapp.com/packages/healthflow_core/assets/SocialMedia.jpeg",
+        "description": "Healthflow.io care coordination app",
+        "site_name": "Healthflow",
+        "app_id": "healthflow.meteorapp.com"
+      },
+      "defaults": {
+        "route": "/continuity-of-care",
+        "landingPage": "/continuity-of-care",
+        "homePage": "/continuity-of-care",
+        "avatars": true,
+        "barcodes": true,
+        "hexgridMenu": false,
+        "nfcOrbital": false,
+        "notificationMenu": false,
+        "searchbarVisible": true,
+        "viewportSafeArea": true,
+        "displayNavbars": true,
+        "disableHeader": false,
+        "disableFooter": false,
+        "disableCanvasSlide": true,
+        "prominantHeader": true,
+        "showPatientNameInHeader": true,
+        "displayUserNameInHeader": true,
+        "drawerWidth": 320,
+        "initialScale": 0.6,
+        "defaultPagePadding": 20,
+        "paginationLimit": 100,
+        "subscriptionLimit": 1000,
+        "unitsOfMeasure": ["F", "lbs", "mg/dL"],
+        "modals": {
+          "maxWidth": "md"
+        },
+        "cards": {
+          "height": "auto",
+          "opacity": 0.95
+        },
+        "noData": {
+          "defaultTitle": "No Data Available",
+          "defaultMessage": "Make sure that you've shared your Clinical Health Records data from the Apple Health app.  If you've not downloaded your health data yet, you may need to contact your healthcare provider.",
+          "marginTop": "-200px"
+        },
+        "registration": {
+          "signInWith": false,
+          "displayFullLegalName": true,
+          "displayNickname": true,
+          "displayGivenAndFamily": false,
+          "displayFirstAndLast": false,
+          "displayUsername": false,
+          "displayEmail": true,
+          "displayPassword": true,
+          "displayInventationCode": true
+        },
+        "routes": {
+          "homePage": "/continuity-of-care",
+          "landingPage": "/continuity-of-care",
+          "adminWelcomePage": "/",
+          "adminHomePage": "/",
+          "adminDashboard": "/"
+        },
+        "header":{
+          "menuIcon": "",
+          "patientId": false
+        },
+        "sidebar": {
+          "minibarVisible": false,
+          "menuItems": {
+            "HomePage": false,
+            "FhirResources": false,
+            "DynamicModules": true,
+            "SidebarWorkflows": true,
+            "Theme": false,
+            "About": true,
+            "ConstructionZone": false,
+            "Navbars": false,
+            "DataImport": true,
+            "DataExport": true,
+            "SmartLauncher": true,
+            "HealthRecords": false,
+            "Login": {
+              "availability": "web"
+            },
+            "Registration": true,
+            "Documentation": true,
+            "Marketing": false,
+            "TermsAndConditions": true,
+            "Privacy": true,
+            "QrScanner": true
+          },
+          "hidden": [
+            "/allergy-intollerances",
+            "/allergy-intolerances",
+            "/body-mass-calculator",
+            "/body-mass-index",
+            "/communication-responses",     
+            "/care-plans",
+            "/contracts",          
+            "/devices",
+            "/diagnostic-reports",
+            "/explanation-of-benefits",
+            "/example-route",
+            "/import-data",   
+            "/imaging-studies",
+            "/locations",            
+            "/message-headers",
+            "/measures",
+            "/measure-reports",
+            "/medications",
+            "/medication-orders",
+            "/orbital-test",
+            "/observations",
+            "/provenances",
+            "/risk-assessments",
+            "/subscriptions",          
+            "/vitals-tracking",
+            "/value-sets"
+          ],
+          "adminHidden":  [
+            "/allergies",
+            "/communications",
+            "/consents",
+            "/consents",
+            "/contracts",
+            "/claims",
+            "/endpoints",
+            "/biometrics-dashboard",
+            "/body-mass-index",
+            "/imaging-studies",
+            "/immunizations",
+            "/goals",
+            "/locations",
+            "/devices",
+            "/medication-statements",
+            "/persons",
+            "/risk-assessments",
+            "/subscriptions",
+            "/workqueue",
+            "/hello-world",
+            "/vitals-tracking",
+            "/example-route",
+            "/import-data",
+            "/export-data"
+          ],
+          "hiddenWorkflow": [
+            "/patient-quickchart",
+            "/bulk-data-downloader",
+            "/bulk-data-launcher",
+            "/data-pipelines",
+            "/data-import",
+            "/data-export", 
+            "/data-management",
+            "/import-data",
+            "/export-data",
+            "/patient-summary",
+            "/synthea-analysis",
+            "/hgraph-demo",
+            "/orbital-test",
+            "/turntable-hgraph",
+            "/at-home-testing",
+            "/form-designer-new",
+            "/geocoding"
+          ],
+          "links": {
+            "documentation": "https://healthflow.io/"
+          }
+        }
+      },
+      "healthrecords": {
+        "suppressEmptyChartMessage": true
+      },
+      "google": {
+        "analytics": {
+          "trackingCode": "",
+          "debug": false
+        }
+      },
+      "interfaces": {
+        "default": {
+          "status": "inactive",
+          "channel": {
+            "endpoint": "https://syntheticmass.mitre.org/v1/fhir"
+          },
+          "auth": {
+            "username": "iPcaA8Qg4ElaTjOlm1fkoiPdC8AGEpJ6",
+            "password": "AI1yGzOfo06Gg3ku"
+          }
+        },
+        "symptomaticFhirServer": {
+          "status": "active",
+          "channel": {
+            "endpoint": "https://healthflow.meteorapp.com"
+          },
+          "auth": {
+            "username": "foo",
+            "password": "bar"
+          }
+        },
+        "accountsServer": {      
+          "database": "meteor",
+          "host": "https://healthflow.meteorapp.com",
+          "port": 443
+        }
+      },
+      "modules": {
+        "data": true,
+        "forum": false,
+        "genome": false,
+        "healthlog": false,
+        "dermatograms": false,
+        "telemedicine": false,
+        "inbound": true,
+        "outbound": true,
+        "epic": false,
+        "statisticsLogging": false,
+        "apps": {
+          "ChecklistManifesto": false,
+          "ContinuityOfCare": false,
+          "Videoconferencing": false,
+          "ZygoteAvatar": false        
+        },
+        "fhir": {
+          "AllergyIntolerances": true,
+          "AuditEvents": true,
+          "BodySites": true,
+          "CarePlans": true,
+          "Conditions": true,
+          "Devices": true,
+          "DiagnosticReports": true,
+          "Goals": true,
+          "ImagingStudies": true,
+          "Immunizations": true,
+          "Locations": true,
+          "Lists": true,
+          "Medications": true,
+          "MedicationOrders": true,
+          "MedicationStatements": true,
+          "Organizations": true,
+          "Observations": true,
+          "Patients": true,
+          "Practitioners": true,
+          "Procedures": true,
+          "Questionnaires": true,
+          "RiskAssessments": true
+        },
+        "healthkit": {
+          "importDestination": "client"
+        }
+      }
+    },
+    "private": {
+      "invitationCode": "Healthflow",
+      "fhir": {
+        "disableOauth": true,
+        "schemaValidation": {
+          "filter": false,
+          "validate": false
+        },
+        "fhirPath": "baseR4",
+        "rest": {
+          "AuditEvent": {
+            "interactions": ["read", "create"],
+            "search": true
+          },
+          "Bundle": {
+            "interactions": ["read", "create", "update", "delete"],
+            "search": true
+          },
+          "CareTeam": {
+            "interactions": ["read", "create", "update", "delete"],
+            "search": true
+          },
+          "CarePlan": {
+            "interactions": ["read", "create", "update", "delete"],
+            "search": true
+          },
+          "Condition": {
+            "interactions": ["read", "create", "update", "delete"],
+            "search": true
+          },
+          "Consent": {
+            "interactions": ["read", "create"],
+            "search": true
+          },
+          "Communication": {
+            "interactions": ["read", "create", "update", "delete"],
+            "search": true
+          },
+          "CommunicationRequest": {
+            "interactions": ["read", "create", "update", "delete"],
+            "search": true
+          },
+          "DocumentReference": {
+            "interactions": ["read", "create", "update", "delete"],
+            "search": true
+          },
+          "List": {
+            "interactions": ["read", "create", "update", "delete"],
+            "search": true
+          },
+          "Goal": {
+            "interactions": ["read", "create", "update", "delete"],
+            "search": true
+          },
+          "Organization": {
+            "interactions": ["read", "create", "update"],
+            "search": true
+          },
+          "Patient": {
+            "interactions": ["read", "create", "update"],
+            "search": true
+          },
+          "Person": {
+            "interactions": ["read", "create", "update"],
+            "search": true
+          },
+          "Practitioner": {
+            "interactions": ["read", "create", "update"],
+            "search": true
+          },
+          "Questionnaire": {
+            "interactions": ["read", "create", "update"],
+            "search": true
+          },
+          "QuestionnaireResponse": {
+            "interactions": ["read", "create", "update"],
+            "search": true
+          },
+          "RelatedPerson": {
+            "interactions": ["read", "create", "update"],
+            "search": true
+          },
+          "Task": {
+            "interactions": ["read", "create", "update", "delete"],
+            "search": true
+          },
+          "ValueSet": {
+            "interactions": ["read", "create"],
+            "search": true
+          }
+        }
+      }
+    }
+  }

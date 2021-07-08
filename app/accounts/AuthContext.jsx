@@ -39,6 +39,10 @@ if(Meteor.isClient){
       reference: "Patient/" + get(user, 'id')
     }
   }
+  Meteor.logoutCurrentUser = function(){
+    Session.set('currentUser', null);
+    Meteor.logout();
+  }
 }
 
 async function fetchUser(setAuthContextState){
