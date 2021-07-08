@@ -77,5 +77,11 @@ percolate:synced-cron
 # symptomatic:immunization-card
 
 # symptomatic:vaccine-wallet
-# symptomatic:data-management
 
+healthflow:core
+symptomatic:fhir-uscore
+clinical:accounts-housemd
+awatson1978:accounts-muppets
+clinical:accounts-famous-dead-people
+symptomatic:timelines
+symptomatic:gravity

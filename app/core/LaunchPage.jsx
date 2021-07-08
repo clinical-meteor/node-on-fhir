@@ -10,7 +10,7 @@ import {
   Grid
 } from '@material-ui/core';
 import { PageCanvas, StyledCard } from 'fhir-starter';
-import { get } from 'lodash';
+import { get, has } from 'lodash';
 
 import { oauth2 as SMART } from "fhirclient";
 
@@ -61,8 +61,11 @@ function LaunchPage(props) {
     let smartConfig = {
       clientId: get(smartOnFhirConfig, 'client_id'),
       scope: get(smartOnFhirConfig, 'scope'),
-      redirectUri: get(smartOnFhirConfig, 'redirect_uri')  // ./fhir-quer
+      redirectUri: get(smartOnFhirConfig, 'redirect_uri') 
     }
+    // if(has(smartOnFhirConfig, 'client_secret')){
+    //   smartConfig.clientSecret = get(smartOnFhirConfig, 'client_secret')
+    // }
 
     if(searchParams.get('iss')){
       // we prefer using an ?iss parameter from the URL

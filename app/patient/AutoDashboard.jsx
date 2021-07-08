@@ -17,7 +17,7 @@ import Grid from '@material-ui/core/Grid';
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { useTracker } from 'meteor/react-meteor-data';
 
-import { CarePlans, CareTeams, Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, CarePlansTable, CareTeamsTable, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { Consents, CarePlans, CareTeams, Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, Questionnaires, QuestionnaireResponses, CarePlansTable, CareTeamsTable, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable, ConsentsTable, QuestionnairesTable, QuestionnaireResponsesTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { get } from 'lodash';
 
 import PatientCard from './PatientCard';
@@ -36,12 +36,15 @@ export function AutoDashboard(props){
         encounters: [],
         procedures: [],
         conditions: [],
+        consents: [],
         observations: [],
         locations: [],
         immunizations: [],
         selectedPatientId: '',
         selectedPatient: null,
         patients: [],
+        questionnaires: [],
+        questionnaireResponses: [],
         quickchartTabIndex: 0
     }
 
@@ -61,6 +64,11 @@ export function AutoDashboard(props){
     }, []);
 
 
+    if(Consents){
+        data.consents = useTracker(function(){
+            return Consents.find().fetch()
+        }, [])    
+    }
     if(Conditions){
         data.conditions = useTracker(function(){
             return Conditions.find().fetch()
@@ -91,198 +99,261 @@ export function AutoDashboard(props){
             return Immunizations.find().fetch()
         }, [])   
     }
-
-
-
-
-    function fetchPatientData(ehrLaunchCapabilities) {
-
-        if(client){
-            const observationQuery = new URLSearchParams();
-            // observationQuery.set("code", "http://loinc.org|55284-4");
-            if(client.patient){
-                observationQuery.set("patient", client.patient);
-
-                if(client.patient.id){
-                    observationQuery.set("patient", client.patient.id);
-                }    
-            }
-            observationQuery.set("category", "vital-signs");
-            
-            console.log('Observation Query', observationQuery);
-    
-            let observationUrl = 'Observation?' + observationQuery.toString();
-            console.log('observationUrl', observationUrl);
-    
-            try {
-                if(ehrLaunchCapabilities.Observation === true){
-                    client.request(observationUrl, { pageLimit: 0, flat: true }).then(bpObservations => {
-                        if(bpObservations){
-                            const bpMap = {
-                                systolic: [],
-                                diastolic: []
-                            };
-                            console.log('PatientAutoDashboard.observations', bpObservations)
-                            bpObservations.forEach(observation => {
-                                Observations.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false});
-                                if(Array.isArray(observation.component)){
-                                    observation.component.forEach(c => {
-                                        const code = client.getPath(c, "code.coding.0.code");
-                                        if (code === "8480-6") {
-                                            bpMap.systolic.push({
-                                                x: new Date(observation.effectiveDateTime),
-                                                y: c.valueQuantity.value
-                                            });
-                                        } else if (code === "8462-4") {
-                                            bpMap.diastolic.push({
-                                                x: new Date(observation.effectiveDateTime),
-                                                y: c.valueQuantity.value
-                                            });
-                                        }
-                                    });
-                
-                                }
-                            });
-                            bpMap.systolic.sort((a, b) => a.x - b.x);
-                            bpMap.diastolic.sort((a, b) => a.x - b.x);
-            
-                            console.log('PatientAutoDashboard.bpMap', bpMap)
-                            this.renderChart(bpMap);
-                        }
-                    });
-                }
-
-    
-                if(ehrLaunchCapabilities.Encounter === true){
-                    const encounterQuery = new URLSearchParams();
-                    encounterQuery.set("patient", client.patient.id);
-                    console.log('Encounter Query', encounterQuery);
-        
-                    let encounterUrl = 'Encounter?' + encounterQuery.toString()
-                    console.log('encounterUrl', encounterUrl);
-        
-                    client.request(encounterUrl, { pageLimit: 0, flat: true }).then(encounters => {
-                            const bpMap = {
-                                systolic: [],
-                                diastolic: []
-                            };
-                            if(encounters){
-                                console.log('PatientAutoDashboard.encounters', encounters)
-                                encounters.forEach(encounter => {
-                                    Encounters.upsert({id: encounter.id}, {$set: encounter}, {validate: false, filter: false});                    
-                                });    
-                            }
-                        });
-                }
-
-                if(ehrLaunchCapabilities.Condition === true){
-                    const conditionQuery = new URLSearchParams();
-                    conditionQuery.set("patient", client.patient.id);
-                    console.log('Condition Query', conditionQuery);
-        
-                    let conditionUrl = 'Condition?' + conditionQuery.toString()
-                    console.log('conditionUrl', conditionUrl);
-        
-                    client.request(conditionUrl, { pageLimit: 0, flat: true}).then(conditions => {
-                            if(conditions){
-                                console.log('PatientAutoDashboard.conditions', conditions)
-                                conditions.forEach(condition => {
-                                    Conditions.upsert({id: condition.id}, {$set: condition}, {validate: false, filter: false});                    
-                                });    
-                            }
-                        });
-                }
-
-                if(ehrLaunchCapabilities.Procedure === true){
-                    const procedureQuery = new URLSearchParams();
-                    procedureQuery.set("patient", client.patient.id);
-                    console.log('Procedure Query', procedureQuery);
-        
-                    let procedureUrl = 'Procedure?' + procedureQuery
-                    console.log('procedureUrl', procedureUrl);
-        
-                    client.request(procedureUrl, { pageLimit: 0, flat: true }).then(procedures => {
-                            if(procedures){
-                                console.log('PatientAutoDashboard.procedures', procedures)
-                                procedures.forEach(procedure => {
-                                    Procedures.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-                                });    
-                            }
-                        });
-                }
-
-                if(ehrLaunchCapabilities.Immunization === true){
-                    const immunizationQuery = new URLSearchParams();
-                    immunizationQuery.set("patient", client.patient.id);
-                    console.log('Immunization Query', immunizationQuery);
-        
-                    let immunizationUrl = 'Immunization?' + immunizationQuery
-                    console.log('immunizationUrl', immunizationUrl);
-        
-                    client.request(immunizationUrl, {
-                            pageLimit: 0,
-                            flat: true
-                        }).then(immunizations => {
-                            if(immunizations){
-                                console.log('PatientAutoDashboard.immunizations', immunizations)
-                                immunizations.forEach(procedure => {
-                                    Immunizations.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-                                });    
-                            }
-                        });
-                }
-
-                if(ehrLaunchCapabilities.MedicationOrder === true){
-                    const medicationOrderQuery = new URLSearchParams();
-                    medicationOrderQuery.set("patient", client.patient.id);
-                    console.log('MedicationOrder Query', medicationOrderQuery);
-        
-                    let medicationOrderUrl = 'MedicationOrder?' + medicationOrderQuery
-                    console.log('medicationOrderUrl', medicationOrderUrl);
-        
-                    client.request(medicationOrderUrl, {
-                        pageLimit: 0,
-                        flat: true
-                    }).then(medicationOrders => {
-                        if(medicationOrders){
-                            console.log('PatientAutoDashboard.medicationOrders', medicationOrders)
-                            medicationOrders.forEach(procedure => {
-                                MedicationOrders.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-                            });    
-                        }
-                    });
-                }
-
-                if(ehrLaunchCapabilities.MedicationRequest === true){
-                    const medicationRequestQuery = new URLSearchParams();
-                    medicationRequestQuery.set("patient", client.patient.id);
-                    console.log('MedicationRequest Query', medicationRequestQuery);
-        
-                    let medicationRequestUrl = 'MedicationRequest?' + medicationRequestQuery
-                    console.log('medicationRequestUrl', medicationRequestUrl);
-        
-                    client.request(medicationRequestUrl, {
-                            pageLimit: 0,
-                            flat: true
-                        }).then(medicationRequests => {
-                            if(medicationRequests){
-                                console.log('PatientAutoDashboard.medicationRequests', medicationRequests)
-                                medicationRequests.forEach(procedure => {
-                                    MedicationRequests.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-                                });    
-                            }
-                        });
-                }
-
-
-
-
-    
-            } catch (error) {
-                alert("We had an error fetching data.", error)
-            }
-        }
+    if(Questionnaires){
+        data.questionnaires = useTracker(function(){
+            return Questionnaires.find().fetch()
+        }, [])   
     }
+    if(QuestionnaireResponses){
+        data.questionnaireResponses = useTracker(function(){
+            return QuestionnaireResponses.find().fetch()
+        }, [])   
+    }
+
+
+
+
+    // function fetchPatientData(ehrLaunchCapabilities) {
+
+    //     if(client){
+    //         const observationQuery = new URLSearchParams();
+    //         // observationQuery.set("code", "http://loinc.org|55284-4");
+    //         if(client.patient){
+    //             observationQuery.set("patient", client.patient);
+
+    //             if(client.patient.id){
+    //                 observationQuery.set("patient", client.patient.id);
+    //             }    
+    //         }
+    //         observationQuery.set("category", "vital-signs");
+            
+    //         console.log('Observation Query', observationQuery);
+    
+    //         let observationUrl = 'Observation?' + observationQuery.toString();
+    //         console.log('observationUrl', observationUrl);
+    
+    //         try {
+
+
+    //             if(ehrLaunchCapabilities.Condition === true){
+    //                 const conditionQuery = new URLSearchParams();
+    //                 conditionQuery.set("patient", client.patient.id);
+    //                 console.log('Condition Query', conditionQuery);
+        
+    //                 let conditionUrl = 'Condition?' + conditionQuery.toString()
+    //                 console.log('conditionUrl', conditionUrl);
+        
+    //                 client.request(conditionUrl, { pageLimit: 0, flat: true}).then(conditions => {
+    //                         if(conditions){
+    //                             console.log('PatientAutoDashboard.conditions', conditions)
+    //                             conditions.forEach(condition => {
+    //                                 Conditions.upsert({id: condition.id}, {$set: condition}, {validate: false, filter: false});                    
+    //                             });    
+    //                         }
+    //                     });
+    //             }
+    //             if(ehrLaunchCapabilities.Consent === true){
+    //                 const consentQuery = new URLSearchParams();
+    //                 consentQuery.set("patient", client.patient.id);
+    //                 console.log('consent Query', consentQuery);
+        
+    //                 let consentUrl = 'consent?' + consentQuery.toString()
+    //                 console.log('consentUrl', consentUrl);
+        
+    //                 client.request(consentUrl, { pageLimit: 0, flat: true}).then(consents => {
+    //                         if(consents){
+    //                             console.log('PatientAutoDashboard.consents', consents)
+    //                             consents.forEach(consent => {
+    //                                 Consents.upsert({id: consent.id}, {$set: consent}, {validate: false, filter: false});                    
+    //                             });    
+    //                         }
+    //                     });
+    //             }
+
+    //             if(ehrLaunchCapabilities.Encounter === true){
+    //                 const encounterQuery = new URLSearchParams();
+    //                 encounterQuery.set("patient", client.patient.id);
+    //                 console.log('Encounter Query', encounterQuery);
+        
+    //                 let encounterUrl = 'Encounter?' + encounterQuery.toString()
+    //                 console.log('encounterUrl', encounterUrl);
+        
+    //                 client.request(encounterUrl, { pageLimit: 0, flat: true }).then(encounters => {
+    //                         const bpMap = {
+    //                             systolic: [],
+    //                             diastolic: []
+    //                         };
+    //                         if(encounters){
+    //                             console.log('PatientAutoDashboard.encounters', encounters)
+    //                             encounters.forEach(encounter => {
+    //                                 Encounters.upsert({id: encounter.id}, {$set: encounter}, {validate: false, filter: false});                    
+    //                             });    
+    //                         }
+    //                     });
+    //             }
+
+
+
+    //             if(ehrLaunchCapabilities.Procedure === true){
+    //                 const procedureQuery = new URLSearchParams();
+    //                 procedureQuery.set("patient", client.patient.id);
+    //                 console.log('Procedure Query', procedureQuery);
+        
+    //                 let procedureUrl = 'Procedure?' + procedureQuery
+    //                 console.log('procedureUrl', procedureUrl);
+        
+    //                 client.request(procedureUrl, { pageLimit: 0, flat: true }).then(procedures => {
+    //                         if(procedures){
+    //                             console.log('PatientAutoDashboard.procedures', procedures)
+    //                             procedures.forEach(procedure => {
+    //                                 Procedures.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+    //                             });    
+    //                         }
+    //                     });
+    //             }
+
+    //             if(ehrLaunchCapabilities.Immunization === true){
+    //                 const immunizationQuery = new URLSearchParams();
+    //                 immunizationQuery.set("patient", client.patient.id);
+    //                 console.log('Immunization Query', immunizationQuery);
+        
+    //                 let immunizationUrl = 'Immunization?' + immunizationQuery
+    //                 console.log('immunizationUrl', immunizationUrl);
+        
+    //                 client.request(immunizationUrl, {
+    //                         pageLimit: 0,
+    //                         flat: true
+    //                     }).then(immunizations => {
+    //                         if(immunizations){
+    //                             console.log('PatientAutoDashboard.immunizations', immunizations)
+    //                             immunizations.forEach(procedure => {
+    //                                 Immunizations.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+    //                             });    
+    //                         }
+    //                     });
+    //             }
+
+    //             if(ehrLaunchCapabilities.MedicationOrder === true){
+    //                 const medicationOrderQuery = new URLSearchParams();
+    //                 medicationOrderQuery.set("patient", client.patient.id);
+    //                 console.log('MedicationOrder Query', medicationOrderQuery);
+        
+    //                 let medicationOrderUrl = 'MedicationOrder?' + medicationOrderQuery
+    //                 console.log('medicationOrderUrl', medicationOrderUrl);
+        
+    //                 client.request(medicationOrderUrl, {
+    //                     pageLimit: 0,
+    //                     flat: true
+    //                 }).then(medicationOrders => {
+    //                     if(medicationOrders){
+    //                         console.log('PatientAutoDashboard.medicationOrders', medicationOrders)
+    //                         medicationOrders.forEach(procedure => {
+    //                             MedicationOrders.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+    //                         });    
+    //                     }
+    //                 });
+    //             }
+
+    //             if(ehrLaunchCapabilities.MedicationRequest === true){
+    //                 const medicationRequestQuery = new URLSearchParams();
+    //                 medicationRequestQuery.set("patient", client.patient.id);
+    //                 console.log('MedicationRequest Query', medicationRequestQuery);
+        
+    //                 let medicationRequestUrl = 'MedicationRequest?' + medicationRequestQuery
+    //                 console.log('medicationRequestUrl', medicationRequestUrl);
+        
+    //                 client.request(medicationRequestUrl, {
+    //                         pageLimit: 0,
+    //                         flat: true
+    //                     }).then(medicationRequests => {
+    //                         if(medicationRequests){
+    //                             console.log('PatientAutoDashboard.medicationRequests', medicationRequests)
+    //                             medicationRequests.forEach(procedure => {
+    //                                 MedicationRequests.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+    //                             });    
+    //                         }
+    //                     });
+    //             }
+
+    //             if(ehrLaunchCapabilities.Observation === true){
+    //                 client.request(observationUrl, { pageLimit: 0, flat: true }).then(bpObservations => {
+    //                     if(bpObservations){
+    //                         const bpMap = {
+    //                             systolic: [],
+    //                             diastolic: []
+    //                         };
+    //                         console.log('PatientAutoDashboard.observations', bpObservations)
+    //                         bpObservations.forEach(observation => {
+    //                             Observations.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false});
+    //                             if(Array.isArray(observation.component)){
+    //                                 observation.component.forEach(c => {
+    //                                     const code = client.getPath(c, "code.coding.0.code");
+    //                                     if (code === "8480-6") {
+    //                                         bpMap.systolic.push({
+    //                                             x: new Date(observation.effectiveDateTime),
+    //                                             y: c.valueQuantity.value
+    //                                         });
+    //                                     } else if (code === "8462-4") {
+    //                                         bpMap.diastolic.push({
+    //                                             x: new Date(observation.effectiveDateTime),
+    //                                             y: c.valueQuantity.value
+    //                                         });
+    //                                     }
+    //                                 });
+                
+    //                             }
+    //                         });
+    //                         bpMap.systolic.sort((a, b) => a.x - b.x);
+    //                         bpMap.diastolic.sort((a, b) => a.x - b.x);
+            
+    //                         console.log('PatientAutoDashboard.bpMap', bpMap)
+    //                         this.renderChart(bpMap);
+    //                     }
+    //                 });
+    //             }
+    //             if(ehrLaunchCapabilities.Questionnaire === true){
+    //                 const questionnaireQuery = new URLSearchParams();
+    //                 questionnaireQuery.set("patient", client.patient.id);
+    //                 console.log('questionnaire Query', questionnaireQuery);
+        
+    //                 let questionnaireUrl = 'questionnaire?' + questionnaireQuery.toString()
+    //                 console.log('questionnaireUrl', questionnaireUrl);
+        
+    //                 client.request(questionnaireUrl, { pageLimit: 0, flat: true}).then(questionnaires => {
+    //                         if(questionnaires){
+    //                             console.log('PatientAutoDashboard.questionnaires', questionnaires)
+    //                             questionnaires.forEach(questionnaire => {
+    //                                 Questionnaires.upsert({id: questionnaire.id}, {$set: questionnaire}, {validate: false, filter: false});                    
+    //                             });    
+    //                         }
+    //                     });
+    //             }
+    //             if(ehrLaunchCapabilities.QuestionnaireResponse === true){
+    //                 const questionnaireResponseQuery = new URLSearchParams();
+    //                 questionnaireResponseQuery.set("patient", client.patient.id);
+    //                 console.log('questionnaireResponse Query', questionnaireResponseQuery);
+        
+    //                 let questionnaireResponseUrl = 'questionnaireResponse?' + questionnaireResponseQuery.toString()
+    //                 console.log('questionnaireResponseUrl', questionnaireResponseUrl);
+        
+    //                 client.request(questionnaireResponseUrl, { pageLimit: 0, flat: true}).then(questionnaireResponses => {
+    //                         if(questionnaireResponses){
+    //                             console.log('PatientAutoDashboard.questionnaireResponses', questionnaireResponses)
+    //                             questionnaireResponses.forEach(questionnaireResponse => {
+    //                                 QuestionnaireResponseResponses.upsert({id: questionnaireResponse.id}, {$set: questionnaireResponse}, {validate: false, filter: false});                    
+    //                             });    
+    //                         }
+    //                     });
+    //             }
+
+    
+    //         } catch (error) {
+    //             alert("We had an error fetching data.", error)
+    //         }
+    //     } else {
+    //         console.log('FhirClientContext not instantiated')
+    //     }
+    // }
     function renderChart({ systolic, diastolic }) {
         this.chart = new ChartJS("myChart", {
             type: "line",
@@ -344,85 +415,99 @@ export function AutoDashboard(props){
 
     let useLocationSearch = useLocation().search;
 
-    useEffect(function(){
-        console.log('AutoDashboard.useEffect()');
+    // useEffect(function(){
+    //     console.log('AutoDashboard.useEffect()');
 
 
-        let fhirclientState = Session.get('fhirclient.state');
+    //     let fhirclientState = Session.get('fhirclient.state');
 
-        if(fhirclientState){
-            console.log('fhirclientState', fhirclientState)
-            let patientUrl = "";
-            let accessToken = "";
+    //     if(fhirclientState){
+    //         console.log('AutoDashboard.fhirclientState', fhirclientState)
+    //         let patientUrl = "";
+    //         let accessToken = "";
 
-            accessToken = fhirclientState.access_token;
-            patientUrl = fhirclientState.serverUrl + "/Patient";
+    //         accessToken = fhirclientState.access_token;
+    //         patientUrl = fhirclientState.serverUrl + "/Patient/" + get(fhirclientState, 'tokenResponse.patient');
 
-            console.log('Query Endpoint: ', patientUrl)
-            console.log('AccessToken:    ', accessToken)
+    //         console.log('Query Endpoint: ', patientUrl)
+    //         console.log('AccessToken:    ', accessToken)
       
-            var httpHeaders = { headers: {
-                'Accept': ['application/json', 'application/fhir+json'],
-                'Access-Control-Allow-Origin': '*'          
-            }}
+    //         var httpHeaders = { headers: {
+    //             'Accept': ['application/json', 'application/fhir+json'],
+    //             // apparently this doesn't work with Epic?
+    //             // 'Access-Control-Allow-Origin': '*'          
+    //         }}
     
-            if(get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken')){
-                accessToken = get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken');
-            }
+    //         if(get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken')){ 
+    //             accessToken = get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken');
+    //         } else {
+    //             accessToken = get(fhirclientState, 'tokenResponse.access_token');
+    //         }
     
-            if(accessToken){
-                httpHeaders.headers["Authorization"] = 'Bearer ' + accessToken;
-            }
+    //         if(accessToken){
+    //             httpHeaders.headers["Authorization"] = 'Bearer ' + accessToken;
+    //         }
     
-            console.log('patientUrl.httpHeaders', httpHeaders)    
-        }
+    //         console.log('AutoDashboard.patientUrl.httpHeaders', httpHeaders)    
+    //     }
 
-        console.log('AutoDashboard finished mounting into render tree.', get(window, '__PRELOADED_STATE__.url'));
+    //     console.log('AutoDashboard finished mounting into render tree.', get(window, '__PRELOADED_STATE__.url'));
 
-        let metadataRoute = "";
-        if(get(window, '__PRELOADED_STATE__.url.query.iss')){
-            metadataRoute = get(window, '__PRELOADED_STATE__.url.query.iss');
-        } else {
-            if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
-                let smartOnFhirArray = get(Meteor, 'settings.public.smartOnFhir');
-                smartOnFhirArray.forEach(function(config){
-                    if(useLocationSearch.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
-                        metadataRoute = get(config, 'fhirServiceUrl') + get(window, '__PRELOADED_STATE__.url.query.code');
-                    }
-                })
-            }            
-        } 
+    //     let metadataRoute = "";
+    //     if(get(window, '__PRELOADED_STATE__.url.query.iss')){
+    //         metadataRoute = get(window, '__PRELOADED_STATE__.url.query.iss');
+    //     } else {
+    //         if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
+    //             let smartOnFhirArray = get(Meteor, 'settings.public.smartOnFhir');
+    //             smartOnFhirArray.forEach(function(config){
+    //                 if(useLocationSearch.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
+    //                     metadataRoute = get(config, 'fhirServiceUrl') + get(window, '__PRELOADED_STATE__.url.query.code');
+    //                 }
+    //             })
+    //         }            
+    //     } 
+    //     // else if (get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl')){
+    //     //     // this probably doesnt work for SMART HealthIT
+    //     //     // but is better because it doesn't hardcode /fhir into the url
+    //     //     // which we can add in the `fhirServiceUrl`
+    //     //     metadataRoute = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl') + "metadata";
+    //     // } 
 
-        if(metadataRoute){            
-            console.log('Checking the metadata route: ' + metadataRoute);
+    //     if(metadataRoute){            
+    //         console.log('Checking the metadata route: ' + metadataRoute);
                 
-            HTTP.get(metadataRoute, {headers: {
-                "Accept": "application/json+fhir"
-              }}, function(error, conformanceStatement){
-                let parsedCapabilityStatement = JSON.parse(get(conformanceStatement, "content"))
-                console.log('Received a conformance statement for the server received via iss URL parameter.', parsedCapabilityStatement);
+    //         HTTP.get(metadataRoute, {headers: {
+    //             "Accept": "application/json+fhir",
+    //             // 'Access-Control-Allow-Origin': '*'     
+    //           }}, function(error, conformanceStatement){
+    //             let parsedCapabilityStatement = JSON.parse(get(conformanceStatement, "content"))
+    //             console.log('Received a conformance statement for the server received via iss URL parameter.', parsedCapabilityStatement);
         
-                let ehrLaunchCapabilities = FhirUtilities.parseCapabilityStatement(parsedCapabilityStatement);
-                console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);
-                Session.set('ehrLaunchCapabilities', ehrLaunchCapabilities)
+    //             let ehrLaunchCapabilities = FhirUtilities.parseCapabilityStatement(parsedCapabilityStatement);
+    //             console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);
+    //             Session.set('ehrLaunchCapabilities', ehrLaunchCapabilities)
     
-                fetchPatientData(ehrLaunchCapabilities);
-              })    
-        }    
+    //             // fetchPatientData(ehrLaunchCapabilities);
+    //           })    
+    //     }    
 
-        return function(){
-            console.log('useEffect().destroy()')
-            // chart.destroy()
-        };
-      }, []);
+    //     return function(){
+    //         console.log('useEffect().destroy()')
+    //         // chart.destroy()
+    //     };
+    // }, []);
 
 
+
+    let displayPatient = {};
+    if(typeof data.selectedPatient === "object"){
+        displayPatient = data.selectedPatient
+    }
     
-
     let patientIntake = <Grid container style={{marginTop: '20px'}}>
         <Grid item md={4} style={{paddingRight: '10px'}}>
             <CardHeader title="Who?" />
-            <PatientCard patient={data.selectedPatient} />
+            <PatientCard patient={displayPatient} />
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.locations.length + " Care Teams"} />
@@ -433,6 +518,17 @@ export function AutoDashboard(props){
                     />
                 </CardContent>                    
             </StyledCard>
+            <DynamicSpacer />
+            <StyledCard scrollable >
+                <CardHeader title={data.consents.length + " Consents"} />
+                <CardContent>
+                    <ConsentsTable
+                        consents={data.consents}
+                        count={data.consents.length}
+                    />
+                </CardContent>                    
+            </StyledCard>
+
             <DynamicSpacer />
             <CardHeader title="Where?" />
             <StyledCard scrollable >
@@ -550,12 +646,34 @@ export function AutoDashboard(props){
                     />                                                                                                           
                 </CardContent>                    
             </StyledCard>  
+
+            <DynamicSpacer />
+            <StyledCard scrollable >
+                <CardHeader title={data.questionnaires.length + " Questionnaires"} />
+                <CardContent>
+                    <QuestionnairesTable
+                        questionnaires={data.questionnaires}
+                        count={data.questionnaires.length}
+                    />
+                </CardContent>                    
+            </StyledCard>
+            <DynamicSpacer />
+            <StyledCard scrollable >
+                <CardHeader title={data.questionnaireResponses.length + " Questionnaire Responses"} />
+                <CardContent>
+                    <QuestionnaireResponsesTable
+                        questionnaireResponses={data.questionnaireResponses}
+                        count={data.questionnaireResponses.length}
+                    />
+                </CardContent>                    
+            </StyledCard>
+
         </Grid>
     </Grid>
 
     let patientChart = <Grid container style={{marginTop: '20px'}} justify="center">
         <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
-            <PatientCard patient={data.selectedPatient} />
+            <PatientCard patient={displayPatient} />
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.encounters.length + " Encounters"} />
@@ -646,6 +764,18 @@ export function AutoDashboard(props){
                     />                                                                                                           
                 </CardContent>                    
             </StyledCard>  
+
+
+            <DynamicSpacer />
+            <StyledCard scrollable >
+                <CardHeader title={data.questionnaireResponses.length + " Questionnaire Responses"} />
+                <CardContent>
+                    <QuestionnaireResponsesTable
+                        questionnaireResponses={data.questionnaireResponses}
+                        count={data.questionnaireResponses.length}
+                    />
+                </CardContent>                    
+            </StyledCard>
         </Grid>        
     </Grid>
 
