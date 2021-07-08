@@ -143,6 +143,11 @@ Object.keys(Package).forEach(function(packageName){
     LaunchPage = Package[packageName].LaunchPage;
   }  
 
+  if(Package[packageName].ConstructionZone){
+    // logger.trace('Found a custom ConstructionZone object in one of the packages.')
+    ConstructionZone = Package[packageName].ConstructionZone;
+  }  
+
 });
 
 let defaultHomeRoute = MainPage;
@@ -561,7 +566,7 @@ export function App(props) {
       themingRoute = <Route id='themingRoute' path="/theming" component={ ThemePage } { ...otherProps } />
     }
     if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ConstructionZone')){
-      themingRoute = <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
+      constructionRoute = <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
     }
     if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.QrScanner')){
       qrScannerRoute = <Route id='QrScannerPage' path="/qr-scanner" component={ QrScannerPage } />

@@ -3,13 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { oauth2 as SMART } from "fhirclient";
 import { FhirClientContext } from "../FhirClientContext";
 
+import { useLocation } from "react-router-dom";
+
 import { 
   CardHeader,
   CardContent,
   Grid
 } from '@material-ui/core';
 import { PageCanvas, StyledCard } from 'fhir-starter';
-import { get } from 'lodash';
+import { get, has } from 'lodash';
 
 import { Icon } from 'react-icons-kit'
 import { warning } from 'react-icons-kit/fa/warning'
@@ -41,61 +43,57 @@ import { Patients, Encounters, Procedures, Conditions, Immunizations, Immunizati
 
 
 function fetchPatientData(ehrLaunchCapabilities, client) {
+  console.log("---------------------------------------------------------------------")
+  console.log("SMART ON FHIR - FhirClientProvider");
 
   if(client){
-    const observationQuery = new URLSearchParams();
-    // observationQuery.set("code", "http://loinc.org|55284-4");
-
-    if(client.patient){
-      observationQuery.set("patient", get(client, 'patient'));
-
-      if(client.patient.id){
-        observationQuery.set("patient", get(client, 'patient.id'));
-      }    
-    }
-
-    observationQuery.set("category", "vital-signs");
-    
-    console.log('Observation Query', observationQuery);
-
-    let observationUrl = 'Observation?' + observationQuery.toString();
-    console.log('observationUrl', observationUrl);
-
     try {
-      if(ehrLaunchCapabilities.Observation === true){
-        client.request(observationUrl, { pageLimit: 0, flat: true }).then(bpObservations => {
-          if(bpObservations){
-            const bpMap = {
-              systolic: [],
-              diastolic: []
-            };
-            console.log('PatientAutoDashboard.observations', bpObservations)
-            bpObservations.forEach(observation => {
-              Observations._collection.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false});
-              if(Array.isArray(observation.component)){
-                observation.component.forEach(c => {
-                  const code = client.getPath(c, "code.coding.0.code");
-                  if (code === "8480-6") {
-                    bpMap.systolic.push({
-                      x: new Date(observation.effectiveDateTime),
-                      y: get(c , 'valueQuantity.value')
-                    });
-                  } else if (code === "8462-4") {
-                    bpMap.diastolic.push({
-                      x: new Date(observation.effectiveDateTime),
-                      y: get(c , 'valueQuantity.value')
-                    });
-                  }
-                });
-              }
-            });
-            bpMap.systolic.sort((a, b) => a.x - b.x);
-            bpMap.diastolic.sort((a, b) => a.x - b.x);
+      if(ehrLaunchCapabilities.Condition === true){
+        const conditionQuery = new URLSearchParams();
+        conditionQuery.set("patient", get(client, 'patient.id'));
+        console.log('Condition Query', conditionQuery);
 
-            console.log('PatientAutoDashboard.bpMap', bpMap)
-            this.renderChart(bpMap);
+        // without leading slash seems to work with Cerner, but not with Epic (?)
+        let conditionUrl = '/Condition?' + conditionQuery.toString()
+        console.log('conditionUrl', conditionUrl);
+
+        console.log('querying the server for Conditions using client.request()')
+        client.request(conditionUrl, { pageLimit: 0, flat: true}).then(conditions => {
+          if(conditions){
+            console.log('PatientAutoDashboard.conditions', conditions)
+            conditions.forEach(condition => {
+              Conditions._collection.upsert({id: condition.id}, {$set: condition}, {validate: false, filter: false});                    
+            });    
           }
         });
+
+        console.log('querying the server for Conditions using HTTP.get()')
+        let conditionUrlAssembled = get(client.getState(), 'serverUrl') + "/Condition?patient=" + client.getPatientId();
+        console.log('FhirClientProvider.conditionUrlAssembled:    ', conditionUrlAssembled);
+
+        if(conditionUrlAssembled){        
+          var httpHeaders = { headers: {
+            'Accept': "application/json,application/fhir+json",
+            "Authorization": "Bearer " + get(client.getState(), 'tokenResponse.access_token')
+          }}
+
+          // need to reconcile with client.request() syntax above    
+          HTTP.get(conditionUrlAssembled, httpHeaders, function(error, result){
+            if(result){
+              let parsedConditionBundle = JSON.parse(get(result, "content", {}))
+              console.log('FhirClientProvider.parsedConditionBundle', parsedConditionBundle);       
+              
+              if(parsedConditionBundle.resourceType === "Condition"){
+                if(!Conditions.findOne({id: parsedConditionBundle.id})){
+                  Conditions._collection.upsert({id: parsedConditionBundle.id}, {$set: parsedConditionBundle}, {validate: false, filter: false});     
+                }
+              }
+            }
+            if(error){
+              console.log('HTTP.get().conditionUrlAssembled.error', error)
+            }   
+          })    
+        }
       }
 
 
@@ -104,7 +102,8 @@ function fetchPatientData(ehrLaunchCapabilities, client) {
         encounterQuery.set("patient", get(client, 'patient.id'));
         console.log('Encounter Query', encounterQuery);
 
-        let encounterUrl = 'Encounter?' + encounterQuery.toString();
+        // without leading slash seems to work with Cerner, but not with Epic (?)
+        let encounterUrl = '/Encounter?' + encounterQuery.toString();
         console.log('encounterUrl', encounterUrl);
 
         client.request(encounterUrl, { pageLimit: 0, flat: true }).then(encounters => {
@@ -117,30 +116,14 @@ function fetchPatientData(ehrLaunchCapabilities, client) {
         });
       }
 
-      if(ehrLaunchCapabilities.Condition === true){
-        const conditionQuery = new URLSearchParams();
-        conditionQuery.set("patient", get(client, 'patient.id'));
-        console.log('Condition Query', conditionQuery);
-
-        let conditionUrl = 'Condition?' + conditionQuery.toString()
-        console.log('conditionUrl', conditionUrl);
-
-        client.request(conditionUrl, { pageLimit: 0, flat: true}).then(conditions => {
-          if(conditions){
-            console.log('PatientAutoDashboard.conditions', conditions)
-            conditions.forEach(condition => {
-              Conditions._collection.upsert({id: condition.id}, {$set: condition}, {validate: false, filter: false});                    
-            });    
-          }
-        });
-      }
 
       if(ehrLaunchCapabilities.Procedure === true){
         const procedureQuery = new URLSearchParams();
         procedureQuery.set("patient", get(client, 'patient.id'));
         console.log('Procedure Query', procedureQuery);
 
-        let procedureUrl = 'Procedure?' + procedureQuery
+        // without leading slash seems to work with Cerner, but not with Epic (?)
+        let procedureUrl = '/Procedure?' + procedureQuery
         console.log('procedureUrl', procedureUrl);
 
         client.request(procedureUrl, { pageLimit: 0, flat: true }).then(procedures => {
@@ -158,7 +141,8 @@ function fetchPatientData(ehrLaunchCapabilities, client) {
         immunizationQuery.set("patient", get(client, 'patient.id'));
         console.log('Immunization Query', immunizationQuery);
 
-        let immunizationUrl = 'Immunization?' + immunizationQuery
+        // without leading slash seems to work with Cerner, but not with Epic (?)
+        let immunizationUrl = '/Immunization?' + immunizationQuery
         console.log('immunizationUrl', immunizationUrl);
 
         client.request(immunizationUrl, {
@@ -174,47 +158,104 @@ function fetchPatientData(ehrLaunchCapabilities, client) {
         });
       }
 
-      // if(ehrLaunchCapabilities.MedicationOrder === true){
-      //   const medicationOrderQuery = new URLSearchParams();
-      //   medicationOrderQuery.set("patient", get(client, 'patient.id'));
-      //   console.log('MedicationOrder Query', medicationOrderQuery);
+      if(ehrLaunchCapabilities.MedicationOrder === true){
+        const medicationOrderQuery = new URLSearchParams();
+        medicationOrderQuery.set("patient", get(client, 'patient.id'));
+        console.log('MedicationOrder Query', medicationOrderQuery);
 
-      //   let medicationOrderUrl = 'MedicationOrder?' + medicationOrderQuery
-      //   console.log('medicationOrderUrl', medicationOrderUrl);
+        // without leading slash seems to work with Cerner, but not with Epic (?)
+        let medicationOrderUrl = '/MedicationOrder?' + medicationOrderQuery
+        console.log('medicationOrderUrl', medicationOrderUrl);
 
-      //   client.request(medicationOrderUrl, {
-      //       pageLimit: 0,
-      //       flat: true
-      //   }).then(medicationOrders => {
-      //     if(medicationOrders){
-      //       console.log('PatientAutoDashboard.medicationOrders', medicationOrders)
-      //       medicationOrders.forEach(procedure => {
-      //         MedicationOrders._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-      //       });    
-      //     }
-      //   });
-      // }
+        client.request(medicationOrderUrl, {
+            pageLimit: 0,
+            flat: true
+        }).then(medicationOrders => {
+          if(medicationOrders){
+            console.log('PatientAutoDashboard.medicationOrders', medicationOrders)
+            medicationOrders.forEach(procedure => {
+              MedicationOrders._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+            });    
+          }
+        });
+      }
 
-      // if(ehrLaunchCapabilities.MedicationRequest === true){
-      //   const medicationRequestQuery = new URLSearchParams();
-      //   medicationRequestQuery.set("patient", get(client, 'patient.id'));
-      //   console.log('MedicationRequest Query', medicationRequestQuery);
+      if(ehrLaunchCapabilities.MedicationRequest === true){
+        const medicationRequestQuery = new URLSearchParams();
+        medicationRequestQuery.set("patient", get(client, 'patient.id'));
+        console.log('MedicationRequest Query', medicationRequestQuery);
 
-      //   let medicationRequestUrl = 'MedicationRequest?' + medicationRequestQuery
-      //   console.log('medicationRequestUrl', medicationRequestUrl);
+        // without leading slash seems to work with Cerner, but not with Epic (?)
+        let medicationRequestUrl = '/MedicationRequest?' + medicationRequestQuery
+        console.log('medicationRequestUrl', medicationRequestUrl);
 
-      //   client.request(medicationRequestUrl, {
-      //     pageLimit: 0,
-      //     flat: true
-      //   }).then(medicationRequests => {
-      //     if(medicationRequests){
-      //       console.log('PatientAutoDashboard.medicationRequests', medicationRequests)
-      //       medicationRequests.forEach(procedure => {
-      //           MedicationRequests._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-      //       });    
-      //     }
-      //   });
-      // }
+        client.request(medicationRequestUrl, {
+          pageLimit: 0,
+          flat: true
+        }).then(medicationRequests => {
+          if(medicationRequests){
+            console.log('PatientAutoDashboard.medicationRequests', medicationRequests)
+            medicationRequests.forEach(procedure => {
+                MedicationRequests._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+            });    
+          }
+        });
+      }
+
+      if(ehrLaunchCapabilities.Observation === true){
+
+        const observationQuery = new URLSearchParams();
+        // observationQuery.set("code", "http://loinc.org|55284-4");
+    
+        if(client.patient){
+          observationQuery.set("patient", get(client, 'patient'));
+    
+          if(client.patient.id){
+            observationQuery.set("patient", get(client, 'patient.id'));
+          }    
+        }
+
+        observationQuery.set("category", "vital-signs");    
+        console.log('Observation Query', observationQuery);
+    
+        // without leading slash seems to work with Cerner, but not with Epic (?)
+        let observationUrl = '/Observation?' + observationQuery.toString();
+        console.log('observationUrl', observationUrl);
+
+        client.request(observationUrl, { pageLimit: 0, flat: true }).then(bpObservations => {
+          if(bpObservations){
+            const bpMap = {
+              systolic: [],
+              diastolic: []
+            };
+            console.log('PatientAutoDashboard.observations', bpObservations)
+            bpObservations.forEach(observation => {
+              Observations._collection.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false});
+              // if(Array.isArray(observation.component)){
+              //   observation.component.forEach(c => {
+              //     const code = client.getPath(c, "code.coding.0.code");
+              //     if (code === "8480-6") {
+              //       bpMap.systolic.push({
+              //         x: new Date(observation.effectiveDateTime),
+              //         y: get(c , 'valueQuantity.value')
+              //       });
+              //     } else if (code === "8462-4") {
+              //       bpMap.diastolic.push({
+              //         x: new Date(observation.effectiveDateTime),
+              //         y: get(c , 'valueQuantity.value')
+              //       });
+              //     }
+              //   });
+              // }
+            });
+            // bpMap.systolic.sort((a, b) => a.x - b.x);
+            // bpMap.diastolic.sort((a, b) => a.x - b.x);
+
+            console.log('PatientAutoDashboard.bpMap', bpMap)
+            // this.renderChart(bpMap);
+          }
+        });
+      }
 
     } catch (error) {
         alert("We had an error fetching data.", error)
@@ -222,13 +263,15 @@ function fetchPatientData(ehrLaunchCapabilities, client) {
   }
 }
 
+// let useLocationSearch = useLocation().search;
 
 export class FhirClientProvider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       client: null,
-      error: null
+      error: null,
+      location: get(props, 'location')
     };
     this.setClient = client => this.setState({ client });
   }
@@ -273,129 +316,175 @@ export class FhirClientProvider extends React.Component {
 
     return (
       <FhirClientContext.Provider
-          value={{
-              client: self.state.client,
-              setClient: self.setClient
-          }}
+        value={{
+            client: self.state.client,
+            setClient: self.setClient
+        }}
       >
           <FhirClientContext.Consumer>
               {({ client }) => {
                   if (client) {
                     return self.props.children;
                   } else {
+
+                    // let useLocationSearch = get(self, 'state.location.search');
+                    // logger.debug('FhirClientProvider.self', self, {source: "FhirClientProvider.jsx"});
+
+                    // let smartOnFhirConfig;
+                    // if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
+                    //   Meteor.settings.public.smartOnFhir.forEach(function(config){
+                    //       if(useLocationSearch.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
+                    //           smartOnFhirConfig = config;
+                    //       }
+                    //   })
+                    // }
+
                     SMART.ready()
-                    .then(client => {
+                      .then(client => {
+                        console.log("===========================================================================")
+                        console.log("SMART ON FHIR - FhirClientProvider")
 
-                      self.setState({ error: null });
-                      self.setState({ 
-                        client: client
-                      });
+                        self.setState({ error: null });
+                        self.setState({ 
+                          client: client
+                        });
 
-                      const token = client.getAuthorizationHeader();
-                      console.log('FhirClientProvider.SMART.ready().token: ' + token);
+                        const token = client.getAuthorizationHeader();
+                        console.log('FhirClientProvider.SMART.ready().token: ' + token);
 
-                      const patientId = client.getPatientId();
-                      console.log('FhirClientProvider.SMART.ready().patientId: ' + patientId);
+                        const patientId = client.getPatientId();
+                        console.log('FhirClientProvider.SMART.ready().patientId: ' + patientId);
 
-                      const state = client.getState();
-                      console.log('FhirClientProvider.SMART.ready().state: ' + JSON.stringify(state));
-                      Session.set('fhirclient.state', state);
+                        const state = client.getState();
+                        console.log('FhirClientProvider.SMART.ready().state: ' + JSON.stringify(state));
+                        Session.set('fhirclient.state', state);
 
-                      const userId = client.getUserId();
-                      console.log('FhirClientProvider.SMART.ready().userId: ' + userId);
+                        const userId = client.getUserId();
+                        console.log('FhirClientProvider.SMART.ready().userId: ' + userId);
 
-                      const userType = client.getUserType();
-                      console.log('FhirClientProvider.SMART.ready().userType: ' + userType);
+                        const userType = client.getUserType();
+                        console.log('FhirClientProvider.SMART.ready().userType: ' + userType);
 
-                      const fhirUser = client.getFhirUser();
-                      console.log('FhirClientProvider.SMART.ready().fhirUser: ' + fhirUser);
+                        const fhirUser = client.getFhirUser();
+                        console.log('FhirClientProvider.SMART.ready().fhirUser: ' + fhirUser);
 
-                      if(state){
-                        let metadataUrl = "";
-                        let patientUrl = "";
-                        let practitionerUrl = "";
-                        let accessToken = "";
+                        if(state){
+                          let metadataUrl = "";
+                          let patientUrl = "";
+                          let practitionerUrl = "";
+                          let accessToken = "";
 
-                        metadataUrl = state.serverUrl + "/metadata";
-                        patientUrl = state.serverUrl + "/Patient/" + patientId;
-                        practitionerUrl = state.serverUrl + "/" + fhirUser;
-    
-                        console.log('FhirClientProvider.metadataUrl:   ', metadataUrl);
-                        console.log('FhirClientProvider.patientUrl:    ', patientUrl);
-                        console.log('FhirClientProvider.practitionerUrl:    ', practitionerUrl);
-
-                        if(state.tokenResponse){
-                          accessToken = state.tokenResponse.access_token;
-                          console.log('FhirClientProvider.accessToken:   ', accessToken);
-                        }
-
-                        var httpHeaders = { headers: {
-                          'Accept': "application/json,application/fhir+json",
-                          'Access-Control-Allow-Origin': '*'          
-                        }}
-                
-                        if(get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken')){
-                            accessToken = get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken');
-                        }
+                          metadataUrl = state.serverUrl + "/metadata";
+                          console.log('FhirClientProvider.metadataUrl:   ', metadataUrl);
 
 
-                        if(accessToken){
-                          httpHeaders.headers["Authorization"] = 'Bearer ' + accessToken;
+                          if(state.tokenResponse){
+                            accessToken = get(state, 'tokenResponse.access_token');
+                            console.log('FhirClientProvider.accessToken:   ', accessToken);
+                          }
 
-                          console.log('patientUrl.httpHeaders', httpHeaders);
+                          var httpHeaders = { headers: {
+                            'Accept': "application/json,application/fhir+json",
+                            "Authorization": "Bearer " + get(client.getState(), 'tokenResponse.access_token')
+                            // the following doesn't work with Epic; but was needed by some other system
+                            // 'Access-Control-Allow-Origin': '*'        
+                          }}
 
-                          if(metadataUrl){            
-                            HTTP.get(metadataUrl, httpHeaders, function(error, conformanceStatement){
-                              let parsedCapabilityStatement = JSON.parse(get(conformanceStatement, "content"))
-                              console.log('Received a conformance statement for the server received via iss URL parameter.', parsedCapabilityStatement);
-                      
-                              let ehrLaunchCapabilities = FhirUtilities.parseCapabilityStatement(parsedCapabilityStatement);
-                              console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);
-                              Session.set('FhirClientProvider.ehrLaunchCapabilities', ehrLaunchCapabilities)
+                          // if(has(smartOnFhirConfig, 'client_secret')){
+                          //   httpHeaders.headers["Authorization"] = "Basic " + atob(get(smartOnFhirConfig, 'client_id') + ":" + get(smartOnFhirConfig, 'client_secret'));
+                          // } 
                   
-                              fetchPatientData(ehrLaunchCapabilities, client);
-                            })    
-                          }    
-
-                          if(patientUrl){            
-                            HTTP.get(patientUrl, httpHeaders, function(error, result){
-                              let parsedPatientBundle = JSON.parse(get(result, "content"))
-                              console.log('FhirClientProvider.parsedPatientBundle', parsedPatientBundle);                      
-
-                              if(parsedPatientBundle.resourceType === "Patient"){
-                                if(!Patients.findOne({id: parsedPatientBundle.id})){
-                                  Patients._collection.insert(parsedPatientBundle)
-                                  Session.set('selectedPatient', parsedPatientBundle)                                  
-                                  Session.set('selectedPatientId', get(parsedPatientBundle, 'id'))
-                                }
-                              }
-                            })    
+                          if(has(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken')){
+                            accessToken = get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken');
                           }
 
-                          if(practitionerUrl){            
-                            HTTP.get(practitionerUrl, httpHeaders, function(error, result){
-                              let parsedPractitionerBundle = JSON.parse(get(result, "content"))
-                              console.log('FhirClientProvider.parsedPractitionerBundle', parsedPractitionerBundle);     
+                          console.log('FhirClientProvider.patientUrl.httpHeaders', httpHeaders);
 
-                              if(parsedPractitionerBundle.resourceType === "Practitioner"){
-                                if(!Practitioners.findOne({id: parsedPractitionerBundle.id})){
-                                  Practitioners._collection.insert(parsedPractitionerBundle)
-                                  Session.set('currentUser', parsedPractitionerBundle);
-                                }
+                          if(accessToken){
+                            if(metadataUrl){            
+                              HTTP.get(metadataUrl, httpHeaders, function(error, conformanceStatement){
+                                let parsedCapabilityStatement = JSON.parse(get(conformanceStatement, "content"))
+                                console.log('Received a conformance statement for the server received via iss URL parameter.', parsedCapabilityStatement);
+                        
+                                let ehrLaunchCapabilities = FhirUtilities.parseCapabilityStatement(parsedCapabilityStatement);
+                                console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);
+                                Session.set('FhirClientProvider.ehrLaunchCapabilities', ehrLaunchCapabilities)
+                    
+                                fetchPatientData(ehrLaunchCapabilities, client);
+                              })    
+                            }
+
+                            if(patientId){
+                              patientUrl = state.serverUrl + "/Patient?_id=" + patientId;
+                              console.log('FhirClientProvider.patientUrl:    ', patientUrl);
+
+                              if(patientUrl){        
+                                // need to reconcile with client.request() syntax above    
+                                HTTP.get(patientUrl, httpHeaders, function(error, result){
+                                  if(result){
+                                    let parsedPatientBundle = JSON.parse(get(result, "content", {}))
+                                    console.log('FhirClientProvider.parsedPatientBundle', parsedPatientBundle);                      
+      
+                                    if(parsedPatientBundle.resourceType === "Patient"){
+                                      if(!Patients.findOne({id: parsedPatientBundle.id})){
+                                        Patients._collection.insert(parsedPatientBundle)
+                                        Session.set('selectedPatient', parsedPatientBundle)                                  
+                                        Session.set('selectedPatientId', get(parsedPatientBundle, 'id'))
+                                      }
+                                    } else if (parsedPatientBundle.resourceType === "Bundle"){
+                                      parsedPatientBundle.entry.forEach(function(entry){
+                                        if(get(entry, 'resource.resourceType') === "Patient"){
+                                          if(!Patients.findOne({id: get(entry, 'resource.id')})){
+                                            Patients._collection.insert(get(entry, 'resource'))
+                                            Session.set('selectedPatient', get(entry, 'resource'))                                  
+                                            Session.set('selectedPatientId', get(entry, 'resource.id'))
+                                          }
+                                        } 
+                                      }) 
+                                    }
+                                  }
+                                  if(error){
+                                    console.log('FhirClientProvider.patientUrl.get().error', error);
+                                  }
+                                })
                               }
-                            })    
+                            } else {
+                              console.log('FhirClientProvider.SMART.ready().patientId not found.  Please check scopes and permissions.')
+                            }
+
+                            if(fhirUser){
+                              practitionerUrl = state.serverUrl + "/" + fhirUser;
+                              console.log('FhirClientProvider.practitionerUrl:    ', practitionerUrl);
+
+                              if(practitionerUrl){            
+                                // need to reconcile with client.request() syntax above
+                                HTTP.get(practitionerUrl, httpHeaders, function(error, result){
+                                  if(result){
+                                    let parsedPractitionerBundle = JSON.parse(get(result, "content"))
+                                    console.log('FhirClientProvider.parsedPractitionerBundle', parsedPractitionerBundle);     
+      
+                                    if(parsedPractitionerBundle.resourceType === "Practitioner"){
+                                      if(!Practitioners.findOne({id: parsedPractitionerBundle.id})){
+                                        Practitioners._collection.insert(parsedPractitionerBundle)
+                                        Session.set('currentUser', parsedPractitionerBundle);
+                                      }
+                                    }  
+                                  }
+                                  if(error){
+                                    console.log('FhirClientProvider.practitionerUrl.get().error', error);
+                                  }
+                                })    
+                              }
+                            } else {
+                              console.log('FhirClientProvider.SMART.ready().fhirUser not found.  Please check scopes and permissions.')
+                            }
                           }
                         }
-                      }
-
-              
-                      
-
-                    })
-                    .catch(error => {
-                      self.setState({ error })
-                      // console.log('SMART.ready().catch()', error)                            
-                    });
+                      })
+                      .catch(error => {
+                        self.setState({ error })
+                        // console.log('SMART.ready().catch()', error)                            
+                      });
 
                     return null;
                   }

@@ -462,7 +462,14 @@ Meteor.startup(async function(){
         }
       }
 
-      Patients.insert(newPatient)
+      if(has(createdUser, 'emails[0].address')){
+        newPatient.telecom[0] = {
+          system: 'email',
+          value: get(createdUser, 'emails[0].address')
+        }
+      }
+
+      let patientId = Patients.insert(newPatient)
     }
 
 

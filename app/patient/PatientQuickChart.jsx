@@ -43,8 +43,9 @@ export default function PatientQuickChart(props) {
 
 
     logger.debug('PatientQuickChart.searchParams', {data: searchParams}, {source: "PatientQuickChart.jsx"});
+    logger.debug('PatientQuickChart.props', {data: props}, {source: "PatientQuickChart.jsx"});
 
-    let contentToRender = <FhirClientProvider>
+    let contentToRender = <FhirClientProvider location={get(props, 'history.location')}>
         <PageCanvas id='patientQuickChart' headerHeight={headerHeight} >
           <AutoDashboard fhirServerEndpoint={fhirServerEndpoint} />
         </PageCanvas>
