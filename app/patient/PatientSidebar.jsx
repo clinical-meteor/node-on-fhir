@@ -31,6 +31,8 @@ import {user} from 'react-icons-kit/fa/user';
 import {users} from 'react-icons-kit/fa/users';
 import {userMd} from 'react-icons-kit/fa/userMd';
 
+
+
 import {ic_devices} from 'react-icons-kit/md/ic_devices';  // Devices
 import {ic_transfer_within_a_station} from 'react-icons-kit/md/ic_transfer_within_a_station' // Encounters 
 import {ic_local_pharmacy} from 'react-icons-kit/md/ic_local_pharmacy'  // Medication, MedicationStatement, MedicationOrder  

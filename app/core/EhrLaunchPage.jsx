@@ -26,10 +26,10 @@ const styles = theme => ({});
 // ==============================================================================
 // Main Component
 
-function LaunchPage(props) {
+function EhrLaunchPage(props) {
   if(logger){
-    logger.info('Rendering the LaunchPage.');
-    logger.verbose('client.app.layout.LaunchPage');  
+    logger.info('Rendering the EhrLaunchPage.');
+    logger.verbose('client.app.layout.EhrLaunchPage');  
   }
 
   //--------------------------------------------------------------------------------
@@ -49,10 +49,21 @@ function LaunchPage(props) {
 
   useEffect(function(){
 
+    let iss = searchParams.get('iss');
+    let issArray = iss.split("/");
+    let ehrFhirVersion = issArray[issArray.length - 1];
+
+    let appIsProduction = true;
+    let appIsRunningOnLocalhost = false;
+    if(Meteor.absoluteUrl() === "http://localhost:3000/"){
+      appIsProduction = false;
+      appIsRunningOnLocalhost = true;
+    }
+
     let smartOnFhirConfig;
     if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
       Meteor.settings.public.smartOnFhir.forEach(function(config){
-          if(useLocationSearch.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
+          if(useLocationSearch.includes(config.vendorKeyword) && (config.launchContext === "Provider") && (config.fhirVersion === ehrFhirVersion) && (config.production === appIsProduction) && (config.environment === (appIsRunningOnLocalhost ? "localhost" : "meteor"))){
               smartOnFhirConfig = config;
           }
       })
@@ -82,6 +93,10 @@ function LaunchPage(props) {
       // this is mostly used for HAPI test servers, not Cerner and Epic
       smartConfig.fhirServiceUrl = get(smartOnFhirConfig, 'fhirServiceUrl');
       //Session.set('smartOnFhir_iss', get(smartOnFhirConfig, 'settings.public.smartOnFhir[0].fhirServiceUrl'))
+    }
+
+    if(process.env.NODE_ENV === "debug"){
+      alert(JSON.stringify(smartConfig))
     }
 
     SMART.authorize(smartConfig);
@@ -116,4 +131,4 @@ function LaunchPage(props) {
   );
 }
 
-export default withStyles(styles, { withTheme: true })(LaunchPage);
+export default withStyles(styles, { withTheme: true })(EhrLaunchPage);
