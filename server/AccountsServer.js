@@ -371,6 +371,10 @@ Meteor.startup(async function(){
     let userId = "";
     let dataPayload = {};
 
+    if(has(user, 'patientId')){
+      user.id =get(user, 'patientId');
+    }
+
     try {
       userId = await accountsPasswordService.createUser(user);
       console.log('userId', userId)
@@ -441,6 +445,9 @@ Meteor.startup(async function(){
           text: '',
           given: [],
           family: ''
+        }],
+        photo: [{
+          url: 'http://localhost:3000/noAvatar.png'
         }]
       }
 
@@ -463,13 +470,18 @@ Meteor.startup(async function(){
       }
 
       if(has(createdUser, 'emails[0].address')){
+        if(!has(newPatient, 'telecom')){
+          newPatient.telecom = [];
+        }
         newPatient.telecom[0] = {
           system: 'email',
           value: get(createdUser, 'emails[0].address')
         }
       }
 
-      let patientId = Patients.insert(newPatient)
+      if(Patients.findOne({id: newPatient.id})){
+        let patientId = Patients.insert(newPatient)
+      }
     }
 
 

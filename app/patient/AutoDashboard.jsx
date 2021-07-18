@@ -33,6 +33,8 @@ export function AutoDashboard(props){
     let chartWidth = (window.innerWidth - 240) / 3;
 
     let data = {
+        careTeams: [],
+        carePlans: [],
         encounters: [],
         procedures: [],
         conditions: [],
@@ -63,7 +65,25 @@ export function AutoDashboard(props){
         return Session.get('quickchartTabIndex')
     }, []);
 
+    data.careTeamTabIndex = useTracker(function(){
+        return Session.get('careTeamTabIndex')
+    }, []);
+    data.carePlanTabIndex = useTracker(function(){
+        return Session.get('carePlanTabIndex')
+    }, []);
 
+
+
+    if(CareTeams){
+        data.careTeams = useTracker(function(){
+            return CareTeams.find().fetch()
+        }, [])    
+    }
+    if(CarePlans){
+        data.carePlans = useTracker(function(){
+            return CarePlans.find().fetch()
+        }, [])    
+    }
     if(Consents){
         data.consents = useTracker(function(){
             return Consents.find().fetch()
@@ -79,6 +99,16 @@ export function AutoDashboard(props){
             return Encounters.find().fetch()
         }, [])   
     }
+    if(Immunizations){
+        data.immunizations = useTracker(function(){
+            return Immunizations.find().fetch()
+        }, [])   
+    }
+    if(Locations){
+        data.locations = useTracker(function(){
+            return Locations.find().fetch()
+        }, [])   
+    }
     if(Procedures){
         data.procedures = useTracker(function(){
             return Procedures.find().fetch()
@@ -89,16 +119,7 @@ export function AutoDashboard(props){
             return Observations.find().fetch()
         }, [])   
     }
-    if(Locations){
-        data.locations = useTracker(function(){
-            return Locations.find().fetch()
-        }, [])   
-    }
-    if(Immunizations){
-        data.immunizations = useTracker(function(){
-            return Immunizations.find().fetch()
-        }, [])   
-    }
+
     if(Questionnaires){
         data.questionnaires = useTracker(function(){
             return Questionnaires.find().fetch()
@@ -113,680 +134,302 @@ export function AutoDashboard(props){
 
 
 
-    // function fetchPatientData(ehrLaunchCapabilities) {
-
-    //     if(client){
-    //         const observationQuery = new URLSearchParams();
-    //         // observationQuery.set("code", "http://loinc.org|55284-4");
-    //         if(client.patient){
-    //             observationQuery.set("patient", client.patient);
-
-    //             if(client.patient.id){
-    //                 observationQuery.set("patient", client.patient.id);
-    //             }    
-    //         }
-    //         observationQuery.set("category", "vital-signs");
-            
-    //         console.log('Observation Query', observationQuery);
-    
-    //         let observationUrl = 'Observation?' + observationQuery.toString();
-    //         console.log('observationUrl', observationUrl);
-    
-    //         try {
-
-
-    //             if(ehrLaunchCapabilities.Condition === true){
-    //                 const conditionQuery = new URLSearchParams();
-    //                 conditionQuery.set("patient", client.patient.id);
-    //                 console.log('Condition Query', conditionQuery);
-        
-    //                 let conditionUrl = 'Condition?' + conditionQuery.toString()
-    //                 console.log('conditionUrl', conditionUrl);
-        
-    //                 client.request(conditionUrl, { pageLimit: 0, flat: true}).then(conditions => {
-    //                         if(conditions){
-    //                             console.log('PatientAutoDashboard.conditions', conditions)
-    //                             conditions.forEach(condition => {
-    //                                 Conditions.upsert({id: condition.id}, {$set: condition}, {validate: false, filter: false});                    
-    //                             });    
-    //                         }
-    //                     });
-    //             }
-    //             if(ehrLaunchCapabilities.Consent === true){
-    //                 const consentQuery = new URLSearchParams();
-    //                 consentQuery.set("patient", client.patient.id);
-    //                 console.log('consent Query', consentQuery);
-        
-    //                 let consentUrl = 'consent?' + consentQuery.toString()
-    //                 console.log('consentUrl', consentUrl);
-        
-    //                 client.request(consentUrl, { pageLimit: 0, flat: true}).then(consents => {
-    //                         if(consents){
-    //                             console.log('PatientAutoDashboard.consents', consents)
-    //                             consents.forEach(consent => {
-    //                                 Consents.upsert({id: consent.id}, {$set: consent}, {validate: false, filter: false});                    
-    //                             });    
-    //                         }
-    //                     });
-    //             }
-
-    //             if(ehrLaunchCapabilities.Encounter === true){
-    //                 const encounterQuery = new URLSearchParams();
-    //                 encounterQuery.set("patient", client.patient.id);
-    //                 console.log('Encounter Query', encounterQuery);
-        
-    //                 let encounterUrl = 'Encounter?' + encounterQuery.toString()
-    //                 console.log('encounterUrl', encounterUrl);
-        
-    //                 client.request(encounterUrl, { pageLimit: 0, flat: true }).then(encounters => {
-    //                         const bpMap = {
-    //                             systolic: [],
-    //                             diastolic: []
-    //                         };
-    //                         if(encounters){
-    //                             console.log('PatientAutoDashboard.encounters', encounters)
-    //                             encounters.forEach(encounter => {
-    //                                 Encounters.upsert({id: encounter.id}, {$set: encounter}, {validate: false, filter: false});                    
-    //                             });    
-    //                         }
-    //                     });
-    //             }
-
-
-
-    //             if(ehrLaunchCapabilities.Procedure === true){
-    //                 const procedureQuery = new URLSearchParams();
-    //                 procedureQuery.set("patient", client.patient.id);
-    //                 console.log('Procedure Query', procedureQuery);
-        
-    //                 let procedureUrl = 'Procedure?' + procedureQuery
-    //                 console.log('procedureUrl', procedureUrl);
-        
-    //                 client.request(procedureUrl, { pageLimit: 0, flat: true }).then(procedures => {
-    //                         if(procedures){
-    //                             console.log('PatientAutoDashboard.procedures', procedures)
-    //                             procedures.forEach(procedure => {
-    //                                 Procedures.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-    //                             });    
-    //                         }
-    //                     });
-    //             }
-
-    //             if(ehrLaunchCapabilities.Immunization === true){
-    //                 const immunizationQuery = new URLSearchParams();
-    //                 immunizationQuery.set("patient", client.patient.id);
-    //                 console.log('Immunization Query', immunizationQuery);
-        
-    //                 let immunizationUrl = 'Immunization?' + immunizationQuery
-    //                 console.log('immunizationUrl', immunizationUrl);
-        
-    //                 client.request(immunizationUrl, {
-    //                         pageLimit: 0,
-    //                         flat: true
-    //                     }).then(immunizations => {
-    //                         if(immunizations){
-    //                             console.log('PatientAutoDashboard.immunizations', immunizations)
-    //                             immunizations.forEach(procedure => {
-    //                                 Immunizations.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-    //                             });    
-    //                         }
-    //                     });
-    //             }
-
-    //             if(ehrLaunchCapabilities.MedicationOrder === true){
-    //                 const medicationOrderQuery = new URLSearchParams();
-    //                 medicationOrderQuery.set("patient", client.patient.id);
-    //                 console.log('MedicationOrder Query', medicationOrderQuery);
-        
-    //                 let medicationOrderUrl = 'MedicationOrder?' + medicationOrderQuery
-    //                 console.log('medicationOrderUrl', medicationOrderUrl);
-        
-    //                 client.request(medicationOrderUrl, {
-    //                     pageLimit: 0,
-    //                     flat: true
-    //                 }).then(medicationOrders => {
-    //                     if(medicationOrders){
-    //                         console.log('PatientAutoDashboard.medicationOrders', medicationOrders)
-    //                         medicationOrders.forEach(procedure => {
-    //                             MedicationOrders.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-    //                         });    
-    //                     }
-    //                 });
-    //             }
-
-    //             if(ehrLaunchCapabilities.MedicationRequest === true){
-    //                 const medicationRequestQuery = new URLSearchParams();
-    //                 medicationRequestQuery.set("patient", client.patient.id);
-    //                 console.log('MedicationRequest Query', medicationRequestQuery);
-        
-    //                 let medicationRequestUrl = 'MedicationRequest?' + medicationRequestQuery
-    //                 console.log('medicationRequestUrl', medicationRequestUrl);
-        
-    //                 client.request(medicationRequestUrl, {
-    //                         pageLimit: 0,
-    //                         flat: true
-    //                     }).then(medicationRequests => {
-    //                         if(medicationRequests){
-    //                             console.log('PatientAutoDashboard.medicationRequests', medicationRequests)
-    //                             medicationRequests.forEach(procedure => {
-    //                                 MedicationRequests.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
-    //                             });    
-    //                         }
-    //                     });
-    //             }
-
-    //             if(ehrLaunchCapabilities.Observation === true){
-    //                 client.request(observationUrl, { pageLimit: 0, flat: true }).then(bpObservations => {
-    //                     if(bpObservations){
-    //                         const bpMap = {
-    //                             systolic: [],
-    //                             diastolic: []
-    //                         };
-    //                         console.log('PatientAutoDashboard.observations', bpObservations)
-    //                         bpObservations.forEach(observation => {
-    //                             Observations.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false});
-    //                             if(Array.isArray(observation.component)){
-    //                                 observation.component.forEach(c => {
-    //                                     const code = client.getPath(c, "code.coding.0.code");
-    //                                     if (code === "8480-6") {
-    //                                         bpMap.systolic.push({
-    //                                             x: new Date(observation.effectiveDateTime),
-    //                                             y: c.valueQuantity.value
-    //                                         });
-    //                                     } else if (code === "8462-4") {
-    //                                         bpMap.diastolic.push({
-    //                                             x: new Date(observation.effectiveDateTime),
-    //                                             y: c.valueQuantity.value
-    //                                         });
-    //                                     }
-    //                                 });
-                
-    //                             }
-    //                         });
-    //                         bpMap.systolic.sort((a, b) => a.x - b.x);
-    //                         bpMap.diastolic.sort((a, b) => a.x - b.x);
-            
-    //                         console.log('PatientAutoDashboard.bpMap', bpMap)
-    //                         this.renderChart(bpMap);
-    //                     }
-    //                 });
-    //             }
-    //             if(ehrLaunchCapabilities.Questionnaire === true){
-    //                 const questionnaireQuery = new URLSearchParams();
-    //                 questionnaireQuery.set("patient", client.patient.id);
-    //                 console.log('questionnaire Query', questionnaireQuery);
-        
-    //                 let questionnaireUrl = 'questionnaire?' + questionnaireQuery.toString()
-    //                 console.log('questionnaireUrl', questionnaireUrl);
-        
-    //                 client.request(questionnaireUrl, { pageLimit: 0, flat: true}).then(questionnaires => {
-    //                         if(questionnaires){
-    //                             console.log('PatientAutoDashboard.questionnaires', questionnaires)
-    //                             questionnaires.forEach(questionnaire => {
-    //                                 Questionnaires.upsert({id: questionnaire.id}, {$set: questionnaire}, {validate: false, filter: false});                    
-    //                             });    
-    //                         }
-    //                     });
-    //             }
-    //             if(ehrLaunchCapabilities.QuestionnaireResponse === true){
-    //                 const questionnaireResponseQuery = new URLSearchParams();
-    //                 questionnaireResponseQuery.set("patient", client.patient.id);
-    //                 console.log('questionnaireResponse Query', questionnaireResponseQuery);
-        
-    //                 let questionnaireResponseUrl = 'questionnaireResponse?' + questionnaireResponseQuery.toString()
-    //                 console.log('questionnaireResponseUrl', questionnaireResponseUrl);
-        
-    //                 client.request(questionnaireResponseUrl, { pageLimit: 0, flat: true}).then(questionnaireResponses => {
-    //                         if(questionnaireResponses){
-    //                             console.log('PatientAutoDashboard.questionnaireResponses', questionnaireResponses)
-    //                             questionnaireResponses.forEach(questionnaireResponse => {
-    //                                 QuestionnaireResponseResponses.upsert({id: questionnaireResponse.id}, {$set: questionnaireResponse}, {validate: false, filter: false});                    
-    //                             });    
-    //                         }
-    //                     });
-    //             }
-
-    
-    //         } catch (error) {
-    //             alert("We had an error fetching data.", error)
-    //         }
-    //     } else {
-    //         console.log('FhirClientContext not instantiated')
-    //     }
-    // }
-    function renderChart({ systolic, diastolic }) {
-        this.chart = new ChartJS("myChart", {
-            type: "line",
-            data: {
-                datasets: [
-                    {
-                        label: "Systolic",
-                        data: systolic,
-                        borderWidth: 2,
-                        borderColor: "rgba(200, 0, 127, 1)",
-                        fill: false,
-                        cubicInterpolationMode: "monotone"
-                    },
-                    {
-                        label: "Diastolic",
-                        data: diastolic,
-                        borderWidth: 2,
-                        borderColor: "rgba(0, 127, 255, 1)",
-                        fill: false,
-                        cubicInterpolationMode: "monotone"
-                    }
-                ]
-            },
-
-            options: {
-                responsive: false,
-                scales: {
-                    yAxes: [
-                        {
-                            offset: true,
-                            ticks: {
-                                beginAtZero: true,
-                                min: 0,
-                                max: 200,
-                                stepSize: 20
-                            }
-                        }
-                    ],
-                    xAxes: [
-                        {
-                            type: "time"
-                        }
-                    ]
-                },
-                title: {
-                    text: "Blood Preasure",
-                    display: true,
-                    fontSize: 20
-                }
-            }
-        });
-    }
-    function shouldComponentUpdate() {
-        return false;
-    }
-    // function componentWillUnmount() {
-    //     this.chart && this.chart.destroy();
-    // }
-
     let useLocationSearch = useLocation().search;
-
-    // useEffect(function(){
-    //     console.log('AutoDashboard.useEffect()');
-
-
-    //     let fhirclientState = Session.get('fhirclient.state');
-
-    //     if(fhirclientState){
-    //         console.log('AutoDashboard.fhirclientState', fhirclientState)
-    //         let patientUrl = "";
-    //         let accessToken = "";
-
-    //         accessToken = fhirclientState.access_token;
-    //         patientUrl = fhirclientState.serverUrl + "/Patient/" + get(fhirclientState, 'tokenResponse.patient');
-
-    //         console.log('Query Endpoint: ', patientUrl)
-    //         console.log('AccessToken:    ', accessToken)
-      
-    //         var httpHeaders = { headers: {
-    //             'Accept': ['application/json', 'application/fhir+json'],
-    //             // apparently this doesn't work with Epic?
-    //             // 'Access-Control-Allow-Origin': '*'          
-    //         }}
-    
-    //         if(get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken')){ 
-    //             accessToken = get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken');
-    //         } else {
-    //             accessToken = get(fhirclientState, 'tokenResponse.access_token');
-    //         }
-    
-    //         if(accessToken){
-    //             httpHeaders.headers["Authorization"] = 'Bearer ' + accessToken;
-    //         }
-    
-    //         console.log('AutoDashboard.patientUrl.httpHeaders', httpHeaders)    
-    //     }
-
-    //     console.log('AutoDashboard finished mounting into render tree.', get(window, '__PRELOADED_STATE__.url'));
-
-    //     let metadataRoute = "";
-    //     if(get(window, '__PRELOADED_STATE__.url.query.iss')){
-    //         metadataRoute = get(window, '__PRELOADED_STATE__.url.query.iss');
-    //     } else {
-    //         if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
-    //             let smartOnFhirArray = get(Meteor, 'settings.public.smartOnFhir');
-    //             smartOnFhirArray.forEach(function(config){
-    //                 if(useLocationSearch.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
-    //                     metadataRoute = get(config, 'fhirServiceUrl') + get(window, '__PRELOADED_STATE__.url.query.code');
-    //                 }
-    //             })
-    //         }            
-    //     } 
-    //     // else if (get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl')){
-    //     //     // this probably doesnt work for SMART HealthIT
-    //     //     // but is better because it doesn't hardcode /fhir into the url
-    //     //     // which we can add in the `fhirServiceUrl`
-    //     //     metadataRoute = get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl') + "metadata";
-    //     // } 
-
-    //     if(metadataRoute){            
-    //         console.log('Checking the metadata route: ' + metadataRoute);
-                
-    //         HTTP.get(metadataRoute, {headers: {
-    //             "Accept": "application/json+fhir",
-    //             // 'Access-Control-Allow-Origin': '*'     
-    //           }}, function(error, conformanceStatement){
-    //             let parsedCapabilityStatement = JSON.parse(get(conformanceStatement, "content"))
-    //             console.log('Received a conformance statement for the server received via iss URL parameter.', parsedCapabilityStatement);
-        
-    //             let ehrLaunchCapabilities = FhirUtilities.parseCapabilityStatement(parsedCapabilityStatement);
-    //             console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);
-    //             Session.set('ehrLaunchCapabilities', ehrLaunchCapabilities)
-    
-    //             // fetchPatientData(ehrLaunchCapabilities);
-    //           })    
-    //     }    
-
-    //     return function(){
-    //         console.log('useEffect().destroy()')
-    //         // chart.destroy()
-    //     };
-    // }, []);
-
 
 
     let displayPatient = {};
     if(typeof data.selectedPatient === "object"){
         displayPatient = data.selectedPatient
     }
+
+
+    let careTeamContent;
+    if(data.careTeams.length > 0){
+        careTeamContent = <CardContent>
+            <CareTeamsTable
+                careTeams={data.careTeams}
+                hideCategory={true}
+                hideIdentifier={true}
+                count={data.careTeams.length}
+            />
+        </CardContent>
+    }
+    let carePlansContent;
+    if(data.carePlans.length > 0){
+        carePlansContent = <CardContent>
+            <CarePlansTable
+                locations={data.locations}
+                count={data.locations.length}
+            />
+        </CardContent>                    
+    }
+
+    let consentContent;
+    if(data.consents.length > 0){
+        consentContent = <CardContent>
+            <ConsentsTable
+                hideDates={true}
+                hideEndDateTime={true}
+                consents={data.consents}
+                count={data.consents.length}
+            />
+        </CardContent> 
+    }
+
+    let encountersContent;
+    if(data.encounters.length > 0){
+        encountersContent = <CardContent>
+            <EncountersTable
+                encounters={data.encounters}
+                hideCheckboxes={true}
+                hideActionIcons={true}
+                hideSubjects={true}
+                hideType={true}
+                hideHistory={true}
+                hideEndDateTime={true}
+                count={data.encounters.length}
+            />
+        </CardContent> 
+    }
+    let conditionsContent;
+    if(data.conditions.length > 0){
+        conditionsContent = <CardContent>
+            <ConditionsTable
+                conditions={data.conditions}
+                hideCheckbox={true}
+                hideActionIcons={true}
+                hidePatientName={true}
+                hidePatientReference={true}
+                hideAsserterName={true}
+                hideEvidence={true}
+                hideBarcode={true}
+                hideDates={false}
+                count={data.conditions.length}
+            />                                        
+        </CardContent>                    
+    }
+    let locationsContent;
+    if(data.locations.length > 0){
+        locationsContent = <CardContent>
+            <LocationsTable
+                locations={data.locations}
+                count={data.locations.length}
+            />
+        </CardContent>                    
+    }
+    let immunizationsContent;
+    if(data.immunizations.length > 0){
+        immunizationsContent = <CardContent>
+            <ImmunizationsTable
+                immunizations={data.immunizations}
+                hideCheckbox={true}
+                hideIdentifier={true}
+                hideActionIcons={true}
+                hidePatient={true}
+                hidePerformer={true}
+                hideVaccineCode={false}
+                hideVaccineCodeText={false}
+                count={data.immunizations.length}
+            />                                        
+        </CardContent> 
+    }
+    let observationsContent;
+    if(data.observations.length > 0){
+        observationsContent = <CardContent>
+            <ObservationsTable 
+                observations={data.observations}
+                hideCheckbox={true}
+                hideActionIcons={true}
+                hideSubject={true}
+                hideDevices={true}
+                hideValue={false}
+                hideBarcode={true}
+                hideDenominator={true}
+                hideNumerator={true}
+                multiline={true}
+                multiComponentValues={true}
+                hideSubjectReference={true}
+                count={data.observations.length}
+            />                                                                                                           
+        </CardContent>                    
+    }
+    let proceduresContent;
+    if(data.procedures.length > 0){
+        proceduresContent = <CardContent>
+            <ProceduresTable 
+                procedures={data.procedures}
+                hideCheckbox={true}
+                hideActionIcons={true}
+                hideIdentifier={true}
+                hideCategory={true}
+                hideSubject={true}
+                hideBodySite={true}
+                hidePerformedDateEnd={true}
+                hideSubjectReference={true}
+                hideBarcode={true}
+                count={data.procedures.length}
+            />                                                                                                           
+        </CardContent>                    
+    }
+
+
+    let questionnairesContent;
+    if(data.questionnaires.length > 0){
+        questionnairesContent = <CardContent>
+            <QuestionnairesTable
+                questionnaires={data.questionnaires}
+                count={data.questionnaires.length}
+                hideIdentifier={true}
+            />
+        </CardContent>                    
+    }
+
+    let questionnaireResponsesContent;
+    if(data.questionnaireResponses.length > 0){
+        questionnaireResponsesContent = <CardContent>
+            <QuestionnaireResponsesTable
+                questionnaireResponses={data.questionnaireResponses}
+                count={data.questionnaireResponses.length}
+                hideCheckbox={true}
+                hideActionIcons={true}
+                hideIdentifier={true}
+            />
+        </CardContent>
+    }
+
+    let leftColumnStyle = {
+        paddingRight: '10px'
+    }
+    let centerColumnStyle = {
+        paddingRight: '10px', 
+        paddingLeft: '10px'
+    }
+    let rightColumnStyle = {
+        paddingLeft: '10px',
+        marginBottom: '84px'
+    }
+
+    if(window.innerWidth < 768){
+        leftColumnStyle.paddingRight = '0px'
+        centerColumnStyle.paddingRight = '0px'
+        centerColumnStyle.paddingLeft = '0px'
+        rightColumnStyle.paddingLeft = '0px'
+    }
     
-    let patientIntake = <Grid container style={{marginTop: '20px'}}>
-        <Grid item md={4} style={{paddingRight: '10px'}}>
+    let patientIntakeLayout = <Grid container justify="center" style={{marginTop: '20px'}}>
+        <Grid item xs={12} md={4} style={leftColumnStyle}>
             <CardHeader title="Who?" />
             <PatientCard patient={displayPatient} />
             <DynamicSpacer />
             <StyledCard scrollable >
-                <CardHeader title={data.locations.length + " Care Teams"} />
-                <CardContent>
-                    <CareTeamsTable
-                        locations={data.locations}
-                        count={data.locations.length}
-                    />
-                </CardContent>                    
+                <CardHeader title={data.careTeams.length + " Care Teams"} />
+                { careTeamContent }          
             </StyledCard>
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.consents.length + " Consents"} />
-                <CardContent>
-                    <ConsentsTable
-                        consents={data.consents}
-                        count={data.consents.length}
-                    />
-                </CardContent>                    
+                { consentContent }  
             </StyledCard>
-
             <DynamicSpacer />
             <CardHeader title="Where?" />
             <StyledCard scrollable >
                 <CardHeader title={data.encounters.length + " Encounters"} />
-                <CardContent>
-                    <EncountersTable
-                        encounters={data.encounters}
-                        hideCheckboxes={true}
-                        hideActionIcons={true}
-                        hideSubjects={true}
-                        hideType={true}
-                        hideHistory={true}
-                        hideEndDateTime={true}
-                        count={data.encounters.length}
-                    />
-                </CardContent>                    
+                {encountersContent}               
             </StyledCard>
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.locations.length + " Locations"} />
-                <CardContent>
-                    <LocationsTable
-                        locations={data.locations}
-                        count={data.locations.length}
-                    />
-                </CardContent>                    
-            </StyledCard>
-            
+                {locationsContent}                
+            </StyledCard>            
         </Grid>
-        <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+        <Grid item xs={12} md={4} style={centerColumnStyle}>
             <CardHeader title="What?" />
             <StyledCard scrollable >
                 <CardHeader title={data.conditions.length + " Conditions"} />
-                <CardContent>
-                    <ConditionsTable
-                        conditions={data.conditions}
-                        hideCheckbox={true}
-                        hideActionIcons={true}
-                        hidePatientName={true}
-                        hidePatientReference={true}
-                        hideAsserterName={true}
-                        hideEvidence={true}
-                        hideBarcode={true}
-                        hideDates={false}
-                        count={data.conditions.length}
-                    />                                        
-                </CardContent>                    
+                {conditionsContent}
             </StyledCard>                
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.immunizations.length + " Immunizations"} />
-                <CardContent>
-                    <ImmunizationsTable
-                        immunizations={data.immunizations}
-                        hideCheckbox={true}
-                        hideIdentifier={true}
-                        hideActionIcons={true}
-                        hidePatient={true}
-                        hidePerformer={true}
-                        hideVaccineCode={false}
-                        hideVaccineCodeText={false}
-                        count={data.immunizations.length}
-                    />                                        
-                </CardContent>                    
+                {immunizationsContent}
             </StyledCard>                
             <DynamicSpacer />
             <StyledCard scrollable>
                 <CardHeader title={data.procedures.length + " Procedures"} />
-                <CardContent>
-                    <ProceduresTable 
-                        procedures={data.procedures}
-                        hideCheckbox={true}
-                        hideActionIcons={true}
-                        hideIdentifier={true}
-                        hideCategory={true}
-                        hideSubject={true}
-                        hideBodySite={true}
-                        hidePerformedDateEnd={true}
-                        hideSubjectReference={true}
-                        hideBarcode={true}
-                        count={data.procedures.length}
-                    />                                                                                                           
-                </CardContent>                    
+                {proceduresContent}                
             </StyledCard>                
         </Grid>
-        <Grid item md={4} style={{paddingLeft: '10px'}}>
+        <Grid item xs={12} md={4} style={rightColumnStyle}>
             <CardHeader title="How?" />
             <StyledCard scrollable >
                 <CardHeader title={data.locations.length + " Care Plans"} />
-                <CardContent>
-                    <CarePlansTable
-                        locations={data.locations}
-                        count={data.locations.length}
-                    />
-                </CardContent>                    
+                {carePlansContent}                
             </StyledCard>
             <DynamicSpacer />
             
             <StyledCard scrollable >
                 <CardHeader title={data.observations.length + " Observations"} />
-                <CardContent>
-                    <ObservationsTable 
-                        observations={data.observations}
-                        hideCheckbox={true}
-                        hideActionIcons={true}
-                        hideSubject={true}
-                        hideDevices={true}
-                        hideValue={false}
-                        hideBarcode={true}
-                        hideDenominator={true}
-                        hideNumerator={true}
-                        multiComponentValues={true}
-
-                        count={data.observations.length}
-                    />                                                                                                           
-                </CardContent>                    
+                {observationsContent}                
             </StyledCard>  
 
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.questionnaires.length + " Questionnaires"} />
-                <CardContent>
-                    <QuestionnairesTable
-                        questionnaires={data.questionnaires}
-                        count={data.questionnaires.length}
-                    />
-                </CardContent>                    
+                {questionnairesContent}                
             </StyledCard>
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.questionnaireResponses.length + " Questionnaire Responses"} />
-                <CardContent>
-                    <QuestionnaireResponsesTable
-                        questionnaireResponses={data.questionnaireResponses}
-                        count={data.questionnaireResponses.length}
-                    />
-                </CardContent>                    
+                {questionnaireResponsesContent}                   
             </StyledCard>
 
         </Grid>
     </Grid>
 
-    let patientChart = <Grid container style={{marginTop: '20px'}} justify="center">
-        <Grid item md={4} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+    let patientChartLayout = <Grid container style={{marginTop: '20px'}} justify="center">
+        <Grid item xs={12} md={4}>
             <PatientCard patient={displayPatient} />
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.encounters.length + " Encounters"} />
-                <CardContent>
-                    <EncountersTable
-                        encounters={data.encounters}
-                        hideCheckboxes={true}
-                        hideActionIcons={true}
-                        hideSubjects={true}
-                        hideType={true}
-                        hideHistory={true}
-                        hideEndDateTime={true}
-                        count={data.encounters.length}
-                    />
-                </CardContent>                    
+               {encountersContent}                                
             </StyledCard>
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.conditions.length + " Conditions"} />
-                <CardContent>
-                    <ConditionsTable
-                        conditions={data.conditions}
-                        hideCheckbox={true}
-                        hideActionIcons={true}
-                        hidePatientName={true}
-                        hidePatientReference={true}
-                        hideAsserterName={true}
-                        hideEvidence={true}
-                        hideBarcode={true}
-                        hideDates={false}
-                        count={data.conditions.length}
-                    />                                        
-                </CardContent>                    
+                {conditionsContent}                
             </StyledCard>                
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.immunizations.length + " Immunizations"} />
-                <CardContent>
-                    <ImmunizationsTable
-                        immunizations={data.immunizations}
-                        hideCheckbox={true}
-                        hideIdentifier={true}
-                        hideActionIcons={true}
-                        hidePatient={true}
-                        hidePerformer={true}
-                        hideVaccineCode={false}
-                        hideVaccineCodeText={false}
-                        count={data.immunizations.length}
-                    />                                        
-                </CardContent>                    
+                {immunizationsContent}                   
             </StyledCard>                
             <DynamicSpacer />
             <StyledCard scrollable>
                 <CardHeader title={data.procedures.length + " Procedures"} />
-                <CardContent>
-                    <ProceduresTable 
-                        procedures={data.procedures}
-                        hideCheckbox={true}
-                        hideActionIcons={true}
-                        hideIdentifier={true}
-                        hideCategory={true}
-                        hideSubject={true}
-                        hideBodySite={true}
-                        hidePerformedDateEnd={true}
-                        hideSubjectReference={true}
-                        hideBarcode={true}
-                        count={data.procedures.length}
-                    />                                                                                                           
-                </CardContent>                    
+                {proceduresContent}                            
             </StyledCard>                
             <DynamicSpacer />            
             <StyledCard scrollable >
                 <CardHeader title={data.observations.length + " Observations"} />
-                <CardContent>
-                    <ObservationsTable 
-                        observations={data.observations}
-                        hideCheckbox={true}
-                        hideActionIcons={true}
-                        hideSubject={true}
-                        hideDevices={true}
-                        hideValue={false}
-                        hideBarcode={true}
-                        hideDenominator={true}
-                        hideNumerator={true}
-                        multiComponentValues={true}
-
-                        count={data.observations.length}
-                    />                                                                                                           
-                </CardContent>                    
+                {observationsContent}                        
             </StyledCard>  
-
-
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.questionnaireResponses.length + " Questionnaire Responses"} />
-                <CardContent>
-                    <QuestionnaireResponsesTable
-                        questionnaireResponses={data.questionnaireResponses}
-                        count={data.questionnaireResponses.length}
-                    />
-                </CardContent>                    
+                {questionnaireResponsesContent}                 
             </StyledCard>
         </Grid>        
     </Grid>
 
-    let autoDashboardContent = patientIntake;
+    let autoDashboardContent = patientIntakeLayout;
 
     switch (data.quickchartTabIndex) {
         case 0:
-            autoDashboardContent = patientIntake;
+            autoDashboardContent = patientIntakeLayout;
             break;
         case 1:
-            autoDashboardContent = patientChart;
+            autoDashboardContent = patientChartLayout;
             break;
     }
 

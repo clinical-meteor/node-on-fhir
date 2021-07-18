@@ -36,7 +36,7 @@ import clsx from 'clsx';
 import AppLoadingPage from '../core/AppLoadingPage'
 import PatientChart from '../patient/PatientChart'
 import PatientQuickChart from '../patient/PatientQuickChart'
-import LaunchPage from '../core/LaunchPage'
+import EhrLaunchPage from '../core/EhrLaunchPage'
 import SmartLauncher from '../layout/SmartLauncher'
 
 import QrScannerPage from '../core/QrScannerPage';
@@ -138,9 +138,9 @@ Object.keys(Package).forEach(function(packageName){
     MainPage = Package[packageName].MainPage;
   }  
 
-  if(Package[packageName].LaunchPage){
-    // logger.trace('Found a custom LaunchPage object in one of the packages.')
-    LaunchPage = Package[packageName].LaunchPage;
+  if(Package[packageName].EhrLaunchPage){
+    // logger.trace('Found a custom EhrLaunchPage object in one of the packages.')
+    EhrLaunchPage = Package[packageName].EhrLaunchPage;
   }  
 
   if(Package[packageName].ConstructionZone){
@@ -151,7 +151,7 @@ Object.keys(Package).forEach(function(packageName){
 });
 
 let defaultHomeRoute = MainPage;
-let defaultLaunchPage = LaunchPage;
+let defaultEhrLaunchPage = EhrLaunchPage;
 
 // logger.debug('Loading the following dynamic routes: ', dynamicRoutes)
 // console.log('headerNavigation', headerNavigation)
@@ -598,7 +598,8 @@ export function App(props) {
         <Route name='patientChartRoute' key='patientChartPage' path="/patient-chart" exact component={ PatientChart } />                
         <Route name='patientIntakeRoute' key='patientIntakePage' path="/patient-intake" exact component={ PatientQuickChart } />       
         <Route name='quickChartRoute' key='quickChartPage' path="/patient-quickchart" exact component={ PatientQuickChart } />                
-        <Route name='launchRoute' key='defaultLaunchPage' path="/launcher" exact component={ defaultLaunchPage } />                
+        <Route name='launchRoute' key='defaultEhrLaunchPage' path="/launcher" exact component={ defaultEhrLaunchPage } />                
+        <Route name='ehrLaunchRoute' key='EhrLaunchPage' path="/ehr-launcher" exact component={ defaultEhrLaunchPage } />                
         <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />                
         <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" exact component={ defaultHomeRoute } />                
         <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              

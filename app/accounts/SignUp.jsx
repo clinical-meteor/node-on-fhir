@@ -33,16 +33,16 @@ import { get, has } from 'lodash';
 
 const useStyles = makeStyles(theme => ({
   cardContent: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(3)
   },
   divider: {
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2)
   },
   logo: {
     maxWidth: '100%',
-    width: 250,
-  },
+    width: 250
+  }
 }));
 
 const LogInLink = React.forwardRef(function(props, ref){
@@ -62,18 +62,61 @@ const Signup = function({ history }){
   const [error, setError] = useState(null);
   const { loginWithService } = useAuth();
 
+  let selectedPatient;
+  let selectedPatientCatch = useState(function(){
+    return Session.get('selectedPatient');
+  }, [])
+
+
+  if(Array.isArray(selectedPatientCatch)){
+    selectedPatientCatch.forEach(function(internal){
+      if(internal.resourceType === "Patient"){
+        selectedPatient = internal;
+      }
+    })
+  } else if(selectedPatientCatch.resourceType === "Patient"){
+    selectedPatient = selectedPatientCatch;
+  }
+
+  let patient = Session.get('selectedPatient');
+    
+
+  let familyName = "";
+  let givenName = "";
+  let fullLegalName = "";
+
+  if(has(selectedPatient, 'name[0].given[0]')){
+    fullLegalName = get(selectedPatient, 'name[0].given[0]');
+  }
+
+  // suppport DSTU2 and R4
+  if(has(selectedPatient, 'name[0].family[0]')){
+    familyName = get(selectedPatient, 'name[0].family[0]', '');
+  } else {
+    familyName = get(selectedPatient, 'name[0].family', '');
+  }
+
+  // prefer a provided fullname instead of assembling it ourselves
+  if(has(selectedPatient, 'name[0].text')){
+    fullLegalName = get(selectedPatient, 'name[0].text')
+  } else {
+    fullLegalName = fullLegalName + " " + familyName
+  }
+  
+
   const formik = useFormik({
     initialValues: {
-      givenName: '',
-      familyName: '',
-      firstName: '',
-      lastName: '',
-      fullLegalName: '',
+      givenName: get(selectedPatient, 'name[0].given[0]', ''),
+      familyName: familyName,
+      firstName: get(selectedPatient, 'name[0].given[0]', ''),
+      lastName: familyName,
+      fullLegalName: fullLegalName,
       nickname: '',
       username: '',
       email: '',
       password: '',
-      invitationCode: ''
+      invitationCode: '',
+      patientId: get(selectedPatient, 'id')
     },
     validate: values => {
       const errors = {};
@@ -141,6 +184,7 @@ const Signup = function({ history }){
           email: values.email,
           password: values.password,
           invitationCode: values.invitationCode,
+          patientId: values.patientId
         });
 
         // console.log('userId', userId)
@@ -187,6 +231,7 @@ const Signup = function({ history }){
     Session.set('mainAppDialogMaxWidth', "sm");
   }
 
+  let patientIdElements;
   let fullLegalNameElements;
   let nicknameElements;
   let familyAndGivenElements = [];
@@ -195,6 +240,28 @@ const Signup = function({ history }){
   let emailElements;
   let passwordElements;
   let usernameElements;
+
+
+  console.log('SignUp.selectedPatient', selectedPatient)
+
+  // if(get(Meteor, 'settings.public.defaults.registration.displayPatientId')){
+  //   if(has(selectedPatient, 'id')){
+      patientIdElements = <Grid item xs={12}>
+        <TextField
+          label="Patient ID"
+          variant="outlined"
+          fullWidth={true}
+          id="patientId"
+          type="text"
+          disabled
+          value={get(selectedPatient, 'id')}
+          onChange={formik.handleChange}
+          error={Boolean(formik.errors.patientId && formik.touched.patientId)}
+          helperText={formik.touched.patientId && formik.errors.patientId}
+        />
+      </Grid>
+  //   }    
+  // } 
 
   if(get(Meteor, 'settings.public.defaults.registration.displayFullLegalName')){
     fullLegalNameElements = <Grid item xs={12}>
@@ -347,11 +414,8 @@ const Signup = function({ history }){
     </Grid>
   } 
 
-  
-
-
   return (
-    <UnauthenticatedContainer>
+    <UnauthenticatedContainer className="unauthenticatedContainer" style={{width: '100%'}}>
       <Snackbar
         anchorOrigin={{
           vertical: 'top',
@@ -362,41 +426,39 @@ const Signup = function({ history }){
       >
         <SnackBarContentError message={error} />
       </Snackbar>
+        <form onSubmit={formik.handleSubmit}>
+          <Grid container spacing={3}>
 
+            { patientIdElements }
+            { fullLegalNameElements }
+            { nicknameElements }
+            { familyAndGivenElements }
+            { firstAndLastElements }
+            { usernameElements }
+            { emailElements }
+            { passwordElements }              
+            { invitationCodeElements }
 
-          <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={3}>
-
-              { fullLegalNameElements }
-              { nicknameElements }
-              { familyAndGivenElements }
-              { firstAndLastElements }
-              { usernameElements }
-              { emailElements }
-              { passwordElements }              
-              { invitationCodeElements }
-
-              <Grid item xs={12} md={4}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  disabled={formik.isSubmitting}
-                >
-                  Sign Up
-                </Button>
-              </Grid>
-              <Grid item xs={12} md={8} style={{float: 'right'}}>
-                <Button
-                  color="primary"
-                  onClick={openLoginDialog}
-                >
-                  Already have an account
-                </Button>
-              </Grid>
+            <Grid item xs={12} md={4}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={formik.isSubmitting}
+              >
+                Sign Up
+              </Button>
             </Grid>
-          </form>
-
+            <Grid item xs={12} md={8} style={{float: 'right'}}>
+              <Button
+                color="primary"
+                onClick={openLoginDialog}
+              >
+                Already have an account
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
     </UnauthenticatedContainer>
   );
 };

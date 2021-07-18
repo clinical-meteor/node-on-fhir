@@ -21,7 +21,7 @@ clinical:accounts-housemd@2.5.1
 clinical:csv@0.1.0
 clinical:extended-api@2.5.2
 clinical:fonts@1.2.0
-clinical:hl7-fhir-data-infrastructure@6.14.4
+clinical:hl7-fhir-data-infrastructure@6.14.8
 clinical:hl7-resource-datatypes@4.0.7
 ddp@1.4.0
 ddp-client@2.4.1
@@ -69,6 +69,7 @@ matb33:collection-hooks@1.0.1
 meteor@1.9.3
 meteor-base@1.4.0
 meteor-platform@1.2.6
+meteorhacks:async@1.0.0
 minifier-css@1.5.4
 minifier-js@2.6.0
 minimongo@1.6.2
@@ -111,9 +112,11 @@ srp@1.1.0
 standard-minifier-css@1.7.2
 standard-minifier-js@2.6.0
 static-html@1.2.2
+symptomatic:data-management@0.9.8
 symptomatic:fhir-uscore@0.4.10
-symptomatic:gravity@0.6.3
+symptomatic:structured-data-capture@0.6.0
 symptomatic:timelines@0.5.2
+symptomatic:vault-server-freemium@6.4.3
 templating@1.4.0
 templating-compiler@1.4.1
 templating-runtime@1.4.0
