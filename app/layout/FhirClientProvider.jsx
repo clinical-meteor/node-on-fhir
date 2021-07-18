@@ -42,7 +42,7 @@ import { Patients, Encounters, Procedures, Conditions, Immunizations, Immunizati
 // dob=%DOB%&user=%SYSLOGIN%
 
 
-function fetchPatientData(ehrLaunchCapabilities, client) {
+function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
   console.log("---------------------------------------------------------------------")
   console.log("SMART ON FHIR - FhirClientProvider");
 
@@ -74,8 +74,10 @@ function fetchPatientData(ehrLaunchCapabilities, client) {
         if(conditionUrlAssembled){        
           var httpHeaders = { headers: {
             'Accept': "application/json,application/fhir+json",
-            "Authorization": "Bearer " + get(client.getState(), 'tokenResponse.access_token')
+            "Authorization": "Bearer " + accessToken
           }}
+
+          console.log('FhirClientProvider.conditionUrlAssembled.httpHeaders:    ', httpHeaders);
 
           // need to reconcile with client.request() syntax above    
           HTTP.get(conditionUrlAssembled, httpHeaders, function(error, result){
@@ -374,7 +376,7 @@ export class FhirClientProvider extends React.Component {
                           let practitionerUrl = "";
                           let accessToken = "";
 
-                          metadataUrl = state.serverUrl + "/metadata";
+                          metadataUrl = state.serverUrl + "/metadata?_format=json";
                           console.log('FhirClientProvider.metadataUrl:   ', metadataUrl);
 
 
@@ -385,7 +387,7 @@ export class FhirClientProvider extends React.Component {
 
                           var httpHeaders = { headers: {
                             'Accept': "application/json,application/fhir+json",
-                            "Authorization": "Bearer " + get(client.getState(), 'tokenResponse.access_token')
+                            "Authorization": "Bearer " + accessToken
                             // the following doesn't work with Epic; but was needed by some other system
                             // 'Access-Control-Allow-Origin': '*'        
                           }}
@@ -410,12 +412,13 @@ export class FhirClientProvider extends React.Component {
                                 console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);
                                 Session.set('FhirClientProvider.ehrLaunchCapabilities', ehrLaunchCapabilities)
                     
-                                fetchPatientData(ehrLaunchCapabilities, client);
+                                fetchPatientData(ehrLaunchCapabilities, client, accessToken);
                               })    
                             }
 
                             if(patientId){
                               patientUrl = state.serverUrl + "/Patient?_id=" + patientId;
+                              // patientUrl = state.serverUrl + "/Patient/" + patientId;
                               console.log('FhirClientProvider.patientUrl:    ', patientUrl);
 
                               if(patientUrl){        
