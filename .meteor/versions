@@ -21,7 +21,7 @@ clinical:accounts-housemd@2.5.1
 clinical:csv@0.1.0
 clinical:extended-api@2.5.2
 clinical:fonts@1.2.0
-clinical:hl7-fhir-data-infrastructure@6.14.8
+clinical:hl7-fhir-data-infrastructure@6.14.9
 clinical:hl7-resource-datatypes@4.0.7
 ddp@1.4.0
 ddp-client@2.4.1
