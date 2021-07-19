@@ -112,7 +112,6 @@ srp@1.1.0
 standard-minifier-css@1.7.2
 standard-minifier-js@2.6.0
 static-html@1.2.2
-symptomatic:data-management@0.9.8
 symptomatic:fhir-uscore@0.4.10
 symptomatic:structured-data-capture@0.6.0
 symptomatic:timelines@0.5.2
