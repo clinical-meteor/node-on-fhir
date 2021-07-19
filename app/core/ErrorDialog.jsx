@@ -98,7 +98,7 @@ export function ErrorDialog(props){
 
 
   return(
-    <DialogContent id={id} className="ErrorDialog" style={{minWidth: '600px'}} dividers={scroll === 'paper'}>
+    <DialogContent id={id} className="ErrorDialog" style={{width: '100%'}} dividers={scroll === 'paper'}>
       { textToRender }
     </DialogContent>
   )
