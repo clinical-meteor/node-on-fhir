@@ -185,6 +185,7 @@ const Signup = function({ history }){
           password: values.password,
           invitationCode: values.invitationCode,
           patientId: values.patientId
+          // patient: selectedPatient
         });
 
         // console.log('userId', userId)

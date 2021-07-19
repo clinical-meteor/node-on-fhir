@@ -372,7 +372,7 @@ Meteor.startup(async function(){
     let dataPayload = {};
 
     if(has(user, 'patientId')){
-      user.id =get(user, 'patientId');
+      user.id = get(user, 'patientId');
     }
 
     try {
@@ -427,7 +427,7 @@ Meteor.startup(async function(){
     // When initializing AccountsServer we check that enableAutologin and ambiguousErrorMessages options
     // are not enabled at the same time
     const createdUser = await accountsServer.findUserById(userId);
-    console.log('createdUser', createdUser)
+    console.log('AccountsServer.createdUser', createdUser)
 
     console.log('Great time to create a Patient record.');
 
@@ -479,8 +479,14 @@ Meteor.startup(async function(){
         }
       }
 
-      if(Patients.findOne({id: newPatient.id})){
+      console.log('AccountsServer.newPatient', newPatient)
+
+      let alreadyExists = Patients.findOne({id: newPatient.id})
+      console.log('AccountsServer.findOne(newPatient)', newPatient)
+
+      if(!alreadyExists){
         let patientId = Patients.insert(newPatient)
+        console.log('AccountsServer.newPatientId', patientId)
       }
     }
 
@@ -490,7 +496,7 @@ Meteor.startup(async function(){
     // If we are here - user must be created successfully
     // Explicitly saying this to Typescript compiler
     const loginResult = await accountsServer.loginWithUser(createdUser, req.infos);
-    console.log('loginResult', loginResult)
+    console.log('AccountsServer.loginResult', loginResult)
 
     dataPayload = {
       userId: userId,
