@@ -143,7 +143,7 @@ Meteor.startup(async function(){
         }  
       }
       
-      console.log('New User: ', user);      
+      console.log('Validated user parameters: ', user);      
       return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname']);
     }
   });
@@ -364,16 +364,14 @@ Meteor.startup(async function(){
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     const user = get(req, "body.user");
-    console.log('Registering a new user.', user);
 
     const accountsPasswordService = get(accountsServer.getServices(), "password");    
 
     let userId = "";
     let dataPayload = {};
 
-    if(has(user, 'patientId')){
-      user.id = get(user, 'patientId');
-    }
+    user.id = get(user, 'patientId');
+    console.log('Registering a new user.', user);
 
     try {
       userId = await accountsPasswordService.createUser(user);
