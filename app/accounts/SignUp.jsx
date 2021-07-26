@@ -70,8 +70,10 @@ const Signup = function({ history }){
 
   if(Array.isArray(selectedPatientCatch)){
     selectedPatientCatch.forEach(function(internal){
-      if(internal.resourceType === "Patient"){
-        selectedPatient = internal;
+      if(internal){
+        if(internal.resourceType === "Patient"){
+          selectedPatient = internal;
+        }
       }
     })
   } else if(selectedPatientCatch.resourceType === "Patient"){
@@ -116,7 +118,8 @@ const Signup = function({ history }){
       email: '',
       password: '',
       invitationCode: '',
-      patientId: get(selectedPatient, 'id')
+      patientId: get(selectedPatient, 'id'),
+      patient: selectedPatient
     },
     validate: values => {
       const errors = {};
@@ -184,8 +187,8 @@ const Signup = function({ history }){
           email: values.email,
           password: values.password,
           invitationCode: values.invitationCode,
-          patientId: values.patientId
-          // patient: selectedPatient
+          patientId: values.patientId,
+          patient: selectedPatient
         });
 
         // console.log('userId', userId)
@@ -243,7 +246,7 @@ const Signup = function({ history }){
   let usernameElements;
 
 
-  console.log('SignUp.selectedPatient', selectedPatient)
+  // console.log('SignUp.selectedPatient', selectedPatient)
 
   // if(get(Meteor, 'settings.public.defaults.registration.displayPatientId')){
   //   if(has(selectedPatient, 'id')){

@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
+import { FhirUtilities } from 'fhir-starter';
 
 import mongoose from 'mongoose';
 
@@ -12,11 +13,12 @@ import { AccountsPassword, CreateUserErrors } from '@accounts/password';
 import accountsExpress, { userLoader } from '@accounts/rest-express';
 import { Mongo, MongoDBInterface } from '@accounts/mongo';
 
-import { get, has, pick } from 'lodash';
+import { get, set, has, pick } from 'lodash';
 import { Random } from 'meteor/random';
 import { Meteor } from 'meteor/meteor';
 
-import { FhirUtilities, Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 import moment from 'moment';
 
 
@@ -40,9 +42,6 @@ Meteor.startup(async function(){
     // options
   });
 
-
-
-
   // const app = express();
 
   // app.use(bodyParser.json());
@@ -58,7 +57,11 @@ Meteor.startup(async function(){
     'User',
     new mongoose.Schema({ 
       givenName: String, 
-      familyName: String 
+      familyName: String,
+      patientId: String,
+      id: String,
+      nickname: String,
+      patient: Object
     })
   );
 
@@ -144,7 +147,7 @@ Meteor.startup(async function(){
       }
       
       console.log('Validated user parameters: ', user);      
-      return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname']);
+      return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'id']);
     }
   });
 
@@ -168,6 +171,71 @@ Meteor.startup(async function(){
     return userLoginRequest;
   });
 
+
+  Meteor.methods({
+    deactivateAccount: async function(currentUser, selectedPatientId, selectedPatient){
+      if(currentUser){
+        console.log('Deactivating user', currentUser);
+
+        if(Package["clinical:hipaa-logger"]){
+          let newAuditEvent = { 
+            "resourceType" : "AuditEvent",
+            "type" : { 
+              'code': 'DeactivateUser',
+              'display': 'Deactivate User'
+              }, 
+            "action" : 'Deactivation',
+            "recorded" : new Date(), 
+            "outcome" : "Success",
+            "outcomeDesc" : 'Deactivating user and deleting all protected health information (PHI).',
+            "agent" : [{ 
+              "name" : FhirUtilities.pluckName(selectedPatient),
+              "who": {
+                "display": FhirUtilities.pluckName(selectedPatient),
+                "reference": "Patient/" + selectedPatientId
+              },
+              "requestor" : false
+            }],
+            "source" : { 
+              "site" : Meteor.absoluteUrl(),
+              "identifier": {
+                "value": Meteor.absoluteUrl()
+              }
+            },
+            "entity": [{
+              "reference": {
+                "reference": ''
+              }
+            }]
+          };
+
+          console.log('Logging a hipaa event...', newAuditEvent);
+          let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent);            
+        }
+        
+
+        Patients.remove({_id: selectedPatientId});
+
+        let myCarePlans = CarePlans.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myCarePlans)){
+          myCarePlans.forEach(function(carePlan){
+            CarePlans.remove({_id: carePlan._id});
+          })
+        }
+ 
+        let myCareTeams = CareTeams.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myCareTeams)){
+          myCareTeams.forEach(function(careTeam){
+            CareTeams.remove({_id: careTeam._id});
+          })
+        }
+
+        await accountsServer.deactivateUser(get(currentUser, 'id'));
+
+          
+      }
+    }
+  });
 
 
   // /**
@@ -376,6 +444,162 @@ Meteor.startup(async function(){
     try {
       userId = await accountsPasswordService.createUser(user);
       console.log('userId', userId)
+
+      if (has(accountsServer, "options.enableAutologin")) {
+
+        if(!accountsServer.options.ambiguousErrorMessages){
+          dataPayload = {
+            userId: newUserId
+          }
+        } 
+
+        JsonRoutes.sendResult(res, {
+          code: 401,
+          data: dataPayload
+        });
+      }
+
+      // When initializing AccountsServer we check that enableAutologin and ambiguousErrorMessages options
+      // are not enabled at the same time
+      const createdUser = await accountsServer.findUserById(userId);
+      console.log('AccountsServer.createdUser', createdUser)
+
+      console.log('Great time to create a Patient record.');
+
+      console.log('typeof createdUser._id', typeof createdUser._id)
+      console.log('typeof createdUser.id', typeof createdUser.id)
+
+      if(!Patients.findOne({id: get(createdUser, 'id')})){
+        let newPatient = {
+          _id: '',  
+          id: '',
+          resourceType: "Patient",
+          active: true,
+          name: [{
+            use: 'usual',
+            text: get(createdUser, 'fullLegalName', ''),
+            given: [],
+            family: ''
+          }],
+          photo: [{
+            url: 'http://localhost:3000/noAvatar.png'
+          }]
+        }
+
+        Object.assign(newPatient, get(user, 'patient'));
+
+        if(has(createdUser, '_id')){
+          newPatient._id = createdUser._id._str;
+        }
+        if(has(createdUser, 'id')){
+          newPatient.id = createdUser.id;
+        }
+
+        let humanNameArray = get(newPatient, 'name');
+        if(Array.isArray(humanNameArray)){
+          newPatient.name = [];
+          humanNameArray.forEach(function(humanName){
+            if(typeof humanName.family === "string"){
+              newPatient.name.push(humanName);
+            }
+          })
+
+        }
+
+        // if(typeof newPatient.name[0].family === "array"){
+        //   newPatient.name[0].family = newPatient.name[0].family[0];
+        // }
+
+        if(has(createdUser, 'fullLegalName') && !has(newPatient, 'name[0].text')){
+          let nameArray = createdUser.fullLegalName.split(" ");
+          if(Array.isArray(nameArray)){
+            nameArray.forEach(function(name){
+              if(!has(newPatient, 'name[0].given')){
+                set(newPatient, 'name[0].given', []);
+              }
+              newPatient.name[0].given.push(name);
+            })
+            newPatient.name[0].text = get(createdUser, 'fullLegalName', '').trim()
+            newPatient.name[0].family = nameArray[0];
+          }
+        }
+
+        if(has(createdUser, 'emails[0].address')){
+          if(!has(newPatient, 'telecom')){
+            newPatient.telecom = [];
+          }
+          newPatient.telecom[0] = {
+            system: 'email',
+            value: get(createdUser, 'emails[0].address')
+          }
+        }
+
+        console.log('AccountsServer.newPatient', newPatient)
+
+        let alreadyExists = Patients.findOne({id: newPatient.id})
+        console.log('AccountsServer.findOne(newPatient)', newPatient)
+
+        if(!alreadyExists){
+          let patientInternalId = Patients.insert(newPatient)
+          console.log('AccountsServer.newPatientId', patientInternalId)
+
+          if(Package["clinical:hipaa-logger"]){
+            let newAuditEvent = { 
+              "resourceType" : "AuditEvent",
+              "type" : { 
+                'code': 'Register User',
+                'display': 'Register User'
+                }, 
+              "action" : 'Registration',
+              "recorded" : new Date(), 
+              "outcome" : "Success",
+              "outcomeDesc" : 'User registered.',
+              "agent" : [{ 
+                "name" : FhirUtilities.pluckName(newPatient),
+                "who": {
+                  "display": FhirUtilities.pluckName(newPatient),
+                  "reference": "Patient/" + get(newPatient, 'id')
+                },
+                "requestor" : false
+              }],
+              "source" : { 
+                "site" : Meteor.absoluteUrl(),
+                "identifier": {
+                  "value": Meteor.absoluteUrl(),
+
+                }
+              },
+              "entity": [{
+                "reference": {
+                  "reference": ''
+                }
+              }]
+            };
+
+            console.log('Logging a hipaa event...', newAuditEvent)
+            let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+          }
+        }
+      }
+
+
+      console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');
+
+      // If we are here - user must be created successfully
+      // Explicitly saying this to Typescript compiler
+      const loginResult = await accountsServer.loginWithUser(createdUser, req.infos);
+      console.log('AccountsServer.loginResult', loginResult)
+
+      dataPayload = {
+        userId: userId,
+        loginResult: loginResult
+      }
+      console.log('dataPayload', dataPayload)
+
+      JsonRoutes.sendResult(res, {
+        code: 200,
+        data: dataPayload
+      });
     } catch (error) {
       console.log('error', error)
 
@@ -407,105 +631,6 @@ Meteor.startup(async function(){
 
       throw error;
     }
-
-    if (has(accountsServer, "options.enableAutologin")) {
-
-      if(!accountsServer.options.ambiguousErrorMessages){
-        dataPayload = {
-          userId: newUserId
-        }
-      } 
-
-      JsonRoutes.sendResult(res, {
-        code: 401,
-        data: dataPayload
-      });
-    }
-
-    // When initializing AccountsServer we check that enableAutologin and ambiguousErrorMessages options
-    // are not enabled at the same time
-    const createdUser = await accountsServer.findUserById(userId);
-    console.log('AccountsServer.createdUser', createdUser)
-
-    console.log('Great time to create a Patient record.');
-
-    console.log('typeof createdUser._id', typeof createdUser._id)
-    console.log('typeof createdUser.id', typeof createdUser.id)
-
-    if(!Patients.findOne({id: get(createdUser, 'id')})){
-      let newPatient = {
-        _id: '',  
-        id: '',
-        resourceType: "Patient",
-        active: true,
-        name: [{
-          use: 'usual',
-          text: '',
-          given: [],
-          family: ''
-        }],
-        photo: [{
-          url: 'http://localhost:3000/noAvatar.png'
-        }]
-      }
-
-      if(has(createdUser, '_id')){
-        newPatient._id = createdUser._id._str;
-      }
-      if(has(createdUser, 'id')){
-        newPatient.id = createdUser.id;
-      }
-
-      if(has(createdUser, 'fullLegalName')){
-        let nameArray = createdUser.fullLegalName.split(" ");
-        if(Array.isArray(nameArray)){
-          nameArray.forEach(function(name){
-            newPatient.name[0].given.push(name);
-          })
-          newPatient.name[0].text = get(createdUser, 'fullLegalName', '')
-          newPatient.name[0].family = nameArray[nameArray.length - 1];
-        }
-      }
-
-      if(has(createdUser, 'emails[0].address')){
-        if(!has(newPatient, 'telecom')){
-          newPatient.telecom = [];
-        }
-        newPatient.telecom[0] = {
-          system: 'email',
-          value: get(createdUser, 'emails[0].address')
-        }
-      }
-
-      console.log('AccountsServer.newPatient', newPatient)
-
-      let alreadyExists = Patients.findOne({id: newPatient.id})
-      console.log('AccountsServer.findOne(newPatient)', newPatient)
-
-      if(!alreadyExists){
-        let patientId = Patients.insert(newPatient)
-        console.log('AccountsServer.newPatientId', patientId)
-      }
-    }
-
-
-    console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');
-
-    // If we are here - user must be created successfully
-    // Explicitly saying this to Typescript compiler
-    const loginResult = await accountsServer.loginWithUser(createdUser, req.infos);
-    console.log('AccountsServer.loginResult', loginResult)
-
-    dataPayload = {
-      userId: userId,
-      loginResult: loginResult
-    }
-    console.log('dataPayload', dataPayload)
-
-    JsonRoutes.sendResult(res, {
-      code: 200,
-      data: dataPayload
-    });
   });
 })
 
