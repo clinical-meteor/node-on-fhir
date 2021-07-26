@@ -25,7 +25,7 @@ Meteor.methods({
         console.log('Query Endpoint: ', fhirUrl)
         console.log('AccessToken:    ', accessToken)
   
-        var httpHeaders = { headers: {
+        let httpHeaders = { headers: {
             'Accept': ['application/json', 'application/fhir+json'],
             'Access-Control-Allow-Origin': '*'          
         }}
@@ -61,10 +61,10 @@ Meteor.methods({
 
       console.log('Relay Endpoint: ', fhirUrl)
 
-      var self = this;
+      let self = this;
 
-      var queryResult;
-      var httpHeaders = { headers: {
+      let queryResult;
+      let httpHeaders = { headers: {
           'Content-Type': 'application/fhir+json',
           'Access-Control-Allow-Origin': '*'          
       }}

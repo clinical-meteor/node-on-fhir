@@ -23,7 +23,7 @@ export default function PatientQuickChart(props) {
       headerHeight = 128;
     }
 
-    let fhirServerEndpoint = 'http://localhost:3100/baseR4';
+    let fhirServerEndpoint = 'http://localhost:3000/baseR4';
     // if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
     //   Meteor.settings.public.smartOnFhir.forEach(function(config){
     //       if(useLocation().search.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
@@ -38,18 +38,26 @@ export default function PatientQuickChart(props) {
       fhirServerEndpoint = searchParams.get('iss')
     } else if (Session.get('smartOnFhir_iss')){
       fhirServerEndpoint = Session.get('smartOnFhir_iss')
-    }
+    } 
 
 
 
     logger.debug('PatientQuickChart.searchParams', {data: searchParams}, {source: "PatientQuickChart.jsx"});
     logger.debug('PatientQuickChart.props', {data: props}, {source: "PatientQuickChart.jsx"});
 
-    let contentToRender = <FhirClientProvider location={get(props, 'history.location')}>
+    // let contentToRender = <FhirClientProvider location={get(props, 'history.location')}>
+    let contentToRender;
+    if(fhirServerEndpoint){
+      contentToRender = <FhirClientProvider location={get(props, 'history.location')}>
         <PageCanvas id='patientQuickChart' headerHeight={headerHeight} paddingLeft={20} paddingRight={20} >
           <AutoDashboard fhirServerEndpoint={fhirServerEndpoint} />
         </PageCanvas>
       </FhirClientProvider>
+    } else {
+      contentToRender = <PageCanvas id='patientQuickChart' headerHeight={headerHeight} paddingLeft={20} paddingRight={20} >
+          <AutoDashboard fhirServerEndpoint={fhirServerEndpoint} />
+        </PageCanvas>
+    }
     
     return (contentToRender);
 }

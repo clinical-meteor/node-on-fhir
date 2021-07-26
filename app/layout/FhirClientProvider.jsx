@@ -19,8 +19,8 @@ import { warning } from 'react-icons-kit/fa/warning'
 import { Session } from 'meteor/session';
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
-import { Patients, Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
-
+import { AuditEvents, Patients, Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 
 // EHR
 // https://code.cerner.com/developer/smart-on-fhir/apps/5ce489fc-fec1-46be-856a-8d7ed58e6b5b
@@ -413,6 +413,43 @@ export class FhirClientProvider extends React.Component {
                                 Session.set('FhirClientProvider.ehrLaunchCapabilities', ehrLaunchCapabilities)
                     
                                 fetchPatientData(ehrLaunchCapabilities, client, accessToken);
+
+                                if(Package["clinical:hipaa-logger"]){
+                                  let newAuditEvent = { 
+                                    "resourceType" : "AuditEvent",
+                                    "type" : { 
+                                      'code': 'Fetch Patient Data',
+                                      'display': 'Fetch Patient Data',
+                                      }, 
+                                    "action" : 'Fetch Chart',
+                                    "recorded" : new Date(), 
+                                    "outcome" : "Success",
+                                    "outcomeDesc" : 'Medical records fetched from hospital electronic medical record system.',
+                                    "agent" : [{ 
+                                      "name" : FhirUtilities.pluckName(Session.get('selectedPatient')),
+                                      "who": {
+                                        "display": FhirUtilities.pluckName(Session.get('selectedPatient')),
+                                        "reference": "Patient/" + get(Session.get('selectedPatient'), 'id')
+                                      },
+                                      "requestor" : false
+                                    }],
+                                    "source" : { 
+                                      "site" : Meteor.absoluteUrl(),
+                                      "identifier": {
+                                        "value": Meteor.absoluteUrl(),
+
+                                      }
+                                    },
+                                    "entity": [{
+                                      "reference": {
+                                        "reference": ''
+                                      }
+                                    }]
+                                  };
+
+                                  console.log('Logging a hipaa event...', newAuditEvent)
+                                  let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+                                }
                               })    
                             }
 
@@ -445,6 +482,44 @@ export class FhirClientProvider extends React.Component {
                                         } 
                                       }) 
                                     }
+
+                                    if(Package["clinical:hipaa-logger"]){
+                                      let newAuditEvent = { 
+                                        "resourceType" : "AuditEvent",
+                                        "type" : { 
+                                          'code': 'Fetch Patient Demographics',
+                                          'display': 'Fetch Patient Demographics',
+                                          }, 
+                                        "action" : 'Fetch Chart',
+                                        "recorded" : new Date(), 
+                                        "outcome" : "Success",
+                                        "outcomeDesc" : 'Medical records fetched from hospital electronic medical record system.',
+                                        "agent" : [{ 
+                                          "name" : FhirUtilities.pluckName(Session.get('selectedPatient')),
+                                          "who": {
+                                            "display": FhirUtilities.pluckName(Session.get('selectedPatient')),
+                                            "reference": "Patient/" + get(Session.get('selectedPatient'), 'id')
+                                          },
+                                          "requestor" : false
+                                        }],
+                                        "source" : { 
+                                          "site" : Meteor.absoluteUrl(),
+                                          "identifier": {
+                                            "value": Meteor.absoluteUrl(),
+
+                                          }
+                                        },
+                                        "entity": [{
+                                          "reference": {
+                                            "reference": ''
+                                          }
+                                        }]
+                                      };
+
+                                      console.log('Logging a hipaa event...', newAuditEvent)
+                                      let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+                                    }
+
                                   }
                                   if(error){
                                     console.log('FhirClientProvider.patientUrl.get().error', error);

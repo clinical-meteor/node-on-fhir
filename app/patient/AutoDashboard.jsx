@@ -8,13 +8,12 @@ import React, {useEffect, useContext} from "react";
 import ChartJS from "chart.js";
 import { FhirClientContext } from "../FhirClientContext";
 
-import { StyledCard } from 'fhir-starter';
+import { StyledCard, PageCanvas, DynamicSpacer, FhirUtilities } from 'fhir-starter';
 
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 
-import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { useTracker } from 'meteor/react-meteor-data';
 
 import { Consents, CarePlans, CareTeams, Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, Questionnaires, QuestionnaireResponses, CarePlansTable, CareTeamsTable, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable, ConsentsTable, QuestionnairesTable, QuestionnaireResponsesTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
@@ -22,10 +21,9 @@ import { get } from 'lodash';
 
 import PatientCard from './PatientCard';
 
-function DynamicSpacer(props){
-    return <br className="dynamicSpacer" style={{height: '40px'}}/>;
-}
-  
+
+
+
 export function AutoDashboard(props){
 
     const client = useContext(FhirClientContext);
@@ -47,7 +45,8 @@ export function AutoDashboard(props){
         patients: [],
         questionnaires: [],
         questionnaireResponses: [],
-        quickchartTabIndex: 0
+        quickchartTabIndex: 0,
+        basicQuery: {}
     }
 
     data.selectedPatientId = useTracker(function(){
@@ -55,7 +54,6 @@ export function AutoDashboard(props){
     }, []);
     data.selectedPatient = useTracker(function(){
         return Session.get('selectedPatient');
-        // return Patients.findOne({_id: Session.get('selectedPatientId')});
     }, []);
     data.patients = useTracker(function(){
         return Patients.find().fetch();
@@ -72,36 +70,69 @@ export function AutoDashboard(props){
         return Session.get('carePlanTabIndex')
     }, []);
 
+    console.log('Autodashboard.data.selectedPatientId', data.selectedPatientId)
 
+
+    // function FhirUtilities.addPatientFilterToQuery(patientId){
+    //     let newQUery = {};
+
+    //     if(patientId){
+    //         newQUery = {$or: [
+    //             {"patient.reference": "Patient/" + patientId},
+    //             {"patient.reference": "urn:uuid:Patient/" + patientId},
+    //             {"patient.reference": { $regex: ".*Patient/" + patientId}}, 
+    //             {"subject.reference": { $regex: ".*Patient/" + patientId}}  
+    //         ]}      
+    //     } else {
+    //         newQUery = {$or: [
+    //             {"patient.reference": "Patient/anybody"},
+    //             {"patient.reference": "urn:uuid:Patient/anybody"},
+    //             {"patient.reference": { $regex: ".*Patient/anybody"}}, 
+    //             {"subject.reference": { $regex: ".*Patient/anybody"}}  
+    //           ]}
+    //     }
+
+    //     return newQUery
+    // }
+
+    data.basicQuery = useTracker(function(){
+        return FhirUtilities.addPatientFilterToQuery(Session.get('selectedPatientId'));
+    }, []);
+    
+    
+    
+
+
+    console.log('Autodashboard.basicQuery', data.basicQuery)
 
     if(CareTeams){
         data.careTeams = useTracker(function(){
-            return CareTeams.find().fetch()
+            return CareTeams.find(FhirUtilities.addPatientFilterToQuery(Session.get('selectedPatientId'))).fetch()
         }, [])    
     }
     if(CarePlans){
         data.carePlans = useTracker(function(){
-            return CarePlans.find().fetch()
+            return CarePlans.find(FhirUtilities.addPatientFilterToQuery(Session.get('selectedPatientId'))).fetch()
         }, [])    
     }
     if(Consents){
         data.consents = useTracker(function(){
-            return Consents.find().fetch()
+            return Consents.find(FhirUtilities.addPatientFilterToQuery(Session.get('selectedPatientId'))).fetch()
         }, [])    
     }
     if(Conditions){
         data.conditions = useTracker(function(){
-            return Conditions.find().fetch()
+            return Conditions.find(FhirUtilities.addPatientFilterToQuery(Session.get('selectedPatientId'))).fetch()
         }, [])    
     }
     if(Encounters){
         data.encounters = useTracker(function(){
-            return Encounters.find().fetch()
+            return Encounters.find(FhirUtilities.addPatientFilterToQuery(Session.get('selectedPatientId'))).fetch()
         }, [])   
     }
     if(Immunizations){
         data.immunizations = useTracker(function(){
-            return Immunizations.find().fetch()
+            return Immunizations.find(FhirUtilities.addPatientFilterToQuery(Session.get('selectedPatientId'))).fetch()
         }, [])   
     }
     if(Locations){
@@ -111,12 +142,12 @@ export function AutoDashboard(props){
     }
     if(Procedures){
         data.procedures = useTracker(function(){
-            return Procedures.find().fetch()
+            return Procedures.find(FhirUtilities.addPatientFilterToQuery(Session.get('selectedPatientId'))).fetch()
         }, [])   
     }
     if(Observations){
         data.observations = useTracker(function(){
-            return Observations.find().fetch()
+            return Observations.find(FhirUtilities.addPatientFilterToQuery(Session.get('selectedPatientId'))).fetch()
         }, [])   
     }
 
@@ -127,21 +158,20 @@ export function AutoDashboard(props){
     }
     if(QuestionnaireResponses){
         data.questionnaireResponses = useTracker(function(){
-            return QuestionnaireResponses.find().fetch()
+            return QuestionnaireResponses.find(FhirUtilities.addPatientFilterToQuery(Session.get('selectedPatientId'))).fetch()
         }, [])   
     }
 
+    console.log('AutoDashboard.data', data);
 
 
 
     let useLocationSearch = useLocation().search;
 
-
-    let displayPatient = {};
-    if(typeof data.selectedPatient === "object"){
-        displayPatient = data.selectedPatient
+    let isMobile = false
+    if(window.innerWidth < 920){
+        isMobile = true;
     }
-
 
     let careTeamContent;
     if(data.careTeams.length > 0){
@@ -169,7 +199,11 @@ export function AutoDashboard(props){
         consentContent = <CardContent>
             <ConsentsTable
                 hideDates={true}
-                hideEndDateTime={true}
+                hidePeriodStart={true}
+                hidePeriodEnd={true}
+                hideOrganization={true}
+                hideCategory={true}
+                hidePatientName={isMobile}
                 consents={data.consents}
                 count={data.consents.length}
             />
@@ -184,7 +218,10 @@ export function AutoDashboard(props){
                 hideCheckboxes={true}
                 hideActionIcons={true}
                 hideSubjects={true}
-                hideType={true}
+                hideType={false}
+                hideTypeCode={false}
+                hideReason={isMobile}
+                hideReasonCode={isMobile}
                 hideHistory={true}
                 hideEndDateTime={true}
                 count={data.encounters.length}
@@ -264,8 +301,11 @@ export function AutoDashboard(props){
                 hideCategory={true}
                 hideSubject={true}
                 hideBodySite={true}
+                hideCode={isMobile}
+                hidePerformer={isMobile}
                 hidePerformedDateEnd={true}
                 hideSubjectReference={true}
+                hideNotes={isMobile}
                 hideBarcode={true}
                 count={data.procedures.length}
             />                                                                                                           
@@ -279,6 +319,8 @@ export function AutoDashboard(props){
             <QuestionnairesTable
                 questionnaires={data.questionnaires}
                 count={data.questionnaires.length}
+                hideSubject={isMobile}
+                hideSubjectReference={isMobile}
                 hideIdentifier={true}
             />
         </CardContent>                    
@@ -293,6 +335,8 @@ export function AutoDashboard(props){
                 hideCheckbox={true}
                 hideActionIcons={true}
                 hideIdentifier={true}
+                hideSourceReference={isMobile}
+                hideSo
             />
         </CardContent>
     }
@@ -316,10 +360,10 @@ export function AutoDashboard(props){
         rightColumnStyle.paddingLeft = '0px'
     }
     
-    let patientIntakeLayout = <Grid container justify="center" style={{marginTop: '20px'}}>
+    let patientIntakeLayout = <Grid container justify="center" style={{marginTop: '20px', marginBottom: '84px'}}>
         <Grid item xs={12} md={4} style={leftColumnStyle}>
             <CardHeader title="Who?" />
-            <PatientCard patient={displayPatient} />
+            <PatientCard patient={data.selectedPatient} showBarcode={true} />
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.careTeams.length + " Care Teams"} />
@@ -386,9 +430,9 @@ export function AutoDashboard(props){
         </Grid>
     </Grid>
 
-    let patientChartLayout = <Grid container style={{marginTop: '20px'}} justify="center">
-        <Grid item xs={12} md={4}>
-            <PatientCard patient={displayPatient} />
+    let patientChartLayout = <Grid container style={{marginTop: '20px', marginBottom: '84px'}} justify="center">
+        <Grid item xs={12} md={6}>
+            <PatientCard patient={data.selectedPatient} />
             <DynamicSpacer />
             <StyledCard scrollable >
                 <CardHeader title={data.encounters.length + " Encounters"} />
@@ -426,10 +470,10 @@ export function AutoDashboard(props){
 
     switch (data.quickchartTabIndex) {
         case 0:
-            autoDashboardContent = patientIntakeLayout;
+            autoDashboardContent = patientChartLayout;
             break;
         case 1:
-            autoDashboardContent = patientChartLayout;
+            autoDashboardContent = patientIntakeLayout;
             break;
     }
 
