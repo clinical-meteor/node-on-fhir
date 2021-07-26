@@ -75,16 +75,15 @@ percolate:synced-cron
 
 # symptomatic:healthkit-importer  
 # symptomatic:immunization-card
-
 # symptomatic:vaccine-wallet
 
-healthflow:core
-symptomatic:fhir-uscore
-clinical:accounts-housemd
-awatson1978:accounts-muppets
-clinical:accounts-famous-dead-people
-symptomatic:timelines
-#symptomatic:gravity
+#HEALTHFLOW
+#healthflow:core
+#symptomatic:fhir-uscore
+#clinical:accounts-housemd
+#awatson1978:accounts-muppets
+#clinical:accounts-famous-dead-people
+#symptomatic:timelines
+#symptomatic:vault-server-freemium
 #symptomatic:structured-data-capture
-symptomatic:vault-server-freemium
-symptomatic:structured-data-capture
+#symptomatic:data-management

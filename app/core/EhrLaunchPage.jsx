@@ -50,56 +50,87 @@ function EhrLaunchPage(props) {
   useEffect(function(){
 
     let iss = searchParams.get('iss');
-    let issArray = iss.split("/");
-    let ehrFhirVersion = issArray[issArray.length - 1];
+    if(iss){
+      let issArray = iss.split("/");
+      
+      let ehrFhirVersion = issArray[issArray.length - 1];
 
-    let appIsProduction = true;
-    let appIsRunningOnLocalhost = false;
-    if(Meteor.absoluteUrl() === "http://localhost:3000/"){
-      appIsProduction = false;
-      appIsRunningOnLocalhost = true;
-    }
+      let appIsProduction = true;
+      let appIsRunningOnLocalhost = false;
+      if(Meteor.absoluteUrl() === "http://localhost:3000/"){
+        appIsProduction = false;
+        appIsRunningOnLocalhost = true;
+      }
 
-    let smartOnFhirConfig;
-    if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
-      Meteor.settings.public.smartOnFhir.forEach(function(config){
-          if(useLocationSearch.includes(config.vendorKeyword) && (config.launchContext === "Provider") && (config.fhirVersion === ehrFhirVersion) && (config.production === appIsProduction) && (config.environment === (appIsRunningOnLocalhost ? "localhost" : "meteor"))){
-              smartOnFhirConfig = config;
-          }
-      })
-    }
+      let smartOnFhirConfig;
+      if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
+        Meteor.settings.public.smartOnFhir.forEach(function(config){
+            if(useLocationSearch.includes(config.vendorKeyword) && (config.launchContext === "Provider") && (config.fhirVersion === ehrFhirVersion) && (config.production === appIsProduction) && (config.environment === (appIsRunningOnLocalhost ? "localhost" : "meteor"))){
+                smartOnFhirConfig = config;
+            }
+        })
+      }
 
-    let smartConfig = {
-      clientId: get(smartOnFhirConfig, 'client_id'),
-      scope: get(smartOnFhirConfig, 'scope'),
-      redirectUri: get(smartOnFhirConfig, 'redirect_uri') 
-    }
-    // if(has(smartOnFhirConfig, 'client_secret')){
-    //   smartConfig.clientSecret = get(smartOnFhirConfig, 'client_secret')
-    // }
+      let smartConfig = {
+        clientId: get(smartOnFhirConfig, 'client_id'),
+        scope: get(smartOnFhirConfig, 'scope'),
+        redirectUri: get(smartOnFhirConfig, 'redirect_uri') 
+      }
+      // if(has(smartOnFhirConfig, 'client_secret')){
+      //   smartConfig.clientSecret = get(smartOnFhirConfig, 'client_secret')
+      // }
 
-    if(searchParams.get('iss')){
-      // we prefer using an ?iss parameter from the URL
-      // this is how we typically launch from the big EHR systems
-      smartConfig.iss = searchParams.get('iss')      
-      //Session.set('smartOnFhir_iss', searchParams.get('iss'))
-    } else if (get(smartOnFhirConfig, 'iss')){
-      // if we're testing how the launcher works, we can set the iss in the settings file
-      // this is marginally useful in blockchain and multi-tenant hosting environments
-      smartConfig.iss = get(smartOnFhirConfig, 'iss');
-      //Session.set('smartOnFhir_iss', get(smartOnFhirConfig, 'iss'))
+      if(searchParams.get('iss')){
+        // we prefer using an ?iss parameter from the URL
+        // this is how we typically launch from the big EHR systems
+        smartConfig.iss = searchParams.get('iss')      
+        //Session.set('smartOnFhir_iss', searchParams.get('iss'))
+      } else if (get(smartOnFhirConfig, 'iss')){
+        // if we're testing how the launcher works, we can set the iss in the settings file
+        // this is marginally useful in blockchain and multi-tenant hosting environments
+        smartConfig.iss = get(smartOnFhirConfig, 'iss');
+        //Session.set('smartOnFhir_iss', get(smartOnFhirConfig, 'iss'))
+      } else {
+        // otherwise, we resort to using a stand-alone app without launch context
+        // this is mostly used for HAPI test servers, not Cerner and Epic
+        smartConfig.fhirServiceUrl = get(smartOnFhirConfig, 'fhirServiceUrl');
+        //Session.set('smartOnFhir_iss', get(smartOnFhirConfig, 'settings.public.smartOnFhir[0].fhirServiceUrl'))
+      }
+
+      if(process.env.NODE_ENV === "debug"){
+        alert(JSON.stringify(smartConfig))
+      }
+
+      SMART.authorize(smartConfig);
     } else {
-      // otherwise, we resort to using a stand-alone app without launch context
-      // this is mostly used for HAPI test servers, not Cerner and Epic
-      smartConfig.fhirServiceUrl = get(smartOnFhirConfig, 'fhirServiceUrl');
-      //Session.set('smartOnFhir_iss', get(smartOnFhirConfig, 'settings.public.smartOnFhir[0].fhirServiceUrl'))
-    }
+      console.log('Hmmm.... no iss parameter in Url...');
 
-    if(process.env.NODE_ENV === "debug"){
-      alert(JSON.stringify(smartConfig))
-    }
+      let smartOnFhirConfig;
+      if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
+        Meteor.settings.public.smartOnFhir.forEach(function(config){
+            if(config.isDefault){
+                smartOnFhirConfig = config;
+            }
+        })
+      }
+      console.log('EhrLaunchPage.smartOnFhirConfig', smartOnFhirConfig);
 
-    SMART.authorize(smartConfig);
+      let smartConfig = {
+        clientId: get(smartOnFhirConfig, 'client_id'),
+        //clientSecret: get(smartOnFhirConfig, 'client_secret'),
+        scope: get(smartOnFhirConfig, 'scope'),
+        redirectUri: get(smartOnFhirConfig, 'redirect_uri'),
+        fhirServiceUrl: get(smartOnFhirConfig, 'fhirServiceUrl')
+      }
+      console.log('EhrLaunchPage.smartConfig', smartConfig);
+
+      if(get(Meteor, 'settings.public.loggingThreshold') === "trace"){
+        alert(JSON.stringify(smartConfig))
+      }
+
+      SMART.authorize(smartConfig);
+    }
+    
   });
 
   //--------------------------------------------------------------------------------

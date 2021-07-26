@@ -155,6 +155,8 @@ export function PatientSidebar(props){
     Persons: 0,
     Questionnaires: 0,
     QuestionnaireResources: 0,
+    RiskAssessments: 0,
+    ServiceRequests: 0,
     Tasks: 0,
     ValueSets: 0
   };
@@ -221,6 +223,12 @@ export function PatientSidebar(props){
   }, [])
   collectionCounts.QuestionnaireResponses = useTracker(function(){
   return QuestionnaireResponses.find().count();
+  }, [])
+  collectionCounts.RiskAssessments = useTracker(function(){
+    return RiskAssessments.find().count();
+  }, [])
+  collectionCounts.ServiceRequests = useTracker(function(){
+    return ServiceRequests.find().count();
   }, [])
   collectionCounts.Tasks = useTracker(function(){
     return Tasks.find().count();
