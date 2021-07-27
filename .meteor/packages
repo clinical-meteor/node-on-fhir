@@ -78,12 +78,12 @@ percolate:synced-cron
 # symptomatic:vaccine-wallet
 
 #HEALTHFLOW
-#healthflow:core
-#symptomatic:fhir-uscore
-#clinical:accounts-housemd
-#awatson1978:accounts-muppets
-#clinical:accounts-famous-dead-people
-#symptomatic:timelines
-#symptomatic:vault-server-freemium
-#symptomatic:structured-data-capture
-#symptomatic:data-management
+healthflow:core
+symptomatic:fhir-uscore
+clinical:accounts-housemd
+awatson1978:accounts-muppets
+clinical:accounts-famous-dead-people
+symptomatic:timelines
+symptomatic:vault-server-freemium
+symptomatic:structured-data-capture
+symptomatic:data-relay
