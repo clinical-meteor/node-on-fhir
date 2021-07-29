@@ -71,6 +71,7 @@
     "crypto-js": "4.0.0",
     "date-fns": "2.8.1",
     "express": "4.17.1",
+    "express-session": "^1.17.2",
     "fhir-kit-client": "1.5.3",
     "fhir-starter": "0.12.9",
     "fhirclient": "2.4.0",

@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import { HTTP } from 'meteor/http';
 
 import { get, has } from 'lodash';
 
@@ -40,6 +41,8 @@ import {fire} from 'react-icons-kit/icomoon/fire';
 import {ic_public} from 'react-icons-kit/md/ic_public';
 import {ic_people} from 'react-icons-kit/md/ic_people';
 import {ic_people_outline} from 'react-icons-kit/md/ic_people_outline';
+
+import { fetch, Headers, Request, Response } from 'meteor/fetch';
 
 
 let configArray = get(Meteor, 'settings.public.smartOnFhir', []);
@@ -101,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
  * the `/launch` path and render our component. Then, after our page is
  * rendered we start the auth flow.
  */
-export default function Launcher(){
+export default function Launcher(props){
     const classes = useStyles();
     const client = useContext(FhirClientContext);
     
@@ -152,48 +155,101 @@ export default function Launcher(){
     //     // SMART.authorize(options);
     // }
 
+    async function postSmartAuthConfig (url, data) {
+      const response = await fetch(url, {
+          method: 'POST', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *same-origin, omit
+          headers: new Headers({
+              // Authorization: 'Bearer my-secret-key',
+              'Content-Type': 'application/json',    
+              "x-forwarded-host": "localhost"          
+          }),
+          redirect: 'follow', // manual, *follow, error
+          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+          body: JSON.stringify(data) // body data type must match "Content-Type" header
+      });
+      return response.json();
+    }
+
     function handleRowClick(config, event){
 
         console.log("SMART config:", config)
-        console.log("Event.target", event.target.value)
+        console.log("Event.target", event.target.value);
+
+
+        var searchParams = new URLSearchParams();
+        searchParams.set("client_id", config.client_id);
+        searchParams.set("scope", config.scope);
+        searchParams.set("redirect_uri", config.redirect_uri);
+        searchParams.set("iss", config.iss);
 
         Session.set('smartConfig', config);
 
         const options = {
-            clientId: config.client_id,
-            scope: config.scope,
-            redirectUri: config.redirect_uri,
+          clientId: config.client_id,
+          scope: config.scope,
+          redirectUri: config.redirect_uri,
 
-            environment: config.environment,
-            production: config.production,
+          environment: config.environment,
+          production: config.production,
+          iss: config.iss,
+          fhirServiceUrl: config.fhirServiceUrl
 
-            // WARNING: completeInTarget=true is needed to make this work
-            // in the codesandbox frame. It is otherwise not needed if the
-            // target is not another frame or window but since the entire
-            // example works in a frame here, it gets confused without
-            // setting this!
-            //completeInTarget: true
+          // WARNING: completeInTarget=true is needed to make this work
+          // in the codesandbox frame. It is otherwise not needed if the
+          // target is not another frame or window but since the entire
+          // example works in a frame here, it gets confused without
+          // setting this!
+          //completeInTarget: true
         }
+
         // if(fhirconfig.client_secret){
         //     options.clientSecret = fhirconfig.client_secret;
         // }
         if( config.client_id === 'OPEN' ) {
-            options.fhirServiceUrl = config.fhirServiceUrl;
-            options.patientId = config.patientId;
+          options.fhirServiceUrl = config.fhirServiceUrl;
+          options.patientId = config.patientId;
         } else {
-            options.iss = config.fhirServiceUrl;
+          options.iss = config.fhirServiceUrl;
         }
 
         if(config.patientId) {
-            context.setPatientId(config.patientId)
+          context.setPatientId(config.patientId)
         }
 
         console.log("options", options)
 
-        if(config.launchContext === "Patient"){
-            SMART.authorize(options);
-        }
+        if(config.environment === "node"){
 
+          // Meteor.call('serverSmartAuthorization', options, function(error, result){
+          //   if(error){console.log('SmartLauncher.serverSmartAuthorization.error', error)}
+          //   if(result){console.log('SmartLauncher.serverSmartAuthorization.result', result)}
+          // })
+                    
+          // // using the HTTP library
+          // let launchUrl = Meteor.absoluteUrl() + 'node-launch'
+          // console.log('SmartLauncher.launchUrl', launchUrl)
+          // HTTP.post(launchUrl, {
+          //   data: options,
+          //   params: {
+          //     "iss": get(options, "iss")
+          //   }
+          // }, function(error, result){
+          //   if(error){console.log('SmartLauncher.serverSmartAuthorization.error', error)}
+          //   if(result){console.log('SmartLauncher.serverSmartAuthorization.result', result)}
+          // })
+
+          window.open('/node-launch?' + searchParams.toString(), '_self');
+
+          // // using the fetch library
+          // const results = Meteor.wrapAsync(postSmartAuthConfig(launchUrl, options));
+          // console.log('SmartLauncher.serverSmartAuthorization.results', results)
+
+        } else {
+          SMART.authorize(options);
+        }
     }
 
     function renderOptions() {

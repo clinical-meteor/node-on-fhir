@@ -143,11 +143,16 @@ Meteor.startup(async function(){
         if (user.invitationCode !== get(Meteor, 'settings.private.invitationCode')) {
           console.error('Invalid invitation code.');
           throw new Error('Invalid invitation code.');
-        }  
+        }
       }
+
+      if (user.clinicianInvitationCode === get(Meteor, 'settings.private.clinicianInvitationCode')) {
+        console.error('Clinician invitation code matches; assign clinician status.');
+        user.isClinician = true;
+      }  
       
       console.log('Validated user parameters: ', user);      
-      return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'id']);
+      return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);
     }
   });
 
@@ -245,6 +250,12 @@ Meteor.startup(async function(){
 
   JsonRoutes.Middleware.use(function (req, res, next) {
 
+    // needed for preflight response
+    // res.setHeader('Access-Control-Allow-Origin', Meteor.absoluteUrl());
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Header", "*");
+    
+
     // console.log('JsonRoutes.Middleware using accountsExpress()')
     accountsExpress(accountsServer)
     next();
@@ -263,6 +274,7 @@ Meteor.startup(async function(){
     console.log('AccountsServer: GET /user', req, res);
 
     res.setHeader("Access-Control-Allow-Origin", "*");
+    
     
     next();
   });
@@ -304,6 +316,7 @@ Meteor.startup(async function(){
     console.log('AccountsServer: POST /accounts/password/authenticate', req.body);
 
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Header", "*");
 
     const loggedInUser = await accountsServer.loginWithService('password', req.body, req.infos);
     console.log('loggedInUser', loggedInUser);
