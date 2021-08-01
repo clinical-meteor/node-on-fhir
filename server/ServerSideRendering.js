@@ -20,7 +20,7 @@ import ReactDOMServer from 'react-dom/server';
 
 onPageLoad((sink) => {
   if(process.env.DEBUG){
-    console.log('Application requested from client browser.  Initiating onPageLoad() pre-render.')
+    console.log('DEBUG:  Application requested from client browser.  Initiating onPageLoad() pre-render.')
   }
 
   const context = {};
