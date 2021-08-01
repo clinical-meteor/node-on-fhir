@@ -1,5 +1,6 @@
 import React from "react";
 import Dashboard from "./Dashboard";
+import AutoDashboard from "./AutoDashboard";
 import PatientDemographics from "./PatientDemographics";
 
 import { PageCanvas } from 'fhir-starter';
@@ -34,8 +35,8 @@ export default function PatientChart() {
     }
 
     let contentToRender = <PageCanvas id='patientChart' headerHeight={headerHeight} >
-      <PatientDemographics />
-      <Dashboard fhirServerEndpoint={fhirServerEndpoint} />
+      {/* <PatientDemographics /> */}
+      <AutoDashboard fhirServerEndpoint={fhirServerEndpoint} />
     </PageCanvas>    
     return (contentToRender);
 }
