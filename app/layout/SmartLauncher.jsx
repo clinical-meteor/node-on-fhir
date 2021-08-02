@@ -92,6 +92,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+if(Meteor.isCordova && (typeof cordova === "object")){
+  window.open = cordova.InAppBrowser.open;
+}
+
 //------------------------------------------------------------------------
 // Main Component
 
@@ -241,7 +245,8 @@ export default function Launcher(props){
           //   if(result){console.log('SmartLauncher.serverSmartAuthorization.result', result)}
           // })
 
-          window.open('/node-launch?' + searchParams.toString(), '_self');
+          // window.open('/node-launch?' + searchParams.toString(), '_system');
+          window.open('/node-launch?' + searchParams.toString(), '_blank');
 
           // // using the fetch library
           // const results = Meteor.wrapAsync(postSmartAuthConfig(launchUrl, options));

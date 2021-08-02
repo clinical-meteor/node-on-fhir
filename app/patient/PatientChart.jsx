@@ -10,12 +10,18 @@ import { useLocation, useParams, useHistory } from "react-router-dom";
 import { oauth2 as SMART } from "fhirclient";
 import { get } from 'lodash';
 
+import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
+
+import { useTracker } from 'meteor/react-meteor-data';
 
 export default function PatientChart() {
     let headerHeight = 64;
     if(get(Meteor, 'settings.public.defaults.prominantHeader')){
       headerHeight = 128;
     }
+
+  
 
 
     let fhirServerEndpoint = 'http://localhost:3100/baseR4';
@@ -32,6 +38,10 @@ export default function PatientChart() {
     if(searchParams.get('iss')){
       console.log('PatientChart.iss', searchParams.get('iss'))
       fhirServerEndpoint = searchParams.get('iss')
+    }
+    if(searchParams.get('patientId')){
+      console.log('PatientChart.selectedPatientId', searchParams.get('patientId'))
+      Session.set('selectedPatientId', searchParams.get('patientId'))
     }
 
     let contentToRender = <PageCanvas id='patientChart' headerHeight={headerHeight} >
