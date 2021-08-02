@@ -61,6 +61,7 @@ Meteor.startup(async function(){
       patientId: String,
       id: String,
       nickname: String,
+      isClinician: Boolean,
       patient: Object
     })
   );
@@ -140,19 +141,20 @@ Meteor.startup(async function(){
           throw new Error('Must provide an invitation code');
         }  
 
-        if (user.invitationCode !== get(Meteor, 'settings.private.invitationCode')) {
+        if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
+          console.info('Invitation code matches.  Creating user.');
+          return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);
+        } else if (user.invitationCode === get(Meteor, 'settings.private.clinicianInvitationCode')) {
+          console.info('Clinician invitation code matches.  Creating clinician.');
+          user.isClinician = true;
+          console.log('Validated user parameters: ', user);      
+          return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'isClinician']);
+        } else {
           console.error('Invalid invitation code.');
           throw new Error('Invalid invitation code.');
         }
       }
-
-      if (user.clinicianInvitationCode === get(Meteor, 'settings.private.clinicianInvitationCode')) {
-        console.error('Clinician invitation code matches; assign clinician status.');
-        user.isClinician = true;
-      }  
       
-      console.log('Validated user parameters: ', user);      
-      return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);
     }
   });
 
@@ -451,7 +453,11 @@ Meteor.startup(async function(){
     let userId = "";
     let dataPayload = {};
 
-    user.id = get(user, 'patientId');
+    if(get(user, 'patientId')){
+      user.id = get(user, 'patientId');
+    } else {
+      user.id = Random.id();
+    }
     console.log('Registering a new user.', user);
 
     try {
@@ -533,7 +539,7 @@ Meteor.startup(async function(){
               newPatient.name[0].given.push(name);
             })
             newPatient.name[0].text = get(createdUser, 'fullLegalName', '').trim()
-            newPatient.name[0].family = nameArray[0];
+            newPatient.name[0].family = (nameArray[0]).trim();
           }
         }
 
@@ -591,6 +597,119 @@ Meteor.startup(async function(){
 
             console.log('Logging a hipaa event...', newAuditEvent)
             let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+          }
+        }
+      }
+
+      if(get(createdUser, 'isClinician')){
+        if(!Practitioners.findOne({id: get(createdUser, 'id')})){
+          let newPractitioner = {
+            _id: '',  
+            id: get(createdUser, 'id', ''),
+            resourceType: "Practitioner",
+            active: true,
+            name: [{
+              use: 'usual',
+              text: get(createdUser, 'fullLegalName', ''),
+              given: [],
+              family: ''
+            }],
+            photo: [{
+              url: 'http://localhost:3000/noAvatar.png'
+            }]
+          }
+  
+          if(has(createdUser, '_id')){
+            newPractitioner._id = get(createdUser, '_id._str');
+          }
+          if(has(createdUser, 'id')){
+            newPractitioner.id = get(createdUser, 'id');
+          }
+  
+          let humanNameArray = get(newPractitioner, 'name');
+          if(Array.isArray(humanNameArray)){
+            newPractitioner.name = [];
+            humanNameArray.forEach(function(humanName){
+              if(typeof humanName.family === "string"){
+                newPractitioner.name.push(humanName);
+              }
+            })
+  
+          }
+  
+          // if(typeof newPractitioner.name[0].family === "array"){
+          //   newPractitioner.name[0].family = newPractitioner.name[0].family[0];
+          // }
+  
+          if(has(createdUser, 'fullLegalName') && !has(newPractitioner, 'name[0].text')){
+            let nameArray = createdUser.fullLegalName.split(" ");
+            if(Array.isArray(nameArray)){
+              nameArray.forEach(function(name){
+                if(!has(newPractitioner, 'name[0].given')){
+                  set(newPractitioner, 'name[0].given', []);
+                }
+                newPractitioner.name[0].given.push(name);
+              })
+              newPractitioner.name[0].text = get(createdUser, 'fullLegalName', '').trim()
+              newPractitioner.name[0].family = (nameArray[0]).trim();
+            }
+          }
+  
+          if(has(createdUser, 'emails[0].address')){
+            if(!has(newPractitioner, 'telecom')){
+              newPractitioner.telecom = [];
+            }
+            newPractitioner.telecom[0] = {
+              system: 'email',
+              value: get(createdUser, 'emails[0].address')
+            }
+          }
+  
+          console.log('AccountsServer.newPractitioner', newPractitioner)
+  
+          let practitionerAlreadyExists = Practitioners.findOne({id: newPractitioner.id})
+          console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
+  
+          if(!practitionerAlreadyExists){
+            let patientInternalId = Practitioners.insert(newPractitioner)
+            console.log('AccountsServer.newPractitionerId', patientInternalId);
+
+            if(Package["clinical:hipaa-logger"]){
+              let newAuditEvent = { 
+                "resourceType" : "AuditEvent",
+                "type" : { 
+                  'code': 'Register User',
+                  'display': 'Register User'
+                  }, 
+                "action" : 'Registration',
+                "recorded" : new Date(), 
+                "outcome" : "Success",
+                "outcomeDesc" : 'User registered.',
+                "agent" : [{ 
+                  "name" : FhirUtilities.pluckName(newPractitioner),
+                  "who": {
+                    "display": FhirUtilities.pluckName(newPractitioner),
+                    "reference": "Practitioner/" + get(newPractitioner, 'id')
+                  },
+                  "requestor" : false
+                }],
+                "source" : { 
+                  "site" : Meteor.absoluteUrl(),
+                  "identifier": {
+                    "value": Meteor.absoluteUrl(),
+  
+                  }
+                },
+                "entity": [{
+                  "reference": {
+                    "reference": ''
+                  }
+                }]
+              };
+  
+              console.log('Logging a hipaa event...', newAuditEvent)
+              let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+            }
           }
         }
       }
