@@ -22,7 +22,7 @@ clinical:csv@0.1.0
 clinical:extended-api@2.5.2
 clinical:fonts@1.2.0
 clinical:hipaa-logger@2.1.1
-clinical:hl7-fhir-data-infrastructure@6.14.15
+clinical:hl7-fhir-data-infrastructure@6.14.17
 clinical:hl7-resource-datatypes@4.0.7
 ddp@1.4.0
 ddp-client@2.4.1
@@ -46,7 +46,7 @@ fourseven:scss@4.12.0
 geojson-utils@1.0.10
 harrison:babyparse@1.0.1
 harrison:papa-parse@1.0.19
-healthflow:core@0.3.0
+healthflow:core@0.3.1
 hot-code-push@1.0.4
 html-tools@1.1.1
 htmljs@1.1.0
