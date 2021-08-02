@@ -92,9 +92,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-if(Meteor.isCordova && (typeof cordova === "object")){
-  window.open = cordova.InAppBrowser.open;
-}
+
 
 //------------------------------------------------------------------------
 // Main Component
@@ -199,19 +197,16 @@ export default function Launcher(props){
           environment: config.environment,
           production: config.production,
           iss: config.iss,
-          fhirServiceUrl: config.fhirServiceUrl
+          fhirServiceUrl: config.fhirServiceUrl,
 
           // WARNING: completeInTarget=true is needed to make this work
           // in the codesandbox frame. It is otherwise not needed if the
           // target is not another frame or window but since the entire
           // example works in a frame here, it gets confused without
           // setting this!
-          //completeInTarget: true
+          completeInTarget: true
         }
 
-        // if(fhirconfig.client_secret){
-        //     options.clientSecret = fhirconfig.client_secret;
-        // }
         if( config.client_id === 'OPEN' ) {
           options.fhirServiceUrl = config.fhirServiceUrl;
           options.patientId = config.patientId;
@@ -219,48 +214,22 @@ export default function Launcher(props){
           options.iss = config.fhirServiceUrl;
         }
 
-        if(config.patientId) {
-          context.setPatientId(config.patientId)
-        }
-
-        console.log("options", options)
-
-        if(config.environment === "node"){
-
-          // Meteor.call('serverSmartAuthorization', options, function(error, result){
-          //   if(error){console.log('SmartLauncher.serverSmartAuthorization.error', error)}
-          //   if(result){console.log('SmartLauncher.serverSmartAuthorization.result', result)}
-          // })
-                    
-          // // using the HTTP library
-          // let launchUrl = Meteor.absoluteUrl() + 'node-launch'
-          // console.log('SmartLauncher.launchUrl', launchUrl)
-          // HTTP.post(launchUrl, {
-          //   data: options,
-          //   params: {
-          //     "iss": get(options, "iss")
-          //   }
-          // }, function(error, result){
-          //   if(error){console.log('SmartLauncher.serverSmartAuthorization.error', error)}
-          //   if(result){console.log('SmartLauncher.serverSmartAuthorization.result', result)}
-          // })
-
-          // window.open('/node-launch?' + searchParams.toString(), '_system');
-          window.open('/node-launch?' + searchParams.toString(), '_blank');
-
-          // // using the fetch library
-          // const results = Meteor.wrapAsync(postSmartAuthConfig(launchUrl, options));
-          // console.log('SmartLauncher.serverSmartAuthorization.results', results)
-
-        } else {
-          SMART.authorize(options);
-        }
+        if(config.launch_uri){
+          let launchUrl = config.launch_uri + '?' + searchParams.toString()
+          console.log('SmartLauncher.launchUrl', launchUrl)
+  
+          if(Meteor.isCordova){
+            cordova.InAppBrowser.open(launchUrl, '_self');
+          } else {
+            window.open(launchUrl, '_self');
+          }
+        }        
     }
 
     function renderOptions() {
         let configMenu = [];
         configArray.forEach(function(config, index){     
-          console.log('config', config)           
+          console.log('SmartLauncher.config', config)           
           // configMenu.push(<MenuItem value={index}>{config.vendor}</MenuItem>);
           let isDisabled = false;
           let rowStyle = {cursor: 'pointer', color: "black"};
