@@ -119,7 +119,8 @@ const Signup = function({ history }){
       password: '',
       invitationCode: '',
       patientId: get(selectedPatient, 'id'),
-      patient: selectedPatient
+      patient: selectedPatient,
+      isClinician: false
     },
     validate: values => {
       const errors = {};
@@ -188,7 +189,8 @@ const Signup = function({ history }){
           password: values.password,
           invitationCode: values.invitationCode,
           patientId: values.patientId,
-          patient: selectedPatient
+          patient: selectedPatient,
+          isClinician: values.isClinician
         });
 
         // console.log('userId', userId)

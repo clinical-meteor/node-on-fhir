@@ -53,7 +53,11 @@ export function AutoDashboard(props){
         return Session.get('selectedPatientId');
     }, []);
     data.selectedPatient = useTracker(function(){
-        return Session.get('selectedPatient');
+        if(Session.get('selectedPatient')){
+            return Session.get('selectedPatient');
+        } else if(Patients.findOne({id: Session.get('selectedPatientId')})){
+            return Patients.findOne({id: Session.get('selectedPatientId')})
+        }        
     }, []);
     data.patients = useTracker(function(){
         return Patients.find().fetch();
@@ -430,7 +434,7 @@ export function AutoDashboard(props){
         </Grid>
     </Grid>
 
-    let patientChartLayout = <Grid container style={{marginTop: '20px', marginBottom: '84px'}} justify="center">
+    let patientChartLayout = <Grid container style={{marginTop: '20px', paddingBottom: '84px'}} justify="center">
         <Grid item xs={12} md={6}>
             <PatientCard patient={data.selectedPatient} />
             <DynamicSpacer />
