@@ -44,7 +44,7 @@ import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 
 function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
   console.log("---------------------------------------------------------------------")
-  console.log("SMART ON FHIR - FhirClientProvider");
+  console.log("SMART ON FHIR - FhirClientProvider", ehrLaunchCapabilities);
 
   if(client){
     try {
@@ -153,8 +153,8 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
         }).then(immunizations => {
           if(immunizations){
             console.log('PatientAutoDashboard.immunizations', immunizations)
-            immunizations.forEach(procedure => {
-              Immunizations._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+            immunizations.forEach(immunization => {
+              Immunizations._collection.upsert({id: immunization.id}, {$set: immunization}, {validate: false, filter: false});                    
             });    
           }
         });
@@ -175,8 +175,8 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
         }).then(medicationOrders => {
           if(medicationOrders){
             console.log('PatientAutoDashboard.medicationOrders', medicationOrders)
-            medicationOrders.forEach(procedure => {
-              MedicationOrders._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+            medicationOrders.forEach(medOrder => {
+              MedicationOrders._collection.upsert({id: medOrder.id}, {$set: medOrder}, {validate: false, filter: false});                    
             });    
           }
         });
@@ -207,54 +207,40 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
       if(ehrLaunchCapabilities.Observation === true){
 
         const observationQuery = new URLSearchParams();
-        // observationQuery.set("code", "http://loinc.org|55284-4");
-    
-        if(client.patient){
-          observationQuery.set("patient", get(client, 'patient'));
-    
-          if(client.patient.id){
-            observationQuery.set("patient", get(client, 'patient.id'));
-          }    
-        }
 
+        observationQuery.set("patient", get(client, 'patient.id'));
         observationQuery.set("category", "vital-signs");    
-        console.log('Observation Query', observationQuery);
+
+        console.log('Vital Signs Query', observationQuery);
     
         // without leading slash seems to work with Cerner, but not with Epic (?)
-        let observationUrl = '/Observation?' + observationQuery.toString();
-        console.log('observationUrl', observationUrl);
+        let vitalSignsUrl = '/Observation?' + observationQuery.toString();
+        console.log('vitalSignsUrl', vitalSignsUrl);
 
-        client.request(observationUrl, { pageLimit: 0, flat: true }).then(bpObservations => {
-          if(bpObservations){
-            const bpMap = {
-              systolic: [],
-              diastolic: []
-            };
-            console.log('PatientAutoDashboard.observations', bpObservations)
-            bpObservations.forEach(observation => {
+          client.request(vitalSignsUrl, { pageLimit: 0, flat: true }).then(observations => {
+          if(observations){
+            console.log('PatientAutoDashboard.observations.vital-signs', observations)
+            observations.forEach(observation => {
               Observations._collection.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false});
-              // if(Array.isArray(observation.component)){
-              //   observation.component.forEach(c => {
-              //     const code = client.getPath(c, "code.coding.0.code");
-              //     if (code === "8480-6") {
-              //       bpMap.systolic.push({
-              //         x: new Date(observation.effectiveDateTime),
-              //         y: get(c , 'valueQuantity.value')
-              //       });
-              //     } else if (code === "8462-4") {
-              //       bpMap.diastolic.push({
-              //         x: new Date(observation.effectiveDateTime),
-              //         y: get(c , 'valueQuantity.value')
-              //       });
-              //     }
-              //   });
-              // }
             });
-            // bpMap.systolic.sort((a, b) => a.x - b.x);
-            // bpMap.diastolic.sort((a, b) => a.x - b.x);
+          }
+        });
 
-            console.log('PatientAutoDashboard.bpMap', bpMap)
-            // this.renderChart(bpMap);
+        observationQuery.delete("category");    
+        observationQuery.set("category", "laboratory");    
+
+        console.log('Vital Signs Query', observationQuery);
+    
+        // without leading slash seems to work with Cerner, but not with Epic (?)
+        let laboratoryUrl = '/Observation?' + observationQuery.toString();
+        console.log('laboratoryUrl', laboratoryUrl);
+
+          client.request(laboratoryUrl, { pageLimit: 0, flat: true }).then(observations => {
+          if(observations){
+            console.log('PatientAutoDashboard.observations.laboratory', observations)
+            observations.forEach(observation => {
+              Observations._collection.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false});
+            });
           }
         });
       }
