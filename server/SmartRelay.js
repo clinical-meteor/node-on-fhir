@@ -7,8 +7,9 @@ import { FhirUtilities } from 'fhir-starter';
 import { get, set, unset, has, pick, cloneDeep } from 'lodash';
 import { Random } from 'meteor/random';
 import { Meteor } from 'meteor/meteor';
+import { HTTP } from 'meteor/http';
 
-import { Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { CarePlans, CareTeams, Consents, Conditions, Encounters, Goals, Immunizations, Observations, Patients, Procedures, Practitioners, QuestionnaireResponses, Tasks } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 import moment from 'moment';
 
@@ -20,6 +21,22 @@ import { oauth2 as SMART } from "fhirclient";
 // var session = require('express-session')
 
 
+///------------------------------------------------------------------------------------
+"CarePlan", "Condition", "Goal", "Immunization", "Observation", "Procedure"
+let Collections = {};
+
+Collections.CarePlans = CarePlans;
+Collections.Conditions = Conditions;
+Collections.Consents = Consents;
+Collections.Encounters = Encounters;
+Collections.Goals = Goals;
+Collections.Immunizations = Immunizations;
+Collections.Observations = Observations;
+Collections.Patients = Patients;
+Collections.Procedures = Procedures;
+Collections.QuestionnaireResponses = QuestionnaireResponses;
+
+///------------------------------------------------------------------------------------
 
 
 // This is our storage factory function. It will be called with request and response and is
@@ -40,13 +57,6 @@ async function smartHandler(client, res) {
     res.setHeader("Content-type", "application/json");
     res.end(JSON.stringify(data, null, 4));
 }
-
-// JsonRoutes.Middleware.use(session({
-//     secret: 'laksdjflanglsdjkdjfkjdfd',
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { secure: false }
-//   }));
 
 JsonRoutes.setResponseHeaders({
     "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
@@ -85,10 +95,6 @@ JsonRoutes.add('get', '/node-launch', function (req, res, next) {
 
     console.log('interceptedReq', interceptedReq.headers);
 
-    // res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-    // res.setHeader("Access-Control-Allow-Headers", "*");
-    // res.setHeader("Access-Control-Allow-Origin", "*");
-
     let smartConfig = {
         "client_id": get(req.query, "client_id"),
         "scope": get(req.query, "scope"),
@@ -100,12 +106,6 @@ JsonRoutes.add('get', '/node-launch', function (req, res, next) {
     console.log('SmartRelay.smartConfig', smartConfig)
 
     smart(interceptedReq, res, getStorage).authorize(smartConfig);
-
-    // JsonRoutes.sendResult(res, {
-    //     code: 200
-    // });
-
-    // next();
 });
 
 
@@ -119,8 +119,6 @@ JsonRoutes.add('post', '/node-launch', function (req, res, next) {
     let interceptedReq = cloneDeep(req);
     set(interceptedReq, 'headers.Access-Control-Allow-Origin', '*')
     set(interceptedReq, 'headers.access-control-allow-origin', '*')
-
-    
 
     if(get(interceptedReq, 'headers.x-forwarded-host') === "localhost:3000"){
         set(interceptedReq, 'headers.x-forwarded-host', 'localhost')
@@ -150,90 +148,45 @@ JsonRoutes.add('post', '/node-launch', function (req, res, next) {
         "redirect_uri": get(req.body, "redirectUri"),
         "iss": get(req.body, "iss")
     });
-
-    // smart(req, res, getStorage).init({
-    //     "client_id": get(req.body, "client_id"),
-    //     "scope": get(req.body, "scope")
-    // }).then(console.log).then(function(){
-    //     JsonRoutes.sendResult(res, {
-    //         code: 200
-    //     });
-    // }).catch(function(){
-    //     console.log('something went wrong during SMART authorization')
-    // });
-
-    // let smartSettings = {
-    //     "client_id": get(req.body, "clientId"),
-    //     "scope": get(req.body, "scope")
-    // }
-    // console.log("SmartRelay.smartSettings", smartSettings)
-
-    // smart(req, res, getStorage).init({
-    //     "client_id": get(req.body, "clientId"),
-    //     "scope": get(req.body, "scope")
-    // }).then(console.log).then(function(){
-    //     JsonRoutes.sendResult(res, {
-    //         code: 200
-    //     });
-    // }).catch(function(){
-    //     console.log('something went wrong during SMART authorization')
-    // });
-
-    // smart(interceptedReq, res, getStorage).init(smartSettings)
-    //     .then(client => smartHandler(client, res))
-    //     .catch(function(error){
-    //         console.log('something went wrong during SMART authorization', error)
-    //     });
-
-
-    // next();
 });
 
-// JsonRoutes.add('post', '/node-launch', function (req, res, next) {
-//     console.log('SmartRelay: POST /node-launch', req.headers);
-//     console.log('SmartRelay: POST /node-launch', req.query);
-//     console.log('SmartRelay: POST /node-launch', req.params);
-//     console.log('SmartRelay: POST /node-launch', req.body);
-
-//     let interceptedReq = cloneDeep(req);
-//     set(interceptedReq, 'headers.Access-Control-Allow-Origin', '*')
-
-//     if(get(interceptedReq, 'headers.x-forwarded-host') === "localhost:3000"){
-//         set(interceptedReq, 'headers.x-forwarded-host', 'localhost')
-//     }
-
-//     unset(interceptedReq, 'headers.x-forwarded-host');
-//     unset(interceptedReq, 'headers.x-forwarded-proto');
-//     unset(interceptedReq, 'headers.x-forwarded-port');
-//     unset(interceptedReq, 'headers.x-forwarded-for');
-//     unset(interceptedReq, 'headers.referer');
-
-//     console.log('interceptedReq', interceptedReq.headers);
-
-//     // res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-//     // res.setHeader("Access-Control-Allow-Headers", "*");
-//     // res.setHeader("Access-Control-Allow-Origin", "*");
-
-//     // smart(interceptedReq, res, getStorage).authorize({
-//     //     "client_id": get(req.body, "client_id"),
-//     //     "scope": get(req.body, "scope")
-//     // });
-
-//     smart(req, res, getStorage).authorize({
-//         "client_id": get(req.body, "client_id"),
-//         "scope": get(req.body, "scope")
-//     }).then(console.log).then(function(){
-//         JsonRoutes.sendResult(res, {
-//             code: 200
-//         });
-//     }).catch(function(){
-//         console.log('something went wrong during SMART authorization')
-//     });
-
-
-//     // next();
-// });
-
+function precheckThenCreateRecord(record, resourceType){
+    console.log('Prechecking record', record);
+    if(!Collections[FhirUtilities.pluralizeResourceName(resourceType)].findOne({id: get(record, 'data.id')})){
+        console.log(resourceType + ' not found.  Creating a new record.....')        
+        Collections[FhirUtilities.pluralizeResourceName(resourceType)].insert(record, get(Meteor, 'settings.private.fhir.schemaValidation', {validate: false, filter: false}), function(err, result){
+            if(err){console.log('err', err)}
+            if(result){console.log('result', result)}
+        });
+    } else {
+        console.log(resourceType + ' already exists.')        
+    }
+}
+function parseBundleIntoCollection(bundle, resourceType){
+    if(get(bundle, 'resourceType') === "Bundle"){
+        console.log('Received a Bundle.  Parsing it for records to put into the ' + FhirUtilities.pluralizeResourceName(resourceType) + ' collection.');
+        console.log('Checking that the ' + FhirUtilities.pluralizeResourceName(resourceType) + ' collection exists: ' + typeof Collections[FhirUtilities.pluralizeResourceName(resourceType)]);
+        if(Array.isArray(bundle.entry)){
+            bundle.entry.forEach(function(entry){
+                if(get(entry.resource, 'verificationStatus.text') !== "Entered in Error"){      
+                    if(Collections[FhirUtilities.pluralizeResourceName(resourceType)].findOne({id: get(entry.resource, 'id')})){
+                        console.log(resourceType + ' already exists.')        
+                    } else {
+                        Collections[FhirUtilities.pluralizeResourceName(resourceType)].insert(entry.resource, get(Meteor, 'settings.private.fhir.schemaValidation', {validate: false, filter: false}), function(err, result){
+                            if(err){console.log('err', err)}
+                            if(result){
+                                console.log(resourceType + ' not found.  Creating it.  New record id: ' + result)     
+                            }
+                        });                    
+                    }    
+                } else {
+                    console.log(resourceType + ' appears to be Entered in Error.  Skipping.')     
+                }
+            })
+        }
+        
+    }
+}
 
 JsonRoutes.add('get', '/node-fhir-receiver', function (req, res, next) {
     console.log('SmartRelay: GET /node-fhir-receiver', req.headers);
@@ -255,62 +208,124 @@ JsonRoutes.add('get', '/node-fhir-receiver', function (req, res, next) {
         set(interceptedReq, 'headers.origin', 'http://localhost')
     }
 
-    // res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader('Location', Meteor.absoluteUrl() + 'patient-chart');
+    let relaySearchParams = new URLSearchParams(req.query);
+    console.log('relaySearchParams', relaySearchParams.toString())
+
     
+    console.log('Fetching patient protected health information....')
     smart(interceptedReq, res, getStorage).ready()
-        .then(function(client){
-            return client.request("Patient/" + client.getPatientId())
+        .then(async function(client){
+            console.log('===========================================================');
+            console.log('SMART FETCH');
+            console.log('')
+
+            res.setHeader('Location', Meteor.absoluteUrl() + 'patient-chart');
+            res.setHeader('Access-Control-Allow-Origin', '*');
+
+            let selectedPatient = await client.request("Patient/" + client.getPatientId());  
+
+            relaySearchParams.set('patientId', client.getPatientId())
+
+            res.setHeader('Location', Meteor.absoluteUrl() + 'patient-chart?' + relaySearchParams.toString());
+            JsonRoutes.sendResult(res, {
+                code: 302,
+                data: selectedPatient
+            });
+
+            // let metadataUrl = get(client.getState(), 'serverUrl') + "/metadata?_format=json";
+            // console.log('SmartRelay.fetchingPHI.metadataUrl:   ', metadataUrl);
+            // console.log('SmartRelay.fetchingPHI.accessToken: ', client.getState("tokenResponse.access_token"));
+
+            // var httpHeaders = { headers: {
+            //     'Accept': "application/json,application/fhir+json",
+            //     "Authorization": "Bearer " + client.getState("tokenResponse.access_token")
+            // }}
+
+            // console.log('SmartRelay.fetchingPHI.httpHeaders:   ', httpHeaders);
+
+            // if(client.getState("tokenResponse.access_token")){
+            //     if(metadataUrl){            
+            //         HTTP.get(metadataUrl, httpHeaders, function(error, conformanceStatement){
+            //             let parsedCapabilityStatement = JSON.parse(get(conformanceStatement, "content"))
+            //             console.log('Received a conformance statement for the server received via iss URL parameter.', parsedCapabilityStatement);
+
+            //             let ehrLaunchCapabilities = FhirUtilities.parseCapabilityStatement(parsedCapabilityStatement);
+            //             console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);                    
+            //         })
+            //     }
+            // }
+            
+            return {
+                patient: selectedPatient,
+                carePlans: await client.request("CarePlan?patient=Patient/" + client.getPatientId()),
+                conditions: await client.request("Condition?subject=Patient/" + client.getPatientId()),
+                consents: await client.request("Consent?patient=Patient/" + client.getPatientId()),
+                encounters: await client.request("Encounter?subject=Patient/" + client.getPatientId()),
+                goals: await client.request("Goal?patient=Patient/" + client.getPatientId()),
+                immunizations: await client.request("Immunization?patient=Patient/" + client.getPatientId()),
+                observations: await client.request("Observation?subject=Patient/" + client.getPatientId()),
+                procedures: await client.request("Procedure?subject=Patient/" + client.getPatientId()),
+            }
         })
-        .then(res.json)
-        .then(console.log)
-        .catch(res.json);
+        .then(function(json){
+            console.log('json', json)
 
-    // let redirectHeaders = { 'content-type': 'application/json', 'authorization': `Bearer ${token}`, 'cache-control': 'no-cache', 'Location': '/patient-chart'};
+            console.log('-----------------------------------------------------------');
+            console.log('')
 
-    JsonRoutes.sendResult(res, {
-        code: 302
-    });
-    
-    // next();
+            console.log('SmartRelay: POST /node-launch req,headers', get(json.req, "headers"));
+            console.log('SmartRelay: POST /node-launch req.query', get(json.req, "query"));
+
+            if(get(json.patient, 'resourceType') === "Patient"){
+                console.log('Received a Patient')
+                if(!Patients.findOne({id: get(json.patient, 'id')})){
+                    console.log('Patient not found.  Inserting a new patient.....')        
+                    Patients.insert(json.patient, get(Meteor, 'settings.private.fhir.schemaValidation', {validate: false, filter: false}), function(err, result){
+                        if(err){console.log('err', err)}
+                        if(result){console.log('result', result)}
+                    });                    
+                } else {
+                    console.log('Patient already exists.')        
+                }
+
+                // res.setHeader('Location', Meteor.absoluteUrl() + 'patient-chart');
+                // JsonRoutes.sendResult(res, {
+                //     code: 302,
+                //     data: get(json, 'patient')
+                // });
+            }
+
+            parseBundleIntoCollection(json.carePlans, "CarePlan");
+            parseBundleIntoCollection(json.conditions, "Condition");
+            parseBundleIntoCollection(json.consents, "Consent");
+            parseBundleIntoCollection(json.encounters, "Encounter");
+            parseBundleIntoCollection(json.goals, "Goal");
+            parseBundleIntoCollection(json.immunizations, "Immunization");
+            parseBundleIntoCollection(json.observations, "Observation");
+            parseBundleIntoCollection(json.procedures, "Procedure");
+
+        })
+        .then(function(json){
+            console.log('Fin')
+        })
+        .catch(function(json){
+            console.log('Something went wrong', json)
+
+            // res.setHeader('Location', Meteor.absoluteUrl() + 'patient-chart');
+            // JsonRoutes.sendResult(res, {
+            //     code: 302
+            // });
+        });
+
+
+    // // let redirectHeaders = { 'content-type': 'application/json', 'authorization': `Bearer ${token}`, 'cache-control': 'no-cache', 'Location': '/patient-chart'};
+    // // res.setHeader("Access-Control-Allow-Origin", "*");
+
+    // res.setHeader('Location', Meteor.absoluteUrl() + 'patient-chart');
+
+    // JsonRoutes.sendResult(res, {
+    //     code: 302,
+    //     data: 'foo'
+    // });
 });
 
-JsonRoutes.add('post', '/node-fhir-receiver', function (req, res, next) {
-    console.log('SmartRelay: POST /node-fhir-receiver');
-
-    JsonRoutes.sendResult(res, {
-        code: 302
-    });    
-});
-
-
-// Meteor.methods({
-//     serverSmartAuthorization: function(options){
-//         console.log("Initializing SMART authorization", options);
-
-//         let smartSettings = {
-//             "client_id": get(options, "clientId"),
-//             "scope": get(options, "scope"),
-//             "redirect_uri": get(options, "redirectUri"),
-//         }
-//         console.log("SmartRelay.smartSettings", smartSettings);
-
-
-//         // using the HTTP library
-//         let launchUrl = Meteor.absoluteUrl() + 'node-launch';
-//         console.log('SmartLauncher.launchUrl', launchUrl);
-
-//         HTTP.post(launchUrl, {
-//           data: options,
-//           params: {
-//             "iss": get(options, "iss")
-//           }
-//         }, function(error, result){
-//           if(error){console.log('SmartLauncher.serverSmartAuthorization.error', error)}
-//           if(result){console.log('SmartLauncher.serverSmartAuthorization.result', result)}
-//         })
-
-//         // SMART.authorize(smartSettings);
-
-//     }
-// })
