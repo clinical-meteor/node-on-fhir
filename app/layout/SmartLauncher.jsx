@@ -308,7 +308,7 @@ export default function Launcher(props){
     let paddingWidth = 20;
 
     return (
-        <PageCanvas id='SmartLauncher' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{paddingTop: '128px'}} >
+        <PageCanvas id='SmartLauncher' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{paddingTop: '128px', paddingBottom: '128px'}} >
             <Grid container justify="center" spacing={3}>
                 <Grid item xs={12} sm={12} md={6} lg={6} >
                     <CardHeader title="Participating Health Networks" />
