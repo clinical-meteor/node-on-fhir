@@ -102,7 +102,6 @@ Meteor.startup(async function(){
         //   throw new Error('First name too short');
         // }     
       }
-
       if(get(Meteor, 'settings.public.defaults.registration.displayFirstAndLast')){
         if (!user.firstName) {
           throw new Error('First name is required');
@@ -133,8 +132,6 @@ Meteor.startup(async function(){
           throw new Error('Username too short');
         }  
       }
-
-
       if(get(Meteor, 'settings.private.invitationCode')){
         if (!user.invitationCode) {
           console.error('Must provide an invitation code');
@@ -453,18 +450,23 @@ Meteor.startup(async function(){
     let userId = "";
     let dataPayload = {};
 
-    if(get(user, 'patientId')){
-      user.id = get(user, 'patientId');
-    } else {
-      user.id = Random.id();
+    // Use Case 1: if the user had fetched PHI from Cerner/Epic,
+    // there should be a patientId available 
+    // which we grab from the URL parameters
+    // and feed into the registration form
+    // and we will then use as the user id, if possible
+
+    if(!get(user, 'patientId')){
+      user.patientId = Random.id();
     }
+
     console.log('Registering a new user.', user);
 
     try {
       userId = await accountsPasswordService.createUser(user);
-      console.log('userId', userId)
+      console.log('AccountsServer.register.createUser.userId', userId)
 
-      if (has(accountsServer, "options.enableAutologin")) {
+      if(has(accountsServer, "options.enableAutologin")) {
 
         if(!accountsServer.options.ambiguousErrorMessages){
           dataPayload = {
@@ -488,77 +490,87 @@ Meteor.startup(async function(){
       console.log('typeof createdUser._id', typeof createdUser._id)
       console.log('typeof createdUser.id', typeof createdUser.id)
 
-      if(!Patients.findOne({id: get(createdUser, 'id')})){
-        let newPatient = {
-          _id: '',  
-          id: '',
-          resourceType: "Patient",
-          active: true,
-          name: [{
-            use: 'usual',
-            text: get(createdUser, 'fullLegalName', ''),
-            given: [],
-            family: ''
-          }],
-          photo: [{
-            url: 'http://localhost:3000/noAvatar.png'
-          }]
-        }
+      //------------------------------------------------------//------------------------------------------------------------------------------
+      // creating the new patient record
+      let newPatient = {
+        _id: '',  
+        id: '',
+        resourceType: "Patient",
+        active: true,
+        name: [{
+          use: 'usual',
+          text: get(createdUser, 'fullLegalName', ''),
+          given: [],
+          family: ''
+        }],
+        photo: [{
+          url: 'http://localhost:3000/noAvatar.png'
+        }]
+      }
 
-        Object.assign(newPatient, get(user, 'patient'));
+      // if we were able to fetch the entire Patient resource from Epic/Cerner
+      // and have it available in the registration payload
+      // we can assign it as the patient resource
+      Object.assign(newPatient, get(user, 'patient'));
 
-        if(has(createdUser, '_id')){
-          newPatient._id = createdUser._id._str;
-        }
-        if(has(createdUser, 'id')){
-          newPatient.id = createdUser.id;
-        }
 
-        let humanNameArray = get(newPatient, 'name');
-        if(Array.isArray(humanNameArray)){
-          newPatient.name = [];
-          humanNameArray.forEach(function(humanName){
-            if(typeof humanName.family === "string"){
-              newPatient.name.push(humanName);
+      let humanNameArray = get(newPatient, 'name');
+      if(Array.isArray(humanNameArray)){
+        newPatient.name = [];
+        humanNameArray.forEach(function(humanName){
+          if(typeof humanName.family === "string"){
+            newPatient.name.push(humanName);
+          }
+        })
+
+      }
+
+      // if(typeof newPatient.name[0].family === "array"){
+      //   newPatient.name[0].family = newPatient.name[0].family[0];
+      // }
+
+      if(has(createdUser, 'fullLegalName') && !has(newPatient, 'name[0].text')){
+        let nameArray = createdUser.fullLegalName.split(" ");
+        if(Array.isArray(nameArray)){
+          nameArray.forEach(function(name){
+            if(!has(newPatient, 'name[0].given')){
+              set(newPatient, 'name[0].given', []);
             }
+            newPatient.name[0].given.push(name);
           })
-
+          newPatient.name[0].text = get(createdUser, 'fullLegalName', '').trim()
+          newPatient.name[0].family = (nameArray[0]).trim();
         }
+      }
 
-        // if(typeof newPatient.name[0].family === "array"){
-        //   newPatient.name[0].family = newPatient.name[0].family[0];
-        // }
-
-        if(has(createdUser, 'fullLegalName') && !has(newPatient, 'name[0].text')){
-          let nameArray = createdUser.fullLegalName.split(" ");
-          if(Array.isArray(nameArray)){
-            nameArray.forEach(function(name){
-              if(!has(newPatient, 'name[0].given')){
-                set(newPatient, 'name[0].given', []);
-              }
-              newPatient.name[0].given.push(name);
-            })
-            newPatient.name[0].text = get(createdUser, 'fullLegalName', '').trim()
-            newPatient.name[0].family = (nameArray[0]).trim();
-          }
+      if(has(createdUser, 'emails[0].address')){
+        if(!has(newPatient, 'telecom')){
+          newPatient.telecom = [];
         }
-
-        if(has(createdUser, 'emails[0].address')){
-          if(!has(newPatient, 'telecom')){
-            newPatient.telecom = [];
-          }
-          newPatient.telecom[0] = {
-            system: 'email',
-            value: get(createdUser, 'emails[0].address')
-          }
+        newPatient.telecom[0] = {
+          system: 'email',
+          value: get(createdUser, 'emails[0].address')
         }
+      }
 
-        console.log('AccountsServer.newPatient', newPatient)
+      // try to align collection _ids, if possible
+      if(has(createdUser, '_id')){
+        newPatient._id = createdUser._id._str;
+      }
+      
+      console.log('AccountsServer.newPatient', newPatient)
 
-        let alreadyExists = Patients.findOne({id: newPatient.id})
-        console.log('AccountsServer.findOne(newPatient)', newPatient)
 
-        if(!alreadyExists){
+      //------------------------------------------------------------------------------------------------------------------------------------
+
+      // if the patientId from Epic/Cerner is available
+      // we are going to make sure that there is a corresponding Patient resource
+      // in our system
+      if(get(createdUser, 'patientId')){
+        if(!Patients.findOne({id: get(createdUser, 'patientId')})){
+
+          newPatient.id = createdUser.patientId;
+
           let patientInternalId = Patients.insert(newPatient)
           console.log('AccountsServer.newPatientId', patientInternalId)
 
@@ -597,9 +609,21 @@ Meteor.startup(async function(){
 
             console.log('Logging a hipaa event...', newAuditEvent)
             let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
-          }
+          }  
         }
+      } else {
+
+        // Use Case 2 - if the user signs up without having logged into Epic/Cerner
+        // then they probably don't have a patientId available
+        // so we need to attach it to the user account
+
+        // if(!get(createdUser, 'patientId')){
+        //   Users.update({id: get(createdUser, 'id')}, {$set: {patientId: patientInternalId}})
+        // }
       }
+
+
+
 
       if(get(createdUser, 'isClinician')){
         if(!Practitioners.findOne({id: get(createdUser, 'id')})){
