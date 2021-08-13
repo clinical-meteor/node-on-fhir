@@ -4,7 +4,7 @@ import AutoDashboard from "./AutoDashboard";
 import PatientDemographics from "./PatientDemographics";
 
 import { PageCanvas } from 'fhir-starter';
-import { CardHeader, CardContent } from '@material-ui/core';
+import { CardHeader, CardContent, Container } from '@material-ui/core';
 import { useLocation, useParams, useHistory } from "react-router-dom";
 
 import { oauth2 as SMART } from "fhirclient";
@@ -49,9 +49,8 @@ export default function PatientChart() {
 
     let paddingWidth = LayoutHelpers.calcCanvasPaddingWidth();
 
-    let contentToRender = <PageCanvas id='patientChart' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} >
-      {/* <PatientDemographics /> */}
-      <AutoDashboard fhirServerEndpoint={fhirServerEndpoint} />
+    let contentToRender = <PageCanvas id='patientChart' headerHeight={headerHeight} paddingLeft={20} paddingRight={20} >
+        <AutoDashboard fhirServerEndpoint={fhirServerEndpoint} />
     </PageCanvas>    
     return (contentToRender);
 }

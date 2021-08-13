@@ -195,8 +195,8 @@ JsonRoutes.add('get', '/node-fhir-receiver', function (req, res, next) {
     console.log('SmartRelay: GET /node-fhir-receiver', req.body);
 
     let interceptedReq = cloneDeep(req);
-    set(interceptedReq, 'headers.Access-Control-Allow-Origin', '*')
-    set(interceptedReq, 'headers.access-control-allow-origin', '*')
+    set(interceptedReq, 'headers.Access-Control-Allow-Origin', '*');
+    set(interceptedReq, 'headers.access-control-allow-origin', '*');
 
     if(get(interceptedReq, 'headers.x-forwarded-host') === "localhost:3000"){
         set(interceptedReq, 'headers.x-forwarded-host', 'localhost')
@@ -219,14 +219,17 @@ JsonRoutes.add('get', '/node-fhir-receiver', function (req, res, next) {
             console.log('SMART FETCH');
             console.log('')
 
-            res.setHeader('Location', Meteor.absoluteUrl() + 'patient-chart');
+            relaySearchParams.set('patientId', client.getPatientId())
+
+            let redirectUrl = Meteor.absoluteUrl() + 'patient-chart?' + relaySearchParams.toString();
+            console.log('SmartRelay.redirectUrl', redirectUrl)
+
+            res.setHeader('Location', redirectUrl);
             res.setHeader('Access-Control-Allow-Origin', '*');
 
             let selectedPatient = await client.request("Patient/" + client.getPatientId());  
 
-            relaySearchParams.set('patientId', client.getPatientId())
 
-            res.setHeader('Location', Meteor.absoluteUrl() + 'patient-chart?' + relaySearchParams.toString());
             JsonRoutes.sendResult(res, {
                 code: 302,
                 data: selectedPatient
@@ -255,16 +258,28 @@ JsonRoutes.add('get', '/node-fhir-receiver', function (req, res, next) {
             //     }
             // }
             
+
+            // you can try enabling the other observation categories
+            // but its not clear if Epic/Cerner support them
+            // cerner is pretty permissive on any of them, and just returns null values
+            // but epic will error out the entire query
+            // https://www.hl7.org/fhir/valueset-observation-category.html
             return {
                 patient: selectedPatient,
-                carePlans: await client.request("CarePlan?patient=Patient/" + client.getPatientId()),
-                conditions: await client.request("Condition?subject=Patient/" + client.getPatientId()),
-                consents: await client.request("Consent?patient=Patient/" + client.getPatientId()),
+                carePlans: await client.request("CarePlan?patient=Patient/" + client.getPatientId() + "&category=38717003"),
+                diagnosises: await client.request("Condition?subject=Patient/" + client.getPatientId() + "&category=encounter-diagnosis"),
+                problemlist: await client.request("Condition?subject=Patient/" + client.getPatientId() + "&category=problem-list-item"),
+                // consents: await client.request("Consent?patient=Patient/" + client.getPatientId() + "&status=active"),
                 encounters: await client.request("Encounter?subject=Patient/" + client.getPatientId()),
                 goals: await client.request("Goal?patient=Patient/" + client.getPatientId()),
                 immunizations: await client.request("Immunization?patient=Patient/" + client.getPatientId()),
-                observations: await client.request("Observation?subject=Patient/" + client.getPatientId()),
-                procedures: await client.request("Procedure?subject=Patient/" + client.getPatientId()),
+                vitals: await client.request("Observation?subject=Patient/" + client.getPatientId() + '&category=vital-signs'),
+                socialhistory: await client.request("Observation?subject=Patient/" + client.getPatientId() + '&category=social-history'),
+                // exams: await client.request("Observation?subject=Patient/" + client.getPatientId() + '&category=exam'),
+                // surveys: await client.request("Observation?subject=Patient/" + client.getPatientId() + '&category=survey'),
+                // therapies: await client.request("Observation?subject=Patient/" + client.getPatientId() + '&category=therapy'),
+                // activities: await client.request("Observation?subject=Patient/" + client.getPatientId() + '&category=activity'),
+                procedures: await client.request("Procedure?patient=Patient/" + client.getPatientId())
             }
         })
         .then(function(json){
@@ -287,21 +302,23 @@ JsonRoutes.add('get', '/node-fhir-receiver', function (req, res, next) {
                 } else {
                     console.log('Patient already exists.')        
                 }
-
-                // res.setHeader('Location', Meteor.absoluteUrl() + 'patient-chart');
-                // JsonRoutes.sendResult(res, {
-                //     code: 302,
-                //     data: get(json, 'patient')
-                // });
             }
 
+
+
             parseBundleIntoCollection(json.carePlans, "CarePlan");
-            parseBundleIntoCollection(json.conditions, "Condition");
-            parseBundleIntoCollection(json.consents, "Consent");
+            parseBundleIntoCollection(json.diagnosises, "Condition");
+            parseBundleIntoCollection(json.problemlist, "Condition");
+            // parseBundleIntoCollection(json.consents, "Consent");  // practitioners only ?!
             parseBundleIntoCollection(json.encounters, "Encounter");
             parseBundleIntoCollection(json.goals, "Goal");
             parseBundleIntoCollection(json.immunizations, "Immunization");
-            parseBundleIntoCollection(json.observations, "Observation");
+            parseBundleIntoCollection(json.vitals, "Observation");
+            parseBundleIntoCollection(json.socialhistory, "Observation");
+            // parseBundleIntoCollection(json.exams, "Observation");
+            // parseBundleIntoCollection(json.surveys, "Observation");
+            // parseBundleIntoCollection(json.therapies, "Observation");
+            // parseBundleIntoCollection(json.activities, "Observation");
             parseBundleIntoCollection(json.procedures, "Procedure");
 
         })
