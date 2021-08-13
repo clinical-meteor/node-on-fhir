@@ -64,7 +64,11 @@ const Signup = function({ history }){
 
   let selectedPatient;
   let selectedPatientCatch = useState(function(){
-    return Session.get('selectedPatient');
+    if(typeof Session.get('selectedPatient') === "object"){
+      return Session.get('selectedPatient');
+    } else {
+      return Patients.findOne({id: Session.get('selectedPatientId')});
+    }
   }, [])
 
 
@@ -79,8 +83,6 @@ const Signup = function({ history }){
   } else if(selectedPatientCatch.resourceType === "Patient"){
     selectedPatient = selectedPatientCatch;
   }
-
-  let patient = Session.get('selectedPatient');
     
 
   let familyName = "";
