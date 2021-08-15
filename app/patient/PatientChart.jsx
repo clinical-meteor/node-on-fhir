@@ -40,11 +40,17 @@ export default function PatientChart() {
     let searchParams = new URLSearchParams(useLocation().search);
     if(searchParams.get('iss')){
       console.log('PatientChart.iss', searchParams.get('iss'))
-      fhirServerEndpoint = searchParams.get('iss')
+      fhirServerEndpoint = searchParams.get('iss');
     }
-    if(searchParams.get('patientId')){      
+    if(searchParams.get('patientId')){            
       console.log('PatientChart.selectedPatientId', searchParams.get('patientId'))
-      Session.set('selectedPatientId', searchParams.get('patientId'))  
+      Session.set('selectedPatientId', searchParams.get('patientId'));  
+    }
+
+    // 
+    if(searchParams.get('clientSecret')){            
+      console.log('PatientChart.clientSecretOrBearerToken', searchParams.get('clientSecret'))
+      Session.set('clientSecretOrBearerToken', searchParams.get('clientSecret'))  
     }
 
     let paddingWidth = LayoutHelpers.calcCanvasPaddingWidth();

@@ -21,7 +21,6 @@ import { oauth2 as SMART } from "fhirclient";
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 
-
 function AppLoadingPage(props) {
   if(logger){
     logger.debug('Rendering the AppLoadingPage.');
@@ -62,12 +61,11 @@ function AppLoadingPage(props) {
       <meta property="og:description" content={get(socialmedia, 'description')} />
       <meta property="og:site_name" content={get(socialmedia, 'site_name')} />   
       
-      {appIdMeta}
+      { appIdMeta }
 
       <meta name="theme-color" content={get(Meteor, 'settings.public.theme.palette.appBarColor', "#669f64 !important")} />   
+      { /* <meta name="viewport" content={ viewportString } /> */ }
 
-      {/* <meta name="viewport" content={ viewportString } /> */}
-      
     </Helmet>
   }
 

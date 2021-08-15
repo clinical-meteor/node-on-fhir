@@ -5,7 +5,7 @@ import { wrapMeteorServer } from '@accounts/meteor-adapter';
 import { HTTP } from 'meteor/http';
 import { get } from 'lodash';
 
-import { check } from 'meteor/check'
+import { check } from 'meteor/check';
 
 // AccountsServer.config({}); // Config your accounts server
  wrapMeteorServer(Meteor, AccountsServer);
@@ -55,11 +55,14 @@ Meteor.methods({
 
   },
   postRelay: async function(fhirUrl, options){
+    check(fhirUrl, String);
+    check(options, Object);
+
     console.log('Relaying a message...');
 
     if(get(Meteor, 'settings.private.proxyServerEnabled')){
 
-      console.log('Relay Endpoint: ', fhirUrl)
+      console.log('Relay Endpoint: ', fhirUrl);
 
       let self = this;
 

@@ -16,6 +16,7 @@ import { Mongo, MongoDBInterface } from '@accounts/mongo';
 import { get, set, has, pick } from 'lodash';
 import { Random } from 'meteor/random';
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 
 import { Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
@@ -178,6 +179,10 @@ Meteor.startup(async function(){
 
   Meteor.methods({
     deactivateAccount: async function(currentUser, selectedPatientId, selectedPatient){
+      check(currentUser, Object);
+      check(selectedPatientId, String);
+      check(selectedPatient, Object);
+
       if(currentUser){
         console.log('Deactivating user', currentUser);
 

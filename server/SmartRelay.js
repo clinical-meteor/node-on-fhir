@@ -64,18 +64,15 @@ JsonRoutes.setResponseHeaders({
     "Access-Control-Allow-Origin": "*"
 })
 
-
 JsonRoutes.add('get', '/node-launch', function (req, res, next) {
-    console.log('SmartRelay: POST /node-launch req.headers', req.headers);
-    console.log('SmartRelay: POST /node-launch req.query', req.query);
-    console.log('SmartRelay: POST /node-launch req.params', req.params);
-    console.log('SmartRelay: POST /node-launch req.body', req.body);
+    console.log('SmartRelay: GET /node-launch req.headers', req.headers);
+    console.log('SmartRelay: GET /node-launch req.query', req.query);
+    console.log('SmartRelay: GET /node-launch req.params', req.params);
+    console.log('SmartRelay: GET /node-launch req.body', req.body);
 
     let interceptedReq = cloneDeep(req);
     set(interceptedReq, 'headers.Access-Control-Allow-Origin', '*')
     set(interceptedReq, 'headers.access-control-allow-origin', '*')
-
-    
 
     if(get(interceptedReq, 'headers.x-forwarded-host') === "localhost:3000"){
         set(interceptedReq, 'headers.x-forwarded-host', 'localhost')
@@ -102,6 +99,102 @@ JsonRoutes.add('get', '/node-launch', function (req, res, next) {
         "iss": get(req.query, "iss"),
         "response_type": "code"
     }
+
+    console.log('SmartRelay.smartConfig', smartConfig)
+
+    smart(interceptedReq, res, getStorage).authorize(smartConfig);
+});
+
+
+JsonRoutes.add('get', '/node-provider-launch', function (req, res, next) {
+    process.env.DEBUG && console.log('SmartRelay: GET /node-provider-launch req.headers', req.headers);
+    process.env.DEBUG && console.log('SmartRelay: GET /node-provider-launch req.query', req.query);
+    process.env.DEBUG && console.log('SmartRelay: GET /node-provider-launch req.params', req.params);
+    process.env.DEBUG && console.log('SmartRelay: GET /node-provider-launch req.body', req.body);
+
+    let interceptedReq = cloneDeep(req);
+    set(interceptedReq, 'headers.Access-Control-Allow-Origin', '*')
+    set(interceptedReq, 'headers.access-control-allow-origin', '*')
+
+    if(get(interceptedReq, 'headers.x-forwarded-host') === "localhost:3000"){
+        set(interceptedReq, 'headers.x-forwarded-host', 'localhost')
+    }
+    if(get(interceptedReq, 'headers.host') === "localhost:3000"){
+        set(interceptedReq, 'headers.host', 'localhost')
+    }
+    if(get(interceptedReq, 'headers.origin') === "http://localhost:3000"){
+        set(interceptedReq, 'headers.origin', 'http://localhost')
+    }
+
+    unset(interceptedReq, 'headers.x-forwarded-host');
+    unset(interceptedReq, 'headers.x-forwarded-proto');
+    unset(interceptedReq, 'headers.x-forwarded-port');
+    unset(interceptedReq, 'headers.x-forwarded-for');
+    unset(interceptedReq, 'headers.referer');
+
+    console.log('interceptedReq', interceptedReq.headers);
+
+    let smartConfig = {
+        "response_type": "code"
+    }
+
+    if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
+      Meteor.settings.public.smartOnFhir.forEach(function(config){
+        if((config.iss === get(req.query, "iss")) && (config.launchContext === "Provider")){
+            Object.assign(smartConfig, config);
+        }
+      })
+    }
+
+    Object.assign(smartConfig, req.query);
+
+    console.log('SmartRelay.smartConfig', smartConfig)
+
+    smart(interceptedReq, res, getStorage).authorize(smartConfig);
+});
+
+
+// oops; need to remove
+// refactor to /node-provider-launch
+JsonRoutes.add('get', '/node-practitioner-launch', function (req, res, next) {
+    console.log('SmartRelay: GET /node-practitioner-launch');
+    console.log('NOTICE:  This route is being deprecated; please migrate to /node-provider-launch instead');
+
+    let interceptedReq = cloneDeep(req);
+    set(interceptedReq, 'headers.Access-Control-Allow-Origin', '*')
+    set(interceptedReq, 'headers.access-control-allow-origin', '*')
+
+    if(get(interceptedReq, 'headers.x-forwarded-host') === "localhost:3000"){
+        set(interceptedReq, 'headers.x-forwarded-host', 'localhost')
+    }
+    if(get(interceptedReq, 'headers.host') === "localhost:3000"){
+        set(interceptedReq, 'headers.host', 'localhost')
+    }
+    if(get(interceptedReq, 'headers.origin') === "http://localhost:3000"){
+        set(interceptedReq, 'headers.origin', 'http://localhost')
+    }
+
+    unset(interceptedReq, 'headers.x-forwarded-host');
+    unset(interceptedReq, 'headers.x-forwarded-proto');
+    unset(interceptedReq, 'headers.x-forwarded-port');
+    unset(interceptedReq, 'headers.x-forwarded-for');
+    unset(interceptedReq, 'headers.referer');
+
+    console.log('interceptedReq', interceptedReq.headers);
+
+    let smartConfig = {
+        "response_type": "code"
+    }
+
+    if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
+      Meteor.settings.public.smartOnFhir.forEach(function(config){
+        if((config.iss === get(req.query, "iss")) && (config.launchContext === "Provider")){
+            Object.assign(smartConfig, config);
+        }
+      })
+    }
+
+    Object.assign(smartConfig, req.query);
 
     console.log('SmartRelay.smartConfig', smartConfig)
 
@@ -150,6 +243,7 @@ JsonRoutes.add('post', '/node-launch', function (req, res, next) {
     });
 });
 
+
 function precheckThenCreateRecord(record, resourceType){
     console.log('Prechecking record', record);
     if(!Collections[FhirUtilities.pluralizeResourceName(resourceType)].findOne({id: get(record, 'data.id')})){
@@ -187,6 +281,7 @@ function parseBundleIntoCollection(bundle, resourceType){
         
     }
 }
+
 
 JsonRoutes.add('get', '/node-fhir-receiver', function (req, res, next) {
     console.log('SmartRelay: GET /node-fhir-receiver', req.headers);
