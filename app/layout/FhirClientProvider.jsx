@@ -63,7 +63,7 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
             console.log('PatientAutoDashboard.conditions', conditions)
             conditions.forEach(condition => {
               Conditions._collection.upsert({id: condition.id}, {$set: condition}, {validate: false, filter: false});                    
-            });    
+            });
           }
         });
 
