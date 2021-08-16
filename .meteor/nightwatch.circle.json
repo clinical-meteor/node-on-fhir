@@ -20,7 +20,7 @@
     "cli_args": [
       "--verbose"
     ],
-    "port": 9515
+    "port": 3000
   },
   "test_settings": {
     "default": {
