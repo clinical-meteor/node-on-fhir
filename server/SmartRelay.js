@@ -18,7 +18,7 @@ const Session = require("./Session");
 
 import { oauth2 as SMART } from "fhirclient";
 
-// var session = require('express-session')
+// var session = require('express-session');
 
 
 ///------------------------------------------------------------------------------------
@@ -107,6 +107,8 @@ JsonRoutes.add('get', '/node-launch', function (req, res, next) {
 
 
 JsonRoutes.add('get', '/node-provider-launch', function (req, res, next) {
+    console.log('SmartRelay: GET /node-provider-launch');
+
     process.env.DEBUG && console.log('SmartRelay: GET /node-provider-launch req.headers', req.headers);
     process.env.DEBUG && console.log('SmartRelay: GET /node-provider-launch req.query', req.query);
     process.env.DEBUG && console.log('SmartRelay: GET /node-provider-launch req.params', req.params);
@@ -132,7 +134,7 @@ JsonRoutes.add('get', '/node-provider-launch', function (req, res, next) {
     unset(interceptedReq, 'headers.x-forwarded-for');
     unset(interceptedReq, 'headers.referer');
 
-    console.log('interceptedReq', interceptedReq.headers);
+    process.env.DEBUG && console.log('interceptedReq', interceptedReq.headers);
 
     let smartConfig = {
         "response_type": "code"
