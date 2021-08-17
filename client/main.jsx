@@ -10,7 +10,7 @@ import { render } from 'react-dom';
 import { onPageLoad } from 'meteor/server-render';
 
 import { register } from 'register-service-worker';
-import { get } from 'lodash';
+import { get, has } from 'lodash';
 
 import { AccountsClient } from '@accounts/client';
 import { AccountsClientPassword } from '@accounts/client-password';
@@ -23,11 +23,15 @@ import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 
 import AppContainer from "/app/layout/AppContainer.jsx";
 
-const accountsRest = new RestClient({
-  // apiHost: 'http://localhost:4000',
-  apiHost: get(Meteor, 'settings.public.interfaces.accountsServer.host') + ":" + get(Meteor, 'settings.public.interfaces.accountsServer.host'),
-  rootPath: '/accounts'
-});
+let accountServerOptions = {};
+if(has(Meteor, 'settings.public.interfaces.accountServer')){
+  accountServerOptions = {
+    // apiHost: 'http://localhost:4000',
+    apiHost: get(Meteor, 'settings.public.interfaces.accountsServer.host') + ":" + get(Meteor, 'settings.public.interfaces.accountsServer.port'),
+    rootPath: '/accounts'
+  }
+}
+const accountsRest = new RestClient(accountServerOptions);
 const accountsClient = new AccountsClient({}, accountsRest);
 const accountsPassword = new AccountsClientPassword(accountsClient);
 

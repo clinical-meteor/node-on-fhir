@@ -36,8 +36,14 @@ if(Meteor.isClient){
 
     return {
       display: get(user, 'fullLegalName', ''),
-      reference: "Patient/" + get(user, 'id')
+      reference: "Patient/" + get(user, 'patientId')
     }
+  }
+  Meteor.logoutCurrentUser = function(){
+    Session.set('currentUser', null);
+    Session.set('selectedPatient', null);
+    Session.set('selectedPatientId', null);
+    Meteor.logout();
   }
 }
 
@@ -64,10 +70,24 @@ async function loginWithService(service, credentials){
   console.log('AuthContext.loginWithService()', service, credentials);
 
   let loginResponse = await accountsClient.loginWithService(service, credentials);
-  console.log('loginResponse', loginResponse)
+  console.log('AuthContext.loginResponse', loginResponse)
 
   if(Meteor.isClient){
     Session.set('currentUser', get(loginResponse, 'user'));
+    Session.set('selectedPatientId', get(loginResponse, 'user.patientId'));
+
+    if(Patients.find().count() > 0){
+      let matchedPatient;
+      if(get(loginResponse, 'user.patientId')){
+        matchedPatient = Patients.findOne({id: get(loginResponse, 'user.patientId')});
+      } else if(has(loginResponse, 'user.id')){
+        matchedPatient = Patients.findOne({id: get(loginResponse, 'user.id')});
+      }   
+      if(matchedPatient){
+        Session.set('selectedPatient', matchedPatient);
+      }  
+    }
+    
     currentUserDep.changed();
   }
 

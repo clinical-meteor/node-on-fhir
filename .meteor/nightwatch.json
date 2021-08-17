@@ -30,6 +30,10 @@
       "disable_colors": false,
       "firefox_profile": false,
       "ie_driver": "",
+      "request_timeout_options": {
+        "timeout": 100000,
+        "retry_attempts": 3
+      },
       "screenshots": {
         "enabled": true,
         "on_failure": true,
