@@ -38,6 +38,10 @@
         "on_error": true,
         "path": "./tests/nightwatch/screenshots"
       },
+      "request_timeout_options": {
+        "timeout": 100000,
+        "retry_attempts": 3
+      },
       "desiredCapabilities": {
         "browserName": "chrome",
         "javascriptEnabled": true,
