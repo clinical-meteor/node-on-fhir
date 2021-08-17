@@ -160,6 +160,7 @@
     }
   },
   "private": {
+    "enableCronAutomation": false,
     "fhir": {
       "disableOauth": true,
       "schemaValidation": {
