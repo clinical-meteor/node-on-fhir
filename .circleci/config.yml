@@ -192,12 +192,12 @@ jobs:
         name: Starting Meteor
         command: meteor run --settings configs/settings.nodeonfhir.json | tee meteor-output.log
         background: true
-        no_output_timeout: 10m
+        no_output_timeout: 1000m
         when: on_success    # always, on_success, on_fail 
         
     - run: 
         name: Running validation tests
-        no_output_timeout: 10m
+        no_output_timeout: 1000m
         when: on_success    # always, on_success, on_fail 
         command: | 
             sleep 420
