@@ -18,9 +18,10 @@
     "start_process": true,
     "server_path": "node_modules/.bin/chromedriver",
     "cli_args": [
-      "--verbose"
+      "--verbose",
+      "--port=9516"
     ],
-    "port": 9515
+    "port": 9516
   },
   "test_settings": {
     "default": {
