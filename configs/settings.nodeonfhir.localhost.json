@@ -133,7 +133,7 @@
     "accountsServer": {      
       "database": "meteor",
       "host": "http://localhost",
-      "port": 3000
+      "port": 4000
     },
     "modules": {
       "apps": {},
