@@ -19,9 +19,9 @@
     "server_path": "node_modules/.bin/chromedriver",
     "cli_args": [
       "--verbose",
-      "--port=3000"
+      "--port=9515"
     ],
-    "port": 3000
+    "port": 9515
   },
   "test_settings": {
     "default": {
