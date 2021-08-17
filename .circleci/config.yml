@@ -168,6 +168,7 @@ jobs:
             sudo apt-get update
             sudo apt-cache search google-chrome
             sudo apt search google-chrome
+            sudo apt show google-chrome-unstable
             sudo apt-get -y install google-chrome-stable
     # - run: if [ meteor list | grep 'symptomatic:theming' | wc -l $eq 1 ]; then meteor remove symptomatic:theming ; else echo "Meteor seems to be cached"; fi;
 
