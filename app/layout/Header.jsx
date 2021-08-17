@@ -224,7 +224,11 @@ function Header(props) {
       let currentUser = Session.get('currentUser');
       let userName = '';
       // Meteor Accounts
-      if(has(currentUser, 'givenName') || has(currentUser, 'familyName')){
+      if(has(currentUser, 'fullLegalName')){
+        userName = get(currentUser, 'fullLegalName', '');
+
+      // Patient, R4
+      } else if(has(currentUser, 'givenName') || has(currentUser, 'familyName')){
         userName = get(currentUser, 'givenName', '') + ' ' + get(currentUser, 'familyName', '');
 
       // Patient, R4

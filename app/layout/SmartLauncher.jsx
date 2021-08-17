@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import { HTTP } from 'meteor/http';
 
 import { get, has } from 'lodash';
 
@@ -32,6 +33,16 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import { StyledCard, PageCanvas, FhirUtilities, DynamicSpacer } from 'fhir-starter';
+
+import { Icon } from 'react-icons-kit';
+import {star} from 'react-icons-kit/fa/star'
+import {ic_file_download} from 'react-icons-kit/md/ic_file_download';
+import {fire} from 'react-icons-kit/icomoon/fire';
+import {ic_public} from 'react-icons-kit/md/ic_public';
+import {ic_people} from 'react-icons-kit/md/ic_people';
+import {ic_people_outline} from 'react-icons-kit/md/ic_people_outline';
+
+import { fetch, Headers, Request, Response } from 'meteor/fetch';
 
 
 let configArray = get(Meteor, 'settings.public.smartOnFhir', []);
@@ -81,6 +92,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
+
 //------------------------------------------------------------------------
 // Main Component
 
@@ -93,111 +106,156 @@ const useStyles = makeStyles((theme) => ({
  * the `/launch` path and render our component. Then, after our page is
  * rendered we start the auth flow.
  */
-export default function Launcher(){
+export default function Launcher(props){
     const classes = useStyles();
     const client = useContext(FhirClientContext);
     
 
-    /**
-     * This is configured to make a Standalone Launch, just in case it
-     * is loaded directly. An EHR can still launch it by passing `iss`
-     * and `launch` url parameters
-     */
-    function onChangeProvider(event,context) {
-        console.log(event.target.value);
-        const providerKey = event.target.value
-        const fhirconfig = config[event.target.value]
+    // // /**
+    // //  * This is configured to make a Standalone Launch, just in case it
+    // //  * is loaded directly. An EHR can still launch it by passing `iss`
+    // //  * and `launch` url parameters
+    // //  */
+    // function onChangeProvider(event,context) {
+    //     console.log(event.target.value);
+    //     const providerKey = event.target.value
+    //     const fhirconfig = config[event.target.value]
 
-        // put your client id in .env.local (ignored by .gitignore)
-        const secret_client_id = "REACT_APP_CLIENT_ID_" + providerKey
-        if( secret_client_id in process.env ) {
-            fhirconfig.client_id = process.env[secret_client_id]
-        }
+    //     // // put your client id in .env.local (ignored by .gitignore)
+    //     // const secret_client_id = "REACT_APP_CLIENT_ID_" + providerKey
+    //     // if( secret_client_id in process.env ) {
+    //     //     fhirconfig.client_id = process.env[secret_client_id]
+    //     // }
 
-        const options = {
-            clientId: fhirconfig.client_id,
-            scope: fhirconfig.scope,
-            redirectUri: fhirconfig.redirectUri,
+    //     const options = {
+    //         clientId: fhirconfig.client_id,
+    //         scope: fhirconfig.scope,
+    //         redirectUri: fhirconfig.redirectUri,
 
-            // WARNING: completeInTarget=true is needed to make this work
-            // in the codesandbox frame. It is otherwise not needed if the
-            // target is not another frame or window but since the entire
-            // example works in a frame here, it gets confused without
-            // setting this!
-            //completeInTarget: true
-        }
-        if( fhirconfig.client_id === 'OPEN' ) {
-            options.fhirServiceUrl = fhirconfig.url
-            options.patientId = fhirconfig.patientId
-        } else {
-            options.iss = fhirconfig.url
-        }
+    //         // WARNING: completeInTarget=true is needed to make this work
+    //         // in the codesandbox frame. It is otherwise not needed if the
+    //         // target is not another frame or window but since the entire
+    //         // example works in a frame here, it gets confused without
+    //         // setting this!
+    //         //completeInTarget: true
+    //     }
+    //     if(fhirconfig.client_secret){
+    //         options.clientSecret = fhirconfig.client_secret;
+    //     }
+    //     if( fhirconfig.client_id === 'OPEN' ) {
+    //         options.fhirServiceUrl = fhirconfig.url
+    //         options.patientId = fhirconfig.patientId
+    //     } else {
+    //         options.iss = fhirconfig.url
+    //     }
 
-        if(fhirconfig.patientId) {
-            context.setPatientId(fhirconfig.patientId)
-        }
+    //     if(fhirconfig.patientId) {
+    //         context.setPatientId(fhirconfig.patientId)
+    //     }
 
-        alert(`options:  ${JSON.stringify(options)}`)
-        SMART.authorize(options);
+    //     // alert(`options:  ${JSON.stringify(options)}`)
+    //     // SMART.authorize(options);
+    // }
+
+    async function postSmartAuthConfig (url, data) {
+      const response = await fetch(url, {
+          method: 'POST', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *same-origin, omit
+          headers: new Headers({
+              // Authorization: 'Bearer my-secret-key',
+              'Content-Type': 'application/json',    
+              "x-forwarded-host": "localhost"          
+          }),
+          redirect: 'follow', // manual, *follow, error
+          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+          body: JSON.stringify(data) // body data type must match "Content-Type" header
+      });
+      return response.json();
     }
 
     function handleRowClick(config, event){
 
         console.log("SMART config:", config)
-        console.log("Event.target", event.target.value)
+        console.log("Event.target", event.target.value);
+
+
+        var searchParams = new URLSearchParams();
+        searchParams.set("client_id", config.client_id);
+        searchParams.set("scope", config.scope);
+        searchParams.set("redirect_uri", config.redirect_uri);
+        searchParams.set("iss", config.iss);
+
+        Session.set('smartConfig', config);
 
         const options = {
-            clientId: config.client_id,
-            scope: config.scope,
-            redirectUri: config.redirect_uri,
+          clientId: config.client_id,
+          scope: config.scope,
+          redirectUri: config.redirect_uri,
 
-            // WARNING: completeInTarget=true is needed to make this work
-            // in the codesandbox frame. It is otherwise not needed if the
-            // target is not another frame or window but since the entire
-            // example works in a frame here, it gets confused without
-            // setting this!
-            //completeInTarget: true
+          environment: config.environment,
+          production: config.production,
+          iss: config.iss,
+          fhirServiceUrl: config.fhirServiceUrl,
+
+          // WARNING: completeInTarget=true is needed to make this work
+          // in the codesandbox frame. It is otherwise not needed if the
+          // target is not another frame or window but since the entire
+          // example works in a frame here, it gets confused without
+          // setting this!
+          completeInTarget: true
         }
+
         if( config.client_id === 'OPEN' ) {
-            options.fhirServiceUrl = config.fhirServiceUrl;
-            options.patientId = config.patientId;
+          options.fhirServiceUrl = config.fhirServiceUrl;
+          options.patientId = config.patientId;
         } else {
-            options.iss = config.fhirServiceUrl;
+          options.iss = config.fhirServiceUrl;
         }
 
-        if(config.patientId) {
-            context.setPatientId(config.patientId)
-        }
-
-        console.log("options", options)
-
-        if(config.launchContext === "Patient"){
-            SMART.authorize(options);
-        }
-
+        if(config.launch_uri){
+          let launchUrl = config.launch_uri + '?' + searchParams.toString()
+          console.log('SmartLauncher.launchUrl', launchUrl)
+  
+          if(Meteor.isCordova){
+            cordova.InAppBrowser.open(launchUrl, '_self');
+          } else {
+            window.open(launchUrl, '_self');
+          }
+        }        
     }
 
     function renderOptions() {
         let configMenu = [];
-        configArray.forEach(function(config, index){                
-            // configMenu.push(<MenuItem value={index}>{config.vendor}</MenuItem>);
-            let isDisabled = false;
-            let rowStyle = {cursor: 'pointer', color: "black"};
+        configArray.forEach(function(config, index){     
+          console.log('SmartLauncher.config', config)           
+          // configMenu.push(<MenuItem value={index}>{config.vendor}</MenuItem>);
+          let isDisabled = false;
+          let rowStyle = {cursor: 'pointer', color: "black"};
 
-            if(config.launchContext === "Provider"){
-                isDisabled = true;
-                rowStyle.color = "lightgrey"
-            }
+          // if(config.launchContext === "Provider"){
+          //     isDisabled = true;
+          //     rowStyle.color = "lightgrey"
+          // } 
 
-            configMenu.push(
-                <TableRow key={index} hover={isDisabled} style={rowStyle} onClick={handleRowClick.bind(this, config)}>
-                    <TableCell align="left" style={rowStyle}>{index}</TableCell>
-                    <TableCell align="left" style={rowStyle}>{config.vendor}</TableCell>
-                    <TableCell align="left" style={rowStyle}>{config.type}</TableCell>
-                    <TableCell align="left" style={rowStyle}>{config.launchContext}</TableCell>
-                    <TableCell align="right" style={rowStyle}>{config.fhirVersion}</TableCell>
-                </TableRow>
-            );
+          let currentEnvironment = "meteor";
+          if(Meteor.absoluteUrl() === "http://localhost:3000/"){
+            currentEnvironment = "localhost"
+          }
+          
+          if(config.launchContext !== "Provider"){
+              configMenu.push(
+                <TableRow key={index} hover={isDisabled} style={rowStyle} onClick={handleRowClick.bind(this, config)} hover>
+                  <TableCell align="left" style={rowStyle}>{index}</TableCell>
+                  <TableCell align="left" style={rowStyle}>{config.preferred ? <Icon icon={star} size={18} /> : ""}</TableCell>
+                  <TableCell align="left" style={rowStyle}>{config.vendor}</TableCell>
+                  <TableCell align="left" style={rowStyle}>{config.environment}</TableCell>
+                  <TableCell align="left" style={rowStyle}>{config.production ? <Icon icon={ic_people} size={24} /> : <Icon icon={ic_people_outline} size={24} />}</TableCell>
+                  <TableCell align="left" style={rowStyle}>{config.autodownload ? <Icon icon={ic_file_download} size={24} /> : ""}</TableCell>
+                  <TableCell align="right" style={rowStyle}>{config.fhirVersion}</TableCell>
+              </TableRow>);
+            }          
         })
 
         return configMenu;
@@ -216,21 +274,25 @@ export default function Launcher(){
         headerHeight = 148;
     }  
 
-    let paddingWidth = 0;
+    let paddingWidth = 20;
 
     return (
-        <PageCanvas id='SmartLauncher' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{paddingTop: '128px'}} >
+        <PageCanvas id='SmartLauncher' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{paddingTop: '128px', paddingBottom: '128px'}} >
             <Grid container justify="center" spacing={3}>
-                <Grid item xs={12} sm={4} md={4} >
+                <Grid item xs={12} sm={12} md={6} lg={6} >
                     <CardHeader title="Participating Health Networks" />
                     <StyledCard>
                         <Table>
                             <TableHead>
                                 <TableRow>
                                     <TableCell align="left">Index</TableCell>
+                                    <TableCell align="left">Preferred</TableCell>
                                     <TableCell align="left">Vendor</TableCell>
-                                    <TableCell align="left">Type</TableCell>
-                                    <TableCell align="left">Launch Context</TableCell>
+                                    {/* <TableCell align="left">Type</TableCell> */}
+                                    {/* <TableCell align="left">Launch Context</TableCell> */}
+                                    <TableCell align="left">Environment</TableCell>
+                                    <TableCell align="left">Production</TableCell>
+                                    <TableCell align="left">Autodownload</TableCell>
                                     <TableCell align="right">FHIR Version</TableCell>
                                 </TableRow>
                             </TableHead>

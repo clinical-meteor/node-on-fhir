@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Meteor: Chrome",
+            "url": "http://localhost:3000/launcher?iss=https%3A%2F%2Ffhir.epic.com%2Finterconnect-fhir-oauth%2Fapi%2FFHIR%2FDSTU2&launch=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ1cm46b2lkOmZoaXIiLCJjbGllbnRfaWQiOiI5OGE4YmVlOC1mNDExLTQxODMtODUxYi1mOGM5YTg2NTgyNDUiLCJlcGljLmVjaSI6InVybjplcGljOk9wZW4uRXBpYy1jdXJyZW50IiwiZXBpYy5tZXRhZGF0YSI6IjdPUFUzeXRicGs0d2hucFdXdHZSNXo0U3NSVDVpdFl1SnV1V0U3blVVY1c1WU9wLThVYTRYNkVKTjl3RThQbWVyNjJwYnI4b1V6VDA1dWk1WUdCazBtUzktdVA1TGI3N3pwSGpXaEs4dnhiYWlyWVZSc3BCSWJ5TVlxTEp1TWdIIiwiZXBpYy50b2tlbnR5cGUiOiJsYXVuY2giLCJleHAiOjE2MjQ4Mzg2MzQsImlhdCI6MTYyNDgzODMzNCwiaXNzIjoidXJuOm9pZDpmaGlyIiwianRpIjoiZDE0MTE0ZDItMGYxMy00OWNjLWJhNjYtMjYyMzMxZTUzZTU4IiwibmJmIjoxNjI0ODM4MzM0LCJzdWIiOiJlU0tlNk1DbVVuenRHd1EuWldBaU1hdzMifQ.RjsM9wCd_s2GHjSJjq2MoLdSkryKRHCyWjIjLJP1c1g0VMoJJfk77hhtAsuQwkJuqfHwcVCNsNg2gXBTXLCc6zUDiLhIazDTVoEMWvoZ9kGSDMBN7Wrm7k9uWGr8ioe9XoZQkZz-kBq8FhgvVT8JlB6eCS_sxfcDEWnLdzAnxTgi_NRu5EWVzPgzZBFJWcUYoyECihBHutDW69GX5L78xaQ56XzPoUZqO3lyq9N0YE7RfoCx0Lv4IhCVrqO-AsZrxxDvfAou0dPvuIpGw_tYhIIXzL0ZhUnfECCHI07g58HN_8kEQcXr_vOd8rQ-y2xBnyYaydrXGtwcwL92C8xACA",
+            "webRoot": "${workspaceFolder}",
+            "outputCapture": "std"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Meteor: Node",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run", "debug"],
+            "outputCapture": "std",
+            "port": 9229,
+            "timeout": 30000
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Meteor: All",
+            "configurations": ["Meteor: Node", "Meteor: Chrome"]
+        }
+    ]
+}
+

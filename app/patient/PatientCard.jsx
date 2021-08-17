@@ -36,11 +36,12 @@ function PatientCard(props){
   console.log('PatientCard v0.10.60')
 
 
-  let { identifier, active, familyName, givenName, fullName, email, birthDate, gender, avatar, patient, zDepth, overflowY, showDetails, showSummary, showName, showBarcode, avatarUrlHostname, cardMediaWidth, ...otherProps } = props;
+  let { id, identifier, active, familyName, givenName, fullName, email, birthDate, gender, avatar, patient, zDepth, overflowY, showDetails, showSummary, showName, showBarcode, avatarUrlHostname, cardMediaWidth, ...otherProps } = props;
 
 
 
   if(patient){
+    id = get(patient, 'id', '');
     fullName = get(patient, 'name[0].text', '');
 
     if(Array.isArray(get(patient, 'name[0].family'))){
@@ -60,6 +61,7 @@ function PatientCard(props){
       avatar = get(patient, 'photo[0].url', '');
     }
     identifier = get(patient, 'identifier[0].value', '');
+    
   } 
 
   const styles = {
@@ -195,7 +197,7 @@ function PatientCard(props){
   }
 
   if(showBarcode){
-    barcodeElements = <h4 className="barcode barcodes" style={barcodeStyle}>{identifier}</h4>
+    barcodeElements = <h4 className="barcode barcodes" style={barcodeStyle}>{id}</h4>
     titleStyle.paddingTop = '0px';
   }
 
@@ -226,6 +228,7 @@ function PatientCard(props){
 PatientCard.propTypes = {
   patient: PropTypes.object,
   multiline: PropTypes.bool,
+  id: PropTypes.string,
   fullName: PropTypes.string,
   familyName: PropTypes.string,
   givenName: PropTypes.string,
