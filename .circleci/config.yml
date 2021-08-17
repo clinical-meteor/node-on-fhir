@@ -140,7 +140,7 @@ jobs:
 
     # Install the actual app...
     - run: meteor npm install 
-    - run: meteor npm install nightwatch@1.6.4 chromedriver@~92.0.1 
+    - run: meteor npm install nightwatch@1.6.3 chromedriver@~90.0.0 
     - run: meteor npm install eslint@4.19.1 eslint-plugin-import@2.21.2 eslint-import-resolver-meteor@0.4.0 eslint-plugin-jsx-a11y@6.3.1 eslint-plugin-meteor@7.0.0 eslint-plugin-react@7.20.0 babel-eslint@10.1.0
     # - run: meteor npm install eslint-config-airbnb@18.2.0 
 
@@ -168,7 +168,6 @@ jobs:
             sudo apt-get update
             sudo apt search google-chrome-stable
             sudo apt-get -y install google-chrome-stable
-
     # - run: if [ meteor list | grep 'symptomatic:theming' | wc -l $eq 1 ]; then meteor remove symptomatic:theming ; else echo "Meteor seems to be cached"; fi;
 
     - run: 
@@ -178,7 +177,6 @@ jobs:
         command: | 
             sleep 120 
             meteor npm run-script lint  
-
     # - run: 
     #     name: Running verification tests
     #     no_output_timeout: 10m
@@ -190,20 +188,18 @@ jobs:
     # run the app
     - run: 
         name: Starting Meteor
-        command: meteor run --settings configs/settings.nodeonfhir.circle.json | tee meteor-output.log
+        command: meteor run --settings configs/settings.nodeonfhir.json | tee meteor-output.log
         background: true
-        no_output_timeout: 1000m
+        no_output_timeout: 10m
         when: on_success    # always, on_success, on_fail 
         
     - run: 
         name: Running validation tests
-        no_output_timeout: 1000m
+        no_output_timeout: 10m
         when: on_success    # always, on_success, on_fail 
         command: | 
-            sleep 300
+            sleep 420
             meteor npm run-script circle-nightwatch -- --tag circle 
-
-
     # # Save dependency cache
     # - save_cache:
     #     name: Saving cache
@@ -230,5 +226,3 @@ jobs:
         path: ./webapp/tests/nightwatch/logs
     - store_artifacts: 
         path: ./meteor-output.log
-
-
