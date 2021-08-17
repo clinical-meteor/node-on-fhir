@@ -168,7 +168,7 @@ jobs:
             wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
             sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
             sudo apt-get update
-            sudo wget --no-verbose -O ./chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_91.0.4472.164-1_amd64.deb && apt install -y ./chrome.deb && rm ./chrome.deb
+            sudo wget --no-verbose -O ./chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_91.0.4472.164-1_amd64.deb && sudo apt install -y ./chrome.deb && sudo rm ./chrome.deb
 
     # - run: if [ meteor list | grep 'symptomatic:theming' | wc -l $eq 1 ]; then meteor remove symptomatic:theming ; else echo "Meteor seems to be cached"; fi;
 
