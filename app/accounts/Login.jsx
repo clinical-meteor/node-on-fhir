@@ -115,7 +115,7 @@ const Login = function({ history }){
   }
 
   return (
-    <UnauthenticatedContainer>
+    <UnauthenticatedContainer style={{width: '100%'}}>
       <Snackbar
         anchorOrigin={{
           vertical: 'top',
@@ -129,7 +129,7 @@ const Login = function({ history }){
         <SnackBarContentError message={error} />
       </Snackbar>
 
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={formik.handleSubmit} style={{width: '100%'}}>
             <Grid container spacing={3}>
               {/* <Grid item xs={12}>
                 <img src="/logo.png" alt="Logo" className={classes.logo} />

@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
+import { FhirUtilities } from 'fhir-starter';
 
 import mongoose from 'mongoose';
 
@@ -12,11 +13,13 @@ import { AccountsPassword, CreateUserErrors } from '@accounts/password';
 import accountsExpress, { userLoader } from '@accounts/rest-express';
 import { Mongo, MongoDBInterface } from '@accounts/mongo';
 
-import { get, has, pick } from 'lodash';
+import { get, set, has, pick } from 'lodash';
 import { Random } from 'meteor/random';
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 
-import { FhirUtilities, Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 import moment from 'moment';
 
 
@@ -40,9 +43,6 @@ Meteor.startup(async function(){
     // options
   });
 
-
-
-
   // const app = express();
 
   // app.use(bodyParser.json());
@@ -58,7 +58,12 @@ Meteor.startup(async function(){
     'User',
     new mongoose.Schema({ 
       givenName: String, 
-      familyName: String 
+      familyName: String,
+      patientId: String,
+      id: String,
+      nickname: String,
+      isClinician: Boolean,
+      patient: Object
     })
   );
 
@@ -98,7 +103,6 @@ Meteor.startup(async function(){
         //   throw new Error('First name too short');
         // }     
       }
-
       if(get(Meteor, 'settings.public.defaults.registration.displayFirstAndLast')){
         if (!user.firstName) {
           throw new Error('First name is required');
@@ -129,22 +133,26 @@ Meteor.startup(async function(){
           throw new Error('Username too short');
         }  
       }
-
-
       if(get(Meteor, 'settings.private.invitationCode')){
         if (!user.invitationCode) {
           console.error('Must provide an invitation code');
           throw new Error('Must provide an invitation code');
         }  
 
-        if (user.invitationCode !== get(Meteor, 'settings.private.invitationCode')) {
+        if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
+          console.info('Invitation code matches.  Creating user.');
+          return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);
+        } else if (user.invitationCode === get(Meteor, 'settings.private.clinicianInvitationCode')) {
+          console.info('Clinician invitation code matches.  Creating clinician.');
+          user.isClinician = true;
+          console.log('Validated user parameters: ', user);      
+          return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'isClinician']);
+        } else {
           console.error('Invalid invitation code.');
           throw new Error('Invalid invitation code.');
-        }  
+        }
       }
       
-      console.log('New User: ', user);      
-      return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname']);
     }
   });
 
@@ -169,6 +177,75 @@ Meteor.startup(async function(){
   });
 
 
+  Meteor.methods({
+    deactivateAccount: async function(currentUser, selectedPatientId, selectedPatient){
+      check(currentUser, Object);
+      check(selectedPatientId, String);
+      check(selectedPatient, Object);
+
+      if(currentUser){
+        console.log('Deactivating user', currentUser);
+
+        if(Package["clinical:hipaa-logger"]){
+          let newAuditEvent = { 
+            "resourceType" : "AuditEvent",
+            "type" : { 
+              'code': 'DeactivateUser',
+              'display': 'Deactivate User'
+              }, 
+            "action" : 'Deactivation',
+            "recorded" : new Date(), 
+            "outcome" : "Success",
+            "outcomeDesc" : 'Deactivating user and deleting all protected health information (PHI).',
+            "agent" : [{ 
+              "name" : FhirUtilities.pluckName(selectedPatient),
+              "who": {
+                "display": FhirUtilities.pluckName(selectedPatient),
+                "reference": "Patient/" + selectedPatientId
+              },
+              "requestor" : false
+            }],
+            "source" : { 
+              "site" : Meteor.absoluteUrl(),
+              "identifier": {
+                "value": Meteor.absoluteUrl()
+              }
+            },
+            "entity": [{
+              "reference": {
+                "reference": ''
+              }
+            }]
+          };
+
+          console.log('Logging a hipaa event...', newAuditEvent);
+          let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent);            
+        }
+        
+
+        Patients.remove({_id: selectedPatientId});
+
+        let myCarePlans = CarePlans.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myCarePlans)){
+          myCarePlans.forEach(function(carePlan){
+            CarePlans.remove({_id: carePlan._id});
+          })
+        }
+ 
+        let myCareTeams = CareTeams.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myCareTeams)){
+          myCareTeams.forEach(function(careTeam){
+            CareTeams.remove({_id: careTeam._id});
+          })
+        }
+
+        await accountsServer.deactivateUser(get(currentUser, 'id'));
+
+          
+      }
+    }
+  });
+
 
   // /**
   //  * Load and expose the accounts-js middleware
@@ -176,6 +253,12 @@ Meteor.startup(async function(){
   // app.use(accountsExpress(accountsServer));
 
   JsonRoutes.Middleware.use(function (req, res, next) {
+
+    // needed for preflight response
+    // res.setHeader('Access-Control-Allow-Origin', Meteor.absoluteUrl());
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Header", "*");
+    
 
     // console.log('JsonRoutes.Middleware using accountsExpress()')
     accountsExpress(accountsServer)
@@ -195,6 +278,7 @@ Meteor.startup(async function(){
     console.log('AccountsServer: GET /user', req, res);
 
     res.setHeader("Access-Control-Allow-Origin", "*");
+    
     
     next();
   });
@@ -236,6 +320,7 @@ Meteor.startup(async function(){
     console.log('AccountsServer: POST /accounts/password/authenticate', req.body);
 
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Header", "*");
 
     const loggedInUser = await accountsServer.loginWithService('password', req.body, req.infos);
     console.log('loggedInUser', loggedInUser);
@@ -364,16 +449,318 @@ Meteor.startup(async function(){
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     const user = get(req, "body.user");
-    console.log('Registering a new user.', user);
 
     const accountsPasswordService = get(accountsServer.getServices(), "password");    
 
     let userId = "";
     let dataPayload = {};
 
+    // Use Case 1: if the user had fetched PHI from Cerner/Epic,
+    // there should be a patientId available 
+    // which we grab from the URL parameters
+    // and feed into the registration form
+    // and we will then use as the user id, if possible
+
+    if(!get(user, 'patientId')){
+      user.patientId = Random.id();
+    }
+
+    console.log('Registering a new user.', user);
+
     try {
       userId = await accountsPasswordService.createUser(user);
-      console.log('userId', userId)
+      console.log('AccountsServer.register.createUser.userId', userId)
+
+      if(has(accountsServer, "options.enableAutologin")) {
+
+        if(!accountsServer.options.ambiguousErrorMessages){
+          dataPayload = {
+            userId: newUserId
+          }
+        } 
+
+        JsonRoutes.sendResult(res, {
+          code: 401,
+          data: dataPayload
+        });
+      }
+
+      // When initializing AccountsServer we check that enableAutologin and ambiguousErrorMessages options
+      // are not enabled at the same time
+      const createdUser = await accountsServer.findUserById(userId);
+      console.log('AccountsServer.createdUser', createdUser)
+
+      console.log('Great time to create a Patient record.');
+
+      console.log('typeof createdUser._id', typeof createdUser._id)
+      console.log('typeof createdUser.id', typeof createdUser.id)
+
+      //------------------------------------------------------//------------------------------------------------------------------------------
+      // creating the new patient record
+      let newPatient = {
+        _id: '',  
+        id: '',
+        resourceType: "Patient",
+        active: true,
+        name: [{
+          use: 'usual',
+          text: get(createdUser, 'fullLegalName', ''),
+          given: [],
+          family: ''
+        }],
+        photo: [{
+          url: 'http://localhost:3000/noAvatar.png'
+        }]
+      }
+
+      // if we were able to fetch the entire Patient resource from Epic/Cerner
+      // and have it available in the registration payload
+      // we can assign it as the patient resource
+      Object.assign(newPatient, get(user, 'patient'));
+
+
+      let humanNameArray = get(newPatient, 'name');
+      if(Array.isArray(humanNameArray)){
+        newPatient.name = [];
+        humanNameArray.forEach(function(humanName){
+          if(typeof humanName.family === "string"){
+            newPatient.name.push(humanName);
+          }
+        })
+
+      }
+
+      // if(typeof newPatient.name[0].family === "array"){
+      //   newPatient.name[0].family = newPatient.name[0].family[0];
+      // }
+
+      if(has(createdUser, 'fullLegalName') && !has(newPatient, 'name[0].text')){
+        let nameArray = createdUser.fullLegalName.split(" ");
+        if(Array.isArray(nameArray)){
+          nameArray.forEach(function(name){
+            if(!has(newPatient, 'name[0].given')){
+              set(newPatient, 'name[0].given', []);
+            }
+            newPatient.name[0].given.push(name);
+          })
+          newPatient.name[0].text = get(createdUser, 'fullLegalName', '').trim()
+          newPatient.name[0].family = (nameArray[0]).trim();
+        }
+      }
+
+      if(has(createdUser, 'emails[0].address')){
+        if(!has(newPatient, 'telecom')){
+          newPatient.telecom = [];
+        }
+        newPatient.telecom[0] = {
+          system: 'email',
+          value: get(createdUser, 'emails[0].address')
+        }
+      }
+
+      // try to align collection _ids, if possible
+      if(has(createdUser, '_id')){
+        newPatient._id = createdUser._id._str;
+      }
+      
+      console.log('AccountsServer.newPatient', newPatient)
+
+
+      //------------------------------------------------------------------------------------------------------------------------------------
+
+      // if the patientId from Epic/Cerner is available
+      // we are going to make sure that there is a corresponding Patient resource
+      // in our system
+      if(get(createdUser, 'patientId')){
+        if(!Patients.findOne({id: get(createdUser, 'patientId')})){
+
+          newPatient.id = createdUser.patientId;
+
+          let patientInternalId = Patients.insert(newPatient)
+          console.log('AccountsServer.newPatientId', patientInternalId)
+
+          if(Package["clinical:hipaa-logger"]){
+            let newAuditEvent = { 
+              "resourceType" : "AuditEvent",
+              "type" : { 
+                'code': 'Register User',
+                'display': 'Register User'
+                }, 
+              "action" : 'Registration',
+              "recorded" : new Date(), 
+              "outcome" : "Success",
+              "outcomeDesc" : 'User registered.',
+              "agent" : [{ 
+                "name" : FhirUtilities.pluckName(newPatient),
+                "who": {
+                  "display": FhirUtilities.pluckName(newPatient),
+                  "reference": "Patient/" + get(newPatient, 'id')
+                },
+                "requestor" : false
+              }],
+              "source" : { 
+                "site" : Meteor.absoluteUrl(),
+                "identifier": {
+                  "value": Meteor.absoluteUrl(),
+
+                }
+              },
+              "entity": [{
+                "reference": {
+                  "reference": ''
+                }
+              }]
+            };
+
+            console.log('Logging a hipaa event...', newAuditEvent)
+            let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+          }  
+        }
+      } else {
+
+        // Use Case 2 - if the user signs up without having logged into Epic/Cerner
+        // then they probably don't have a patientId available
+        // so we need to attach it to the user account
+
+        // if(!get(createdUser, 'patientId')){
+        //   Users.update({id: get(createdUser, 'id')}, {$set: {patientId: patientInternalId}})
+        // }
+      }
+
+
+
+
+      if(get(createdUser, 'isClinician')){
+        if(!Practitioners.findOne({id: get(createdUser, 'id')})){
+          let newPractitioner = {
+            _id: '',  
+            id: get(createdUser, 'id', ''),
+            resourceType: "Practitioner",
+            active: true,
+            name: [{
+              use: 'usual',
+              text: get(createdUser, 'fullLegalName', ''),
+              given: [],
+              family: ''
+            }],
+            photo: [{
+              url: 'http://localhost:3000/noAvatar.png'
+            }]
+          }
+  
+          if(has(createdUser, '_id')){
+            newPractitioner._id = get(createdUser, '_id._str');
+          }
+          if(has(createdUser, 'id')){
+            newPractitioner.id = get(createdUser, 'id');
+          }
+  
+          let humanNameArray = get(newPractitioner, 'name');
+          if(Array.isArray(humanNameArray)){
+            newPractitioner.name = [];
+            humanNameArray.forEach(function(humanName){
+              if(typeof humanName.family === "string"){
+                newPractitioner.name.push(humanName);
+              }
+            })
+  
+          }
+  
+          // if(typeof newPractitioner.name[0].family === "array"){
+          //   newPractitioner.name[0].family = newPractitioner.name[0].family[0];
+          // }
+  
+          if(has(createdUser, 'fullLegalName') && !has(newPractitioner, 'name[0].text')){
+            let nameArray = createdUser.fullLegalName.split(" ");
+            if(Array.isArray(nameArray)){
+              nameArray.forEach(function(name){
+                if(!has(newPractitioner, 'name[0].given')){
+                  set(newPractitioner, 'name[0].given', []);
+                }
+                newPractitioner.name[0].given.push(name);
+              })
+              newPractitioner.name[0].text = get(createdUser, 'fullLegalName', '').trim()
+              newPractitioner.name[0].family = (nameArray[0]).trim();
+            }
+          }
+  
+          if(has(createdUser, 'emails[0].address')){
+            if(!has(newPractitioner, 'telecom')){
+              newPractitioner.telecom = [];
+            }
+            newPractitioner.telecom[0] = {
+              system: 'email',
+              value: get(createdUser, 'emails[0].address')
+            }
+          }
+  
+          console.log('AccountsServer.newPractitioner', newPractitioner)
+  
+          let practitionerAlreadyExists = Practitioners.findOne({id: newPractitioner.id})
+          console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
+  
+          if(!practitionerAlreadyExists){
+            let patientInternalId = Practitioners.insert(newPractitioner)
+            console.log('AccountsServer.newPractitionerId', patientInternalId);
+
+            if(Package["clinical:hipaa-logger"]){
+              let newAuditEvent = { 
+                "resourceType" : "AuditEvent",
+                "type" : { 
+                  'code': 'Register User',
+                  'display': 'Register User'
+                  }, 
+                "action" : 'Registration',
+                "recorded" : new Date(), 
+                "outcome" : "Success",
+                "outcomeDesc" : 'User registered.',
+                "agent" : [{ 
+                  "name" : FhirUtilities.pluckName(newPractitioner),
+                  "who": {
+                    "display": FhirUtilities.pluckName(newPractitioner),
+                    "reference": "Practitioner/" + get(newPractitioner, 'id')
+                  },
+                  "requestor" : false
+                }],
+                "source" : { 
+                  "site" : Meteor.absoluteUrl(),
+                  "identifier": {
+                    "value": Meteor.absoluteUrl(),
+  
+                  }
+                },
+                "entity": [{
+                  "reference": {
+                    "reference": ''
+                  }
+                }]
+              };
+  
+              console.log('Logging a hipaa event...', newAuditEvent)
+              let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+            }
+          }
+        }
+      }
+
+
+      console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');
+
+      // If we are here - user must be created successfully
+      // Explicitly saying this to Typescript compiler
+      const loginResult = await accountsServer.loginWithUser(createdUser, req.infos);
+      console.log('AccountsServer.loginResult', loginResult)
+
+      dataPayload = {
+        userId: userId,
+        loginResult: loginResult
+      }
+      console.log('dataPayload', dataPayload)
+
+      JsonRoutes.sendResult(res, {
+        code: 200,
+        data: dataPayload
+      });
     } catch (error) {
       console.log('error', error)
 
@@ -405,84 +792,6 @@ Meteor.startup(async function(){
 
       throw error;
     }
-
-    if (has(accountsServer, "options.enableAutologin")) {
-
-      if(!accountsServer.options.ambiguousErrorMessages){
-        dataPayload = {
-          userId: newUserId
-        }
-      } 
-
-      JsonRoutes.sendResult(res, {
-        code: 401,
-        data: dataPayload
-      });
-    }
-
-    // When initializing AccountsServer we check that enableAutologin and ambiguousErrorMessages options
-    // are not enabled at the same time
-    const createdUser = await accountsServer.findUserById(userId);
-    console.log('createdUser', createdUser)
-
-    console.log('Great time to create a Patient record.');
-
-    console.log('typeof createdUser._id', typeof createdUser._id)
-    console.log('typeof createdUser.id', typeof createdUser.id)
-
-    if(!Patients.findOne({id: get(createdUser, 'id')})){
-      let newPatient = {
-        _id: '',  
-        id: '',
-        resourceType: "Patient",
-        active: true,
-        name: [{
-          use: 'usual',
-          text: '',
-          given: [],
-          family: ''
-        }]
-      }
-
-      if(has(createdUser, '_id')){
-        newPatient._id = createdUser._id._str;
-      }
-      if(has(createdUser, 'id')){
-        newPatient.id = createdUser.id;
-      }
-
-      if(has(createdUser, 'fullLegalName')){
-        let nameArray = createdUser.fullLegalName.split(" ");
-        if(Array.isArray(nameArray)){
-          nameArray.forEach(function(name){
-            newPatient.name[0].given.push(name);
-          })
-          newPatient.name[0].text = get(createdUser, 'fullLegalName', '')
-          newPatient.name[0].family = nameArray[nameArray.length - 1];
-        }
-      }
-
-      Patients.insert(newPatient)
-    }
-
-
-    console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');
-
-    // If we are here - user must be created successfully
-    // Explicitly saying this to Typescript compiler
-    const loginResult = await accountsServer.loginWithUser(createdUser, req.infos);
-    console.log('loginResult', loginResult)
-
-    dataPayload = {
-      userId: userId,
-      loginResult: loginResult
-    }
-    console.log('dataPayload', dataPayload)
-
-    JsonRoutes.sendResult(res, {
-      code: 200,
-      data: dataPayload
-    });
   });
 })
 

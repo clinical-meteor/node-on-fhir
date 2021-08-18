@@ -99,7 +99,7 @@ export function SignUpDialog(props){
 
 
   return(
-    <DialogContent id={id} className="SignUpDialog" style={{minWidth: '600px'}} dividers={scroll === 'paper'}>      
+    <DialogContent id={id} className="SignUpDialog" style={{width: '100%'}} dividers={scroll === 'paper'}>      
       <SignUp />
     </DialogContent>
   )
