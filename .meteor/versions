@@ -50,6 +50,7 @@ meteor-base@1.4.0
 minifier-css@1.5.4
 minifier-js@2.6.0
 minimongo@1.6.2
+mitre:mehi-consent-engine@0.0.1
 mobile-experience@1.1.0
 mobile-status-bar@1.1.0
 modern-browsers@0.1.5
