@@ -35,8 +35,6 @@ evaisse:csv@0.1.4
 fetch@0.1.1
 fourseven:scss@4.14.2
 geojson-utils@1.0.10
-harrison:babyparse@1.0.1
-harrison:papa-parse@1.0.19
 hot-code-push@1.0.4
 html-tools@1.1.2
 htmljs@1.1.1

@@ -202,8 +202,8 @@ export function PatientChartWorkflowTabs(props){
     <div style={{display: 'contents'}}>
       <div >
         <Tabs id="headerNavigationTabs" value={tabIndex} onChange={selectSlide} aria-label="simple tabs example" className={ tabClasses.menu_items }>        
-          <Tab id="fetchTab" label="Patient Intake" />
           <Tab id="fetchTab" label="Patient Chart" />
+          <Tab id="fetchTab" label="Patient Intake" />
         </Tabs>
         <div id="headerUrl" aria-label="sitename" className={ tabClasses.menu_items_right }>        
           <h3 id="fetchTab">{Session.get('fhirServerEndpoint')}</h3>          
