@@ -122,7 +122,7 @@ jobs:
     - run: mkdir -p .meteor
     
     # If Meteor is already cached, do not need to build it again.
-    - run: if [ ! -e .meteor/meteor ]; then curl https://install.meteor.com?=release=1.11.1 | /bin/sh; else echo "Meteor seems to be cached"; fi;
+    - run: if [ ! -e .meteor/meteor ]; then curl https://install.meteor.com?=release=1.11.0 | /bin/sh; else echo "Meteor seems to be cached"; fi;
 
     # Link the meteor executable into /usr/bin
     - run: sudo ln -s .meteor/meteor /usr/bin/meteor
@@ -160,14 +160,15 @@ jobs:
     # - run: meteor npm run-script add_baseline_packages
 
     # make sure we have the latest Chrome (specifically wanting Chrome 75; may change with time)
+
+    # sudo apt-get -y install google-chrome-stable=91.0.4472.164
     - run:
         name: Update Chromedriver
         command: |
             wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
             sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
             sudo apt-get update
-            sudo apt search google-chrome-stable
-            sudo apt-get -y install google-chrome-stable
+            sudo wget --no-verbose -O ./chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_91.0.4472.164-1_amd64.deb && sudo apt install -y ./chrome.deb && sudo rm ./chrome.deb
 
     # - run: if [ meteor list | grep 'symptomatic:theming' | wc -l $eq 1 ]; then meteor remove symptomatic:theming ; else echo "Meteor seems to be cached"; fi;
 
@@ -178,7 +179,6 @@ jobs:
         command: | 
             sleep 120 
             meteor npm run-script lint  
-
     # - run: 
     #     name: Running verification tests
     #     no_output_timeout: 10m
@@ -202,8 +202,6 @@ jobs:
         command: | 
             sleep 420
             meteor npm run-script circle-nightwatch -- --tag circle 
-
-
     # # Save dependency cache
     # - save_cache:
     #     name: Saving cache
@@ -230,5 +228,3 @@ jobs:
         path: ./webapp/tests/nightwatch/logs
     - store_artifacts: 
         path: ./meteor-output.log
-
-
