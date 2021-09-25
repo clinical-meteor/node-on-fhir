@@ -44,7 +44,7 @@ clinical:extended-api@2.5.0
 clinical:fonts@1.2.0
 clinical:hl7-resource-datatypes@4.0.6
 clinical:hl7-fhir-data-infrastructure 
-
+clinical:hipaa-logger
 
 percolate:synced-cron
 
@@ -75,7 +75,17 @@ percolate:synced-cron
 
 # symptomatic:healthkit-importer  
 # symptomatic:immunization-card
-
 # symptomatic:vaccine-wallet
-# symptomatic:data-management
 
+# HEALTHFLOW
+
+#healthflow:core
+#awatson1978:accounts-muppets
+#clinical:accounts-housemd
+#clinical:accounts-famous-dead-people
+
+#symptomatic:timelines
+#symptomatic:vault-server-freemium
+#symptomatic:structured-data-capture
+#symptomatic:data-relay
+#symptomatic:fhir-uscore
