@@ -43,6 +43,9 @@ import QrScannerPage from '../core/QrScannerPage';
 import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
+import ExportPage from '../data-management/ExportPage';
+import ImportPage from '../data-management/ImportPage';
+
 import logger from '../Logger';
 import useStyles from '../Styles';
 
@@ -602,6 +605,10 @@ export function App(props) {
         <Route name='ehrLaunchRoute' key='EhrLaunchPage' path="/ehr-launcher" exact component={ defaultEhrLaunchPage } />                
         <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />                
         <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" exact component={ defaultHomeRoute } />                
+
+        <Route name='importDataRoute' key='defaultHomeRoute' path="/import-data" exact component={ ImportPage } />                
+        <Route name='exportDataRoute' key='exportDataRoute' path="/export-data" exact component={ ExportPage } />                
+
         <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              
       </Switch>
     </ThemeProvider>

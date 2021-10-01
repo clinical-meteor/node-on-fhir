@@ -133,6 +133,15 @@ Meteor.startup(async function(){
           throw new Error('Username too short');
         }  
       }
+      if(get(Meteor, 'settings.public.defaults.registration.displayPassword')){
+        // For example we can allow only some kind of emails
+        if (!user.password) {
+          throw new Error('Password is required');
+        }
+        if (user.password.length < 3) {
+          throw new Error('Password too short');
+        }  
+      }
       if(get(Meteor, 'settings.private.invitationCode')){
         if (!user.invitationCode) {
           console.error('Must provide an invitation code');
@@ -152,9 +161,12 @@ Meteor.startup(async function(){
           throw new Error('Invalid invitation code.');
         }
       }
-      
+
+      return user;
     }
   });
+
+  console.log("AccountsServer.accountsPassword", accountsPassword)
 
   const accountsServer = new AccountsServer(
     {
