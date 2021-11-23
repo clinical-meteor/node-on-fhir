@@ -84,16 +84,16 @@ curl http://localhost:3000/baseR4/Observation
 
 ## Important Links    
 
-- [Stack Share](https://stackshare.io/symptomatic-llc/node-on-fhir)  
 - [License](https://github.com/symptomatic/node-on-fhir/blob/master/LICENSE.md)  
 - [Installation](https://github.com/symptomatic/node-on-fhir/blob/master/INSTALLATION.md)  
 - [Configuration Settings](https://github.com/symptomatic/node-on-fhir/blob/master/API.md)  
-- [Plugin Architecture](http://localhost:3000/hello-world)  
+- [Meteor Guide](https://guide.meteor.com/) 
+- [Getting Started with FHIR](https://www.hl7.org/fhir/modules.html). 
+- [Software Development Kit](https://github.com/symptomatic/software-development-kit)  
 - [Contributing](https://github.com/symptomatic/node-on-fhir/blob/master/CONTRIBUTING.md)  
 - [Code of Conduct](https://github.com/symptomatic/node-on-fhir/blob/master/CODE_OF_CONDUCT.md)  
 - [Community Bridge Funding](https://funding.communitybridge.org/projects/node-on-fhir)  
 - [Quality Control](https://circleci.com/gh/symptomatic/node-on-fhir)  
-- [Demo Page](https://node-on-fhir.meteorapp.com)  
 
 ## Stack Components  
 
@@ -101,4 +101,6 @@ curl http://localhost:3000/baseR4/Observation
 
 ## References  
 - [Notice of Proposed Rulemaking to Improve the Interoperability of Health Information](https://www.healthit.gov/topic/laws-regulation-and-policy/notice-proposed-rulemaking-improve-interoperability-health)  
+- [Inferno ONC Program Edition](https://inferno.healthit.gov/)  
+ 
 
