@@ -1,30 +1,35 @@
 ## Node on FHIR  
 
-![https://github.com/symptomatic/node-on-fhir/blob/development/public/node-on-fhir-logo.png](https://github.com/symptomatic/node-on-fhir/blob/development/public/node-on-fhir-logo-thin.png)
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3466/badge)](https://bestpractices.coreinfrastructure.org/projects/3466) [![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/awatson1978/node-on-fhir)  
-
 [![CircleCI](https://circleci.com/gh/symptomatic/node-on-fhir.svg?style=svg)](https://circleci.com/gh/symptomatic/node-on-fhir)
+
+![NodeOnFHIR-Honeycomb](https://user-images.githubusercontent.com/675910/143154782-90226c51-91c0-4f64-8d0f-bd676cc1b4a3.jpg)
+
 
 Welcome to Node on FHIR.  This code repository contains a reference FHIR server and web application stack written in modern ES6/Typescript/Javascript/Node that can compile to mobile devices.  We have gone through the NPM repository, and tried to pull in as many FHIR related libraries as we could in order to find the 'center' of the Javascript FHIR community.  
 
-This project is an offshoot of the [Meteor on FHIR](https://github.com/clinical-meteor/meteor-on-fhir) project, which developed a Javascript/Node based FHIR application stack about 4 years ago.  A the time, we chose Meteor.js, a full-stack application framework that used websockets as it's transportation mechanism with pub/sub functionality, because it had good support for clinician worklists use cases with a document oriented database and good support for data visualizations.  Over time, we saw some limitations with the default Meteor tech stack, particularly with the data distribution protocol and the Blaze rendering layer.  However, we've been quite pleased with the Meteor compiler and its support for mobile applications.  
+This project is an offshoot of the [Meteor on FHIR](https://github.com/clinical-meteor/meteor-on-fhir) project, which developed a Javascript/Node based FHIR application stack about 4 years ago.  A the time, we chose [Meteor.js](https://www.meteor.com/), a full-stack application framework that used websockets as it's transportation mechanism with pub/sub functionality, because it had good support for clinician worklists use cases with a document oriented database and good support for data visualizations.  Over time, we saw some limitations with the default Meteor tech stack, particularly with the data distribution protocol and the Blaze rendering layer.  However, we've been quite pleased with the Meteor compiler and its support for mobile applications.  
 
-Eventually, we decided to do a soft fork of the Meteor project, and set up our own release track and began replacing the websocket/data-distribution-protocol with more standard OAuth/REST interfaces.  We also were tracking many of the latest developments in the Javascript community, such as the release of React, EcmaScript 6, and Typescript and migrating our codebase forward.  With the help of the Meteor Development Group, we were able to upgrade the default reference build to include best practices from across the Javascript ecosystem.   
+Eventually, we decided to do a soft fork of the Meteor project, and set up our own [release track](https://atmospherejs.com/?q=clinical), which involved publishing [100+ packages](https://github.com/clinical-meteor),  and began replacing the websocket/data-distribution-protocol with [HL7 compliant OAuth/REST interfaces](https://github.com/clinical-meteor/vault-server-freemium).  We also were tracking many of the latest developments in the Javascript community, such as the release of [React](https://reactjs.org/) and [EcmaScript 6](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/), and began migrating our codebase forward.  With the help of the Meteor Development Group, we were able to upgrade the default reference build to include best practices from across the Javascript ecosystem.   
 
-The following reference build is the result of 5 years of work; 70+ prototypes and pilots, the result of a million+ quality control tests, and the contributions of dozens of different organizations, ranging from big tech companies (Google, Facebook) and javascript specific projects (Meteor, Material UI) to healthcare specific companies (HL7, Vermonster, Asymmetrik, SmartHealthIT, etc).   It represents a rich combination of functionality that is difficult to be found anywhere else.
+This repository is set up as a GitHub template, so you can simply fork it and adjust the settings file.  Included is an example plugin which can be compiled and published to NPM itself.  Importantly, this repository uses isomorphic code, meaning its the same modern ES6 code pattners on the client, server, and in the plugin packages.  
 
-We've set this repository up as a GitHub template, so you can simply fork it and begin coding.  You'll find the example plugin can be compiled and published to NPM itself (as long as you don't add things like binaries that depend on specific platforms).  Importantly, you'll find all of our code to be isomorphic, meaning its the same modern ES6 code pattners on the client, server, and in the plugin packages.  
+## Past Projects   
+
+The FHIR appplication server in this repository is the result of 7 years of work; 100+ prototypes and pilots, the result of a million+ quality control tests, and the contributions of dozens of different organizations, ranging from big tech companies (Google Chrome, Facebook React) and javascript specific projects (Meteor, Material UI) to healthcare specific companies (HL7, Vermonster, Asymmetrik, SmartHealthIT, etc).   It represents a rich combination of functionality that is difficult to be found anywhere else.  It has been used to build personal health records, a longitudinal timeline that was published to the Apple App Store, patient charting software, clinical worklists, pharmacogenomics pipelines, medical imaging software, medical home hubs, and many more systems.  
+
+![BuiltWithNodeOnFHIR](https://user-images.githubusercontent.com/675910/143202912-afa95edd-16a3-4093-a69d-485068573ce8.jpg)
 
 
 ## Supported FHIR Libraries  
 
-There's currently three (3) javascript client libraries in the NPM repository right now.  We have 
+The following FHIR libraries from the NPM repository have been validated to work with NodeOnFHIR.  We currently ship with three of them enabled by default.  
 
 Library           | Vendor        | Description 
 ----------------- | ------------- | -------------
-fhir-kit-client | Vermonster | Modern FHIR client with ES6, SMART, cross-version support, etc   
 fhirclient | smarthealthit | The official SMART on FHIR javascript client  
+fhir-kit-client | Vermonster | Modern FHIR client with ES6, SMART, cross-version support, etc   
 fhir.js | FHIR Community | Community javascript client (good Angular support)  
 ts-fhir-types | Ahryman40k | Typescript definitions   
 blue-button-fhir | Amida Technology  | Blue Button to FHIR converter (DSTU2)  
@@ -36,7 +41,6 @@ json-schema-resource-validation | VictorGus | FHIR validator for R4
 fhir-helpers | jackruss  | Utilities to hydrate argonaut form data into FHIR objects  
 hl7v2 | panates | HL7 v2 parser, serializer, validator and TCP client/server.
 redox-hl7-v2 | Redox | This is Redox's battle-tested in-house HL7v2 parser/generator.  
-
 
 
 ## Quickstart
