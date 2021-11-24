@@ -16,32 +16,31 @@ Eventually, we decided to do a soft fork of the Meteor project, and set up our o
 
 This repository is set up as a GitHub template, so you can simply fork it and adjust the settings file.  Included is an example plugin which can be compiled and published to NPM itself.  Importantly, this repository uses isomorphic code, meaning its the same modern ES6 code pattners on the client, server, and in the plugin packages.  
 
+
+## Supported FHIR Libraries  
+
+The following FHIR libraries from the NPM repository have been validated to work with NodeOnFHIR.  
+
+Library           | Vendor        | Description 
+----------------- | ------------- | -------------
+[fhirclient](https://www.npmjs.com/package/fhirclient) | smarthealthit | The official SMART on FHIR javascript client  
+[fhir-kit-client](https://www.npmjs.com/package/fhir-kit-client) | Vermonster | Modern FHIR client with ES6, SMART, cross-version support, etc   
+[fhir-starter](https://www.npmjs.com/package/fhir-starter) | symptomatic  | FhirUtilities, FhirDehydrator, and template FHIR UI components.
+[fhir-react](https://www.npmjs.com/package/fhir-react) | 1uphealth | Multi use react component
+[json-schema-resource-validation](https://www.npmjs.com/package/json-schema-resource-validation) | VictorGus | FHIR validator for R4  
+[sof-scope-checker](https://www.npmjs.com/package/@asymmetrik/sof-scope-checker) | Asymmetrik | Utility to check SMART on FHIR scope access  
+[fhirpath](https://www.npmjs.com/package/fhirpath) | HL7 | The official FHIRPath parser  
+[is-fhir-date](https://www.npmjs.com/package/is-fhir-date) | HenrikJoreteg | Checks if a date is FHIR compliant
+[ts-fhir-types](https://www.npmjs.com/package/@ahryman40k/ts-fhir-types) | Ahryman40k | Typescript definitions   
+[fhir-list-addresses](https://www.npmjs.com/package/fhir-list-addresses) | careMESH | Utility function for extracting addresses  
+[hl7v2](https://www.npmjs.com/package/hl7v2) | panates | HL7 v2 parser, serializer, validator and TCP client/server.
+[redox-hl7-v2](https://www.npmjs.com/package/@redoxengine/redox-hl7-v2) | Redox | This is Redox's battle-tested in-house HL7v2 parser/generator.  
+
 ## Past Projects   
 
 The FHIR appplication server in this repository is the result of 7 years of work; 100+ prototypes and pilots, the result of a million+ quality control tests, and the contributions of dozens of different organizations, ranging from big tech companies (Google Chrome, Facebook React) and javascript specific projects (Meteor, Material UI) to healthcare specific companies (HL7, Vermonster, Asymmetrik, SmartHealthIT, etc).   It represents a rich combination of functionality that is difficult to be found anywhere else.  It has been used to build personal health records, a longitudinal timeline that was published to the Apple App Store, patient charting software, clinical worklists, pharmacogenomics pipelines, medical imaging software, medical home hubs, and many more systems.  
 
 ![BuiltWithNodeOnFHIR](https://user-images.githubusercontent.com/675910/143202912-afa95edd-16a3-4093-a69d-485068573ce8.jpg)
-
-
-## Supported FHIR Libraries  
-
-The following FHIR libraries from the NPM repository have been validated to work with NodeOnFHIR.  We currently ship with three of them enabled by default.  
-
-Library           | Vendor        | Description 
------------------ | ------------- | -------------
-fhirclient | smarthealthit | The official SMART on FHIR javascript client  
-fhir-kit-client | Vermonster | Modern FHIR client with ES6, SMART, cross-version support, etc   
-fhir.js | FHIR Community | Community javascript client (good Angular support)  
-ts-fhir-types | Ahryman40k | Typescript definitions   
-blue-button-fhir | Amida Technology  | Blue Button to FHIR converter (DSTU2)  
-node-fhir-server-core | Asymmetrik | Node FHIR Server  
-sof-scope-checker | Asymmetrik | Utility to check SMART on FHIR scope access  
-fhir-list-addresses | careMESH | Utility function for extracting addresses  
-fhirpath | HL7 | The official FHIRPath parser  
-json-schema-resource-validation | VictorGus | FHIR validator for R4  
-fhir-helpers | jackruss  | Utilities to hydrate argonaut form data into FHIR objects  
-hl7v2 | panates | HL7 v2 parser, serializer, validator and TCP client/server.
-redox-hl7-v2 | Redox | This is Redox's battle-tested in-house HL7v2 parser/generator.  
 
 
 ## Quickstart
@@ -100,9 +99,12 @@ curl http://localhost:3000/baseR4/Observation
 - [Community Bridge Funding](https://funding.communitybridge.org/projects/node-on-fhir)  
 - [Quality Control](https://circleci.com/gh/symptomatic/node-on-fhir)  
 
-## Stack Components  
 
-![StackShare](https://raw.githubusercontent.com/symptomatic/node-on-fhir/development/docs/assets/StackShare.png)  
+## Technology Stack 
+
+![StackShare](https://user-images.githubusercontent.com/675910/143241422-a9d13558-0665-4e87-8f25-8257b4fcd393.png)
+
+
 
 ## References  
 - [Notice of Proposed Rulemaking to Improve the Interoperability of Health Information](https://www.healthit.gov/topic/laws-regulation-and-policy/notice-proposed-rulemaking-improve-interoperability-health)  
