@@ -4,7 +4,8 @@
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3466/badge)](https://bestpractices.coreinfrastructure.org/projects/3466) [![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/awatson1978/node-on-fhir)  
 [![CircleCI](https://circleci.com/gh/symptomatic/node-on-fhir.svg?style=svg)](https://circleci.com/gh/symptomatic/node-on-fhir)
 
-![NodeOnFHIR-Honeycomb](https://user-images.githubusercontent.com/675910/143154782-90226c51-91c0-4f64-8d0f-bd676cc1b4a3.jpg)
+![NodeOnFHIR-Honeycomb2](https://user-images.githubusercontent.com/675910/143236128-33794cb2-c470-4196-b6af-37f44616c59d.png)
+
 
 
 Welcome to Node on FHIR.  This code repository contains a reference FHIR server and web application stack written in modern ES6/Typescript/Javascript/Node that can compile to mobile devices.  We have gone through the NPM repository, and tried to pull in as many FHIR related libraries as we could in order to find the 'center' of the Javascript FHIR community.  
