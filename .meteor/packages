@@ -63,9 +63,8 @@ percolate:synced-cron
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-# HEALTHFLOW
 
-symptomatic:data-importer
-symptomatic:data-relay
-symptomatic:vault-server-freemium
-mitre:vhdir-core
+# symptomatic:data-importer
+# symptomatic:data-relay
+# symptomatic:vault-server-freemium
+# mitre:vhdir-core
