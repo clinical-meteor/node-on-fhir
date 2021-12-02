@@ -14,8 +14,8 @@ import {
   TextField,
 } from '@material-ui/core';
 
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import SendIcon from '@material-ui/icons/Send';
+
+
 import { useFormik, FormikErrors } from 'formik';
 // import { User } from '@accounts/types';
 import { accountsClient, accountsRest, accountsPassword } from './Accounts';

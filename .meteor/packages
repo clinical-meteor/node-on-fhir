@@ -48,10 +48,6 @@ clinical:hipaa-logger
 
 percolate:synced-cron
 
-# symptomatic:saner 
-# symptomatic:data-management
-# datarobot:waters
-
 
 # TESTING
 # meteortesting:mocha
@@ -61,31 +57,15 @@ percolate:synced-cron
 # mdg:meteor-apm-agent
 # bundle-visualizer
 
-# WORKFLOW  
-# symptomatic:covid19-on-fhir
-# symptomatic:covid19-geomapping
-# symptomatic:covid19-reporting
-
-# symptomatic:gravity
 
 
 # DESKTOP
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-# symptomatic:healthkit-importer  
-# symptomatic:immunization-card
-# symptomatic:vaccine-wallet
-
 # HEALTHFLOW
 
-#healthflow:core
-#awatson1978:accounts-muppets
-#clinical:accounts-housemd
-#clinical:accounts-famous-dead-people
-
-#symptomatic:timelines
-#symptomatic:vault-server-freemium
-#symptomatic:structured-data-capture
-#symptomatic:data-relay
-#symptomatic:fhir-uscore
+symptomatic:data-importer
+symptomatic:data-relay
+symptomatic:vault-server-freemium
+mitre:vhdir-core
