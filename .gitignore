@@ -20,3 +20,5 @@ public/.well-known/*.pem
 public/.well-known/*.jwks.json
 private/*.pem
 private/*.jwks.json
+
+package-lock.json
