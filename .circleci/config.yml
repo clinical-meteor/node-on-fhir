@@ -123,7 +123,7 @@ jobs:
     
     # If Meteor is already cached, do not need to build it again.
     # - run: if [ ! -e .meteor/meteor ]; then curl https://install.meteor.com?=release=1.11.0 | /bin/sh; else echo "Meteor seems to be cached"; fi;
-    - run: curl https://install.meteor.com/ | sh
+    - run: curl https://install.meteor.com?=release=2.5.1 | sh
     # - run: npm install meteor
 
     # Link the meteor executable into /usr/bin
