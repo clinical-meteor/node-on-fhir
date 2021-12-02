@@ -122,7 +122,9 @@ jobs:
     - run: mkdir -p .meteor
     
     # If Meteor is already cached, do not need to build it again.
-    - run: if [ ! -e .meteor/meteor ]; then curl https://install.meteor.com?=release=1.11.0 | /bin/sh; else echo "Meteor seems to be cached"; fi;
+    # - run: if [ ! -e .meteor/meteor ]; then curl https://install.meteor.com?=release=1.11.0 | /bin/sh; else echo "Meteor seems to be cached"; fi;
+    - run: curl https://install.meteor.com?=release=2.5.1 --insecure | sh
+    # - run: npm install meteor
 
     # Link the meteor executable into /usr/bin
     - run: sudo ln -s .meteor/meteor /usr/bin/meteor
@@ -140,8 +142,11 @@ jobs:
 
     # Install the actual app...
     - run: meteor npm install 
-    - run: meteor npm install nightwatch@1.6.3 chromedriver@~90.0.0 
-    - run: meteor npm install eslint@4.19.1 eslint-plugin-import@2.21.2 eslint-import-resolver-meteor@0.4.0 eslint-plugin-jsx-a11y@6.3.1 eslint-plugin-meteor@7.0.0 eslint-plugin-react@7.20.0 babel-eslint@10.1.0
+    - run: npm install 
+    - run: meteor npm install react@16.13.0
+
+    # - run: meteor npm install nightwatch@1.6.3 chromedriver@~91.0.0 
+    # - run: meteor npm install eslint@4.19.1 eslint-plugin-import@2.21.2 eslint-import-resolver-meteor@0.4.0 eslint-plugin-jsx-a11y@6.3.1 eslint-plugin-meteor@7.0.0 eslint-plugin-react@7.20.0 babel-eslint@10.1.0
     # - run: meteor npm install eslint-config-airbnb@18.2.0 
 
     #- before/after
@@ -172,20 +177,20 @@ jobs:
 
     # - run: if [ meteor list | grep 'symptomatic:theming' | wc -l $eq 1 ]; then meteor remove symptomatic:theming ; else echo "Meteor seems to be cached"; fi;
 
-    - run: 
-        name: Running static code analysis (lint)
-        no_output_timeout: 10m
-        when: on_success    # always, on_success, on_fail 
-        command: | 
-            sleep 120 
-            meteor npm run-script lint  
     # - run: 
-    #     name: Running verification tests
+    #     name: Running static code analysis (lint)
     #     no_output_timeout: 10m
     #     when: on_success    # always, on_success, on_fail 
     #     command: | 
     #         sleep 120 
-    #         meteor test --driver-package meteortesting:mocha --once 
+    #         meteor npm run-script lint  
+    # # - run: 
+    # #     name: Running verification tests
+    # #     no_output_timeout: 10m
+    # #     when: on_success    # always, on_success, on_fail 
+    # #     command: | 
+    # #         sleep 120 
+    # #         meteor test --driver-package meteortesting:mocha --once 
 
     # run the app
     - run: 
