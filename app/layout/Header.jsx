@@ -346,6 +346,22 @@ function Header(props) {
     return moment(selectedStartDate).format("MMM DD, YYYY") + " until " + moment(selectedEndDate).format("MMM DD, YYYY")
   }
 
+  function toggleLoginDialog(){
+    console.log('Toggle login dialog open/close.')
+    Session.set('mainAppDialogJson', false);
+    Session.set('mainAppDialogMaxWidth', "sm");
+
+    if(Session.get('currentUser')){
+      Session.set('mainAppDialogTitle', "Logout");
+      Session.set('mainAppDialogComponent', "LogoutDialog");
+    } else {
+      Session.set('mainAppDialogTitle', "Login");
+      Session.set('mainAppDialogComponent', "LoginDialog");      
+    }
+
+    Session.toggle('mainAppDialogOpen');
+  }
+
 
   let demographicItems;
   let dateTimeItems;
@@ -383,7 +399,7 @@ function Header(props) {
           }      
         }
         if(get(Meteor, 'settings.public.defaults.displayUserNameInHeader')){
-          userItems = <div style={{float: 'right', top: '5px', position: 'absolute', right: '20px'}}>
+          userItems = <div style={{float: 'right', top: '5px', position: 'absolute', right: '20px', cursor: 'pointer'}} onClick={toggleLoginDialog.bind(this)}>
           <Typography variant="h6" color="inherit" className={ componentStyles.header_label }>User: </Typography>
           <Typography variant="h6" color="inherit" className={ componentStyles.header_text } noWrap >
             { currentUser }
@@ -422,7 +438,7 @@ function Header(props) {
             onClick={ clickOnMenuButton.bind(this) }
             className={componentStyles.sidebarMenuButton}
           />
-        <h4 onClick={ function(){ goHome(); }} className={ titleClass }>
+        <h4 onClick={ function(){ goHome(); }} className={ titleClass } style={{cursor: 'pointer'}}>
           { parseTitle() }
         </h4>
 
