@@ -116,7 +116,7 @@
     "winston": "3.2.1"
   },
   "devDependencies": {
-    "babel-eslint": "10.1.0",
+    "@babel/eslint-parser": "7.16.3",
     "chai": "4.2.0",
     "chai-nightwatch": "0.4.0",
     "chromedriver": "91.0.0",
@@ -127,9 +127,9 @@
     "eslint-plugin-meteor": "7.0.0",
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "4.0.4",
-    "nightwatch": "1.5.0",
+    "nightwatch": "1.7.12",
     "selenium-webdriver": "3.6.0",
-    "conventional-changelog-cli": "2.0.11",
+    "conventional-changelog-cli": "2.1.1",
     "meteor-desktop": "2.2.5",
     "shelljs": "0.7.4"
   },
