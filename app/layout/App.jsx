@@ -408,7 +408,7 @@ export function App(props) {
     }
 
     if(document.getElementById("reactCanvas") && !Meteor.isCordova){
-      document.getElementById("reactCanvas").setAttribute("style", "bottom: 0px");
+      document.getElementById("reactCanvas").setAttribute("style", "bottom: 0px; background: " + defaultCanvasColor + ";");
       document.getElementById("reactCanvas").setAttribute("background", defaultCanvasColor);
     }
   }, [])
