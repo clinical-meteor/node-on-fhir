@@ -17,7 +17,7 @@ clinical:accounts-famous-dead-people@1.7.2
 clinical:extended-api@2.5.2
 clinical:fonts@1.2.0
 clinical:hipaa-logger@2.1.1
-clinical:hl7-fhir-data-infrastructure@6.19.0
+clinical:hl7-fhir-data-infrastructure@6.19.1
 clinical:hl7-resource-datatypes@4.0.7
 clinical:vault-server-freemium@7.0.2
 ddp@1.4.0
