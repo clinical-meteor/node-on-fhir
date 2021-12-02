@@ -19,7 +19,7 @@
 
 // import moment from 'moment';
 
-// import { PageCanvas, StyledCard, PatientTable } from 'material-fhir-ui';
+// import { PageCanvas, StyledCard, PatientTable } from 'fhir-starter';
 
 
 // function DynamicSpacer(props){
