@@ -28,7 +28,7 @@ let set = _.set;
 import moment from 'moment';
 
 // import StyledCard from '../components/StyledCard';
-import { StyledCard, PageCanvas, DynamicSpacer } from 'material-fhir-ui';
+import { StyledCard, PageCanvas, DynamicSpacer } from 'fhir-starter';
 
 
 function PatientCard(props){

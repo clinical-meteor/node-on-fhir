@@ -38,6 +38,7 @@
   "dependencies": {
     "@accounts/client": "0.33.1",
     "@accounts/client-password": "0.30.0",
+    "@accounts/magic-link": "0.1.1",
     "@accounts/meteor-adapter": "0.1.1",
     "@accounts/mongo": "0.30.0",
     "@accounts/password": "0.32.1",
