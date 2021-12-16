@@ -171,25 +171,40 @@ export default function ScrollDialog(props) {
   }, [open]);
 
 
+
+
+  let dialogTitleToRender;
   let dialogContentToRender;
+  let dialogActionsToRender;
+
+  if(showDialogTitle){
+    dialogTitleToRender = <DialogTitle id="scroll-dialog-title">{dialogTitle}</DialogTitle>
+  }
+
   if(dialogComponent){
     dialogComponents.forEach(function(reference){
       if(reference.name === dialogComponent){
         logger.debug('Found a matching dialog component to render.')
         
-        // did we find a matching component?
-        dialogContentToRender = reference.component;
+        if(get(reference, "component")){
+          // did we find a matching component?
+          dialogContentToRender = get(reference, "component");
 
-        // we want to pass in the content, so we attach it to the props object
-        props.jsonContent = jsonContent;
+          // we want to pass in the content, so we attach it to the props object
+          props.jsonContent = jsonContent;
 
-        // or the error message
-        props.errorMessage = errorMessage;
+          // or the error message
+          props.errorMessage = errorMessage;
 
-        // and pass the props object into the component that we're going to render in the dialog
-        dialogContentToRender = React.cloneElement(
-          dialogContentToRender, {jsonContent: jsonContent} 
-        );
+          // and pass the props object into the component that we're going to render in the dialog
+          dialogContentToRender = React.cloneElement(
+            dialogContentToRender, {jsonContent: jsonContent} 
+          );
+        }
+
+        if(get(reference, "actions")){
+          dialogActionsToRender = React.cloneElement(get(reference, "actions"));
+        }
       }
     })
   } else if(jsonContent){
@@ -204,20 +219,8 @@ export default function ScrollDialog(props) {
 
 
 
-  let dialogTitleToRender;
-  let dialogActionsToRender;
-  if(showDialogTitle){
-    dialogTitleToRender = <DialogTitle id="scroll-dialog-title">{dialogTitle}</DialogTitle>
-  }
 
-  let showDialogActions = false;
-  if(showDialogActions){
-    dialogActionsToRender = <DialogActions>
-      <Button onClick={handleClose} color="primary">
-        Close
-      </Button>
-    </DialogActions>
-  }
+
 
   return (
     <div id="mainDialogContainer">
