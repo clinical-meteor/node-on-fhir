@@ -61,10 +61,21 @@
       "displayNavbars": true,
       "disableHeader": false,
       "disableFooter": false,
+      "displayUserNameInHeader": true,
       "initialScale": 1.0,
-
       "paginationLimit": 100,
       "subscriptionLimit": 1000,
+      "registration": {
+        "displayPatientId": false,
+        "displayFullLegalName": true,
+        "displayNickname": true,
+        "displayGivenAndFamily": false,
+        "displayFirstAndLast": false,
+        "displayEmail": true,
+        "displayPassword": true,
+        "displayUsername": true,
+        "displayInventationCode": true
+      },
       "sidebar": {
         "menuItems": {
           "HomePage": true,

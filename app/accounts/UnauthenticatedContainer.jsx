@@ -25,7 +25,7 @@ export const UnauthenticatedContainer = function({ children }){
 
   return (
     <div className={classes.root}>
-      <Container maxWidth="sm" className={classes.container}>
+      <Container maxWidth="sm" className={classes.container} style={{paddingTop: '0px'}}>
         {children}
       </Container>
     </div>
