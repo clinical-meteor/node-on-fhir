@@ -19,7 +19,6 @@ import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material
 
 import { PageCanvas } from 'fhir-starter';
 
-
 if(Meteor.isClient){
   Session.setDefault('adult_icu_bed_utilization', 0);
 }

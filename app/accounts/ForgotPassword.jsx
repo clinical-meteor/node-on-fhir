@@ -37,13 +37,13 @@ const LogInLink = React.forwardRef(function(props, ref){
 //   token: string;
 // }
 
-// interface ResetPasswordValues {
+// interface ForgotPasswordValues {
 //   email: string;
 //   newPassword: string;
 //   confirmNewPassword: string;
 // }
 
-const ResetPassword = function({ match }){
+const ForgotPassword = function({ match }){
   const classes = useStyles();
 
   const [error, setError] = useState();
@@ -51,27 +51,13 @@ const ResetPassword = function({ match }){
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      newPassword: '',
-      confirmNewPassword: '',
+      email: ''
     },
     validate: function(values){
       const errors = {};
 
-      if (!match.params.token) {
-        if (!values.email) {
-          errors.email = 'Required';
-        }
-      } else {
-        if (!values.newPassword) {
-          errors.newPassword = 'Required';
-        }
-        if (!values.confirmNewPassword) {
-          errors.confirmNewPassword = 'Required';
-        }
-        if (!errors.confirmNewPassword && values.newPassword !== values.confirmNewPassword) {
-          errors.confirmNewPassword = 'Passwords do not match';
-        }
+      if (!values.email) {
+        errors.email = 'Required';
       }
 
       return errors;
@@ -79,10 +65,10 @@ const ResetPassword = function({ match }){
     onSubmit: async function(values, { setSubmitting }){
       try {
         if (!match.params.token) {
-          // await accountsRest.sendResetPasswordEmail(values.email);
+          // await accountsRest.sendForgotPasswordEmail(values.email);
           // setSuccess('Email sent');
         } else {
-          // await accountsRest.resetPassword(match.params.token, values.newPassword);
+          // await accountsRest.ForgotPassword(match.params.token, values.newPassword);
           // setSuccess('Your password has been reset successfully');
         }
       } catch (err) {
@@ -128,8 +114,7 @@ const ResetPassword = function({ match }){
                   </Typography>
                 )} */}
               </Grid>
-              {!match.params.token && (
-                <Grid item xs={12}>
+              <Grid item xs={12}>
                   <TextField
                     label="Email"
                     variant="outlined"
@@ -142,44 +127,9 @@ const ResetPassword = function({ match }){
                     helperText={formik.touched.email && formik.errors.email}
                   />
                 </Grid>
-              )}
-              {match.params.token && (
-                <React.Fragment>
-                  <Grid item xs={12}>
-                    <TextField
-                      label="New password"
-                      variant="outlined"
-                      fullWidth={true}
-                      type="password"
-                      id="newPassword"
-                      value={formik.values.newPassword}
-                      onChange={formik.handleChange}
-                      error={Boolean(formik.errors.newPassword && formik.touched.newPassword)}
-                      helperText={formik.touched.newPassword && formik.errors.newPassword}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      label="Confirm new password"
-                      variant="outlined"
-                      fullWidth={true}
-                      type="password"
-                      id="confirmNewPassword"
-                      value={formik.values.confirmNewPassword}
-                      onChange={formik.handleChange}
-                      error={Boolean(
-                        formik.errors.confirmNewPassword && formik.touched.confirmNewPassword
-                      )}
-                      helperText={
-                        formik.touched.confirmNewPassword && formik.errors.confirmNewPassword
-                      }
-                    />
-                  </Grid>
-                </React.Fragment>
-              )}
               <Grid item xs={12}>
                 <Button variant="contained" color="primary" type="submit">
-                  {!match.params.token ? 'Send email' : 'Reset password'}
+                  Send email
                 </Button>
               </Grid>
             </Grid>
@@ -192,4 +142,4 @@ const ResetPassword = function({ match }){
   );
 };
 
-export default ResetPassword;
+export default ForgotPassword;

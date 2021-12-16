@@ -17,6 +17,8 @@ import ErrorDialog from '../core/ErrorDialog';
 import LoginDialog from '../core/LoginDialog';
 import SignUpDialog from '../core/SignUpDialog';
 import LogoutDialog from '../core/LogoutDialog';
+import ResetPasswordDialog from '../core/ResetPasswordDialog';
+import ForgotPasswordDialog from '../core/ForgotPasswordDialog';
 
 import { get } from 'lodash';
 
@@ -45,6 +47,12 @@ dialogComponents.push({
 }, {
   "name": "LogoutDialog",
   "component": <LogoutDialog />
+}, {
+  "name": "ResetPasswordDialog",
+  "component": <ResetPasswordDialog />
+}, {
+  "name": "ForgotPasswordDialog",
+  "component": <ForgotPasswordDialog />
 });
 
 
