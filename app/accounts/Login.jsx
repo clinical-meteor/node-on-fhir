@@ -88,26 +88,29 @@ const Login = function({ history }){
           },
           password: values.password
           // code: values.code
-        }, function(err, result){
-          if(err){
-            console.log('loginWithService.err', err)
-          }
+        }, setError, function setSuccess(result){
           if(result){
             console.log('loginWithService.result', result)
+
+            Session.set('mainAppDialogOpen', false);
+            Session.set('lastUpdated', new Date());    
           }
         });        
 
-        Session.set('mainAppDialogOpen', false);
-        Session.set('lastUpdated', new Date());
 
         // history.push('/');
       } catch (err) {
         setError(err.message);
-        setSubmitting(false);
+        //setSubmitting(false);
       }
     }
   });
 
+  function openForgotPasswordDialog(){
+    Session.set('mainAppDialogTitle', 'Forgot Password');
+    Session.set('mainAppDialogComponent', 'ForgotPasswordDialog');
+    Session.set('mainAppDialogMaxWidth', "sm");
+  }
   function openRegisterAccountDialog(){
     Session.set('mainAppDialogTitle', 'Register New Account');
     Session.set('mainAppDialogComponent', 'SignUpDialog');
@@ -192,7 +195,8 @@ const Login = function({ history }){
               </Grid> */}
               <Grid item xs={8} md={9}>
                 <Grid container justify="flex-end" alignContent="center">
-                  <Button color="primary" onClick={ openRegisterAccountDialog } >Register new account</Button>
+                  <Button color="primary" onClick={ openForgotPasswordDialog } >Register new account</Button>
+                  <Button color="primary" onClick={ openRegisterAccountDialog } >Forgot Password</Button>
                 </Grid>
               </Grid>
             </Grid>
