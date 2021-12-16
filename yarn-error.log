@@ -1,0 +1,207 @@
+Arguments: 
+  /usr/local/Cellar/node/16.6.2/bin/node /usr/local/bin/yarn add @material-ui/icons
+
+PATH: 
+  /Users/awatson/.gem/ruby/2.6.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+
+Yarn version: 
+  1.22.11
+
+Node version: 
+  16.6.2
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: unable to get local issuer certificate
+      at TLSSocket.onConnectSecure (node:_tls_wrap:1530:34)
+      at TLSSocket.emit (node:events:394:28)
+      at TLSSocket._finishInit (node:_tls_wrap:944:8)
+      at TLSWrap.ssl.onhandshakedone (node:_tls_wrap:725:12)
+
+npm manifest: 
+  {
+    "name": "node-on-fhir",
+    "version": "0.5.0",
+    "private": true,
+    "meteor": {
+      "mainModule": {
+        "client": "client/main.jsx",
+        "server": "server/main.js"
+      },
+      "testModule": "tests/main.js"
+    },
+    "scripts": {
+      "pretest": "npm run lint --silent",
+      "test": "meteor test --once --driver-package meteortesting:mocha",
+      "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
+      "visualize": "meteor --production --extra-packages bundle-visualizer",
+      "lint": "eslint --ext .js,.jsx .",
+      "start": "NODE_ENV=test meteor --settings configs/settings.dev.json",
+      "debug": "DEBUG=true meteor --settings configs/settings.dev.json",
+      "trace": "DEBUG=true TRACe=true meteor --settings configs/settings.dev.json",
+      "package-verification": "starrynight run-tests --type package-verification",
+      "verification": "starrynight run-tests --type verification",
+      "validation": "starrynight run-tests --type validation",
+      "nightwatch": "nightwatch -c .meteor/nightwatch.json",
+      "phantom": "nightwatch -c .meteor/nightwatch.json --env phantom",
+      "circle-nightwatch": "nightwatch -c .meteor/nightwatch.circle.json --tag circle",
+      "circle-hello": "nightwatch -c .meteor/nightwatch.circle.json --tag hello",
+      "desktop": "meteor-desktop",
+      "dockerize": "../scripts/generate_docker_compose_file.sh",
+      "push_to_circle_ci": "../scripts/push_to_circle_ci.sh",
+      "prep_for_symptomatic_dev": "../scripts/prep_for_symptomatic_dev.sh",
+      "remove_licensed_packages": "../scripts/remove_licensed_packages.sh",
+      "add_baseline_packages": "../scripts/add_baseline_packages.sh",
+      "deploy-to-azure": "meteor-azure",
+      "version": "../scripts/version.sh",
+      "verification-tests": "TEST_BROWSER_DRIVER: chrome meteor test --driver-package meteortesting:mocha --port 3002 --once --full-app"
+    },
+    "dependencies": {
+      "@accounts/client": "0.30.0",
+      "@accounts/client-password": "0.30.0",
+      "@accounts/meteor-adapter": "0.1.1",
+      "@accounts/mongo": "0.30.0",
+      "@accounts/password": "0.30.0",
+      "@accounts/rest-client": "0.30.0",
+      "@accounts/rest-express": "0.30.0",
+      "@accounts/server": "0.30.0",
+      "@accounts/types": "^0.29.0",
+      "@babel/runtime": "7.10.3",
+      "@date-io/core": "1.3.6",
+      "@date-io/moment": "1.3.13",
+      "@ledgy/react-meteor-data": "2.1.2",
+      "@material-ui/core": "4.5.1",
+      "@material-ui/pickers": "3.2.8",
+      "@material-ui/styles": "4.9.0",
+      "@nivo/pie": "0.63.1",
+      "any-to-any": "^4.0.0",
+      "atob": "^2.1.2",
+      "body-parser": "1.19.0",
+      "btoa": "^1.2.1",
+      "chart.js": "2.9.4",
+      "classnames": "2.2.6",
+      "clsx": "1.0.4",
+      "cordova-ios": "6.2.0",
+      "cordova-lib": "10.0.0",
+      "cordova-plugin-filepicker": "^1.1.6",
+      "cordova-plugin-qrscanner": "3.0.1",
+      "cordova-plugin-whitelist": "^1.3.4",
+      "cors": "2.8.5",
+      "create-react-class": "15.7.0",
+      "crypto-js": "4.0.0",
+      "date-fns": "2.8.1",
+      "express": "4.17.1",
+      "express-session": "^1.17.2",
+      "fhir-kit-client": "1.5.3",
+      "fhir-starter": "0.12.16",
+      "fhirclient": "2.4.0",
+      "formik": "^2.1.5",
+      "got": "11.8.2",
+      "inflate-auto": "^2.1.0",
+      "jose": "3.11.5",
+      "json5": "^2.1.3",
+      "jwk-to-pem": "2.0.5",
+      "jws": "github:auth0/node-jws",
+      "lodash": "4.17.21",
+      "material-fhir-ui": "0.10.56",
+      "meteor-node-stubs": "0.4.1",
+      "moment": "^2.24.0",
+      "mongodb": "3.6.3",
+      "mongoose": "5.9.27",
+      "node-jose": "^2.0.0",
+      "papaparse": "5.2.0",
+      "prop-types": "15.7.2",
+      "qrcode.react": "1.0.1",
+      "react": "16.13.0",
+      "react-addons-pure-render-mixin": "15.6.2",
+      "react-dom": "16.13.0",
+      "react-ga": "3.3.0",
+      "react-helmet": "5.2.1",
+      "react-icons-kit": "^1.3.1",
+      "react-katex": "2.0.2",
+      "react-mixin": "4.0.0",
+      "react-multi-carousel": "2.5.5",
+      "react-router": "5.1.2",
+      "react-router-dom": "5.1.2",
+      "react-swipeable": "6.0.1",
+      "register-service-worker": "1.6.2",
+      "rfc4648": "^1.4.0",
+      "setimmediate": "1.0.5",
+      "simpl-schema": "1.10.2",
+      "simple-oauth2": "4.1.0",
+      "simple-swizzle": "0.2.2",
+      "styled-components": "4.4.0",
+      "universal-url": "2.0.0",
+      "validator": "10.9.0",
+      "winston": "3.2.1"
+    },
+    "devDependencies": {
+      "babel-eslint": "10.1.0",
+      "chai": "4.2.0",
+      "chai-nightwatch": "0.4.0",
+      "chromedriver": "88.0.0",
+      "eslint": "4.19.1",
+      "eslint-import-resolver-meteor": "0.4.0",
+      "eslint-plugin-import": "2.21.2",
+      "eslint-plugin-jsx-a11y": "6.3.1",
+      "eslint-plugin-meteor": "7.0.0",
+      "eslint-plugin-react": "7.20.0",
+      "eslint-plugin-react-hooks": "4.0.4",
+      "nightwatch": "1.5.0",
+      "selenium-webdriver": "3.6.0",
+      "conventional-changelog-cli": "2.0.11",
+      "meteor-desktop": "2.2.5",
+      "shelljs": "0.7.4"
+    },
+    "devDependenciesBkup": {},
+    "desktopLibs": {
+      "electron": "6.1.7",
+      "electron-builder": "21.2.0",
+      "meteor-desktop": "^2.2.5"
+    },
+    "unusedFhirLibs": {
+      "mllp-node": "2.0.0",
+      "@dotbase/hl7-v2-message": "1.0.1",
+      "@ahryman40k/ts-fhir-types": "4.0.23",
+      "@asymmetrik/node-fhir-server-core": "2.0.7",
+      "@asymmetrik/sof-scope-checker": "1.0.2",
+      "json-schema-to-mongoose": "0.2.2",
+      "json-schema-resource-validation": "1.0.5",
+      "@redoxengine/redox-hl7-v2": "1.0.1",
+      "fhir-list-addresses": "1.0.2",
+      "fhir.js": "0.0.22",
+      "fhirpath": "0.17.2",
+      "react-fontawesome": "1.6.1",
+      "blue-button-fhir": "1.6.0-beta.2"
+    },
+    "experimental": {
+      "webtorrent": "0.107.17",
+      "ipfs": "0.39.0",
+      "minimongo": "6.3.1",
+      "hl7v2": "0.8.1",
+      "react-highlight": "^0.12.0",
+      "react-multi-carousel": "2.4.2",
+      "rollup-plugin-json": "4.0.0",
+      "rollup-plugin-visualizer": "2.6.1",
+      "electron": "6.1.7",
+      "electron-builder": "21.2.0",
+      "meteor-desktop": "2.2.5",
+      "bcrypt": "3.0.6",
+      "lighthouse": "5.6.0",
+      "cordova-plugin-wkwebview-engine": "1.2.2",
+      "cordova-plugin-wkwebviewxhrfix": "0.1.0"
+    },
+    "eslintIgnore": [
+      "node_modules/",
+      "packages/",
+      "tests/"
+    ]
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

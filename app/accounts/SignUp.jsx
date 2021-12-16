@@ -249,12 +249,16 @@ const Signup = function({ history }){
   let passwordElements;
   let usernameElements;
 
+  let registrationMessageText = "";
+
 
   // console.log('SignUp.selectedPatient', selectedPatient)
 
-  // if(get(Meteor, 'settings.public.defaults.registration.displayPatientId')){
+  if(get(Meteor, 'settings.public.defaults.registration.displayPatientId')){
+
   //   if(has(selectedPatient, 'id')){
-      patientIdElements = <Grid item xs={12}>
+    registrationMessageText = "This app requires a PatientID to register a new account.  Try launching it from your EHR system.";
+    patientIdElements = <Grid item xs={12}>
         <TextField
           label="Patient ID"
           variant="outlined"
@@ -269,9 +273,10 @@ const Signup = function({ history }){
         />
       </Grid>
   //   }    
-  // } 
+  } 
 
   if(get(Meteor, 'settings.public.defaults.registration.displayFullLegalName')){
+    registrationMessageText += "Please enter your your full legal name as it is written on your government issued ID.  ";
     fullLegalNameElements = <Grid item xs={12}>
         <TextField
           label="Full Legal Name"
@@ -288,36 +293,38 @@ const Signup = function({ history }){
   } 
 
   if(get(Meteor, 'settings.public.defaults.registration.displayNickname')){
-    nicknameElements = <Grid item xs={12}>
-        <TextField
-          label="Nickname"
-          variant="outlined"
-          fullWidth={true}
-          id="nickname"
-          type="text"
-          value={formik.values.nickname}
-          onChange={formik.handleChange}
-          error={Boolean(formik.errors.nickname && formik.touched.nickname)}
-          helperText={formik.touched.nickname && formik.errors.nickname}
-        />
-      </Grid>
+    registrationMessageText += "If desired, provide an additional nickname for the system to use.  ";
+    nicknameElements = <Grid item xs={12}> 
+      <TextField 
+        label="Nickname" 
+        variant="outlined" 
+        fullWidth={true}  
+        id="nickname" 
+        type="text" 
+        value={formik.values.nickname} 
+        onChange={formik.handleChange} 
+        error={Boolean(formik.errors.nickname && formik.touched.nickname)} 
+        helperText={formik.touched.nickname && formik.errors.nickname} 
+      /> 
+    </Grid>
   } 
   
   if(get(Meteor, 'settings.public.defaults.registration.displayGivenAndFamily')){
-    familyAndGivenElementsElements.push(<Grid item xs={12} md={6}>
-      <TextField
-        label="Given Name"
-        variant="outlined"
-        fullWidth={true}
-        id="givenName"
-        value={formik.values.givenName}
-        onChange={formik.handleChange}
-        error={Boolean(formik.errors.givenName && formik.touched.givenName)}
-        helperText={formik.touched.givenName && formik.errors.givenName}
-      />
+    registrationMessageText += "Provide your given name and family name.  ";
+    familyAndGivenElements.push(<Grid item xs={12} md={6}>
+      <TextField 
+        label="Given Name" 
+        variant="outlined" 
+        fullWidth={true} 
+        id="givenName" 
+        value={formik.values.givenName} 
+        onChange={formik.handleChange} 
+        error={Boolean(formik.errors.givenName && formik.touched.givenName)} 
+        helperText={formik.touched.givenName && formik.errors.givenName} 
+      /> 
     </Grid>)
 
-    familyAndGivenElementsElements.push(<Grid item xs={12} md={6}>
+    familyAndGivenElements.push(<Grid item xs={12} md={6}>    
       <TextField
         label="Family Name"
         variant="outlined"
@@ -332,7 +339,8 @@ const Signup = function({ history }){
   }
 
   if(get(Meteor, 'settings.public.defaults.registration.displayFirstAndLast')){
-    familyAndGivenElementsElements.push(<Grid item xs={12} md={6}>
+    registrationMessageText += "Provide your first name and last name.  ";
+    familyAndGivenElements.push(<Grid item xs={12} md={6}>
       <TextField
         label="First Name"
         variant="outlined"
@@ -345,7 +353,7 @@ const Signup = function({ history }){
       />
     </Grid>)
 
-    familyAndGivenElementsElements.push(<Grid item xs={12} md={6}>
+    familyAndGivenElements.push(<Grid item xs={12} md={6}>
       <TextField
         label="Last Name"
         variant="outlined"
@@ -359,7 +367,25 @@ const Signup = function({ history }){
     </Grid>)
   }
 
+
+  if(get(Meteor, 'settings.public.defaults.registration.displayUsername')){
+    registrationMessageText += "Please provide a unique username.  ";
+    usernameElements = <Grid item xs={12}>
+      <TextField
+        label="Username"
+        variant="outlined"
+        fullWidth={true}
+        id="username"
+        value={formik.values.username}
+        onChange={formik.handleChange}
+        error={Boolean(formik.errors.username && formik.touched.username)}
+        helperText={formik.touched.username && formik.errors.username}
+      />
+    </Grid>
+  }
+
   if(get(Meteor, 'settings.public.defaults.registration.displayEmail')){
+    registrationMessageText += "A unique validated email will be necessary to receive communications from the system.  ";
     emailElements = <Grid item xs={12}>
       <TextField
         label="Email"
@@ -376,6 +402,7 @@ const Signup = function({ history }){
   }
 
   if(get(Meteor, 'settings.public.defaults.registration.displayPassword')){
+    registrationMessageText += "Password should be at least 8 characters long.  ";
     passwordElements = <Grid item xs={12}>
       <TextField
         label="Password"
@@ -391,22 +418,9 @@ const Signup = function({ history }){
     </Grid>
   }
 
-  if(get(Meteor, 'settings.public.defaults.registration.displayUsername')){
-    usernameElements = <Grid item xs={12}>
-      <TextField
-        label="Username"
-        variant="outlined"
-        fullWidth={true}
-        id="username"
-        value={formik.values.username}
-        onChange={formik.handleChange}
-        error={Boolean(formik.errors.username && formik.touched.username)}
-        helperText={formik.touched.username && formik.errors.username}
-      />
-    </Grid>
-  }
 
   if(get(Meteor, 'settings.public.defaults.registration.displayInventationCode')){
+    registrationMessageText += "Lastly, if you've been provided an invitation code, please enter it here.  ";
     invitationCodeElements = <Grid item xs={12}>
       <TextField
         label="Invitation Code"
@@ -422,8 +436,10 @@ const Signup = function({ history }){
     </Grid>
   } 
 
+  registrationMessage = <h4 style={{textAlign: 'justify'}}>{registrationMessageText}</h4>
+
   return (
-    <UnauthenticatedContainer className="unauthenticatedContainer" style={{width: '100%'}}>
+    <UnauthenticatedContainer className="unauthenticatedContainer" style={{width: '100%', paddingTop: '0px'}}>
       <Snackbar
         anchorOrigin={{
           vertical: 'top',
@@ -434,39 +450,39 @@ const Signup = function({ history }){
       >
         <SnackBarContentError message={error} />
       </Snackbar>
-        <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={3}>
+      <form onSubmit={formik.handleSubmit}>
+        <Grid container spacing={3}>
+          { registrationMessage }
+          { patientIdElements }
+          { fullLegalNameElements }
+          { nicknameElements }
+          { familyAndGivenElements }
+          { firstAndLastElements }
+          { usernameElements }
+          { emailElements }
+          { passwordElements }              
+          { invitationCodeElements }
 
-            { patientIdElements }
-            { fullLegalNameElements }
-            { nicknameElements }
-            { familyAndGivenElements }
-            { firstAndLastElements }
-            { usernameElements }
-            { emailElements }
-            { passwordElements }              
-            { invitationCodeElements }
-
-            <Grid item xs={12} md={4}>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                disabled={formik.isSubmitting}
-              >
-                Sign Up
-              </Button>
-            </Grid>
-            <Grid item xs={12} md={8} style={{float: 'right'}}>
-              <Button
-                color="primary"
-                onClick={openLoginDialog}
-              >
-                Already have an account
-              </Button>
-            </Grid>
+          <Grid item xs={12} md={4}>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              disabled={formik.isSubmitting}
+            >
+              Sign Up
+            </Button>
           </Grid>
-        </form>
+          <Grid item xs={12} md={8} style={{float: 'right'}}>
+            <Button
+              color="primary"
+              onClick={openLoginDialog}
+            >
+              Already have an account
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
     </UnauthenticatedContainer>
   );
 };
