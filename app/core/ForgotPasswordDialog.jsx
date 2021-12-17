@@ -28,6 +28,7 @@ import JSON5 from 'json5';
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import ResetPassword from '../accounts/ResetPassword';
+import ForgotPassword from '../accounts/ForgotPassword';
 
 
 
@@ -103,7 +104,7 @@ export function ForgotPasswordDialog(props){
 
   return(
     <DialogContent id={id} className="ForgotPasswordDialog" style={{width: '100%'}} dividers={scroll === 'paper'}>      
-      <ResetPassword />
+      <ForgotPassword />
     </DialogContent>
   )
 }

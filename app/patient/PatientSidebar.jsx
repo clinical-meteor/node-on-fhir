@@ -152,6 +152,8 @@ export function PatientSidebar(props){
     InsurancePlans: 0,
     Lists: 0,
     Locations: 0,
+    Measures: 0,
+    MeasureReports: 0,
     MedicationOrders: 0,
     Networks: 0,
     Observations: 0,
@@ -225,6 +227,15 @@ export function PatientSidebar(props){
   }, [])
   collectionCounts.Lists = useTracker(function(){
     return Lists.find().count();
+  }, [])
+  collectionCounts.Locations = useTracker(function(){
+    return Locations.find().count();
+  }, [])
+  collectionCounts.Measures = useTracker(function(){
+    return Measures.find().count();
+  }, [])
+  collectionCounts.MeasureReports = useTracker(function(){
+    return MeasureReports.find().count();
   }, [])
   collectionCounts.Locations = useTracker(function(){
     return Locations.find().count();
