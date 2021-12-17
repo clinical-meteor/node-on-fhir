@@ -322,12 +322,29 @@ Meteor.startup(async function(){
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Header", "*");
 
-    const loggedInUser = await accountsServer.loginWithService('password', req.body, req.infos);
-    console.log('loggedInUser', loggedInUser);
     
-    JsonRoutes.sendResult(res, {
-      data: loggedInUser
-    });
+    let loggedInUser;
+    try {
+      loggedInUser = await accountsServer.loginWithService('password', req.body, req.infos);
+      console.log('loggedInUser', loggedInUser);   
+
+      JsonRoutes.sendResult(res, {
+        code: 200,
+        data: loggedInUser
+      });  
+    } catch (error) {
+      console.log('accountsServer.loginWithService.error.message', error.message)
+      console.log('accountsServer.loginWithService.error.code', error.code)
+      // JsonRoutes.sendResult(res, {
+      //   code: 501,
+      //   data: error
+      // }); 
+      JsonRoutes.sendResult(res, {
+        code: 200,
+        data: error.message
+      });  
+    }
+    
   });
 
 

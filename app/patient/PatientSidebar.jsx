@@ -137,6 +137,7 @@ export function PatientSidebar(props){
     AllergyIntolerances: 0,
     AuditEvents: 0,
     Bundles: 0,
+    CodeSystems: 0,
     CarePlans: 0,
     CareTeams: 0,
     Conditions: 0,
@@ -144,21 +145,36 @@ export function PatientSidebar(props){
     Communications: 0,
     CommunicationRequests: 0,
     Encounters: 0,
+    Endpoints: 0,
     Goals: 0,
+    HealthcareServices: 0,
     Immunizations: 0,
+    InsurancePlans: 0,
     Lists: 0,
+    Locations: 0,
+    Measures: 0,
+    MeasureReports: 0,
     MedicationOrders: 0,
+    Networks: 0,
     Observations: 0,
+    Organizations: 0,
+    OrganizationAffiliations: 0,
     Patients: 0,
     Procedures: 0,
     Practitioners: 0,
+    PractitionerRoles: 0,
+    Provenances: 0,
     Persons: 0,
     Questionnaires: 0,
     QuestionnaireResources: 0,
+    Restrictions: 0,
     RiskAssessments: 0,
+    SearchParameters: 0,
     ServiceRequests: 0,
+    StructureDefinitions: 0,
     Tasks: 0,
-    ValueSets: 0
+    ValueSets: 0,
+    VerificationResults: 0
   };
 
   collectionCounts.AllergyIntolerances = useTracker(function(){
@@ -176,6 +192,9 @@ export function PatientSidebar(props){
   collectionCounts.CareTeams = useTracker(function(){
     return CareTeams.find().count();
   }, [])
+  collectionCounts.CodeSystems = useTracker(function(){
+    return CodeSystems.find().count();
+  }, [])
   collectionCounts.Communications = useTracker(function(){
     return Communications.find().count();
   }, [])
@@ -191,20 +210,50 @@ export function PatientSidebar(props){
   collectionCounts.Encounters = useTracker(function(){
     return Encounters.find().count();
   }, [])
+  collectionCounts.Endpoints = useTracker(function(){
+    return Endpoints.find().count();
+  }, [])
   collectionCounts.Goals = useTracker(function(){
     return Goals.find().count();
+  }, [])
+  collectionCounts.HealthcareServices = useTracker(function(){
+    return HealthcareServices.find().count();
   }, [])
   collectionCounts.Immunizations = useTracker(function(){
     return Immunizations.find().count();
   }, [])
+  collectionCounts.InsurancePlans = useTracker(function(){
+    return InsurancePlans.find().count();
+  }, [])
   collectionCounts.Lists = useTracker(function(){
     return Lists.find().count();
+  }, [])
+  collectionCounts.Locations = useTracker(function(){
+    return Locations.find().count();
+  }, [])
+  collectionCounts.Measures = useTracker(function(){
+    return Measures.find().count();
+  }, [])
+  collectionCounts.MeasureReports = useTracker(function(){
+    return MeasureReports.find().count();
+  }, [])
+  collectionCounts.Locations = useTracker(function(){
+    return Locations.find().count();
   }, [])
   collectionCounts.MedicationOrders = useTracker(function(){
     return MedicationOrders.find().count();
   }, [])
+  collectionCounts.Networks = useTracker(function(){
+    return Networks.find().count();
+  }, [])
   collectionCounts.Observations = useTracker(function(){
     return Observations.find().count();
+  }, [])
+  collectionCounts.Organizations = useTracker(function(){
+    return Organizations.find().count();
+  }, [])
+  collectionCounts.OrganizationAffiliations = useTracker(function(){
+    return OrganizationAffiliations.find().count();
   }, [])
   collectionCounts.Patients = useTracker(function(){
     return Patients.find().count();
@@ -215,6 +264,9 @@ export function PatientSidebar(props){
   collectionCounts.Practitioners = useTracker(function(){
     return Practitioners.find().count();
   }, [])
+  collectionCounts.PractitionerRoles = useTracker(function(){
+    return PractitionerRoles.find().count();
+  }, [])
   collectionCounts.Persons = useTracker(function(){
     return Persons.find().count();
   }, [])
@@ -224,17 +276,29 @@ export function PatientSidebar(props){
   collectionCounts.QuestionnaireResponses = useTracker(function(){
   return QuestionnaireResponses.find().count();
   }, [])
+  collectionCounts.Restrictions = useTracker(function(){
+    return Restrictions.find().count();
+  }, [])
   collectionCounts.RiskAssessments = useTracker(function(){
     return RiskAssessments.find().count();
   }, [])
+  collectionCounts.SearchParameters = useTracker(function(){
+    return SearchParameters.find().count();
+  }, [])
   collectionCounts.ServiceRequests = useTracker(function(){
     return ServiceRequests.find().count();
+  }, [])
+  collectionCounts.StructureDefinitions = useTracker(function(){
+    return StructureDefinitions.find().count();
   }, [])
   collectionCounts.Tasks = useTracker(function(){
     return Tasks.find().count();
   }, [])
   collectionCounts.ValueSets = useTracker(function(){
     return ValueSets.find().count();
+  }, [])
+  collectionCounts.VerificationResults = useTracker(function(){
+    return VerificationResults.find().count();
   }, [])
 
 
@@ -537,7 +601,7 @@ export function PatientSidebar(props){
                 { clonedIcon }
               </ListItemIcon>
               <ListItemText primary={element.primaryText} className={styles.drawerText}  />
-              <Badge badgeContent={elementCount} color="primary"  style={{marginRight: '10px'}} />
+              <Badge badgeContent={elementCount} variant="string" max={10000} color="primary"  style={{marginRight: '10px'}} />
               {/* <ListItemText primary={elementCount} className={styles.drawerTextTag}  /> */}
             </ListItem>
           );  
@@ -863,7 +927,6 @@ export function PatientSidebar(props){
       { privacyElements }
       { termsAndConditionElements }
       { navbarElements }
-
             
     </div>
   );
