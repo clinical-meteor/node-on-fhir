@@ -195,8 +195,8 @@ const Login = function({ history }){
               </Grid> */}
               <Grid item xs={8} md={9}>
                 <Grid container justify="flex-end" alignContent="center">
-                  <Button color="primary" onClick={ openForgotPasswordDialog } >Register new account</Button>
-                  <Button color="primary" onClick={ openRegisterAccountDialog } >Forgot Password</Button>
+                  <Button color="primary" onClick={ openRegisterAccountDialog }>Register new account</Button>
+                  <Button color="primary" onClick={ openForgotPasswordDialog } >Forgot Password</Button>
                 </Grid>
               </Grid>
             </Grid>

@@ -22,6 +22,7 @@ import { UnauthenticatedContainer } from './UnauthenticatedContainer';
 const useStyles = makeStyles(theme => ({
   cardContent: {
     padding: theme.spacing(3),
+    width: '100%'
   },
   divider: {
     marginTop: theme.spacing(2),
@@ -102,18 +103,9 @@ const ForgotPassword = function({ match }){
         <SnackBarContentSuccess message={success} />
       </Snackbar>
 
-      <Card>
         <CardContent className={classes.cardContent}>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Typography variant="h5">Reset your password</Typography>
-                {/* {!match.params.token && (
-                  <Typography variant="body2">
-                    We will send a confirmation email to this address:
-                  </Typography>
-                )} */}
-              </Grid>
               <Grid item xs={12}>
                   <TextField
                     label="Email"
@@ -134,10 +126,7 @@ const ForgotPassword = function({ match }){
               </Grid>
             </Grid>
           </form>
-          <Divider className={classes.divider} />
-          <Link component={LogInLink}>Login</Link>
         </CardContent>
-      </Card>
     </UnauthenticatedContainer>
   );
 };

@@ -21,7 +21,7 @@ alanning:roles
 # DATA INFRASTRUCTURE
 mongo@1.13.0                   # The database Meteor supports right now
 reactive-var@1.0.11            # Reactive variable for tracker
-react-meteor-data@2.2.2        # React higher-order component for reactively tracking Meteor data
+react-meteor-data@2.4.0        # React higher-order component for reactively tracking Meteor data
 session@1.2.0
 tracker@1.2.0
 http@1.4.2
