@@ -78,7 +78,8 @@ export function CapabilityStatementCheck(props){
   // REST Interactions
 
   // these are the default resource types our app supports
-  let capabilityInquiryResourceTypes = get(Meteor, "settings.public.capabilityStatement.resourceTypes", ["AllergyIntolerance", "CarePlan", "Condition", "Device", "DiagnosticReport", "Encounter", "Immunization", "MedicationOrder", "Observation", "Organization", "Patient", "Procedure"]);
+  // let capabilityInquiryResourceTypes = get(Meteor, "settings.public.capabilityStatement.resourceTypes", ["AllergyIntolerance", "CarePlan", "Condition", "Device", "DiagnosticReport", "Encounter", "Immunization", "MedicationOrder", "Observation", "Organization", "Patient", "Procedure"]);
+  let capabilityInquiryResourceTypes = Object.keys(get(Meteor, "settings.private.fhir.rest", {}));
 
   let canSearch = {};
   let isSupported = {};
