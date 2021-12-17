@@ -19,6 +19,8 @@ import { SnackBarContentError } from './SnackBarContentError';
 import { SnackBarContentSuccess } from './SnackBarContentSuccess';
 import { UnauthenticatedContainer } from './UnauthenticatedContainer';
 
+import { get, has } from 'lodash';
+
 const useStyles = makeStyles(theme => ({
   cardContent: {
     padding: theme.spacing(3),
@@ -58,7 +60,7 @@ const ResetPassword = function({ match }){
     validate: function(values){
       const errors = {};
 
-      if (!match.params.token) {
+      if (!get(match, 'params.token')) {
         if (!values.email) {
           errors.email = 'Required';
         }
@@ -78,7 +80,7 @@ const ResetPassword = function({ match }){
     },
     onSubmit: async function(values, { setSubmitting }){
       try {
-        if (!match.params.token) {
+        if (!get(match, 'params.token')) {
           // await accountsRest.sendResetPasswordEmail(values.email);
           // setSuccess('Email sent');
         } else {
@@ -128,7 +130,7 @@ const ResetPassword = function({ match }){
                   </Typography>
                 )} */}
               </Grid>
-              {!match.params.token && (
+              {!get(match, 'params.token') && (
                 <Grid item xs={12}>
                   <TextField
                     label="Email"
@@ -143,7 +145,7 @@ const ResetPassword = function({ match }){
                   />
                 </Grid>
               )}
-              {match.params.token && (
+              {get(match, 'params.token') && (
                 <React.Fragment>
                   <Grid item xs={12}>
                     <TextField
@@ -179,13 +181,13 @@ const ResetPassword = function({ match }){
               )}
               <Grid item xs={12}>
                 <Button variant="contained" color="primary" type="submit">
-                  {!match.params.token ? 'Send email' : 'Reset password'}
+                  {!get(match, 'params.token') ? 'Send email' : 'Reset password'}
                 </Button>
               </Grid>
             </Grid>
           </form>
           <Divider className={classes.divider} />
-          <Link component={LogInLink}>Login</Link>
+          {/* <Link component={LogInLink}>Login</Link> */}
         </CardContent>
       </Card>
     </UnauthenticatedContainer>
