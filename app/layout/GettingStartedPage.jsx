@@ -206,23 +206,10 @@ function GettingStartedPage(props){
             <StyledCard margin={20} style={{marginBottom: '20px'}}>
               <div style={{width: '100%', textAlign: 'center'}}>
                 <img src='/node-on-fhir-logo-thin.png' style={{width: '400px'}} alt="Node on FHIR Logo" />
+                <h4 style={tagLineStyle}>
+                  Building space-aged healthcare systems using opensource Node.js and Javascript.
+                </h4>
               </div>
-              <CardContent>
-                <CardContent style={{fontSize: '110%', lineHeight: '200%', textAlign: 'justify'}}>
-                  <h4 style={tagLineStyle}>
-                    Building space-aged healthcare systems using opensource Node.js and Javascript.
-                  </h4>
-                  <p>
-                    Node on FHIR is designed to build scalable web applications that are interoperable with modern Electronic Health Records (EHRs) used by hospitals, governments, and medical device vendors.  
-                  </p>
-                  <p>
-                    The term 'interoperability' entered U.S. legal jargon about 5 years ago, when the <a href="https://www.cms.gov/Regulations-and-Guidance/Legislation/EHRIncentivePrograms/index?redirect=/EHRIncentivePrograms">Medicare Access and CHIP Reauthorization Act of 2015</a> established EHR Incentive Programs which encourage eligible professionals and hospitals to adopt 'interoperability protocols' via Medicare payments.  A year later, the <a href="https://www.healthit.gov/sites/default/files/cures/2020-03/NPRMvsFinalRule.pdf">21st Century Cures Act</a> referred to 'interoperability protocols' again, tying them to information blocking fees.  With carrots and sticks both in place, the health IT industry had clear incentives to allow competing systems exchange data with each other rather than siloing data.  At the time, nobody knew what 'interoperability' meant, and whether it referred to sending FAX or PDF documents, or something more modern like HTTP web protocols.  Enter Health Level Seven International (HL7), a not-for-profit ANSI-accredited standards development organization.  They have been the leaders for the past 30 years in developing interoperability protocols that hospitals use.  And they had a fledgling project called Fast Healthcare Interoperability Resources (FHIR) that used modern RESTful HTTP endpoints.  It was widely agreed to be the right approach, and the community rallied around it as a technology.                
-                  </p>
-                  <p>
-                    Node on FHIR orginally began as a project called Meteor on FHIR, which took a popular web application framework called Meteor.js and added FHIR support to it.  This project is the result of 5 years of work; 70+ prototypes and pilots, the result of a million+ quality control tests, and the contributions of dozens of different organizations, ranging from big tech companies (Google, Facebook) and javascript specific projects (Meteor, Material UI) to healthcare specific companies (HL7, Vermonster, Asymmetrik, SmartHealthIT, etc) to many small startups.   We have gone through the NPM repository, and tried to pull in as many FHIR related libraries as we could in order to find the 'center' of the Javascript FHIR community. It represents a rich combination of functionality that is difficult to be found anywhere else.    
-                  </p> 
-                </CardContent>
-              </CardContent>
             </StyledCard>
 
             <Card>
@@ -279,7 +266,7 @@ function GettingStartedPage(props){
             </Card>
 
               <StyledCard margin={20} >
-                <CardHeader title="Getting Started" />
+                <CardHeader title="Getting Started" subheader="Don't say that you couldn't find the documentation." />
                 <CardContent>
 
                 <Table size="small" >
@@ -288,83 +275,99 @@ function GettingStartedPage(props){
                       <TableCell style={{fontWeight: 'bold'}} >Icon</TableCell>
                       <TableCell style={{fontWeight: 'bold', minWidth: '320px'}} >Feature</TableCell>
                       <TableCell style={{fontWeight: 'bold'}} >Vendor</TableCell>
+                      <TableCell style={{fontWeight: 'bold'}} >Description</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.hl7.org/fhir/", "_blank"); }} hover="true" >
                       <TableCell  ><Icon icon={fire} size={18} /></TableCell>
                       <TableCell>Fast Healthcare Interoperability Resources</TableCell>
+                      <TableCell>HL7</TableCell>
                       <TableCell>ANSI Certified Standards.  Required by U.S. federal law, pertaining to MACRA and 21st Century Cures and other federal laws.  Detailed documentation on data schemas and APIs used in healthcare and mandated by the federal government. </TableCell>                  
                     </TableRow>
                     <TableRow style={featureRowStyle} onClick={function(){ window.open("https://docs.smarthealthit.org/client-js/", "_blank"); }} hover="true" >
                       <TableCell><Icon icon={hospitalO} size={18} /></TableCell>
                       <TableCell>EHR Interoperability</TableCell>
+                      <TableCell>Smart Health IT</TableCell>
                       <TableCell>Uses industry standard libraries for fetching data from Medicare, Medicaid, Apple HealthRecords, and hospitals running a Cerner, Epic, or other FHIR compliant EHR.</TableCell>                  
                     </TableRow>
                     <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.mongodb.com/basics/mongodb-atlas-tutorial", "_blank"); }} hover="true" >
                       <TableCell><Icon icon={database} size={18} /></TableCell>
                       <TableCell>Document Oriented Database</TableCell>
-                      <TableCell>Built with Mongo, an ultra-scalable JSON database that stores FHIR data as-is in a NoSQL format.  Easily convert a server database into an enterprise grade datalake.</TableCell>                  
+                      <TableCell>Mongo</TableCell>
+                      <TableCell>Ann ultra-scalable JSON database that stores FHIR data as-is in a NoSQL format.  Easily convert a server database into an enterprise grade datalake.</TableCell>                  
                     </TableRow>
                     <TableRow style={featureRowStyle} onClick={function(){ window.open("https://guide.meteor.com/cordova.html", "_blank"); }} hover="true" >
                       <TableCell><Icon icon={mobileCombo} size={18} /></TableCell>
                       <TableCell>Multiple Device Pipelines</TableCell>
+                      <TableCell>Meteor.js</TableCell>
                       <TableCell>Write once and run anywhere, using the Apache Cordova/PhoneGap bridging libraries; with pipelines for compiling the software to desktops, mobile devices, and webTV.</TableCell>                  
                     </TableRow>
                     <TableRow style={featureRowStyle} onClick={function(){ window.open("https://reactjs.org/", "_blank"); }} hover="true" >
                       <TableCell><Icon icon={puzzlePiece} size={18} /></TableCell>
                       <TableCell>Modular Reusable Components (React.js)</TableCell>
+                      <TableCell>Facebook / Meta</TableCell>
                       <TableCell>Built with modular reusable components using React (from Facebook).  Proven web technology used by billions of people.  Components progressively get better with time rather than become a speghetti mess.</TableCell>                  
                     </TableRow>
                     <TableRow style={featureRowStyle} onClick={function(){ window.open("http://web-accessibility.carnegiemuseums.org/foundations/aria/", "_blank"); }} hover="true" >
                       <TableCell><Icon icon={universalAccess} size={18} /></TableCell>
                       <TableCell>Accessibility</TableCell>
+                      <TableCell>Carnegie Museums of Pittsburgh</TableCell>
                       <TableCell>Includes accessibility best practices via Accessible Rich Internet Applications (ARIA) specification.  Supports screen readers, low visibility modes, voice prompts, etc.</TableCell>                  
                     </TableRow>
                     <TableRow style={featureRowStyle} onClick={function(){ window.open("https://mui.com/", "_blank"); }} hover="true" >
                       <TableCell><Icon icon={cubes} size={18} /></TableCell>
                       <TableCell>Material Design</TableCell>
+                      <TableCell>Google</TableCell>
                       <TableCell>Designed with a modern toolkit of user interface components based on the Material Design specification from Google.</TableCell>                  
                     </TableRow>
                     <TableRow style={featureRowStyle} onClick={function(){ window.open("https://react-icons-kit.vercel.app/", "_blank"); }} hover="true" >
                       <TableCell><Icon icon={font} size={18} /></TableCell>
                       <TableCell>Icons, Fonts, & Typography</TableCell>
+                      <TableCell></TableCell>
                       <TableCell>Includes rich typography and fonts and extended icon support to make your applications look beautiful.</TableCell>                  
                     </TableRow>
                     <TableRow style={featureRowStyle} onClick={function(){ window.open("", "_blank"); }} hover="true" >
                       <TableCell><Icon icon={codeFork} size={18} /></TableCell>
                       <TableCell>A/B Testing Infrastructure</TableCell>
+                      <TableCell></TableCell>
                       <TableCell>Built from the ground up around containerization and an application-wide settings, to allow different containers to run the software with different settings.  Perfect for A/B testing methodologies.</TableCell>                  
                     </TableRow>
                     <TableRow style={featureRowStyle} onClick={function(){ window.open("https://docs.meteor.com/api/email.html", "_blank"); }} hover="true" >
                       <TableCell><Icon icon={speech_bubbles} size={18} /></TableCell>
                       <TableCell>Email, Chat & SMS Integration</TableCell>
+                      <TableCell></TableCell>
                       <TableCell>Support inbound and outbound messaging via the FHIR Communication resource and integration with MailChimp, Twilio, and other messaging platforms.</TableCell>                  
                     </TableRow>
                     <TableRow style={featureRowStyle} onClick={function(){ window.open("https://github.com/clinical-meteor/hipaa", "_blank"); }} hover="true" >
                       <TableCell><Icon icon={amazon} size={18} /></TableCell>
                       <TableCell>HIPAA Logger</TableCell>
+                      <TableCell></TableCell>
                       <TableCell>HIPAA compliant using a HIPAA audit log, user accounts, and encrypted data at rest and over the wire.</TableCell>                  
                     </TableRow>
 
                     <TableRow style={rowStyle}>
                       <TableCell><Icon icon={dashboard} size={18} /></TableCell>
                       <TableCell>Realtime Dashboards</TableCell>
+                      <TableCell></TableCell>
                       <TableCell>Build data rich dashboards using D3 charts from Stanford.  Chose Chart.js or Nivo for reusable charts that make creating dashboards a breeze.</TableCell>                  
                     </TableRow>
                     <TableRow style={rowStyle} >
                       <TableCell><Icon icon={location} size={18} /></TableCell>
                       <TableCell>GPS, Maps, & Location Services</TableCell>
+                      <TableCell></TableCell>
                       <TableCell>Support geospatial applications via Google Maps integration.</TableCell>                  
                     </TableRow>
                     <TableRow style={rowStyle}>
                       <TableCell><Icon icon={chain} size={18} /></TableCell>
                       <TableCell>Blockchain Support</TableCell>
+                      <TableCell></TableCell>
                       <TableCell>Take advantage of all the blockchain libraries available to the Node/Javascript community, including Hyperledger, Etherium, BigChain, and IPFS.</TableCell>                  
                     </TableRow>
                     <TableRow style={rowStyle}>
                       <TableCell><Icon icon={barcode} size={18} /></TableCell>
                       <TableCell>Machine Vision & Learning</TableCell>
+                      <TableCell></TableCell>
                       <TableCell>Get fancy and add AI to your project with libraries like Tensorflow. Or keep it simply by adding barcodes and QR codes to let your application read products labels.</TableCell>                  
                     </TableRow>
 
@@ -395,52 +398,52 @@ function GettingStartedPage(props){
                       <TableCell>Vermonster</TableCell>
                       <TableCell>FHIR Client with ES6 classes, cross-version support, testing, etc.  </TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-starter", "_blank"); }} hover="true" >                      <TableCell>Typescript definitions</TableCell>
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-starter", "_blank"); }} hover="true" >                      
                       <TableCell>fhir-starter</TableCell>
                       <TableCell>Symptomatic</TableCell>
                       <TableCell>FhirUtilities, FhirDehydrator, and template FHIR UI components.</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-react", "_blank"); }} hover="true" >                      <TableCell>Typescript definitions</TableCell>
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-react", "_blank"); }} hover="true" >                      
                       <TableCell>fhir-react</TableCell>
                       <TableCell>1uphealth</TableCell>
                       <TableCell>Multi use react component.</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/json-schema-resource-validation", "_blank"); }} hover="true" >                      <TableCell>Typescript definitions</TableCell>
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/json-schema-resource-validation", "_blank"); }} hover="true" >                      
                       <TableCell>json-schema-resource-validation</TableCell>
                       <TableCell>VictorGus</TableCell>
                       <TableCell>FHIR validator for R4</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@asymmetrik/sof-scope-checker", "_blank"); }} hover="true" >                      <TableCell>Typescript definitions</TableCell>
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@asymmetrik/sof-scope-checker", "_blank"); }} hover="true" >                      
                       <TableCell>sof-scope-checker</TableCell>
                       <TableCell>Asymmetrik</TableCell>
                       <TableCell>Utilities to check SMART on FHIR scope access</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhirpath", "_blank"); }} hover="true" >                      <TableCell>Typescript definitions</TableCell>
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhirpath", "_blank"); }} hover="true" >                      
                       <TableCell>fhirpath</TableCell>
                       <TableCell>HL7</TableCell>
                       <TableCell>FHIRPath parser</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/is-fhir-date", "_blank"); }} hover="true" >                      <TableCell>Typescript definitions</TableCell>
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/is-fhir-date", "_blank"); }} hover="true" >                      
                       <TableCell>is-fhir-date</TableCell>
                       <TableCell>HenrikJoreteg</TableCell>
                       <TableCell>Checks if a date is FHIR compliant</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@ahryman40k/ts-fhir-types", "_blank"); }} hover="true" >                      <TableCell>Typescript definitions</TableCell>
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@ahryman40k/ts-fhir-types", "_blank"); }} hover="true" >                      
                       <TableCell>ts-fhir-types</TableCell>
                       <TableCell>Ahryman40k</TableCell>
                       <TableCell>Typescript definitions</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-list-addresses", "_blank"); }} hover="true" >                      <TableCell>Typescript definitions</TableCell>
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-list-addresses", "_blank"); }} hover="true" >                      
                       <TableCell>fhir-list-addresses</TableCell>
                       <TableCell>careMESH</TableCell>
                       <TableCell>Utilities for extracting addresses</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/hl7v2", "_blank"); }} hover="true" >                      <TableCell>Typescript definitions</TableCell>
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/hl7v2", "_blank"); }} hover="true" >                      
                       <TableCell>hl7v2</TableCell>
                       <TableCell>panates</TableCell>
                       <TableCell>HL7 v2 parser, serializer, validator and tcp client/server.</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@redoxengine/redox-hl7-v2", "_blank"); }} hover="true" >                      <TableCell>Typescript definitions</TableCell>
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@redoxengine/redox-hl7-v2", "_blank"); }} hover="true" >                      
                       <TableCell>redox-hl7-v2</TableCell>
                       <TableCell>Redox</TableCell>
                       <TableCell>HL7v2 parser/generator from Redox.  Battle tested.</TableCell>
