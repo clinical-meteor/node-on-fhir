@@ -89,6 +89,7 @@ curl http://localhost:3000/baseR4/Observation
 ## Important Links    
 
 - [License](https://github.com/symptomatic/node-on-fhir/blob/master/LICENSE.md)  
+- [Change Log / Release History](https://github.com/symptomatic/node-on-fhir/releases)  
 - [Installation](https://github.com/symptomatic/node-on-fhir/blob/master/INSTALLATION.md)  
 - [Configuration Settings](https://github.com/symptomatic/node-on-fhir/blob/master/API.md)  
 - [Meteor Guide](https://guide.meteor.com/) 
@@ -99,7 +100,6 @@ curl http://localhost:3000/baseR4/Observation
 - [Community Bridge Funding](https://funding.communitybridge.org/projects/node-on-fhir)  
 - [Quality Control](https://circleci.com/gh/symptomatic/node-on-fhir)  
 - [Material UI](https://material-ui.com/store/) 
-
 
 ## Technology Stack 
 

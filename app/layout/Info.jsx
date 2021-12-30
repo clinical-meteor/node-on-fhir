@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { withTracker } from '@ledgy/react-meteor-data';
-import Links from '../api/links';
 
 class Info extends Component {
   render() {
@@ -25,8 +23,3 @@ class Info extends Component {
   }
 }
 
-export default InfoContainer = withTracker(() => {
-  return {
-    links: Links.find().fetch(),
-  };
-})(Info);
