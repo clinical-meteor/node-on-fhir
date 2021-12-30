@@ -7,6 +7,9 @@ import { get, has, cloneDeep } from 'lodash';
 
 import { useTracker } from 'meteor/react-meteor-data';
 
+import { AccountsJsError } from '@accounts/server';
+import { CreateUserErrors } from '@accounts/password';
+
 const currentUserDep = new Tracker.Dependency();
 
 if(Meteor.isClient){
@@ -66,13 +69,54 @@ async function fetchUser(setAuthContextState){
   }
 };
 
-async function loginWithService(service, credentials){
+async function loginWithService(service, credentials, setError, setSuccess){
   console.log('AuthContext.loginWithService()', service, credentials);
 
-  let loginResponse = await accountsClient.loginWithService(service, credentials);
-  console.log('AuthContext.loginResponse', loginResponse)
+  let loginResponse;
 
-  if(Meteor.isClient){
+  try {
+    loginResponse = await accountsClient.loginWithService(service, credentials);
+    console.log('AuthContext.loginResponse', loginResponse)
+
+    if(typeof setSuccess === "function"){
+      setSuccess(loginResponse);
+    }
+  } catch (error) {
+    console.log('AuthContext.loginWithService.error.message', error.message) 
+    console.log('AuthContext.loginWithService.error.code', error.code) 
+
+    if(typeof setError === "function"){
+      if(error.message === "Cannot read properties of undefined (reading 'accessToken')"){
+        setError("Invalid Credentials.  That username and password combination was not successful.")
+
+      } else {
+        setError(error.message)
+      }
+    }
+
+    if (error instanceof AccountsJsError) {
+      console.log('error.message', error.message)
+
+      // You can access the error message via `error.message`
+      // Eg: "Email already exists"
+      // You can access the code via `error.code`
+      // Eg:
+
+      // setAuthContextState({ 
+      //   errorMessage: error.message
+      // });
+
+      if (error.code === CreateUserErrors.EmailAlreadyExists) {
+        // do some custom logic
+      }
+    } else {
+      console.log(error.message)
+      // Else means it's an internal server error so you probably want to obfuscate it and return
+      // a generic "Internal server error" to the user.
+    }
+  }
+
+  if(Meteor.isClient && loginResponse){
     Session.set('currentUser', get(loginResponse, 'user'));
     Session.set('selectedPatientId', get(loginResponse, 'user.patientId'));
 
@@ -125,7 +169,8 @@ const AuthContext = React.createContext({
 const AuthProvider = function({ children }){
   const [state, setState] = useState({ 
     loading: true,
-    user: null
+    user: null,
+    errorMessage: ''
   });
 
   useEffect(() => {

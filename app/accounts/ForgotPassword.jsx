@@ -19,11 +19,10 @@ import { SnackBarContentError } from './SnackBarContentError';
 import { SnackBarContentSuccess } from './SnackBarContentSuccess';
 import { UnauthenticatedContainer } from './UnauthenticatedContainer';
 
-import { get, has } from 'lodash';
-
 const useStyles = makeStyles(theme => ({
   cardContent: {
     padding: theme.spacing(3),
+    width: '100%'
   },
   divider: {
     marginTop: theme.spacing(2),
@@ -39,13 +38,13 @@ const LogInLink = React.forwardRef(function(props, ref){
 //   token: string;
 // }
 
-// interface ResetPasswordValues {
+// interface ForgotPasswordValues {
 //   email: string;
 //   newPassword: string;
 //   confirmNewPassword: string;
 // }
 
-const ResetPassword = function({ match }){
+const ForgotPassword = function({ match }){
   const classes = useStyles();
 
   const [error, setError] = useState();
@@ -53,38 +52,24 @@ const ResetPassword = function({ match }){
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      newPassword: '',
-      confirmNewPassword: '',
+      email: ''
     },
     validate: function(values){
       const errors = {};
 
-      if (!get(match, 'params.token')) {
-        if (!values.email) {
-          errors.email = 'Required';
-        }
-      } else {
-        if (!values.newPassword) {
-          errors.newPassword = 'Required';
-        }
-        if (!values.confirmNewPassword) {
-          errors.confirmNewPassword = 'Required';
-        }
-        if (!errors.confirmNewPassword && values.newPassword !== values.confirmNewPassword) {
-          errors.confirmNewPassword = 'Passwords do not match';
-        }
+      if (!values.email) {
+        errors.email = 'Required';
       }
 
       return errors;
     },
     onSubmit: async function(values, { setSubmitting }){
       try {
-        if (!get(match, 'params.token')) {
-          // await accountsRest.sendResetPasswordEmail(values.email);
+        if (!match.params.token) {
+          // await accountsRest.sendForgotPasswordEmail(values.email);
           // setSuccess('Email sent');
         } else {
-          // await accountsRest.resetPassword(match.params.token, values.newPassword);
+          // await accountsRest.ForgotPassword(match.params.token, values.newPassword);
           // setSuccess('Your password has been reset successfully');
         }
       } catch (err) {
@@ -118,20 +103,10 @@ const ResetPassword = function({ match }){
         <SnackBarContentSuccess message={success} />
       </Snackbar>
 
-      <Card>
         <CardContent className={classes.cardContent}>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Typography variant="h5">Reset your password</Typography>
-                {/* {!match.params.token && (
-                  <Typography variant="body2">
-                    We will send a confirmation email to this address:
-                  </Typography>
-                )} */}
-              </Grid>
-              {!get(match, 'params.token') && (
-                <Grid item xs={12}>
                   <TextField
                     label="Email"
                     variant="outlined"
@@ -144,54 +119,16 @@ const ResetPassword = function({ match }){
                     helperText={formik.touched.email && formik.errors.email}
                   />
                 </Grid>
-              )}
-              {get(match, 'params.token') && (
-                <React.Fragment>
-                  <Grid item xs={12}>
-                    <TextField
-                      label="New password"
-                      variant="outlined"
-                      fullWidth={true}
-                      type="password"
-                      id="newPassword"
-                      value={formik.values.newPassword}
-                      onChange={formik.handleChange}
-                      error={Boolean(formik.errors.newPassword && formik.touched.newPassword)}
-                      helperText={formik.touched.newPassword && formik.errors.newPassword}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      label="Confirm new password"
-                      variant="outlined"
-                      fullWidth={true}
-                      type="password"
-                      id="confirmNewPassword"
-                      value={formik.values.confirmNewPassword}
-                      onChange={formik.handleChange}
-                      error={Boolean(
-                        formik.errors.confirmNewPassword && formik.touched.confirmNewPassword
-                      )}
-                      helperText={
-                        formik.touched.confirmNewPassword && formik.errors.confirmNewPassword
-                      }
-                    />
-                  </Grid>
-                </React.Fragment>
-              )}
               <Grid item xs={12}>
                 <Button variant="contained" color="primary" type="submit">
-                  {!get(match, 'params.token') ? 'Send email' : 'Reset password'}
+                  Send email
                 </Button>
               </Grid>
             </Grid>
           </form>
-          <Divider className={classes.divider} />
-          {/* <Link component={LogInLink}>Login</Link> */}
         </CardContent>
-      </Card>
     </UnauthenticatedContainer>
   );
 };
 
-export default ResetPassword;
+export default ForgotPassword;

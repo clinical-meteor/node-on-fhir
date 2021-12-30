@@ -18,9 +18,7 @@ import { get, has } from 'lodash';
 
 import { useTracker } from 'meteor/react-meteor-data';
 
-import ProjectPage from './MainPage.jsx';
-
-import MainPage from './MainPage.jsx';
+import GettingStartedPage from './GettingStartedPage.jsx';
 import NotFound from './NotFound.jsx';
 
 import AppCanvas from './AppCanvas.jsx';
@@ -135,7 +133,7 @@ Object.keys(Package).forEach(function(packageName){
 
   if(Package[packageName].MainPage){
     // logger.trace('Found a custom MainPage object in one of the packages.')
-    MainPage = Package[packageName].MainPage;
+    GettingStartedPage = Package[packageName].MainPage;
   }  
 
   if(Package[packageName].EhrLaunchPage){
@@ -150,7 +148,7 @@ Object.keys(Package).forEach(function(packageName){
 
 });
 
-let defaultHomeRoute = MainPage;
+let defaultHomeRoute = GettingStartedPage;
 let defaultEhrLaunchPage = EhrLaunchPage;
 
 // logger.debug('Loading the following dynamic routes: ', dynamicRoutes)
@@ -591,16 +589,15 @@ export function App(props) {
         { constructionRoute }
         { qrScannerRoute }
         
-        ProjectPage
-
-        <Route name='ProjectPage' key='ProjectPage' path="/project-page" exact component={ ProjectPage } />                
         <Route name='SmartLauncher' key='SmartLauncher' path="/smart-launcher" exact component={ SmartLauncher } />                
         <Route name='patientChartRoute' key='patientChartPage' path="/patient-chart" exact component={ PatientChart } />                
         <Route name='patientIntakeRoute' key='patientIntakePage' path="/patient-intake" exact component={ PatientQuickChart } />       
         <Route name='quickChartRoute' key='quickChartPage' path="/patient-quickchart" exact component={ PatientQuickChart } />                
         <Route name='launchRoute' key='defaultEhrLaunchPage' path="/launcher" exact component={ defaultEhrLaunchPage } />                
         <Route name='ehrLaunchRoute' key='EhrLaunchPage' path="/ehr-launcher" exact component={ defaultEhrLaunchPage } />                
-        <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />                
+        <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />      
+        <Route name='gettingStartedPage' key='gettingStartedRoute' path="/getting-started" component={ GettingStartedPage } />      
+
         <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" exact component={ defaultHomeRoute } />                
         <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              
       </Switch>
