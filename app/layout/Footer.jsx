@@ -30,9 +30,9 @@ function Footer(props) {
   // } 
 
   if(logger){
-    logger.debug('Rendering the application Footer.');
-    logger.verbose('package.care-cards.client.layout.Footer');  
-    logger.data('Footer.props', {data: props}, {source: "FooterContainer.jsx"});
+    // logger.debug('Rendering the application Footer.');
+    // logger.verbose('package.care-cards.client.layout.Footer');  
+    // logger.data('Footer.props', {data: props}, {source: "FooterContainer.jsx"});
   }
 
 
