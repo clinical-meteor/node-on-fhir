@@ -25,7 +25,7 @@ react-meteor-data@2.4.0        # React higher-order component for reactively tra
 session@1.2.0
 tracker@1.2.0
 http@1.4.2
-simple:json-routes@2.1.0
+simple:json-routes@2.3.1
 # typescript@4.4.0              # Enable TypeScript syntax in .ts and .tsx modules
 
 
@@ -71,4 +71,4 @@ percolate:synced-cron
 #symptomatic:saner
 #symptomatic:fhir-uscore
 
-
+mitre:vhdir-core
