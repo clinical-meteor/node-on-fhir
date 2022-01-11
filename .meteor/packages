@@ -65,8 +65,8 @@ percolate:synced-cron
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-# symptomatic:data-importer
-# symptomatic:data-relay
+symptomatic:data-importer
+symptomatic:data-relay
 
 #symptomatic:saner
 #symptomatic:fhir-uscore
