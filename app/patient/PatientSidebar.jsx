@@ -601,7 +601,7 @@ export function PatientSidebar(props){
                 { clonedIcon }
               </ListItemIcon>
               <ListItemText primary={element.primaryText} className={styles.drawerText}  />
-              <Badge badgeContent={elementCount} variant="standard" max={10000} color="primary"  style={{marginRight: '10px'}} />
+              <Badge badgeContent={elementCount} variant="standard" max={10000} color="primary"  style={{marginRight: '15px'}} />
               {/* <ListItemText primary={elementCount} className={styles.drawerTextTag}  /> */}
             </ListItem>
           );  
