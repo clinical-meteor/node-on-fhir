@@ -46,44 +46,37 @@ The FHIR appplication server in this repository is the result of 7 years of work
 ## Quickstart
 
 ```bash
-# install the meteor compiler; this will take care of node, nvm, npm, yarn, etc.
-# it will also set up debugging tools, a compiler build tool, etc
-curl https://install.meteor.com/ | sh
+# install meter
+npm install -g meteor
 
-# download the node-on-fhir application
-git clone https://github.com/symptomatic/node-on-fhir  
+# get the boilerplate
+git clone https://github.com/clinical-meteor/node-on-fhir
+
+# get the vault-server package
 cd node-on-fhir
-
-# install dependencies
-meteor npm install
-
-# alternative, use yarn if you'd like a more modern package manager
-meteor yarn install
-
-# run the application in local development mode
-# this will automatically launch a mongo instance
-meteor run --settings configs/settings.nodeonfhir.json  
-
-# stop the application with Ctrl-C
-
-# download custom packages
 cd packages
-git clone https://github.com/symptomatic/covid19-on-fhir
-git clone https://github.com/symptomatic/vault-server-freemium
-cd ..
+git clone https://github.com/clinical-meteor/vault-server
+cd ../..
 
-# run the application again, using the config from the Covid19 on FHIR package, and using the Vault FHIR server
-meteor run --settings packages/covid19-on-fhir/configs/settings.covid19.json  --extra-packages symptomatic:covid19-on-fhir,symptomatic:vault-server-freemium
+# install libraries and dependencies
+npm install
 
-# using a NEW TERMINAL (or the Postman utility)
-# query the server metadata to view the conformance statement
-curl http://localhost:3000/baseR4/metadata
+# add custom packages (the FHIR server)
+meteor add clinical:vault-server
 
-# GET/POST data to the FHIR server
-curl http://localhost:3000/baseR4/Patient
-curl http://localhost:3000/baseR4/Organization
-curl http://localhost:3000/baseR4/Observation
+# does it compile?
+meteor run 
+open http://localhost:3000
 
+# can we get to the FHIR server yet?
+open http://localhost:3000/metadata
+
+# now run it with a custom settings file
+meteor run --settings configs/settings.nodeonfhir.localhost.json
+
+# does it run?  can we get to the FHIR server?  To the Patient route?
+open http://localhost:3000/baseR4/metadata
+open http://localhost:3000/baseR4/Patient
 ```
 
 ## Important Links    
