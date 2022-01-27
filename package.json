@@ -87,7 +87,6 @@
     "moment": "^2.24.0",
     "mongodb": "3.6.3",
     "mongoose": "5.9.27",
-    "node-jose": "^2.0.0",
     "papaparse": "5.2.0",
     "prop-types": "15.7.2",
     "qrcode.react": "1.0.1",
@@ -151,7 +150,8 @@
     "fhir.js": "0.0.22",
     "fhirpath": "0.17.2",
     "react-fontawesome": "1.6.1",
-    "blue-button-fhir": "1.6.0-beta.2"
+    "blue-button-fhir": "1.6.0-beta.2",
+    "node-jose": "^2.0.0"
   },
   "experimental": {
     "webtorrent": "0.107.17",

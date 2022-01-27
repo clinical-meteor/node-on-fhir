@@ -30,7 +30,7 @@ import atob from 'atob';
 import btoa from 'btoa';
 import pako from 'pako';
 import got from 'got';
-import jose, { JWK, JWS } from 'node-jose';
+// import jose, { JWK, JWS } from 'node-jose';
 import { base64, base64url } from "rfc4648";
 import jws from 'jws';
 import InflateAuto from 'inflate-auto';
