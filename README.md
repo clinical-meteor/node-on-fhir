@@ -56,7 +56,7 @@ git clone https://github.com/clinical-meteor/node-on-fhir
 cd node-on-fhir
 cd packages
 git clone https://github.com/clinical-meteor/vault-server
-cd ../..
+cd ..
 
 # install libraries and dependencies
 npm install
@@ -93,6 +93,7 @@ open http://localhost:3000/baseR4/Patient
 - [Community Bridge Funding](https://funding.communitybridge.org/projects/node-on-fhir)  
 - [Quality Control](https://circleci.com/gh/symptomatic/node-on-fhir)  
 - [Material UI](https://material-ui.com/store/) 
+- [Example Plugin](https://github.com/clinical-meteor/example-plugin)   
 
 ## Technology Stack 
 

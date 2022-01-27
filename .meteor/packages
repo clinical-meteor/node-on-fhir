@@ -72,3 +72,4 @@ percolate:synced-cron
 #symptomatic:fhir-uscore
 
 
+clinical:json-routes
