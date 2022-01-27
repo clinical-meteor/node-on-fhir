@@ -39,7 +39,7 @@ shell-server@0.5.0            # Server-side component of the `meteor shell` comm
 server-render@0.4.0
 npdev:react-loadable
 fourseven:scss
-
+percolate:synced-cron
 
 # CLINICAL INFRASTRUCTURE
 clinical:extended-api@2.5.0
@@ -47,10 +47,9 @@ clinical:fonts@1.2.0
 clinical:hl7-resource-datatypes@4.0.6
 clinical:hl7-fhir-data-infrastructure 
 clinical:hipaa-logger
-clinical:vault-server-freemium
-
-percolate:synced-cron
-
+clinical:json-routes
+clinical:vault-server
+# clinical:fhir-uscore
 
 # TESTING
 # meteortesting:mocha
@@ -60,16 +59,10 @@ percolate:synced-cron
 # mdg:meteor-apm-agent
 # bundle-visualizer
 
-
 # DESKTOP
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-# symptomatic:data-importer
-# symptomatic:data-relay
-
-#symptomatic:saner
-#symptomatic:fhir-uscore
 
 
-clinical:json-routes
+
