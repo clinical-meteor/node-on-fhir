@@ -20,7 +20,7 @@ clinical:hipaa-logger@2.1.1
 clinical:hl7-fhir-data-infrastructure@6.20.7
 clinical:hl7-resource-datatypes@4.0.7
 clinical:json-routes@2.2.0
-clinical:vault-server-freemium@7.1.0
+clinical:vault-server@8.0.18
 ddp@1.4.0
 ddp-client@2.5.0
 ddp-common@1.4.0
