@@ -126,13 +126,11 @@
     "eslint-plugin-meteor": "7.3.0",
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "4.0.4",
-    "meteor-desktop": "2.2.5",
     "nightwatch": "1.7.12",
     "selenium-webdriver": "3.6.0",
     "shelljs": "0.7.4"
   },
-  "devDependenciesBkup": {},
-  "desktopLibs": {
+  "desktopLibraries": {
     "electron": "6.1.7",
     "electron-builder": "21.2.0",
     "meteor-desktop": "^2.2.5"
