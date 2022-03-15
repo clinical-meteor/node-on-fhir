@@ -26,7 +26,7 @@ session@1.2.0
 tracker@1.2.0
 http@1.4.2
 simple:json-routes@2.3.1
-# typescript@4.4.0              # Enable TypeScript syntax in .ts and .tsx modules
+typescript@4.4.0              # Enable TypeScript syntax in .ts and .tsx modules
 
 
 # RENDERING  
@@ -47,7 +47,7 @@ clinical:fonts@1.2.0
 clinical:hl7-resource-datatypes@4.0.6
 clinical:hl7-fhir-data-infrastructure 
 clinical:hipaa-logger
-clinical:vault-server-freemium
+clinical:vault-server
 
 percolate:synced-cron
 
@@ -69,6 +69,6 @@ symptomatic:data-importer
 symptomatic:data-relay
 
 #symptomatic:saner
-#symptomatic:fhir-uscore
 
 mitre:vhdir-core
+clinical:json-routes
