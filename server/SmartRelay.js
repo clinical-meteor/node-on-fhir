@@ -58,11 +58,11 @@ async function smartHandler(client, res) {
     res.end(JSON.stringify(data, null, 4));
 }
 
-JsonRoutes.setResponseHeaders({
-    "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
-    "Access-Control-Allow-Header": "*",
-    "Access-Control-Allow-Origin": "*"
-})
+// JsonRoutes.setResponseHeaders({
+//     "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
+//     "Access-Control-Allow-Header": "*",
+//     "Access-Control-Allow-Origin": "*"
+// })
 
 JsonRoutes.add('get', '/node-launch', function (req, res, next) {
     console.log('SmartRelay: GET /node-launch req.headers', req.headers);
