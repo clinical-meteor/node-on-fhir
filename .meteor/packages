@@ -63,7 +63,4 @@ clinical:vault-server
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-
-
-
-mitre:vhdir-core
+# mitre:vhdir-core
