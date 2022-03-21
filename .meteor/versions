@@ -16,7 +16,7 @@ check@1.3.1
 clinical:extended-api@2.5.2
 clinical:fonts@1.2.0
 clinical:hipaa-logger@2.1.2
-clinical:hl7-fhir-data-infrastructure@6.21.1
+clinical:hl7-fhir-data-infrastructure@6.22.0
 clinical:hl7-resource-datatypes@4.0.7
 clinical:json-routes@2.3.0
 clinical:uscore@0.4.10
