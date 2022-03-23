@@ -152,7 +152,7 @@ jobs:
     #- before/after
     - run: cat .meteor/packages
     - run: cat .meteor/versions
-    - run: locale
+    # - run: locale
 
     - run: meteor list  
 
