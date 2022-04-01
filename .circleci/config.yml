@@ -11,7 +11,7 @@
 # For caching on Circle CI v2, please see the following: 
 # https://github.com/meteor/meteor/issues/10218
 
-# This is a test
+# node-on-fhir
 
 version: 2
 jobs:
@@ -152,7 +152,7 @@ jobs:
     #- before/after
     - run: cat .meteor/packages
     - run: cat .meteor/versions
-    - run: locale
+    # - run: locale
 
     - run: meteor list  
 
