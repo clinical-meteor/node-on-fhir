@@ -108,7 +108,7 @@ Meteor.startup(function(){
     SyncedCron.add({
       name: 'Server Stats Generator',
       schedule: function(parser) {
-        return parser.text('every 1 minute');
+        return parser.text('every 5 minute');
       },
       job: function() {
           console.log('Generating server stats!')   
@@ -122,9 +122,9 @@ Meteor.startup(function(){
           }
           
           Object.keys(restEndpoints).forEach(function(key){
-            console.log('key', FhirUtilities.pluralizeResourceName(key))
+            // console.log('key', FhirUtilities.pluralizeResourceName(key))
             if(typeof Collections[FhirUtilities.pluralizeResourceName(key)] !== "undefined"){
-              console.log('Collections[key]', Collections[FhirUtilities.pluralizeResourceName(key)].find().count())
+              // console.log('Collections[key]', Collections[FhirUtilities.pluralizeResourceName(key)].find().count())
               serverStats[FhirUtilities.pluralizeResourceName(key)] = Collections[FhirUtilities.pluralizeResourceName(key)].find().count()
             }
           })
