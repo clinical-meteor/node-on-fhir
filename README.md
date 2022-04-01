@@ -56,7 +56,7 @@ git clone https://github.com/clinical-meteor/node-on-fhir
 cd node-on-fhir
 cd packages
 git clone https://github.com/clinical-meteor/vault-server
-cd ..
+cd ../..
 
 # install libraries and dependencies
 npm install
