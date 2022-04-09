@@ -94,6 +94,8 @@ open http://localhost:3000/baseR4/Patient
 - [Quality Control](https://circleci.com/gh/symptomatic/node-on-fhir)  
 - [Material UI](https://material-ui.com/store/) 
 - [Example Plugin](https://github.com/clinical-meteor/example-plugin)   
+- [The 12-Factor App Methodology Explained](https://www.bmc.com/blogs/twelve-factor-app/)  
+
 
 ## Technology Stack 
 
