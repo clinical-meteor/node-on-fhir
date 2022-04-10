@@ -20,7 +20,7 @@ clinical:hl7-fhir-data-infrastructure@6.23.0
 clinical:hl7-resource-datatypes@4.0.7
 clinical:json-routes@2.3.0
 clinical:uscore@0.4.10
-clinical:vault-server@8.3.58
+clinical:vault-server@8.3.57
 ddp@1.4.0
 ddp-client@2.5.0
 ddp-common@1.4.0
