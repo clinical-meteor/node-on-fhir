@@ -86,7 +86,7 @@
     "jws": "github:auth0/node-jws",
     "lodash": "4.17.21",
     "meteor-node-stubs": "0.4.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mongodb": "3.6.3",
     "mongoose": "5.9.27",
     "node-jose": "^2.0.0",
