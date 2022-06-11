@@ -46,7 +46,7 @@ percolate:synced-cron
 clinical:extended-api@2.5.0
 clinical:fonts@1.2.0
 clinical:hl7-resource-datatypes@4.0.6
-clinical:hl7-fhir-data-infrastructure@6.24.1
+clinical:hl7-fhir-data-infrastructure@6.24.2
 clinical:hipaa-logger
 clinical:json-routes
 clinical:vault-server@8.4.1
