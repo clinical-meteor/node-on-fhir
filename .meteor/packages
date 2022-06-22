@@ -50,7 +50,7 @@ clinical:hl7-fhir-data-infrastructure@6.24.2
 clinical:hipaa-logger
 clinical:json-routes
 clinical:vault-server@8.4.1
-# clinical:fhir-uscore
+clinical:uscore
 
 # TESTING
 # meteortesting:mocha
@@ -67,7 +67,7 @@ clinical:vault-server@8.4.1
 # mitre:vhdir-core
 # mitre:vhdir-core
 
-mitre:national-directory
-symptomatic:data-relay
-symptomatic:data-importer
+# mitre:national-directory
+# symptomatic:data-relay
+# symptomatic:data-importer
 
