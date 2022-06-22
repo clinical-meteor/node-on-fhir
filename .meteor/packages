@@ -49,7 +49,7 @@ clinical:hl7-resource-datatypes@4.0.6
 clinical:hl7-fhir-data-infrastructure@6.24.2
 clinical:hipaa-logger
 clinical:json-routes
-clinical:vault-server@8.4.1
+clinical:vault-server
 clinical:uscore
 
 # TESTING
