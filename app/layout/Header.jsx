@@ -438,7 +438,7 @@ function Header(props) {
             onClick={ clickOnMenuButton.bind(this) }
             className={componentStyles.sidebarMenuButton}
           />
-        <h4 onClick={ function(){ goHome(); }} className={ titleClass } style={{cursor: 'pointer'}}>
+        <h4 onClick={ function(){ goHome(); }} className={ titleClass } style={{cursor: 'pointer', userSelect: 'none'}}>
           { parseTitle() }
         </h4>
 

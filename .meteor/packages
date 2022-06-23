@@ -16,7 +16,8 @@ es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
 
 
 # SECURITY  
-alanning:roles
+alanning:roles 
+
 
 # DATA INFRASTRUCTURE
 mongo@1.13.0                   # The database Meteor supports right now
@@ -45,11 +46,11 @@ percolate:synced-cron
 clinical:extended-api@2.5.0
 clinical:fonts@1.2.0
 clinical:hl7-resource-datatypes@4.0.6
-clinical:hl7-fhir-data-infrastructure 
+clinical:hl7-fhir-data-infrastructure@6.24.2
 clinical:hipaa-logger
 clinical:json-routes
 clinical:vault-server
-# clinical:fhir-uscore
+clinical:uscore
 
 # TESTING
 # meteortesting:mocha
@@ -65,3 +66,8 @@ clinical:vault-server
 
 # mitre:vhdir-core
 # mitre:vhdir-core
+
+# mitre:national-directory
+# symptomatic:data-relay
+# symptomatic:data-importer
+

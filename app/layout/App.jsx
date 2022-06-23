@@ -49,24 +49,27 @@ import { useSwipeable } from 'react-swipeable';
 //===============================================================================================================
 // Analytics
 
-let analyticsTrackingCode = get(Meteor, 'settings.public.google.analytics.trackingCode')
+let analyticsTrackingId = get(Meteor, 'settings.public.google.analytics.trackingId')
 
-import ReactGA from 'react-ga';
-ReactGA.initialize(analyticsTrackingCode, {debug: get(Meteor, 'settings.public.google.analytics.debug', false)});
+import ReactGA from "react-ga4";
+if(analyticsTrackingId){
+  ReactGA.initialize(analyticsTrackingId, {debug: get(Meteor, 'settings.public.google.analytics.debug', false)});
+}
 
 function logPageView() {
-  if(analyticsTrackingCode){
-    ReactGA.pageview(window.location.pathname + window.location.search);
-    ReactGA.set({ page: window.location.pathname });  
+  if(analyticsTrackingId){
+    // ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
   }
 };
 
 function usePageViews() {
   let location = useLocation();
   React.useEffect(() => {
-    if(analyticsTrackingCode){
+    if(analyticsTrackingId){
       ReactGA.pageview(window.location.pathname + window.location.search);
-      ReactGA.set({ page: window.location.pathname });  
+      // ReactGA.set({ page: window.location.pathname });  
+      ReactGA.send({ hitType: "pageview", page: window.location.pathname });
     }
   }, [location]);
 }
