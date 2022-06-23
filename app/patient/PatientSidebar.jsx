@@ -127,9 +127,11 @@ import useStyles from '../Styles';
 // Main Component
 
 export function PatientSidebar(props){
-  logger.debug('PatientSidebar is rendering.');
-  logger.verbose('client.app.patient.PatientSidebar');
-  logger.data('PatientSidebar.props', {data: props}, {source: "AppContainer.jsx"});
+  // if(process.env.NODE_ENV === "development"){
+  //   logger.debug('PatientSidebar is rendering.');
+  //   logger.verbose('client.app.patient.PatientSidebar');
+  //   logger.data('PatientSidebar.props', {data: props}, {source: "AppContainer.jsx"});  
+  // }
 
   let styles = useStyles();
 
