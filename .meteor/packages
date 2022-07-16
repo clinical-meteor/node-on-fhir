@@ -67,7 +67,7 @@ clinical:uscore
 # mitre:vhdir-core
 # mitre:vhdir-core
 
-# mitre:national-directory
-# symptomatic:data-relay
-# symptomatic:data-importer
+mitre:national-directory
+symptomatic:data-relay
+symptomatic:data-importer
 

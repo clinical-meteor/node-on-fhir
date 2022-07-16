@@ -13,14 +13,6 @@ let publicKey = get(keychain, 'keys[0]');
 import privateKeychain from '../certs/private.jwks.json';
 let signingKey = get(privateKeychain, 'keys[0]');
 
-let localFilesystemPem;
-try {
-  // assumes that we're running from the .meteor/local/build/* folder
-  localFilesystemPem = fs.readFileSync('../../../../../certs/ec_private.pem', 'utf8')
-  console.log(localFilesystemPem)
-} catch (err) {
-  console.error(err)
-}
 
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
