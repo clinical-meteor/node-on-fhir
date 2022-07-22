@@ -54,6 +54,7 @@ meteorhacks:async@1.0.0
 minifier-css@1.6.0
 minifier-js@2.7.4
 minimongo@1.8.0
+mitre:national-directory@0.13.10
 mobile-experience@1.1.0
 mobile-status-bar@1.1.0
 modern-browsers@0.1.7
