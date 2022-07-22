@@ -82,6 +82,9 @@ if(Meteor.isServer){
 }
 
 
+//--------------------------------------------------------------------------------
+// Meteor Methods
+
 Meteor.methods({
   // query data from a fhirUrl endpoint
   queryEndpoint: async function(fhirUrl, accessToken){
