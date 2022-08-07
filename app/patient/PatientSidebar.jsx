@@ -146,6 +146,9 @@ export function PatientSidebar(props){
     Consents: 0,
     Communications: 0,
     CommunicationRequests: 0,
+    Compositions: 0,
+    DocumentReferences: 0,
+    DocumentManifests: 0,
     Encounters: 0,
     Endpoints: 0,
     Goals: 0,
@@ -203,11 +206,20 @@ export function PatientSidebar(props){
   collectionCounts.CommunicationRequests = useTracker(function(){
     return CommunicationRequests.find().count();
   }, [])
+  collectionCounts.Compositions = useTracker(function(){
+    return Compositions.find().count();
+  }, [])
   collectionCounts.Conditions = useTracker(function(){
     return Conditions.find().count();
   }, [])
   collectionCounts.Consents = useTracker(function(){
     return Consents.find().count();
+  }, [])
+  collectionCounts.DocumentReferences = useTracker(function(){
+    return DocumentReferences.find().count();
+  }, [])
+  collectionCounts.DocumentManifests = useTracker(function(){
+    return DocumentManifests.find().count();
   }, [])
   collectionCounts.Encounters = useTracker(function(){
     return Encounters.find().count();

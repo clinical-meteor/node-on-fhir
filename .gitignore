@@ -14,6 +14,7 @@ chromedriver.log
 configs/settings.galaxy.json
 mobile-config.js
 
+configs/*galaxy*
 
 certs/*
 public/.well-known/*.pem
