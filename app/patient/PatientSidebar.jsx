@@ -146,6 +146,9 @@ export function PatientSidebar(props){
     Consents: 0,
     Communications: 0,
     CommunicationRequests: 0,
+    Compositions: 0,
+    DocumentReferences: 0,
+    DocumentManifests: 0,
     Encounters: 0,
     Endpoints: 0,
     Goals: 0,
@@ -202,6 +205,15 @@ export function PatientSidebar(props){
   }, [])
   collectionCounts.CommunicationRequests = useTracker(function(){
     return CommunicationRequests.find().count();
+  }, [])
+  collectionCounts.Compositions = useTracker(function(){
+    return Compositions.find().count();
+  }, [])
+  collectionCounts.DocumentReferences = useTracker(function(){
+    return DocumentReferences.find().count();
+  }, [])
+  collectionCounts.DocumentManifests = useTracker(function(){
+    return DocumentManifests.find().count();
   }, [])
   collectionCounts.Conditions = useTracker(function(){
     return Conditions.find().count();
@@ -714,6 +726,15 @@ export function PatientSidebar(props){
         <Icon icon={fire} className={styles.drawerIcons} />
       </ListItemIcon>
       <ListItemText primary="Data Export" className={styles.drawerText}  />
+    </ListItem>);    
+  };
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DataEditor')){
+    drawDataMgmDivider = true;
+    dataManagementElements.push(<ListItem id='dataEditorItem' key='dataEditorItem' button onClick={function(){ openPage('/data-editor'); }} >
+      <ListItemIcon >
+        <Icon icon={fire} className={styles.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Data Editor" className={styles.drawerText}  />
     </ListItem>);    
   };
 
