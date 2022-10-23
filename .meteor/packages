@@ -71,8 +71,7 @@ clinical:uscore
 # symptomatic:data-relay
 # symptomatic:data-importer
 
-symptomatic:timelines
-symptomatic:data-relay
-symptomatic:data-importer
-
-mitre:sphr-record-analyzer
+# symptomatic:timelines
+# symptomatic:data-relay
+# symptomatic:data-importer
+# mitre:sphr-record-analyzer
