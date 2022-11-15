@@ -8,7 +8,9 @@ import { get } from 'lodash';
 import { check } from 'meteor/check';
 
 // AccountsServer.config({}); // Config your accounts server
- wrapMeteorServer(Meteor, AccountsServer);
+// if((!get(Meteor.server.method_handlers, 'jsaccounts/validateLogout')) && (!get(Meteor.server.method_handlers, 'jsaccounts/validateLogin'))){
+//   wrapMeteorServer(Meteor, AccountsServer);
+// }
 
  import { 
   AllergyIntolerances,

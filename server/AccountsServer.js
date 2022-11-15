@@ -10,6 +10,8 @@ import { MongoClient } from 'mongodb';
 import { AccountsServer, ServerHooks, AccountsJsError } from '@accounts/server';
 import { AccountsPassword, CreateUserErrors } from '@accounts/password';
 
+
+
 import accountsExpress, { userLoader } from '@accounts/rest-express';
 import { Mongo, MongoDBInterface } from '@accounts/mongo';
 
@@ -21,6 +23,8 @@ import { check } from 'meteor/check';
 import { Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 import moment from 'moment';
+
+import {wrapMeteorServer} from './WrapMeteorServer.js';
 
 
 
@@ -63,7 +67,8 @@ Meteor.startup(async function(){
       id: String,
       nickname: String,
       isClinician: Boolean,
-      patient: Object
+      patient: Object,
+      role: String
     })
   );
 
@@ -152,7 +157,11 @@ Meteor.startup(async function(){
           throw new Error('Invalid invitation code.');
         }
       }
+      if(get(Meteor, 'settings.public.defaults.defaultUserRole')){
+        user.role = get(Meteor, 'settings.public.defaults.defaultUserRole', 'citizen')
+      }
       
+      return user;
     }
   });
 
@@ -165,6 +174,8 @@ Meteor.startup(async function(){
       password: accountsPassword
     }
   );
+  wrapMeteorServer(Meteor, accountsServer)
+
 
   accountsServer.on(ServerHooks.ValidateLogin, function(userLoginRequest){
     // This hook is called every time a user try to login.

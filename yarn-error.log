@@ -61,7 +61,6 @@ npm manifest:
     "dependencies": {
       "@accounts/client": "0.30.0",
       "@accounts/client-password": "0.30.0",
-      "@accounts/meteor-adapter": "0.1.1",
       "@accounts/mongo": "0.30.0",
       "@accounts/password": "0.30.0",
       "@accounts/rest-client": "0.30.0",

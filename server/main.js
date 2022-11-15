@@ -4,6 +4,8 @@ import './SmartHealthCards.js';
 import './ProxyMethods.js';
 import './SmartRelay.js';
 import './Cron.js';
+import './WebsocketPublications.js';
+
 
 
 // need to upgrade mongoose, mongo, and the kerberose dependency

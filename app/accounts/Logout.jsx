@@ -30,6 +30,9 @@ import { accountsClient } from './Accounts';
 import { get, has } from 'lodash';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
+
+
 
 
 
@@ -65,47 +68,47 @@ const Logout = function({ history }){
   // State Management
 
   const [error, setError] = useState();
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-      code: ''
-    },
-    validate: function(values){
-      const errors = {};
+  // const formik = useFormik({
+  //   initialValues: {
+  //     email: '',
+  //     password: '',
+  //     code: ''
+  //   },
+  //   validate: function(values){
+  //     const errors = {};
       
-      if (!values.email) {
-        errors.email = 'Required';
-      }
-      if (!values.password) {
-        errors.password = 'Required';
-      }
-      return errors;
-    },
-    onSubmit: async function(values, { setSubmitting }){
-      console.log('AccountsClient: Submiting username and password for authentication.')
+  //     if (!values.email) {
+  //       errors.email = 'Required';
+  //     }
+  //     if (!values.password) {
+  //       errors.password = 'Required';
+  //     }
+  //     return errors;
+  //   },
+  //   onSubmit: async function(values, { setSubmitting }){
+  //     console.log('AccountsClient: Submiting username and password for authentication.')
 
-      try {
-        await loginWithService('password', {
-          user: {
-            email: values.email
-          },
-          password: values.password
-          // code: values.code
-        });
+  //     try {
+  //       await loginWithService('password', {
+  //         user: {
+  //           email: values.email
+  //         },
+  //         password: values.password
+  //         // code: values.code
+  //       });
 
-        let user = await accountsClient.getUser();
-        console.log('user', user)
+  //       let user = await accountsClient.getUser();
+  //       console.log('user', user)
 
-        Session.set('mainAppDialogOpen', false)
+  //       Session.set('mainAppDialogOpen', false)
 
-        // history.push('/');
-      } catch (err) {
-        setError(err.message);
-        setSubmitting(false);
-      }
-    }
-  });
+  //       // history.push('/');
+  //     } catch (err) {
+  //       setError(err.message);
+  //       setSubmitting(false);
+  //     }
+  //   }
+  // });
 
 
 
@@ -126,13 +129,29 @@ const Logout = function({ history }){
   }
 
   async function logoutUser(){
-    console.log('accountsClient', accountsClient);
-    
-    let result = await accountsClient.logout();    
-    console.log('logout result', result);
+    // console.log('accountsClient', accountsClient);
+      
+    // try {
+    //   await accountsClient.logout();          
+    // } catch (error) {
+    //   console.log('logoutError', error)
+    // }
 
-    Session.set('currentUser', false)
+    // try {
+    //   await accountsClient.clearTokens();    
+    // } catch (error) {
+    //   console.log('clearTokenError', error)
+    // }
+
+    console.log('Logging out user session: ' + Session.get('sessionAccessToken'))
+    
+
+    Meteor.call('jsaccounts/validateLogout', Session.get('sessionAccessToken'));
+
+    Session.set('currentUser', false);
+    Session.set('selectedPatientId', false);
     Session.set('mainAppDialogOpen', false);
+    
   }
 
 

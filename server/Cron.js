@@ -114,11 +114,11 @@ Meteor.startup(function(){
           console.log('Generating server stats!')   
           
           let restEndpoints = get(Meteor, "settings.private.fhir.rest")
-          console.log('restEndpoints', restEndpoints)
+          // console.log('restEndpoints', restEndpoints)
 
           let serverStats = {
             "referenceType": "ServerStats",
-            "timestamp": new Date
+            "timestamp": moment()
           }
           
           Object.keys(restEndpoints).forEach(function(key){
@@ -129,8 +129,8 @@ Meteor.startup(function(){
             }
           })
 
-          console.log('Generating server stats: ')
-          console.log(serverStats)
+          // console.log('Generating server stats.')
+          // console.log(serverStats)
 
           ServerStats.insert(serverStats)
       }
