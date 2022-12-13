@@ -15,9 +15,17 @@ let signingKey = get(privateKeychain, 'keys[0]');
 
 let localFilesystemPem;
 try {
-  // assumes that we're running from the .meteor/local/build/* folder
-  localFilesystemPem = fs.readFileSync('../../../../../certs/ec_private.pem', 'utf8')
-  console.log(localFilesystemPem)
+  //   // assumes that we're running from the .meteor/local/build/* folder
+  //   localFilesystemPem = fs.readFileSync('../../../../../certs/ec_private.pem', 'utf8')
+
+  // private key (must be in PEM format)
+  localFilesystemPem = get(Meteor, 'settings.private.x509.privateKey', '');
+  if(localFilesystemPem){
+    console.log(localFilesystemPem)
+  } else {
+    console.log('No local privateKey found for signing SmartHealthCards...')
+  }
+
 } catch (err) {
   console.error(err)
 }
@@ -190,71 +198,78 @@ Meteor.methods({
 
         // let privatePem = jwkToPem(jwk);
         let privatePem = Assets.getText('ec_private.pem');
+        if(privatePem){
+            console.log('');
+            console.log(privatePem);
+    
+            console.log('');
+            console.log('-----------Public Key (.well-known/jwks.json)-------------')        
+            console.log('');
+    
+            console.log(publicKey);
+            console.log('');
+    
+            console.log('');
+            console.log('---------------Stringified Payload------------------------')
+            console.log('');
+    
+            let vcPayloadString = JSON.stringify(recordToSign);
+            let vcPayloadString_trimmed = vcPayloadString.trim();
+            console.log(vcPayloadString_trimmed);
+    
+            console.log('');
+            console.log('-------------Raw Deflated Payload (Buffer)----------------')
+            console.log('');
+    
+            let deflatedPayload = zlib.deflateRawSync(vcPayloadString_trimmed);
+            console.log(deflatedPayload);
+    
+            // console.log('');
+            // console.log('---------------Stringified Payload (btoa)---------------------')
+            // console.log('');
+    
+            // let deflatedPayload_btoa = btoa(deflatedPayload);
+            // console.log(deflatedPayload_btoa);
+            
+            // let json_web_signature = await jose.JWS
+            //   .createSign({ format: 'compact', fields: { zip: 'DEF' }}, signingKey)
+            //   .update(deflatedPayload)
+            //   .final()
+            //   .then(function(result){ 
+            //     return result;
+            //   });
+    
+            let json_web_signature = jws.sign({
+                header: { alg: 'ES256', zip: 'DEF', kid: get(keychain, 'keys[0].kid')},
+                secret: privatePem,
+                payload: deflatedPayload.toString('base64'),
+                encoding: 'base64'
+            });
+    
+            console.log('');
+            console.log('------------JSON Web Signature (JWS)----------------------')
+            console.log('');
+    
+            console.log(json_web_signature)     
+    
+            Meteor.call('verifyHealthCard', json_web_signature);
+    
+            console.log('');
+            console.log('------------Smart Health Card----------------------------')
+            console.log('');
+    
+            let shcNumericString = "shc:/" + numericMode(json_web_signature);
+            console.log(shcNumericString)
+            console.log('==============================================================================')
+    
+            return shcNumericString;
+        } else {
+            console.log('');
+            console.log('ServerError: No pem key found for signing SmartHealthCards...')
+            console.log('');
 
-        console.log('');
-        console.log(privatePem);
-
-        console.log('');
-        console.log('-----------Public Key (.well-known/jwks.json)-------------')        
-        console.log('');
-
-        console.log(publicKey);
-        console.log('');
-
-        console.log('');
-        console.log('---------------Stringified Payload------------------------')
-        console.log('');
-
-        let vcPayloadString = JSON.stringify(recordToSign);
-        let vcPayloadString_trimmed = vcPayloadString.trim();
-        console.log(vcPayloadString_trimmed);
-
-        console.log('');
-        console.log('-------------Raw Deflated Payload (Buffer)----------------')
-        console.log('');
-
-        let deflatedPayload = zlib.deflateRawSync(vcPayloadString_trimmed);
-        console.log(deflatedPayload);
-
-        // console.log('');
-        // console.log('---------------Stringified Payload (btoa)---------------------')
-        // console.log('');
-
-        // let deflatedPayload_btoa = btoa(deflatedPayload);
-        // console.log(deflatedPayload_btoa);
-        
-        // let json_web_signature = await jose.JWS
-        //   .createSign({ format: 'compact', fields: { zip: 'DEF' }}, signingKey)
-        //   .update(deflatedPayload)
-        //   .final()
-        //   .then(function(result){ 
-        //     return result;
-        //   });
-
-        let json_web_signature = jws.sign({
-            header: { alg: 'ES256', zip: 'DEF', kid: get(keychain, 'keys[0].kid')},
-            secret: privatePem,
-            payload: deflatedPayload.toString('base64'),
-            encoding: 'base64'
-        });
-
-        console.log('');
-        console.log('------------JSON Web Signature (JWS)----------------------')
-        console.log('');
-
-        console.log(json_web_signature)     
-
-        Meteor.call('verifyHealthCard', json_web_signature);
-
-        console.log('');
-        console.log('------------Smart Health Card----------------------------')
-        console.log('');
-
-        let shcNumericString = "shc:/" + numericMode(json_web_signature);
-        console.log(shcNumericString)
-        console.log('==============================================================================')
-
-        return shcNumericString;
+            return false;
+        }
     },
     parseHealthCard: async function(healthCardToken){
         check(healthCardToken, String);

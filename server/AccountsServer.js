@@ -144,14 +144,37 @@ Meteor.startup(async function(){
         }  
 
         if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
-          process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  Creating user.');
-          return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);
+          if(get(Meteor, 'settings.private.invitationExpiry')){
+            if(moment.now() < moment(get(Meteor, 'settings.private.invitationExpiry'))){
+              process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches and is prior to the expiry date.  Creating user.');
+              return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);    
+            } else {
+              process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  User not created.')
+              throw new Error('Current date is after invitation expiry date');
+            }
+          } else {
+            process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
+            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);  
+          }
         } else if (user.invitationCode === get(Meteor, 'settings.private.clinicianInvitationCode')) {
-          process.env.DEBUG_ACCOUNTS && console.info('Clinician invitation code matches.  Creating clinician.');
-          user.isClinician = true;
-          user.role = "healthcare provider"
-          process.env.DEBUG_ACCOUNTS && console.log('Validated user parameters: ', user);      
-          return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'isClinician', 'role']);
+          if(get(Meteor, 'settings.private.invitationExpiry')){
+            if(moment.now() < moment(get(Meteor, 'settings.private.invitationExpiry'))){
+              process.env.DEBUG_ACCOUNTS && console.info('Clinician invitation code matches.  Creating clinician.');
+              user.isClinician = true;
+              user.role = "healthcare provider"
+              process.env.DEBUG_ACCOUNTS && console.log('Validated user parameters: ', user);      
+              return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'isClinician', 'role']);
+            } else {
+              process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  Clinician not created.')
+              throw new Error('Current date is after clinician invitation expiry date');
+            }
+          } else {
+            process.env.DEBUG_ACCOUNTS && console.info('Clinician invitation code matches.  Creating clinician.');
+            user.isClinician = true;
+            user.role = "healthcare provider"
+            process.env.DEBUG_ACCOUNTS && console.log('Validated user parameters: ', user);      
+            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'isClinician', 'role']);
+          }
         } else {
           process.env.DEBUG_ACCOUNTS && console.error('Invalid invitation code.');
           throw new Error('Invalid invitation code.');
