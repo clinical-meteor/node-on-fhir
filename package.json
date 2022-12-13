@@ -71,7 +71,7 @@
     "create-react-class": "15.7.0",
     "crypto-js": "4.0.0",
     "date-fns": "2.8.1",
-    "express": "4.17.1",
+    "express": "4.17.3",
     "express-session": "^1.17.2",
     "fhir-kit-client": "1.5.3",
     "fhir-react": "0.3.13",
