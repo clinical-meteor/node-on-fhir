@@ -120,6 +120,15 @@
     "validator": ">=13.7.0",
     "winston": "3.2.1"
   },
+  "peerDependencies": {
+    "eslint": "^7.5.0",
+    "eslint-import-resolver-meteor": "0.4.0",
+    "eslint-plugin-import": "2.21.2",
+    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-meteor": "7.3.0",
+    "eslint-plugin-react": "7.20.0",
+    "eslint-plugin-react-hooks": "4.0.4",
+  },
   "devDependencies": {
     "@babel/eslint-parser": "7.16.5",
     "chai": "4.2.0",
