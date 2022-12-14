@@ -144,7 +144,7 @@ jobs:
 
     - run: if grep -q 'mitre:space-health-registry' .meteor/packages; then cp .meteor/packages .meteor/packages-copy; sed 's/mitre:space-health-registry//' .meteor/packages-copy > .meteor/packages; fi; sleep 1;
     - run: if grep -q 'mitre:consent-engine' .meteor/packages; then cp .meteor/packages .meteor/packages-copy; sed 's/mitre:consent-engine//' .meteor/packages-copy > .meteor/packages; fi; sleep 1;
-    - run: rm .meteor/packages-copy
+    - run: if ls .meteor/packages-copy; then rm .meteor/packages-copy; fi;
 
     # Install the actual app...
     - run: meteor npm install 
