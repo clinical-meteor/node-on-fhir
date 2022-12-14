@@ -193,8 +193,9 @@ Meteor.methods({
             // the cursor appears to exist
             if(typeof Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))] === "object"){
 
+              let cleanedId = sanitize(proxyInsertEntry.resource._id);
               // there doesnt seem to be a pre-existing record
-              if(!Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))].findOne({_id: sanitize(proxyInsertEntry.resource._id)})){
+              if(!Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))].findOne({_id: cleanedId})){
                 console.log('Couldnt find record.  Inserting.')
 
                 // lets try to insert the record
@@ -257,8 +258,9 @@ Meteor.methods({
         // the cursor appears to exist
         if(typeof Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resourceType'))] === "object"){
 
+          let cleanedId = sanitize(proxiedInsertRequest._id);
           // there doesnt seem to be a pre-existing record
-          if(!Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resourceType'))].findOne({_id: sanitize(proxiedInsertRequest._id)})){
+          if(!Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resourceType'))].findOne({_id: cleanedId})){
             console.log('Couldnt find record; attempting to add one to the database.')
 
             // lets try to insert the record
