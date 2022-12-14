@@ -9,16 +9,9 @@
         "es6": true,
         "node": true
     },
-    "plugins": [
-      "meteor",
-      "react"
-    ],
-    "extends": [
-      "plugin:meteor/recommended"
-    ],
-    "settings": {
-      "import/resolver": "meteor"
-    }, 
+    "plugins": [],
+    "extends": [],
+    "settings": {}, 
     "rules": {
       "no-named-as-default-member": ["off"],
       "react/require-extension": ["off"],
