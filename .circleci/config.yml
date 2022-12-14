@@ -140,12 +140,10 @@ jobs:
     - run: cat .meteor/versions
     - run: meteor --version
 
-
-
-    - run: if grep -q 'mitre:space-health-registry' .meteor/packages; then cp .meteor/packages .meteor/packages-copy; sed 's/mitre:space-health-registry//' .meteor/packages-copy > .meteor/packages; fi; sleep 1;
-    - run: cat .meteor/packages
-    - run: if grep -q 'mitre:consent-engine' .meteor/packages; then cp .meteor/packages .meteor/packages-copy; sed 's/mitre:consent-engine//' .meteor/packages-copy > .meteor/packages; fi; sleep 1;
-    - run: if ls .meteor/packages-copy; then rm .meteor/packages-copy; fi;
+    - run: if grep -q 'mitre:space-health-registry' .meteor/packages; sed 's/mitre:space-health-registry//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    - run: mv .meteor/packages2 .meteor/packages
+    - run: if grep -q 'mitre:consent-engine' .meteor/packages; sed 's/mitre:consent-engine//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    - run: mv .meteor/packages2 .meteor/packages
 
     # Install the actual app...
     - run: meteor npm install 
