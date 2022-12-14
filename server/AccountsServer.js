@@ -520,240 +520,118 @@ Meteor.startup(async function(){
 
     try {
       userId = await accountsPasswordService.createUser(user);
-      console.log('AccountsServer.register.createUser.userId', userId)
 
-      if(has(accountsServer, "options.enableAutologin")) {
+      if(userId){
+        console.log('AccountsServer.register.createUser.userId', userId)
 
-        if(!accountsServer.options.ambiguousErrorMessages){
-          dataPayload = {
-            userId: newUserId
-          }
-        } 
-
-        JsonRoutes.sendResult(res, {
-          code: 401,
-          data: dataPayload
-        });
-      }
-
-      // When initializing AccountsServer we check that enableAutologin and ambiguousErrorMessages options
-      // are not enabled at the same time
-      const createdUser = await accountsServer.findUserById(userId);
-      process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.createdUser', createdUser)
-
-      process.env.DEBUG_ACCOUNTS && console.log('Great time to create a Patient record.');
-
-      process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser._id', typeof createdUser._id)
-      process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser.id', typeof createdUser.id)
-
-      //------------------------------------------------------//------------------------------------------------------------------------------
-      // creating the new patient record
-      let newPatient = {
-        _id: '',  
-        id: '',
-        resourceType: "Patient",
-        active: true,
-        name: [{
-          use: 'usual',
-          text: get(createdUser, 'fullLegalName', ''),
-          given: [],
-          family: ''
-        }],
-        photo: [{
-          url: 'http://localhost:3000/noAvatar.png'
-        }]
-      }
-
-      // if we were able to fetch the entire Patient resource from Epic/Cerner
-      // and have it available in the registration payload
-      // we can assign it as the patient resource
-      Object.assign(newPatient, get(user, 'patient'));
-
-
-      let humanNameArray = get(newPatient, 'name');
-      if(Array.isArray(humanNameArray)){
-        newPatient.name = [];
-        humanNameArray.forEach(function(humanName){
-          if(typeof humanName.family === "string"){
-            newPatient.name.push(humanName);
-          }
-        })
-
-      }
-
-      // if(typeof newPatient.name[0].family === "array"){
-      //   newPatient.name[0].family = newPatient.name[0].family[0];
-      // }
-
-      if(has(createdUser, 'fullLegalName') && !has(newPatient, 'name[0].text')){
-        let nameArray = createdUser.fullLegalName.split(" ");
-        if(Array.isArray(nameArray)){
-          nameArray.forEach(function(name){
-            if(!has(newPatient, 'name[0].given')){
-              set(newPatient, 'name[0].given', []);
+        if(has(accountsServer, "options.enableAutologin")) {
+  
+          if(!accountsServer.options.ambiguousErrorMessages){
+            dataPayload = {
+              userId: userId
             }
-            newPatient.name[0].given.push(name);
+          } 
+  
+          JsonRoutes.sendResult(res, {
+            code: 401,
+            data: dataPayload
+          });
+        }
+  
+        // When initializing AccountsServer we check that enableAutologin and ambiguousErrorMessages options
+        // are not enabled at the same time
+        const createdUser = await accountsServer.findUserById(userId);
+        process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.createdUser', createdUser)
+  
+        process.env.DEBUG_ACCOUNTS && console.log('Great time to create a Patient record.');
+  
+        process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser._id', typeof createdUser._id)
+        process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser.id', typeof createdUser.id)
+  
+        //------------------------------------------------------//------------------------------------------------------------------------------
+        // creating the new patient record
+        let newPatient = {
+          _id: '',  
+          id: '',
+          resourceType: "Patient",
+          active: true,
+          name: [{
+            use: 'usual',
+            text: get(createdUser, 'fullLegalName', ''),
+            given: [],
+            family: ''
+          }],
+          photo: [{
+            url: 'http://localhost:3000/noAvatar.png'
+          }]
+        }
+  
+        // if we were able to fetch the entire Patient resource from Epic/Cerner
+        // and have it available in the registration payload
+        // we can assign it as the patient resource
+        Object.assign(newPatient, get(user, 'patient'));
+  
+  
+        let humanNameArray = get(newPatient, 'name');
+        if(Array.isArray(humanNameArray)){
+          newPatient.name = [];
+          humanNameArray.forEach(function(humanName){
+            if(typeof humanName.family === "string"){
+              newPatient.name.push(humanName);
+            }
           })
-          newPatient.name[0].text = get(createdUser, 'fullLegalName', '').trim()
-          newPatient.name[0].family = (nameArray[0]).trim();
+  
         }
-      }
-
-      if(has(createdUser, 'emails[0].address')){
-        if(!has(newPatient, 'telecom')){
-          newPatient.telecom = [];
-        }
-        newPatient.telecom[0] = {
-          system: 'email',
-          value: get(createdUser, 'emails[0].address')
-        }
-      }
-
-      // try to align collection _ids, if possible
-      if(has(createdUser, '_id')){
-        newPatient._id = createdUser._id._str;
-      }
-      
-      process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatient', newPatient)
-
-
-      //------------------------------------------------------------------------------------------------------------------------------------
-
-      // if the patientId from Epic/Cerner is available
-      // we are going to make sure that there is a corresponding Patient resource
-      // in our system
-      if(get(createdUser, 'patientId')){
-        if(!Patients.findOne({id: get(createdUser, 'patientId')})){
-
-          newPatient.id = createdUser.patientId;
-
-          let patientInternalId = Patients.insert(newPatient)
-          process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', patientInternalId)
-
-          if(Package["clinical:hipaa-logger"]){
-            let newAuditEvent = { 
-              "resourceType" : "AuditEvent",
-              "type" : { 
-                'code': 'Register User',
-                'display': 'Register User'
-                }, 
-              "action" : 'Registration',
-              "recorded" : new Date(), 
-              "outcome" : "Success",
-              "outcomeDesc" : 'User registered.',
-              "agent" : [{ 
-                "name" : FhirUtilities.pluckName(newPatient),
-                "who": {
-                  "display": FhirUtilities.pluckName(newPatient),
-                  "reference": "Patient/" + get(newPatient, 'id')
-                },
-                "requestor" : false
-              }],
-              "source" : { 
-                "site" : Meteor.absoluteUrl(),
-                "identifier": {
-                  "value": Meteor.absoluteUrl(),
-
-                }
-              },
-              "entity": [{
-                "reference": {
-                  "reference": ''
-                }
-              }]
-            };
-
-            process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
-            let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
-          }  
-        }
-      } else {
-
-        // Use Case 2 - if the user signs up without having logged into Epic/Cerner
-        // then they probably don't have a patientId available
-        // so we need to attach it to the user account
-
-        // if(!get(createdUser, 'patientId')){
-        //   Users.update({id: get(createdUser, 'id')}, {$set: {patientId: patientInternalId}})
+  
+        // if(typeof newPatient.name[0].family === "array"){
+        //   newPatient.name[0].family = newPatient.name[0].family[0];
         // }
-      }
-
-
-
-
-      if((get(createdUser, 'isClinician') || get(createdUser, 'role') === "healthcare provider")){
-        if(!Practitioners.findOne({id: get(createdUser, 'id')})){
-          let newPractitioner = {
-            _id: '',  
-            id: get(createdUser, 'id', ''),
-            resourceType: "Practitioner",
-            active: true,
-            name: [{
-              use: 'usual',
-              text: get(createdUser, 'fullLegalName', ''),
-              given: [],
-              family: ''
-            }],
-            photo: [{
-              url: 'http://localhost:3000/noAvatar.png'
-            }]
-          }
   
-          if(has(createdUser, '_id')){
-            newPractitioner._id = get(createdUser, '_id._str');
-          }
-          if(has(createdUser, 'id')){
-            newPractitioner.id = get(createdUser, 'id');
-          }
-  
-          let humanNameArray = get(newPractitioner, 'name');
-          if(Array.isArray(humanNameArray)){
-            newPractitioner.name = [];
-            humanNameArray.forEach(function(humanName){
-              if(typeof humanName.family === "string"){
-                newPractitioner.name.push(humanName);
+        if(has(createdUser, 'fullLegalName') && !has(newPatient, 'name[0].text')){
+          let nameArray = createdUser.fullLegalName.split(" ");
+          if(Array.isArray(nameArray)){
+            nameArray.forEach(function(name){
+              if(!has(newPatient, 'name[0].given')){
+                set(newPatient, 'name[0].given', []);
               }
+              newPatient.name[0].given.push(name);
             })
-  
+            newPatient.name[0].text = get(createdUser, 'fullLegalName', '').trim()
+            newPatient.name[0].family = (nameArray[0]).trim();
           }
+        }
   
-          // if(typeof newPractitioner.name[0].family === "array"){
-          //   newPractitioner.name[0].family = newPractitioner.name[0].family[0];
-          // }
-  
-          if(has(createdUser, 'fullLegalName') && !has(newPractitioner, 'name[0].text')){
-            let nameArray = createdUser.fullLegalName.split(" ");
-            if(Array.isArray(nameArray)){
-              nameArray.forEach(function(name){
-                if(!has(newPractitioner, 'name[0].given')){
-                  set(newPractitioner, 'name[0].given', []);
-                }
-                newPractitioner.name[0].given.push(name);
-              })
-              newPractitioner.name[0].text = get(createdUser, 'fullLegalName', '').trim()
-              newPractitioner.name[0].family = (nameArray[0]).trim();
-            }
+        if(has(createdUser, 'emails[0].address')){
+          if(!has(newPatient, 'telecom')){
+            newPatient.telecom = [];
           }
-  
-          if(has(createdUser, 'emails[0].address')){
-            if(!has(newPractitioner, 'telecom')){
-              newPractitioner.telecom = [];
-            }
-            newPractitioner.telecom[0] = {
-              system: 'email',
-              value: get(createdUser, 'emails[0].address')
-            }
+          newPatient.telecom[0] = {
+            system: 'email',
+            value: get(createdUser, 'emails[0].address')
           }
+        }
   
-          process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitioner', newPractitioner)
+        // try to align collection _ids, if possible
+        if(has(createdUser, '_id')){
+          newPatient._id = createdUser._id._str;
+        }
+        
+        process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatient', newPatient)
   
-          let practitionerAlreadyExists = Practitioners.findOne({id: newPractitioner.id})
-          process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
   
-          if(!practitionerAlreadyExists){
-            let patientInternalId = Practitioners.insert(newPractitioner)
-            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitionerId', patientInternalId);
-
+        //------------------------------------------------------------------------------------------------------------------------------------
+  
+        // if the patientId from Epic/Cerner is available
+        // we are going to make sure that there is a corresponding Patient resource
+        // in our system
+        if(get(createdUser, 'patientId')){
+          if(!Patients.findOne({id: get(createdUser, 'patientId')})){
+  
+            newPatient.id = createdUser.patientId;
+  
+            let patientInternalId = Patients.insert(newPatient)
+            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', patientInternalId)
+  
             if(Package["clinical:hipaa-logger"]){
               let newAuditEvent = { 
                 "resourceType" : "AuditEvent",
@@ -766,10 +644,10 @@ Meteor.startup(async function(){
                 "outcome" : "Success",
                 "outcomeDesc" : 'User registered.',
                 "agent" : [{ 
-                  "name" : FhirUtilities.pluckName(newPractitioner),
+                  "name" : FhirUtilities.pluckName(newPatient),
                   "who": {
-                    "display": FhirUtilities.pluckName(newPractitioner),
-                    "reference": "Practitioner/" + get(newPractitioner, 'id')
+                    "display": FhirUtilities.pluckName(newPatient),
+                    "reference": "Patient/" + get(newPatient, 'id')
                   },
                   "requestor" : false
                 }],
@@ -789,29 +667,156 @@ Meteor.startup(async function(){
   
               process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
               let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+            }  
+          }
+        } else {
+  
+          // Use Case 2 - if the user signs up without having logged into Epic/Cerner
+          // then they probably don't have a patientId available
+          // so we need to attach it to the user account
+  
+          // if(!get(createdUser, 'patientId')){
+          //   Users.update({id: get(createdUser, 'id')}, {$set: {patientId: patientInternalId}})
+          // }
+        }
+  
+  
+  
+  
+        if((get(createdUser, 'isClinician') || get(createdUser, 'role') === "healthcare provider")){
+          if(!Practitioners.findOne({id: get(createdUser, 'id')})){
+            let newPractitioner = {
+              _id: '',  
+              id: get(createdUser, 'id', ''),
+              resourceType: "Practitioner",
+              active: true,
+              name: [{
+                use: 'usual',
+                text: get(createdUser, 'fullLegalName', ''),
+                given: [],
+                family: ''
+              }],
+              photo: [{
+                url: 'http://localhost:3000/noAvatar.png'
+              }]
+            }
+    
+            if(has(createdUser, '_id')){
+              newPractitioner._id = get(createdUser, '_id._str');
+            }
+            if(has(createdUser, 'id')){
+              newPractitioner.id = get(createdUser, 'id');
+            }
+    
+            let humanNameArray = get(newPractitioner, 'name');
+            if(Array.isArray(humanNameArray)){
+              newPractitioner.name = [];
+              humanNameArray.forEach(function(humanName){
+                if(typeof humanName.family === "string"){
+                  newPractitioner.name.push(humanName);
+                }
+              })
+    
+            }
+    
+            // if(typeof newPractitioner.name[0].family === "array"){
+            //   newPractitioner.name[0].family = newPractitioner.name[0].family[0];
+            // }
+    
+            if(has(createdUser, 'fullLegalName') && !has(newPractitioner, 'name[0].text')){
+              let nameArray = createdUser.fullLegalName.split(" ");
+              if(Array.isArray(nameArray)){
+                nameArray.forEach(function(name){
+                  if(!has(newPractitioner, 'name[0].given')){
+                    set(newPractitioner, 'name[0].given', []);
+                  }
+                  newPractitioner.name[0].given.push(name);
+                })
+                newPractitioner.name[0].text = get(createdUser, 'fullLegalName', '').trim()
+                newPractitioner.name[0].family = (nameArray[0]).trim();
+              }
+            }
+    
+            if(has(createdUser, 'emails[0].address')){
+              if(!has(newPractitioner, 'telecom')){
+                newPractitioner.telecom = [];
+              }
+              newPractitioner.telecom[0] = {
+                system: 'email',
+                value: get(createdUser, 'emails[0].address')
+              }
+            }
+    
+            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitioner', newPractitioner)
+    
+            let practitionerAlreadyExists = Practitioners.findOne({id: newPractitioner.id})
+            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
+    
+            if(!practitionerAlreadyExists){
+              let patientInternalId = Practitioners.insert(newPractitioner)
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitionerId', patientInternalId);
+  
+              if(Package["clinical:hipaa-logger"]){
+                let newAuditEvent = { 
+                  "resourceType" : "AuditEvent",
+                  "type" : { 
+                    'code': 'Register User',
+                    'display': 'Register User'
+                    }, 
+                  "action" : 'Registration',
+                  "recorded" : new Date(), 
+                  "outcome" : "Success",
+                  "outcomeDesc" : 'User registered.',
+                  "agent" : [{ 
+                    "name" : FhirUtilities.pluckName(newPractitioner),
+                    "who": {
+                      "display": FhirUtilities.pluckName(newPractitioner),
+                      "reference": "Practitioner/" + get(newPractitioner, 'id')
+                    },
+                    "requestor" : false
+                  }],
+                  "source" : { 
+                    "site" : Meteor.absoluteUrl(),
+                    "identifier": {
+                      "value": Meteor.absoluteUrl(),
+    
+                    }
+                  },
+                  "entity": [{
+                    "reference": {
+                      "reference": ''
+                    }
+                  }]
+                };
+    
+                process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
+                let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+              }
             }
           }
         }
+  
+  
+        process.env.DEBUG_ACCOUNTS && console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');
+  
+        // If we are here - user must be created successfully
+        // Explicitly saying this to Typescript compiler
+        const loginResult = await accountsServer.loginWithUser(createdUser, req.infos);
+        process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.loginResult', loginResult)
+  
+        dataPayload = {
+          userId: userId,
+          loginResult: loginResult
+        }
+        process.env.DEBUG_ACCOUNTS && console.log('dataPayload', dataPayload)
+  
+        JsonRoutes.sendResult(res, {
+          code: 200,
+          data: dataPayload
+        });
+      } else {
+        console.log("AccountsError: faled to create user.")
       }
-
-
-      process.env.DEBUG_ACCOUNTS && console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');
-
-      // If we are here - user must be created successfully
-      // Explicitly saying this to Typescript compiler
-      const loginResult = await accountsServer.loginWithUser(createdUser, req.infos);
-      process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.loginResult', loginResult)
-
-      dataPayload = {
-        userId: userId,
-        loginResult: loginResult
-      }
-      process.env.DEBUG_ACCOUNTS && console.log('dataPayload', dataPayload)
-
-      JsonRoutes.sendResult(res, {
-        code: 200,
-        data: dataPayload
-      });
     } catch (error) {
       console.log('error', error)
 
