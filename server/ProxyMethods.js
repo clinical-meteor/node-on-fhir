@@ -6,6 +6,7 @@ import { HTTP } from 'meteor/http';
 import { get } from 'lodash';
 
 import { check } from 'meteor/check';
+import sanitize from 'mongo-sanitize';
 
 // AccountsServer.config({}); // Config your accounts server
 // if((!get(Meteor.server.method_handlers, 'jsaccounts/validateLogout')) && (!get(Meteor.server.method_handlers, 'jsaccounts/validateLogin'))){
@@ -193,7 +194,7 @@ Meteor.methods({
             if(typeof Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))] === "object"){
 
               // there doesnt seem to be a pre-existing record
-              if(!Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))].findOne({_id: proxyInsertEntry.resource._id})){
+              if(!Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))].findOne({_id: sanitize(proxyInsertEntry.resource._id)})){
                 console.log('Couldnt find record.  Inserting.')
 
                 // lets try to insert the record
@@ -223,7 +224,7 @@ Meteor.methods({
       if(typeof Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))] === "object"){
 
         // there doesnt seem to be a pre-existing record
-        if(!Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))].findOne({_id: proxiedInsertRequest.resource._id})){
+        if(!Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))].findOne({_id: sanitize(proxiedInsertRequest.resource._id)})){
           console.log('Couldnt find record; add a ' + FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType')) + ' to the database.')
 
           // lets try to insert the record
@@ -257,7 +258,7 @@ Meteor.methods({
         if(typeof Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resourceType'))] === "object"){
 
           // there doesnt seem to be a pre-existing record
-          if(!Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resourceType'))].findOne({_id: proxiedInsertRequest._id})){
+          if(!Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resourceType'))].findOne({_id: sanitize(proxiedInsertRequest._id)})){
             console.log('Couldnt find record; attempting to add one to the database.')
 
             // lets try to insert the record
