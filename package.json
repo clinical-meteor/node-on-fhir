@@ -92,6 +92,7 @@
     "moment": "^2.29.4",
     "mongodb": "3.6.3",
     "mongoose": "5.9.27",
+    "mongo-sanitize": "1.1.0",
     "node-forge": "1.3.0",
     "node-jose": "^2.1.1",
     "papaparse": "5.2.0",

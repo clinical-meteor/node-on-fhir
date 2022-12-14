@@ -24,6 +24,8 @@ import { Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastru
 import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 import moment from 'moment';
 
+import sanitize from 'mongo-sanitize';
+
 import {wrapMeteorServer} from './WrapMeteorServer.js';
 
 process.env.DEBUG_ACCOUNTS && console.log('Initializing AccountsServer.')
@@ -537,10 +539,12 @@ Meteor.startup(async function(){
             data: dataPayload
           });
         }
+
+        var cleanedUserId = sanitize(userId);        
   
         // When initializing AccountsServer we check that enableAutologin and ambiguousErrorMessages options
         // are not enabled at the same time
-        const createdUser = await accountsServer.findUserById(userId);
+        const createdUser = await accountsServer.findUserById(cleanedUserId);
         process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.createdUser', createdUser)
   
         process.env.DEBUG_ACCOUNTS && console.log('Great time to create a Patient record.');
