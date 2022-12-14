@@ -41,7 +41,6 @@ babel-eslint	MIT	MIT	MIT
 chromedriver	Apache-2.0	Apache-2.0	Apache-2.0
 eslint	MIT	MIT	MIT
 eslint-import-resolver-meteor	MIT	MIT	
-eslint-plugin-meteor	MIT	MIT	MIT
 selenium-webdriver	Apache-2.0	Apache-2.0	Apache-2.0
 nightwatch	MIT	MIT	MIT
 shelljs	BSD-3-Clause	BSD-3-Clause	Other
