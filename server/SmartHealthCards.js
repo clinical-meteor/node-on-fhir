@@ -21,13 +21,14 @@ try {
   // private key (must be in PEM format)
   localFilesystemPem = get(Meteor, 'settings.private.x509.privateKey', '');
   if(localFilesystemPem){
-    console.log(localFilesystemPem)
+    console.log('PrivateKey found in settings file.  Ready to sign SmartHealthCards...');
+    process.env.DEBUG_CRYPTO && console.log(localFilesystemPem)
   } else {
     console.log('No local privateKey found for signing SmartHealthCards...')
   }
 
 } catch (err) {
-  console.error(err)
+    process.env.DEBUG_CRYPTO && console.error("FileSystemError", err)
 }
 
 import fs from 'fs';
