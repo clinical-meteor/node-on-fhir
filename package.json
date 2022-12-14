@@ -121,7 +121,6 @@
     "winston": "3.2.1"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.16.5",
     "chai": "4.2.0",
     "chai-nightwatch": "0.4.0",
     "chromedriver": "91.0.0",
