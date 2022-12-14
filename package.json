@@ -126,7 +126,7 @@
     "chai-nightwatch": "0.4.0",
     "chromedriver": "91.0.0",
     "conventional-changelog-cli": "2.1.1",
-    "nightwatch": "1.7.12",
+    "nightwatch": "2.5.4",
     "selenium-webdriver": "3.6.0",
     "shelljs": "0.8.5"
   },
