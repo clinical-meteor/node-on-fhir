@@ -149,14 +149,7 @@
     "fhirpath": "0.17.2",
     "react-fontawesome": "1.6.1",
     "blue-button-fhir": "1.6.0-beta.2",
-    "node-jose": "^2.0.0",
-    "eslint": "^7.5.0",
-    "eslint-import-resolver-meteor": "0.4.0",
-    "eslint-plugin-import": "2.21.2",
-    "eslint-plugin-jsx-a11y": "6.3.1",
-    "eslint-plugin-meteor": "7.3.0",
-    "eslint-plugin-react": "7.20.0",
-    "eslint-plugin-react-hooks": "4.0.4"
+    "node-jose": "^2.0.0"
   },
   "experimental": {
     "webtorrent": "0.107.17",
