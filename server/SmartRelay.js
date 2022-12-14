@@ -12,6 +12,7 @@ import { HTTP } from 'meteor/http';
 import { CarePlans, CareTeams, Consents, Conditions, Encounters, Goals, Immunizations, Observations, Patients, Procedures, Practitioners, QuestionnaireResponses, Tasks } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 import moment from 'moment';
+import sanitize from 'mongo-sanitize';
 
 const smart = require("fhirclient");
 const Session = require("./Session");
@@ -248,7 +249,8 @@ JsonRoutes.add('post', '/node-launch', function (req, res, next) {
 
 function precheckThenCreateRecord(record, resourceType){
     console.log('Prechecking record', record);
-    if(!Collections[FhirUtilities.pluralizeResourceName(resourceType)].findOne({id: get(record, 'data.id')})){
+    let cleanedId = sanitize(get(record, 'data.id'));
+    if(!Collections[FhirUtilities.pluralizeResourceName(resourceType)].findOne({id: cleanedId})){
         console.log(resourceType + ' not found.  Creating a new record.....')        
         Collections[FhirUtilities.pluralizeResourceName(resourceType)].insert(record, get(Meteor, 'settings.private.fhir.schemaValidation', {validate: false, filter: false}), function(err, result){
             if(err){console.log('err', err)}
@@ -264,8 +266,9 @@ function parseBundleIntoCollection(bundle, resourceType){
         console.log('Checking that the ' + FhirUtilities.pluralizeResourceName(resourceType) + ' collection exists: ' + typeof Collections[FhirUtilities.pluralizeResourceName(resourceType)]);
         if(Array.isArray(bundle.entry)){
             bundle.entry.forEach(function(entry){
-                if(get(entry.resource, 'verificationStatus.text') !== "Entered in Error"){      
-                    if(Collections[FhirUtilities.pluralizeResourceName(resourceType)].findOne({id: get(entry.resource, 'id')})){
+                if(get(entry.resource, 'verificationStatus.text') !== "Entered in Error"){     
+                    let cleanedId = sanitize(get(entry.resource, 'id'));
+                    if(Collections[FhirUtilities.pluralizeResourceName(resourceType)].findOne({id: cleanedId})){
                         console.log(resourceType + ' already exists.')        
                     } else {
                         Collections[FhirUtilities.pluralizeResourceName(resourceType)].insert(entry.resource, get(Meteor, 'settings.private.fhir.schemaValidation', {validate: false, filter: false}), function(err, result){
@@ -390,7 +393,8 @@ JsonRoutes.add('get', '/node-fhir-receiver', function (req, res, next) {
 
             if(get(json.patient, 'resourceType') === "Patient"){
                 console.log('Received a Patient')
-                if(!Patients.findOne({id: get(json.patient, 'id')})){
+                let cleanedPatientId = sanitize(get(json.patient, 'id'))
+                if(!Patients.findOne({id: cleanedPatientId})){
                     console.log('Patient not found.  Inserting a new patient.....')        
                     Patients.insert(json.patient, get(Meteor, 'settings.private.fhir.schemaValidation', {validate: false, filter: false}), function(err, result){
                         if(err){console.log('err', err)}
