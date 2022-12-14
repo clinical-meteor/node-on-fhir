@@ -140,8 +140,8 @@ jobs:
     - run: cat .meteor/versions
     - run: meteor --version
 
-    - run: if grep -q 'mitre:space-health-registry' "$.meteor/packages"; then meteor remove mitre:space-health-registry; fi
-    - run: if grep -q 'mitre:consent-engine' "$.meteor/packages"; then meteor remove mitre:consent-engine; fi
+    - run: if grep -q 'mitre:space-health-registry' .meteor/packages; then meteor remove mitre:space-health-registry; fi
+    - run: if grep -q 'mitre:consent-engine' .meteor/packages; then meteor remove mitre:consent-engine; fi
 
     # Install the actual app...
     - run: meteor npm install 
