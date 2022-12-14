@@ -7,6 +7,10 @@
 # More details at https://github.com/eslint/eslint
 # and https://eslint.org
 
+#          npm install @microsoft/eslint-formatter-sarif@2.1.7
+#          --format @microsoft/eslint-formatter-sarif
+
+
 name: ESLint
 
 on:
@@ -34,7 +38,6 @@ jobs:
         run: |
           npm install eslint@3.19.0
           npm install babel-eslint@9.0.0 
-          npm install @microsoft/eslint-formatter-sarif@2.1.7
           npm install eslint-import-resolver-meteor@0.4.0
           npm install eslint-plugin-import@1.16.0
           npm install eslint-plugin-jsx-a11y@6.6.1
@@ -46,8 +49,7 @@ jobs:
         run: npx eslint .
           --config .eslintrc.json
           --ext .js,.jsx,.ts,.tsx
-          --format @microsoft/eslint-formatter-sarif
-          --output-file eslint-results.sarif
+          --output-file eslint-results.txt
         continue-on-error: true
 
       - name: Upload analysis results to GitHub
