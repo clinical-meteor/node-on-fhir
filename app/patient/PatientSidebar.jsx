@@ -177,6 +177,7 @@ export function PatientSidebar(props){
     SearchParameters: 0,
     ServiceRequests: 0,
     StructureDefinitions: 0,
+    Subscriptions: 0,
     Tasks: 0,
     ValueSets: 0,
     VerificationResults: 0
@@ -304,6 +305,9 @@ export function PatientSidebar(props){
   }, [])
   collectionCounts.StructureDefinitions = useTracker(function(){
     return StructureDefinitions.find().count();
+  }, [])
+  collectionCounts.Subscriptions = useTracker(function(){
+    return Subscriptions.find().count();
   }, [])
   collectionCounts.Tasks = useTracker(function(){
     return Tasks.find().count();

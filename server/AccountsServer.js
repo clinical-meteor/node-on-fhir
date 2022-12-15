@@ -20,13 +20,16 @@ import { check } from 'meteor/check';
 
 import { Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
+
 import moment from 'moment';
+import sanitize from 'mongo-sanitize';
 
+import {wrapMeteorServer} from './WrapMeteorServer.js';
 
+ process.env.DEBUG_ACCOUNTS && console.log('Initializing AccountsServer.')
+ process.env.DEBUG_ACCOUNTS && console.log('MONGO_URL: ' + process.env.MONGO_URL);
 
-console.log('Initializing AccountsServer.')
-console.log('MONGO_URL: ' + process.env.MONGO_URL);
-
+ // AUTHENTICATION SUBSYSTEM
 Meteor.startup(async function(){
   // If you are using mongodb 3.x
   // const client = await mongodb.MongoClient.connect(process.env.MONGO_URL);
@@ -63,7 +66,8 @@ Meteor.startup(async function(){
       id: String,
       nickname: String,
       isClinician: Boolean,
-      patient: Object
+      patient: Object,
+      role: String
     })
   );
 
@@ -71,8 +75,11 @@ Meteor.startup(async function(){
     // This option is called when a new user create an account
     // Inside we can apply our logic to validate the user fields
     validateNewUser: function(user){
-      console.log("AccountsServer: Validating new user.")
+       process.env.DEBUG_ACCOUNTS && console.log("AccountsServer: Validating new user.")
 
+      if(get(Meteor, 'settings.public.defaults.defaultUserRole')){
+        user.role = get(Meteor, 'settings.public.defaults.defaultUserRole', 'citizen')
+      }
       if(get(Meteor, 'settings.public.defaults.registration.displayFullLegalName')){
         if (!user.fullLegalName) {
           throw new Error('Full legal name is required.');
@@ -120,7 +127,7 @@ Meteor.startup(async function(){
       if(get(Meteor, 'settings.public.defaults.registration.displayEmail')){
         // For example we can allow only some kind of emails
         if (user.email.endsWith('.xyz')) {
-          console.error('Invalid email.');
+          process.env.DEBUG_ACCOUNTS && console.error('Invalid email.');
           throw new Error('Invalid email.');
         }
       }
@@ -135,20 +142,45 @@ Meteor.startup(async function(){
       }
       if(get(Meteor, 'settings.private.invitationCode')){
         if (!user.invitationCode) {
-          console.error('Must provide an invitation code');
+          process.env.DEBUG_ACCOUNTS && console.error('Must provide an invitation code');
           throw new Error('Must provide an invitation code');
         }  
 
         if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
-          console.info('Invitation code matches.  Creating user.');
-          return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);
+          if(get(Meteor, 'settings.private.invitationExpiry')){
+            if(moment.now() < moment(get(Meteor, 'settings.private.invitationExpiry'))){
+              process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches and hasnt expired.  Creating user.');
+              return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);
+            } else {
+              process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  User not created.')
+              throw new Error('Current date is after invitation expiry date');
+            }
+          } else {
+            process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
+            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);  
+          }
+
         } else if (user.invitationCode === get(Meteor, 'settings.private.clinicianInvitationCode')) {
-          console.info('Clinician invitation code matches.  Creating clinician.');
-          user.isClinician = true;
-          console.log('Validated user parameters: ', user);      
-          return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'isClinician']);
+
+          if(get(Meteor, 'settings.private.invitationExpiry')){
+            if(moment.now() < moment(get(Meteor, 'settings.private.invitationExpiry'))){
+              process.env.DEBUG_ACCOUNTS && console.info('Clinician invitation code matches.  Creating clinician.');
+              user.isClinician = true;
+              console.log('Validated user parameters: ', user);      
+              return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'isClinician']);
+            } else {
+              process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  User not created.')
+              throw new Error('Current date is after invitation expiry date');
+            }
+          } else {
+            process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
+            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);  
+          }
+
+
+
         } else {
-          console.error('Invalid invitation code.');
+          process.env.DEBUG_ACCOUNTS && console.error('Invalid invitation code.');
           throw new Error('Invalid invitation code.');
         }
       }
@@ -166,12 +198,14 @@ Meteor.startup(async function(){
     }
   );
 
+  wrapMeteorServer(Meteor, accountsServer)
+  
   accountsServer.on(ServerHooks.ValidateLogin, function(userLoginRequest){
     // This hook is called every time a user try to login.
     // You can use it to only allow users with verified email to login.
     // If you throw an error here it will be returned to the client.
-    console.log('AccountsServer: ServerHooks.ValidateLogin()')
-    console.log('AccountsServer: ValidateLogin.userLoginRequest', userLoginRequest)
+     process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: ServerHooks.ValidateLogin()')
+     process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: ValidateLogin.userLoginRequest', userLoginRequest)
 
     return userLoginRequest;
   });
@@ -184,7 +218,7 @@ Meteor.startup(async function(){
       check(selectedPatient, Object);
 
       if(currentUser){
-        console.log('Deactivating user', currentUser);
+         process.env.DEBUG_ACCOUNTS && console.log('Deactivating user', currentUser);
 
         if(Package["clinical:hipaa-logger"]){
           let newAuditEvent = { 
@@ -218,7 +252,7 @@ Meteor.startup(async function(){
             }]
           };
 
-          console.log('Logging a hipaa event...', newAuditEvent);
+           process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent);
           let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent);            
         }
         
@@ -260,7 +294,7 @@ Meteor.startup(async function(){
     res.setHeader("Access-Control-Allow-Header", "*");
     
 
-    // console.log('JsonRoutes.Middleware using accountsExpress()')
+    //  process.env.DEBUG_ACCOUNTS && console.log('JsonRoutes.Middleware using accountsExpress()')
     accountsExpress(accountsServer)
     next();
   });
@@ -269,13 +303,13 @@ Meteor.startup(async function(){
   //  * Return the current logged in user
   //  */
   // app.get('/user', userLoader(accountsServer), function(req, res){
-  //   console.log('AccountsServer: GET /user', req);
+  //    process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: GET /user', req);
 
   //   res.json({ user: get(req, 'user', null) });
   // });
 
   JsonRoutes.add('get', '/user', function (req, res, next) {
-    console.log('AccountsServer: GET /user', req, res);
+     process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: GET /user', req, res);
 
     res.setHeader("Access-Control-Allow-Origin", "*");
     
@@ -288,12 +322,12 @@ Meteor.startup(async function(){
 
   // app.post('/accounts/password/register', userLoader(accountsServer), async function (req, res){
   //   let body = get(req, 'body');
-  //   console.log('body', 'body')
+  //    process.env.DEBUG_ACCOUNTS && console.log('body', 'body')
   //   res.json(true);
   // });
 
   // JsonRoutes.add('get', '/accounts/password/register', function (req, res, next) {
-  //   console.log('AccountsServer: GET /accounts/password/register', req, res);
+  //    process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: GET /accounts/password/register', req, res);
 
   //   // userLoader(accountsServer);
   //   // JsonRoutes.sendResult(res, {
@@ -303,21 +337,21 @@ Meteor.startup(async function(){
   // });
 
   JsonRoutes.add('post', '/accounts/*', function (req, res, next) {
-    console.log('AccountsServer: POST /accounts/*', req, res);
+     process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: POST /accounts/*', req, res);
 
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     next();
   });
   JsonRoutes.add('post', '/accounts/password', function (req, res, next) {
-    console.log('AccountsServer: POST /accounts/password', req, res);
+     process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: POST /accounts/password', req, res);
 
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     next();
   });
   JsonRoutes.add('post', '/accounts/password/authenticate', async function (req, res, next) {
-    console.log('AccountsServer: POST /accounts/password/authenticate', req.body);
+     process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: POST /accounts/password/authenticate', req.body);
 
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Header", "*");
@@ -326,15 +360,15 @@ Meteor.startup(async function(){
     let loggedInUser;
     try {
       loggedInUser = await accountsServer.loginWithService('password', req.body, req.infos);
-      console.log('loggedInUser', loggedInUser);   
+       process.env.DEBUG_ACCOUNTS && console.log('loggedInUser', loggedInUser);   
 
       JsonRoutes.sendResult(res, {
         code: 200,
         data: loggedInUser
       });  
     } catch (error) {
-      console.log('accountsServer.loginWithService.error.message', error.message)
-      console.log('accountsServer.loginWithService.error.code', error.code)
+       process.env.DEBUG_ACCOUNTS && console.log('accountsServer.loginWithService.error.message', error.message)
+       process.env.DEBUG_ACCOUNTS && console.log('accountsServer.loginWithService.error.code', error.code)
       // JsonRoutes.sendResult(res, {
       //   code: 501,
       //   data: error
@@ -350,16 +384,16 @@ Meteor.startup(async function(){
 
 
   JsonRoutes.add('post', '/accounts/logout', async function (req, res, next) {
-    console.log('AccountsServer: POST /accounts/logout');
+     process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: POST /accounts/logout');
 
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     let accessToken = req.headers?.Authorization || req.headers?.authorization || req.body?.accessToken || undefined;
     accessToken = accessToken && accessToken.replace('Bearer ', '');
-    console.log('accessToken', accessToken)
+     process.env.DEBUG_ACCOUNTS && console.log('accessToken', accessToken)
 
     const logoutResult = await accountsServer.logout( accessToken );
-    console.log('logoutResult', logoutResult)
+     process.env.DEBUG_ACCOUNTS && console.log('logoutResult', logoutResult)
     
     JsonRoutes.sendResult(res, {
       data: {
@@ -374,7 +408,7 @@ Meteor.startup(async function(){
   //  * - update the current logged in user in the db
   //  */
   // app.put('/user', userLoader(accountsServer), async function (req, res){
-  //   console.log('AccountsServer: PUT /user', req);
+  //    process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: PUT /user', req);
 
   //   const userId = get(req, 'userId', null);
 
@@ -394,15 +428,15 @@ Meteor.startup(async function(){
   // });
 
   JsonRoutes.add('post', '/accounts/user', async function (req, res, next) {
-    console.log('AccountsServer: POST /accounts/user', req.body);
+     process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: POST /accounts/user', req.body);
 
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     let userLoaded = userLoader(accountsServer);
-    console.log('userLoaded', userLoaded);
+     process.env.DEBUG_ACCOUNTS && console.log('userLoaded', userLoaded);
 
     const userId = get(req, 'userId', null);
-    console.log('userId', userId);
+     process.env.DEBUG_ACCOUNTS && console.log('userId', userId);
 
     if (!userId) {
       JsonRoutes.sendResult(res, {
@@ -436,7 +470,7 @@ Meteor.startup(async function(){
   //   let body = get(req, 'body', false);
 
   //   if(body){
-  //     console.log('AccountsServer: POST /user/password/register', body);
+  //      process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: POST /user/password/register', body);
 
   //     // const userId = get(req, 'userId', null);
 
@@ -454,14 +488,14 @@ Meteor.startup(async function(){
   //     // await user.save();
 
   //   } else {
-  //     console.log('AccountsServer: POST received, but no body in message.');
+  //      process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: POST received, but no body in message.');
   //   }
 
   //   res.json(true);
   // });
 
   JsonRoutes.add('post', '/accounts/password/register', async function (req, res, next) {
-    console.log('AccountsServer: POST /accounts/password/register', req.body);
+     process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: POST /accounts/password/register', req.body);
 
     res.setHeader("Access-Control-Allow-Origin", "*");
 
@@ -482,11 +516,11 @@ Meteor.startup(async function(){
       user.patientId = Random.id();
     }
 
-    console.log('Registering a new user.', user);
+     process.env.DEBUG_ACCOUNTS && console.log('Registering a new user.', user);
 
     try {
       userId = await accountsPasswordService.createUser(user);
-      console.log('AccountsServer.register.createUser.userId', userId)
+       process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.register.createUser.userId', userId)
 
       if(has(accountsServer, "options.enableAutologin")) {
 
@@ -502,15 +536,17 @@ Meteor.startup(async function(){
         });
       }
 
+
       // When initializing AccountsServer we check that enableAutologin and ambiguousErrorMessages options
       // are not enabled at the same time
-      const createdUser = await accountsServer.findUserById(userId);
-      console.log('AccountsServer.createdUser', createdUser)
+      let cleanedUserId = sanitize(userId); 
+      let createdUser = await accountsServer.findUserById(cleanedUserId);
 
-      console.log('Great time to create a Patient record.');
+       process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.createdUser', createdUser)
+       process.env.DEBUG_ACCOUNTS && console.log('Great time to create a Patient record.');
 
-      console.log('typeof createdUser._id', typeof createdUser._id)
-      console.log('typeof createdUser.id', typeof createdUser.id)
+       process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser._id', typeof createdUser._id)
+       process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser.id', typeof createdUser.id)
 
       //------------------------------------------------------//------------------------------------------------------------------------------
       // creating the new patient record
@@ -580,7 +616,7 @@ Meteor.startup(async function(){
         newPatient._id = createdUser._id._str;
       }
       
-      console.log('AccountsServer.newPatient', newPatient)
+       process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatient', newPatient)
 
 
       //------------------------------------------------------------------------------------------------------------------------------------
@@ -594,7 +630,7 @@ Meteor.startup(async function(){
           newPatient.id = createdUser.patientId;
 
           let patientInternalId = Patients.insert(newPatient)
-          console.log('AccountsServer.newPatientId', patientInternalId)
+           process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', patientInternalId)
 
           if(Package["clinical:hipaa-logger"]){
             let newAuditEvent = { 
@@ -629,7 +665,7 @@ Meteor.startup(async function(){
               }]
             };
 
-            console.log('Logging a hipaa event...', newAuditEvent)
+             process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
             let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
           }  
         }
@@ -647,7 +683,7 @@ Meteor.startup(async function(){
 
 
 
-      if(get(createdUser, 'isClinician')){
+      if((get(createdUser, 'isClinician') || get(createdUser, 'role') === "healthcare provider")){
         if(!Practitioners.findOne({id: get(createdUser, 'id')})){
           let newPractitioner = {
             _id: '',  
@@ -711,14 +747,14 @@ Meteor.startup(async function(){
             }
           }
   
-          console.log('AccountsServer.newPractitioner', newPractitioner)
+           process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitioner', newPractitioner)
   
           let practitionerAlreadyExists = Practitioners.findOne({id: newPractitioner.id})
-          console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
+           process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
   
           if(!practitionerAlreadyExists){
             let patientInternalId = Practitioners.insert(newPractitioner)
-            console.log('AccountsServer.newPractitionerId', patientInternalId);
+             process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitionerId', patientInternalId);
 
             if(Package["clinical:hipaa-logger"]){
               let newAuditEvent = { 
@@ -753,7 +789,7 @@ Meteor.startup(async function(){
                 }]
               };
   
-              console.log('Logging a hipaa event...', newAuditEvent)
+               process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
               let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
             }
           }
@@ -761,25 +797,25 @@ Meteor.startup(async function(){
       }
 
 
-      console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');
+       process.env.DEBUG_ACCOUNTS && console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');
 
       // If we are here - user must be created successfully
       // Explicitly saying this to Typescript compiler
       const loginResult = await accountsServer.loginWithUser(createdUser, req.infos);
-      console.log('AccountsServer.loginResult', loginResult)
+       process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.loginResult', loginResult)
 
       dataPayload = {
         userId: userId,
         loginResult: loginResult
       }
-      console.log('dataPayload', dataPayload)
+       process.env.DEBUG_ACCOUNTS && console.log('dataPayload', dataPayload)
 
       JsonRoutes.sendResult(res, {
         code: 200,
         data: dataPayload
       });
     } catch (error) {
-      console.log('error', error)
+       process.env.DEBUG_ACCOUNTS && console.log('error', error)
 
       // // // If ambiguousErrorMessages is true we obfuscate the email or username already exist error
       // // // to prevent user enumeration during user creation

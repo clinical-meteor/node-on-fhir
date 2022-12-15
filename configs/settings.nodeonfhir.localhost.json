@@ -172,6 +172,7 @@
       },
       "fhirPath": "baseR4",
       "autopublishSubscriptions": true,
+      "autoGenerateSubscriptions": true,
       "rest": {
         "Observation": {
           "interactions": ["read", "create", "update", "delete"],
