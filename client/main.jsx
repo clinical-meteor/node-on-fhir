@@ -1,7 +1,9 @@
 import React from 'react';
 
 import { Meteor } from 'meteor/meteor';
-import { wrapMeteorClient } from '@accounts/meteor-adapter';
+// import { wrapMeteorClient } from '@accounts/meteor-adapter';
+// import { wrapMeteorClient } from '@accounts/meteor-adapter';
+import { wrapMeteorClient } from './meteor-adapter-client';
 
 import { Session } from 'meteor/session';
 import ReactDOM from "react-dom";
@@ -22,6 +24,10 @@ import logger from '../app/Logger';
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 
 import AppContainer from "/app/layout/AppContainer.jsx";
+
+import '../app/WebsocketSubscriptions';
+
+wrapMeteorClient(Meteor, AccountsClient);
 
 let accountServerOptions = {};
 if(has(Meteor, 'settings.public.interfaces.accountServer')){

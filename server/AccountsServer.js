@@ -24,10 +24,12 @@ import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 import moment from 'moment';
 import sanitize from 'mongo-sanitize';
 
+import {wrapMeteorServer} from './WrapMeteorServer.js';
 
  process.env.DEBUG_ACCOUNTS && console.log('Initializing AccountsServer.')
  process.env.DEBUG_ACCOUNTS && console.log('MONGO_URL: ' + process.env.MONGO_URL);
 
+ // AUTHENTICATION SUBSYSTEM
 Meteor.startup(async function(){
   // If you are using mongodb 3.x
   // const client = await mongodb.MongoClient.connect(process.env.MONGO_URL);
@@ -64,7 +66,8 @@ Meteor.startup(async function(){
       id: String,
       nickname: String,
       isClinician: Boolean,
-      patient: Object
+      patient: Object,
+      role: String
     })
   );
 
@@ -74,6 +77,9 @@ Meteor.startup(async function(){
     validateNewUser: function(user){
        process.env.DEBUG_ACCOUNTS && console.log("AccountsServer: Validating new user.")
 
+      if(get(Meteor, 'settings.public.defaults.defaultUserRole')){
+        user.role = get(Meteor, 'settings.public.defaults.defaultUserRole', 'citizen')
+      }
       if(get(Meteor, 'settings.public.defaults.registration.displayFullLegalName')){
         if (!user.fullLegalName) {
           throw new Error('Full legal name is required.');
@@ -192,6 +198,8 @@ Meteor.startup(async function(){
     }
   );
 
+  wrapMeteorServer(Meteor, accountsServer)
+  
   accountsServer.on(ServerHooks.ValidateLogin, function(userLoginRequest){
     // This hook is called every time a user try to login.
     // You can use it to only allow users with verified email to login.
@@ -675,7 +683,7 @@ Meteor.startup(async function(){
 
 
 
-      if(get(createdUser, 'isClinician')){
+      if((get(createdUser, 'isClinician') || get(createdUser, 'role') === "healthcare provider")){
         if(!Practitioners.findOne({id: get(createdUser, 'id')})){
           let newPractitioner = {
             _id: '',  
