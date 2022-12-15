@@ -141,13 +141,38 @@ Meteor.startup(async function(){
         }  
 
         if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
-          console.info('Invitation code matches.  Creating user.');
-          return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);
+          if(get(Meteor, 'settings.private.invitationExpiry')){
+            if(moment.now() < moment(get(Meteor, 'settings.private.invitationExpiry'))){
+              console.info('Invitation code matches and hasnt expired.  Creating user.');
+              return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);
+            } else {
+              console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  User not created.')
+              throw new Error('Current date is after invitation expiry date');
+            }
+          } else {
+            console.info('Invitation code matches.  No expiry date set. Creating user.');
+            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);  
+          }
+
         } else if (user.invitationCode === get(Meteor, 'settings.private.clinicianInvitationCode')) {
-          console.info('Clinician invitation code matches.  Creating clinician.');
-          user.isClinician = true;
-           process.env.DEBUG_ACCOUNTS && console.log('Validated user parameters: ', user);      
-          return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'isClinician']);
+
+          if(get(Meteor, 'settings.private.invitationExpiry')){
+            if(moment.now() < moment(get(Meteor, 'settings.private.invitationExpiry'))){
+              console.info('Clinician invitation code matches.  Creating clinician.');
+              user.isClinician = true;
+              console.log('Validated user parameters: ', user);      
+              return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'isClinician']);
+            } else {
+              console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  User not created.')
+              throw new Error('Current date is after invitation expiry date');
+            }
+          } else {
+            console.info('Invitation code matches.  No expiry date set. Creating user.');
+            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);  
+          }
+
+
+
         } else {
           console.error('Invalid invitation code.');
           throw new Error('Invalid invitation code.');
