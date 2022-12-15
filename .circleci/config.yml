@@ -140,15 +140,21 @@ jobs:
     - run: cat .meteor/versions
     - run: meteor --version
 
+    - run: if grep -q 'mitre:space-health-registry' .meteor/packages; then sed 's/mitre:space-health-registry//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    - run: mv .meteor/packages2 .meteor/packages;
+    - run: if grep -q 'mitre:consent-engine' .meteor/packages; then sed 's/mitre:consent-engine//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    - run: mv .meteor/packages2 .meteor/packages;
+    - run: if grep -q 'symptomatic:data-importer' .meteor/packages; then sed 's/symptomatic:data-importer//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    - run: mv .meteor/packages2 .meteor/packages;
+    - run: if grep -q 'symptomatic:data-relay' .meteor/packages; then sed 's/symptomatic:data-relay//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    - run: mv .meteor/packages2 .meteor/packages;
+
     # Install the actual app...
     - run: meteor npm install 
     - run: npm install 
-    - run: meteor npm install react@16.13.0
+    - run: meteor npm install react@16.14.0
 
-    # - run: meteor npm install nightwatch@1.7.12 chromedriver@~91.0.0 
-    # - run: meteor npm install eslint@4.19.1 eslint-plugin-import@2.21.2 eslint-import-resolver-meteor@0.4.0 eslint-plugin-jsx-a11y@6.3.1 eslint-plugin-meteor@7.0.0 eslint-plugin-react@7.20.0 babel-eslint@10.1.0
-    # - run: meteor npm install eslint-config-airbnb@18.2.0 
-
+    
     #- before/after
     - run: cat .meteor/packages
     - run: cat .meteor/versions
