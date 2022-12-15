@@ -30,7 +30,7 @@ import { accountsClient } from './Accounts';
 import { get, has } from 'lodash';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
-
+import { Meteor } from 'meteor/meteor';
 
 
 const useStyles = makeStyles(theme => ({
@@ -65,49 +65,7 @@ const Logout = function({ history }){
   // State Management
 
   const [error, setError] = useState();
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-      code: ''
-    },
-    validate: function(values){
-      const errors = {};
-      
-      if (!values.email) {
-        errors.email = 'Required';
-      }
-      if (!values.password) {
-        errors.password = 'Required';
-      }
-      return errors;
-    },
-    onSubmit: async function(values, { setSubmitting }){
-      console.log('AccountsClient: Submiting username and password for authentication.')
-
-      try {
-        await loginWithService('password', {
-          user: {
-            email: values.email
-          },
-          password: values.password
-          // code: values.code
-        });
-
-        let user = await accountsClient.getUser();
-        console.log('user', user)
-
-        Session.set('mainAppDialogOpen', false)
-
-        // history.push('/');
-      } catch (err) {
-        setError(err.message);
-        setSubmitting(false);
-      }
-    }
-  });
-
-
+  
 
   //-----------------------------------------------------------
   // Trackers 
@@ -126,13 +84,17 @@ const Logout = function({ history }){
   }
 
   async function logoutUser(){
-    console.log('accountsClient', accountsClient);
+    console.log('Logging out user session: ' + Session.get('sessionAccessToken'))
     
     let result = await accountsClient.logout();    
     console.log('logout result', result);
 
-    Session.set('currentUser', false)
+    Meteor.call('jsaccounts/validateLogout', Session.get('sessionAccessToken'));
+
+    Session.set('currentUser', false);
+    Session.set('selectedPatientId', false);
     Session.set('mainAppDialogOpen', false);
+
   }
 
 
@@ -149,18 +111,7 @@ const Logout = function({ history }){
 
   return (
     <UnauthenticatedContainer>
-      {/* <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center'
-        }}
-        open={!!error}
-        onClose={function(){
-          setError(undefined)
-        }}
-      >
-        <SnackBarContentError message={error} />
-      </Snackbar> */}
+
 
             <Grid container spacing={3} style={{marginTop: '0px', paddingTop: '0px'}}>
               <Grid item md={12}>

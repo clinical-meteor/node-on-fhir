@@ -179,6 +179,7 @@
         "validate": false
       },
       "autopublishSubscriptions": true,
+      "autoGenerateSubscriptions": true,
       "fhirPath": "baseR4",
       "rest": {
         "Observation": {

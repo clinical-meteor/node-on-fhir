@@ -4,7 +4,7 @@ import './SmartHealthCards.js';
 import './ProxyMethods.js';
 import './ProxyRelay.js';
 import './Cron.js';
-
+import './WebsocketPublications.js';
 
 // need to upgrade mongoose, mongo, and the kerberose dependency
 // then we can re-enable
