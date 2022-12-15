@@ -86,8 +86,8 @@ const Logout = function({ history }){
   async function logoutUser(){
     console.log('Logging out user session: ' + Session.get('sessionAccessToken'))
     
-    let result = await accountsClient.logout();    
-    console.log('logout result', result);
+    // let result = await accountsClient.logout();    
+    // console.log('logout result', result);
 
     Meteor.call('jsaccounts/validateLogout', Session.get('sessionAccessToken'));
 
