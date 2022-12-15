@@ -141,7 +141,7 @@ jobs:
     - run: meteor --version
 
     - run: if grep -q 'mitre:space-health-registry' .meteor/packages; then sed 's/mitre:space-health-registry//' .meteor/packages > .meteor/packages2; fi; sleep 1;
-    - run: - run: if grep -q 'mitre:consent-engine' .meteor/packages; then sed 's/mitre:consent-engine//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    - run: if grep -q 'mitre:consent-engine' .meteor/packages; then sed 's/mitre:consent-engine//' .meteor/packages > .meteor/packages2; fi; sleep 1;
 
     # Install the actual app...
     - run: meteor npm install 
