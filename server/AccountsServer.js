@@ -121,7 +121,7 @@ Meteor.startup(async function(){
       if(get(Meteor, 'settings.public.defaults.registration.displayEmail')){
         // For example we can allow only some kind of emails
         if (user.email.endsWith('.xyz')) {
-          console.error('Invalid email.');
+          process.env.DEBUG_ACCOUNTS && console.error('Invalid email.');
           throw new Error('Invalid email.');
         }
       }
@@ -136,21 +136,21 @@ Meteor.startup(async function(){
       }
       if(get(Meteor, 'settings.private.invitationCode')){
         if (!user.invitationCode) {
-          console.error('Must provide an invitation code');
+          process.env.DEBUG_ACCOUNTS && console.error('Must provide an invitation code');
           throw new Error('Must provide an invitation code');
         }  
 
         if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
           if(get(Meteor, 'settings.private.invitationExpiry')){
             if(moment.now() < moment(get(Meteor, 'settings.private.invitationExpiry'))){
-              console.info('Invitation code matches and hasnt expired.  Creating user.');
+              process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches and hasnt expired.  Creating user.');
               return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);
             } else {
-              console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  User not created.')
+              process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  User not created.')
               throw new Error('Current date is after invitation expiry date');
             }
           } else {
-            console.info('Invitation code matches.  No expiry date set. Creating user.');
+            process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
             return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);  
           }
 
@@ -158,23 +158,23 @@ Meteor.startup(async function(){
 
           if(get(Meteor, 'settings.private.invitationExpiry')){
             if(moment.now() < moment(get(Meteor, 'settings.private.invitationExpiry'))){
-              console.info('Clinician invitation code matches.  Creating clinician.');
+              process.env.DEBUG_ACCOUNTS && console.info('Clinician invitation code matches.  Creating clinician.');
               user.isClinician = true;
               console.log('Validated user parameters: ', user);      
               return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'isClinician']);
             } else {
-              console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  User not created.')
+              process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  User not created.')
               throw new Error('Current date is after invitation expiry date');
             }
           } else {
-            console.info('Invitation code matches.  No expiry date set. Creating user.');
+            process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
             return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);  
           }
 
 
 
         } else {
-          console.error('Invalid invitation code.');
+          process.env.DEBUG_ACCOUNTS && console.error('Invalid invitation code.');
           throw new Error('Invalid invitation code.');
         }
       }
