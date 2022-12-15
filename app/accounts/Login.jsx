@@ -27,6 +27,7 @@ import { useAuth } from './AuthContext';
 import { UnauthenticatedContainer } from './UnauthenticatedContainer';
 import { accountsClient } from './Accounts';
 
+import { get } from 'lodash';
 
 const useStyles = makeStyles(theme => ({
   cardContent: {
@@ -92,6 +93,9 @@ const Login = function({ history }){
           if(result){
             console.log('loginWithService.result', result)
 
+            Session.set('sessionId', get(result, 'sessionId'));    
+            Session.set('sessionAccessToken', get(result, 'tokens.accessToken'));    
+            Session.set('sessionRefreshToken', get(result, 'tokens.refreshToken'));   
             Session.set('mainAppDialogOpen', false);
             Session.set('lastUpdated', new Date());    
           }
