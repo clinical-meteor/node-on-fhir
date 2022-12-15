@@ -141,12 +141,14 @@ jobs:
     - run: meteor --version
 
     - run: if grep -q 'mitre:space-health-registry' .meteor/packages; then sed 's/mitre:space-health-registry//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    - run: mv .meteor/packages2 .meteor/packages;
     - run: if grep -q 'mitre:consent-engine' .meteor/packages; then sed 's/mitre:consent-engine//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    - run: mv .meteor/packages2 .meteor/packages;
 
     # Install the actual app...
     - run: meteor npm install 
     - run: npm install 
-    - run: meteor npm install react@16.13.0
+    - run: meteor npm install react@16.14.0
 
     
     #- before/after
