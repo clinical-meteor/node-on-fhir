@@ -2,7 +2,7 @@ import './ServerSideRendering.js';
 import './AccountsServer.js';
 import './SmartHealthCards.js';
 import './ProxyMethods.js';
-import './SmartRelay.js';
+import './ProxyRelay.js';
 import './Cron.js';
 
 
