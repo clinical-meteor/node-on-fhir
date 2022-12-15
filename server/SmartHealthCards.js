@@ -15,11 +15,16 @@ let signingKey = get(privateKeychain, 'keys[0]');
 
 let localFilesystemPem;
 try {
-  // assumes that we're running from the .meteor/local/build/* folder
-  localFilesystemPem = fs.readFileSync('../../../../../certs/ec_private.pem', 'utf8')
-  console.log(localFilesystemPem)
+  localFilesystemPem = get(Meteor, 'settings.private.x509.privateKey', '');
+  if(localFilesystemPem){
+    console.log(localFilesystemPem)
+    console.log('PrivateKey found in settings file.  Ready to sign SmartHealthCards...');
+    process.env.DEBUG_CRYPTO && console.log(localFilesystemPem)
+  } else {
+    console.log('No local privateKey found for signing SmartHealthCards...')
+  }
 } catch (err) {
-  console.error(err)
+    process.env.DEBUG_CRYPTO && console.error("FileSystemError", err)
 }
 
 import fs from 'fs';
