@@ -11,7 +11,7 @@ import keychain from '../certs/jwks.json';
 let publicKey = get(keychain, 'keys[0]');
 
 import privateKeychain from '../certs/private.jwks.json';
-let signingKey = get(privateKeychain, 'keys[0]');
+// let signingKey = get(privateKeychain, 'keys[0]');
 
 let localFilesystemPem;
 try {
@@ -171,6 +171,7 @@ Meteor.methods({
         console.log('');
         console.log('---------------Verified Credential------------------------')        
         console.log('');
+
         recordToSign.nbf = moment().add(1, "seconds").unix();
         console.log(recordToSign);
 
@@ -183,83 +184,132 @@ Meteor.methods({
         console.log('---------------Signing Key (PEM)--------------------------')        
         console.log('');
 
-        // let privatePem = get(Meteor, 'settings.private.smart.healthcards.privatePem');
-        // let privateJwkChain = JSON.parse(Assets.getText('private.jwks.json'));
-        
-        // console.log(privateJwkChain);
-        // console.log('');
-
-        // let jwk = get(privateJwkChain, 'keys[0]')
-        // console.log('');
-        // // console.log(jwk);
-
-        // let privatePem = jwkToPem(jwk);
         let privatePem = Assets.getText('ec_private.pem');
 
-        console.log('');
-        console.log(privatePem);
+        if(privatePem){
+            console.log('');
+            console.log(privatePem);
+    
+            console.log('');
+            console.log('-----------Public Key (.well-known/jwks.json)-------------')        
+            console.log('');
 
-        console.log('');
-        console.log('-----------Public Key (.well-known/jwks.json)-------------')        
-        console.log('');
-
-        console.log(publicKey);
-        console.log('');
-
-        console.log('');
-        console.log('---------------Stringified Payload------------------------')
-        console.log('');
-
-        let vcPayloadString = JSON.stringify(recordToSign);
-        let vcPayloadString_trimmed = vcPayloadString.trim();
-        console.log(vcPayloadString_trimmed);
-
-        console.log('');
-        console.log('-------------Raw Deflated Payload (Buffer)----------------')
-        console.log('');
-
-        let deflatedPayload = zlib.deflateRawSync(vcPayloadString_trimmed);
-        console.log(deflatedPayload);
-
-        // console.log('');
-        // console.log('---------------Stringified Payload (btoa)---------------------')
-        // console.log('');
-
-        // let deflatedPayload_btoa = btoa(deflatedPayload);
-        // console.log(deflatedPayload_btoa);
+            if(publicKey){
+                console.log(publicKey);
+                console.log('');
         
-        // let json_web_signature = await jose.JWS
-        //   .createSign({ format: 'compact', fields: { zip: 'DEF' }}, signingKey)
-        //   .update(deflatedPayload)
-        //   .final()
-        //   .then(function(result){ 
-        //     return result;
-        //   });
+                console.log('');
+                console.log('---------------Stringified Payload------------------------')
+                console.log('');
+        
+                let vcPayloadString = JSON.stringify(recordToSign);
+                let vcPayloadString_trimmed = vcPayloadString.trim();
+                console.log(vcPayloadString_trimmed);
+        
+                console.log('');
+                console.log('-------------Raw Deflated Payload (Buffer)----------------')
+                console.log('');
+        
+                let deflatedPayload = zlib.deflateRawSync(vcPayloadString_trimmed);
+                console.log(deflatedPayload);
+        
+                let json_web_signature = jws.sign({
+                    header: { alg: 'ES256', zip: 'DEF', kid: get(keychain, 'keys[0].kid')},
+                    secret: privatePem,
+                    payload: deflatedPayload.toString('base64'),
+                    encoding: 'base64'
+                });
 
-        let json_web_signature = jws.sign({
-            header: { alg: 'ES256', zip: 'DEF', kid: get(keychain, 'keys[0].kid')},
-            secret: privatePem,
-            payload: deflatedPayload.toString('base64'),
-            encoding: 'base64'
-        });
+                if(json_web_signature){
+                    console.log('');
+                    console.log('------------JSON Web Signature (JWS)----------------------')
+                    console.log('');
+            
+                    console.log(json_web_signature)     
+            
+                    Meteor.call('verifyHealthCard', json_web_signature);
+            
+                    console.log('');
+                    console.log('------------Smart Health Card----------------------------')
+                    console.log('');
+            
+                    let shcNumericString = "shc:/" + numericMode(json_web_signature);
+                    console.log(shcNumericString)
+                    console.log('==============================================================================')
+            
+                    return shcNumericString;
+                } else {
+                    console.log('json_web_signature was not available....')
+                    console.log('');
+                    console.log('please add a key to the following locations:');
+                    console.log('certs/jwks.json');
+                    console.log('.well-known/jwks.json');
+                    console.log('');
+                    console.log('should look something like the following,');
+                    console.log('using ES256 algorithm and DEF zip format:')
+                    console.log('{');
+                    console.log('  "keys": [');
+                    console.log('    {');
+                    console.log('      "kty": "EC",');
+                    console.log('      "use": "sig",');
+                    console.log('      "crv": "P-256",');
+                    console.log('      "kid": "yRwxp3sb7ldqlbGcw42zkcamMCo_9QZqUqKR6ZFQtH8",');
+                    console.log('      "x": "ivxR4CWtrm4B0D4Bqbg3gnlQO6SuzF-VFZ66D44IDLA",');
+                    console.log('      "y": "T6EdDPqwz9sIBrTXaR0KTFlbQsmdCbV4ZpObVo_80MY",');
+                    console.log('      "alg": "ES256"');
+                    console.log('    }');
+                    console.log('  ]');
+                    console.log('}');
+                    console.log('');
+                    console.log('the above key has been mangled, and is only provided to show the correct syntax');
+                    console.log('');
 
-        console.log('');
-        console.log('------------JSON Web Signature (JWS)----------------------')
-        console.log('');
+                    return false;
+                }
+            } else {
+                console.log('publicKey was not available....');
+                console.log('');
+                console.log('please add a key to the following locations:');
+                console.log('certs/jwks.json');
+                console.log('.well-known/jwks.json');
+                console.log('');
+                console.log('should look something like the following,');
+                console.log('using ES256 algorithm and DEF zip format:')
+                console.log('{');
+                console.log('  "keys": [');
+                console.log('    {');
+                console.log('      "kty": "EC",');
+                console.log('      "use": "sig",');
+                console.log('      "crv": "P-256",');
+                console.log('      "kid": "yRwxp3sb7ldqlbGcw42zkcamMCo_9QZqUqKR6ZFQtH8",');
+                console.log('      "x": "ivxR4CWtrm4B0D4Bqbg3gnlQO6SuzF-VFZ66D44IDLA",');
+                console.log('      "y": "T6EdDPqwz9sIBrTXaR0KTFlbQsmdCbV4ZpObVo_80MY",');
+                console.log('      "alg": "ES256"');
+                console.log('    }');
+                console.log('  ]');
+                console.log('}');
+                console.log('');
+                console.log('the above key has been mangled, and is only provided to show the correct syntax');
+                console.log('');
+                return false;    
+            }
+        } else {
+            console.log('privatePem was not available....');
+            console.log('');
+            console.log('please add a key to the following locations:');
+            console.log('certs/ec_private.pem');
+            console.log('');
+            console.log('should look something like the following:');
+            console.log('-----BEGIN PRIVATE KEY-----');
+            console.log('MEECAQAwEwYKKoZIzjwCAQYIKoZIzj0DAQcEJzAlAgEBBCCGnb8hUos2FdRkKrPf');
+            console.log('xMGenh8eqwyr51XDEM4GdO1Fgg==');
+            console.log('-----END PRIVATE KEY-----');
+            console.log('');
+            console.log('the above key has been mangled, and is only provided to show the correct syntax');
+            console.log('');
 
-        console.log(json_web_signature)     
-
-        Meteor.call('verifyHealthCard', json_web_signature);
-
-        console.log('');
-        console.log('------------Smart Health Card----------------------------')
-        console.log('');
-
-        let shcNumericString = "shc:/" + numericMode(json_web_signature);
-        console.log(shcNumericString)
-        console.log('==============================================================================')
-
-        return shcNumericString;
+            return false;
+        }
     },
     parseHealthCard: async function(healthCardToken){
         check(healthCardToken, String);
