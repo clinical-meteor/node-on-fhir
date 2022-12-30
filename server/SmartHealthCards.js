@@ -7,10 +7,15 @@ import { get, has, findIndex } from 'lodash';
 import { FhirUtilities, Locations, Organizations, MeasureReports, Endpoints } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import moment from 'moment';
 
-import keychain from '../certs/jwks.json';
-let publicKey = get(keychain, 'keys[0]');
+let publicKey;
+try {
+    import keychain from '../certs/jwks.json';
+    publicKey = get(keychain, 'keys[0]');        
+} catch (error) {
+    console.log(error)    
+}
 
-import privateKeychain from '../certs/private.jwks.json';
+// import privateKeychain from '../certs/private.jwks.json';
 // let signingKey = get(privateKeychain, 'keys[0]');
 
 let localFilesystemPem;
