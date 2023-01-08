@@ -82,7 +82,7 @@
     "got": "11.8.5",
     "inflate-auto": "^2.1.0",
     "jose": "3.20.4",
-    "json5": "^2.1.3",
+    "json5": "^2.2.2",
     "jsonwebtoken": "8.5.1",
     "jsx-runtime": "^1.2.0",
     "jwk-to-pem": "2.0.5",
