@@ -113,43 +113,43 @@ const Logout = function({ history }){
     <UnauthenticatedContainer>
 
 
-            <Grid container spacing={3} style={{marginTop: '0px', paddingTop: '0px'}}>
-              <Grid item md={12}>
-                <h1 className="barcode" style={{marginBottom: '20px', marginTop: '0px', fontWeight: 200}}>{ get(Session.get('currentUser'), '_id')}</h1>
+      <Grid container spacing={3} style={{marginTop: '0px', paddingTop: '0px'}}>
+        <Grid item md={12}>
+          <h1 className="barcode" style={{marginBottom: '20px', marginTop: '0px', fontWeight: 200}}>{ get(Session.get('currentUser'), '_id')}</h1>
 
-                <TextField
-                  label="User Name"
-                  // variant="outlined"
-                  fullWidth={true}
-                  type="username"
-                  id="username"
-                  defaultValue={ username }
-                  // disabled
-                  style={{marginBottom: '20px'}}
-                />
-                <TextField
-                  label="Email"
-                  // variant="outlined"
-                  fullWidth={true}
-                  type="email"
-                  id="email"
-                  defaultValue={ get(Session.get('currentUser'), 'emails[0].address') }
-                  // disabled
-                  style={{marginBottom: '20px'}}
-                />
+          <TextField
+            label="User Name"
+            // variant="outlined"
+            fullWidth={true}
+            type="username"
+            id="username"
+            defaultValue={ username }
+            // disabled
+            style={{marginBottom: '20px'}}
+          />
+          <TextField
+            label="Email"
+            // variant="outlined"
+            fullWidth={true}
+            type="email"
+            id="email"
+            defaultValue={ get(Session.get('currentUser'), 'emails[0].address') }
+            // disabled
+            style={{marginBottom: '20px'}}
+          />
 
-              </Grid>
-              <Grid item md={12}>
-                <Button
-                  variant="contained"
-                  color="primary"                  
-                  fullWidth={true}                  
-                  onClick={logoutUser}
-                >
-                  End User Session
-                </Button>
-              </Grid>
-            </Grid>
+        </Grid>
+        <Grid item md={12}>
+          <Button
+            variant="contained"
+            color="primary"                  
+            fullWidth={true}                  
+            onClick={logoutUser}
+          >
+            End User Session
+          </Button>
+        </Grid>
+      </Grid>
 
     </UnauthenticatedContainer>
   );

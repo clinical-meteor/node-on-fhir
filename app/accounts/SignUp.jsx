@@ -114,7 +114,7 @@ const Signup = function({ history }){
       familyName: familyName,
       firstName: get(selectedPatient, 'name[0].given[0]', ''),
       lastName: familyName,
-      fullLegalName: fullLegalName,
+      fullLegalName: fullLegalName.trim(),
       nickname: '',
       username: '',
       email: '',
@@ -124,7 +124,7 @@ const Signup = function({ history }){
       patient: selectedPatient,
       isClinician: false
     },
-    validate: values => {
+    validate: async values => {
       const errors = {};
 
       if(get(Meteor, 'settings.public.defaults.registration.displayFullLegalName')){
@@ -171,65 +171,68 @@ const Signup = function({ history }){
       if(get(Meteor, 'settings.public.defaults.registration.displayFullLegalName')){
         if (!values.invitationCode) {
           errors.invitationCode = 'Required';
-        }  
+        } 
       }
 
       return errors;
     },
     onSubmit: async function(values, { setSubmitting }){
       console.log('Submitting sign-up details and creating a new user.')
-      try {
-        await accountsPassword.createUser({
-          givenName: values.givenName,
-          familyName: values.familyName,
-          firstName: values.firstName,
-          lastName: values.lastName,
-          fullLegalName: values.fullLegalName,
-          nickname: values.nickname,
-          username: values.username,
-          email: values.email,
-          password: values.password,
-          invitationCode: values.invitationCode,
-          patientId: values.patientId,
-          patient: selectedPatient,
-          isClinician: values.isClinician
-        });
 
-        // console.log('userId', userId)
+      await Meteor.call("isInvitationStillValid", values.invitationCode, async function(error, result){
+        console.log('Invitation.result', result)
 
-        // let user = await accountsClient.getUser();
-        // console.log('SignUp.user', user)
-
-        Session.set('mainAppDialogOpen', false)
-
-        //history.push('/login');
-      } catch (err) {
-        // console.log('Caught an err', err)
-        // console.log('Caught an err (typeof)', typeof err)
-        // console.log('Caught an err.code', err.code)
-        // console.log('Caught an err.message', err.message)
-        // console.log('Caught an err.EmailAlreadyExists', err.EmailAlreadyExists)
-        console.log('Caught an err.stringify', JSON.stringify(err))
-
-
-
-
-        if (err.code === "EmailAlreadyExists") {
-          console.log("Email already exists.")
-          setError("Email already exists.");
+        if(!result){
+          setError('Invitation has expired');
+          return;
         }
-        setSubmitting(false);
-      }
 
-      console.log('Logging in with the same information.')
-      await loginWithService('password', {
-        user: {
-          email: values.email
-        },
-        password: values.password
-        // code: values.code
-      });  
-      console.log('loginResult', loginResult)
+        try {
+          await accountsPassword.createUser({
+            givenName: values.givenName,
+            familyName: values.familyName,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            fullLegalName: values.fullLegalName,
+            nickname: values.nickname,
+            username: values.username,
+            email: values.email,
+            password: values.password,
+            invitationCode: values.invitationCode,
+            patientId: values.patientId,
+            patient: selectedPatient,
+            isClinician: values.isClinician
+          });
+  
+          // console.log('userId', userId)
+  
+          // let user = await accountsClient.getUser();
+          // console.log('SignUp.user', user)
+  
+          Session.set('mainAppDialogOpen', false)
+  
+          //history.push('/login');
+        } catch (err) {
+          console.log('Caught an err.stringify', JSON.stringify(err))
+  
+          if (err.code === "EmailAlreadyExists") {
+            console.log("Email already exists.")
+            setError("Email already exists.");
+          } else {
+            setError(err.message);
+          }
+          setSubmitting(false);
+        }
+  
+        console.log('Logging in with the same information.')
+        await loginWithService('password', {
+          user: {
+            email: values.email
+          },
+          password: values.password
+          // code: values.code
+        }); 
+      })       
     }
   });
 
@@ -445,7 +448,7 @@ const Signup = function({ history }){
           vertical: 'top',
           horizontal: 'center',
         }}
-        open={error}
+        open={Boolean(error)}
         onClose={() => setError(undefined)}
       >
         <SnackBarContentError message={error} />
