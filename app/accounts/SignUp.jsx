@@ -122,7 +122,7 @@ const Signup = function({ history }){
       invitationCode: '',
       patientId: get(selectedPatient, 'id'),
       patient: selectedPatient,
-      isClinician: false
+      isPractitioner: false
     },
     validate: async values => {
       const errors = {};
@@ -201,7 +201,7 @@ const Signup = function({ history }){
             invitationCode: values.invitationCode,
             patientId: values.patientId,
             patient: selectedPatient,
-            isClinician: values.isClinician
+            isPractitioner: values.isPractitioner
           });
   
           // console.log('userId', userId)

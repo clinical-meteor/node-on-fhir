@@ -65,7 +65,7 @@ Meteor.startup(async function(){
       patientId: String,
       id: String,
       nickname: String,
-      isClinician: Boolean,
+      isPractitioner: Boolean,
       patient: Object,
       role: String
     })
@@ -151,10 +151,10 @@ Meteor.startup(async function(){
             process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  Creating user.');
             return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);  
 
-          } else if (user.invitationCode === get(Meteor, 'settings.private.clinicianInvitationCode')) {
+          } else if (user.invitationCode === get(Meteor, 'settings.private.practitionerInvitationCode')) {
 
             process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
-            user.isClinician = true;
+            user.isPractitioner = true;
             return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);    
           } else {
             process.env.DEBUG_ACCOUNTS && console.error('Invalid invitation code.');
@@ -687,7 +687,7 @@ Meteor.startup(async function(){
 
 
 
-      if((get(createdUser, 'isClinician') || get(createdUser, 'role') === "healthcare provider")){
+      if((get(createdUser, 'isPractitioner') || get(createdUser, 'role') === "healthcare provider")){
         if(!Practitioners.findOne({id: get(createdUser, 'id')})){
           let newPractitioner = {
             _id: '',  
