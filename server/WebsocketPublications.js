@@ -329,7 +329,7 @@ Meteor.startup(function(){
     let defaultOptions = {
         limit: get(Meteor, 'settings.private.fhir.publicationLimit', 1000)
     }
-    if(get(Meteor, 'settings.private.enableAccessRestrictions')){
+    if(get(Meteor, 'settings.private.accessControl.enableHttpAccessRestrictions')){
         defaultOptions.fields = {
             address: 0,
             access_token: 0,

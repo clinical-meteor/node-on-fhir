@@ -192,7 +192,7 @@ Meteor.startup(async function(){
 
 
   Meteor.methods({
-    deactivateAccount: async function(currentUser, selectedPatientId, selectedPatient){
+    deleteMyAccount: async function(currentUser, selectedPatientId, selectedPatient){
       check(currentUser, Object);
       check(selectedPatientId, String);
       check(selectedPatient, Object);
@@ -232,7 +232,7 @@ Meteor.startup(async function(){
             }]
           };
 
-           process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent);
+          process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent);
           let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent);            
         }
         
@@ -253,9 +253,7 @@ Meteor.startup(async function(){
           })
         }
 
-        await accountsServer.deactivateUser(get(currentUser, 'id'));
-
-          
+        await accountsServer.deactivateUser(get(currentUser, 'id'));          
       }
     },
     isInvitationStillValid: async function(invitation){

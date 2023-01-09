@@ -8,6 +8,8 @@ import { get } from 'lodash';
 import { check } from 'meteor/check';
 import sanitize from 'mongo-sanitize';
 
+import parseRpcAuthorization from './main';
+
 // AccountsServer.config({}); // Config your accounts server
  wrapMeteorServer(Meteor, AccountsServer);
 
@@ -89,7 +91,11 @@ Meteor.methods({
     check(fhirUrl, String);
     check(accessToken, String);
 
-    if(this.userId){
+    process.env.DEBUG_ACCOUNTS && console.log('this.userId', this.userId)
+
+    let isAuthorized = parseRpcAuthorization(this);
+
+    if(isAuthorized){
       // check(fhirUrl, String)
       // check(accessToken, Match.Maybe(String));
   
@@ -123,9 +129,8 @@ Meteor.methods({
       }
     } else {
       console.log('ProxyServer:  Unauthorized request.')   
-      return "Unauthorized." 
+      return "ProxyServer:  Unauthorized request.." 
     }
-
   },
   // relay the payload to the specified fhirUrl using a POST operation
   postRelay: async function(fhirUrl, options){

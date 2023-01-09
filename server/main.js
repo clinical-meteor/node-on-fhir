@@ -21,3 +21,20 @@ Meteor.startup(() => {
     }
   })
 });
+
+
+export function parseRpcAuthorization(context){
+  process.env.DEBUG && console.log("Parsing user authorization....")
+
+  let isAuthorized = true;
+
+  if(get(Meteor, 'settings.private.accessControl.enableRpcAccessRestrictions')){
+    if(context.userId){
+      isAuthorized = true;
+    } else {
+      throw new Meteor.Error('not-authorized');
+      isAuthorized = false;
+    }
+  }
+  return isAuthorized;
+}

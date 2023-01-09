@@ -8,9 +8,9 @@ export function wrapMeteorServer(Meteor, AccountsServer, ServerValidator){
       'jsaccounts/validateLogout': function (accessToken) {
         const connection = this.connection;
 
-        console.log('AccountsServer', AccountsServer);
-        console.log('connection', connection);
-        console.log('accessToken', accessToken);
+        process.env.DEBUG_ACCOUNTS && console.log('AccountsServer', AccountsServer);
+        process.env.DEBUG_ACCOUNTS && console.log('connection', connection);
+        process.env.DEBUG_ACCOUNTS && console.log('accessToken', accessToken);
 
         if (AccountsServer) {
           Meteor._noYieldsAllowed(function () {
