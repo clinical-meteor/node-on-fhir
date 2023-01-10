@@ -896,15 +896,15 @@ export function PatientSidebar(props){
     }
 
 
-    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Profile') && currentUser){
-      loginElements.push(<ListItem id='profileMenuItem' key='profileMenuItem' button onClick={function(){ openPage('/profile'); }} >
-        <ListItemIcon >
-          <Icon icon={user} className={styles.drawerIcons} />
-        </ListItemIcon>
-        <ListItemText primary="Profile" className={styles.drawerText} />
-      </ListItem>);    
-    };
-    loginElements.push(<Divider className={styles.divider} key="login-hr" />);
+    // if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Profile') && currentUser){
+    //   loginElements.push(<ListItem id='profileMenuItem' key='profileMenuItem' button onClick={function(){ openPage('/profile'); }} >
+    //     <ListItemIcon >
+    //       <Icon icon={user} className={styles.drawerIcons} />
+    //     </ListItemIcon>
+    //     <ListItemText primary="Profile" className={styles.drawerText} />
+    //   </ListItem>);    
+    // };
+    // loginElements.push(<Divider className={styles.divider} key="login-hr" />);
   }
 
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login')){
@@ -929,12 +929,23 @@ export function PatientSidebar(props){
     </ListItem>);   
   };
 
+  let profileElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Profile') && currentUser){
+    profileElements.push(<ListItem id='profileMenuItem' key='profileMenuItem' button onClick={function(){ openPage('/profile'); }} >
+      <ListItemIcon >
+        <Icon icon={user} className={styles.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Profile" className={styles.drawerText} />
+    </ListItem>);    
+    profileElements.push(<Divider className={styles.divider} key="login-hr" />);
+  };
+
   return(
     <div id='patientSidebar'>
       { homePage }
 
       { loginElements }
-
+      { profileElements }
       { dataManagementElements }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>
