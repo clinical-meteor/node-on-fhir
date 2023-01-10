@@ -18,13 +18,13 @@ import { Random } from 'meteor/random';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
-import { Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { CarePlans, CareTeams, Conditions, Devices, Observations, MedicationStatements, Patients, Practitioners, Procedures } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 
 import moment from 'moment';
 import sanitize from 'mongo-sanitize';
 
-import { parseRpcAuthorization, getUserFromAccessToken } from './main';
+import { parseRpcAuthorization } from './main';
 import { wrapMeteorServer } from './WrapMeteorServer.js';
 
 
@@ -198,71 +198,124 @@ Meteor.startup(async function(){
 
 
   Meteor.methods({
-    deleteMyAccount: async function(currentUser, selectedPatientId, selectedPatient, meteorSessionToken){
+    deleteMyAccount: async function(meteorSessionToken, selectedPatientId, selectedPatient){
       // check(currentUser, Object);
       // check(selectedPatientId, String);
       // check(selectedPatient, Object);
 
       let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
+      console.log('isAuthorized', isAuthorized);
+
       if(isAuthorized){
-        if(currentUser){
-          process.env.DEBUG_ACCOUNTS && console.log('Deactivating user', currentUser);
- 
-         if(Package["clinical:hipaa-logger"]){
-           let newAuditEvent = { 
-             "resourceType" : "AuditEvent",
-             "type" : { 
-               'code': 'DeactivateUser',
-               'display': 'Deactivate User'
-               }, 
-             "action" : 'Deactivation',
-             "recorded" : new Date(), 
-             "outcome" : "Success",
-             "outcomeDesc" : 'Deactivating user and deleting all protected health information (PHI).',
-             "agent" : [{ 
-               "name" : FhirUtilities.pluckName(selectedPatient),
-               "who": {
-                 "display": FhirUtilities.pluckName(selectedPatient),
-                 "reference": "Patient/" + selectedPatientId
-               },
-               "requestor" : false
-             }],
-             "source" : { 
-               "site" : Meteor.absoluteUrl(),
-               "identifier": {
-                 "value": Meteor.absoluteUrl()
-               }
-             },
-             "entity": [{
-               "reference": {
-                 "reference": ''
-               }
-             }]
-           };
- 
-           process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent);
-           let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent);            
-         }
-         
- 
-         Patients.remove({_id: selectedPatientId});
- 
-         let myCarePlans = CarePlans.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
-         if(Array.isArray(myCarePlans)){
-           myCarePlans.forEach(function(carePlan){
-             CarePlans.remove({_id: carePlan._id});
-           })
-         }
+
+        const session = await accountsServer.findSessionByAccessToken(meteorSessionToken);
+        process.env.DEBUG_ACCOUNTS && console.log("parseRpcAuthorization().session", session);
   
-         let myCareTeams = CareTeams.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
-         if(Array.isArray(myCareTeams)){
-           myCareTeams.forEach(function(careTeam){
-             CareTeams.remove({_id: careTeam._id});
-           })
-         }
+        const sessionUser = await accountsServer.findUserById(get(session, 'userId'));
+        process.env.DEBUG_ACCOUNTS && console.log("parseRpcAuthorization().sessionUser", sessionUser)
+
+        if(!selectedPatientId){
+          selectedPatientId = get(sessionUser, 'patientId')
+        }
+        if(!selectedPatient){
+          selectedPatient = Patients.findOne(get(sessionUser, 'patientId'));
+        }
+
+        
+        console.log('Deleting user', sessionUser);
  
-         await accountsServer.deactivateUser(get(currentUser, 'id'));          
-        } 
+        if(Package["clinical:hipaa-logger"]){
+          let newAuditEvent = { 
+            "resourceType" : "AuditEvent",
+            "type" : { 
+              'code': 'DeactivateUser',
+              'display': 'Deactivate User'
+              }, 
+            "action" : 'Deactivation',
+            "recorded" : new Date(), 
+            "outcome" : "Success",
+            "outcomeDesc" : 'Deactivating user and deleting all protected health information (PHI).',
+            "agent" : [{ 
+              "name" : FhirUtilities.pluckName(selectedPatient),
+              "who": {
+                "display": FhirUtilities.pluckName(selectedPatient),
+                "reference": "Patient/" + selectedPatientId
+              },
+              "requestor" : false
+            }],
+            "source" : { 
+              "site" : Meteor.absoluteUrl(),
+              "identifier": {
+                "value": Meteor.absoluteUrl()
+              }
+            },
+            "entity": [{
+              "reference": {
+                "reference": ''
+              }
+            }]
+          };
+
+          process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent);
+          let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent);            
+        }
+               
+
+        let myConditions = Conditions.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myConditions)){
+          myConditions.forEach(function(conditions){
+            Conditions.remove({_id: conditions._id});
+          })
+        }
+        let myCarePlans = CarePlans.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myCarePlans)){
+          myCarePlans.forEach(function(carePlan){
+            CarePlans.remove({_id: carePlan._id});
+          })
+        }
+
+        let myCareTeams = CareTeams.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myCareTeams)){
+          myCareTeams.forEach(function(careTeam){
+            CareTeams.remove({_id: careTeam._id});
+          })
+        }
+        let myDevices = Devices.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myDevices)){
+          myDevices.forEach(function(devices){
+            Devices.remove({_id: devices._id});
+          })
+        }
+        let myMedications = Medications.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myMedications)){
+          myMedications.forEach(function(medications){
+            Medications.remove({_id: medications._id});
+          })
+        }
+        let myMedicationStatements = MedicationStatements.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myMedicationStatements)){
+          myMedicationStatements.forEach(function(medications){
+            MedicationStatements.remove({_id: medications._id});
+          })
+        }
+        let myObservations = Observations.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myObservations)){
+          myObservations.forEach(function(observations){
+            Observations.remove({_id: observations._id});
+          })
+        }
+        let myProcedures = Procedures.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myProcedures)){
+          myProcedures.forEach(function(procedures){
+            Procedures.remove({_id: procedures._id});
+          })
+        }
+        
+        Patients.remove({_id: selectedPatientId});
+
+        await accountsServer.deactivateUser(get(sessionUser, 'id'));          
+
+        return "User health data deleted, and account deactivated."
       }
     },
     isInvitationStillValid: async function(invitation){

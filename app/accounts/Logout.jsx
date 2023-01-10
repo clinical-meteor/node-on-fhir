@@ -32,6 +32,8 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 
+import jwt from 'jsonwebtoken';
+
 // import { AccountsClient } from '@accounts/client';
 // import { RestClient } from '@accounts/rest-client';
 // let apiHostFromSettings = get(Meteor, 'settings.public.interfaces.accountsServer.host') + ":" + get(Meteor, 'settings.public.interfaces.accountsServer.port');
@@ -99,15 +101,16 @@ const Logout = function({ history }){
   }
 
   async function logoutUser(){
-    console.log('Logging out user session: ' + Session.get('sessionAccessToken'))
+    console.log('Logging out user session: ' + Session.get('accountsAccessToken'))
     
     
-    accountsClient.logout();
+    await accountsClient.logout();
+    await accountsClient.clearTokens();
 
-    Meteor.call('jsaccounts/validateLogout', Session.get('sessionAccessToken'));
+    Meteor.call('jsaccounts/validateLogout', Session.get('accountsAccessToken'));
 
     console.log('accountsClient.getTokens()', await accountsClient.getTokens());
-    
+
     // close dialog
     Session.set('mainAppDialogOpen', false);
 
@@ -117,8 +120,8 @@ const Logout = function({ history }){
 
     // clear session data
     Session.set('sessionId', false);
-    Session.set('accountsAccessToken', null)
-    Session.set('accountsRefreshToken', null)
+    Session.set('accountsAccessToken', '')
+    Session.set('accountsRefreshToken', '')
     Session.set('sessionRefreshToken', false);    
 
     // clear selections which may contain user data
