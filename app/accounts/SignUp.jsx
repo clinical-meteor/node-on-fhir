@@ -122,7 +122,8 @@ const Signup = function({ history }){
       invitationCode: '',
       patientId: get(selectedPatient, 'id'),
       patient: selectedPatient,
-      isPractitioner: false
+      isPractitioner: false,
+      roles: []
     },
     validate: async values => {
       const errors = {};

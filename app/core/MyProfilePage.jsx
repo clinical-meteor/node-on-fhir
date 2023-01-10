@@ -278,6 +278,36 @@ function MyProfilePage(props) {
         </StyledCard>
         <DynamicSpacer />
         <StyledCard scrollable margin={20} >
+          <CardHeader title="Roles and Linked Records" />
+          <CardContent>
+            <TextField 
+              fullWidth={true}
+              type="text"
+              label="Role"
+              style={{marginBottom: '10px'}}
+              value={get(currentUser, 'roles.0', '')}
+              InputLabelProps={{shrink: true}}
+            />
+            <TextField 
+              fullWidth={true}
+              type="text"
+              label="Patient ID"
+              style={{marginBottom: '10px'}}
+              value={get(currentUser, 'patientId', '')}
+              InputLabelProps={{shrink: true}}
+            />
+            <TextField 
+              fullWidth={true}
+              type="text"
+              label="Practitioner ID"
+              style={{marginBottom: '10px'}}
+              value={get(currentUser, 'practitionerId', '')}
+              InputLabelProps={{shrink: true}}
+            />
+          </CardContent>
+        </StyledCard>
+        <DynamicSpacer />
+        <StyledCard scrollable margin={20} >
           <CardHeader title="My Consent Records" />
           <CardContent>
             <ConsentsTable

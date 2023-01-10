@@ -63,17 +63,19 @@ Meteor.startup(async function(){
   //   familyName: string;
   // }
 
-  const User = mongoose.model(
-    'User',
+  const User = mongoose.model('User',
     new mongoose.Schema({ 
       givenName: String, 
       familyName: String,
+      fullLegalName: String,
       patientId: String,
+      practitionerId: String,
       id: String,
       nickname: String,
       isPractitioner: Boolean,
       patient: Object,
-      role: String
+      role: String,
+      roles: Array
     })
   );
 
@@ -86,6 +88,7 @@ Meteor.startup(async function(){
       try {
         if(get(Meteor, 'settings.public.defaults.defaultUserRole')){
           user.role = get(Meteor, 'settings.public.defaults.defaultUserRole', 'citizen')
+          user.roles = [get(Meteor, 'settings.public.defaults.defaultUserRole', 'citizen')]
         }
         if(get(Meteor, 'settings.public.defaults.registration.displayFullLegalName')){
           if (!user.fullLegalName) {
@@ -155,13 +158,13 @@ Meteor.startup(async function(){
   
           if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
             process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  Creating user.');
-            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);  
+            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);  
 
           } else if (user.invitationCode === get(Meteor, 'settings.private.practitionerInvitationCode')) {
 
             process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
             user.isPractitioner = true;
-            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);    
+            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);    
           } else {
             process.env.DEBUG_ACCOUNTS && console.error('Invalid invitation code.');
             throw new Error('Invalid invitation code.');
@@ -575,14 +578,20 @@ Meteor.startup(async function(){
     // lookup email
     let emailAddress = get(user, 'email');
 
+    // check if user already exists
+    // (this isn't needed, as the createUser() function will check and throw an error)
     let foundUser = await accountsPassword.findUserByEmail(get(user, 'email'))
     process.env.DEBUG_ACCOUNTS && console.log('foundUser', foundUser);
 
+    // add user role
+    if(get(Meteor, 'settings.public.defaults.defaultUserRole')){
+      user.roles = [];
+      user.roles.push(get(Meteor, 'settings.public.defaults.defaultUserRole'))
+    }
+
+    process.env.DEBUG_ACCOUNTS && console.log('userWithRoles', user);
+
     try {
-      // if(foundUser){
-      //   throw new Error('Email already exists.');
-      // } 
-  
       userId = await accountsPasswordService.createUser(user);
       process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.register.createUser.userId', userId)
 
@@ -747,7 +756,7 @@ Meteor.startup(async function(){
 
 
 
-      if((get(createdUser, 'isPractitioner') || get(createdUser, 'role') === "healthcare provider")){
+      if((get(createdUser, 'isPractitioner') || get(createdUser, 'role') === "healthcare provider") || (get(createdUser, 'roles[0]') === "healthcare provider")){
         if(!Practitioners.findOne({id: get(createdUser, 'id')})){
           let newPractitioner = {
             _id: '',  

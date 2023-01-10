@@ -117,6 +117,7 @@ async function loginWithService(service, credentials, setError, setSuccess){
   }
 
   if(Meteor.isClient && loginResponse){
+    console.log('loginResponse', loginResponse);
     Session.set('currentUser', get(loginResponse, 'user'));
     Session.set('selectedPatientId', get(loginResponse, 'user.patientId'));
 
