@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { AccountsServer } from '@accounts/server';
 import { wrapMeteorServer } from '@accounts/meteor-adapter';
+import { Mongo } from '@accounts/mongo';
 
 import { HTTP } from 'meteor/http';
 import { get } from 'lodash';
@@ -9,9 +10,9 @@ import { check } from 'meteor/check';
 import sanitize from 'mongo-sanitize';
 
 import { parseRpcAuthorization } from './main';
+import { accountsServer } from './AccountsServer';
 
-// AccountsServer.config({}); // Config your accounts server
- wrapMeteorServer(Meteor, AccountsServer);
+ wrapMeteorServer(Meteor, accountsServer);
 
  import { 
   AllergyIntolerances,
@@ -87,22 +88,21 @@ if(Meteor.isServer){
 
 Meteor.methods({
   // query data from a fhirUrl endpoint
-  queryEndpoint: async function(fhirUrl, accessToken){
+  queryEndpoint: async function(fhirUrl, httpAccessToken, meteorSessionToken){
     check(fhirUrl, String);
-    check(accessToken, String);
+    check(httpAccessToken, String);
 
-    process.env.DEBUG_ACCOUNTS && console.log('this.userId', this.userId)
-
-    let isAuthorized = parseRpcAuthorization(this);
+    let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
+    process.env.DEBUG_ACCOUNTS && console.log('isAuthorized', isAuthorized)
 
     if(isAuthorized){
       // check(fhirUrl, String)
-      // check(accessToken, Match.Maybe(String));
+      // check(httpAccessToken, Match.Maybe(String));
   
       if(get(Meteor, 'settings.private.proxyServerEnabled')){
   
         console.log('ProxyServer: Query Endpoint: ', fhirUrl)
-        process.env.DEBUG && console.log('AccessToken:    ', accessToken)
+        process.env.DEBUG && console.log('httpAccessToken:    ', httpAccessToken)
   
         let httpHeaders = { headers: {
             'Accept': ['application/json', 'application/fhir+json'],
@@ -110,11 +110,11 @@ Meteor.methods({
         }}
 
         if(get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken')){
-            accessToken = get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken');
+            httpAccessToken = get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken');
         }
 
-        if(accessToken){
-            httpHeaders.headers["Authorization"] = 'Bearer ' + accessToken;
+        if(httpAccessToken){
+            httpHeaders.headers["Authorization"] = 'Bearer ' + httpAccessToken;
         }
 
         process.env.DEBUG && console.log('httpHeaders', httpHeaders)
@@ -134,12 +134,12 @@ Meteor.methods({
     }
   },
   // relay the payload to the specified fhirUrl using a POST operation
-  postRelay: async function(fhirUrl, options){
+  postRelay: async function(fhirUrl, options, meteorSessionToken){
     check(fhirUrl, String);
     check(options, Object);
 
     console.log('Relaying a message...');
-    let isAuthorized = parseRpcAuthorization(this);
+    let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
     if(isAuthorized){
       if(get(Meteor, 'settings.private.proxyServerEnabled')){
 
@@ -180,10 +180,10 @@ Meteor.methods({
     }
   },
   // insert a FHIR bundle into the data warehouse (i.e. proxy it to the Mongo database)
-  insertBundleIntoWarehouse: function(proxiedInsertRequest){
+  insertBundleIntoWarehouse: async function(proxiedInsertRequest, meteorSessionToken){
     check(proxiedInsertRequest, Object);
 
-    let isAuthorized = parseRpcAuthorization(this);
+    let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
     if(get(Meteor, 'settings.private.accessControl.enableUnsafeProxy')) {
       isAuthorized = true;
     }
@@ -258,10 +258,10 @@ Meteor.methods({
     }
   },
   // insert a FHIR resource into the data warehouse (i.e. proxy it to the Mongo database)
-  insertResourceIntoWarehouse: function(proxiedInsertRequest){
+  insertResourceIntoWarehouse: async function(proxiedInsertRequest, meteorSessionToken){
     check(proxiedInsertRequest, Object);
 
-    let isAuthorized = parseRpcAuthorization(this);
+    let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
     if(get(Meteor, 'settings.private.accessControl.enableUnsafeProxy')) {
       isAuthorized = true;
     }

@@ -1,20 +1,20 @@
 import { Meteor } from 'meteor/meteor';
 import { get } from 'lodash';
 
-export function wrapMeteorServer(Meteor, AccountsServer, ServerValidator){
+export function wrapMeteorServer(Meteor, accountsServer){
   if((!get(Meteor.server.method_handlers, 'jsaccounts/validateLogout')) && (!get(Meteor.server.method_handlers, 'jsaccounts/validateLogin'))){
 
     Meteor.methods({
       'jsaccounts/validateLogout': function (accessToken) {
         const connection = this.connection;
 
-        process.env.DEBUG_ACCOUNTS && console.log('AccountsServer', AccountsServer);
+        process.env.DEBUG_ACCOUNTS && console.log('accountsServer', accountsServer);
         process.env.DEBUG_ACCOUNTS && console.log('connection', connection);
         process.env.DEBUG_ACCOUNTS && console.log('accessToken', accessToken);
 
         if (AccountsServer) {
           Meteor._noYieldsAllowed(function () {
-            AccountsServer.logout(accessToken);
+            accountsServer.logout(accessToken);
             // AccountsServer._removeTokenFromConnection(connection.id);
             // AccountsServer._setAccountData(connection.id, 'loginToken', null);
           });
@@ -27,7 +27,9 @@ export function wrapMeteorServer(Meteor, AccountsServer, ServerValidator){
         const meteorContext = this;
 
         const method = Meteor.wrapAsync(function (accessToken, callback) {
-          ServerValidator.validateToken(accessToken, meteorContext)
+
+          // ServerValidator.validateToken(accessToken, meteorContext)
+          accountsServer.findSessionByAccessToken(accessToken)
             .then(user => {
               callback(null, user);
             })

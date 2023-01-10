@@ -170,10 +170,10 @@ export function decodeNumeric(shcString){
 
 }
 Meteor.methods({
-    signHealthCard: async function(recordToSign){
+    signHealthCard: async function(recordToSign, meteorSessionToken){
         check(recordToSign, Object);
 
-        let isAuthorized = parseRpcAuthorization(this);
+        let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
         if(isAuthorized){
             console.log('================SIGNING HEALTHCARD=============================')
             console.log('');
@@ -237,7 +237,7 @@ Meteor.methods({
                 
                         console.log(json_web_signature)     
                 
-                        Meteor.call('verifyHealthCard', json_web_signature);
+                        Meteor.call('verifyHealthCard', json_web_signature, Session.get('accountsAccessToken'));
                 
                         console.log('');
                         console.log('------------Smart Health Card----------------------------')
@@ -326,10 +326,10 @@ Meteor.methods({
 
         
     },
-    parseHealthCard: async function(healthCardToken){
+    parseHealthCard: async function(healthCardToken, meteorSessionToken){
         check(healthCardToken, String);
 
-        let isAuthorized = parseRpcAuthorization(this);
+        let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
         if(isAuthorized){
             console.log('==============================================================================')
             console.log('parseHealthCard().healthCardToken', healthCardToken)
@@ -345,10 +345,10 @@ Meteor.methods({
             return "User not authorized."
         }
     },
-    verifyHealthCard: async function(json_web_signature){
+    verifyHealthCard: async function(json_web_signature, meteorSessionToken){
         check(json_web_signature, String);
 
-        let isAuthorized = parseRpcAuthorization(this);
+        let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
         if(isAuthorized){
             console.log('');
             console.log('================VERIFYING SIGNATURE=======================')
@@ -458,10 +458,10 @@ Meteor.methods({
 
         
     },
-    decodeHealthCard: async function(json_web_signature){
+    decodeHealthCard: async function(json_web_signature, meteorSessionToken){
         check(json_web_signature, String);
 
-        let isAuthorized = parseRpcAuthorization(this);
+        let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
         if(isAuthorized){
             console.log('================DECODE HEALTHCARD==========================')
         

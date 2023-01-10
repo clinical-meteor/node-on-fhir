@@ -29,6 +29,11 @@ function MyProfilePage(props) {
     headerHeight = 128;
   }
 
+  function handleDeleteAccount(){
+    console.log('Deleting account...');
+
+    Meteor.call('deleteMyAccount')
+  }
 
   return (
     <PageCanvas id='MyProfilePage' headerHeight={headerHeight} >
@@ -41,7 +46,7 @@ function MyProfilePage(props) {
               type="text"
               label="Name"
               style={{marginBottom: '10px'}}
-              value={get(currentUser, 'fullLegalName')}
+              value={get(currentUser, 'fullLegalName', '')}
               InputLabelProps={{shrink: true}}
             />
             <TextField 
@@ -49,7 +54,7 @@ function MyProfilePage(props) {
               type="text"
               label="User ID"
               style={{marginBottom: '10px'}}
-              value={get(currentUser, 'id')}
+              value={get(currentUser, 'id', '')}
               InputLabelProps={{shrink: true}}
             />
             <TextField 
@@ -57,7 +62,7 @@ function MyProfilePage(props) {
               type="text"
               label="Primary Email"
               style={{marginBottom: '10px'}}
-              value={get(currentUser, 'emails[0].address')}
+              value={get(currentUser, 'emails[0].address', '')}
               InputLabelProps={{shrink: true}}
             />
           </CardContent>
@@ -82,7 +87,7 @@ function MyProfilePage(props) {
         <StyledCard scrollable margin={20} >
           <CardHeader title="Danger Area" />
           <CardContent>
-            <Button fullWidth variant="contained" color="primary">Delete Account</Button>
+            <Button fullWidth variant="contained" color="primary" onClick={handleDeleteAccount.bind(this)}>Delete Account</Button>
           </CardContent>
         </StyledCard>
         <DynamicSpacer />

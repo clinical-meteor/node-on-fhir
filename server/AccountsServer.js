@@ -24,12 +24,16 @@ import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 import moment from 'moment';
 import sanitize from 'mongo-sanitize';
 
-import { parseRpcAuthorization } from './main';
+import { parseRpcAuthorization, getUserFromAccessToken } from './main';
 import { wrapMeteorServer } from './WrapMeteorServer.js';
 
 
  process.env.DEBUG_ACCOUNTS && console.log('Initializing AccountsServer.')
  process.env.DEBUG_ACCOUNTS && console.log('MONGO_URL: ' + process.env.MONGO_URL);
+
+ let accountsPassword;
+ let accountsServer;
+ let accountsMongo;
 
  // AUTHENTICATION SUBSYSTEM
 Meteor.startup(async function(){
@@ -44,7 +48,7 @@ Meteor.startup(async function(){
   });
 
   const db = mongoose.connection;
-  const accountsMongo = new Mongo(db, {
+  accountsMongo = new Mongo(db, {
     // options
   });
 
@@ -73,7 +77,7 @@ Meteor.startup(async function(){
     })
   );
 
-  const accountsPassword = new AccountsPassword({
+  accountsPassword = new AccountsPassword({
     // This option is called when a new user create an account
     // Inside we can apply our logic to validate the user fields
     validateNewUser: function(user){
@@ -170,10 +174,10 @@ Meteor.startup(async function(){
     }
   });
 
-  const accountsServer = new AccountsServer(
+  accountsServer = new AccountsServer(
     {
       db: accountsMongo,
-      tokenSecret: Random.secret(),
+      tokenSecret: get(Meteor, 'settings.private.accountServerTokenSecret', Random.secret())
     },
     {
       password: accountsPassword
@@ -194,12 +198,12 @@ Meteor.startup(async function(){
 
 
   Meteor.methods({
-    deleteMyAccount: async function(currentUser, selectedPatientId, selectedPatient){
+    deleteMyAccount: async function(currentUser, selectedPatientId, selectedPatient, meteorSessionToken){
       // check(currentUser, Object);
       // check(selectedPatientId, String);
       // check(selectedPatient, Object);
 
-      let isAuthorized = parseRpcAuthorization(this);
+      let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
       if(isAuthorized){
         if(currentUser){
           process.env.DEBUG_ACCOUNTS && console.log('Deactivating user', currentUser);
@@ -855,4 +859,5 @@ Meteor.startup(async function(){
   });
 })
 
+export default { accountsPassword, accountsServer, accountsMongo }
 
