@@ -24,7 +24,9 @@ import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 import moment from 'moment';
 import sanitize from 'mongo-sanitize';
 
-import {wrapMeteorServer} from './WrapMeteorServer.js';
+import { parseRpcAuthorization } from './main';
+import { wrapMeteorServer } from './WrapMeteorServer.js';
+
 
  process.env.DEBUG_ACCOUNTS && console.log('Initializing AccountsServer.')
  process.env.DEBUG_ACCOUNTS && console.log('MONGO_URL: ' + process.env.MONGO_URL);
@@ -193,67 +195,70 @@ Meteor.startup(async function(){
 
   Meteor.methods({
     deleteMyAccount: async function(currentUser, selectedPatientId, selectedPatient){
-      check(currentUser, Object);
-      check(selectedPatientId, String);
-      check(selectedPatient, Object);
+      // check(currentUser, Object);
+      // check(selectedPatientId, String);
+      // check(selectedPatient, Object);
 
-      if(currentUser){
-         process.env.DEBUG_ACCOUNTS && console.log('Deactivating user', currentUser);
-
-        if(Package["clinical:hipaa-logger"]){
-          let newAuditEvent = { 
-            "resourceType" : "AuditEvent",
-            "type" : { 
-              'code': 'DeactivateUser',
-              'display': 'Deactivate User'
-              }, 
-            "action" : 'Deactivation',
-            "recorded" : new Date(), 
-            "outcome" : "Success",
-            "outcomeDesc" : 'Deactivating user and deleting all protected health information (PHI).',
-            "agent" : [{ 
-              "name" : FhirUtilities.pluckName(selectedPatient),
-              "who": {
-                "display": FhirUtilities.pluckName(selectedPatient),
-                "reference": "Patient/" + selectedPatientId
-              },
-              "requestor" : false
-            }],
-            "source" : { 
-              "site" : Meteor.absoluteUrl(),
-              "identifier": {
-                "value": Meteor.absoluteUrl()
-              }
-            },
-            "entity": [{
-              "reference": {
-                "reference": ''
-              }
-            }]
-          };
-
-          process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent);
-          let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent);            
-        }
-        
-
-        Patients.remove({_id: selectedPatientId});
-
-        let myCarePlans = CarePlans.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
-        if(Array.isArray(myCarePlans)){
-          myCarePlans.forEach(function(carePlan){
-            CarePlans.remove({_id: carePlan._id});
-          })
-        }
+      let isAuthorized = parseRpcAuthorization(this);
+      if(isAuthorized){
+        if(currentUser){
+          process.env.DEBUG_ACCOUNTS && console.log('Deactivating user', currentUser);
  
-        let myCareTeams = CareTeams.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
-        if(Array.isArray(myCareTeams)){
-          myCareTeams.forEach(function(careTeam){
-            CareTeams.remove({_id: careTeam._id});
-          })
-        }
-
-        await accountsServer.deactivateUser(get(currentUser, 'id'));          
+         if(Package["clinical:hipaa-logger"]){
+           let newAuditEvent = { 
+             "resourceType" : "AuditEvent",
+             "type" : { 
+               'code': 'DeactivateUser',
+               'display': 'Deactivate User'
+               }, 
+             "action" : 'Deactivation',
+             "recorded" : new Date(), 
+             "outcome" : "Success",
+             "outcomeDesc" : 'Deactivating user and deleting all protected health information (PHI).',
+             "agent" : [{ 
+               "name" : FhirUtilities.pluckName(selectedPatient),
+               "who": {
+                 "display": FhirUtilities.pluckName(selectedPatient),
+                 "reference": "Patient/" + selectedPatientId
+               },
+               "requestor" : false
+             }],
+             "source" : { 
+               "site" : Meteor.absoluteUrl(),
+               "identifier": {
+                 "value": Meteor.absoluteUrl()
+               }
+             },
+             "entity": [{
+               "reference": {
+                 "reference": ''
+               }
+             }]
+           };
+ 
+           process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent);
+           let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent);            
+         }
+         
+ 
+         Patients.remove({_id: selectedPatientId});
+ 
+         let myCarePlans = CarePlans.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+         if(Array.isArray(myCarePlans)){
+           myCarePlans.forEach(function(carePlan){
+             CarePlans.remove({_id: carePlan._id});
+           })
+         }
+  
+         let myCareTeams = CareTeams.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+         if(Array.isArray(myCareTeams)){
+           myCareTeams.forEach(function(careTeam){
+             CareTeams.remove({_id: careTeam._id});
+           })
+         }
+ 
+         await accountsServer.deactivateUser(get(currentUser, 'id'));          
+        } 
       }
     },
     isInvitationStillValid: async function(invitation){

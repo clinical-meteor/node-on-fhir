@@ -8,7 +8,7 @@ import { get } from 'lodash';
 import { check } from 'meteor/check';
 import sanitize from 'mongo-sanitize';
 
-import parseRpcAuthorization from './main';
+import { parseRpcAuthorization } from './main';
 
 // AccountsServer.config({}); // Config your accounts server
  wrapMeteorServer(Meteor, AccountsServer);
@@ -101,8 +101,8 @@ Meteor.methods({
   
       if(get(Meteor, 'settings.private.proxyServerEnabled')){
   
-        console.log('Query Endpoint: ', fhirUrl)
-        console.log('AccessToken:    ', accessToken)
+        console.log('ProxyServer: Query Endpoint: ', fhirUrl)
+        process.env.DEBUG && console.log('AccessToken:    ', accessToken)
   
         let httpHeaders = { headers: {
             'Accept': ['application/json', 'application/fhir+json'],
@@ -117,19 +117,20 @@ Meteor.methods({
             httpHeaders.headers["Authorization"] = 'Bearer ' + accessToken;
         }
 
-        console.log('httpHeaders', httpHeaders)
+        process.env.DEBUG && console.log('httpHeaders', httpHeaders)
 
         return await HTTP.get(fhirUrl, httpHeaders);
 
       } else {
-          console.log('==========================================')
-          console.log('ProxyServer:  Disabled.  Please check the Meteor.settings file.')    
-
-          return "Proxy server disabled."
+        console.log('==========================================')
+        console.log('ProxyServer:  Proxy server disabled.  Please check the Meteor.settings file.')
+        console.log('Meteor.settings.private.proxyServerEnabled')
+        
+        return "ProxyServer:  Proxy server disabled."
       }
     } else {
       console.log('ProxyServer:  Unauthorized request.')   
-      return "ProxyServer:  Unauthorized request.." 
+      return "ProxyServer:  Unauthorized request." 
     }
   },
   // relay the payload to the specified fhirUrl using a POST operation
@@ -138,122 +139,136 @@ Meteor.methods({
     check(options, Object);
 
     console.log('Relaying a message...');
+    let isAuthorized = parseRpcAuthorization(this);
+    if(isAuthorized){
+      if(get(Meteor, 'settings.private.proxyServerEnabled')){
 
-    if(get(Meteor, 'settings.private.proxyServerEnabled')){
-
-      console.log('Relay Endpoint: ', fhirUrl);
-
-      let self = this;
-
-      let queryResult;
-      let httpHeaders = { headers: {
-          'Content-Type': 'application/fhir+json',
-          'Access-Control-Allow-Origin': '*'          
-      }}
-
-      if(get(Meteor, 'settings.private.interfaces.fhirServer.auth.bearerToken')){
-        httpHeaders.headers["Authorization"] = 'Bearer ' + get(Meteor, 'settings.private.interfaces.fhirServer.auth.bearerToken');
-      }
-
-      console.log('httpHeaders', httpHeaders)
-
-      return await HTTP.post(fhirUrl, {
-        headers: httpHeaders,
-        data: options.payload
-      }, function(error, result){
-        if(error){
-          console.log('error', error);
+        console.log('Relay Endpoint: ', fhirUrl);
+  
+        let self = this;
+  
+        let queryResult;
+        let httpHeaders = { headers: {
+            'Content-Type': 'application/fhir+json',
+            'Access-Control-Allow-Origin': '*'          
+        }}
+  
+        if(get(Meteor, 'settings.private.interfaces.fhirServer.auth.bearerToken')){
+          httpHeaders.headers["Authorization"] = 'Bearer ' + get(Meteor, 'settings.private.interfaces.fhirServer.auth.bearerToken');
         }
-        if(result){
-          console.log('result', result);
-          return result;
-        }
-      });
-    } else {
-        console.log('==========================================')
-        console.log('*** Proxy server disabled *** ')
-
-        return "Proxy server disabled."
+  
+        console.log('httpHeaders', httpHeaders)
+  
+        return await HTTP.post(fhirUrl, {
+          headers: httpHeaders,
+          data: options.payload
+        }, function(error, result){
+          if(error){
+            console.log('error', error);
+          }
+          if(result){
+            console.log('result', result);
+            return result;
+          }
+        });
+      } else {
+          console.log('==========================================')
+          console.log('*** Proxy server disabled *** ')
+  
+          return "Proxy server disabled."
+      }  
     }
   },
   // insert a FHIR bundle into the data warehouse (i.e. proxy it to the Mongo database)
   insertBundleIntoWarehouse: function(proxiedInsertRequest){
     check(proxiedInsertRequest, Object);
 
-    if(get(proxiedInsertRequest, 'resourceType') === "Bundle"){
-      console.log('Received a Bundle to proxy insert.')
-      if(Array.isArray(proxiedInsertRequest.entry)){
-        // looping through each of the Bundle entries
-        proxiedInsertRequest.entry.forEach(function(proxyInsertEntry){
-          if(get(proxyInsertEntry, 'resource')){
-            // we are running this, assuming that PubSub is in place and synchronizing data cursors
-            console.log('ProxyInsert - Received a proxy request for a ' + get(proxyInsertEntry, 'resource.resourceType'))
-
-            let response = false;
-            // console.log('Collections', Collections)
-            
-            // console.log('FhirUtilities.pluralizeResourceName: ' + FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType')))
-            // the cursor appears to exist
-            if(typeof Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))] === "object"){
-
+    let isAuthorized = parseRpcAuthorization(this);
+    if(get(Meteor, 'settings.private.accessControl.enableUnsafeProxy')) {
+      isAuthorized = true;
+    }
+    if(isAuthorized){      
+      if(get(proxiedInsertRequest, 'resourceType') === "Bundle"){
+        console.log('Received a Bundle to proxy insert.')
+        if(Array.isArray(proxiedInsertRequest.entry)){
+          // looping through each of the Bundle entries
+          proxiedInsertRequest.entry.forEach(function(proxyInsertEntry){
+            if(get(proxyInsertEntry, 'resource')){
+              // we are running this, assuming that PubSub is in place and synchronizing data cursors
+              console.log('ProxyInsert - Received a proxy request for a ' + get(proxyInsertEntry, 'resource.resourceType'))
+  
+              let response = false;
+              // console.log('Collections', Collections)
               
-              let sanitizedResourceId = sanitize(proxyInsertEntry.resource._id);
-              // there doesnt seem to be a pre-existing record
-              if(!Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))].findOne({_id: sanitizedResourceId })){
-                console.log('Couldnt find record.  Inserting.')
-
-                // lets try to insert the record
-                response = Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))].insert(proxyInsertEntry.resource, {validate: false, filter: false}, function(error){
-                  if(error) {
-                    console.log('window(FhirUtilities.pluralizeResourceName(resource.resourceType)).insert.error', error)
-                  }                    
-                });   
+              // console.log('FhirUtilities.pluralizeResourceName: ' + FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType')))
+              // the cursor appears to exist
+              if(typeof Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))] === "object"){
+  
+                
+                let sanitizedResourceId = sanitize(proxyInsertEntry.resource._id);
+                // there doesnt seem to be a pre-existing record
+                if(!Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))].findOne({_id: sanitizedResourceId })){
+                  console.log('Couldnt find record.  Inserting.')
+  
+                  // lets try to insert the record
+                  response = Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))].insert(proxyInsertEntry.resource, {validate: false, filter: false}, function(error){
+                    if(error) {
+                      console.log('window(FhirUtilities.pluralizeResourceName(resource.resourceType)).insert.error', error)
+                    }                    
+                  });   
+                } else {
+                  console.log('Found a pre-existing copy of the record.  Thats weird and probably shouldnt be happening.');
+                }  
               } else {
-                console.log('Found a pre-existing copy of the record.  Thats weird and probably shouldnt be happening.');
-              }  
+                console.log('Cursor doesnt appear to exist');
+              }
+  
+              return response;  
             } else {
-              console.log('Cursor doesnt appear to exist');
+              console.log('Received a request for a proxy insert, but no FHIR resource was attached to the received parameters object!');
             }
-
-            return response;  
-          } else {
-            console.log('Received a request for a proxy insert, but no FHIR resource was attached to the received parameters object!');
-          }
-        })
-      } else {
-        console.log("Bundle does not seem to have an array of entries.")
-      }
-    } else {
-      // just a single resource, no need to loop through anything
-
-      if(typeof Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))] === "object"){
-
-        // there doesnt seem to be a pre-existing record
-        if(!Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))].findOne({_id: sanitize(proxiedInsertRequest.resource._id)})){
-          console.log('Couldnt find record; add a ' + FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType')) + ' to the database.')
-
-          // lets try to insert the record
-          response = Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))].insert(proxiedInsertRequest.resource, {validate: false, filter: false}, function(error){
-            if(error) {
-              console.log('window(FhirUtilities.pluralizeResourceName(resource.resourceType)).insert.error', error)
-            }                    
-          });   
+          })
         } else {
-          console.log('Found a pre-existing copy of the record.  Thats weird and probably shouldnt be happening.');
-        }  
+          console.log("Bundle does not seem to have an array of entries.")
+        }
       } else {
-        console.log('Cursor doesnt appear to exist');
-      }
-    }    
+        // just a single resource, no need to loop through anything
+  
+        if(typeof Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))] === "object"){
+  
+          // there doesnt seem to be a pre-existing record
+          if(!Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))].findOne({_id: sanitize(proxiedInsertRequest.resource._id)})){
+            process.env.DEBUG && console.log('Couldnt find record; add a ' + FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType')) + ' to the database.')
+  
+            // lets try to insert the record
+            response = Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))].insert(proxiedInsertRequest.resource, {validate: false, filter: false}, function(error){
+              if(error) {
+                process.env.TRACE && console.log('window(FhirUtilities.pluralizeResourceName(resource.resourceType)).insert.error', error)
+              }                    
+            });   
+          } else {
+            process.env.DEBUG && console.log('ProxyServer: Found a pre-existing copy of the record.  Thats weird and probably shouldnt be happening.');
+            return 'ProxyServer: Found a pre-existing copy of the record.  Thats weird and probably shouldnt be happening.';
+          }  
+        } else {
+          process.env.DEBUG && console.log('ProxyServer: Cursor doesnt appear to exist');
+          return 'ProxyServer: Cursor doesnt appear to exist';
+        }
+      }        
+    }
   },
   // insert a FHIR resource into the data warehouse (i.e. proxy it to the Mongo database)
   insertResourceIntoWarehouse: function(proxiedInsertRequest){
     check(proxiedInsertRequest, Object);
 
-    if (get(Meteor, 'settings.private.allowUnsafeProxy')) {
+    let isAuthorized = parseRpcAuthorization(this);
+    if(get(Meteor, 'settings.private.accessControl.enableUnsafeProxy')) {
+      isAuthorized = true;
+    }
+    if(isAuthorized){
       if(proxiedInsertRequest){
         // we are running this, assuming that PubSub is in place and synchronizing data cursors
-        console.log('ProxyInsert - Received a proxiedInsertRequest to add to the distributed database.', proxiedInsertRequest)
+        process.env.DEBUG && console.log('ProxyInsert - Received a proxiedInsertRequest to add to the distributed database.', proxiedInsertRequest)
           
         let response = false;
         // console.log('Collections', Collections)
@@ -264,28 +279,28 @@ Meteor.methods({
 
           // there doesnt seem to be a pre-existing record
           if(!Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resourceType'))].findOne({_id: sanitize(proxiedInsertRequest._id)})){
-            console.log('Couldnt find record; attempting to add one to the database.')
+            process.env.DEBUG && console.log('Couldnt find record; attempting to add one to the database.')
 
             // lets try to insert the record
             response = Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resourceType'))].insert(proxiedInsertRequest, {validate: false, filter: false}, function(error){
               if(error) {
-                console.log('window(FhirUtilities.pluralizeResourceName(resourceType)).insert.error', error)
+                process.env.TRACE && console.log('window(FhirUtilities.pluralizeResourceName(resourceType)).insert.error', error)
               }                    
             });   
           } else {
-            console.log('Found a pre-existing copy of the record.  Thats weird and probably shouldnt be happening.');
+            process.env.DEBUG && console.log('Found a pre-existing copy of the record.  Thats weird and probably shouldnt be happening.');
+            return 'Found a pre-existing copy of the record.  Thats weird and probably shouldnt be happening.';
           }  
         } else {
-          console.log('Cursor doesnt appear to exist');
+          process.env.DEBUG && console.log('Cursor doesnt appear to exist');
+          return 'Cursor doesnt appear to exist';
         }
 
         return response;
       } else {
-        console.log('Received a request for a proxy insert, but received no FHIR resource!');
+        process.env.DEBUG && console.log('ProxyServer: Received a request for a proxy insert, but received no FHIR resource!');
+        return 'ProxyServer: Received a request for a proxy insert, but received no FHIR resource!'
       }
-    } else {
-      console.log('Received a request for a proxy insert, but user was not logged in!');
-      return "User not logged in!"
     }
   }
 });
