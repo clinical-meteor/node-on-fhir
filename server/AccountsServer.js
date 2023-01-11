@@ -227,7 +227,7 @@ Meteor.startup(async function(){
         
         console.log('Deleting user', sessionUser);
  
-        if(Package["clinical:hipaa-logger"]){
+        if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
           let newAuditEvent = { 
             "resourceType" : "AuditEvent",
             "type" : { 
@@ -705,7 +705,7 @@ Meteor.startup(async function(){
           let patientInternalId = Patients.insert(newPatient)
             process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', patientInternalId)
 
-          if(Package["clinical:hipaa-logger"]){
+          if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
             let newAuditEvent = { 
               "resourceType" : "AuditEvent",
               "type" : { 
@@ -738,9 +738,9 @@ Meteor.startup(async function(){
               }]
             };
 
-              process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
+            process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
             let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
-          }  
+          }
         }
       } else {
 
@@ -829,7 +829,7 @@ Meteor.startup(async function(){
             let patientInternalId = Practitioners.insert(newPractitioner)
               process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitionerId', patientInternalId);
 
-            if(Package["clinical:hipaa-logger"]){
+              if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
               let newAuditEvent = { 
                 "resourceType" : "AuditEvent",
                 "type" : { 

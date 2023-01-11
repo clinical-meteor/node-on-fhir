@@ -361,7 +361,7 @@ export function FhirClientProvider(props){
                   
                               fetchPatientData(ehrLaunchCapabilities, smartClient, accessToken);
 
-                              if(Package["clinical:hipaa-logger"]){
+                              if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
                                 let newAuditEvent = { 
                                   "resourceType" : "AuditEvent",
                                   "type" : { 
@@ -430,7 +430,7 @@ export function FhirClientProvider(props){
                                     }) 
                                   }
 
-                                  if(Package["clinical:hipaa-logger"]){
+                                  if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
                                     let newAuditEvent = { 
                                       "resourceType" : "AuditEvent",
                                       "type" : { 
@@ -656,7 +656,7 @@ export function FhirClientProvider(props){
                     
 //                                 fetchPatientData(ehrLaunchCapabilities, client, accessToken);
 
-//                                 if(Package["clinical:hipaa-logger"]){
+//                                 if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
 //                                   let newAuditEvent = { 
 //                                     "resourceType" : "AuditEvent",
 //                                     "type" : { 
@@ -725,7 +725,7 @@ export function FhirClientProvider(props){
 //                                       }) 
 //                                     }
 
-//                                     if(Package["clinical:hipaa-logger"]){
+//                                     if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
 //                                       let newAuditEvent = { 
 //                                         "resourceType" : "AuditEvent",
 //                                         "type" : { 
