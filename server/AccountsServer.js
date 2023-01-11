@@ -322,6 +322,36 @@ Meteor.startup(async function(){
       }
     },
     isInvitationStillValid: async function(invitation){
+      if(get(Meteor, 'settings.private.invitationExpiry') === invitation){
+        if(get(Meteor, 'settings.private.invitationExpiry')){
+          if(moment().isBefore(get(Meteor, 'settings.private.invitationExpiry'))){
+            process.env.DEBUG_ACCOUNTS && console.info('Invitation hasnt expired. ')          
+            return true;
+          } else {
+            process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Current date is after invitation expiry date. ')
+            return false;
+          }
+        } else {
+          process.env.DEBUG_ACCOUNTS && console.info('No expiry date set.');
+          return true;
+        }
+      } else if (get(Meteor, 'settings.private.practitionerInvitationExpiry') === invitation){
+        if(get(Meteor, 'settings.private.practitionerInvitationExpiry')){
+          if(moment().isBefore(get(Meteor, 'settings.private.practitionerInvitationExpiry'))){
+            process.env.DEBUG_ACCOUNTS && console.info('Practitioner invitation hasnt expired. ')          
+            return true;
+          } else {
+            process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Current date is after invitation expiry date. ')
+            return false;
+          }
+        } else {
+          process.env.DEBUG_ACCOUNTS && console.info('No expiry date set.');
+          return true;
+        }
+      }
+
+
+      //practitionerInvitationExpiry
       if(get(Meteor, 'settings.private.invitationExpiry')){
         if(moment().isBefore(get(Meteor, 'settings.private.invitationExpiry'))){
           process.env.DEBUG_ACCOUNTS && console.info('Invitation hasnt expired. ')          
