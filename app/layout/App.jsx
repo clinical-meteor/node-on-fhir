@@ -35,6 +35,7 @@ import AppLoadingPage from '../core/AppLoadingPage'
 import PatientChart from '../patient/PatientChart'
 import PatientQuickChart from '../patient/PatientQuickChart'
 import EhrLaunchPage from '../core/EhrLaunchPage'
+
 import SmartLauncher from '../layout/SmartLauncher'
 
 
@@ -603,7 +604,7 @@ export function App(props) {
         <Route name='ehrLaunchRoute' key='EhrLaunchPage' path="/ehr-launcher" exact component={ defaultEhrLaunchPage } />                
         <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />      
         <Route name='gettingStartedPage' key='gettingStartedRoute' path="/getting-started" component={ GettingStartedPage } />      
-        <Route name='profilePage' key='gettingStartedRoute' path="/profile" component={ MyProfilePage } />      
+        <Route name='profilePage' key='profileRoute' path="/profile" component={ MyProfilePage } />      
 
         <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" exact component={ defaultHomeRoute } />                
         <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              

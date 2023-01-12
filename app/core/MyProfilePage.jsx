@@ -225,7 +225,7 @@ function MyProfilePage(props) {
 
   
   return (
-    <PageCanvas id='MyProfilePage' headerHeight={headerHeight} >
+    <PageCanvas id='MyProfilePage' headerHeight={headerHeight} style={{paddingBottom: '80px'}}>
       <Snackbar
         anchorOrigin={{
           vertical: 'top',
@@ -238,7 +238,7 @@ function MyProfilePage(props) {
       >
         <SnackBarContentError message={error} />
       </Snackbar>
-      <Container maxwidth="md">
+      <Container maxwidth="md" >
         <StyledCard scrollable margin={20} >
           <CardHeader title="My Profile" />
           <CardContent>

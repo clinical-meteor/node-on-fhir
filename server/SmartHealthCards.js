@@ -14,7 +14,9 @@ try {
     import keychain from '../certs/jwks.json';
     publicKey = get(keychain, 'keys[0]');        
 } catch (error) {
-    console.log(error)    
+    // console.log(error)    
+    console.log("could not find ../certs/jwks.json file")
+    console.log('skipping initialization of Smart Health Cards')
 }
 
 // import privateKeychain from '../certs/private.jwks.json';

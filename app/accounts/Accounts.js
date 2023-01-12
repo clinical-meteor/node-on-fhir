@@ -36,7 +36,18 @@ Meteor.startup(async function(){
     Session.set('accountsAccessToken', get(tokens, 'accessToken'))
     Session.set('accountsRefreshToken', get(tokens, 'refreshToken'))
   }  
+
+  window.onbeforeunload = async function(){
+    // Do something
+    await accountsClient.clearTokens();
+  }
+   // OR
+   window.addEventListener("beforeunload", async function(e){
+    await accountsClient.clearTokens();
+   }, false);
+  
 })
+
 
 export { accountsClient, accountsRest, accountsPassword };
 

@@ -940,8 +940,19 @@ export function PatientSidebar(props){
     profileElements.push(<Divider className={styles.divider} key="login-hr" />);
   };
 
+  let oauthElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.OAuthClients')){
+    oauthElements.push(<ListItem id='profileMenuItem' key='profileMenuItem' button onClick={function(){ openPage('/oauth-clients'); }} >
+      <ListItemIcon >
+        <Icon icon={user} className={styles.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="OAuth Clients" className={styles.drawerText} />
+    </ListItem>);    
+    oauthElements.push(<Divider className={styles.divider} key="login-hr" />);
+  };
+
   return(
-    <div id='patientSidebar'>
+    <div id='patientSidebar' style={{marginBottom: '80px'}}>
       { homePage }
 
       { loginElements }
@@ -958,6 +969,7 @@ export function PatientSidebar(props){
       { fhirResources }         
       { constructionZone }         
 
+      { oauthElements }
       { themingElements }
       { aboutElements }
       { documentationElements }
