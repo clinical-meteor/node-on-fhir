@@ -86,10 +86,6 @@ Meteor.startup(async function(){
        process.env.DEBUG_ACCOUNTS && console.log("AccountsServer: Validating new user.")
 
       try {
-        if(get(Meteor, 'settings.public.defaults.defaultUserRole')){
-          user.role = get(Meteor, 'settings.public.defaults.defaultUserRole', 'citizen')
-          user.roles = [get(Meteor, 'settings.public.defaults.defaultUserRole', 'citizen')]
-        }
         if(get(Meteor, 'settings.public.defaults.registration.displayFullLegalName')){
           if (!user.fullLegalName) {
             throw new Error('Full legal name is required.');
@@ -158,12 +154,17 @@ Meteor.startup(async function(){
   
           if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
             process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  Creating user.');
+            if(get(Meteor, 'settings.private.defaultUserRole')){
+              user.roles = [get(Meteor, 'settings.private.defaultUserRole', 'citizen')]
+            }    
             return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);  
 
           } else if (user.invitationCode === get(Meteor, 'settings.private.practitionerInvitationCode')) {
 
             process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
-            user.isPractitioner = true;
+            if(get(Meteor, 'settings.private.defaultClinicianRole')){
+              user.roles = [get(Meteor, 'settings.private.defaultClinicianRole', 'healthcare provider')]
+            }    
             return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);    
           } else {
             process.env.DEBUG_ACCOUNTS && console.error('Invalid invitation code.');
@@ -614,9 +615,9 @@ Meteor.startup(async function(){
     process.env.DEBUG_ACCOUNTS && console.log('foundUser', foundUser);
 
     // add user role
-    if(get(Meteor, 'settings.public.defaults.defaultUserRole')){
+    if(get(Meteor, 'settings.private.defaultUserRole')){
       user.roles = [];
-      user.roles.push(get(Meteor, 'settings.public.defaults.defaultUserRole'))
+      user.roles.push(get(Meteor, 'settings.private.defaultUserRole'))
     }
 
     process.env.DEBUG_ACCOUNTS && console.log('userWithRoles', user);
@@ -666,7 +667,15 @@ Meteor.startup(async function(){
         }],
         photo: [{
           url: 'http://localhost:3000/noAvatar.png'
-        }]
+        }],
+        meta: {
+          security: [
+            {
+              code: "N",
+              display: "normal"
+            }
+          ]
+        }
       }
 
       // if we were able to fetch the entire Patient resource from Epic/Cerner
@@ -801,7 +810,15 @@ Meteor.startup(async function(){
             }],
             photo: [{
               url: 'http://localhost:3000/noAvatar.png'
-            }]
+            }],
+            meta: {
+              security: [
+                {
+                  code: "N",
+                  display: "normal"
+                }
+              ]
+            }
           }
 
           if(has(createdUser, '_id')){
@@ -850,16 +867,27 @@ Meteor.startup(async function(){
             }
           }
 
-            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitioner', newPractitioner)
+          process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitioner', newPractitioner)
 
           let practitionerAlreadyExists = Practitioners.findOne({id: newPractitioner.id})
             process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
 
           if(!practitionerAlreadyExists){
-            let patientInternalId = Practitioners.insert(newPractitioner)
-              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitionerId', patientInternalId);
+            let newPractitionerId = Practitioners.insert(newPractitioner)
+            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitionerId', newPractitionerId);
+            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', get(createdUser, 'patientId'));
 
-              if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
+
+            let foundUser = Meteor.users.findOne({patientId: get(createdUser, 'patientId')});
+            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.foundUser', foundUser);
+
+            let userUpdated = Meteor.users.update({patientId: get(createdUser, 'patientId')}, {$set: {
+              practitionerId: newPractitionerId
+            }})
+            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.userUpdated', userUpdated);
+
+
+            if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
               let newAuditEvent = { 
                 "resourceType" : "AuditEvent",
                 "type" : { 
@@ -892,9 +920,11 @@ Meteor.startup(async function(){
                 }]
               };
 
-                process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
+              process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
               let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
             }
+          } else {
+            console.log('Practitioner already exists....')
           }
         }
       }
