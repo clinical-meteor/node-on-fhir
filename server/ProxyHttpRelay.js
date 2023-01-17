@@ -10,7 +10,7 @@ import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http';
 
 import { CarePlans, CareTeams, Consents, Conditions, Encounters, Goals, Immunizations, Observations, Patients, Procedures, Practitioners, QuestionnaireResponses, Tasks } from 'meteor/clinical:hl7-fhir-data-infrastructure';
-import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
+// import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 
 import moment from 'moment';
 import sanitize from 'mongo-sanitize';

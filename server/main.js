@@ -5,6 +5,7 @@ import './ProxyMethods.js';
 import './ProxyHttpRelay.js';
 import './Cron.js';
 import './WebsocketPublications.js';
+import './HipaaLogging.js';
 
 // need to upgrade mongoose, mongo, and the kerberose dependency
 // then we can re-enable

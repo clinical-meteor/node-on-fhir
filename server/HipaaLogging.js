@@ -70,17 +70,22 @@ Meteor.methods({
     if(process.env.DEBUG){
       console.log('IsValid: ', auditEventValidator.isValid())
       console.log('ValidationErrors: ', auditEventValidator.validationErrors());
-      console.log('Meteor.settings.public.modules.fhir.AuditEvents.enabled: ', get(Meteor, 'settings.public.modules.fhir.AuditEvents.enabled'));  
+      console.log('Meteor.settings.private.fhir.rest.AuditEvent: ', get(Meteor, 'settings.private.fhir.rest.AuditEvent'));  
     }
 
-    if(auditEventValidator.isValid() && get(Meteor, 'settings.public.modules.fhir.AuditEvents.enabled')){
+    if(get(Meteor, 'settings.private.fhir.rest.AuditEvent')){
+      if(auditEventValidator.isValid()){
 
-      console.log('Adding event to AuditLog.');
-      newAuditId = AuditEvents.insert(fhirAuditEvent, function(error, result){
-        if (error) {
-          console.log("error", error);        
-        }
-      });  
+        console.log('Adding event to AuditLog.');
+        newAuditId = AuditEvents.insert(fhirAuditEvent, function(error, result){
+          if (error) {
+            console.log("AuditEvents.insert.error", error);        
+          }
+        });  
+      }     
+    } else {
+      console.log("AuditEvent collection not enabled.")
+      console.log("Meteor.settings.private.rest.")
     }
 
     return newAuditId;

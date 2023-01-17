@@ -19,7 +19,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
 import { CarePlans, CareTeams, Conditions, Devices, Observations, MedicationStatements, Patients, Practitioners, Procedures } from 'meteor/clinical:hl7-fhir-data-infrastructure';
-import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
+// import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 
 import moment from 'moment';
 import sanitize from 'mongo-sanitize';
@@ -261,7 +261,7 @@ Meteor.startup(async function(){
           };
 
           process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent);
-          let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent);            
+          let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent);            
         }
                
 
@@ -450,6 +450,28 @@ Meteor.startup(async function(){
       loggedInUser = await accountsServer.loginWithService('password', req.body, req.infos);
        process.env.DEBUG_ACCOUNTS && console.log('loggedInUser', loggedInUser);   
 
+       if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
+        var loginAuditEvent = { 
+          "resourceType" : "AuditEvent",
+          "code" : {
+            "text": "Login",
+            "coding": [{
+              "display": "Login",
+              "code": "110122",
+              "system": "http://dicom.nema.org/resources/ontology/DCM"
+            }]
+          },
+          "recorded" : new Date(), 
+          "outcome" : 'Success',
+          "agent": [{
+            "who": {
+              "reference": "User/" + get(loggedInUser, '_id.str')
+            }
+          }]
+        }
+        Meteor.call('logAuditEvent', loginAuditEvent)
+      }
+
       JsonRoutes.sendResult(res, {
         code: 200,
         data: loggedInUser
@@ -480,9 +502,33 @@ Meteor.startup(async function(){
     accessToken = accessToken && accessToken.replace('Bearer ', '');
      process.env.DEBUG_ACCOUNTS && console.log('accessToken', accessToken)
 
+    const session = await accountsServer.findSessionByAccessToken(accessToken);
+
     const logoutResult = await accountsServer.logout( accessToken );
-     process.env.DEBUG_ACCOUNTS && console.log('logoutResult', logoutResult)
+    process.env.DEBUG_ACCOUNTS && console.log('logoutResult', logoutResult)
     
+    if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
+      var loginAuditEvent = { 
+        "resourceType" : "AuditEvent",
+        "code" : {
+          "text": "Logout",
+          "coding": [{
+            "display": "Logout",
+            "code": "110123",
+            "system": "http://dicom.nema.org/resources/ontology/DCM"
+          }]
+        },
+        "recorded" : new Date(), 
+        "outcome" : 'Success',
+        "agent": [{
+          "who": {
+            "reference": "User/" + get(session, 'userId')
+          }
+        }]
+      }
+      Meteor.call('logAuditEvent', loginAuditEvent)
+    }
+
     JsonRoutes.sendResult(res, {
       data: {
         message: 'User logged out.'
@@ -779,7 +825,7 @@ Meteor.startup(async function(){
               };
 
               process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
-              let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+              let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent)            
             }
           }
         } else {
@@ -923,7 +969,7 @@ Meteor.startup(async function(){
                 };
   
                 process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
-                let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+                let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent)            
               }
             } else {
               console.log('Practitioner already exists....')

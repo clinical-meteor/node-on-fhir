@@ -20,7 +20,7 @@ import { Session } from 'meteor/session';
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import { AuditEvents, Patients, Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
-import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
+// import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 
 // EHR
 // https://code.cerner.com/developer/smart-on-fhir/apps/5ce489fc-fec1-46be-856a-8d7ed58e6b5b
@@ -395,7 +395,7 @@ export function FhirClientProvider(props){
                                 };
 
                                 console.log('Logging a hipaa event...', newAuditEvent)
-                                let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+                                let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent);            
                               }
                             })    
                           }
@@ -464,7 +464,7 @@ export function FhirClientProvider(props){
                                     };
 
                                     console.log('Logging a hipaa event...', newAuditEvent)
-                                    let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+                                    let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent)            
                                   }
 
                                 }
@@ -690,7 +690,7 @@ export function FhirClientProvider(props){
 //                                   };
 
 //                                   console.log('Logging a hipaa event...', newAuditEvent)
-//                                   let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+//                                   let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent)            
 //                                 }
 //                               })    
 //                             }
@@ -759,7 +759,7 @@ export function FhirClientProvider(props){
 //                                       };
 
 //                                       console.log('Logging a hipaa event...', newAuditEvent)
-//                                       let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+//                                       let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent)            
 //                                     }
 
 //                                   }
