@@ -55,17 +55,19 @@ onPageLoad(async function(){
   let searchParams = new URLSearchParams(get(preloadedState, 'url.path'));
   logger.debug("onPageLoad().searchParams", searchParams);
   
-  if(searchParams.get('iss')){
-    Session.set('smartOnFhir_iss', searchParams.get('iss'));
-  }
-  if(searchParams.get('launch')){
-    Session.set('smartOnFhir_launch', searchParams.get('launch'));
-  }
-  if(searchParams.get('code')){
-    Session.set('smartOnFhir_code', searchParams.get('code'));
-  }
-  if(searchParams.get('scope')){
-    Session.set('smartOnFhir_scope', searchParams.get('scope'));
+  if(get(Meteor, 'settings.public.enableSmartOnFhir')){
+    if(searchParams.get('iss')){
+      Session.set('smartOnFhir_iss', searchParams.get('iss'));
+    }
+    if(searchParams.get('launch')){
+      Session.set('smartOnFhir_launch', searchParams.get('launch'));
+    }
+    if(searchParams.get('code')){
+      Session.set('smartOnFhir_code', searchParams.get('code'));
+    }
+    if(searchParams.get('scope')){
+      Session.set('smartOnFhir_scope', searchParams.get('scope'));
+    }  
   }
 
   if(window.MobileAccessibility){

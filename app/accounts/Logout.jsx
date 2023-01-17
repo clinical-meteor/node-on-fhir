@@ -271,6 +271,13 @@ const Logout = function({ history }){
     Session.set('ValueSet.Current', "{\"resourceType\":\"ValueSet\"}")
     Session.set('VerificationResult.Current', "{\"resourceType\":\"VerificationResult\"}")
 
+    // clear SMART on FHIR
+    Session.set('smartOnFhir_iss', false)
+    Session.set('smartOnFhir_launch', false)
+    Session.set('smartOnFhir_code', false)
+    Session.set('smartOnFhir_scope', false)
+    Session.set('smartOnFhir_state', false)
+
     // trigger refresh on UI elements
     Session.set('lastUpdated', new Date());
     

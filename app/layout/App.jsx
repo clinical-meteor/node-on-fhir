@@ -330,33 +330,35 @@ export function App(props) {
 
   const { staticContext, startAdornment,  ...otherProps } = props;
 
-
+ 
   // ------------------------------------------------------------------
   // SMART on FHIR Oauth Scope  
 
   let searchParams = new URLSearchParams(useLocation().search);
-  if(searchParams){
+  if(get(Meteor, 'settings.public.enableSmartOnFhir')){
+    if(searchParams){
 
-    searchParams.forEach(function(value, key){
-      console.log(key + ': ' + value); 
-    });
-
-    if(searchParams.get('iss')){
-      Session.set('smartOnFhir_iss', searchParams.get('iss'));
-    }
-    if(searchParams.get('launch')){
-      Session.set('smartOnFhir_launch', searchParams.get('launch'));
-    }
-    if(searchParams.get('code')){
-      Session.set('smartOnFhir_code', searchParams.get('code'));
-    }
-    if(searchParams.get('scope')){
-      Session.set('smartOnFhir_scope', searchParams.get('scope'));
-    }
-
-    if(searchParams.state){
-      Session.set('smartOnFhir_state', searchParams.state);
-    }        
+      searchParams.forEach(function(value, key){
+        console.log(key + ': ' + value); 
+      });
+  
+      if(searchParams.get('iss')){
+        Session.set('smartOnFhir_iss', searchParams.get('iss'));
+      }
+      if(searchParams.get('launch')){
+        Session.set('smartOnFhir_launch', searchParams.get('launch'));
+      }
+      if(searchParams.get('code')){
+        Session.set('smartOnFhir_code', searchParams.get('code'));
+      }
+      if(searchParams.get('scope')){
+        Session.set('smartOnFhir_scope', searchParams.get('scope'));
+      }
+  
+      if(searchParams.state){
+        Session.set('smartOnFhir_state', searchParams.state);
+      }        
+    }  
   }
 
   usePageViews();
