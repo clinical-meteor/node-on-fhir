@@ -102,7 +102,10 @@ function EhrLaunchPage(props) {
         alert(JSON.stringify(smartConfig))
       }
 
-      SMART.authorize(smartConfig);
+      if(get(Meteor, 'settings.public.enableEhrLaunchContext')){
+        SMART.authorize(smartConfig);
+      }
+
     } else {
       console.log('Hmmm.... no iss parameter in Url...');
 
@@ -129,7 +132,9 @@ function EhrLaunchPage(props) {
         alert(JSON.stringify(smartConfig))
       }
 
-      SMART.authorize(smartConfig);
+      if(get(Meteor, 'settings.public.enableEhrLaunchContext')){
+        SMART.authorize(smartConfig);
+      }
     }
     
   });
