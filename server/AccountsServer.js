@@ -733,159 +733,17 @@ Meteor.startup(async function(){
 
       //------------------------------------------------------------------------------------------------------------------------------------
 
-      // if the patientId from Epic/Cerner is available
-      // we are going to make sure that there is a corresponding Patient resource
-      // in our system
-      if(get(createdUser, 'patientId')){
-        if(!Patients.findOne({id: get(createdUser, 'patientId')})){
+      if(get(Meteor, 'settings.private.patientCreationOnSignupEnabled')){
+        // if the patientId from Epic/Cerner is available
+        // we are going to make sure that there is a corresponding Patient resource
+        // in our system
+        if(get(createdUser, 'patientId')){
+          if(!Patients.findOne({id: get(createdUser, 'patientId')})){
 
-          newPatient.id = createdUser.patientId;
+            newPatient.id = createdUser.patientId;
 
-          let patientInternalId = Patients.insert(newPatient)
-            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', patientInternalId)
-
-          if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
-            let newAuditEvent = { 
-              "resourceType" : "AuditEvent",
-              "type" : { 
-                'code': 'Register User',
-                'display': 'Register User'
-                }, 
-              "action" : 'Registration',
-              "recorded" : new Date(), 
-              "outcome" : "Success",
-              "outcomeDesc" : 'User registered.',
-              "agent" : [{ 
-                "name" : FhirUtilities.pluckName(newPatient),
-                "who": {
-                  "display": FhirUtilities.pluckName(newPatient),
-                  "reference": "Patient/" + get(newPatient, 'id')
-                },
-                "requestor" : false
-              }],
-              "source" : { 
-                "site" : Meteor.absoluteUrl(),
-                "identifier": {
-                  "value": Meteor.absoluteUrl(),
-
-                }
-              },
-              "entity": [{
-                "reference": {
-                  "reference": ''
-                }
-              }]
-            };
-
-            process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
-            let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
-          }
-        }
-      } else {
-
-        // Use Case 2 - if the user signs up without having logged into Epic/Cerner
-        // then they probably don't have a patientId available
-        // so we need to attach it to the user account
-
-        // if(!get(createdUser, 'patientId')){
-        //   Users.update({id: get(createdUser, 'id')}, {$set: {patientId: patientInternalId}})
-        // }
-      }
-
-
-
-
-      if((get(createdUser, 'isPractitioner') || get(createdUser, 'role') === "healthcare provider") || (get(createdUser, 'roles[0]') === "healthcare provider")){
-        if(!Practitioners.findOne({id: get(createdUser, 'id')})){
-          let newPractitioner = {
-            _id: '',  
-            id: get(createdUser, 'id', ''),
-            resourceType: "Practitioner",
-            active: true,
-            name: [{
-              use: 'usual',
-              text: get(createdUser, 'fullLegalName', ''),
-              given: [],
-              family: ''
-            }],
-            photo: [{
-              url: 'http://localhost:3000/noAvatar.png'
-            }],
-            meta: {
-              security: [
-                {
-                  code: "N",
-                  display: "normal"
-                }
-              ]
-            }
-          }
-
-          if(has(createdUser, '_id')){
-            newPractitioner._id = get(createdUser, '_id._str');
-          }
-          if(has(createdUser, 'id')){
-            newPractitioner.id = get(createdUser, 'id');
-          }
-
-          let humanNameArray = get(newPractitioner, 'name');
-          if(Array.isArray(humanNameArray)){
-            newPractitioner.name = [];
-            humanNameArray.forEach(function(humanName){
-              if(typeof humanName.family === "string"){
-                newPractitioner.name.push(humanName);
-              }
-            })
-
-          }
-
-          // if(typeof newPractitioner.name[0].family === "array"){
-          //   newPractitioner.name[0].family = newPractitioner.name[0].family[0];
-          // }
-
-          if(has(createdUser, 'fullLegalName') && !has(newPractitioner, 'name[0].text')){
-            let nameArray = createdUser.fullLegalName.split(" ");
-            if(Array.isArray(nameArray)){
-              nameArray.forEach(function(name){
-                if(!has(newPractitioner, 'name[0].given')){
-                  set(newPractitioner, 'name[0].given', []);
-                }
-                newPractitioner.name[0].given.push(name);
-              })
-              newPractitioner.name[0].text = get(createdUser, 'fullLegalName', '').trim()
-              newPractitioner.name[0].family = (nameArray[0]).trim();
-            }
-          }
-
-          if(has(createdUser, 'emails[0].address')){
-            if(!has(newPractitioner, 'telecom')){
-              newPractitioner.telecom = [];
-            }
-            newPractitioner.telecom[0] = {
-              system: 'email',
-              value: get(createdUser, 'emails[0].address')
-            }
-          }
-
-          process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitioner', newPractitioner)
-
-          let practitionerAlreadyExists = Practitioners.findOne({id: newPractitioner.id})
-            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
-
-          if(!practitionerAlreadyExists){
-            let newPractitionerId = Practitioners.insert(newPractitioner)
-            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitionerId', newPractitionerId);
-            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', get(createdUser, 'patientId'));
-
-
-            let foundUser = Meteor.users.findOne({patientId: get(createdUser, 'patientId')});
-            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.foundUser', foundUser);
-
-            let userUpdated = Meteor.users.update({patientId: get(createdUser, 'patientId')}, {$set: {
-              practitionerId: newPractitionerId
-            }})
-            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.userUpdated', userUpdated);
-
+            let patientInternalId = Patients.insert(newPatient)
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', patientInternalId)
 
             if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
               let newAuditEvent = { 
@@ -899,10 +757,10 @@ Meteor.startup(async function(){
                 "outcome" : "Success",
                 "outcomeDesc" : 'User registered.',
                 "agent" : [{ 
-                  "name" : FhirUtilities.pluckName(newPractitioner),
+                  "name" : FhirUtilities.pluckName(newPatient),
                   "who": {
-                    "display": FhirUtilities.pluckName(newPractitioner),
-                    "reference": "Practitioner/" + get(newPractitioner, 'id')
+                    "display": FhirUtilities.pluckName(newPatient),
+                    "reference": "Patient/" + get(newPatient, 'id')
                   },
                   "requestor" : false
                 }],
@@ -923,14 +781,159 @@ Meteor.startup(async function(){
               process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
               let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
             }
-          } else {
-            console.log('Practitioner already exists....')
           }
+        } else {
+
+          // Use Case 2 - if the user signs up without having logged into Epic/Cerner
+          // then they probably don't have a patientId available
+          // so we need to attach it to the user account
+
+          // if(!get(createdUser, 'patientId')){
+          //   Users.update({id: get(createdUser, 'id')}, {$set: {patientId: patientInternalId}})
+          // }
         }
       }
 
 
-        process.env.DEBUG_ACCOUNTS && console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');
+
+      if(get(Meteor, 'settings.private.practitionerCreationOnSignupEnabled')){
+        if((get(createdUser, 'isPractitioner') || get(createdUser, 'role') === "healthcare provider") || (get(createdUser, 'roles[0]') === "healthcare provider")){
+          if(!Practitioners.findOne({id: get(createdUser, 'id')})){
+            let newPractitioner = {
+              _id: '',  
+              id: get(createdUser, 'id', ''),
+              resourceType: "Practitioner",
+              active: true,
+              name: [{
+                use: 'usual',
+                text: get(createdUser, 'fullLegalName', ''),
+                given: [],
+                family: ''
+              }],
+              photo: [{
+                url: 'http://localhost:3000/noAvatar.png'
+              }],
+              meta: {
+                security: [
+                  {
+                    code: "N",
+                    display: "normal"
+                  }
+                ]
+              }
+            }
+  
+            if(has(createdUser, '_id')){
+              newPractitioner._id = get(createdUser, '_id._str');
+            }
+            if(has(createdUser, 'id')){
+              newPractitioner.id = get(createdUser, 'id');
+            }
+  
+            let humanNameArray = get(newPractitioner, 'name');
+            if(Array.isArray(humanNameArray)){
+              newPractitioner.name = [];
+              humanNameArray.forEach(function(humanName){
+                if(typeof humanName.family === "string"){
+                  newPractitioner.name.push(humanName);
+                }
+              })
+  
+            }
+  
+            // if(typeof newPractitioner.name[0].family === "array"){
+            //   newPractitioner.name[0].family = newPractitioner.name[0].family[0];
+            // }
+  
+            if(has(createdUser, 'fullLegalName') && !has(newPractitioner, 'name[0].text')){
+              let nameArray = createdUser.fullLegalName.split(" ");
+              if(Array.isArray(nameArray)){
+                nameArray.forEach(function(name){
+                  if(!has(newPractitioner, 'name[0].given')){
+                    set(newPractitioner, 'name[0].given', []);
+                  }
+                  newPractitioner.name[0].given.push(name);
+                })
+                newPractitioner.name[0].text = get(createdUser, 'fullLegalName', '').trim()
+                newPractitioner.name[0].family = (nameArray[0]).trim();
+              }
+            }
+  
+            if(has(createdUser, 'emails[0].address')){
+              if(!has(newPractitioner, 'telecom')){
+                newPractitioner.telecom = [];
+              }
+              newPractitioner.telecom[0] = {
+                system: 'email',
+                value: get(createdUser, 'emails[0].address')
+              }
+            }
+  
+            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitioner', newPractitioner)
+  
+            let practitionerAlreadyExists = Practitioners.findOne({id: newPractitioner.id})
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
+  
+            if(!practitionerAlreadyExists){
+              let newPractitionerId = Practitioners.insert(newPractitioner)
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitionerId', newPractitionerId);
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', get(createdUser, 'patientId'));
+  
+  
+              let foundUser = Meteor.users.findOne({patientId: get(createdUser, 'patientId')});
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.foundUser', foundUser);
+  
+              let userUpdated = Meteor.users.update({patientId: get(createdUser, 'patientId')}, {$set: {
+                practitionerId: newPractitionerId
+              }})
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.userUpdated', userUpdated);
+  
+  
+              if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
+                let newAuditEvent = { 
+                  "resourceType" : "AuditEvent",
+                  "type" : { 
+                    'code': 'Register User',
+                    'display': 'Register User'
+                    }, 
+                  "action" : 'Registration',
+                  "recorded" : new Date(), 
+                  "outcome" : "Success",
+                  "outcomeDesc" : 'User registered.',
+                  "agent" : [{ 
+                    "name" : FhirUtilities.pluckName(newPractitioner),
+                    "who": {
+                      "display": FhirUtilities.pluckName(newPractitioner),
+                      "reference": "Practitioner/" + get(newPractitioner, 'id')
+                    },
+                    "requestor" : false
+                  }],
+                  "source" : { 
+                    "site" : Meteor.absoluteUrl(),
+                    "identifier": {
+                      "value": Meteor.absoluteUrl(),
+  
+                    }
+                  },
+                  "entity": [{
+                    "reference": {
+                      "reference": ''
+                    }
+                  }]
+                };
+  
+                process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
+                let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+              }
+            } else {
+              console.log('Practitioner already exists....')
+            }
+          }
+        }
+
+        process.env.DEBUG_ACCOUNTS && console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');  
+      }
+
 
       // If we are here - user must be created successfully
       // Explicitly saying this to Typescript compiler
