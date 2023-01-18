@@ -15,8 +15,8 @@ try {
     publicKey = get(keychain, 'keys[0]');        
 } catch (error) {
     // console.log(error)    
-    console.log("could not find ../certs/jwks.json file")
-    console.log('skipping initialization of Smart Health Cards')
+    console.warn("Could not find ../certs/jwks.json file")
+    console.warn('Skipping initialization of Smart Health Cards')
 }
 
 // import privateKeychain from '../certs/private.jwks.json';
@@ -26,11 +26,11 @@ let localFilesystemPem;
 try {
   localFilesystemPem = get(Meteor, 'settings.private.x509.privateKey', '');
   if(localFilesystemPem){
-    console.log(localFilesystemPem)
-    console.log('PrivateKey found in settings file.  Ready to sign SmartHealthCards...');
+    process.env.DEBUG_CRYPTO && console.log(localFilesystemPem)
+    console.info('PrivateKey found in settings file.  Ready to sign SmartHealthCards...');
     process.env.DEBUG_CRYPTO && console.log(localFilesystemPem)
   } else {
-    console.log('No local privateKey found for signing SmartHealthCards...')
+    console.info('No local privateKey found for signing SmartHealthCards...')
   }
 } catch (err) {
     process.env.DEBUG_CRYPTO && console.error("FileSystemError", err)
@@ -91,33 +91,25 @@ export function arrayBufferToBase64( uint8Array ) {
 export function numericMode(inputString){
     let resultArray = [];
 
-    // console.log('numericMode() typeof inputString', typeof inputString);
-
-    // console.log("numericMode().inputString", inputString);
-    // result = inputString;
-
     let inputArray = Array.from(inputString);
 
     inputArray.forEach(function(character, index){
         resultArray.push(zeroPad(inputString.charCodeAt(index) - 45, 2));
     })    
 
-    // console.log("numericMode().resultArray", resultArray);
-
     // convert the array to a comma separated string, and then remove commas
     let result = resultArray.toString().replace(/,/g, "");
 
-    // console.log("numericMode().result", result);
     return result;
 }
 export function decodeNumeric(shcString){
     let resultArray = [];
 
-    // console.log('typeof shcString', typeof shcString);
-    // console.log("decodeNumeric().shcString", shcString);
+    process.env.TRACE && console.log('typeof shcString', typeof shcString);
+    process.env.TRACE && console.log("decodeNumeric().shcString", shcString);
 
     let token = shcString.substring(5, shcString.length);
-    // console.log("decodeNumeric().token", token);
+    process.env.TRACE && console.log("decodeNumeric().token", token);
 
     let firstIndex;
     let secondIndex;
@@ -130,8 +122,8 @@ export function decodeNumeric(shcString){
             firstIndex = index;
             secondIndex = index + 1;
         
-            // console.log('firstIndex:          ' + firstIndex);
-            // console.log('secondIndex:         ' + secondIndex);    
+            console.log('firstIndex:          ' + firstIndex);
+            process.env.TRACE && console.log('secondIndex:         ' + secondIndex);    
 
             let douplet;
             let first;
@@ -141,17 +133,17 @@ export function decodeNumeric(shcString){
             if(token[firstIndex] && token[secondIndex]){
                 first = token[firstIndex];
                 second = token[secondIndex];
-                // console.log('first:      ' + parseInt(first));
-                // console.log('second:     ' + parseInt(second));    
+                process.env.TRACE &&  console.log('first:      ' + parseInt(first));
+                process.env.TRACE &&  console.log('second:     ' + parseInt(second));    
 
 
                 douplet = parseInt(first).toString() + parseInt(second).toString();
-                // console.log('douplet:    ' + douplet);    
+                process.env.TRACE &&  console.log('douplet:    ' + douplet);    
 
-                // console.log('douplet+45:   ' + (parseInt(douplet) + 45));
+                process.env.TRACE &&  console.log('douplet+45:   ' + (parseInt(douplet) + 45));
                 
                 ascii = String.fromCharCode((parseInt(douplet) + 45));
-                // console.log('ascii:      ' + ascii);    
+                process.env.TRACE &&  console.log('ascii:      ' + ascii);    
 
                 resultArray.push(ascii);               
 
@@ -159,15 +151,15 @@ export function decodeNumeric(shcString){
                 secondIndex = null;
         
             } else {
-                console.log("uh oh, wasnt a doublet.  how did that happen?")
+                process.env.DEBUG && console.error("Uh oh, wasnt a doublet.  How did that happen?");
             }
         }
     }
-    // console.log("resultArray", resultArray);
+    process.env.TRACE &&  console.log("resultArray", resultArray);
 
     let result = resultArray.toString().replace(/,/g, "").trim();
 
-    // console.log("decodeNumeric().result", result);
+    process.env.TRACE &&  console.log("decodeNumeric().result", result);
     return result;
 
 }
@@ -177,53 +169,53 @@ Meteor.methods({
 
         let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
         if(isAuthorized){
-            console.log('================SIGNING HEALTHCARD=============================')
-            console.log('');
+            process.env.DEBUG_CRYPTO && console.log('================SIGNING HEALTHCARD=============================')
+            process.env.DEBUG_CRYPTO && console.log('');
     
-            console.log('');
-            console.log('---------------Verified Credential------------------------')        
-            console.log('');
+            process.env.DEBUG_CRYPTO && console.log('');
+            process.env.DEBUG_CRYPTO && console.log('---------------Verified Credential------------------------')        
+            process.env.DEBUG_CRYPTO && console.log('');
     
             recordToSign.nbf = moment().add(1, "seconds").unix();
-            console.log(recordToSign);
+            process.env.DEBUG_CRYPTO && console.log(recordToSign);
     
-            console.log('');
-            console.log('---------------FHIR Bundle--------------------------------')        
-            console.log('');    
-            console.log(get(recordToSign, 'vc.credentialSubject.fhirBundle'));
+            process.env.DEBUG_CRYPTO && console.log('');
+            process.env.DEBUG_CRYPTO && console.log('---------------FHIR Bundle--------------------------------')        
+            process.env.DEBUG_CRYPTO && console.log('');    
+            process.env.DEBUG_CRYPTO && console.log(get(recordToSign, 'vc.credentialSubject.fhirBundle'));
     
-            console.log('');
-            console.log('---------------Signing Key (PEM)--------------------------')        
-            console.log('');
+            process.env.DEBUG_CRYPTO && console.log('');
+            process.env.DEBUG_CRYPTO && console.log('---------------Signing Key (PEM)--------------------------')        
+            process.env.DEBUG_CRYPTO && console.log('');
     
             let privatePem = Assets.getText('ec_private.pem');
     
             if(privatePem){
-                console.log('');
-                console.log(privatePem);
+                process.env.DEBUG_CRYPTO && console.log('');
+                process.env.DEBUG_CRYPTO && console.log(privatePem);
         
-                console.log('');
-                console.log('-----------Public Key (.well-known/jwks.json)-------------')        
-                console.log('');
+                process.env.DEBUG_CRYPTO && console.log('');
+                process.env.DEBUG_CRYPTO && console.log('-----------Public Key (.well-known/jwks.json)-------------')        
+                process.env.DEBUG_CRYPTO && console.log('');
     
                 if(publicKey){
-                    console.log(publicKey);
-                    console.log('');
+                    process.env.DEBUG_CRYPTO && console.log(publicKey);
+                    process.env.DEBUG_CRYPTO && console.log('');
             
-                    console.log('');
-                    console.log('---------------Stringified Payload------------------------')
-                    console.log('');
+                    process.env.DEBUG_CRYPTO && console.log('');
+                    process.env.DEBUG_CRYPTO && console.log('---------------Stringified Payload------------------------')
+                    process.env.DEBUG_CRYPTO && console.log('');
             
                     let vcPayloadString = JSON.stringify(recordToSign);
                     let vcPayloadString_trimmed = vcPayloadString.trim();
-                    console.log(vcPayloadString_trimmed);
+                    process.env.DEBUG_CRYPTO && console.log(vcPayloadString_trimmed);
             
-                    console.log('');
-                    console.log('-------------Raw Deflated Payload (Buffer)----------------')
-                    console.log('');
+                    process.env.DEBUG_CRYPTO && console.log('');
+                    process.env.DEBUG_CRYPTO && console.log('-------------Raw Deflated Payload (Buffer)----------------')
+                    process.env.DEBUG_CRYPTO && console.log('');
             
                     let deflatedPayload = zlib.deflateRawSync(vcPayloadString_trimmed);
-                    console.log(deflatedPayload);
+                    process.env.DEBUG_CRYPTO && console.log(deflatedPayload);
             
                     let json_web_signature = jws.sign({
                         header: { alg: 'ES256', zip: 'DEF', kid: get(keychain, 'keys[0].kid')},
@@ -233,114 +225,112 @@ Meteor.methods({
                     });
     
                     if(json_web_signature){
-                        console.log('');
-                        console.log('------------JSON Web Signature (JWS)----------------------')
-                        console.log('');
+                        process.env.DEBUG_CRYPTO && console.log('');
+                        process.env.DEBUG_CRYPTO && console.log('------------JSON Web Signature (JWS)----------------------')
+                        process.env.DEBUG_CRYPTO && console.log('');
                 
-                        console.log(json_web_signature)     
+                        process.env.DEBUG_CRYPTO && console.log(json_web_signature)     
                 
                         Meteor.call('verifyHealthCard', json_web_signature, Session.get('accountsAccessToken'));
                 
-                        console.log('');
-                        console.log('------------Smart Health Card----------------------------')
-                        console.log('');
+                        process.env.DEBUG_CRYPTO && console.log('');
+                        process.env.DEBUG_CRYPTO && console.log('------------Smart Health Card----------------------------')
+                        process.env.DEBUG_CRYPTO && console.log('');
                 
                         let shcNumericString = "shc:/" + numericMode(json_web_signature);
-                        console.log(shcNumericString)
-                        console.log('==============================================================================')
+                        process.env.DEBUG_CRYPTO && console.log(shcNumericString)
+                        process.env.DEBUG_CRYPTO && console.log('==============================================================================')
                 
                         return shcNumericString;
                     } else {
-                        console.log('json_web_signature was not available....')
-                        console.log('');
-                        console.log('please add a key to the following locations:');
-                        console.log('certs/jwks.json');
-                        console.log('.well-known/jwks.json');
-                        console.log('');
-                        console.log('should look something like the following,');
-                        console.log('using ES256 algorithm and DEF zip format:')
-                        console.log('{');
-                        console.log('  "keys": [');
-                        console.log('    {');
-                        console.log('      "kty": "EC",');
-                        console.log('      "use": "sig",');
-                        console.log('      "crv": "P-256",');
-                        console.log('      "kid": "yRwxp3sb7ldqlbGcw42zkcamMCo_9QZqUqKR6ZFQtH8",');
-                        console.log('      "x": "ivxR4CWtrm4B0D4Bqbg3gnlQO6SuzF-VFZ66D44IDLA",');
-                        console.log('      "y": "T6EdDPqwz9sIBrTXaR0KTFlbQsmdCbV4ZpObVo_80MY",');
-                        console.log('      "alg": "ES256"');
-                        console.log('    }');
-                        console.log('  ]');
-                        console.log('}');
-                        console.log('');
-                        console.log('the above key has been mangled, and is only provided to show the correct syntax');
-                        console.log('');
+                        process.env.DEBUG_CRYPTO && console.log('json_web_signature was not available....')
+                        process.env.DEBUG_CRYPTO && console.log('');
+                        process.env.DEBUG_CRYPTO && console.log('please add a key to the following locations:');
+                        process.env.DEBUG_CRYPTO && console.log('certs/jwks.json');
+                        process.env.DEBUG_CRYPTO && console.log('.well-known/jwks.json');
+                        process.env.DEBUG_CRYPTO && console.log('');
+                        process.env.DEBUG_CRYPTO && console.log('should look something like the following,');
+                        process.env.DEBUG_CRYPTO && console.log('using ES256 algorithm and DEF zip format:')
+                        process.env.DEBUG_CRYPTO && console.log('{');
+                        process.env.DEBUG_CRYPTO && console.log('  "keys": [');
+                        process.env.DEBUG_CRYPTO && console.log('    {');
+                        process.env.DEBUG_CRYPTO && console.log('      "kty": "EC",');
+                        process.env.DEBUG_CRYPTO && console.log('      "use": "sig",');
+                        process.env.DEBUG_CRYPTO && console.log('      "crv": "P-256",');
+                        process.env.DEBUG_CRYPTO && console.log('      "kid": "yRwxp3sb7ldqlbGcw42zkcamMCo_9QZqUqKR6ZFQtH8",');
+                        process.env.DEBUG_CRYPTO && console.log('      "x": "ivxR4CWtrm4B0D4Bqbg3gnlQO6SuzF-VFZ66D44IDLA",');
+                        process.env.DEBUG_CRYPTO && console.log('      "y": "T6EdDPqwz9sIBrTXaR0KTFlbQsmdCbV4ZpObVo_80MY",');
+                        process.env.DEBUG_CRYPTO && console.log('      "alg": "ES256"');
+                        process.env.DEBUG_CRYPTO && console.log('    }');
+                        process.env.DEBUG_CRYPTO && console.log('  ]');
+                        process.env.DEBUG_CRYPTO && console.log('}');
+                        process.env.DEBUG_CRYPTO && console.log('');
+                        process.env.DEBUG_CRYPTO && console.log('the above key has been mangled, and is only provided to show the correct syntax');
+                        process.env.DEBUG_CRYPTO && console.log('');
     
                         return false;
                     }
                 } else {
-                    console.log('publicKey was not available....');
-                    console.log('');
-                    console.log('please add a key to the following locations:');
-                    console.log('certs/jwks.json');
-                    console.log('.well-known/jwks.json');
-                    console.log('');
-                    console.log('should look something like the following,');
-                    console.log('using ES256 algorithm and DEF zip format:')
-                    console.log('{');
-                    console.log('  "keys": [');
-                    console.log('    {');
-                    console.log('      "kty": "EC",');
-                    console.log('      "use": "sig",');
-                    console.log('      "crv": "P-256",');
-                    console.log('      "kid": "yRwxp3sb7ldqlbGcw42zkcamMCo_9QZqUqKR6ZFQtH8",');
-                    console.log('      "x": "ivxR4CWtrm4B0D4Bqbg3gnlQO6SuzF-VFZ66D44IDLA",');
-                    console.log('      "y": "T6EdDPqwz9sIBrTXaR0KTFlbQsmdCbV4ZpObVo_80MY",');
-                    console.log('      "alg": "ES256"');
-                    console.log('    }');
-                    console.log('  ]');
-                    console.log('}');
-                    console.log('');
-                    console.log('the above key has been mangled, and is only provided to show the correct syntax');
-                    console.log('');
+                    process.env.DEBUG_CRYPTO && console.log('publicKey was not available....');
+                    process.env.DEBUG_CRYPTO && console.log('');
+                    process.env.DEBUG_CRYPTO && console.log('please add a key to the following locations:');
+                    process.env.DEBUG_CRYPTO && console.log('certs/jwks.json');
+                    process.env.DEBUG_CRYPTO && console.log('.well-known/jwks.json');
+                    process.env.DEBUG_CRYPTO && console.log('');
+                    process.env.DEBUG_CRYPTO && console.log('should look something like the following,');
+                    process.env.DEBUG_CRYPTO && console.log('using ES256 algorithm and DEF zip format:')
+                    process.env.DEBUG_CRYPTO && console.log('{');
+                    process.env.DEBUG_CRYPTO && console.log('  "keys": [');
+                    process.env.DEBUG_CRYPTO && console.log('    {');
+                    process.env.DEBUG_CRYPTO && console.log('      "kty": "EC",');
+                    process.env.DEBUG_CRYPTO && console.log('      "use": "sig",');
+                    process.env.DEBUG_CRYPTO && console.log('      "crv": "P-256",');
+                    process.env.DEBUG_CRYPTO && console.log('      "kid": "yRwxp3sb7ldqlbGcw42zkcamMCo_9QZqUqKR6ZFQtH8",');
+                    process.env.DEBUG_CRYPTO && console.log('      "x": "ivxR4CWtrm4B0D4Bqbg3gnlQO6SuzF-VFZ66D44IDLA",');
+                    process.env.DEBUG_CRYPTO && console.log('      "y": "T6EdDPqwz9sIBrTXaR0KTFlbQsmdCbV4ZpObVo_80MY",');
+                    process.env.DEBUG_CRYPTO && console.log('      "alg": "ES256"');
+                    process.env.DEBUG_CRYPTO && console.log('    }');
+                    process.env.DEBUG_CRYPTO && console.log('  ]');
+                    process.env.DEBUG_CRYPTO && console.log('}');
+                    process.env.DEBUG_CRYPTO && console.log('');
+                    process.env.DEBUG_CRYPTO && console.log('the above key has been mangled, and is only provided to show the correct syntax');
+                    process.env.DEBUG_CRYPTO && console.log('');
                     return false;    
                 }
             } else {
-                console.log('privatePem was not available....');
-                console.log('');
-                console.log('please add a key to the following locations:');
-                console.log('certs/ec_private.pem');
-                console.log('');
-                console.log('should look something like the following:');
-                console.log('-----BEGIN PRIVATE KEY-----');
-                console.log('MEECAQAwEwYKKoZIzjwCAQYIKoZIzj0DAQcEJzAlAgEBBCCGnb8hUos2FdRkKrPf');
-                console.log('xMGenh8eqwyr51XDEM4GdO1Fgg==');
-                console.log('-----END PRIVATE KEY-----');
-                console.log('');
-                console.log('the above key has been mangled, and is only provided to show the correct syntax');
-                console.log('');
+                process.env.DEBUG_CRYPTO && console.log('privatePem was not available....');
+                process.env.DEBUG_CRYPTO && console.log('');
+                process.env.DEBUG_CRYPTO && console.log('please add a key to the following locations:');
+                process.env.DEBUG_CRYPTO && console.log('certs/ec_private.pem');
+                process.env.DEBUG_CRYPTO && console.log('');
+                process.env.DEBUG_CRYPTO && console.log('should look something like the following:');
+                process.env.DEBUG_CRYPTO && console.log('-----BEGIN PRIVATE KEY-----');
+                process.env.DEBUG_CRYPTO && console.log('MEECAQAwEwYKKoZIzjwCAQYIKoZIzj0DAQcEJzAlAgEBBCCGnb8hUos2FdRkKrPf');
+                process.env.DEBUG_CRYPTO && console.log('xMGenh8eqwyr51XDEM4GdO1Fgg==');
+                process.env.DEBUG_CRYPTO && console.log('-----END PRIVATE KEY-----');
+                process.env.DEBUG_CRYPTO && console.log('');
+                process.env.DEBUG_CRYPTO && console.log('the above key has been mangled, and is only provided to show the correct syntax');
+                process.env.DEBUG_CRYPTO && console.log('');
     
                 return false;
             }
         } else {
             return "User not authorized."
-        }
-
-        
+        }        
     },
     parseHealthCard: async function(healthCardToken, meteorSessionToken){
         check(healthCardToken, String);
 
         let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
         if(isAuthorized){
-            console.log('==============================================================================')
-            console.log('parseHealthCard().healthCardToken', healthCardToken)
+            process.env.DEBUG_CRYPTO && console.log('==============================================================================')
+            process.env.DEBUG_CRYPTO && console.log('parseHealthCard().healthCardToken', healthCardToken)
     
             let json_web_signature = decodeNumeric(healthCardToken);
-            console.log('parseHealthCard().json_web_signature', json_web_signature);
+            process.env.DEBUG_CRYPTO && console.log('parseHealthCard().json_web_signature', json_web_signature);
     
             let dataPayload = Meteor.call('verifyHealthCard', json_web_signature);
-            console.log('parseHealthCard().dataPayload', dataPayload)
+            process.env.DEBUG_CRYPTO && console.log('parseHealthCard().dataPayload', dataPayload)
     
             return dataPayload;    
         } else {
@@ -352,105 +342,105 @@ Meteor.methods({
 
         let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
         if(isAuthorized){
-            console.log('');
-            console.log('================VERIFYING SIGNATURE=======================')
-            console.log('');
+            process.env.DEBUG_CRYPTO && console.log('');
+            process.env.DEBUG_CRYPTO && console.log('================VERIFYING SIGNATURE=======================')
+            process.env.DEBUG_CRYPTO && console.log('');
 
-            console.log(json_web_signature)
+            process.env.DEBUG_CRYPTO && console.log(json_web_signature)
 
-            console.log('')     
-            console.log('------------Decoded Signature-----------------------------')     
-            console.log('')
+            process.env.DEBUG_CRYPTO && console.log('')     
+            process.env.DEBUG_CRYPTO && console.log('------------Decoded Signature-----------------------------')     
+            process.env.DEBUG_CRYPTO && console.log('')
 
             // // quality control check
             // // can disable later
             var decoded = jws.decode(json_web_signature);
-            console.log(decoded);
+            process.env.DEBUG_CRYPTO && console.log(decoded);
 
-            console.log('')
-            console.log('-------------Is Verified----------------------------------')
-            console.log('')
+            process.env.DEBUG_CRYPTO && console.log('')
+            process.env.DEBUG_CRYPTO && console.log('-------------Is Verified----------------------------------')
+            process.env.DEBUG_CRYPTO && console.log('')
 
             // let isVerified = jws.verify(json_web_signature, 'ES256', privatePem);
             let isVerified = jws.verify(json_web_signature, 'ES256', jwkToPem(publicKey));
-            console.log(isVerified ? "YES" : "NO")   
+            process.env.DEBUG_CRYPTO && console.log(isVerified ? "YES" : "NO")   
 
-            console.log('')
-            console.log('------------JWS Parts-------------------------------------')
-            console.log('')
+            process.env.DEBUG_CRYPTO && console.log('')
+            process.env.DEBUG_CRYPTO && console.log('------------JWS Parts-------------------------------------')
+            process.env.DEBUG_CRYPTO && console.log('')
 
 
             const parts = json_web_signature.split('.');
-            console.log(parts)
+            process.env.DEBUG_CRYPTO && console.log(parts)
 
-            console.log('')
-            console.log('------------JWS Payload-----------------------------------')
-            console.log('')
+            process.env.DEBUG_CRYPTO && console.log('')
+            process.env.DEBUG_CRYPTO && console.log('------------JWS Payload-----------------------------------')
+            process.env.DEBUG_CRYPTO && console.log('')
 
             const rawPayload = parts[1].trim();
-            console.log(rawPayload);
+            process.env.DEBUG_CRYPTO && console.log(rawPayload);
 
             
-            // console.log('')
-            // console.log('------------Payload Buffer--------------------------------')    
-            // console.log('')
+            // process.env.DEBUG_CRYPTO && console.log('')
+            // process.env.DEBUG_CRYPTO && console.log('------------Payload Buffer--------------------------------')    
+            // process.env.DEBUG_CRYPTO && console.log('')
 
             // // // per Matt Printz
             // let buffer_from_payload = Buffer.from(rawPayload);
-            // console.log(buffer_from_payload);
+            // process.env.DEBUG_CRYPTO && console.log(buffer_from_payload);
 
-            console.log('')
-            console.log('---------**-Payload Buffer (from base64)-**---------------')    
-            console.log('')
+            process.env.DEBUG_CRYPTO && console.log('')
+            process.env.DEBUG_CRYPTO && console.log('---------**-Payload Buffer (from base64)-**---------------')    
+            process.env.DEBUG_CRYPTO && console.log('')
 
             
             let buffer_from_base64_payload = Buffer.from(rawPayload, 'base64');
-            console.log(buffer_from_base64_payload);
+            process.env.DEBUG_CRYPTO && console.log(buffer_from_base64_payload);
 
 
-            // console.log('')
-            // console.log('------------Payload Buffer (atob)---------------------------')    
-            // console.log('')
+            // process.env.DEBUG_CRYPTO && console.log('')
+            // process.env.DEBUG_CRYPTO && console.log('------------Payload Buffer (atob)---------------------------')    
+            // process.env.DEBUG_CRYPTO && console.log('')
 
             // // // per Matt Printz
             // let buffer_from_atob_payload = Buffer.from(atob(rawPayload));
-            // console.log(buffer_from_atob_payload);
+            // process.env.DEBUG_CRYPTO && console.log(buffer_from_atob_payload);
 
-            // console.log('')
-            // console.log('------------Payload Buffer (from base64, atob)------------------')    
-            // console.log('')
+            // process.env.DEBUG_CRYPTO && console.log('')
+            // process.env.DEBUG_CRYPTO && console.log('------------Payload Buffer (from base64, atob)------------------')    
+            // process.env.DEBUG_CRYPTO && console.log('')
 
             
             // let buffer_from_base64_atob_payload = Buffer.from(atob(rawPayload), 'base64');
-            // console.log(buffer_from_base64_atob_payload);
+            // process.env.DEBUG_CRYPTO && console.log(buffer_from_base64_atob_payload);
 
 
-            // console.log('')
-            // console.log('------------Payload Buffer (btoa)---------------------------')    
-            // console.log('')
+            // process.env.DEBUG_CRYPTO && console.log('')
+            // process.env.DEBUG_CRYPTO && console.log('------------Payload Buffer (btoa)---------------------------')    
+            // process.env.DEBUG_CRYPTO && console.log('')
 
             // // // per Matt Printz
             // let buffer_from_btoa_payload = Buffer.from(btoa(rawPayload));
-            // console.log(buffer_from_btoa_payload);
+            // process.env.DEBUG_CRYPTO && console.log(buffer_from_btoa_payload);
 
-            // console.log('')
-            // console.log('------------Payload Buffer (from base64, btoa)------------------')    
-            // console.log('')
+            // process.env.DEBUG_CRYPTO && console.log('')
+            // process.env.DEBUG_CRYPTO && console.log('------------Payload Buffer (from base64, btoa)------------------')    
+            // process.env.DEBUG_CRYPTO && console.log('')
 
             
             // let buffer_from_base64_btoa_payload = Buffer.from(btoa(rawPayload), 'base64');
-            // console.log(buffer_from_base64_btoa_payload);
+            // process.env.DEBUG_CRYPTO && console.log(buffer_from_base64_btoa_payload);
 
 
 
-            console.log('')
-            console.log('------------Decompressed Payload--------------------------')
-            console.log('')
+            process.env.DEBUG_CRYPTO && console.log('')
+            process.env.DEBUG_CRYPTO && console.log('------------Decompressed Payload--------------------------')
+            process.env.DEBUG_CRYPTO && console.log('')
 
                 
             const decompressed = zlib.inflateRawSync(buffer_from_base64_payload);    
             const decompressed_string = decompressed.toString('utf8')      
-            console.log(decompressed_string); 
+            process.env.DEBUG_CRYPTO && console.log(decompressed_string); 
 
             return decompressed_string;
         } else {
@@ -465,36 +455,36 @@ Meteor.methods({
 
         let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
         if(isAuthorized){
-            console.log('================DECODE HEALTHCARD==========================')
+            process.env.DEBUG_CRYPTO && console.log('================DECODE HEALTHCARD==========================')
         
-            console.log(json_web_signature)
+            process.env.DEBUG_CRYPTO && console.log(json_web_signature)
     
-            console.log('')
-            console.log('------------JWS Payload-----------------------------------')
-            console.log('')
+            process.env.DEBUG_CRYPTO && console.log('')
+            process.env.DEBUG_CRYPTO && console.log('------------JWS Payload-----------------------------------')
+            process.env.DEBUG_CRYPTO && console.log('')
     
             const parts = json_web_signature.split('.');
             const rawPayload = parts[1].trim();
-            console.log(rawPayload)
+            process.env.DEBUG_CRYPTO && console.log(rawPayload)
     
-            console.log('')
-            // console.log('------------Payload Buffer (atob, base64)-----------------')
-            console.log('------------Payload Buffer (atob)-----------------')
-            console.log('')
+            process.env.DEBUG_CRYPTO && console.log('')
+            // process.env.DEBUG_CRYPTO && console.log('------------Payload Buffer (atob, base64)-----------------')
+            process.env.DEBUG_CRYPTO && console.log('------------Payload Buffer (atob)-----------------')
+            process.env.DEBUG_CRYPTO && console.log('')
     
             // per Matt Printz
             // let buffer_from_base64_payload_atob = Buffer.from(rawPayload_atob);
             let buffer_from_base64_payload_atob = Buffer.from(rawPayload_atob, 'base64');
-            console.log(buffer_from_base64_payload_atob);
+            process.env.DEBUG_CRYPTO && console.log(buffer_from_base64_payload_atob);
     
-            console.log('')
-            console.log('------------Decompressed Payload--------------------------')
-            console.log('')
+            process.env.DEBUG_CRYPTO && console.log('')
+            process.env.DEBUG_CRYPTO && console.log('------------Decompressed Payload--------------------------')
+            process.env.DEBUG_CRYPTO && console.log('')
             
             const decompressed = zlib.inflateRawSync(buffer_from_base64_payload_atob);    
             // const decompressed = InflateAuto.inflateAutoSync(buffer_from_base64_payload_atob);    
             const decompressed_string = decompressed.toString('utf8')      
-            console.log(decompressed_string); 
+            process.env.DEBUG_CRYPTO && console.log(decompressed_string); 
     
             return decompressed_string;
         } else {
