@@ -28,24 +28,31 @@ const accountsPassword = new AccountsClientPassword(accountsClient, {
 
 Meteor.startup(async function(){
 
-  let tokens = await accountsClient.getTokens();
-  console.log('tokens', tokens)
-  if(get(tokens, 'accessToken')){
-    let decoded = jwt.decode(tokens.accessToken, {complete: true});
-    console.log('decoded', decoded)
-    Session.set('accountsAccessToken', get(tokens, 'accessToken'))
-    Session.set('accountsRefreshToken', get(tokens, 'refreshToken'))
-  }  
-
-  window.onbeforeunload = async function(){
-    // Do something
-    await accountsClient.clearTokens();
+  try {
+    if(typeof(Storage) !== "undefined"){
+      let tokens = await accountsClient.getTokens();
+      console.log('tokens', tokens)
+      if(get(tokens, 'accessToken')){
+        let decoded = jwt.decode(tokens.accessToken, {complete: true});
+        console.log('decoded', decoded)
+        Session.set('accountsAccessToken', get(tokens, 'accessToken'))
+        Session.set('accountsRefreshToken', get(tokens, 'refreshToken'))
+      }          
+    }
+  } catch (error) {
+    console.error(error)
   }
-   // OR
-   window.addEventListener("beforeunload", async function(e){
-    await accountsClient.clearTokens();
-   }, false);
-  
+
+  if(typeof window === "object"){
+    window.onbeforeunload = async function(){
+      // Do something
+      await accountsClient.clearTokens();
+    }
+     // OR
+     window.addEventListener("beforeunload", async function(e){
+      await accountsClient.clearTokens();
+     }, false);  
+  }  
 })
 
 

@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-import { FhirUtilities } from 'fhir-starter';
+import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import mongoose from 'mongoose';
 

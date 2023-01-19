@@ -66,8 +66,7 @@ Meteor.startup(function(){
         </ThemeProvider>
       </Router>
       {/* </BrowserRouter> */}
-    }
-    if(Meteor.isServer){
+    } else {
       renderedApp = <ThemeProvider theme={defaultAppPalette} >
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
@@ -75,7 +74,6 @@ Meteor.startup(function(){
         </MuiThemeProvider>
       </ThemeProvider>      
     }
-
     return renderedApp;  
   }
 

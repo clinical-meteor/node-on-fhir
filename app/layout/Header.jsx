@@ -10,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 
-
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
@@ -430,7 +429,7 @@ function Header(props) {
 
   return (
     <div id="header" className="headerNavContainer" position="fixed" className={headerNavContainerClass}>
-      <div style={{paddingTop: '10px'}}>
+      <div id="headerContent" style={{paddingTop: '10px'}}>
           <Icon 
             id="sidebarMenuButton"
             icon={headerMenuIcon} 
@@ -438,11 +437,10 @@ function Header(props) {
             onClick={ clickOnMenuButton.bind(this) }
             className={componentStyles.sidebarMenuButton}
           />
-        <h4 onClick={ function(){ goHome(); }} className={ titleClass } style={{cursor: 'pointer', userSelect: 'none'}}>
+        <h4 id="headerTitle" onClick={ function(){ goHome(); }} className={ titleClass } style={{cursor: 'pointer', userSelect: 'none'}}>
           { parseTitle() }
         </h4>
 
-        
         { userItems }
         { dateTimeItems }        
         { demographicItems }

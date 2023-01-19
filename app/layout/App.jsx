@@ -38,8 +38,6 @@ import EhrLaunchPage from '../core/EhrLaunchPage'
 
 import SmartLauncher from '../layout/SmartLauncher'
 
-
-
 import MyProfilePage from '../core/MyProfilePage';
 import QrScannerPage from '../core/QrScannerPage';
 import ConstructionZone from '../core/ConstructionZone';
@@ -624,9 +622,12 @@ export function App(props) {
     canvasSlide = clsx(classes.canvas)
   }
 
+  let renderContents;
 
-  return(
-    <AppCanvas { ...otherProps }>
+  if(Meteor.isServer){
+    renderContents = <AppLoadingPage />
+  } else {
+    renderContents = <AppCanvas { ...otherProps }>
       { helmet }
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
@@ -640,7 +641,10 @@ export function App(props) {
         <ScrollDialog {...otherProps} appHeight={appHeight} />
       </div>
     </AppCanvas>
-  )
+  }
+
+
+  return(renderContents)
 }
 
 export default App;
