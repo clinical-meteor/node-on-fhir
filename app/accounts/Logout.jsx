@@ -33,6 +33,8 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 
 import jwt from 'jsonwebtoken';
+import { log, message } from '../Logger';
+
 
 // import { AccountsClient } from '@accounts/client';
 // import { RestClient } from '@accounts/rest-client';
@@ -89,7 +91,7 @@ const Logout = function({ history }){
 
   let currentUser = useTracker(function(){
     return Session.get('currentUser');
-  }, [])
+  }, []);
 
   //-----------------------------------------------------------
   // Helper Functions
@@ -101,7 +103,8 @@ const Logout = function({ history }){
   }
 
   async function logoutUser(){
-    console.log('Logging out user session: ' + Session.get('accountsAccessToken'))
+    console.info('AccountsClient: Logging out user.')
+    console.debug('AccountsClient: User session: ' + Session.get('accountsAccessToken'))
     
     
     await accountsClient.logout();
@@ -109,7 +112,7 @@ const Logout = function({ history }){
 
     Meteor.call('jsaccounts/validateLogout', Session.get('accountsAccessToken'));
 
-    console.log('accountsClient.getTokens()', await accountsClient.getTokens());
+    console.debug('AccountsClient: getTokens()', await accountsClient.getTokens());
 
     // close dialog
     Session.set('mainAppDialogOpen', false);

@@ -172,7 +172,7 @@ Meteor.startup(async function(){
           }
         }        
       } catch (error) {
-        console.log('error', error)
+        console.error('error', error)
         return error;
       }
     }
@@ -997,7 +997,7 @@ Meteor.startup(async function(){
         data: dataPayload
       });
     } catch (error) {
-      process.env.DEBUG_ACCOUNTS && console.log('error', error)
+      process.env.DEBUG_ACCOUNTS && console.error('error', error)
 
       // // // If ambiguousErrorMessages is true we obfuscate the email or username already exist error
       // // // to prevent user enumeration during user creation

@@ -322,7 +322,9 @@ export function PatientSidebar(props){
 
 
   function openPage(url, tabs){
-    logger.verbose('client.app.patient.PatientSidebar.openPage', url, tabs);
+    // logger.verbose('client.app.patient.PatientSidebar.openPage', url, tabs);
+    console.debug('client.app.patient.PatientSidebar.openPage', url, tabs);
+
     props.history.replace(url)
 
     if(tabs){
@@ -850,7 +852,7 @@ export function PatientSidebar(props){
   // LoginPage
 
   function toggleLoginDialog(){
-    console.log('Toggle login dialog open/close.')
+    // console.log('Toggle login dialog open/close.')
     Session.set('mainAppDialogJson', false);
     Session.set('mainAppDialogMaxWidth', "sm");
 

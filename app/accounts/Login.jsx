@@ -30,6 +30,8 @@ import { accountsClient } from './Accounts';
 import { get } from 'lodash';
 import jwt from 'jsonwebtoken';
 
+import { log, message } from '../Logger';
+
 const useStyles = makeStyles(theme => ({
   cardContent: {
     padding: theme.spacing(3),
@@ -68,7 +70,7 @@ const Login = function({ history }){
       password: '',
       code: ''
     },
-    validate: function(values){
+    validate: function(values){  
       const errors = {};
       
       if (!values.email) {
@@ -81,7 +83,7 @@ const Login = function({ history }){
     },
     onSubmit: async function(values, { setSubmitting }){
 
-      console.log('AccountsClient: Submiting username and password for authentication.')
+      console.log('AccountsClient: Submiting username and password for authentication.');
 
       try {
         await loginWithService('password', {
@@ -92,7 +94,7 @@ const Login = function({ history }){
           // code: values.code
         }, setError, async function setSuccess(result){
           if(result){
-            console.log('loginWithService.result', result)
+            // console.log('loginWithService.result', result)
 
             Session.set('sessionId', get(result, 'sessionId'));    
             // Session.set('sessionAccessToken', get(result, 'tokens.accessToken'));    
@@ -101,10 +103,10 @@ const Login = function({ history }){
             Session.set('lastUpdated', new Date());    
 
             let tokens = await accountsClient.getTokens();
-            console.log('tokens', tokens)
+            // console.log('tokens', tokens)
             if(get(tokens, 'accessToken')){
               let decoded = jwt.decode(tokens.accessToken, {complete: true});
-              console.log('decoded', decoded)
+              // console.log('decoded', decoded)
               Session.set('accountsAccessToken', get(tokens, 'accessToken'))
               Session.set('accountsRefreshToken', get(tokens, 'refreshToken'))
             }  

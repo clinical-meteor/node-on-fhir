@@ -62,6 +62,7 @@
     "btoa": "^1.2.1",
     "chart.js": "2.9.4",
     "classnames": "2.2.6",
+    "cli-highlight": "2.1.11",
     "clsx": "1.0.4",
     "cordova-ios": "6.2.0",
     "cordova-lib": "10.0.0",

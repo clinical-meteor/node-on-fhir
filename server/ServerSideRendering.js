@@ -13,7 +13,7 @@ import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 import { get } from 'lodash';
 
 import theme from '/app/Theme.js'
-import logger from '../app/Logger';
+import { logger } from '../app/Logger';
 
 // import { createLogger, addColors, format, transports, config } from 'winston';
 import ReactDOMServer from 'react-dom/server';

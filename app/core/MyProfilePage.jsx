@@ -20,8 +20,11 @@ import { Meteor } from 'meteor/meteor';
 
 
 function MyProfilePage(props) {
-  logger.info('Rendering the MyProfilePage and associated backgrounds.');
-  logger.verbose('client.app.layout.MyProfilePage');
+  // logger.info('Rendering the MyProfilePage and associated backgrounds.');
+  // logger.verbose('client.app.layout.MyProfilePage');
+
+  console.info('Rendering the MyProfilePage and associated backgrounds.');
+  console.debug('client.app.layout.MyProfilePage');
 
   const { children, staticContext, ...otherProps } = props;
 
@@ -46,8 +49,9 @@ function MyProfilePage(props) {
 
     if(confirm("Are you sure that you want to delete this account?")){
       Meteor.call('deleteMyAccount', Session.get('accountsAccessToken'), null, null, async function(error, result){
-        console.log('error', error)
-        console.log('result', result)
+        if(error){
+          console.error('error', error)
+        }
         if(result === "User health data deleted, and account deactivated."){
           await accountsClient.logout();
           await accountsClient.clearTokens();
@@ -314,6 +318,7 @@ function MyProfilePage(props) {
               consents={[]}
               hideIdentifier={true}
               noDataMessage={false}
+              page={0}
               // onSetPage={function(index){
               //   setConsentsIndex(index)
               // }}        

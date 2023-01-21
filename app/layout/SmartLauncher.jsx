@@ -46,7 +46,7 @@ import { fetch, Headers, Request, Response } from 'meteor/fetch';
 
 
 let configArray = get(Meteor, 'settings.public.smartOnFhir', []);
-console.log('SmartLauncher.configArray', configArray)
+// console.log('SmartLauncher.configArray', configArray)
 
 //------------------------------------------------------------------------
 // Styling

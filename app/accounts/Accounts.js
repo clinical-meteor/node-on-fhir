@@ -10,7 +10,7 @@ import { Session } from 'meteor/session';
 import jwt from 'jsonwebtoken';
 
 let apiHostFromSettings = get(Meteor, 'settings.public.interfaces.accountsServer.host') + ":" + get(Meteor, 'settings.public.interfaces.accountsServer.port');
-console.log('Accounts.apiHost', apiHostFromSettings);
+// console.log('Accounts.apiHost', apiHostFromSettings);
 
 const accountsRest = new RestClient({
   apiHost: apiHostFromSettings,
@@ -31,10 +31,10 @@ Meteor.startup(async function(){
   try {
     if(typeof(Storage) !== "undefined"){
       let tokens = await accountsClient.getTokens();
-      console.log('tokens', tokens)
+      // console.log('tokens', tokens)
       if(get(tokens, 'accessToken')){
         let decoded = jwt.decode(tokens.accessToken, {complete: true});
-        console.log('decoded', decoded)
+        // console.log('decoded', decoded)
         Session.set('accountsAccessToken', get(tokens, 'accessToken'))
         Session.set('accountsRefreshToken', get(tokens, 'refreshToken'))
       }          

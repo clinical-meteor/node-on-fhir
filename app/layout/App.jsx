@@ -43,7 +43,7 @@ import QrScannerPage from '../core/QrScannerPage';
 import ConstructionZone from '../core/ConstructionZone';
 import ContextSlideOut from './ContextSlideOut';
 
-import logger from '../Logger';
+import { logger } from '../Logger';
 import useStyles from '../Styles';
 
 import { useSwipeable } from 'react-swipeable';
@@ -314,10 +314,13 @@ export function App(props) {
   //   logger = props.logger;
   // }
   
-  logger.debug('Rendering the main App.');
-  logger.verbose('client.app.layout.App');
-  logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
+  // logger.debug('Rendering the main App.');
+  // logger.verbose('client.app.layout.App');
+  // logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
 
+  console.info('Rendering the App.');
+  // console.debug('client.app.layout.App');
+  // console.data('App.props', {data: props}, {source: "AppContainer.jsx"});
 
 
 
@@ -407,7 +410,7 @@ export function App(props) {
 
   useEffect(() => {
     if(get(props, 'location.pathname')){
-      logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
+      console.info('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
       Session.set('pathname', props.location.pathname);  
       logPageView()
     }
@@ -422,7 +425,7 @@ export function App(props) {
   // Trackers (Auto Update Variables)
 
   const absoluteUrl = useTracker(function(){
-    logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
+    console.log('App is checking that Meteor is loaded and fetching the absolute URL.')
     return Meteor.absoluteUrl();
   }, []);
 

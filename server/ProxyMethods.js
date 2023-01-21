@@ -164,7 +164,7 @@ Meteor.methods({
           data: options.payload
         }, function(error, result){
           if(error){
-            console.log('error', error);
+            console.error('error', error);
           }
           if(result){
             console.log('result', result);

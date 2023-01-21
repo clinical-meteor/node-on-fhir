@@ -70,13 +70,13 @@ async function fetchUser(setAuthContextState){
 };
 
 async function loginWithService(service, credentials, setError, setSuccess){
-  console.log('AuthContext.loginWithService()', service, credentials);
+  // console.log('AuthContext.loginWithService()', service, credentials);
 
   let loginResponse;
 
   try {
     loginResponse = await accountsClient.loginWithService(service, credentials);
-    console.log('AuthContext.loginResponse', loginResponse)
+    // console.log('AuthContext.loginResponse', loginResponse)
 
     if(typeof setSuccess === "function"){
       setSuccess(loginResponse);
@@ -95,7 +95,7 @@ async function loginWithService(service, credentials, setError, setSuccess){
     }
 
     if (error instanceof AccountsJsError) {
-      console.log('error.message', error.message)
+      console.error('error.message', error.message)
 
       // You can access the error message via `error.message`
       // Eg: "Email already exists"
@@ -117,7 +117,7 @@ async function loginWithService(service, credentials, setError, setSuccess){
   }
 
   if(Meteor.isClient && loginResponse){
-    console.log('loginResponse', loginResponse);
+    // console.log('loginResponse', loginResponse);
     Session.set('currentUser', get(loginResponse, 'user'));
     Session.set('selectedPatientId', get(loginResponse, 'user.patientId'));
 

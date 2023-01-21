@@ -24,7 +24,7 @@ import { get, has, cloneDeep } from 'lodash';
 import PatientSidebar from '../patient/PatientSidebar'
 
 import theme from '../Theme';
-import logger from '../Logger';
+import { logger } from '../Logger';
 import useStyles from '../Styles';
 
 import clsx from 'clsx';
@@ -53,9 +53,13 @@ function SideDrawer(props) {
   } = props; 
 
   if(logger){
-    logger.debug('Rendering the application SideDrawer.');
-    logger.verbose('app.layout.SideDrawer');  
-    logger.data('SideDrawer.props', {data: props}, {source: "DrawerContainer.jsx"});
+    // logger.debug('Rendering the application SideDrawer.');
+    // logger.verbose('app.layout.SideDrawer');  
+    // logger.data('SideDrawer.props', {data: props}, {source: "DrawerContainer.jsx"});
+
+    console.debug('Rendering the application SideDrawer.');
+    console.debug('app.layout.SideDrawer');  
+    // console.trace('SideDrawer.props', {data: props}, {source: "DrawerContainer.jsx"});
   }
 
   // ------------------------------------------------------------------

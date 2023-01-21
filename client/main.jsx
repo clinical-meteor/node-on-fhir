@@ -19,13 +19,17 @@ import { AccountsClientPassword } from '@accounts/client-password';
 import { RestClient } from '@accounts/rest-client';
 
 import theme from '../app/Theme';
-import logger from '../app/Logger';
+import { logger, message } from '../app/Logger';
 
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 
 import AppContainer from "/app/layout/AppContainer.jsx";
 
 import '../app/WebsocketSubscriptions';
+
+let path = require('path');
+let PROJECT_ROOT = path.join(__dirname, '..');
+
 
 wrapMeteorClient(Meteor, AccountsClient);
 
@@ -43,17 +47,71 @@ const accountsPassword = new AccountsClientPassword(accountsClient);
 
 const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
+//==========================================================================
+// LOGGING 
+// https://gist.github.com/bgrins/5108712
+
+function getStackInfo (stackIndex) {
+  // get call stack, and analyze it
+  // get all file, method, and line numbers
+  var stacklist = (new Error()).stack.split('\n').slice(3)
+
+  // stack trace format:
+  // http://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
+  // do not remove the regex expresses to outside of this method (due to a BUG in node.js)
+  var stackReg = /at\s+(.*)\s+\((.*):(\d*):(\d*)\)/gi
+  var stackReg2 = /at\s+()(.*):(\d*):(\d*)/gi
+
+  var s = stacklist[stackIndex] || stacklist[0]
+  var sp = stackReg.exec(s) || stackReg2.exec(s)
+
+  if (sp && sp.length === 5) {
+    return {
+      method: sp[1],
+      relativePath: path.relative(PROJECT_ROOT, sp[2]),
+      line: sp[3],
+      pos: sp[4],
+      file: path.basename(sp[2]),
+      stack: stacklist.join('\n')
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+//========================================================================
+// ON PAGE LOAD
+
+
 onPageLoad(async function(){
-  logger.info("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
+  if(process.env.NODE_ENV === "production"){
+    if(typeof window === "object"){
+      if(window.console){
+        window.console.debug = function(){}
+        window.console.warn = function(){}
+        window.console.trace = function(){}
+        window.console.debug = function(){}
+        window.console.everything = function(){}    
+      }
+    }
+  } 
+  
+  console.info("Initial onPageLoad() function.  Storing URL parameters in session variables.", window.location.search);
   Session.set('last_reloaded_url', window.location.search)
 
   const preloadedState = window.__PRELOADED_STATE__;
-  logger.debug("onPageLoad().preloadedState", preloadedState);
+  console.debug("onPageLoad().preloadedState", preloadedState);
 
   // const AppContainer = (await import("/app/layout/AppContainer.jsx")).default;
 
   let searchParams = new URLSearchParams(get(preloadedState, 'url.path'));
-  logger.debug("onPageLoad().searchParams", searchParams);
+  console.debug("onPageLoad().searchParams", searchParams);
   
   if(get(Meteor, 'settings.public.enableSmartOnFhir')){
     if(searchParams.get('iss')){
@@ -81,7 +139,7 @@ onPageLoad(async function(){
 	if (jssMakeStyles && jssMakeStyles.parentNode) jssMakeStyles.parentNode.removeChild(jssStyles);
 
 
-  logger.info("Hydrating the reactCanvas with AppContainer");
+  console.info("Hydrating the reactCanvas with AppContainer");
   ReactDOM.hydrate(<AppContainer />, document.getElementById('reactCanvas'));
 });
 
@@ -146,4 +204,4 @@ onPageLoad(async function(){
 //   }
 // });
 
-export { accountsClient, accountsRest, accountsPassword };
+export default { accountsClient, accountsRest, accountsPassword };

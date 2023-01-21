@@ -22,7 +22,7 @@ import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import theme from '../Theme';
-import logger from '../Logger';
+import { logger } from '../Logger';
 import useStyles from '../Styles';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
@@ -139,8 +139,10 @@ function Header(props) {
   }
   
   if(logger){
-    logger.verbose('package.care-cards.client.layout.Header');  
-    logger.data('Header.props', {data: props}, {source: "headerNavContainer.jsx"});
+    // logger.verbose('package.care-cards.client.layout.Header');  
+    // logger.data('Header.props', {data: props}, {source: "headerNavContainer.jsx"});
+
+    console.debug('package.care-cards.client.layout.Header');  
   }
 
   let [drawerIsOpen, setDrawerIsOpen] = useState(false);
@@ -149,7 +151,7 @@ function Header(props) {
   });
 
   function clickOnMenuButton(){
-    console.log('clickOnMenuButton');
+    // console.log('clickOnMenuButton');
 
     if(window.QRScanner){
       window.QRScanner.hide();  
@@ -344,9 +346,11 @@ function Header(props) {
   function getSearchDateRange(){
     return moment(selectedStartDate).format("MMM DD, YYYY") + " until " + moment(selectedEndDate).format("MMM DD, YYYY")
   }
+  // console.log('AuthContext.loginWithService()', service, credentials);
+
 
   function toggleLoginDialog(){
-    console.log('Toggle login dialog open/close.')
+    // console.log('Toggle login dialog open/close.')
     Session.set('mainAppDialogJson', false);
     Session.set('mainAppDialogMaxWidth', "sm");
 

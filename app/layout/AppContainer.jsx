@@ -14,7 +14,7 @@ import AppLoadingPage from '../core/AppLoadingPage.jsx';
 
 
 import { theme, defaultAppPalette} from '../Theme';
-import logger from '../Logger';
+import { logger } from '../Logger';
 import useStyles from '../Styles';
 
 import CssBaseline from '@material-ui/core/CssBaseline';

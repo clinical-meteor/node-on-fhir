@@ -14,7 +14,7 @@ import { get, has } from 'lodash';
 
 import { oauth2 as SMART } from "fhirclient";
 
-import logger from '../Logger';
+import { logger } from '../Logger';
 
 
 // ==============================================================================

@@ -76,7 +76,7 @@ Meteor.methods({
     if(get(Meteor, 'settings.private.fhir.rest.AuditEvent')){
       if(auditEventValidator.isValid()){
 
-        console.log('Adding event to AuditLog.');
+        process.env.TRACE && console.log('Adding event to AuditLog.');
         newAuditId = AuditEvents.insert(fhirAuditEvent, function(error, result){
           if (error) {
             console.log("AuditEvents.insert.error", error);        
@@ -84,8 +84,8 @@ Meteor.methods({
         });  
       }     
     } else {
-      console.log("AuditEvent collection not enabled.")
-      console.log("Meteor.settings.private.rest.")
+      process.env.DEBUG && console.log("AuditEvent collection not enabled.")
+      process.env.DEBUG && console.log("Meteor.settings.private.rest.")
     }
 
     return newAuditId;
