@@ -268,18 +268,6 @@ let rawStyles = {
       minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
       float: 'left'
     },
-    header_label: {
-      paddingTop: '10px',
-      fontWeight: 'bold',
-      fontSize: '1 rem',
-      float: 'left',
-      paddingRight: '10px'
-    },
-    header_text: {
-      paddingTop: '10px',
-      fontSize: '1 rem',
-      float: 'left'
-    },
     northeast_title: {
       paddingTop: '10px',
       float: 'right',
@@ -292,9 +280,6 @@ let rawStyles = {
     menu_items: {
       position: 'absolute',
       bottom: '10px'
-    },
-    divider: {
-      height: '2px'
     },
     mainAppDialogPaper: {
       width: '100%',

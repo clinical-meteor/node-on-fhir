@@ -15,7 +15,7 @@ import { get, has, cloneDeep } from 'lodash';
 import { makeStyles } from '@material-ui/styles';
 
 import theme from '../Theme';
-import logger from '../Logger';
+import { logger } from '../Logger';
 import useStyles from '../Styles';
 
 
@@ -44,8 +44,11 @@ function Footer(props) {
 
 
   function renderWestNavbar(pathname){
-    logger.trace('Checking packages for action buttons that match the following pathname: ' + pathname);
-    logger.verbose('package.care-cards.client.layout.Footer.renderWestNavbar');
+    console.debug('Checking packages for action buttons that match the following pathname: ' + pathname);
+    console.debug('package.care-cards.client.layout.Footer.renderWestNavbar');
+
+    // logger.trace('Checking packages for action buttons that match the following pathname: ' + pathname);
+    // logger.verbose('package.care-cards.client.layout.Footer.renderWestNavbar');
 
     let self = this;
 
@@ -60,21 +63,23 @@ function Footer(props) {
       }
     });
 
-    logger.debug('Generated array of buttons to display.')
-    logger.trace('buttonRenderArray', buttonRenderArray)
+    // logger.debug('Generated array of buttons to display.')
+    // logger.trace('buttonRenderArray', buttonRenderArray)
+
+    console.debug('Generated array of buttons to display.')
 
     let renderDom;
     buttonRenderArray.forEach(function(buttonConfig){
       // right route
       if (pathname === buttonConfig.pathname){
-        logger.debug('Found a route match for Footer buttons', pathname)
+        console.debug('Found a route match for Footer buttons', pathname)
         // right security/function enabled
         if(buttonConfig.settings && (get(Meteor, buttonConfig.settings) === false)){
           // there was a settings criteria; and it was set to faulse            
           return false;
         } else {
           if(buttonConfig.component){
-            logger.debug('Trying to render a button from package to the footer')
+            console.debug('Trying to render a button from package to the footer')
             renderDom = buttonConfig.component;
           } else {
             renderDom = <div style={{marginTop: '-8px'}}>

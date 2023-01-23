@@ -322,7 +322,9 @@ export function PatientSidebar(props){
 
 
   function openPage(url, tabs){
-    logger.verbose('client.app.patient.PatientSidebar.openPage', url, tabs);
+    // logger.verbose('client.app.patient.PatientSidebar.openPage', url, tabs);
+    console.debug('client.app.patient.PatientSidebar.openPage', url, tabs);
+
     props.history.replace(url)
 
     if(tabs){
@@ -850,7 +852,7 @@ export function PatientSidebar(props){
   // LoginPage
 
   function toggleLoginDialog(){
-    console.log('Toggle login dialog open/close.')
+    // console.log('Toggle login dialog open/close.')
     Session.set('mainAppDialogJson', false);
     Session.set('mainAppDialogMaxWidth', "sm");
 
@@ -896,15 +898,15 @@ export function PatientSidebar(props){
     }
 
 
-    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Profile') && currentUser){
-      loginElements.push(<ListItem id='profileMenuItem' key='profileMenuItem' button onClick={function(){ openPage('/profile'); }} >
-        <ListItemIcon >
-          <Icon icon={user} className={styles.drawerIcons} />
-        </ListItemIcon>
-        <ListItemText primary="Profile" className={styles.drawerText} />
-      </ListItem>);    
-    };
-    loginElements.push(<Divider className={styles.divider} key="login-hr" />);
+    // if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Profile') && currentUser){
+    //   loginElements.push(<ListItem id='profileMenuItem' key='profileMenuItem' button onClick={function(){ openPage('/profile'); }} >
+    //     <ListItemIcon >
+    //       <Icon icon={user} className={styles.drawerIcons} />
+    //     </ListItemIcon>
+    //     <ListItemText primary="Profile" className={styles.drawerText} />
+    //   </ListItem>);    
+    // };
+    // loginElements.push(<Divider className={styles.divider} key="login-hr" />);
   }
 
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Login')){
@@ -929,12 +931,34 @@ export function PatientSidebar(props){
     </ListItem>);   
   };
 
+  let profileElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Profile') && currentUser){
+    profileElements.push(<ListItem id='profileMenuItem' key='profileMenuItem' button onClick={function(){ openPage('/profile'); }} >
+      <ListItemIcon >
+        <Icon icon={user} className={styles.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="Profile" className={styles.drawerText} />
+    </ListItem>);    
+    profileElements.push(<Divider className={styles.divider} key="login-hr" />);
+  };
+
+  let oauthElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.OAuthClients')){
+    oauthElements.push(<ListItem id='profileMenuItem' key='profileMenuItem' button onClick={function(){ openPage('/oauth-clients'); }} >
+      <ListItemIcon >
+        <Icon icon={user} className={styles.drawerIcons} />
+      </ListItemIcon>
+      <ListItemText primary="OAuth Clients" className={styles.drawerText} />
+    </ListItem>);    
+    oauthElements.push(<Divider className={styles.divider} key="login-hr" />);
+  };
+
   return(
-    <div id='patientSidebar'>
+    <div id='patientSidebar' style={{marginBottom: '80px'}}>
       { homePage }
 
       { loginElements }
-
+      { profileElements }
       { dataManagementElements }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>
@@ -947,6 +971,7 @@ export function PatientSidebar(props){
       { fhirResources }         
       { constructionZone }         
 
+      { oauthElements }
       { themingElements }
       { aboutElements }
       { documentationElements }

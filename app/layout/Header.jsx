@@ -10,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 
-
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
@@ -23,7 +22,7 @@ import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import theme from '../Theme';
-import logger from '../Logger';
+import { logger } from '../Logger';
 import useStyles from '../Styles';
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
@@ -140,8 +139,10 @@ function Header(props) {
   }
   
   if(logger){
-    logger.verbose('package.care-cards.client.layout.Header');  
-    logger.data('Header.props', {data: props}, {source: "headerNavContainer.jsx"});
+    // logger.verbose('package.care-cards.client.layout.Header');  
+    // logger.data('Header.props', {data: props}, {source: "headerNavContainer.jsx"});
+
+    console.debug('package.care-cards.client.layout.Header');  
   }
 
   let [drawerIsOpen, setDrawerIsOpen] = useState(false);
@@ -150,7 +151,7 @@ function Header(props) {
   });
 
   function clickOnMenuButton(){
-    console.log('clickOnMenuButton');
+    // console.log('clickOnMenuButton');
 
     if(window.QRScanner){
       window.QRScanner.hide();  
@@ -345,9 +346,11 @@ function Header(props) {
   function getSearchDateRange(){
     return moment(selectedStartDate).format("MMM DD, YYYY") + " until " + moment(selectedEndDate).format("MMM DD, YYYY")
   }
+  // console.log('AuthContext.loginWithService()', service, credentials);
+
 
   function toggleLoginDialog(){
-    console.log('Toggle login dialog open/close.')
+    // console.log('Toggle login dialog open/close.')
     Session.set('mainAppDialogJson', false);
     Session.set('mainAppDialogMaxWidth', "sm");
 
@@ -430,7 +433,7 @@ function Header(props) {
 
   return (
     <div id="header" className="headerNavContainer" position="fixed" className={headerNavContainerClass}>
-      <div style={{paddingTop: '10px'}}>
+      <div id="headerContent" style={{paddingTop: '10px'}}>
           <Icon 
             id="sidebarMenuButton"
             icon={headerMenuIcon} 
@@ -438,11 +441,10 @@ function Header(props) {
             onClick={ clickOnMenuButton.bind(this) }
             className={componentStyles.sidebarMenuButton}
           />
-        <h4 onClick={ function(){ goHome(); }} className={ titleClass } style={{cursor: 'pointer', userSelect: 'none'}}>
+        <h4 id="headerTitle" onClick={ function(){ goHome(); }} className={ titleClass } style={{cursor: 'pointer', userSelect: 'none'}}>
           { parseTitle() }
         </h4>
 
-        
         { userItems }
         { dateTimeItems }        
         { demographicItems }

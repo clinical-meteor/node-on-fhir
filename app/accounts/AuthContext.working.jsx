@@ -27,14 +27,15 @@ async function fetchUser(setAuthContextState){
 };
 
 async function loginWithService(service, credentials){
-  console.log('AuthContext.loginWithService()', service, credentials);
+  // console.log('AuthContext.loginWithService()', service, credentials);
 
   await accountsClient.loginWithService(service, credentials);
   await fetchUser();
 };
 
 async function logout(){
-  console.log('AuthContext.logout()')
+  console.info('AuthContext.logout()')
+  
   await accountsClient.logout();
   // setState({ loading: false, user: undefined });
 

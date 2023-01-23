@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-import { FhirUtilities } from 'fhir-starter';
+import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import mongoose from 'mongoose';
 
@@ -18,16 +18,22 @@ import { Random } from 'meteor/random';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
-import { Patients, Practitioners } from 'meteor/clinical:hl7-fhir-data-infrastructure';
-import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
+import { CarePlans, CareTeams, Conditions, Devices, Observations, MedicationStatements, Patients, Practitioners, Procedures } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+// import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 
 import moment from 'moment';
 import sanitize from 'mongo-sanitize';
 
-import {wrapMeteorServer} from './WrapMeteorServer.js';
+import { parseRpcAuthorization } from './main';
+import { wrapMeteorServer } from './WrapMeteorServer.js';
+
 
  process.env.DEBUG_ACCOUNTS && console.log('Initializing AccountsServer.')
  process.env.DEBUG_ACCOUNTS && console.log('MONGO_URL: ' + process.env.MONGO_URL);
+
+ let accountsPassword;
+ let accountsServer;
+ let accountsMongo;
 
  // AUTHENTICATION SUBSYSTEM
 Meteor.startup(async function(){
@@ -42,7 +48,7 @@ Meteor.startup(async function(){
   });
 
   const db = mongoose.connection;
-  const accountsMongo = new Mongo(db, {
+  accountsMongo = new Mongo(db, {
     // options
   });
 
@@ -57,141 +63,125 @@ Meteor.startup(async function(){
   //   familyName: string;
   // }
 
-  const User = mongoose.model(
-    'User',
+  const User = mongoose.model('User',
     new mongoose.Schema({ 
       givenName: String, 
       familyName: String,
+      fullLegalName: String,
       patientId: String,
+      practitionerId: String,
       id: String,
       nickname: String,
-      isClinician: Boolean,
+      isPractitioner: Boolean,
       patient: Object,
-      role: String
+      role: String,
+      roles: Array
     })
   );
 
-  const accountsPassword = new AccountsPassword({
+  accountsPassword = new AccountsPassword({
     // This option is called when a new user create an account
     // Inside we can apply our logic to validate the user fields
     validateNewUser: function(user){
        process.env.DEBUG_ACCOUNTS && console.log("AccountsServer: Validating new user.")
 
-      if(get(Meteor, 'settings.public.defaults.defaultUserRole')){
-        user.role = get(Meteor, 'settings.public.defaults.defaultUserRole', 'citizen')
-      }
-      if(get(Meteor, 'settings.public.defaults.registration.displayFullLegalName')){
-        if (!user.fullLegalName) {
-          throw new Error('Full legal name is required.');
-        }
-        if (user.fullLegalName.length < 3) {
-          throw new Error('Full legal name too short');
-        }        
-      }
-      if(get(Meteor, 'settings.public.defaults.registration.displayNickname')){
-        if (!user.nickname) {
-          throw new Error('Nickname name is required');
-        }
-        if (user.nickname.length < 3) {
-          throw new Error('Nickname name too short');
-        }        
-      }
-      if(get(Meteor, 'settings.public.defaults.registration.displayGivenAndFamily')){
-        if (!user.givenName) {
-          throw new Error('Given name is required');
-        }
-        if (user.givenName.length < 3) {
-          throw new Error('Given name too short');
-        }
-        // if (!user.familyName) {
-        //   throw new Error('First name is required');
-        // }
-        // if (user.familyName.length < 3) {
-        //   throw new Error('First name too short');
-        // }     
-      }
-      if(get(Meteor, 'settings.public.defaults.registration.displayFirstAndLast')){
-        if (!user.firstName) {
-          throw new Error('First name is required');
-        }
-        if (user.firstName.length < 3) {
-          throw new Error('First name too short');
-        }
-        if (!user.lastName) {
-          throw new Error('Last name is required');
-        }
-        if (user.lastName.length < 3) {
-          throw new Error('Last name too short');
-        }     
-      }
-      if(get(Meteor, 'settings.public.defaults.registration.displayEmail')){
-        // For example we can allow only some kind of emails
-        if (user.email.endsWith('.xyz')) {
-          process.env.DEBUG_ACCOUNTS && console.error('Invalid email.');
-          throw new Error('Invalid email.');
-        }
-      }
-      if(get(Meteor, 'settings.public.defaults.registration.displayUsername')){
-        // For example we can allow only some kind of emails
-        if (!user.username) {
-          throw new Error('Username is required');
-        }
-        if (user.username.length < 3) {
-          throw new Error('Username too short');
-        }  
-      }
-      if(get(Meteor, 'settings.private.invitationCode')){
-        if (!user.invitationCode) {
-          process.env.DEBUG_ACCOUNTS && console.error('Must provide an invitation code');
-          throw new Error('Must provide an invitation code');
-        }  
-
-        if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
-          if(get(Meteor, 'settings.private.invitationExpiry')){
-            if(moment.now() < moment(get(Meteor, 'settings.private.invitationExpiry'))){
-              process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches and hasnt expired.  Creating user.');
-              return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);
-            } else {
-              process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  User not created.')
-              throw new Error('Current date is after invitation expiry date');
-            }
-          } else {
-            process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
-            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);  
+      try {
+        if(get(Meteor, 'settings.public.defaults.registration.displayFullLegalName')){
+          if (!user.fullLegalName) {
+            throw new Error('Full legal name is required.');
           }
-
-        } else if (user.invitationCode === get(Meteor, 'settings.private.clinicianInvitationCode')) {
-
-          if(get(Meteor, 'settings.private.invitationExpiry')){
-            if(moment.now() < moment(get(Meteor, 'settings.private.invitationExpiry'))){
-              process.env.DEBUG_ACCOUNTS && console.info('Clinician invitation code matches.  Creating clinician.');
-              user.isClinician = true;
-              console.log('Validated user parameters: ', user);      
-              return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'isClinician']);
-            } else {
-              process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Invitation code matches, but current date is after expiry date.  User not created.')
-              throw new Error('Current date is after invitation expiry date');
-            }
-          } else {
-            process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
-            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id']);  
-          }
-
-
-
-        } else {
-          process.env.DEBUG_ACCOUNTS && console.error('Invalid invitation code.');
-          throw new Error('Invalid invitation code.');
+          if (user.fullLegalName.length < 3) {
+            throw new Error('Full legal name too short');
+          }        
         }
+        if(get(Meteor, 'settings.public.defaults.registration.displayNickname')){
+          if (!user.nickname) {
+            throw new Error('Nickname name is required');
+          }
+          if (user.nickname.length < 3) {
+            throw new Error('Nickname name too short');
+          }        
+        }
+        if(get(Meteor, 'settings.public.defaults.registration.displayGivenAndFamily')){
+          if (!user.givenName) {
+            throw new Error('Given name is required');
+          }
+          if (user.givenName.length < 3) {
+            throw new Error('Given name too short');
+          }
+          // if (!user.familyName) {
+          //   throw new Error('First name is required');
+          // }
+          // if (user.familyName.length < 3) {
+          //   throw new Error('First name too short');
+          // }     
+        }
+        if(get(Meteor, 'settings.public.defaults.registration.displayFirstAndLast')){
+          if (!user.firstName) {
+            throw new Error('First name is required');
+          }
+          if (user.firstName.length < 3) {
+            throw new Error('First name too short');
+          }
+          if (!user.lastName) {
+            throw new Error('Last name is required');
+          }
+          if (user.lastName.length < 3) {
+            throw new Error('Last name too short');
+          }     
+        }
+        if(get(Meteor, 'settings.public.defaults.registration.displayEmail')){
+          // For example we can allow only some kind of emails
+          if (user.email.endsWith('.xyz')) {
+            process.env.DEBUG_ACCOUNTS && console.error('Invalid email.');
+            throw new Error('Invalid email.');
+          }
+        }
+        if(get(Meteor, 'settings.public.defaults.registration.displayUsername')){
+          // For example we can allow only some kind of emails
+          if (!user.username) {
+            throw new Error('Username is required');
+          }
+          if (user.username.length < 3) {
+            throw new Error('Username too short');
+          }  
+        }
+        if(get(Meteor, 'settings.private.invitationCode')){
+          if (!user.invitationCode) {
+            process.env.DEBUG_ACCOUNTS && console.error('Must provide an invitation code');
+            throw new Error('Must provide an invitation code');
+          }  
+  
+          if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
+            process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  Creating user.');
+            if(get(Meteor, 'settings.private.defaultUserRole')){
+              user.roles = [get(Meteor, 'settings.private.defaultUserRole', 'citizen')]
+            }    
+            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);  
+
+          } else if (user.invitationCode === get(Meteor, 'settings.private.practitionerInvitationCode')) {
+
+            process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
+            if(get(Meteor, 'settings.private.defaultClinicianRole')){
+              user.roles = [get(Meteor, 'settings.private.defaultClinicianRole', 'healthcare provider')]
+            }    
+            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);    
+          } else {
+            process.env.DEBUG_ACCOUNTS && console.error('Invalid invitation code.');
+            throw new Error('Invalid invitation code.');
+          }
+        }        
+      } catch (error) {
+        console.error('error', error)
+        return error;
       }
-      
     }
   });
 
-  const accountsServer = new AccountsServer(
+  accountsServer = new AccountsServer(
     {
       db: accountsMongo,
-      tokenSecret: Random.secret(),
+      tokenSecret: get(Meteor, 'settings.private.accountServerTokenSecret', Random.secret())
     },
     {
       password: accountsPassword
@@ -212,15 +202,33 @@ Meteor.startup(async function(){
 
 
   Meteor.methods({
-    deactivateAccount: async function(currentUser, selectedPatientId, selectedPatient){
-      check(currentUser, Object);
-      check(selectedPatientId, String);
-      check(selectedPatient, Object);
+    deleteMyAccount: async function(meteorSessionToken, selectedPatientId, selectedPatient){
+      // check(currentUser, Object);
+      // check(selectedPatientId, String);
+      // check(selectedPatient, Object);
 
-      if(currentUser){
-         process.env.DEBUG_ACCOUNTS && console.log('Deactivating user', currentUser);
+      let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
+      console.log('isAuthorized', isAuthorized);
 
-        if(Package["clinical:hipaa-logger"]){
+      if(isAuthorized){
+
+        const session = await accountsServer.findSessionByAccessToken(meteorSessionToken);
+        process.env.DEBUG_ACCOUNTS && console.log("parseRpcAuthorization().session", session);
+  
+        const sessionUser = await accountsServer.findUserById(get(session, 'userId'));
+        process.env.DEBUG_ACCOUNTS && console.log("parseRpcAuthorization().sessionUser", sessionUser)
+
+        if(!selectedPatientId){
+          selectedPatientId = get(sessionUser, 'patientId')
+        }
+        if(!selectedPatient){
+          selectedPatient = Patients.findOne(get(sessionUser, 'patientId'));
+        }
+
+        
+        console.log('Deleting user', sessionUser);
+ 
+        if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
           let newAuditEvent = { 
             "resourceType" : "AuditEvent",
             "type" : { 
@@ -252,30 +260,113 @@ Meteor.startup(async function(){
             }]
           };
 
-           process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent);
-          let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent);            
+          process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent);
+          let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent);            
         }
-        
+               
 
-        Patients.remove({_id: selectedPatientId});
-
+        let myConditions = Conditions.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myConditions)){
+          myConditions.forEach(function(conditions){
+            Conditions.remove({_id: conditions._id});
+          })
+        }
         let myCarePlans = CarePlans.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
         if(Array.isArray(myCarePlans)){
           myCarePlans.forEach(function(carePlan){
             CarePlans.remove({_id: carePlan._id});
           })
         }
- 
+
         let myCareTeams = CareTeams.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
         if(Array.isArray(myCareTeams)){
           myCareTeams.forEach(function(careTeam){
             CareTeams.remove({_id: careTeam._id});
           })
         }
+        let myDevices = Devices.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myDevices)){
+          myDevices.forEach(function(devices){
+            Devices.remove({_id: devices._id});
+          })
+        }
+        let myMedications = Medications.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myMedications)){
+          myMedications.forEach(function(medications){
+            Medications.remove({_id: medications._id});
+          })
+        }
+        let myMedicationStatements = MedicationStatements.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myMedicationStatements)){
+          myMedicationStatements.forEach(function(medications){
+            MedicationStatements.remove({_id: medications._id});
+          })
+        }
+        let myObservations = Observations.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myObservations)){
+          myObservations.forEach(function(observations){
+            Observations.remove({_id: observations._id});
+          })
+        }
+        let myProcedures = Procedures.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
+        if(Array.isArray(myProcedures)){
+          myProcedures.forEach(function(procedures){
+            Procedures.remove({_id: procedures._id});
+          })
+        }
+        
+        Patients.remove({$or:[
+          {id: selectedPatientId},
+          {_id: selectedPatientId}
+        ]});
 
-        await accountsServer.deactivateUser(get(currentUser, 'id'));
+        await accountsServer.deactivateUser(get(sessionUser, 'id'));          
 
-          
+        return "User health data deleted, and account deactivated."
+      }
+    },
+    isInvitationStillValid: async function(invitation){
+      if(get(Meteor, 'settings.private.invitationExpiry') === invitation){
+        if(get(Meteor, 'settings.private.invitationExpiry')){
+          if(moment().isBefore(get(Meteor, 'settings.private.invitationExpiry'))){
+            process.env.DEBUG_ACCOUNTS && console.info('Invitation hasnt expired. ')          
+            return true;
+          } else {
+            process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Current date is after invitation expiry date. ')
+            return false;
+          }
+        } else {
+          process.env.DEBUG_ACCOUNTS && console.info('No expiry date set.');
+          return true;
+        }
+      } else if (get(Meteor, 'settings.private.practitionerInvitationExpiry') === invitation){
+        if(get(Meteor, 'settings.private.practitionerInvitationExpiry')){
+          if(moment().isBefore(get(Meteor, 'settings.private.practitionerInvitationExpiry'))){
+            process.env.DEBUG_ACCOUNTS && console.info('Practitioner invitation hasnt expired. ')          
+            return true;
+          } else {
+            process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Current date is after invitation expiry date. ')
+            return false;
+          }
+        } else {
+          process.env.DEBUG_ACCOUNTS && console.info('No expiry date set.');
+          return true;
+        }
+      }
+
+
+      //practitionerInvitationExpiry
+      if(get(Meteor, 'settings.private.invitationExpiry')){
+        if(moment().isBefore(get(Meteor, 'settings.private.invitationExpiry'))){
+          process.env.DEBUG_ACCOUNTS && console.info('Invitation hasnt expired. ')          
+          return true;
+        } else {
+          process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Current date is after invitation expiry date. ')
+          return false;
+        }
+      } else {
+        process.env.DEBUG_ACCOUNTS && console.info('No expiry date set.');
+        return true;
       }
     }
   });
@@ -362,6 +453,28 @@ Meteor.startup(async function(){
       loggedInUser = await accountsServer.loginWithService('password', req.body, req.infos);
        process.env.DEBUG_ACCOUNTS && console.log('loggedInUser', loggedInUser);   
 
+       if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
+        var loginAuditEvent = { 
+          "resourceType" : "AuditEvent",
+          "code" : {
+            "text": "Login",
+            "coding": [{
+              "display": "Login",
+              "code": "110122",
+              "system": "http://dicom.nema.org/resources/ontology/DCM"
+            }]
+          },
+          "recorded" : new Date(), 
+          "outcome" : 'Success',
+          "agent": [{
+            "who": {
+              "reference": "User/" + get(loggedInUser, '_id.str')
+            }
+          }]
+        }
+        Meteor.call('logAuditEvent', loginAuditEvent)
+      }
+
       JsonRoutes.sendResult(res, {
         code: 200,
         data: loggedInUser
@@ -392,9 +505,33 @@ Meteor.startup(async function(){
     accessToken = accessToken && accessToken.replace('Bearer ', '');
      process.env.DEBUG_ACCOUNTS && console.log('accessToken', accessToken)
 
+    const session = await accountsServer.findSessionByAccessToken(accessToken);
+
     const logoutResult = await accountsServer.logout( accessToken );
-     process.env.DEBUG_ACCOUNTS && console.log('logoutResult', logoutResult)
+    process.env.DEBUG_ACCOUNTS && console.log('logoutResult', logoutResult)
     
+    if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
+      var loginAuditEvent = { 
+        "resourceType" : "AuditEvent",
+        "code" : {
+          "text": "Logout",
+          "coding": [{
+            "display": "Logout",
+            "code": "110123",
+            "system": "http://dicom.nema.org/resources/ontology/DCM"
+          }]
+        },
+        "recorded" : new Date(), 
+        "outcome" : 'Success',
+        "agent": [{
+          "who": {
+            "reference": "User/" + get(session, 'userId')
+          }
+        }]
+      }
+      Meteor.call('logAuditEvent', loginAuditEvent)
+    }
+
     JsonRoutes.sendResult(res, {
       data: {
         message: 'User logged out.'
@@ -516,11 +653,27 @@ Meteor.startup(async function(){
       user.patientId = Random.id();
     }
 
-     process.env.DEBUG_ACCOUNTS && console.log('Registering a new user.', user);
+    process.env.DEBUG_ACCOUNTS && console.log('Registering a new user.', user);
+
+    // lookup email
+    let emailAddress = get(user, 'email');
+
+    // check if user already exists
+    // (this isn't needed, as the createUser() function will check and throw an error)
+    let foundUser = await accountsPassword.findUserByEmail(get(user, 'email'))
+    process.env.DEBUG_ACCOUNTS && console.log('foundUser', foundUser);
+
+    // add user role
+    if(get(Meteor, 'settings.private.defaultUserRole')){
+      user.roles = [];
+      user.roles.push(get(Meteor, 'settings.private.defaultUserRole'))
+    }
+
+    process.env.DEBUG_ACCOUNTS && console.log('userWithRoles', user);
 
     try {
       userId = await accountsPasswordService.createUser(user);
-       process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.register.createUser.userId', userId)
+      process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.register.createUser.userId', userId)
 
       if(has(accountsServer, "options.enableAutologin")) {
 
@@ -542,11 +695,11 @@ Meteor.startup(async function(){
       let cleanedUserId = sanitize(userId); 
       let createdUser = await accountsServer.findUserById(cleanedUserId);
 
-       process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.createdUser', createdUser)
-       process.env.DEBUG_ACCOUNTS && console.log('Great time to create a Patient record.');
+        process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.createdUser', createdUser)
+        process.env.DEBUG_ACCOUNTS && console.log('Great time to create a Patient record.');
 
-       process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser._id', typeof createdUser._id)
-       process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser.id', typeof createdUser.id)
+        process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser._id', typeof createdUser._id)
+        process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser.id', typeof createdUser.id)
 
       //------------------------------------------------------//------------------------------------------------------------------------------
       // creating the new patient record
@@ -563,7 +716,15 @@ Meteor.startup(async function(){
         }],
         photo: [{
           url: 'http://localhost:3000/noAvatar.png'
-        }]
+        }],
+        meta: {
+          security: [
+            {
+              code: "N",
+              display: "normal"
+            }
+          ]
+        }
       }
 
       // if we were able to fetch the entire Patient resource from Epic/Cerner
@@ -616,147 +777,24 @@ Meteor.startup(async function(){
         newPatient._id = createdUser._id._str;
       }
       
-       process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatient', newPatient)
+        process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatient', newPatient)
 
 
       //------------------------------------------------------------------------------------------------------------------------------------
 
-      // if the patientId from Epic/Cerner is available
-      // we are going to make sure that there is a corresponding Patient resource
-      // in our system
-      if(get(createdUser, 'patientId')){
-        if(!Patients.findOne({id: get(createdUser, 'patientId')})){
+      if(get(Meteor, 'settings.private.patientCreationOnSignupEnabled')){
+        // if the patientId from Epic/Cerner is available
+        // we are going to make sure that there is a corresponding Patient resource
+        // in our system
+        if(get(createdUser, 'patientId')){
+          if(!Patients.findOne({id: get(createdUser, 'patientId')})){
 
-          newPatient.id = createdUser.patientId;
+            newPatient.id = createdUser.patientId;
 
-          let patientInternalId = Patients.insert(newPatient)
-           process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', patientInternalId)
+            let patientInternalId = Patients.insert(newPatient)
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', patientInternalId)
 
-          if(Package["clinical:hipaa-logger"]){
-            let newAuditEvent = { 
-              "resourceType" : "AuditEvent",
-              "type" : { 
-                'code': 'Register User',
-                'display': 'Register User'
-                }, 
-              "action" : 'Registration',
-              "recorded" : new Date(), 
-              "outcome" : "Success",
-              "outcomeDesc" : 'User registered.',
-              "agent" : [{ 
-                "name" : FhirUtilities.pluckName(newPatient),
-                "who": {
-                  "display": FhirUtilities.pluckName(newPatient),
-                  "reference": "Patient/" + get(newPatient, 'id')
-                },
-                "requestor" : false
-              }],
-              "source" : { 
-                "site" : Meteor.absoluteUrl(),
-                "identifier": {
-                  "value": Meteor.absoluteUrl(),
-
-                }
-              },
-              "entity": [{
-                "reference": {
-                  "reference": ''
-                }
-              }]
-            };
-
-             process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
-            let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
-          }  
-        }
-      } else {
-
-        // Use Case 2 - if the user signs up without having logged into Epic/Cerner
-        // then they probably don't have a patientId available
-        // so we need to attach it to the user account
-
-        // if(!get(createdUser, 'patientId')){
-        //   Users.update({id: get(createdUser, 'id')}, {$set: {patientId: patientInternalId}})
-        // }
-      }
-
-
-
-
-      if((get(createdUser, 'isClinician') || get(createdUser, 'role') === "healthcare provider")){
-        if(!Practitioners.findOne({id: get(createdUser, 'id')})){
-          let newPractitioner = {
-            _id: '',  
-            id: get(createdUser, 'id', ''),
-            resourceType: "Practitioner",
-            active: true,
-            name: [{
-              use: 'usual',
-              text: get(createdUser, 'fullLegalName', ''),
-              given: [],
-              family: ''
-            }],
-            photo: [{
-              url: 'http://localhost:3000/noAvatar.png'
-            }]
-          }
-  
-          if(has(createdUser, '_id')){
-            newPractitioner._id = get(createdUser, '_id._str');
-          }
-          if(has(createdUser, 'id')){
-            newPractitioner.id = get(createdUser, 'id');
-          }
-  
-          let humanNameArray = get(newPractitioner, 'name');
-          if(Array.isArray(humanNameArray)){
-            newPractitioner.name = [];
-            humanNameArray.forEach(function(humanName){
-              if(typeof humanName.family === "string"){
-                newPractitioner.name.push(humanName);
-              }
-            })
-  
-          }
-  
-          // if(typeof newPractitioner.name[0].family === "array"){
-          //   newPractitioner.name[0].family = newPractitioner.name[0].family[0];
-          // }
-  
-          if(has(createdUser, 'fullLegalName') && !has(newPractitioner, 'name[0].text')){
-            let nameArray = createdUser.fullLegalName.split(" ");
-            if(Array.isArray(nameArray)){
-              nameArray.forEach(function(name){
-                if(!has(newPractitioner, 'name[0].given')){
-                  set(newPractitioner, 'name[0].given', []);
-                }
-                newPractitioner.name[0].given.push(name);
-              })
-              newPractitioner.name[0].text = get(createdUser, 'fullLegalName', '').trim()
-              newPractitioner.name[0].family = (nameArray[0]).trim();
-            }
-          }
-  
-          if(has(createdUser, 'emails[0].address')){
-            if(!has(newPractitioner, 'telecom')){
-              newPractitioner.telecom = [];
-            }
-            newPractitioner.telecom[0] = {
-              system: 'email',
-              value: get(createdUser, 'emails[0].address')
-            }
-          }
-  
-           process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitioner', newPractitioner)
-  
-          let practitionerAlreadyExists = Practitioners.findOne({id: newPractitioner.id})
-           process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
-  
-          if(!practitionerAlreadyExists){
-            let patientInternalId = Practitioners.insert(newPractitioner)
-             process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitionerId', patientInternalId);
-
-            if(Package["clinical:hipaa-logger"]){
+            if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
               let newAuditEvent = { 
                 "resourceType" : "AuditEvent",
                 "type" : { 
@@ -768,10 +806,10 @@ Meteor.startup(async function(){
                 "outcome" : "Success",
                 "outcomeDesc" : 'User registered.',
                 "agent" : [{ 
-                  "name" : FhirUtilities.pluckName(newPractitioner),
+                  "name" : FhirUtilities.pluckName(newPatient),
                   "who": {
-                    "display": FhirUtilities.pluckName(newPractitioner),
-                    "reference": "Practitioner/" + get(newPractitioner, 'id')
+                    "display": FhirUtilities.pluckName(newPatient),
+                    "reference": "Patient/" + get(newPatient, 'id')
                   },
                   "requestor" : false
                 }],
@@ -779,7 +817,7 @@ Meteor.startup(async function(){
                   "site" : Meteor.absoluteUrl(),
                   "identifier": {
                     "value": Meteor.absoluteUrl(),
-  
+
                   }
                 },
                 "entity": [{
@@ -788,34 +826,181 @@ Meteor.startup(async function(){
                   }
                 }]
               };
-  
-               process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
-              let hipaaEventId = HipaaLogger.logAuditEvent(newAuditEvent)            
+
+              process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
+              let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent)            
             }
           }
+        } else {
+
+          // Use Case 2 - if the user signs up without having logged into Epic/Cerner
+          // then they probably don't have a patientId available
+          // so we need to attach it to the user account
+
+          // if(!get(createdUser, 'patientId')){
+          //   Users.update({id: get(createdUser, 'id')}, {$set: {patientId: patientInternalId}})
+          // }
         }
       }
 
 
-       process.env.DEBUG_ACCOUNTS && console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');
+
+      if(get(Meteor, 'settings.private.practitionerCreationOnSignupEnabled')){
+        if((get(createdUser, 'isPractitioner') || get(createdUser, 'role') === "healthcare provider") || (get(createdUser, 'roles[0]') === "healthcare provider")){
+          if(!Practitioners.findOne({id: get(createdUser, 'id')})){
+            let newPractitioner = {
+              _id: '',  
+              id: get(createdUser, 'id', ''),
+              resourceType: "Practitioner",
+              active: true,
+              name: [{
+                use: 'usual',
+                text: get(createdUser, 'fullLegalName', ''),
+                given: [],
+                family: ''
+              }],
+              photo: [{
+                url: 'http://localhost:3000/noAvatar.png'
+              }],
+              meta: {
+                security: [
+                  {
+                    code: "N",
+                    display: "normal"
+                  }
+                ]
+              }
+            }
+  
+            if(has(createdUser, '_id')){
+              newPractitioner._id = get(createdUser, '_id._str');
+            }
+            if(has(createdUser, 'id')){
+              newPractitioner.id = get(createdUser, 'id');
+            }
+  
+            let humanNameArray = get(newPractitioner, 'name');
+            if(Array.isArray(humanNameArray)){
+              newPractitioner.name = [];
+              humanNameArray.forEach(function(humanName){
+                if(typeof humanName.family === "string"){
+                  newPractitioner.name.push(humanName);
+                }
+              })
+  
+            }
+  
+            // if(typeof newPractitioner.name[0].family === "array"){
+            //   newPractitioner.name[0].family = newPractitioner.name[0].family[0];
+            // }
+  
+            if(has(createdUser, 'fullLegalName') && !has(newPractitioner, 'name[0].text')){
+              let nameArray = createdUser.fullLegalName.split(" ");
+              if(Array.isArray(nameArray)){
+                nameArray.forEach(function(name){
+                  if(!has(newPractitioner, 'name[0].given')){
+                    set(newPractitioner, 'name[0].given', []);
+                  }
+                  newPractitioner.name[0].given.push(name);
+                })
+                newPractitioner.name[0].text = get(createdUser, 'fullLegalName', '').trim()
+                newPractitioner.name[0].family = (nameArray[0]).trim();
+              }
+            }
+  
+            if(has(createdUser, 'emails[0].address')){
+              if(!has(newPractitioner, 'telecom')){
+                newPractitioner.telecom = [];
+              }
+              newPractitioner.telecom[0] = {
+                system: 'email',
+                value: get(createdUser, 'emails[0].address')
+              }
+            }
+  
+            process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitioner', newPractitioner)
+  
+            let practitionerAlreadyExists = Practitioners.findOne({id: newPractitioner.id})
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
+  
+            if(!practitionerAlreadyExists){
+              let newPractitionerId = Practitioners.insert(newPractitioner)
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitionerId', newPractitionerId);
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', get(createdUser, 'patientId'));
+  
+  
+              let foundUser = Meteor.users.findOne({patientId: get(createdUser, 'patientId')});
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.foundUser', foundUser);
+  
+              let userUpdated = Meteor.users.update({patientId: get(createdUser, 'patientId')}, {$set: {
+                practitionerId: newPractitionerId
+              }})
+              process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.userUpdated', userUpdated);
+  
+  
+              if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
+                let newAuditEvent = { 
+                  "resourceType" : "AuditEvent",
+                  "type" : { 
+                    'code': 'Register User',
+                    'display': 'Register User'
+                    }, 
+                  "action" : 'Registration',
+                  "recorded" : new Date(), 
+                  "outcome" : "Success",
+                  "outcomeDesc" : 'User registered.',
+                  "agent" : [{ 
+                    "name" : FhirUtilities.pluckName(newPractitioner),
+                    "who": {
+                      "display": FhirUtilities.pluckName(newPractitioner),
+                      "reference": "Practitioner/" + get(newPractitioner, 'id')
+                    },
+                    "requestor" : false
+                  }],
+                  "source" : { 
+                    "site" : Meteor.absoluteUrl(),
+                    "identifier": {
+                      "value": Meteor.absoluteUrl(),
+  
+                    }
+                  },
+                  "entity": [{
+                    "reference": {
+                      "reference": ''
+                    }
+                  }]
+                };
+  
+                process.env.DEBUG_ACCOUNTS && console.log('Logging a hipaa event...', newAuditEvent)
+                let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent)            
+              }
+            } else {
+              console.log('Practitioner already exists....')
+            }
+          }
+        }
+
+        process.env.DEBUG_ACCOUNTS && console.log('Checking if they provided a physician credential or invite code, and whether we should create a Practitioner object.');  
+      }
+
 
       // If we are here - user must be created successfully
       // Explicitly saying this to Typescript compiler
       const loginResult = await accountsServer.loginWithUser(createdUser, req.infos);
-       process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.loginResult', loginResult)
+        process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.loginResult', loginResult)
 
       dataPayload = {
         userId: userId,
         loginResult: loginResult
       }
-       process.env.DEBUG_ACCOUNTS && console.log('dataPayload', dataPayload)
+        process.env.DEBUG_ACCOUNTS && console.log('dataPayload', dataPayload)
 
       JsonRoutes.sendResult(res, {
         code: 200,
         data: dataPayload
       });
     } catch (error) {
-       process.env.DEBUG_ACCOUNTS && console.log('error', error)
+      process.env.DEBUG_ACCOUNTS && console.error('error', error)
 
       // // // If ambiguousErrorMessages is true we obfuscate the email or username already exist error
       // // // to prevent user enumeration during user creation
@@ -848,4 +1033,5 @@ Meteor.startup(async function(){
   });
 })
 
+export default { accountsPassword, accountsServer, accountsMongo }
 

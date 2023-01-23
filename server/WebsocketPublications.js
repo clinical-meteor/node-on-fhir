@@ -329,7 +329,7 @@ Meteor.startup(function(){
     let defaultOptions = {
         limit: get(Meteor, 'settings.private.fhir.publicationLimit', 1000)
     }
-    if(get(Meteor, 'settings.private.enableAccessRestrictions')){
+    if(get(Meteor, 'settings.private.accessControl.enableHttpAccessRestrictions')){
         defaultOptions.fields = {
             address: 0,
             access_token: 0,
@@ -450,7 +450,7 @@ Meteor.startup(function(){
                                 headers: httpHeaders,
                                 data: doc
                             }, function(error, result){
-                                if(error){console.log('error', error)}
+                                if(error){console.error('error', error)}
                                 if(result){console.log('result', result)}
                             })    
                         }              
@@ -477,7 +477,7 @@ Meteor.startup(function(){
                             HTTP.put(subscriptionEndpoint + "/" + get(doc, 'id'), {
                                 data: doc
                             }, function(error, result){
-                                if(error){console.log('error', error)}
+                                if(error){console.error('error', error)}
                                 if(result){console.log('result', result)}
                             })    
                         }               

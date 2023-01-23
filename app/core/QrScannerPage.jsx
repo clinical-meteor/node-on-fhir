@@ -42,7 +42,7 @@ import {ticket} from 'react-icons-kit/entypo/ticket'
 //==========================================================================================
 // QR Scanner  
 
-import QRScanner from 'cordova-plugin-qrscanner';
+// import QRScanner from 'cordova-plugin-qrscanner';
 
 
 function displayContents(err, token){
@@ -53,7 +53,7 @@ function displayContents(err, token){
     // alert(token);
     console.log('displayContents().token', token);
 
-    Meteor.call('parseHealthCard', token, function(error, decodedHealthCard){
+    Meteor.call('parseHealthCard', token, Session.get('accountsAccessToken'), function(error, decodedHealthCard){
       if(error){
         console.log('parseHealthCard.error', error)
       } else {

@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-import { FhirUtilities } from 'fhir-starter';
+import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import { get, set, unset, has, pick, cloneDeep } from 'lodash';
 import { Random } from 'meteor/random';
@@ -10,7 +10,7 @@ import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http';
 
 import { CarePlans, CareTeams, Consents, Conditions, Encounters, Goals, Immunizations, Observations, Patients, Procedures, Practitioners, QuestionnaireResponses, Tasks } from 'meteor/clinical:hl7-fhir-data-infrastructure';
-import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
+// import { HipaaLogger } from 'meteor/clinical:hipaa-logger';
 
 import moment from 'moment';
 import sanitize from 'mongo-sanitize';

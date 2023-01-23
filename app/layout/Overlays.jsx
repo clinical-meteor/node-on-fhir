@@ -145,7 +145,7 @@ export function ContextSlideOut(props) {
   if(contextComponent){
     contextComponents.forEach(function(reference){
       if(reference.name === contextComponent){
-        logger.debug('Found a matching dialog component to render.')
+        console.debug('Found a matching dialog component to render.')
         
         // did we find a matching component?
         contextContentToRender = reference.component;
