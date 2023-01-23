@@ -315,7 +315,10 @@ Meteor.startup(async function(){
           })
         }
         
-        Patients.remove({_id: selectedPatientId});
+        Patients.remove({$or:[
+          {id: selectedPatientId},
+          {_id: selectedPatientId}
+        ]});
 
         await accountsServer.deactivateUser(get(sessionUser, 'id'));          
 
