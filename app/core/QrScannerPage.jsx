@@ -42,7 +42,7 @@ import {ticket} from 'react-icons-kit/entypo/ticket'
 //==========================================================================================
 // QR Scanner  
 
-import QRScanner from 'cordova-plugin-qrscanner';
+// import QRScanner from 'cordova-plugin-qrscanner';
 
 
 function displayContents(err, token){
