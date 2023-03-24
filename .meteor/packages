@@ -73,7 +73,3 @@ clinical:uscore
 # symptomatic:timelines
 # symptomatic:data-relay
 # mitre:sphr-record-analyzer
-
-symptomatic:data-importer
-mitre:space-health-registry
-mitre:consent-engine
