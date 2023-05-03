@@ -374,6 +374,27 @@ export function PatientSidebar(props){
   }
   
   //----------------------------------------------------------------------
+  // Settings Zone
+    
+  let settings = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Settings')){
+    // if(!['iPhone'].includes(window.navigator.platform)){
+      
+      settings.push(
+        <ListItem id='settingsItem' key='settingsItem' button onClick={function(){ openPage('/settings'); }} >
+          <ListItemIcon >
+            <Icon icon={modx} className={styles.drawerIcons} />
+          </ListItemIcon>
+          <ListItemText primary='Settings' className={styles.drawerText}  />
+        </ListItem>
+      );
+
+      settings.push(<Divider className={styles.divider} key='settings-hr' />);
+    // }
+  }
+  
+
+  //----------------------------------------------------------------------
   // Trackers
 
   let currentUser = useTracker(function(){  
@@ -969,7 +990,8 @@ export function PatientSidebar(props){
       </div>
 
       { fhirResources }         
-      { constructionZone }         
+      { constructionZone }     
+      { settings }    
 
       { oauthElements }
       { themingElements }
