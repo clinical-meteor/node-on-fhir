@@ -10,19 +10,18 @@ import moment from 'moment';
 let publicKey;
 let signingKey;
 
-try {
-    import keychain from '../certs/jwks.json';
-    publicKey = get(keychain, 'keys[0]');
-} catch (error) {
-    console.log('certs/jwks.json does not exist.  Skipping installation of SmartHealthCards.')
-}
+import("../certs/jwks.json").then(keychain => {
+    publicKey = get(keychain, 'keys[0]', '');
+}).catch(err=>
+    console.log(err.message)
+)
+import("../certs/private.jwks.json").then(privateKeychain => {
+    signingKey = get(privateKeychain, 'keys[0]', '');
+}).catch(err=>
+    console.log(err.message)
+)
 
-try {
-    import privateKeychain from '../certs/private.jwks.json';
-    signingKey = get(privateKeychain, 'keys[0]');
-} catch (error) {
-    console.log('certs/private.jwks.json does not exist.  Skipping installation of SmartHealthCards.')
-}
+
 
 
 let localFilesystemPem;
