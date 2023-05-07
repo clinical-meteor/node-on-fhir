@@ -4,7 +4,7 @@ import { wrapMeteorServer } from '@accounts/meteor-adapter';
 import { Mongo } from '@accounts/mongo';
 
 import { HTTP } from 'meteor/http';
-import { get } from 'lodash';
+import { get, has, set } from 'lodash';
 
 import { check } from 'meteor/check';
 import sanitize from 'mongo-sanitize';
@@ -90,7 +90,7 @@ Meteor.methods({
   // query data from a fhirUrl endpoint
   queryEndpoint: async function(fhirUrl, httpAccessToken, meteorSessionToken){
     check(fhirUrl, String);
-    check(httpAccessToken, String);
+    // check(httpAccessToken, String);
 
     let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
     process.env.DEBUG_ACCOUNTS && console.log('isAuthorized', isAuthorized)
@@ -206,6 +206,12 @@ Meteor.methods({
   
                 
                 let sanitizedResourceId = sanitize(proxyInsertEntry.resource._id);
+
+                if(get(proxyInsertEntry.resource, 'resourceType') === "Patient"){
+                  console.log(FhirUtilities.assembleName(get(proxyInsertEntry.resource, 'name[0]')))
+                  set(proxyInsertEntry.resource, 'name[0].text', FhirUtilities.assembleName(get(proxyInsertEntry.resource, 'name[0]')));
+                }
+
                 // there doesnt seem to be a pre-existing record
                 if(!Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))].findOne({_id: sanitizedResourceId })){
                   console.log('Couldnt find record.  Inserting.')

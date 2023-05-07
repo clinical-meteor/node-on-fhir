@@ -154,16 +154,18 @@ Meteor.startup(async function(){
   
           if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
             process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  Creating user.');
+            user.roles = ['citizen'];
             if(get(Meteor, 'settings.private.defaultUserRole')){
-              user.roles = [get(Meteor, 'settings.private.defaultUserRole', 'citizen')]
+              user.roles = [get(Meteor, 'settings.private.defaultUserRole')]
             }    
             return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);  
 
           } else if (user.invitationCode === get(Meteor, 'settings.private.practitionerInvitationCode')) {
 
             process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
+            user.roles = ['healthcare provider'];
             if(get(Meteor, 'settings.private.defaultClinicianRole')){
-              user.roles = [get(Meteor, 'settings.private.defaultClinicianRole', 'healthcare provider')]
+              user.roles = [get(Meteor, 'settings.private.defaultClinicianRole')]
             }    
             return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);    
           } else {

@@ -63,13 +63,8 @@ clinical:uscore
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-# mitre:vhdir-core
-# mitre:vhdir-core
+symptomatic:data-importer
+symptomatic:data-relay
 
-# mitre:national-directory
-# symptomatic:data-relay
-# symptomatic:data-importer
-
-# symptomatic:timelines
-# symptomatic:data-relay
-# mitre:sphr-record-analyzer
+mitre:gravity
+mitre:deqm-report-generator
