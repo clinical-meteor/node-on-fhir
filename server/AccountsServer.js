@@ -41,16 +41,22 @@ Meteor.startup(async function(){
   // const client = await mongodb.MongoClient.connect(process.env.MONGO_URL);
   // const db = client.db('meteor');
 
+  let mongoUrl = "mongodb://localhost:3001/meteor";
+  if(process.env.MONGO_URL){
+    mongoUrl = process.env.MONGO_URL
+  }
   // mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/meteor', {
-  mongoose.connect(process.env.MONGO_URL, {
+  mongoose.connect(mongoUrl, {
     useUnifiedTopology: true,
     useNewUrlParser: true
   });
+
 
   const db = mongoose.connection;
   accountsMongo = new Mongo(db, {
     // options
   });
+
 
   // const app = express();
 
@@ -70,6 +76,7 @@ Meteor.startup(async function(){
       fullLegalName: String,
       patientId: String,
       practitionerId: String,
+      _id: String,
       id: String,
       nickname: String,
       isPractitioner: Boolean,
@@ -154,20 +161,18 @@ Meteor.startup(async function(){
   
           if (user.invitationCode === get(Meteor, 'settings.private.invitationCode')) {
             process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  Creating user.');
-            user.roles = ['citizen'];
             if(get(Meteor, 'settings.private.defaultUserRole')){
-              user.roles = [get(Meteor, 'settings.private.defaultUserRole')]
+              user.roles = [get(Meteor, 'settings.private.defaultUserRole', 'citizen')]
             }    
-            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);  
+            return pick(user, ['_id', 'username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);  
 
           } else if (user.invitationCode === get(Meteor, 'settings.private.practitionerInvitationCode')) {
 
             process.env.DEBUG_ACCOUNTS && console.info('Invitation code matches.  No expiry date set. Creating user.');
-            user.roles = ['healthcare provider'];
             if(get(Meteor, 'settings.private.defaultClinicianRole')){
-              user.roles = [get(Meteor, 'settings.private.defaultClinicianRole')]
+              user.roles = [get(Meteor, 'settings.private.defaultClinicianRole', 'healthcare provider')]
             }    
-            return pick(user, ['username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);    
+            return pick(user, ['_id', 'username', 'email', 'password', 'familyName', 'givenName', 'fullLegalName', 'nickname', 'patientId', 'fhirUser', 'id', 'roles']);    
           } else {
             process.env.DEBUG_ACCOUNTS && console.error('Invalid invitation code.');
             throw new Error('Invalid invitation code.');
@@ -183,12 +188,22 @@ Meteor.startup(async function(){
   accountsServer = new AccountsServer(
     {
       db: accountsMongo,
-      tokenSecret: get(Meteor, 'settings.private.accountServerTokenSecret', Random.secret())
+      // tokenSecret: '12345'
+      tokenSecret: Random.secret()
+      // tokenSecret: get(Meteor, 'settings.private.accountServerTokenSecret', Random.secret())
     },
     {
       password: accountsPassword
     }
   );
+
+  process.env.DEBUG_ACCOUNTS && console.log('==================================================================')
+  process.env.DEBUG_ACCOUNTS && console.log('Accounts.mongoUrl', mongoUrl)
+  process.env.DEBUG_ACCOUNTS && console.log('Accounts.mongoose.connection', mongoose.connection)
+  process.env.DEBUG_ACCOUNTS && console.log('Accounts.accountsMongo', accountsMongo)
+  process.env.DEBUG_ACCOUNTS && console.log('Accounts.accountsPassword', accountsPassword)
+  process.env.DEBUG_ACCOUNTS && console.log('Accounts.accountsServer', accountsServer)
+  process.env.DEBUG_ACCOUNTS && console.log('==================================================================')
 
   wrapMeteorServer(Meteor, accountsServer)
   
@@ -328,48 +343,48 @@ Meteor.startup(async function(){
       }
     },
     isInvitationStillValid: async function(invitation){
-      if(get(Meteor, 'settings.private.invitationExpiry') === invitation){
+      process.env.DEBUG_ACCOUNTS && console.info('InvitationExpiry:                             ' + get(Meteor, 'settings.private.invitationExpiry'))    
+      process.env.DEBUG_ACCOUNTS && console.info('PractitionerInvitationExpiry:                 ' + get(Meteor, 'settings.private.practitionerInvitationExpiry'))       
+      // process.env.DEBUG_ACCOUNTS && console.info('InvitationExpiry.unix():                      ' + moment(get(Meteor, 'settings.private.invitationExpiry')).unix())    
+      // process.env.DEBUG_ACCOUNTS && console.info('PractitionerInvitationExpiry.unix():          ' + moment(get(Meteor, 'settings.private.practitionerInvitationExpiry')).unix())       
+      process.env.DEBUG_ACCOUNTS && console.info('moment():                                     ' + moment())          
+      process.env.DEBUG_ACCOUNTS && console.info('moment().format():                            ' + moment().format("YYYY-MM-DD"))                
+      process.env.DEBUG_ACCOUNTS && console.info('moment().isBefore("2023-06-30"):              ' + moment().isBefore("2023-06-30", "day"))          
+      
+
+      let isValue = false;
+      if(get(Meteor, 'settings.private.invitationCode') === invitation){
         if(get(Meteor, 'settings.private.invitationExpiry')){
-          if(moment().isBefore(get(Meteor, 'settings.private.invitationExpiry'))){
+          if(moment().isBefore(get(Meteor, 'settings.private.invitationExpiry'), 'day')){
+          // if(moment(get(Meteor, 'settings.private.invitationExpiry')).isBefore(moment())){
             process.env.DEBUG_ACCOUNTS && console.info('Invitation hasnt expired. ')          
-            return true;
+            isValue = true;
           } else {
-            process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Current date is after invitation expiry date. ')
-            return false;
+            process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Current date is after patient invitation expiry date. ')
+            isValue = false;
           }
         } else {
-          process.env.DEBUG_ACCOUNTS && console.info('No expiry date set.');
-          return true;
+          process.env.DEBUG_ACCOUNTS && console.info('No patient expiry date set.');
+          isValue = true;
         }
-      } else if (get(Meteor, 'settings.private.practitionerInvitationExpiry') === invitation){
+      } else if (get(Meteor, 'settings.private.practitionerInvitationCode') === invitation){
         if(get(Meteor, 'settings.private.practitionerInvitationExpiry')){
-          if(moment().isBefore(get(Meteor, 'settings.private.practitionerInvitationExpiry'))){
+          if(moment().isBefore(get(Meteor, 'settings.private.practitionerInvitationExpiry'), 'day')){
+          // if(moment(get(Meteor, 'settings.private.practitionerInvitationExpiry')).isBefore(moment())){
             process.env.DEBUG_ACCOUNTS && console.info('Practitioner invitation hasnt expired. ')          
-            return true;
+            isValue = true;
           } else {
-            process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Current date is after invitation expiry date. ')
-            return false;
+            process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Current date is after practitioner invitation expiry date. ')
+            isValue = false;
           }
         } else {
-          process.env.DEBUG_ACCOUNTS && console.info('No expiry date set.');
-          return true;
+          process.env.DEBUG_ACCOUNTS && console.info('No practitioner expiry date set.');
+          isValue = true;
         }
       }
 
-
-      //practitionerInvitationExpiry
-      if(get(Meteor, 'settings.private.invitationExpiry')){
-        if(moment().isBefore(get(Meteor, 'settings.private.invitationExpiry'))){
-          process.env.DEBUG_ACCOUNTS && console.info('Invitation hasnt expired. ')          
-          return true;
-        } else {
-          process.env.DEBUG_ACCOUNTS && console.info('AuthorizationError: Current date is after invitation expiry date. ')
-          return false;
-        }
-      } else {
-        process.env.DEBUG_ACCOUNTS && console.info('No expiry date set.');
-        return true;
-      }
+      process.env.DEBUG_ACCOUNTS && console.info('isValid: ' + isValue)          
+      return isValue;
     }
   });
 
@@ -652,6 +667,9 @@ Meteor.startup(async function(){
     // and we will then use as the user id, if possible
 
     if(!get(user, 'patientId')){
+      user.patientId = Random.id();
+    }
+    if(!get(user, '_id')){
       user.patientId = Random.id();
     }
 

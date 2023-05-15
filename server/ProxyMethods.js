@@ -212,6 +212,7 @@ Meteor.methods({
                   set(proxyInsertEntry.resource, 'name[0].text', FhirUtilities.assembleName(get(proxyInsertEntry.resource, 'name[0]')));
                 }
 
+                
                 // there doesnt seem to be a pre-existing record
                 if(!Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))].findOne({_id: sanitizedResourceId })){
                   console.log('Couldnt find record.  Inserting.')

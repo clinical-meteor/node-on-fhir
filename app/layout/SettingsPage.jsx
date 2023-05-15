@@ -20,6 +20,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+
 import { get, has } from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
@@ -40,11 +43,22 @@ import { oauth2 as SMART } from "fhirclient";
 import { Patients } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 // import GravityMethods from '../../lib/GravityMethods';
 
+
 //==============================================================================================
 // DEFAULT SESSIONS
 
 if(Meteor.isClient){
-  Session.setDefault('gravityServerUrl', 'http://localhost:3000/baseR4');
+  if(get(Meteor, 'settings.public.interfaces.fhirServer.channel.endpoint')){
+    Session.setDefault('dataWarehouseServerUrl', get(Meteor, 'settings.public.interfaces.fhirServer.channel.endpoint', 'http://localhost:3000/baseR4') );
+  } else {
+    Session.setDefault('dataWarehouseServerUrl', '');
+  }
+
+  if(get(Meteor, 'settings.public.interfaces.ehrServer.channel.endpoint')){
+    Session.setDefault('ehrServerUrl', get(Meteor, 'settings.public.interfaces.ehrServer.channel.endpoint', 'http://localhost:3000/baseR4') );
+  } else {
+    Session.setDefault('ehrServerUrl', '');
+  }
 }
 
 
@@ -84,6 +98,9 @@ const buttonStyles = makeStyles(theme => ({
     float: 'right',
     right: '20px',
     position: 'absolute'
+  },
+  label: {
+    marginBottom: '5px'
   }
 }));
 
@@ -109,9 +126,21 @@ function SettingsPage(props){
   //--------------------------------------------------------------------------------
   // Trackers
 
-  let gravityServerUrl = [];
-  gravityServerUrl = useTracker(function(){
-    return Session.get('gravityServerUrl')
+  let enableCustomServerUrls = true;
+  // if(typeof OAuthClient == "undefined"){
+  //   enableCustomServerUrls = true;
+  // } else {
+  //   enableCustomServerUrls = false;
+  // }
+
+  let dataWarehouseServerUrl;
+  dataWarehouseServerUrl = useTracker(function(){
+    return Session.get('dataWarehouseServerUrl')
+  }, [])
+
+  let ehrServerUrl;
+  ehrServerUrl = useTracker(function(){
+    return Session.get('ehrServerUrl')
   }, [])
 
   let lastRefreshedAt = new Date();
@@ -159,17 +188,20 @@ function SettingsPage(props){
   function initMapData(){
     Meteor.call('initChicagoGrocersMap')
   }
-  function changeServerUrl(event){
-    Session.set('gravityServerUrl', event.target.value)
+  function changeServerUrl(serverNameVar, event){
+    console.log('changeServerUrl', serverNameVar, event)
+    Session.set(serverNameVar, event.target.value)
+    
   }
-  function fetchMetadata(){
+  function fetchMetadata(url){
     Session.set('mainAppDialogOpen', true);
     Session.set('mainAppDialogComponent', null);
     Session.set('mainAppDialogMaxWidth', "md");
     Session.set('mainAppDialogTitle', "Fetch Metadata");
 
-    console.log('gravityServerUrl', gravityServerUrl)
-    HTTP.get(gravityServerUrl + '/metadata', function(error, result){
+    let metadataUrl = url + '/metadata'
+    console.log('metadataUrl', metadataUrl)
+    HTTP.get(metadataUrl, function(error, result){
       if(error){
         console.error(error)
       }
@@ -275,25 +307,59 @@ function SettingsPage(props){
           <StyledCard>
             <CardHeader 
               title="Add Server" 
-              subheader="Location of the upstream EHR system."
+              subheader="Location of the upstream FHIR server."
               style={{fontSize: '100%'}} />
             <CardContent>
+              <FormControl style={{width: '100%', marginTop: '20px', marginBottom: '20px'}}>
+                <InputAdornment className={buttonClasses.label}>Data Warehouse Address</InputAdornment>
+                <Input
+                  id="addWarehouseServerInput"
+                  name="addWarehouseServerInput"
+                  style={classes.input}                  
+                  defaultValue={dataWarehouseServerUrl}
+                  onChange={  changeServerUrl.bind(this, 'dataWarehouseServerUrl')}
+                  endAdornment={
+                    <InputAdornment position="end" style={{fontSize: '100%'}}>
+                      <IconButton
+                        aria-label="open metadata for data warehouse"
+                        onClick={fetchMetadata.bind(this, dataWarehouseServerUrl)}
+                      >
+                        <SearchIcon />
+                        {/* View Metadata */}
+                      </IconButton>
+                    </InputAdornment>
+                  }      
+                  disabled={enableCustomServerUrls}      
+                  fullWidth              
+                />       
+              </FormControl>
               <FormControl style={{width: '100%', marginTop: '20px'}}>
-                <InputAdornment className={classes.label}>Address</InputAdornment>
+                <InputAdornment className={buttonClasses.label}>EHR Address</InputAdornment>
                 <Input
                   id="addServerInput"
                   name="addServerInput"
                   style={classes.input}                  
-                  defaultValue={gravityServerUrl}
-                  onChange={  changeServerUrl.bind(this)}
+                  defaultValue={ehrServerUrl}
+                  onChange={  changeServerUrl.bind(this, 'ehrServerUrl')}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="open metadata for ehr server"
+                        onClick={fetchMetadata.bind(this, ehrServerUrl)}
+                      >
+                        <SearchIcon />
+                        {/* View Metadata */}
+                      </IconButton>
+                    </InputAdornment>
+                  }           
+                  disabled={enableCustomServerUrls}       
                   fullWidth              
                 />       
               </FormControl>
             </CardContent>
-            <CardActions>
+            {/* <CardActions>
               <Button color="primary" onClick={fetchMetadata.bind(this)}>View Metadata</Button>
-              {/* <Button color="primary">Add</Button> */}
-            </CardActions>
+            </CardActions> */}
           </StyledCard>   
         <DynamicSpacer />
           <StyledCard>
