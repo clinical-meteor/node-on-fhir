@@ -392,7 +392,75 @@ export function PatientSidebar(props){
       settings.push(<Divider className={styles.divider} key='settings-hr' />);
     // }
   }
+
+  //----------------------------------------------------------------------
+  // Custom Settings 
+    
+  let customSettingsElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.customSettings')){
+    // if(!['iPhone'].includes(window.navigator.platform)){
+    let customSettingsArray = get(Meteor, 'settings.public.defaults.sidebar.customSettings');
+
+    customSettingsArray.forEach(function(customSetting, index){
+      console.log('customSetting', customSetting)
+      let clonedIcon = parseIcon(get(customSetting, 'icon', 'fire'));
+      
+      if(clonedIcon){
+        clonedIcon = React.cloneElement(clonedIcon, {
+          className: styles.drawerIcons 
+        });
+      } else {
+        clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
+      }
+      console.log('clonedIcon', clonedIcon)
+
+      customSettingsElements.push(
+        <ListItem id={'customSettingsItem-' + index} key={'customSettingsItem-' + index} button onClick={function(){ openPage(get(customSetting, 'link', '/')); }} >
+          <ListItemIcon >
+            { clonedIcon }
+          </ListItemIcon>
+          <ListItemText primary={get(customSetting, 'label')} className={styles.drawerText}  />
+        </ListItem>
+      );
+    }); 
+
+
+    customSettingsElements.push(<Divider className={styles.divider} key='custom-settings-hr' />);
+    // }
+  }
   
+  //----------------------------------------------------------------------
+  // Custom Workflows 
+    
+  let customWorkflowElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.customWorkflow')){
+    // if(!['iPhone'].includes(window.navigator.platform)){
+    let customWorkflowArray = get(Meteor, 'settings.public.defaults.sidebar.customWorkflow');
+
+    customWorkflowArray.forEach(function(customWorkflow, index){
+      let clonedIcon = parseIcon(get(customWorkflow, 'icon', 'fire'));
+      if(clonedIcon){
+        clonedIcon = React.cloneElement(clonedIcon, {
+          className: styles.drawerIcons 
+        });
+      } else {
+        clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
+      }
+
+      customWorkflowElements.push(
+        <ListItem id={'customWorkflowsItem-' + index} key={'customWorkflowsItem-' + index} button onClick={function(){ openPage(get(customWorkflow, 'link', '/')); }} >
+          <ListItemIcon >
+            { clonedIcon }
+          </ListItemIcon>
+          <ListItemText primary={get(customWorkflow, 'label')} className={styles.drawerText}  />
+        </ListItem>
+      );
+    }); 
+
+
+    customWorkflowElements.push(<Divider className={styles.divider} key='custom-workflows-hr' />);
+    // }
+  }
 
   //----------------------------------------------------------------------
   // Trackers
@@ -451,6 +519,20 @@ export function PatientSidebar(props){
       }
     }); 
     logger.data('PatientSidebar.sidebarWorkflows', sidebarWorkflows);
+  }
+  
+
+  let clinicianWorkflows = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ClinicianWorkflows')){
+    Object.keys(Package).forEach(function(packageName){
+      if(Package[packageName].ClinicianWorkflows){
+        // we try to build up a route from what's specified in the package
+        Package[packageName].ClinicianWorkflows.forEach(function(element){
+          clinicianWorkflows.push(element);      
+        });    
+      }
+    }); 
+    logger.data('PatientSidebar.clinicianWorkflows', clinicianWorkflows);
   }
   
 
@@ -608,7 +690,7 @@ export function PatientSidebar(props){
   }
 
   let dynamicElements = [];
-  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules')){
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules') === true){
     dynamicModules.map(function(element, index){ 
 
       if(element.icon){
@@ -696,6 +778,55 @@ export function PatientSidebar(props){
     workflowElements.push(<Divider className={styles.divider} key="workflow-modules-hr" />);
     logger.trace('client.app.patient.PatientSidebar.workflowElements: ' + workflowElements.length);
   }
+
+
+  //----------------------------------------------------------------------
+  // Clinician Workflow Modules  
+
+  let clinicianWorkflowElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ClinicianWorkflows')){
+    clinicianWorkflows.map(function(element, index){ 
+
+      if(element.icon){
+        console.warn('Plugin Warning: You have tried to pass in an icon.  This has been deprecated.  Please use an iconName instead.')
+      }
+
+      let clonedIcon = parseIcon(element.iconName); 
+
+      // // we want to pass in the props
+      if(clonedIcon){
+        clonedIcon = React.cloneElement(clonedIcon, {
+          className: styles.drawerIcons 
+        });
+      } else {
+        clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
+      }
+
+      // the excludes array will hide routes
+      if(!get(Meteor, 'settings.public.defaults.sidebar.hiddenWorkflow', []).includes(element.to)){
+
+        // don't show the element unless it's public, or the user is signed in
+        if(!element.requireAuth || (element.requireAuth && currentUser)){
+
+          clinicianWorkflowElements.push(
+            <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
+              <ListItemIcon >
+                { clonedIcon }
+              </ListItemIcon>
+              <ListItemText primary={element.primaryText} className={styles.drawerText}  />
+            </ListItem>
+          );
+        }
+      }
+    });
+    clinicianWorkflowElements.push(<Divider className={styles.divider} key="role-workflow-modules-hr" />);
+    logger.trace('client.app.patient.PatientSidebar.workflowElements: ' + workflowElements.length);
+  }
+
+
+
+
+  
 
 
   //----------------------------------------------------------------------
@@ -981,17 +1112,24 @@ export function PatientSidebar(props){
       { loginElements }
       { profileElements }
       { dataManagementElements }
+      { customWorkflowElements }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>
         { workflowElements }   
+      </div>
+      <div id='clinicianWorkflowElements' key='clinicianWorkflowElements'>
+        { clinicianWorkflowElements }   
       </div>
       <div id='patientDynamicElements' key='patientDynamicElements'>
         { dynamicElements }   
       </div>
 
+
       { fhirResources }         
       { constructionZone }     
       { settings }    
+      { customSettingsElements }    
+      
 
       { oauthElements }
       { themingElements }

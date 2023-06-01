@@ -46,9 +46,9 @@ littledata:synced-cron
 clinical:extended-api@2.5.0
 clinical:fonts@1.2.0
 clinical:hl7-resource-datatypes@4.0.6
-clinical:hl7-fhir-data-infrastructure@6.28.2
+clinical:hl7-fhir-data-infrastructure@6.33.0
 clinical:json-routes
-# clinical:vault-server
+clinical:vault-server
 clinical:uscore
 
 # TESTING
@@ -64,5 +64,10 @@ clinical:uscore
 # omega:meteor-desktop-bundler@=2.2.5
 
 symptomatic:data-importer
-mitre:flightsuit
+symptomatic:data-relay
 symptomatic:timelines
+mitre:flightsuit
+mitre:consent-engine
+mitre:space-health-registry
+mitre:deqm-report-generator
+

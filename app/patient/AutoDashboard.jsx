@@ -16,11 +16,11 @@ import Grid from '@material-ui/core/Grid';
 
 import { useTracker } from 'meteor/react-meteor-data';
 
-import { FhirUtilities, Consents, CarePlans, CareTeams, Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, Questionnaires, QuestionnaireResponses, CarePlansTable, CareTeamsTable, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable, ConsentsTable, QuestionnairesTable, QuestionnaireResponsesTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities, NoDataWrapper, Consents, CarePlans, CareTeams, Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, Questionnaires, QuestionnaireResponses, CarePlansTable, CareTeamsTable, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable, ConsentsTable, QuestionnairesTable, QuestionnaireResponsesTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { get } from 'lodash';
 
 import PatientCard from './PatientCard';
-
+// import NoDataWrapper from "../components/NoDataWrapper";
 
 
 
@@ -504,9 +504,19 @@ export function AutoDashboard(props){
             autoDashboardContent = patientIntakeLayout;
             break;
     }
+    
+    let autoDashboardNoDataPath = get(Meteor, 'settings.public.smartOnFhir.autoDashboardNoDataPath', '/patients');
 
-    return (
-       autoDashboardContent
+    return (<NoDataWrapper 
+        dataCount={data.selectedPatient ? 1 : 0} 
+        noDataImagePath=""
+        history={props.history} 
+        title="No Patient Selected"
+        buttonLabel="Lookup Patient"
+        redirectPath={autoDashboardNoDataPath}
+        >
+            { autoDashboardContent }        
+        </NoDataWrapper>
     )
 }
 

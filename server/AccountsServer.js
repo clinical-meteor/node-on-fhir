@@ -237,8 +237,14 @@ Meteor.startup(async function(){
               }, 
             "action" : 'Deactivation',
             "recorded" : new Date(), 
-            "outcome" : "Success",
-            "outcomeDesc" : 'Deactivating user and deleting all protected health information (PHI).',
+            "outcome" : [{
+              "code": {
+                "display": "Operation Successful",
+                "code": "success",
+                "system": "http://hl7.org/fhir/issue-severity"
+              }
+            }],
+    
             "agent" : [{ 
               "name" : FhirUtilities.pluckName(selectedPatient),
               "who": {
@@ -449,29 +455,50 @@ Meteor.startup(async function(){
 
     
     let loggedInUser;
+    var loginAuditEvent = { 
+      "resourceType" : "AuditEvent",
+      "category": [{
+        "text": "User Authentication",
+        "coding": [{
+          "display": "User Authentication",
+          "code": "110114",
+          "system": "http://dicom.nema.org/resources/ontology/DCM"
+        }]
+      }],
+      "code" : {
+        "text": "Login",
+        "coding": [{
+          "display": "Login",
+          "code": "110122",
+          "system": "http://dicom.nema.org/resources/ontology/DCM"
+        }]
+      },
+      "recorded" : new Date(), 
+      "outcome" : [{
+        "code": {
+          "display": "Operation Successful",
+          "code": "success",
+          "system": "http://hl7.org/fhir/issue-severity"
+        }
+      }],
+
+      "agent": []
+    }
+
     try {
       loggedInUser = await accountsServer.loginWithService('password', req.body, req.infos);
-       process.env.DEBUG_ACCOUNTS && console.log('loggedInUser', loggedInUser);   
+      process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: loggedInUser', loggedInUser);   
 
-       if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
-        var loginAuditEvent = { 
-          "resourceType" : "AuditEvent",
-          "code" : {
-            "text": "Login",
-            "coding": [{
-              "display": "Login",
-              "code": "110122",
-              "system": "http://dicom.nema.org/resources/ontology/DCM"
-            }]
-          },
-          "recorded" : new Date(), 
-          "outcome" : 'Success',
-          "agent": [{
-            "who": {
-              "reference": "User/" + get(loggedInUser, '_id.str')
-            }
-          }]
-        }
+      if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
+        process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: Logging the Login event to HIPAA Audit Log');   
+        
+        loginAuditEvent.agent.push({
+          "who": {
+            "display": get(loggedInUser, 'user.fullLegalName'),
+            "reference": "Patient/" + get(loggedInUser, 'user.patientId')
+          }
+        })        
+
         Meteor.call('logAuditEvent', loginAuditEvent)
       }
 
@@ -480,12 +507,12 @@ Meteor.startup(async function(){
         data: loggedInUser
       });  
     } catch (error) {
-       process.env.DEBUG_ACCOUNTS && console.log('accountsServer.loginWithService.error.message', error.message)
-       process.env.DEBUG_ACCOUNTS && console.log('accountsServer.loginWithService.error.code', error.code)
-      // JsonRoutes.sendResult(res, {
-      //   code: 501,
-      //   data: error
-      // }); 
+      process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: loginWithService.error.message', error.message)
+      process.env.DEBUG_ACCOUNTS && console.log('AccountsServer: loginWithService.error.code', error.code)
+
+      // loginAuditEvent.outcome = "Failure";
+      // Meteor.call('logAuditEvent', loginAuditEvent)
+
       JsonRoutes.sendResult(res, {
         code: 200,
         data: error.message
@@ -503,16 +530,43 @@ Meteor.startup(async function(){
 
     let accessToken = req.headers?.Authorization || req.headers?.authorization || req.body?.accessToken || undefined;
     accessToken = accessToken && accessToken.replace('Bearer ', '');
-     process.env.DEBUG_ACCOUNTS && console.log('accessToken', accessToken)
+     process.env.DEBUG_ACCOUNTS && console.log('/accounts/logout - accessToken', accessToken)
 
     const session = await accountsServer.findSessionByAccessToken(accessToken);
+    process.env.DEBUG_ACCOUNTS && console.log('/accounts/logout - session', session)
+
+    let userId = get(session, 'userId');
+
+    let userSearchQuery = {$or: [
+      {"_id": userId},
+      {"_id.str": userId},
+      {"_id._str": userId},
+      {"_id": new Meteor.Collection.ObjectID(userId)}
+    ]}
+
+    let user = Meteor.users.findOne(userSearchQuery);
+    process.env.DEBUG_ACCOUNTS && console.log('/accounts/logout - user', user)
+
+    // let patient = Patients.findOne({id: get(user, 'patientId')});;
+    // process.env.DEBUG_ACCOUNTS && console.log('/accounts/logout - patient', patient)
+
 
     const logoutResult = await accountsServer.logout( accessToken );
-    process.env.DEBUG_ACCOUNTS && console.log('logoutResult', logoutResult)
+    process.env.DEBUG_ACCOUNTS && console.log('/accounts/logout - logoutResult', logoutResult)
     
     if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
+      process.env.DEBUG_ACCOUNTS && console.log('/accounts/logout - Logging the Logout event to HIPAA Audit Log');   
+
       var loginAuditEvent = { 
         "resourceType" : "AuditEvent",
+        "category": [{
+          "text": "User Authentication",
+          "coding": [{
+            "display": "User Authentication",
+            "code": "110114",
+            "system": "http://dicom.nema.org/resources/ontology/DCM"
+          }]
+        }],
         "code" : {
           "text": "Logout",
           "coding": [{
@@ -522,11 +576,18 @@ Meteor.startup(async function(){
           }]
         },
         "recorded" : new Date(), 
-        "outcome" : 'Success',
+        "outcome" : [{
+          "code": {
+            "display": "Operation Successful",
+            "code": "success",
+            "system": "http://hl7.org/fhir/issue-severity"
+          }
+        }],
         "agent": [{
           "who": {
-            "reference": "User/" + get(session, 'userId')
-          }
+            "display": get(user, 'fullLegalName'),
+            "reference": "Patient/" + get(user, 'patientId')
+          },
         }]
       }
       Meteor.call('logAuditEvent', loginAuditEvent)
@@ -570,10 +631,10 @@ Meteor.startup(async function(){
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     let userLoaded = userLoader(accountsServer);
-     process.env.DEBUG_ACCOUNTS && console.log('userLoaded', userLoaded);
+     process.env.DEBUG_ACCOUNTS && console.log('/accounts/user - userLoaded', userLoaded);
 
     const userId = get(req, 'userId', null);
-     process.env.DEBUG_ACCOUNTS && console.log('userId', userId);
+     process.env.DEBUG_ACCOUNTS && console.log('/accounts/user - userId', userId);
 
     if (!userId) {
       JsonRoutes.sendResult(res, {
@@ -649,11 +710,18 @@ Meteor.startup(async function(){
     // and feed into the registration form
     // and we will then use as the user id, if possible
 
-    if(!get(user, 'patientId')){
-      user.patientId = Random.id();
+    if(get(Meteor, 'settings.private.patientCreationOnSignupEnabled')){
+      if(!get(user, 'patientId')){
+        user.patientId = Random.id();
+      }  
     }
+    // if(get(Meteor, 'settings.private.practitionerCreationOnSignupEnabled')){
+    //   if(!get(user, 'practitionerId')){
+    //     user.practitionerId = Random.id();
+    //   }  
+    // }
 
-    process.env.DEBUG_ACCOUNTS && console.log('Registering a new user.', user);
+    process.env.DEBUG_ACCOUNTS && console.log('/accounts/password/register - Registering a new user.', user);
 
     // lookup email
     let emailAddress = get(user, 'email');
@@ -661,7 +729,7 @@ Meteor.startup(async function(){
     // check if user already exists
     // (this isn't needed, as the createUser() function will check and throw an error)
     let foundUser = await accountsPassword.findUserByEmail(get(user, 'email'))
-    process.env.DEBUG_ACCOUNTS && console.log('foundUser', foundUser);
+    process.env.DEBUG_ACCOUNTS && console.log('/accounts/password/register - foundUser', foundUser);
 
     // add user role
     if(get(Meteor, 'settings.private.defaultUserRole')){
@@ -669,11 +737,11 @@ Meteor.startup(async function(){
       user.roles.push(get(Meteor, 'settings.private.defaultUserRole'))
     }
 
-    process.env.DEBUG_ACCOUNTS && console.log('userWithRoles', user);
+    process.env.DEBUG_ACCOUNTS && console.log('/accounts/password/register - userWithRoles', user);
 
     try {
       userId = await accountsPasswordService.createUser(user);
-      process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.register.createUser.userId', userId)
+      process.env.DEBUG_ACCOUNTS && console.log('/accounts/password/register - AccountsServer.register.createUser.userId', userId)
 
       if(has(accountsServer, "options.enableAutologin")) {
 
@@ -695,17 +763,17 @@ Meteor.startup(async function(){
       let cleanedUserId = sanitize(userId); 
       let createdUser = await accountsServer.findUserById(cleanedUserId);
 
-        process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.createdUser', createdUser)
-        process.env.DEBUG_ACCOUNTS && console.log('Great time to create a Patient record.');
+        process.env.DEBUG_ACCOUNTS && console.log('/accounts/password/register - AccountsServer.createdUser', createdUser)
+        process.env.DEBUG_ACCOUNTS && console.log('/accounts/password/register - Great time to create a Patient record.');
 
-        process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser._id', typeof createdUser._id)
-        process.env.DEBUG_ACCOUNTS && console.log('typeof createdUser.id', typeof createdUser.id)
+        process.env.DEBUG_ACCOUNTS && console.log('/accounts/password/register - typeof createdUser._id', typeof createdUser._id)
+        process.env.DEBUG_ACCOUNTS && console.log('/accounts/password/register - typeof createdUser.id', typeof createdUser.id)
 
       //------------------------------------------------------//------------------------------------------------------------------------------
       // creating the new patient record
       let newPatient = {
         _id: '',  
-        id: '',
+        id: user.patientId,
         resourceType: "Patient",
         active: true,
         name: [{
@@ -803,8 +871,13 @@ Meteor.startup(async function(){
                   }, 
                 "action" : 'Registration',
                 "recorded" : new Date(), 
-                "outcome" : "Success",
-                "outcomeDesc" : 'User registered.',
+                "outcome" : [{
+                  "code": {
+                    "display": "Operation Successful",
+                    "code": "success",
+                    "system": "http://hl7.org/fhir/issue-severity"
+                  }
+                }],        
                 "agent" : [{ 
                   "name" : FhirUtilities.pluckName(newPatient),
                   "who": {
@@ -947,8 +1020,14 @@ Meteor.startup(async function(){
                     }, 
                   "action" : 'Registration',
                   "recorded" : new Date(), 
-                  "outcome" : "Success",
-                  "outcomeDesc" : 'User registered.',
+                  "outcome" : [{
+                    "code": {
+                      "display": "Operation Successful",
+                      "code": "success",
+                      "system": "http://hl7.org/fhir/issue-severity"
+                    }
+                  }],
+          
                   "agent" : [{ 
                     "name" : FhirUtilities.pluckName(newPractitioner),
                     "who": {

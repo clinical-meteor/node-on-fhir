@@ -110,6 +110,8 @@ const Login = function({ history }){
               Session.set('accountsAccessToken', get(tokens, 'accessToken'))
               Session.set('accountsRefreshToken', get(tokens, 'refreshToken'))
             }  
+            
+            
           
           }
         });        
