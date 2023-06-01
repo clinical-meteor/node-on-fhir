@@ -63,11 +63,12 @@ clinical:uscore
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-symptomatic:data-importer
-symptomatic:data-relay
-symptomatic:timelines
-mitre:flightsuit
-mitre:consent-engine
-mitre:space-health-registry
-mitre:deqm-report-generator
+# symptomatic:data-importer
+# symptomatic:data-relay
+# symptomatic:timelines
+
+# mitre:flightsuit
+# mitre:consent-engine
+# mitre:space-health-registry
+# mitre:deqm-report-generator
 

@@ -90,7 +90,7 @@ Meteor.methods({
   // query data from a fhirUrl endpoint
   queryEndpoint: async function(fhirUrl, httpAccessToken, meteorSessionToken){
     check(fhirUrl, String);
-    check(httpAccessToken, String);
+    // check(httpAccessToken, String);
 
     let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
     process.env.DEBUG_ACCOUNTS && console.log('isAuthorized', isAuthorized)
