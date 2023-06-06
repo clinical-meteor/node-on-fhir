@@ -642,7 +642,9 @@ export function App(props) {
   let renderContents;
 
   if(Meteor.isServer){
-    renderContents = <AppLoadingPage />
+    renderContents = <AppCanvas { ...otherProps }>
+        <AppLoadingPage />
+      </AppCanvas>
   } else {
     renderContents = <AppCanvas { ...otherProps }>
       { helmet }

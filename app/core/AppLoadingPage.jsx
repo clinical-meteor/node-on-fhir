@@ -10,6 +10,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 import Footer from '../layout/Footer.jsx';
 import Header from '../layout/Header.jsx';
+import AppCanvas from '../layout/AppCanvas.jsx';
 import theme from '../Theme.js';
 import { logger } from '../Logger.js';
 
@@ -19,6 +20,8 @@ import { spinner8 } from 'react-icons-kit/icomoon/spinner8';
 import { oauth2 as SMART } from "fhirclient";
 
 const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
+
+import { Meteor } from 'meteor/meteor';
 
 
 function AppLoadingPage(props) {
@@ -118,9 +121,30 @@ function AppLoadingPage(props) {
   //--------------------------------------------------------------------------------
   // Render Component
 
+
+  let backgroundImage;
+  if(get(Meteor, 'settings.public.theme.backgroundImagePath')){
+    // backgroundImage = "url(" + get(Meteor, 'settings.public.theme.backgroundImagePath') + ")";
+    backgroundImage = <AppCanvas></AppCanvas>;
+  }
+
+  // let styleObject = {overflow: 'hidden'}
+
+  // if(backgroundImage){
+  //   styleObject["background-image"] = backgroundImage;
+  //   styleObject.width = '100%';
+  //   styleObject.height = '100%';
+  //   styleObject.backgroundSize = 'cover';
+  // }
+
+  //--------------------------------------------------------------------------------
+  // Render Component
+
+
   return (
-    <div { ...otherProps } >
+    <div id="appLoadingPage" { ...otherProps } >
       { helmet }
+      { backgroundImage }
       <div id='primaryFlexPanel' >
         {/* <CssBaseline /> */}
         <Header { ...otherProps } />
