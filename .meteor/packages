@@ -66,7 +66,6 @@ clinical:uscore
 symptomatic:data-importer
 symptomatic:data-relay
 
-mitre:gravity
+mitre:national-directory
 mitre:consent-engine
-mitre:deqm-report-generator
 
