@@ -23,7 +23,7 @@ clinical:hl7-fhir-data-infrastructure@6.33.0
 clinical:hl7-resource-datatypes@4.0.8
 clinical:json-routes@2.3.0
 clinical:uscore@0.4.14
-clinical:vault-server@8.8.4
+clinical:vault-server@8.9.4
 ddp@1.4.0
 ddp-client@2.5.0
 ddp-common@1.4.0
@@ -60,7 +60,7 @@ minifier-js@2.7.3
 minimongo@1.7.0
 mitre:consent-engine@0.4.2
 mitre:deqm-report-generator@0.5.2
-mitre:gravity@0.7.2
+mitre:gravity@0.7.4
 mobile-experience@1.1.0
 mobile-status-bar@1.1.0
 modern-browsers@0.1.7
