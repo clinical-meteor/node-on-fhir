@@ -433,9 +433,9 @@ export function PatientSidebar(props){
   // Custom Workflows 
     
   let customWorkflowElements = [];
-  if(get(Meteor, 'settings.public.defaults.sidebar.customWorkflow')){
+  if(get(Meteor, 'settings.public.defaults.sidebar.customWorkflows')){
     // if(!['iPhone'].includes(window.navigator.platform)){
-    let customWorkflowArray = get(Meteor, 'settings.public.defaults.sidebar.customWorkflow');
+    let customWorkflowArray = get(Meteor, 'settings.public.defaults.sidebar.customWorkflows');
 
     customWorkflowArray.forEach(function(customWorkflow, index){
       let clonedIcon = parseIcon(get(customWorkflow, 'icon', 'fire'));
@@ -458,6 +458,37 @@ export function PatientSidebar(props){
     }); 
 
 
+    if(get(Meteor, 'settings.public.defaults.sidebar.customClinicianWorkflows')){
+      // if(!['iPhone'].includes(window.navigator.platform)){
+      let customClinicianWorkflowArray = get(Meteor, 'settings.public.defaults.sidebar.customClinicianWorkflows');
+  
+      customClinicianWorkflowArray.forEach(function(customWorkflow, index){
+        let clonedIcon = parseIcon(get(customWorkflow, 'icon', 'fire'));
+        if(clonedIcon){
+          clonedIcon = React.cloneElement(clonedIcon, {
+            className: styles.drawerIcons 
+          });
+        } else {
+          clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
+        }
+  
+        customWorkflowElements.push(
+          <ListItem id={'customWorkflowsItem-' + index} key={'customWorkflowsItem-' + index} button onClick={function(){ openPage(get(customWorkflow, 'link', '/')); }} >
+            <ListItemIcon >
+              { clonedIcon }
+            </ListItemIcon>
+            <ListItemText primary={get(customWorkflow, 'label')} className={styles.drawerText}  />
+          </ListItem>
+        );
+      }); 
+  
+  
+      customWorkflowElements.push(<Divider className={styles.divider} key='custom-workflows-hr' />);
+      // }
+    }
+
+    
+
     customWorkflowElements.push(<Divider className={styles.divider} key='custom-workflows-hr' />);
     // }
   }
@@ -471,13 +502,13 @@ export function PatientSidebar(props){
 
 
   //----------------------------------------------------------------------
-  // FHIR Resources
+  // FHIR Resources Page
     
-  let fhirResources = [];
+  let fhirResourcesPage = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.FhirResources')){
     //if(!['iPhone'].includes(window.navigator.platform)){      
-      fhirResources.push(
-        <ListItem id='fhirResourcesItem' key='fhirResourcesItem' button onClick={function(){ openPage('/fhir-resources-index'); }} >
+      fhirResourcesPage.push(
+        <ListItem id='fhirResourcesPageItem' key='fhirResourcesPageItem' button onClick={function(){ openPage('/fhir-resources-index'); }} >
           <ListItemIcon >
             <Icon icon={fire} className={styles.drawerIcons} />
           </ListItemIcon>
@@ -485,17 +516,17 @@ export function PatientSidebar(props){
         </ListItem>
       );
 
-      fhirResources.push(<Divider className={styles.divider} key='resources-hr' />);
+      fhirResourcesPage.push(<Divider className={styles.divider} key='resources-hr' />);
     //}
   }
 
 
   //----------------------------------------------------------------------
-  // Dynamic Modules
+  // Fhir Modules
   // Pick up any dynamic routes that are specified in packages, and include them
   let dynamicModules = [];
 
-  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules')){
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.FhirModules')){
     Object.keys(Package).forEach(function(packageName){
       if(Package[packageName].SidebarElements){
         // we try to build up a route from what's specified in the package
@@ -690,7 +721,7 @@ export function PatientSidebar(props){
   }
 
   let dynamicElements = [];
-  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules') === true){
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.FhirModules') === true){
     dynamicModules.map(function(element, index){ 
 
       if(element.icon){
@@ -1125,7 +1156,7 @@ export function PatientSidebar(props){
       </div>
 
 
-      { fhirResources }         
+      { fhirResourcesPage }         
       { constructionZone }     
       { settings }    
       { customSettingsElements }    

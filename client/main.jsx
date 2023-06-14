@@ -33,6 +33,22 @@ let PROJECT_ROOT = path.join(__dirname, '..');
 
 wrapMeteorClient(Meteor, AccountsClient);
 
+Meteor.hostname = function(){
+
+  let meteorAbsoluteUrl = Meteor.absoluteUrl();
+  // console.log('meteorAbsoluteUrl', meteorAbsoluteUrl);
+  // console.log('meteorAbsoluteUrl.length', meteorAbsoluteUrl.length);
+  // console.log('meteorAbsoluteUrl[meteorAbsoluteUrl.length]', meteorAbsoluteUrl[meteorAbsoluteUrl.length - 1]);
+
+  let trimmedString = "";
+  if(meteorAbsoluteUrl[meteorAbsoluteUrl.length - 1] === "/"){
+    trimmedString = meteorAbsoluteUrl.substring(0, meteorAbsoluteUrl.length - 1)
+    // console.log('meteorAbsoluteUrl.trimmed', trimmedString);
+  }
+
+  return trimmedString;
+}
+
 let accountServerOptions = {};
 if(has(Meteor, 'settings.public.interfaces.accountServer')){
   accountServerOptions = {
