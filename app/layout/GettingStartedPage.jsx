@@ -93,7 +93,8 @@ const useStyles = makeStyles(theme => ({
     width: '100%', 
     marginTop: '20px', 
     marginBottom: '20px',
-    textAlign: 'left'
+    textAlign: 'left',
+    height: '140px'
   }
 }));
 
@@ -188,31 +189,63 @@ function GettingStartedPage(props){
   }
 
 
+  let hasTitle = get(Meteor, 'settings.public.title', false);
+  let hasTheme = get(Meteor, 'settings.public.theme', false);
+
+  let missingTitleElements;
+  let missingThemeElements;
+
+  if(!hasTitle){
+    missingTitleElements = <Grid item xs={12}>
+      <Button fullWidth variant="contained">
+          Todo:  Add a settings file.  
+      </Button>
+    </Grid>
+    
+  }
+  if(!hasTheme){
+    missingThemeElements = <Grid item xs={12}>
+      <Button fullWidth variant="contained">
+          Todo:  Add a theme and color palette.
+      </Button>
+    </Grid>
+    
+  }
+
 
   return (
     <PageCanvas id='GettingStartedPage' style={pageStyle} headerHeight={headerHeight} paddingLeft={pageStyle.padding} paddingRight={pageStyle.padding}>
-        <Grid container justify="center" style={{paddingBottom: '80px'}}>
-          <Grid item xs={4}>
-
+        <Grid container spacing={3} justify="center" style={{paddingBottom: '80px'}}>
+          <Grid item xs={12} justify="center">
+            <br />
+            <Button fullWidth variant="contained">
+              <h3 >
+                Building space-aged healthcare systems using opensource Node.js and Javascript.
+              </h3>
+            </Button>
           </Grid>
-
+          <Grid item xs={6}>
             <Button variant="contained" color="secondary" className={classes.tip_of_the_day} >
               <Icon icon={lightbulbO} size={24} /><CardHeader title="Getting Started Tip" subheader="Use ⌘+ and ⌘- to zoom in and out." style={{padding: '20px'}} />
             </Button>
+          </Grid>
+          <Grid item xs={6}>
+            {/* <StyledCard margin={20} style={{marginBottom: '20px'}}> */}
+              {/* <div style={{width: '100%', textAlign: 'center'}}> */}
+              <Button variant="contained" className={classes.tip_of_the_day} >
+                <img src='/node-on-fhir-logo-thin.png' style={{width: '400px'}} alt="Node on FHIR Logo" /> 
+              </Button>
+              {/* </div> */}
+            {/* </StyledCard> */}
+          </Grid>
+          { missingTitleElements }
+          { missingThemeElements }
 
             {/* <Button variant="contained" color="secondary" className={classes.fallout_button} href="https://github.com/symptomatic/covid19-on-fhir" >
               <Icon icon={warning} size={24} /><CardHeader title="Announcement" subheader="Due to pandemic, we have discontinued the old example plugin, and will now be offering Covid19-on-FHIR as the example." />
             </Button> */}
-            <StyledCard margin={20} style={{marginBottom: '20px'}}>
-              <div style={{width: '100%', textAlign: 'center'}}>
-                <img src='/node-on-fhir-logo-thin.png' style={{width: '400px'}} alt="Node on FHIR Logo" />
-                <h4 style={tagLineStyle}>
-                  Building space-aged healthcare systems using opensource Node.js and Javascript.
-                </h4>
-              </div>
-            </StyledCard>
 
-            <Card>
+            {/* <Card>
               <Carousel     
                 additionalTransfrom={0}
                 arrows
@@ -263,10 +296,10 @@ function GettingStartedPage(props){
               >
                 { imageItems }
               </Carousel>
-            </Card>
+            </Card> */}
 
               <StyledCard margin={20} >
-                <CardHeader title="Getting Started" subheader="Don't say that you couldn't find the documentation." />
+                <CardHeader title="Read The Manual" subheader="Don't say that you couldn't find the documentation or you didn't read the manual." />
                 <CardContent>
 
                 <Table size="small" >
@@ -377,7 +410,7 @@ function GettingStartedPage(props){
             </StyledCard>
 
             <StyledCard margin={20} style={{marginBottom: '20px'}}>
-              <CardHeader title="Connect with Other Healthcare Systems" />
+              <CardHeader title="Next Steps: Interoperability & Connect with Other Healthcare Systems" />
               <CardContent>
                 <Table size="small" >
                   <TableHead>

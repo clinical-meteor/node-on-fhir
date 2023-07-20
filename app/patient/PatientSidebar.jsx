@@ -121,6 +121,7 @@ import {signIn} from 'react-icons-kit/fa/signIn';
 // Styling
 
 import useStyles from '../Styles';
+import { FhirUtilities } from 'fhir-starter';
 
 
 //==========================================================================================
@@ -183,141 +184,147 @@ export function PatientSidebar(props){
     VerificationResults: 0
   };
 
-  collectionCounts.AllergyIntolerances = useTracker(function(){
-    return AllergyIntolerances.find().count();
-  }, [])
-  collectionCounts.AuditEvents = useTracker(function(){
-    return AuditEvents.find().count();
-  }, [])
-  collectionCounts.Bundles = useTracker(function(){
-    return Bundles.find().count();
-  }, [])
-  collectionCounts.CarePlans = useTracker(function(){
-    return CarePlans.find().count();
-  }, [])
-  collectionCounts.CareTeams = useTracker(function(){
-    return CareTeams.find().count();
-  }, [])
-  collectionCounts.CodeSystems = useTracker(function(){
-    return CodeSystems.find().count();
-  }, [])
-  collectionCounts.Communications = useTracker(function(){
-    return Communications.find().count();
-  }, [])
-  collectionCounts.CommunicationRequests = useTracker(function(){
-    return CommunicationRequests.find().count();
-  }, [])
-  collectionCounts.Compositions = useTracker(function(){
-    return Compositions.find().count();
-  }, [])
-  collectionCounts.DocumentReferences = useTracker(function(){
-    return DocumentReferences.find().count();
-  }, [])
-  collectionCounts.DocumentManifests = useTracker(function(){
-    return DocumentManifests.find().count();
-  }, [])
-  collectionCounts.Conditions = useTracker(function(){
-    return Conditions.find().count();
-  }, [])
-  collectionCounts.Consents = useTracker(function(){
-    return Consents.find().count();
-  }, [])
-  collectionCounts.Encounters = useTracker(function(){
-    return Encounters.find().count();
-  }, [])
-  collectionCounts.Endpoints = useTracker(function(){
-    return Endpoints.find().count();
-  }, [])
-  collectionCounts.Goals = useTracker(function(){
-    return Goals.find().count();
-  }, [])
-  collectionCounts.HealthcareServices = useTracker(function(){
-    return HealthcareServices.find().count();
-  }, [])
-  collectionCounts.Immunizations = useTracker(function(){
-    return Immunizations.find().count();
-  }, [])
-  collectionCounts.InsurancePlans = useTracker(function(){
-    return InsurancePlans.find().count();
-  }, [])
-  collectionCounts.Lists = useTracker(function(){
-    return Lists.find().count();
-  }, [])
-  collectionCounts.Locations = useTracker(function(){
-    return Locations.find().count();
-  }, [])
-  collectionCounts.Measures = useTracker(function(){
-    return Measures.find().count();
-  }, [])
-  collectionCounts.MeasureReports = useTracker(function(){
-    return MeasureReports.find().count();
-  }, [])
-  collectionCounts.Locations = useTracker(function(){
-    return Locations.find().count();
-  }, [])
-  collectionCounts.MedicationOrders = useTracker(function(){
-    return MedicationOrders.find().count();
-  }, [])
-  collectionCounts.Networks = useTracker(function(){
-    return Networks.find().count();
-  }, [])
-  collectionCounts.Observations = useTracker(function(){
-    return Observations.find().count();
-  }, [])
-  collectionCounts.Organizations = useTracker(function(){
-    return Organizations.find().count();
-  }, [])
-  collectionCounts.OrganizationAffiliations = useTracker(function(){
-    return OrganizationAffiliations.find().count();
-  }, [])
-  collectionCounts.Patients = useTracker(function(){
-    return Patients.find().count();
-  }, [])
-  collectionCounts.Procedures = useTracker(function(){
-    return Procedures.find().count();
-  }, [])
-  collectionCounts.Practitioners = useTracker(function(){
-    return Practitioners.find().count();
-  }, [])
-  collectionCounts.PractitionerRoles = useTracker(function(){
-    return PractitionerRoles.find().count();
-  }, [])
-  collectionCounts.Persons = useTracker(function(){
-    return Persons.find().count();
-  }, [])
-  collectionCounts.Questionnaires = useTracker(function(){
-    return Questionnaires.find().count();
-  }, [])
-  collectionCounts.QuestionnaireResponses = useTracker(function(){
-  return QuestionnaireResponses.find().count();
-  }, [])
-  collectionCounts.Restrictions = useTracker(function(){
-    return Restrictions.find().count();
-  }, [])
-  collectionCounts.RiskAssessments = useTracker(function(){
-    return RiskAssessments.find().count();
-  }, [])
-  collectionCounts.SearchParameters = useTracker(function(){
-    return SearchParameters.find().count();
-  }, [])
-  collectionCounts.ServiceRequests = useTracker(function(){
-    return ServiceRequests.find().count();
-  }, [])
-  collectionCounts.StructureDefinitions = useTracker(function(){
-    return StructureDefinitions.find().count();
-  }, [])
-  collectionCounts.Subscriptions = useTracker(function(){
-    return Subscriptions.find().count();
-  }, [])
-  collectionCounts.Tasks = useTracker(function(){
-    return Tasks.find().count();
-  }, [])
-  collectionCounts.ValueSets = useTracker(function(){
-    return ValueSets.find().count();
-  }, [])
-  collectionCounts.VerificationResults = useTracker(function(){
-    return VerificationResults.find().count();
-  }, [])
+
+  if(typeof Package["clinical:hl7-fhir-data-infrastructure"] === "object"){
+    collectionCounts.AllergyIntolerances = useTracker(function(){
+      return AllergyIntolerances.find().count();
+    }, [])
+    collectionCounts.AuditEvents = useTracker(function(){
+      return AuditEvents.find().count();
+    }, [])
+    collectionCounts.Bundles = useTracker(function(){
+      return Bundles.find().count();
+    }, [])
+    collectionCounts.CarePlans = useTracker(function(){
+      return CarePlans.find().count();
+    }, [])
+    collectionCounts.CareTeams = useTracker(function(){
+      return CareTeams.find().count();
+    }, [])
+    // collectionCounts.CodeSystems = useTracker(function(){
+    //   return CodeSystems.find().count();
+    // }, [])
+    collectionCounts.Communications = useTracker(function(){
+      return Communications.find().count();
+    }, [])
+    collectionCounts.CommunicationRequests = useTracker(function(){
+      return CommunicationRequests.find().count();
+    }, [])
+    collectionCounts.Compositions = useTracker(function(){
+      return Compositions.find().count();
+    }, [])
+    collectionCounts.DocumentReferences = useTracker(function(){
+      return DocumentReferences.find().count();
+    }, [])
+    // collectionCounts.DocumentManifests = useTracker(function(){
+    //   return DocumentManifests.find().count();
+    // }, [])
+    collectionCounts.Conditions = useTracker(function(){
+      return Conditions.find().count();
+    }, [])
+    collectionCounts.Consents = useTracker(function(){
+      return Consents.find().count();
+    }, [])
+    collectionCounts.Encounters = useTracker(function(){
+      return Encounters.find().count();
+    }, [])
+    collectionCounts.Endpoints = useTracker(function(){
+      return Endpoints.find().count();
+    }, [])
+    collectionCounts.Goals = useTracker(function(){
+      return Goals.find().count();
+    }, [])
+    // collectionCounts.HealthcareServices = useTracker(function(){
+    //   return HealthcareServices.find().count();
+    // }, [])
+    collectionCounts.Immunizations = useTracker(function(){
+      return Immunizations.find().count();
+    }, [])
+    // collectionCounts.InsurancePlans = useTracker(function(){
+    //   return InsurancePlans.find().count();
+    // }, [])
+    collectionCounts.Lists = useTracker(function(){
+      return Lists.find().count();
+    }, [])
+    collectionCounts.Locations = useTracker(function(){
+      return Locations.find().count();
+    }, [])
+    collectionCounts.Measures = useTracker(function(){
+      return Measures.find().count();
+    }, [])
+    collectionCounts.MeasureReports = useTracker(function(){
+      return MeasureReports.find().count();
+    }, [])
+    collectionCounts.Locations = useTracker(function(){
+      return Locations.find().count();
+    }, [])
+    collectionCounts.MedicationOrders = useTracker(function(){
+      return MedicationOrders.find().count();
+    }, [])
+    // collectionCounts.Networks = useTracker(function(){
+    //   return Networks.find().count();
+    // }, [])
+    collectionCounts.Observations = useTracker(function(){
+      return Observations.find().count();
+    }, [])
+    collectionCounts.Organizations = useTracker(function(){
+      return Organizations.find().count();
+    }, [])
+    // collectionCounts.OrganizationAffiliations = useTracker(function(){
+    //   return OrganizationAffiliations.find().count();
+    // }, [])
+    collectionCounts.Patients = useTracker(function(){
+      return Patients.find().count();
+    }, [])
+    collectionCounts.Procedures = useTracker(function(){
+      return Procedures.find().count();
+    }, [])
+    collectionCounts.Practitioners = useTracker(function(){
+      return Practitioners.find().count();
+    }, [])
+    // collectionCounts.PractitionerRoles = useTracker(function(){
+    //   return PractitionerRoles.find().count();
+    // }, [])
+    collectionCounts.Persons = useTracker(function(){
+      return Persons.find().count();
+    }, [])
+    collectionCounts.Questionnaires = useTracker(function(){
+      return Questionnaires.find().count();
+    }, [])
+    collectionCounts.QuestionnaireResponses = useTracker(function(){
+    return QuestionnaireResponses.find().count();
+    }, [])
+    // collectionCounts.Restrictions = useTracker(function(){
+    //   return Restrictions.find().count();
+    // }, [])
+    collectionCounts.RiskAssessments = useTracker(function(){
+      return RiskAssessments.find().count();
+    }, [])
+    // collectionCounts.SearchParameters = useTracker(function(){
+    //   return SearchParameters.find().count();
+    // }, [])
+    collectionCounts.ServiceRequests = useTracker(function(){
+      return ServiceRequests.find().count();
+    }, [])
+    // collectionCounts.StructureDefinitions = useTracker(function(){
+    //   return StructureDefinitions.find().count();
+    // }, [])
+    // collectionCounts.Subscriptions = useTracker(function(){
+    //   return Subscriptions.find().count();
+    // }, [])
+    collectionCounts.Tasks = useTracker(function(){
+      return Tasks.find().count();
+    }, [])
+    collectionCounts.ValueSets = useTracker(function(){
+      return ValueSets.find().count();
+    }, [])
+    // collectionCounts.VerificationResults = useTracker(function(){
+    //   return VerificationResults.find().count();
+    // }, [])
+  }
+
+
+  
 
 
 

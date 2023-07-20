@@ -22,7 +22,7 @@ alanning:roles
 # DATA INFRASTRUCTURE
 mongo@1.13.0                   # The database Meteor supports right now
 reactive-var@1.0.11            # Reactive variable for tracker
-react-meteor-data@2.4.0        # React higher-order component for reactively tracking Meteor data
+react-meteor-data              # React higher-order component for reactively tracking Meteor data
 session@1.2.0
 tracker@1.2.0
 http@1.4.2
@@ -39,17 +39,17 @@ ecmascript@0.16.0             # Enable ECMAScript2015+ syntax in app code
 shell-server@0.5.0            # Server-side component of the `meteor shell` command
 server-render@0.4.0
 npdev:react-loadable
-fourseven:scss
+# fourseven:scss
 littledata:synced-cron
 
 # CLINICAL INFRASTRUCTURE
 clinical:extended-api@2.5.0
 clinical:fonts@1.2.0
-clinical:hl7-resource-datatypes@4.0.6
-clinical:hl7-fhir-data-infrastructure@6.33.0
-clinical:json-routes
-clinical:vault-server
-clinical:uscore
+# clinical:hl7-resource-datatypes@4.0.6
+# clinical:hl7-fhir-data-infrastructure@6.33.0
+# clinical:json-routes
+# clinical:vault-server
+# clinical:uscore
 
 # TESTING
 # meteortesting:mocha
@@ -63,9 +63,10 @@ clinical:uscore
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
 
-symptomatic:data-importer
-symptomatic:data-relay
+# symptomatic:data-importer
+# symptomatic:data-relay
 
-mitre:gravity
-mitre:consent-engine
-mitre:deqm-report-generator
+# mitre:consent-engine
+# mitre:flightsuit
+# mitre:space-health-registry
+clinical:hl7-fhir-data-infrastructure
