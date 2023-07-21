@@ -216,7 +216,7 @@ function GettingStartedPage(props){
   return (
     <PageCanvas id='GettingStartedPage' style={pageStyle} headerHeight={headerHeight} paddingLeft={pageStyle.padding} paddingRight={pageStyle.padding}>
         <Grid container spacing={3} justify="center" style={{paddingBottom: '80px'}}>
-          <Grid item xs={12} justify="center">
+          <Grid item xs={12} >
             <br />
             <Button fullWidth variant="contained">
               <h3 >
@@ -312,67 +312,67 @@ function GettingStartedPage(props){
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.hl7.org/fhir/", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.hl7.org/fhir/", "_blank"); }} hover >
                       <TableCell  ><Icon icon={fire} size={18} /></TableCell>
                       <TableCell>Fast Healthcare Interoperability Resources</TableCell>
                       <TableCell>HL7</TableCell>
                       <TableCell>ANSI Certified Standards.  Required by U.S. federal law, pertaining to MACRA and 21st Century Cures and other federal laws.  Detailed documentation on data schemas and APIs used in healthcare and mandated by the federal government. </TableCell>                  
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://docs.smarthealthit.org/client-js/", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://docs.smarthealthit.org/client-js/", "_blank"); }} hover >
                       <TableCell><Icon icon={hospitalO} size={18} /></TableCell>
                       <TableCell>EHR Interoperability</TableCell>
                       <TableCell>Smart Health IT</TableCell>
                       <TableCell>Uses industry standard libraries for fetching data from Medicare, Medicaid, Apple HealthRecords, and hospitals running a Cerner, Epic, or other FHIR compliant EHR.</TableCell>                  
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.mongodb.com/basics/mongodb-atlas-tutorial", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.mongodb.com/basics/mongodb-atlas-tutorial", "_blank"); }} hover >
                       <TableCell><Icon icon={database} size={18} /></TableCell>
                       <TableCell>Document Oriented Database</TableCell>
                       <TableCell>Mongo</TableCell>
                       <TableCell>Ann ultra-scalable JSON database that stores FHIR data as-is in a NoSQL format.  Easily convert a server database into an enterprise grade datalake.</TableCell>                  
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://guide.meteor.com/cordova.html", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://guide.meteor.com/cordova.html", "_blank"); }} hover >
                       <TableCell><Icon icon={mobileCombo} size={18} /></TableCell>
                       <TableCell>Multiple Device Pipelines</TableCell>
                       <TableCell>Meteor.js</TableCell>
                       <TableCell>Write once and run anywhere, using the Apache Cordova/PhoneGap bridging libraries; with pipelines for compiling the software to desktops, mobile devices, and webTV.</TableCell>                  
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://reactjs.org/", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://reactjs.org/", "_blank"); }} hover >
                       <TableCell><Icon icon={puzzlePiece} size={18} /></TableCell>
                       <TableCell>Modular Reusable Components (React.js)</TableCell>
                       <TableCell>Facebook / Meta</TableCell>
                       <TableCell>Built with modular reusable components using React (from Facebook).  Proven web technology used by billions of people.  Components progressively get better with time rather than become a speghetti mess.</TableCell>                  
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("http://web-accessibility.carnegiemuseums.org/foundations/aria/", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("http://web-accessibility.carnegiemuseums.org/foundations/aria/", "_blank"); }} hover >
                       <TableCell><Icon icon={universalAccess} size={18} /></TableCell>
                       <TableCell>Accessibility</TableCell>
                       <TableCell>Carnegie Museums of Pittsburgh</TableCell>
                       <TableCell>Includes accessibility best practices via Accessible Rich Internet Applications (ARIA) specification.  Supports screen readers, low visibility modes, voice prompts, etc.</TableCell>                  
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://mui.com/", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://mui.com/", "_blank"); }} hover >
                       <TableCell><Icon icon={cubes} size={18} /></TableCell>
                       <TableCell>Material Design</TableCell>
                       <TableCell>Google</TableCell>
                       <TableCell>Designed with a modern toolkit of user interface components based on the Material Design specification from Google.</TableCell>                  
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://react-icons-kit.vercel.app/", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://react-icons-kit.vercel.app/", "_blank"); }} hover >
                       <TableCell><Icon icon={font} size={18} /></TableCell>
                       <TableCell>Icons, Fonts, & Typography</TableCell>
                       <TableCell></TableCell>
                       <TableCell>Includes rich typography and fonts and extended icon support to make your applications look beautiful.</TableCell>                  
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("", "_blank"); }} hover >
                       <TableCell><Icon icon={codeFork} size={18} /></TableCell>
                       <TableCell>A/B Testing Infrastructure</TableCell>
                       <TableCell></TableCell>
                       <TableCell>Built from the ground up around containerization and an application-wide settings, to allow different containers to run the software with different settings.  Perfect for A/B testing methodologies.</TableCell>                  
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://docs.meteor.com/api/email.html", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://docs.meteor.com/api/email.html", "_blank"); }} hover >
                       <TableCell><Icon icon={speech_bubbles} size={18} /></TableCell>
                       <TableCell>Email, Chat & SMS Integration</TableCell>
                       <TableCell></TableCell>
                       <TableCell>Support inbound and outbound messaging via the FHIR Communication resource and integration with MailChimp, Twilio, and other messaging platforms.</TableCell>                  
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://github.com/clinical-meteor/hipaa", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://github.com/clinical-meteor/hipaa", "_blank"); }} hover >
                       <TableCell><Icon icon={amazon} size={18} /></TableCell>
                       <TableCell>HIPAA Logger</TableCell>
                       <TableCell></TableCell>
@@ -421,62 +421,62 @@ function GettingStartedPage(props){
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                  <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhirclient", "_blank"); }} hover="true" >
+                  <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhirclient", "_blank"); }} hover >
                       <TableCell>fhirclient</TableCell>
                       <TableCell>smarthealthit</TableCell>
                       <TableCell>The official SMART on FHIR javascript client.</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-kit-client", "_blank"); }} hover="true" >
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-kit-client", "_blank"); }} hover >
                       <TableCell>fhir-kit-client</TableCell>
                       <TableCell>Vermonster</TableCell>
                       <TableCell>FHIR Client with ES6 classes, cross-version support, testing, etc.  </TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-starter", "_blank"); }} hover="true" >                      
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-starter", "_blank"); }} hover >                      
                       <TableCell>fhir-starter</TableCell>
                       <TableCell>Symptomatic</TableCell>
                       <TableCell>FhirUtilities, FhirDehydrator, and template FHIR UI components.</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-react", "_blank"); }} hover="true" >                      
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-react", "_blank"); }} hover >                      
                       <TableCell>fhir-react</TableCell>
                       <TableCell>1uphealth</TableCell>
                       <TableCell>Multi use react component.</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/json-schema-resource-validation", "_blank"); }} hover="true" >                      
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/json-schema-resource-validation", "_blank"); }} hover >                      
                       <TableCell>json-schema-resource-validation</TableCell>
                       <TableCell>VictorGus</TableCell>
                       <TableCell>FHIR validator for R4</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@asymmetrik/sof-scope-checker", "_blank"); }} hover="true" >                      
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@asymmetrik/sof-scope-checker", "_blank"); }} hover >                      
                       <TableCell>sof-scope-checker</TableCell>
                       <TableCell>Asymmetrik</TableCell>
                       <TableCell>Utilities to check SMART on FHIR scope access</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhirpath", "_blank"); }} hover="true" >                      
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhirpath", "_blank"); }} hover >                      
                       <TableCell>fhirpath</TableCell>
                       <TableCell>HL7</TableCell>
                       <TableCell>FHIRPath parser</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/is-fhir-date", "_blank"); }} hover="true" >                      
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/is-fhir-date", "_blank"); }} hover >                      
                       <TableCell>is-fhir-date</TableCell>
                       <TableCell>HenrikJoreteg</TableCell>
                       <TableCell>Checks if a date is FHIR compliant</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@ahryman40k/ts-fhir-types", "_blank"); }} hover="true" >                      
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@ahryman40k/ts-fhir-types", "_blank"); }} hover >                      
                       <TableCell>ts-fhir-types</TableCell>
                       <TableCell>Ahryman40k</TableCell>
                       <TableCell>Typescript definitions</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-list-addresses", "_blank"); }} hover="true" >                      
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/fhir-list-addresses", "_blank"); }} hover >                      
                       <TableCell>fhir-list-addresses</TableCell>
                       <TableCell>careMESH</TableCell>
                       <TableCell>Utilities for extracting addresses</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/hl7v2", "_blank"); }} hover="true" >                      
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/hl7v2", "_blank"); }} hover >                      
                       <TableCell>hl7v2</TableCell>
                       <TableCell>panates</TableCell>
                       <TableCell>HL7 v2 parser, serializer, validator and tcp client/server.</TableCell>
                     </TableRow>
-                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@redoxengine/redox-hl7-v2", "_blank"); }} hover="true" >                      
+                    <TableRow style={featureRowStyle} onClick={function(){ window.open("https://www.npmjs.com/package/@redoxengine/redox-hl7-v2", "_blank"); }} hover >                      
                       <TableCell>redox-hl7-v2</TableCell>
                       <TableCell>Redox</TableCell>
                       <TableCell>HL7v2 parser/generator from Redox.  Battle tested.</TableCell>
