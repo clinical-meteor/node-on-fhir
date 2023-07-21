@@ -70,3 +70,5 @@ clinical:fonts@1.2.0
 # mitre:flightsuit
 # mitre:space-health-registry
 clinical:hl7-fhir-data-infrastructure
+symptomatic:data-relay
+symptomatic:data-importer
