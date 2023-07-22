@@ -45,6 +45,7 @@ littledata:synced-cron
 # CLINICAL INFRASTRUCTURE
 clinical:extended-api@2.5.0
 clinical:fonts@1.2.0
+clinical:hl7-fhir-data-infrastructure
 # clinical:hl7-resource-datatypes@4.0.6
 # clinical:hl7-fhir-data-infrastructure@6.33.0
 # clinical:json-routes
@@ -69,6 +70,5 @@ clinical:fonts@1.2.0
 # mitre:consent-engine
 # mitre:flightsuit
 # mitre:space-health-registry
-clinical:hl7-fhir-data-infrastructure
-symptomatic:data-relay
-symptomatic:data-importer
+# symptomatic:data-relay
+# symptomatic:data-importer
