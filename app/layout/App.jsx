@@ -26,6 +26,9 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import ScrollDialog from './Dialog';
 import SideDrawer from './SideDrawer';
+import SettingsPage from './SettingsPage';
+import ContextSlideOut from './ContextSlideOut';
+
 
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 
@@ -41,7 +44,7 @@ import SmartLauncher from '../layout/SmartLauncher'
 import MyProfilePage from '../core/MyProfilePage';
 import QrScannerPage from '../core/QrScannerPage';
 import ConstructionZone from '../core/ConstructionZone';
-import ContextSlideOut from './ContextSlideOut';
+
 
 import { logger } from '../Logger';
 import useStyles from '../Styles';
@@ -150,6 +153,12 @@ Object.keys(Package).forEach(function(packageName){
     // logger.trace('Found a custom ConstructionZone object in one of the packages.')
     ConstructionZone = Package[packageName].ConstructionZone;
   }  
+
+  if(Package[packageName].Settings){
+    // logger.trace('Found a custom SettingsPage object in one of the packages.')
+    SettingsPage = Package[packageName].Settings;
+  }  
+
 
 });
 
@@ -566,6 +575,7 @@ export function App(props) {
   let routingSwitchLogic;
   let themingRoute;
   let constructionRoute;
+  let settingsRoute;
   let qrScannerRoute;
 
   if(Meteor.isClient){
@@ -575,6 +585,9 @@ export function App(props) {
     }
     if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ConstructionZone')){
       constructionRoute = <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
+    }
+    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Settings')){
+      settingsRoute = <Route id='settingsZoneRoute' path="/settings" component={ SettingsPage } />
     }
     if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.QrScanner')){
       qrScannerRoute = <Route id='QrScannerPage' path="/qr-scanner" component={ QrScannerPage } />
@@ -597,6 +610,7 @@ export function App(props) {
 
         { themingRoute }
         { constructionRoute }
+        { settingsRoute }
         { qrScannerRoute }
         
         <Route name='SmartLauncher' key='SmartLauncher' path="/smart-launcher" exact component={ SmartLauncher } />                
@@ -628,7 +642,9 @@ export function App(props) {
   let renderContents;
 
   if(Meteor.isServer){
-    renderContents = <AppLoadingPage />
+    renderContents = <AppCanvas { ...otherProps }>
+        <AppLoadingPage />
+      </AppCanvas>
   } else {
     renderContents = <AppCanvas { ...otherProps }>
       { helmet }

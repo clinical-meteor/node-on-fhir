@@ -121,6 +121,7 @@ import {signIn} from 'react-icons-kit/fa/signIn';
 // Styling
 
 import useStyles from '../Styles';
+import { FhirUtilities } from 'fhir-starter';
 
 
 //==========================================================================================
@@ -183,141 +184,147 @@ export function PatientSidebar(props){
     VerificationResults: 0
   };
 
-  collectionCounts.AllergyIntolerances = useTracker(function(){
-    return AllergyIntolerances.find().count();
-  }, [])
-  collectionCounts.AuditEvents = useTracker(function(){
-    return AuditEvents.find().count();
-  }, [])
-  collectionCounts.Bundles = useTracker(function(){
-    return Bundles.find().count();
-  }, [])
-  collectionCounts.CarePlans = useTracker(function(){
-    return CarePlans.find().count();
-  }, [])
-  collectionCounts.CareTeams = useTracker(function(){
-    return CareTeams.find().count();
-  }, [])
-  collectionCounts.CodeSystems = useTracker(function(){
-    return CodeSystems.find().count();
-  }, [])
-  collectionCounts.Communications = useTracker(function(){
-    return Communications.find().count();
-  }, [])
-  collectionCounts.CommunicationRequests = useTracker(function(){
-    return CommunicationRequests.find().count();
-  }, [])
-  collectionCounts.Compositions = useTracker(function(){
-    return Compositions.find().count();
-  }, [])
-  collectionCounts.DocumentReferences = useTracker(function(){
-    return DocumentReferences.find().count();
-  }, [])
-  collectionCounts.DocumentManifests = useTracker(function(){
-    return DocumentManifests.find().count();
-  }, [])
-  collectionCounts.Conditions = useTracker(function(){
-    return Conditions.find().count();
-  }, [])
-  collectionCounts.Consents = useTracker(function(){
-    return Consents.find().count();
-  }, [])
-  collectionCounts.Encounters = useTracker(function(){
-    return Encounters.find().count();
-  }, [])
-  collectionCounts.Endpoints = useTracker(function(){
-    return Endpoints.find().count();
-  }, [])
-  collectionCounts.Goals = useTracker(function(){
-    return Goals.find().count();
-  }, [])
-  collectionCounts.HealthcareServices = useTracker(function(){
-    return HealthcareServices.find().count();
-  }, [])
-  collectionCounts.Immunizations = useTracker(function(){
-    return Immunizations.find().count();
-  }, [])
-  collectionCounts.InsurancePlans = useTracker(function(){
-    return InsurancePlans.find().count();
-  }, [])
-  collectionCounts.Lists = useTracker(function(){
-    return Lists.find().count();
-  }, [])
-  collectionCounts.Locations = useTracker(function(){
-    return Locations.find().count();
-  }, [])
-  collectionCounts.Measures = useTracker(function(){
-    return Measures.find().count();
-  }, [])
-  collectionCounts.MeasureReports = useTracker(function(){
-    return MeasureReports.find().count();
-  }, [])
-  collectionCounts.Locations = useTracker(function(){
-    return Locations.find().count();
-  }, [])
-  collectionCounts.MedicationOrders = useTracker(function(){
-    return MedicationOrders.find().count();
-  }, [])
-  collectionCounts.Networks = useTracker(function(){
-    return Networks.find().count();
-  }, [])
-  collectionCounts.Observations = useTracker(function(){
-    return Observations.find().count();
-  }, [])
-  collectionCounts.Organizations = useTracker(function(){
-    return Organizations.find().count();
-  }, [])
-  collectionCounts.OrganizationAffiliations = useTracker(function(){
-    return OrganizationAffiliations.find().count();
-  }, [])
-  collectionCounts.Patients = useTracker(function(){
-    return Patients.find().count();
-  }, [])
-  collectionCounts.Procedures = useTracker(function(){
-    return Procedures.find().count();
-  }, [])
-  collectionCounts.Practitioners = useTracker(function(){
-    return Practitioners.find().count();
-  }, [])
-  collectionCounts.PractitionerRoles = useTracker(function(){
-    return PractitionerRoles.find().count();
-  }, [])
-  collectionCounts.Persons = useTracker(function(){
-    return Persons.find().count();
-  }, [])
-  collectionCounts.Questionnaires = useTracker(function(){
-    return Questionnaires.find().count();
-  }, [])
-  collectionCounts.QuestionnaireResponses = useTracker(function(){
-  return QuestionnaireResponses.find().count();
-  }, [])
-  collectionCounts.Restrictions = useTracker(function(){
-    return Restrictions.find().count();
-  }, [])
-  collectionCounts.RiskAssessments = useTracker(function(){
-    return RiskAssessments.find().count();
-  }, [])
-  collectionCounts.SearchParameters = useTracker(function(){
-    return SearchParameters.find().count();
-  }, [])
-  collectionCounts.ServiceRequests = useTracker(function(){
-    return ServiceRequests.find().count();
-  }, [])
-  collectionCounts.StructureDefinitions = useTracker(function(){
-    return StructureDefinitions.find().count();
-  }, [])
-  collectionCounts.Subscriptions = useTracker(function(){
-    return Subscriptions.find().count();
-  }, [])
-  collectionCounts.Tasks = useTracker(function(){
-    return Tasks.find().count();
-  }, [])
-  collectionCounts.ValueSets = useTracker(function(){
-    return ValueSets.find().count();
-  }, [])
-  collectionCounts.VerificationResults = useTracker(function(){
-    return VerificationResults.find().count();
-  }, [])
+
+  if(typeof Package["clinical:hl7-fhir-data-infrastructure"] === "object"){
+    collectionCounts.AllergyIntolerances = useTracker(function(){
+      return AllergyIntolerances.find().count();
+    }, [])
+    collectionCounts.AuditEvents = useTracker(function(){
+      return AuditEvents.find().count();
+    }, [])
+    collectionCounts.Bundles = useTracker(function(){
+      return Bundles.find().count();
+    }, [])
+    collectionCounts.CarePlans = useTracker(function(){
+      return CarePlans.find().count();
+    }, [])
+    collectionCounts.CareTeams = useTracker(function(){
+      return CareTeams.find().count();
+    }, [])
+    // collectionCounts.CodeSystems = useTracker(function(){
+    //   return CodeSystems.find().count();
+    // }, [])
+    collectionCounts.Communications = useTracker(function(){
+      return Communications.find().count();
+    }, [])
+    collectionCounts.CommunicationRequests = useTracker(function(){
+      return CommunicationRequests.find().count();
+    }, [])
+    collectionCounts.Compositions = useTracker(function(){
+      return Compositions.find().count();
+    }, [])
+    collectionCounts.DocumentReferences = useTracker(function(){
+      return DocumentReferences.find().count();
+    }, [])
+    // collectionCounts.DocumentManifests = useTracker(function(){
+    //   return DocumentManifests.find().count();
+    // }, [])
+    collectionCounts.Conditions = useTracker(function(){
+      return Conditions.find().count();
+    }, [])
+    collectionCounts.Consents = useTracker(function(){
+      return Consents.find().count();
+    }, [])
+    collectionCounts.Encounters = useTracker(function(){
+      return Encounters.find().count();
+    }, [])
+    collectionCounts.Endpoints = useTracker(function(){
+      return Endpoints.find().count();
+    }, [])
+    collectionCounts.Goals = useTracker(function(){
+      return Goals.find().count();
+    }, [])
+    // collectionCounts.HealthcareServices = useTracker(function(){
+    //   return HealthcareServices.find().count();
+    // }, [])
+    collectionCounts.Immunizations = useTracker(function(){
+      return Immunizations.find().count();
+    }, [])
+    // collectionCounts.InsurancePlans = useTracker(function(){
+    //   return InsurancePlans.find().count();
+    // }, [])
+    collectionCounts.Lists = useTracker(function(){
+      return Lists.find().count();
+    }, [])
+    collectionCounts.Locations = useTracker(function(){
+      return Locations.find().count();
+    }, [])
+    collectionCounts.Measures = useTracker(function(){
+      return Measures.find().count();
+    }, [])
+    collectionCounts.MeasureReports = useTracker(function(){
+      return MeasureReports.find().count();
+    }, [])
+    collectionCounts.Locations = useTracker(function(){
+      return Locations.find().count();
+    }, [])
+    collectionCounts.MedicationOrders = useTracker(function(){
+      return MedicationOrders.find().count();
+    }, [])
+    // collectionCounts.Networks = useTracker(function(){
+    //   return Networks.find().count();
+    // }, [])
+    collectionCounts.Observations = useTracker(function(){
+      return Observations.find().count();
+    }, [])
+    collectionCounts.Organizations = useTracker(function(){
+      return Organizations.find().count();
+    }, [])
+    // collectionCounts.OrganizationAffiliations = useTracker(function(){
+    //   return OrganizationAffiliations.find().count();
+    // }, [])
+    collectionCounts.Patients = useTracker(function(){
+      return Patients.find().count();
+    }, [])
+    collectionCounts.Procedures = useTracker(function(){
+      return Procedures.find().count();
+    }, [])
+    collectionCounts.Practitioners = useTracker(function(){
+      return Practitioners.find().count();
+    }, [])
+    // collectionCounts.PractitionerRoles = useTracker(function(){
+    //   return PractitionerRoles.find().count();
+    // }, [])
+    collectionCounts.Persons = useTracker(function(){
+      return Persons.find().count();
+    }, [])
+    collectionCounts.Questionnaires = useTracker(function(){
+      return Questionnaires.find().count();
+    }, [])
+    collectionCounts.QuestionnaireResponses = useTracker(function(){
+    return QuestionnaireResponses.find().count();
+    }, [])
+    // collectionCounts.Restrictions = useTracker(function(){
+    //   return Restrictions.find().count();
+    // }, [])
+    collectionCounts.RiskAssessments = useTracker(function(){
+      return RiskAssessments.find().count();
+    }, [])
+    // collectionCounts.SearchParameters = useTracker(function(){
+    //   return SearchParameters.find().count();
+    // }, [])
+    collectionCounts.ServiceRequests = useTracker(function(){
+      return ServiceRequests.find().count();
+    }, [])
+    // collectionCounts.StructureDefinitions = useTracker(function(){
+    //   return StructureDefinitions.find().count();
+    // }, [])
+    // collectionCounts.Subscriptions = useTracker(function(){
+    //   return Subscriptions.find().count();
+    // }, [])
+    collectionCounts.Tasks = useTracker(function(){
+      return Tasks.find().count();
+    }, [])
+    collectionCounts.ValueSets = useTracker(function(){
+      return ValueSets.find().count();
+    }, [])
+    // collectionCounts.VerificationResults = useTracker(function(){
+    //   return VerificationResults.find().count();
+    // }, [])
+  }
+
+
+  
 
 
 
@@ -374,6 +381,126 @@ export function PatientSidebar(props){
   }
   
   //----------------------------------------------------------------------
+  // Settings Zone
+    
+  let settings = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Settings')){
+    // if(!['iPhone'].includes(window.navigator.platform)){
+      
+      settings.push(
+        <ListItem id='settingsItem' key='settingsItem' button onClick={function(){ openPage('/settings'); }} >
+          <ListItemIcon >
+            <Icon icon={modx} className={styles.drawerIcons} />
+          </ListItemIcon>
+          <ListItemText primary='Settings' className={styles.drawerText}  />
+        </ListItem>
+      );
+
+      settings.push(<Divider className={styles.divider} key='settings-hr' />);
+    // }
+  }
+
+  //----------------------------------------------------------------------
+  // Custom Settings 
+    
+  let customSettingsElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.customSettings')){
+    // if(!['iPhone'].includes(window.navigator.platform)){
+    let customSettingsArray = get(Meteor, 'settings.public.defaults.sidebar.customSettings');
+
+    customSettingsArray.forEach(function(customSetting, index){
+      console.log('customSetting', customSetting)
+      let clonedIcon = parseIcon(get(customSetting, 'icon', 'fire'));
+      
+      if(clonedIcon){
+        clonedIcon = React.cloneElement(clonedIcon, {
+          className: styles.drawerIcons 
+        });
+      } else {
+        clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
+      }
+      console.log('clonedIcon', clonedIcon)
+
+      customSettingsElements.push(
+        <ListItem id={'customSettingsItem-' + index} key={'customSettingsItem-' + index} button onClick={function(){ openPage(get(customSetting, 'link', '/')); }} >
+          <ListItemIcon >
+            { clonedIcon }
+          </ListItemIcon>
+          <ListItemText primary={get(customSetting, 'label')} className={styles.drawerText}  />
+        </ListItem>
+      );
+    }); 
+
+
+    customSettingsElements.push(<Divider className={styles.divider} key='custom-settings-hr' />);
+    // }
+  }
+  
+  //----------------------------------------------------------------------
+  // Custom Workflows 
+    
+  let customWorkflowElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.customWorkflows')){
+    // if(!['iPhone'].includes(window.navigator.platform)){
+    let customWorkflowArray = get(Meteor, 'settings.public.defaults.sidebar.customWorkflows');
+
+    customWorkflowArray.forEach(function(customWorkflow, index){
+      let clonedIcon = parseIcon(get(customWorkflow, 'icon', 'fire'));
+      if(clonedIcon){
+        clonedIcon = React.cloneElement(clonedIcon, {
+          className: styles.drawerIcons 
+        });
+      } else {
+        clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
+      }
+
+      customWorkflowElements.push(
+        <ListItem id={'customWorkflowsItem-' + index} key={'customWorkflowsItem-' + index} button onClick={function(){ openPage(get(customWorkflow, 'link', '/')); }} >
+          <ListItemIcon >
+            { clonedIcon }
+          </ListItemIcon>
+          <ListItemText primary={get(customWorkflow, 'label')} className={styles.drawerText}  />
+        </ListItem>
+      );
+    }); 
+
+
+    if(get(Meteor, 'settings.public.defaults.sidebar.customClinicianWorkflows')){
+      // if(!['iPhone'].includes(window.navigator.platform)){
+      let customClinicianWorkflowArray = get(Meteor, 'settings.public.defaults.sidebar.customClinicianWorkflows');
+  
+      customClinicianWorkflowArray.forEach(function(customWorkflow, index){
+        let clonedIcon = parseIcon(get(customWorkflow, 'icon', 'fire'));
+        if(clonedIcon){
+          clonedIcon = React.cloneElement(clonedIcon, {
+            className: styles.drawerIcons 
+          });
+        } else {
+          clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
+        }
+  
+        customWorkflowElements.push(
+          <ListItem id={'customWorkflowsItem-' + index} key={'customWorkflowsItem-' + index} button onClick={function(){ openPage(get(customWorkflow, 'link', '/')); }} >
+            <ListItemIcon >
+              { clonedIcon }
+            </ListItemIcon>
+            <ListItemText primary={get(customWorkflow, 'label')} className={styles.drawerText}  />
+          </ListItem>
+        );
+      }); 
+  
+  
+      customWorkflowElements.push(<Divider className={styles.divider} key='custom-workflows-hr' />);
+      // }
+    }
+
+    
+
+    customWorkflowElements.push(<Divider className={styles.divider} key='custom-workflows-hr' />);
+    // }
+  }
+
+  //----------------------------------------------------------------------
   // Trackers
 
   let currentUser = useTracker(function(){  
@@ -382,13 +509,13 @@ export function PatientSidebar(props){
 
 
   //----------------------------------------------------------------------
-  // FHIR Resources
+  // FHIR Resources Page
     
-  let fhirResources = [];
+  let fhirResourcesPage = [];
   if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.FhirResources')){
     //if(!['iPhone'].includes(window.navigator.platform)){      
-      fhirResources.push(
-        <ListItem id='fhirResourcesItem' key='fhirResourcesItem' button onClick={function(){ openPage('/fhir-resources-index'); }} >
+      fhirResourcesPage.push(
+        <ListItem id='fhirResourcesPageItem' key='fhirResourcesPageItem' button onClick={function(){ openPage('/fhir-resources-index'); }} >
           <ListItemIcon >
             <Icon icon={fire} className={styles.drawerIcons} />
           </ListItemIcon>
@@ -396,17 +523,17 @@ export function PatientSidebar(props){
         </ListItem>
       );
 
-      fhirResources.push(<Divider className={styles.divider} key='resources-hr' />);
+      fhirResourcesPage.push(<Divider className={styles.divider} key='resources-hr' />);
     //}
   }
 
 
   //----------------------------------------------------------------------
-  // Dynamic Modules
+  // Fhir Modules
   // Pick up any dynamic routes that are specified in packages, and include them
   let dynamicModules = [];
 
-  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules')){
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.FhirModules')){
     Object.keys(Package).forEach(function(packageName){
       if(Package[packageName].SidebarElements){
         // we try to build up a route from what's specified in the package
@@ -430,6 +557,20 @@ export function PatientSidebar(props){
       }
     }); 
     logger.data('PatientSidebar.sidebarWorkflows', sidebarWorkflows);
+  }
+  
+
+  let clinicianWorkflows = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ClinicianWorkflows')){
+    Object.keys(Package).forEach(function(packageName){
+      if(Package[packageName].ClinicianWorkflows){
+        // we try to build up a route from what's specified in the package
+        Package[packageName].ClinicianWorkflows.forEach(function(element){
+          clinicianWorkflows.push(element);      
+        });    
+      }
+    }); 
+    logger.data('PatientSidebar.clinicianWorkflows', clinicianWorkflows);
   }
   
 
@@ -587,7 +728,7 @@ export function PatientSidebar(props){
   }
 
   let dynamicElements = [];
-  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.DynamicModules')){
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.FhirModules') === true){
     dynamicModules.map(function(element, index){ 
 
       if(element.icon){
@@ -675,6 +816,55 @@ export function PatientSidebar(props){
     workflowElements.push(<Divider className={styles.divider} key="workflow-modules-hr" />);
     logger.trace('client.app.patient.PatientSidebar.workflowElements: ' + workflowElements.length);
   }
+
+
+  //----------------------------------------------------------------------
+  // Clinician Workflow Modules  
+
+  let clinicianWorkflowElements = [];
+  if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ClinicianWorkflows')){
+    clinicianWorkflows.map(function(element, index){ 
+
+      if(element.icon){
+        console.warn('Plugin Warning: You have tried to pass in an icon.  This has been deprecated.  Please use an iconName instead.')
+      }
+
+      let clonedIcon = parseIcon(element.iconName); 
+
+      // // we want to pass in the props
+      if(clonedIcon){
+        clonedIcon = React.cloneElement(clonedIcon, {
+          className: styles.drawerIcons 
+        });
+      } else {
+        clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
+      }
+
+      // the excludes array will hide routes
+      if(!get(Meteor, 'settings.public.defaults.sidebar.hiddenWorkflow', []).includes(element.to)){
+
+        // don't show the element unless it's public, or the user is signed in
+        if(!element.requireAuth || (element.requireAuth && currentUser)){
+
+          clinicianWorkflowElements.push(
+            <ListItem key={index} button onClick={function(){ openPage(element.to, element.workflowTabs); }} >
+              <ListItemIcon >
+                { clonedIcon }
+              </ListItemIcon>
+              <ListItemText primary={element.primaryText} className={styles.drawerText}  />
+            </ListItem>
+          );
+        }
+      }
+    });
+    clinicianWorkflowElements.push(<Divider className={styles.divider} key="role-workflow-modules-hr" />);
+    logger.trace('client.app.patient.PatientSidebar.workflowElements: ' + workflowElements.length);
+  }
+
+
+
+
+  
 
 
   //----------------------------------------------------------------------
@@ -960,16 +1150,24 @@ export function PatientSidebar(props){
       { loginElements }
       { profileElements }
       { dataManagementElements }
+      { customWorkflowElements }
 
       <div id='patientWorkflowElements' key='patientWorkflowElements'>
         { workflowElements }   
+      </div>
+      <div id='clinicianWorkflowElements' key='clinicianWorkflowElements'>
+        { clinicianWorkflowElements }   
       </div>
       <div id='patientDynamicElements' key='patientDynamicElements'>
         { dynamicElements }   
       </div>
 
-      { fhirResources }         
-      { constructionZone }         
+
+      { fhirResourcesPage }         
+      { constructionZone }     
+      { settings }    
+      { customSettingsElements }    
+      
 
       { oauthElements }
       { themingElements }

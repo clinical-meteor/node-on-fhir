@@ -4,11 +4,11 @@
 
 import { useLocation, useParams, useHistory } from "react-router-dom";
 
-import React, {useEffect, useContext} from "react";
+import React, {useEffect, useContext, useState} from "react";
 import ChartJS from "chart.js";
 import { FhirClientContext } from "../FhirClientContext";
 
-import { StyledCard, PageCanvas, DynamicSpacer, FhirUtilities } from 'fhir-starter';
+import { StyledCard, PageCanvas, DynamicSpacer } from 'fhir-starter';
 
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -16,11 +16,11 @@ import Grid from '@material-ui/core/Grid';
 
 import { useTracker } from 'meteor/react-meteor-data';
 
-import { Consents, CarePlans, CareTeams, Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, Questionnaires, QuestionnaireResponses, CarePlansTable, CareTeamsTable, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable, ConsentsTable, QuestionnairesTable, QuestionnaireResponsesTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities, NoDataWrapper, Consents, CarePlans, CareTeams, Encounters, Procedures, Conditions, Immunizations, ImmunizationsTable, Observations, Locations, Questionnaires, QuestionnaireResponses, CarePlansTable, CareTeamsTable, LocationsTable, EncountersTable, ProceduresTable, ConditionsTable, ObservationsTable, ConsentsTable, QuestionnairesTable, QuestionnaireResponsesTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import { get } from 'lodash';
 
 import PatientCard from './PatientCard';
-
+// import NoDataWrapper from "../components/NoDataWrapper";
 
 
 
@@ -48,6 +48,20 @@ export function AutoDashboard(props){
         quickchartTabIndex: 0,
         basicQuery: {}
     }
+
+
+    let [careTeamsPage, setCareTeamsPage] = useState(0);
+    let [carePlansPage, setCarePlansPage] = useState(0);
+    let [encountersPage, setEncountersPage] = useState(0);
+    let [proceduresPage, setProceduresPage] = useState(0);
+    let [conditionsPage, setConditionsPage] = useState(0);
+    let [consentsPage,   setConsentsPage] = useState(0);
+    let [observationsPage, setObservationsPage] = useState(0);
+    let [locationsPage, setLocationsPage] = useState(0);
+    let [immunizationsPage, setImmunizationsPage] = useState(0);
+    let [patientsPage, setPatientsPage] = useState(0);
+    let [questionnairesPage, setQuestionnairesPage] = useState(0);
+    let [questionnaireResponsesPage, setQuestionnaireResponsesPage] = useState(0);
 
     data.selectedPatientId = useTracker(function(){
         return Session.get('selectedPatientId');
@@ -185,6 +199,7 @@ export function AutoDashboard(props){
                 hideCategory={true}
                 hideIdentifier={true}
                 count={data.careTeams.length}
+                page={careTeamsPage}                
             />
         </CardContent>
     }
@@ -194,6 +209,7 @@ export function AutoDashboard(props){
             <CarePlansTable
                 locations={data.locations}
                 count={data.locations.length}
+                page={carePlansPage}
             />
         </CardContent>                    
     }
@@ -210,6 +226,7 @@ export function AutoDashboard(props){
                 hidePatientName={isMobile}
                 consents={data.consents}
                 count={data.consents.length}
+                page={consentsPage}
             />
         </CardContent> 
     }
@@ -229,6 +246,7 @@ export function AutoDashboard(props){
                 hideHistory={true}
                 hideEndDateTime={true}
                 count={data.encounters.length}
+                page={encountersPage}
             />
         </CardContent> 
     }
@@ -246,6 +264,7 @@ export function AutoDashboard(props){
                 hideBarcode={true}
                 hideDates={false}
                 count={data.conditions.length}
+                page={conditionsPage}
             />                                        
         </CardContent>                    
     }
@@ -255,6 +274,7 @@ export function AutoDashboard(props){
             <LocationsTable
                 locations={data.locations}
                 count={data.locations.length}
+                page={locationsPage}
             />
         </CardContent>                    
     }
@@ -271,6 +291,7 @@ export function AutoDashboard(props){
                 hideVaccineCode={false}
                 hideVaccineCodeText={false}
                 count={data.immunizations.length}
+                page={immunizationsPage}
             />                                        
         </CardContent> 
     }
@@ -291,6 +312,7 @@ export function AutoDashboard(props){
                 multiComponentValues={true}
                 hideSubjectReference={true}
                 count={data.observations.length}
+                page={observationsPage}
             />                                                                                                           
         </CardContent>                    
     }
@@ -312,6 +334,7 @@ export function AutoDashboard(props){
                 hideNotes={isMobile}
                 hideBarcode={true}
                 count={data.procedures.length}
+                page={proceduresPage}
             />                                                                                                           
         </CardContent>                    
     }
@@ -326,6 +349,7 @@ export function AutoDashboard(props){
                 hideSubject={isMobile}
                 hideSubjectReference={isMobile}
                 hideIdentifier={true}
+                page={questionnairesPage}
             />
         </CardContent>                    
     }
@@ -340,7 +364,7 @@ export function AutoDashboard(props){
                 hideActionIcons={true}
                 hideIdentifier={true}
                 hideSourceReference={isMobile}
-                hideSo
+                page={questionnaireResponsesPage}
             />
         </CardContent>
     }
@@ -480,9 +504,19 @@ export function AutoDashboard(props){
             autoDashboardContent = patientIntakeLayout;
             break;
     }
+    
+    let autoDashboardNoDataPath = get(Meteor, 'settings.public.smartOnFhir.autoDashboardNoDataPath', '/patients');
 
-    return (
-       autoDashboardContent
+    return (<NoDataWrapper 
+        dataCount={data.selectedPatient ? 1 : 0} 
+        noDataImagePath=""
+        history={props.history} 
+        title="No Patient Selected"
+        buttonLabel="Lookup Patient"
+        redirectPath={autoDashboardNoDataPath}
+        >
+            { autoDashboardContent }        
+        </NoDataWrapper>
     )
 }
 

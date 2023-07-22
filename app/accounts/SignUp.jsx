@@ -226,6 +226,9 @@ const Signup = function({ history }){
         }
   
         console.log('Logging in with the same information.')
+        if(!get(Meteor, 'settings.public.interfaces.accountsServer.host')){
+          alert('AccountsServer not configured.  Please check settings file.')
+        }
         await loginWithService('password', {
           user: {
             email: values.email

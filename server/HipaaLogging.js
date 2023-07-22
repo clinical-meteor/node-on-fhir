@@ -58,7 +58,7 @@ Meteor.methods({
   logAuditEvent:function(fhirAuditEvent){
     check(fhirAuditEvent, Object);
 
-    if(process.env.DEBUG){
+    if(process.env.DEBUG || process.env.DEBUG_ACCOUNTS){
       console.log("Logging a FHIR Audit Event: ", fhirAuditEvent);
     }
 
@@ -67,7 +67,7 @@ Meteor.methods({
     let auditEventValidator = AuditEventSchema.newContext();
     auditEventValidator.validate(fhirAuditEvent)
 
-    if(process.env.DEBUG){
+    if(process.env.DEBUG || process.env.DEBUG_ACCOUNTS){
       console.log('IsValid: ', auditEventValidator.isValid())
       console.log('ValidationErrors: ', auditEventValidator.validationErrors());
       console.log('Meteor.settings.private.fhir.rest.AuditEvent: ', get(Meteor, 'settings.private.fhir.rest.AuditEvent'));  
@@ -82,10 +82,16 @@ Meteor.methods({
             console.log("AuditEvents.insert.error", error);        
           }
         });  
-      }     
+      } else {
+        if(process.env.DEBUG || process.env.DEBUG_ACCOUNTS){
+          console.log("AuditEvent record has incorrect schema")
+        }  
+      }    
     } else {
-      process.env.DEBUG && console.log("AuditEvent collection not enabled.")
-      process.env.DEBUG && console.log("Meteor.settings.private.rest.")
+      if(process.env.DEBUG || process.env.DEBUG_ACCOUNTS){
+        console.log("AuditEvent collection not enabled.")
+        console.log("Meteor.settings.private.rest.")
+      }
     }
 
     return newAuditId;
