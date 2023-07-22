@@ -183,6 +183,9 @@ Meteor.methods({
   insertBundleIntoWarehouse: async function(proxiedInsertRequest, meteorSessionToken){
     check(proxiedInsertRequest, Object);
 
+    process.env.TRACE && console.log('proxiedInsertRequest', proxiedInsertRequest)
+    process.env.TRACE && console.log('meteorSessionToken', meteorSessionToken)
+
     let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
     if(get(Meteor, 'settings.private.accessControl.enableUnsafeProxy')) {
       isAuthorized = true;
@@ -202,7 +205,8 @@ Meteor.methods({
               
               // console.log('FhirUtilities.pluralizeResourceName: ' + FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType')))
               // the cursor appears to exist
-              if(typeof Collections[FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))] === "object"){
+              let collectionName = FhirUtilities.pluralizeResourceName(get(proxyInsertEntry, 'resource.resourceType'))
+              if(typeof Collections[collectionName] === "object"){
   
                 
                 let sanitizedResourceId = sanitize(proxyInsertEntry.resource._id);
@@ -227,7 +231,7 @@ Meteor.methods({
                   console.log('Found a pre-existing copy of the record.  Thats weird and probably shouldnt be happening.');
                 }  
               } else {
-                console.log('Cursor doesnt appear to exist');
+                console.log(collectionName + ' cursor doesnt appear to exist');
               }
   
               return response;  
@@ -240,15 +244,26 @@ Meteor.methods({
         }
       } else {
         // just a single resource, no need to loop through anything
+
+        let resourceToParse;
+        let resourceType = "";
+        if(get(proxiedInsertRequest, 'resource.resourceType')){
+          resourceType = get(proxiedInsertRequest, 'resource.resourceType');
+          resourceToParse = get(proxiedInsertRequest, 'resource');
+        } else if(get(proxiedInsertRequest, 'resourceType')){
+          resourceType = get(proxiedInsertRequest, 'resourceType');
+          resourceToParse = proxiedInsertRequest;
+        }
   
-        if(typeof Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))] === "object"){
+        let collectionName = FhirUtilities.pluralizeResourceName(resourceType)
+        if(typeof Collections[collectionName] === "object"){
   
           // there doesnt seem to be a pre-existing record
-          if(!Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))].findOne({_id: sanitize(proxiedInsertRequest.resource._id)})){
-            process.env.DEBUG && console.log('Couldnt find record; add a ' + FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType')) + ' to the database.')
+          if(!Collections[FhirUtilities.pluralizeResourceName(resourceType)].findOne({_id: sanitize(get(resourceToParse, '_id'))})){
+            process.env.DEBUG && console.log('Couldnt find record; add a ' + FhirUtilities.pluralizeResourceName(resourceType) + ' to the database.')
   
             // lets try to insert the record
-            response = Collections[FhirUtilities.pluralizeResourceName(get(proxiedInsertRequest, 'resource.resourceType'))].insert(proxiedInsertRequest.resource, {validate: false, filter: false}, function(error){
+            response = Collections[FhirUtilities.pluralizeResourceName(resourceType)].insert(resourceToParse, {validate: false, filter: false}, function(error){
               if(error) {
                 process.env.TRACE && console.log('window(FhirUtilities.pluralizeResourceName(resource.resourceType)).insert.error', error)
               }                    
@@ -258,8 +273,8 @@ Meteor.methods({
             return 'ProxyServer: Found a pre-existing copy of the record.  Thats weird and probably shouldnt be happening.';
           }  
         } else {
-          process.env.DEBUG && console.log('ProxyServer: Cursor doesnt appear to exist');
-          return 'ProxyServer: Cursor doesnt appear to exist';
+          process.env.DEBUG && console.log('ProxyServer: ' + collectionName + ' cursor doesnt appear to exist');
+          return 'ProxyServer: ' + collectionName + ' cursor doesnt appear to exist';
         }
       }        
     }
