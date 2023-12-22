@@ -125,7 +125,7 @@
     "@babel/eslint-parser": "7.16.5",
     "chai": "4.2.0",
     "chai-nightwatch": "0.4.0",
-    "chromedriver": "91.0.0",
+    "chromedriver": "120.0.1",
     "conventional-changelog-cli": "2.1.1",
     "nightwatch": "2.5.4",
     "selenium-webdriver": "3.6.0",
