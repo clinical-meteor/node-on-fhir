@@ -117,7 +117,7 @@ export function decodeNumeric(shcString){
     let token = shcString.substring(5, shcString.length);
     // console.log("decodeNumeric().token", token);
 
-    let firstIndex;
+    let firstIndexf
     let secondIndex;
 
 
