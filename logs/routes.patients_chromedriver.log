@@ -1,0 +1,2399 @@
+Starting ChromeDriver 120.0.6099.71 (9729082fe6174c0a371fc66501f5efc5d69d3d2b-refs/branch-heads/6099_56@{#13}) on port 9515
+Only local connections are allowed.
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+ChromeDriver was started successfully.
+[1703308175.841][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND InitSession {
+   "capabilities": {
+      "alwaysMatch": {
+         "browserName": "chrome",
+         "goog:chromeOptions": {
+            "prefs": {
+               "credentials_enable_service": false,
+               "no-sandbox": true,
+               "profile.password_manager_enabled": false
+            }
+         }
+      },
+      "firstMatch": [ {
+      } ]
+   }
+}
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/Code/node-on-fhir/node_modules/chromedriver/lib/chromedriver/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/Code/node-on-fhir/node_modules/chromedriver/lib/chromedriver/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/Code/node-on-fhir/node_modules/chromedriver/lib/chromedriver/Google Chrome.app/Contents/MacOS/Google Chrome
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/Code/node-on-fhir/node_modules/chromedriver/lib/chromedriver/Chromium.app/Contents/MacOS/Chromium
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/Code/node-on-fhir/node_modules/chromedriver/lib/chromedriver/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/.sdkman/candidates/gradle/current/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /opt/homebrew/opt/openjdk@17/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /opt/homebrew/opt/openjdk@11/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /opt/homebrew/opt/openjdk@17/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/.pyenv/shims/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /opt/homebrew/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /opt/homebrew/sbin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /usr/local/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /System/Cryptexes/App/usr/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /usr/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /usr/sbin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /sbin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Library/Apple/usr/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/Code/node-on-fhir/node_modules/chromedriver/lib/chromedriver/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/.sdkman/candidates/gradle/current/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /opt/homebrew/opt/openjdk@17/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /opt/homebrew/opt/openjdk@11/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /opt/homebrew/opt/openjdk@17/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /Users/awatson/.pyenv/shims/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /opt/homebrew/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /opt/homebrew/sbin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /usr/local/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.841][INFO]: Browser search. Trying... /System/Cryptexes/App/usr/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.842][INFO]: Browser search. Trying... /usr/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.842][INFO]: Browser search. Trying... /bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.842][INFO]: Browser search. Trying... /usr/sbin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.842][INFO]: Browser search. Trying... /sbin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.842][INFO]: Browser search. Trying... /Library/Apple/usr/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.842][INFO]: Browser search. Trying... /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.842][INFO]: Browser search. Trying... /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.842][INFO]: Browser search. Trying... /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+[1703308175.842][INFO]: Browser search. Trying... /Users/awatson/Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+[1703308175.842][INFO]: Browser search. Trying... /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+[1703308175.842][INFO]: Browser search. Found at  /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+[1703308175.844][INFO]: Populating Preferences file: {
+   "alternate_error_pages": {
+      "enabled": false
+   },
+   "autofill": {
+      "enabled": false
+   },
+   "browser": {
+      "check_default_browser": false
+   },
+   "credentials_enable_service": false,
+   "distribution": {
+      "import_bookmarks": false,
+      "import_history": false,
+      "import_search_engine": false,
+      "make_chrome_default_for_user": false,
+      "skip_first_run_ui": true
+   },
+   "dns_prefetching": {
+      "enabled": false
+   },
+   "no-sandbox": true,
+   "profile": {
+      "content_settings": {
+         "pattern_pairs": {
+            "https://*,*": {
+               "media-stream": {
+                  "audio": "Default",
+                  "video": "Default"
+               }
+            }
+         }
+      },
+      "default_content_setting_values": {
+         "geolocation": 1
+      },
+      "default_content_settings": {
+         "geolocation": 1,
+         "mouselock": 1,
+         "notifications": 1,
+         "popups": 1,
+         "ppapi-broker": 1
+      },
+      "password_manager_enabled": false
+   },
+   "safebrowsing": {
+      "enabled": false
+   },
+   "search": {
+      "suggest_enabled": false
+   },
+   "translate": {
+      "enabled": false
+   }
+}
+[1703308175.844][INFO]: Populating Local State file: {
+   "background_mode": {
+      "enabled": false
+   },
+   "ssl": {
+      "rev_checking": {
+         "enabled": false
+      }
+   }
+}
+[1703308175.847][INFO]: ChromeDriver supports communication with Chrome via pipes. This is more reliable and more secure.
+[1703308175.848][INFO]: Use the --remote-debugging-pipe Chrome switch instead of the default --remote-debugging-port to enable this communication mode.
+[1703308175.848][INFO]: Launching chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --allow-pre-commit-input --disable-background-networking --disable-client-side-phishing-detection --disable-default-apps --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --enable-automation --enable-logging=stderr --log-level=0 --no-first-run --no-service-autorun --password-store=basic --remote-debugging-port=0 --test-type=webdriver --use-mock-keychain --user-data-dir=/var/folders/gj/hsj65p4s2pl66pzv9spz47640000gp/T/.org.chromium.Chromium.nud5iN data:,
+[42304:259:1222/230935.897642:WARNING:chrome_main_delegate.cc(667)] This is Chrome version 120.0.6099.129 (not a warning)
+[42304:259:1222/230936.121253:INFO:policy_logger.cc(144)] :components/enterprise/browser/controller/chrome_browser_cloud_management_controller.cc(168) Starting CBCM Controller Initialization
+[42304:259:1222/230936.121291:INFO:policy_logger.cc(144)] :components/enterprise/browser/controller/chrome_browser_cloud_management_controller.cc(196) No machine level policy manager exists.
+
+DevTools listening on ws://127.0.0.1:58213/devtools/browser/c8ae445f-8c97-4b3e-9b4e-66671cf63e18
+[1703308176.173][DEBUG]: DevTools HTTP Request: http://localhost:58213/json/version
+[1703308176.633][DEBUG]: DevTools HTTP Response: {
+   "Browser": "Chrome/120.0.6099.129",
+   "Protocol-Version": "1.3",
+   "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+   "V8-Version": "12.0.267.10",
+   "WebKit-Version": "537.36 (@204016af461e03117aa3858b51ba4534c7cfda81)",
+   "webSocketDebuggerUrl": "ws://localhost:58213/devtools/browser/c8ae445f-8c97-4b3e-9b4e-66671cf63e18"
+}
+
+[1703308176.633][DEBUG]: DevTools HTTP Request: http://localhost:58213/json/list
+[1703308176.642][DEBUG]: DevTools HTTP Response: [ {
+   "description": "",
+   "devtoolsFrontendUrl": "/devtools/inspector.html?ws=localhost:58213/devtools/page/28B1E165DB9C0D09E59C6B679C15EF5E",
+   "id": "28B1E165DB9C0D09E59C6B679C15EF5E",
+   "title": "",
+   "type": "page",
+   "url": "data:,",
+   "webSocketDebuggerUrl": "ws://localhost:58213/devtools/page/28B1E165DB9C0D09E59C6B679C15EF5E"
+} ]
+
+[1703308176.644][INFO]: resolved localhost to ["127.0.0.1","::1"]
+[1703308176.650][DEBUG]: DevTools WebSocket Command: Target.getTargets (id=1) (session_id=) browser {
+}
+[1703308176.650][DEBUG]: DevTools WebSocket Response: Target.getTargets (id=1) (session_id=) browser {
+   "targetInfos": [ {
+      "attached": false,
+      "browserContextId": "7914D928109045DCDDCE22D3863FD77E",
+      "canAccessOpener": false,
+      "targetId": "28B1E165DB9C0D09E59C6B679C15EF5E",
+      "title": "",
+      "type": "page",
+      "url": "data:,"
+   } ]
+}
+[1703308176.650][DEBUG]: DevTools WebSocket Command: Target.attachToTarget (id=2) (session_id=) browser {
+   "flatten": true,
+   "targetId": "28B1E165DB9C0D09E59C6B679C15EF5E"
+}
+[1703308176.651][DEBUG]: DevTools WebSocket Event: Target.attachedToTarget (session_id=) browser {
+   "sessionId": "EE8FF9D35220FBE036418EFDA597ACBE",
+   "targetInfo": {
+      "attached": true,
+      "browserContextId": "7914D928109045DCDDCE22D3863FD77E",
+      "canAccessOpener": false,
+      "targetId": "28B1E165DB9C0D09E59C6B679C15EF5E",
+      "title": "",
+      "type": "page",
+      "url": "data:,"
+   },
+   "waitingForDebugger": false
+}
+[1703308176.651][DEBUG]: DevTools WebSocket Response: Target.attachToTarget (id=2) (session_id=) browser {
+   "sessionId": "EE8FF9D35220FBE036418EFDA597ACBE"
+}
+[1703308176.651][DEBUG]: DevTools WebSocket Command: Page.enable (id=3) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.651][DEBUG]: DevTools WebSocket Command: Page.addScriptToEvaluateOnNewDocument (id=4) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "source": "(function () {window.cdc_adoQpoasnfa76pfcZLmcfl_Array = window.Array;window.cdc_adoQpoasnfa76pfcZLmcfl_Object = window.Object;window.cdc_adoQpoasnfa76pfcZLmcfl_Promise = window.Promise;window.cdc_a..."
+}
+[1703308176.654][DEBUG]: DevTools WebSocket Command: Runtime.evaluate (id=5) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "expression": "(function () {window.cdc_adoQpoasnfa76pfcZLmcfl_Array = window.Array;window.cdc_adoQpoasnfa76pfcZLmcfl_Object = window.Object;window.cdc_adoQpoasnfa76pfcZLmcfl_Promise = window.Promise;window.cdc_a..."
+}
+[1703308176.654][DEBUG]: DevTools WebSocket Command: Log.enable (id=6) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.654][DEBUG]: DevTools WebSocket Command: Target.setAutoAttach (id=7) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "autoAttach": true,
+   "flatten": true,
+   "waitForDebuggerOnStart": false
+}
+[1703308176.654][DEBUG]: DevTools WebSocket Command: Page.enable (id=8) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.654][DEBUG]: DevTools WebSocket Command: Page.enable (id=9) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.657][DEBUG]: DevTools WebSocket Response: Page.enable (id=3) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.658][DEBUG]: DevTools WebSocket Response: Page.addScriptToEvaluateOnNewDocument (id=4) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "identifier": "1"
+}
+[1703308176.658][DEBUG]: DevTools WebSocket Response: Runtime.evaluate (id=5) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "result": {
+      "type": "undefined"
+   }
+}
+[1703308176.658][DEBUG]: DevTools WebSocket Response: Log.enable (id=6) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.658][DEBUG]: DevTools WebSocket Response: Target.setAutoAttach (id=7) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.658][DEBUG]: DevTools WebSocket Response: Page.enable (id=8) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.658][DEBUG]: DevTools WebSocket Event: Page.domContentEventFired (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "timestamp": 463719.653638
+}
+[1703308176.659][DEBUG]: DevTools WebSocket Event: Page.loadEventFired (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "timestamp": 463719.65385
+}
+[1703308176.659][DEBUG]: DevTools WebSocket Event: Page.frameStoppedLoading (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "frameId": "28B1E165DB9C0D09E59C6B679C15EF5E"
+}
+[1703308176.659][DEBUG]: DevTools WebSocket Response: Page.enable (id=9) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.659][DEBUG]: DevTools WebSocket Command: Runtime.enable (id=10) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.659][DEBUG]: DevTools WebSocket Event: Runtime.executionContextCreated (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "context": {
+      "auxData": {
+         "frameId": "28B1E165DB9C0D09E59C6B679C15EF5E",
+         "isDefault": true,
+         "type": "default"
+      },
+      "id": 1,
+      "name": "",
+      "origin": "://",
+      "uniqueId": "6521438207128870005.-4047494053843928522"
+   }
+}
+[1703308176.659][DEBUG]: DevTools WebSocket Response: Runtime.enable (id=10) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.659][DEBUG]: DevTools WebSocket Command: Page.enable (id=11) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.660][DEBUG]: DevTools WebSocket Response: Page.enable (id=11) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.660][DEBUG]: DevTools WebSocket Command: Runtime.enable (id=12) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.660][DEBUG]: DevTools WebSocket Response: Runtime.enable (id=12) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+}
+[1703308176.660][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE InitSession {
+   "capabilities": {
+      "acceptInsecureCerts": false,
+      "browserName": "chrome",
+      "browserVersion": "120.0.6099.129",
+      "chrome": {
+         "chromedriverVersion": "120.0.6099.71 (9729082fe6174c0a371fc66501f5efc5d69d3d2b-refs/branch-heads/6099_56@{#13})",
+         "userDataDir": "/var/folders/gj/hsj65p4s2pl66pzv9spz47640000gp/T/.org.chromium.Chromium.nud5iN"
+      },
+      "fedcm:accounts": true,
+      "goog:chromeOptions": {
+         "debuggerAddress": "localhost:58213"
+      },
+      "networkConnectionEnabled": false,
+      "pageLoadStrategy": "normal",
+      "platformName": "mac",
+      "proxy": {
+      },
+      "setWindowRect": true,
+      "strictFileInteractability": false,
+      "timeouts": {
+         "implicit": 0,
+         "pageLoad": 300000,
+         "script": 30000
+      },
+      "unhandledPromptBehavior": "dismiss and notify",
+      "webauthn:extension:credBlob": true,
+      "webauthn:extension:largeBlob": true,
+      "webauthn:extension:minPinLength": true,
+      "webauthn:extension:prf": true,
+      "webauthn:virtualAuthenticators": true
+   },
+   "sessionId": "a90bc109c0db9fbb40668e2b85a1d1e5"
+}
+[1703308176.666][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND Navigate {
+   "url": "http://localhost:3000"
+}
+[1703308176.666][INFO]: Waiting for pending navigations...
+[1703308176.666][DEBUG]: DevTools WebSocket Command: Runtime.evaluate (id=13) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "expression": "1"
+}
+[1703308176.667][DEBUG]: DevTools WebSocket Response: Runtime.evaluate (id=13) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "result": {
+      "description": "1",
+      "type": "number",
+      "value": 1
+   }
+}
+[1703308176.667][INFO]: Done waiting for pending navigations. Status: ok
+[1703308176.667][DEBUG]: DevTools WebSocket Command: Page.navigate (id=14) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "url": "http://localhost:3000"
+}
+[1703308176.668][DEBUG]: DevTools WebSocket Event: Page.frameStartedLoading (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "frameId": "28B1E165DB9C0D09E59C6B679C15EF5E"
+}
+[1703308190.341][DEBUG]: DevTools WebSocket Event: Inspector.detached (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "reason": "Render process gone."
+}
+[1703308190.341][DEBUG]: DevTools WebSocket Command: Target.getTargets (id=15) (session_id=) browser {
+}
+[1703308190.345][DEBUG]: DevTools WebSocket Response: Page.navigate (id=14) (session_id=EE8FF9D35220FBE036418EFDA597ACBE) 28B1E165DB9C0D09E59C6B679C15EF5E {
+   "frameId": "28B1E165DB9C0D09E59C6B679C15EF5E",
+   "loaderId": "B2168429AD82AAF6D4FDE73E74919304"
+}
+[1703308190.348][DEBUG]: DevTools WebSocket Event: Target.detachedFromTarget (session_id=) browser {
+   "sessionId": "EE8FF9D35220FBE036418EFDA597ACBE",
+   "targetId": "28B1E165DB9C0D09E59C6B679C15EF5E"
+}
+[1703308190.353][DEBUG]: DevTools WebSocket Response: Target.getTargets (id=15) (session_id=) browser {
+   "targetInfos": [  ]
+}
+[1703308190.353][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE Navigate
+[42331:12803:1222/230950.400023:WARNING:pref_notifier_impl.cc(60)] Init observer found at shutdown.
+[1703308193.358][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND ExecuteAsyncScript {
+   "args": [  ],
+   "script": "var passedArgs = Array.prototype.slice.call(arguments,0); return (function(done){\n        Meteor.call('initializeTestUsers');\n        done();\n      }).apply(window, passedArgs);"
+}
+[1703308193.358][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE ExecuteAsyncScript ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308193.363][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND SetWindowRect {
+   "height": 768,
+   "width": 1024
+}
+[1703308193.363][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE SetWindowRect ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308193.366][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND Navigate {
+   "url": "http://localhost:3000"
+}
+[1703308193.367][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE Navigate ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308194.375][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "body"
+}
+[1703308194.375][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308194.884][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "body"
+}
+[1703308194.885][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308195.389][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "body"
+}
+[1703308195.389][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308195.902][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "body"
+}
+[1703308195.902][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308196.407][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "body"
+}
+[1703308196.407][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308196.917][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "body"
+}
+[1703308196.917][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308197.422][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "body"
+}
+[1703308197.422][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308197.928][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "body"
+}
+[1703308197.928][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308198.435][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "body"
+}
+[1703308198.435][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308198.940][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "body"
+}
+[1703308198.940][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308199.451][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "body"
+}
+[1703308199.451][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308199.459][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#publicNavigation"
+}
+[1703308199.459][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308199.967][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#publicNavigation"
+}
+[1703308199.967][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308200.471][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#publicNavigation"
+}
+[1703308200.472][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308200.979][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#publicNavigation"
+}
+[1703308200.979][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308201.486][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#publicNavigation"
+}
+[1703308201.486][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308201.990][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#publicNavigation"
+}
+[1703308201.990][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308202.496][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#publicNavigation"
+}
+[1703308202.496][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308203.002][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#publicNavigation"
+}
+[1703308203.002][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308203.505][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#publicNavigation"
+}
+[1703308203.505][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308204.009][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#publicNavigation"
+}
+[1703308204.009][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308204.515][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#publicNavigation"
+}
+[1703308204.516][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308204.522][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupLink"
+}
+[1703308204.522][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308205.027][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupLink"
+}
+[1703308205.027][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308205.536][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupLink"
+}
+[1703308205.536][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308206.054][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupLink"
+}
+[1703308206.054][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308206.557][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupLink"
+}
+[1703308206.557][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308207.062][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupLink"
+}
+[1703308207.062][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308207.568][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupLink"
+}
+[1703308207.569][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308208.074][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupLink"
+}
+[1703308208.074][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308208.579][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupLink"
+}
+[1703308208.579][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308209.085][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupLink"
+}
+[1703308209.085][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308209.593][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupLink"
+}
+[1703308209.593][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308209.601][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinLink"
+}
+[1703308209.601][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308210.105][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinLink"
+}
+[1703308210.105][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308210.611][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinLink"
+}
+[1703308210.611][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308211.121][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinLink"
+}
+[1703308211.121][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308211.625][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinLink"
+}
+[1703308211.626][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308212.135][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinLink"
+}
+[1703308212.135][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308212.642][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinLink"
+}
+[1703308212.643][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308213.146][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinLink"
+}
+[1703308213.146][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308213.651][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinLink"
+}
+[1703308213.651][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308214.158][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinLink"
+}
+[1703308214.158][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308214.666][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinLink"
+}
+[1703308214.666][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308214.670][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND Screenshot {
+}
+[1703308214.670][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE Screenshot ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308214.675][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND Navigate {
+   "url": "http://localhost:3000/signin"
+}
+[1703308214.675][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE Navigate ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308215.879][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinPage"
+}
+[1703308215.879][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308216.388][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinPage"
+}
+[1703308216.388][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308216.893][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinPage"
+}
+[1703308216.893][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308217.398][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinPage"
+}
+[1703308217.399][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308217.904][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinPage"
+}
+[1703308217.904][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308218.409][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinPage"
+}
+[1703308218.409][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308218.912][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinPage"
+}
+[1703308218.912][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308219.418][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinPage"
+}
+[1703308219.418][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308219.924][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinPage"
+}
+[1703308219.924][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308220.436][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinPage"
+}
+[1703308220.436][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308220.942][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signinPage"
+}
+[1703308220.942][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308220.958][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND Navigate {
+   "url": "http://localhost:3000/signup"
+}
+[1703308220.958][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE Navigate ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308220.961][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupPage"
+}
+[1703308220.961][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308221.466][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupPage"
+}
+[1703308221.466][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308221.969][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupPage"
+}
+[1703308221.969][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308222.474][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupPage"
+}
+[1703308222.475][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308222.984][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupPage"
+}
+[1703308222.985][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308223.488][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupPage"
+}
+[1703308223.488][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308223.993][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupPage"
+}
+[1703308223.993][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308224.501][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupPage"
+}
+[1703308224.501][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308225.009][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupPage"
+}
+[1703308225.009][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308225.517][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupPage"
+}
+[1703308225.517][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308226.022][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupPage"
+}
+[1703308226.022][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308226.035][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308226.035][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308226.540][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308226.540][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308227.051][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308227.051][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308227.559][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308227.559][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308228.066][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308228.066][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308228.576][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308228.576][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308229.081][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308229.082][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308229.593][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308229.593][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308230.106][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308230.106][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308230.611][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308230.611][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308231.119][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308231.119][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308231.131][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308231.131][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308231.637][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308231.637][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308232.141][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308232.142][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308232.648][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308232.648][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308233.155][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308233.155][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308233.660][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308233.660][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308234.167][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308234.167][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308234.673][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308234.673][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308235.185][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308235.185][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308235.691][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308235.691][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308236.199][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308236.199][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308236.205][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308236.205][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308236.708][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308236.708][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308237.214][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308237.214][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308237.722][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308237.722][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308238.227][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308238.228][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308238.734][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308238.734][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308239.240][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308239.240][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308239.747][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308239.747][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308240.254][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308240.254][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308240.759][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308240.759][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308241.262][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308241.262][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308241.267][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308241.267][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308241.769][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308241.769][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308242.274][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308242.274][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308242.787][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308242.787][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308243.293][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308243.295][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308243.808][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308243.808][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308244.316][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308244.316][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308244.823][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308244.824][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308245.332][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308245.332][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308245.840][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308245.840][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308246.349][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308246.349][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308246.366][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308246.366][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308246.873][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308246.873][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308247.382][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308247.382][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308247.891][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308247.891][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308248.396][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308248.396][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308248.906][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308248.906][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308249.411][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308249.411][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308249.921][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308249.922][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308250.431][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308250.431][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308250.937][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308250.937][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308251.442][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308251.442][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308251.455][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308251.455][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308251.962][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308251.962][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308252.470][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308252.470][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308252.974][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308252.974][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308253.478][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308253.478][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308253.983][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308253.983][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308254.488][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308254.488][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308254.991][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308254.991][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308255.494][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308255.494][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308256.001][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308256.002][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308256.517][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308256.517][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308256.526][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308256.526][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308257.033][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308257.033][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308257.540][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308257.540][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308258.047][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308258.047][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308258.549][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308258.549][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308259.056][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308259.056][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308259.559][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308259.559][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308260.066][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308260.066][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308260.572][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308260.572][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308261.075][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308261.075][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308261.577][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308261.577][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308261.581][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308261.581][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308262.084][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308262.084][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308262.588][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308262.588][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308263.095][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308263.095][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308263.601][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308263.601][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308264.104][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308264.104][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308264.608][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308264.608][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308265.113][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308265.113][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308265.618][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308265.618][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308266.126][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308266.126][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308266.629][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308266.629][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308266.631][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308266.631][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308267.136][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308267.136][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308267.642][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308267.642][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308268.152][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308268.152][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308268.655][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308268.655][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308269.159][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308269.159][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308269.666][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308269.666][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308270.171][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308270.171][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308270.675][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308270.675][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308271.178][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308271.179][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308271.686][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308271.686][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308271.687][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308271.687][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308272.201][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308272.201][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308272.704][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308272.704][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308273.209][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308273.209][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308273.712][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308273.712][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308274.219][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308274.219][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308274.722][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308274.722][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308275.226][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308275.226][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308275.729][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308275.729][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308276.232][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308276.232][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308276.735][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"accessCode\"]"
+}
+[1703308276.735][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308276.736][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308276.736][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308277.247][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308277.247][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308277.752][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308277.752][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308278.255][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308278.255][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308278.759][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308278.759][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308279.261][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308279.261][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308279.763][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308279.763][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308280.268][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308280.268][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308280.774][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308280.775][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308281.277][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308281.277][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308281.780][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"givenName\"]"
+}
+[1703308281.780][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308281.783][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308281.783][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308282.286][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308282.286][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308282.790][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308282.790][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308283.296][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308283.296][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308283.804][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308283.804][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308284.310][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308284.310][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308284.817][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308284.818][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308285.321][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308285.321][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308285.829][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308285.829][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308286.334][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308286.334][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308286.837][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"familyName\"]"
+}
+[1703308286.837][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308286.839][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308286.839][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308287.343][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308287.343][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308287.846][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308287.846][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308288.350][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308288.350][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308288.854][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308288.854][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308289.368][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308289.368][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308289.873][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308289.873][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308290.380][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308290.380][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308290.884][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308290.884][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308291.386][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308291.386][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308291.888][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"emailAddress\"]"
+}
+[1703308291.888][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308291.892][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308291.892][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308292.395][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308292.395][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308292.901][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308292.901][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308293.403][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308293.403][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308293.906][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308293.906][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308294.413][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308294.413][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308294.920][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308294.920][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308295.424][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308295.424][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308295.932][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308295.932][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308296.435][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308296.435][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308296.938][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "input[name=\"password\"]"
+}
+[1703308296.938][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308296.941][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND Screenshot {
+}
+[1703308296.942][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE Screenshot ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308296.943][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308296.943][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308297.451][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308297.451][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308297.965][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308297.965][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308298.479][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308298.479][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308298.983][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308298.983][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308299.488][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308299.488][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308299.999][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308300.000][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308300.504][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308300.504][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308301.011][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308301.011][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308301.516][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308301.516][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308302.022][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308302.022][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308302.026][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308302.026][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308302.530][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308302.530][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308303.034][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308303.034][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308303.536][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308303.536][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308304.039][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308304.039][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308304.550][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308304.550][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308305.053][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308305.053][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308305.555][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308305.555][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308306.062][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308306.062][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308306.565][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308306.565][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308307.071][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#signupButton"
+}
+[1703308307.071][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308308.084][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND Navigate {
+   "url": "http://localhost:3000"
+}
+[1703308308.084][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE Navigate ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308310.089][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#mainPanel"
+}
+[1703308310.089][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308310.600][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#mainPanel"
+}
+[1703308310.600][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308311.104][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#mainPanel"
+}
+[1703308311.104][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308311.609][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#mainPanel"
+}
+[1703308311.609][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308312.117][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#mainPanel"
+}
+[1703308312.117][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308312.628][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#mainPanel"
+}
+[1703308312.628][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308313.139][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#mainPanel"
+}
+[1703308313.139][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308313.643][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#mainPanel"
+}
+[1703308313.643][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308314.149][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#mainPanel"
+}
+[1703308314.149][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308314.657][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#mainPanel"
+}
+[1703308314.657][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308315.163][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#mainPanel"
+}
+[1703308315.163][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308315.168][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#appHeader"
+}
+[1703308315.168][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308315.675][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#appHeader"
+}
+[1703308315.675][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308316.183][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#appHeader"
+}
+[1703308316.183][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308316.687][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#appHeader"
+}
+[1703308316.687][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308317.191][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#appHeader"
+}
+[1703308317.191][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308317.696][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#appHeader"
+}
+[1703308317.696][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308318.202][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#appHeader"
+}
+[1703308318.203][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308318.707][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#appHeader"
+}
+[1703308318.708][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308319.214][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#appHeader"
+}
+[1703308319.215][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308319.720][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#appHeader"
+}
+[1703308319.720][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308320.226][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#appHeader"
+}
+[1703308320.227][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308320.238][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#authenticatedUsername"
+}
+[1703308320.238][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308320.746][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#authenticatedUsername"
+}
+[1703308320.746][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308321.255][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#authenticatedUsername"
+}
+[1703308321.255][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308321.761][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#authenticatedUsername"
+}
+[1703308321.761][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308322.264][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#authenticatedUsername"
+}
+[1703308322.264][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308322.770][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#authenticatedUsername"
+}
+[1703308322.770][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308323.278][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#authenticatedUsername"
+}
+[1703308323.279][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308323.785][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#authenticatedUsername"
+}
+[1703308323.785][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308324.299][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#authenticatedUsername"
+}
+[1703308324.300][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308324.807][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#authenticatedUsername"
+}
+[1703308324.808][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308325.319][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#authenticatedUsername"
+}
+[1703308325.319][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308325.326][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#notFoundPage"
+}
+[1703308325.326][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308325.834][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#notFoundPage"
+}
+[1703308325.834][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308326.343][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#notFoundPage"
+}
+[1703308326.343][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308326.854][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#notFoundPage"
+}
+[1703308326.855][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308327.360][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#notFoundPage"
+}
+[1703308327.360][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308327.868][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#notFoundPage"
+}
+[1703308327.868][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308328.385][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#notFoundPage"
+}
+[1703308328.385][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308328.891][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#notFoundPage"
+}
+[1703308328.891][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308329.401][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#notFoundPage"
+}
+[1703308329.401][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308329.905][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#notFoundPage"
+}
+[1703308329.905][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308330.420][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND FindElements {
+   "using": "css selector",
+   "value": "#notFoundPage"
+}
+[1703308330.420][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE FindElements ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308330.434][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND Screenshot {
+}
+[1703308330.434][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE Screenshot ERROR no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=120.0.6099.129)
+[1703308330.443][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] COMMAND Quit {
+}
+[1703308330.499][INFO]: [a90bc109c0db9fbb40668e2b85a1d1e5] RESPONSE Quit
+[1703308330.499][DEBUG]: Log type 'driver' lost 0 entries on destruction
+[1703308330.499][DEBUG]: Log type 'browser' lost 0 entries on destruction
