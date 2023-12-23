@@ -216,7 +216,7 @@ jobs:
         when: on_success    # always, on_success, on_fail 
         command: | 
             sleep 420
-            meteor npm run-script circle-nightwatch 
+            nightwatch -c .meteor/nightwatch.json  
 
         # meteor npm run-script circle-nightwatch -- --tag circle 
     # # Save dependency cache
