@@ -149,7 +149,6 @@ npm manifest:
       "eslint-plugin-react": "7.20.0",
       "eslint-plugin-react-hooks": "4.0.4",
       "nightwatch": "1.5.0",
-      "selenium-webdriver": "3.6.0",
       "conventional-changelog-cli": "2.0.11",
       "meteor-desktop": "2.2.5",
       "shelljs": "0.7.4"
