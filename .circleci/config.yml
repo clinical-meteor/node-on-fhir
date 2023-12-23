@@ -142,15 +142,15 @@ jobs:
 
     # The following removes unwanted packages from the build
     # but needs to be done better
-    
-    - run: if grep -q 'mitre:space-health-registry' .meteor/packages; then sed 's/mitre:space-health-registry//' .meteor/packages > .meteor/packages2; fi; sleep 1;
-    - run: mv .meteor/packages2 .meteor/packages;
-    - run: if grep -q 'mitre:consent-engine' .meteor/packages; then sed 's/mitre:consent-engine//' .meteor/packages > .meteor/packages2; fi; sleep 1;
-    - run: mv .meteor/packages2 .meteor/packages;
-    - run: if grep -q 'symptomatic:data-importer' .meteor/packages; then sed 's/symptomatic:data-importer//' .meteor/packages > .meteor/packages2; fi; sleep 1;
-    - run: mv .meteor/packages2 .meteor/packages;
-    - run: if grep -q 'symptomatic:data-relay' .meteor/packages; then sed 's/symptomatic:data-relay//' .meteor/packages > .meteor/packages2; fi; sleep 1;
-    - run: mv .meteor/packages2 .meteor/packages;
+
+    # - run: if grep -q 'mitre:space-health-registry' .meteor/packages; then sed 's/mitre:space-health-registry//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    # - run: mv .meteor/packages2 .meteor/packages;
+    # - run: if grep -q 'mitre:consent-engine' .meteor/packages; then sed 's/mitre:consent-engine//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    # - run: mv .meteor/packages2 .meteor/packages;
+    # - run: if grep -q 'symptomatic:data-importer' .meteor/packages; then sed 's/symptomatic:data-importer//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    # - run: mv .meteor/packages2 .meteor/packages;
+    # - run: if grep -q 'symptomatic:data-relay' .meteor/packages; then sed 's/symptomatic:data-relay//' .meteor/packages > .meteor/packages2; fi; sleep 1;
+    # - run: mv .meteor/packages2 .meteor/packages;
 
     # Install the actual app...
     - run: meteor npm install 
