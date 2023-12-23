@@ -61,13 +61,3 @@ clinical:uscore
 # DESKTOP
 # omega:meteor-desktop-watcher@=2.2.5
 # omega:meteor-desktop-bundler@=2.2.5
-
-# symptomatic:data-importer
-# symptomatic:data-relay
-
-# mitre:consent-engine
-# mitre:flightsuit
-# mitre:space-health-registry
-# symptomatic:data-relay
-# symptomatic:data-importer
-
