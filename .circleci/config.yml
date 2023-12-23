@@ -153,10 +153,9 @@ jobs:
     # - run: mv .meteor/packages2 .meteor/packages;
 
     # Install the actual app...
+    - run: npm install -g nightwatch@2.6.10
     - run: meteor npm install 
     - run: npm install 
-    - run: meteor npm install react@16.14.0
-    - run: meteor npm install nightwatch@2.6.10
 
     
     #- before/after
