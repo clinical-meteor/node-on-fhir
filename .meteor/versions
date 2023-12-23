@@ -58,11 +58,6 @@ meteorhacks:async@1.0.0
 minifier-css@1.6.0
 minifier-js@2.7.3
 minimongo@1.7.0
-<<<<<<< HEAD
-=======
-mitre:deqm-report-generator@0.5.2
-mitre:gravity@0.7.0
->>>>>>> e27ca4a41021e205e3cc4d2a57c9bed3af2294a7
 mobile-experience@1.1.0
 mobile-status-bar@1.1.0
 modern-browsers@0.1.7
