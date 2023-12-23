@@ -38,12 +38,10 @@ try {
     process.env.DEBUG_CRYPTO && console.error("FileSystemError", err)
 }
 
-
 import jwkToPem from 'jwk-to-pem';
 import zlib from 'zlib';
 import atob from 'atob';
 import btoa from 'btoa';
-
 // import jose, { JWK, JWS } from 'node-jose';
 import { base64, base64url } from "rfc4648";
 import jws from 'jws';

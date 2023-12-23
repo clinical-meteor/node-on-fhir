@@ -23,7 +23,6 @@ const drawerWidth =  get(Meteor, 'settings.public.defaults.drawerWidth', 280);
 
 import { Meteor } from 'meteor/meteor';
 
-
 function AppLoadingPage(props) {
   // if(logger){
   //   logger.debug('Rendering the AppLoadingPage.');

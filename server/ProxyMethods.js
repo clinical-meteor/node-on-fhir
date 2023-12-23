@@ -14,34 +14,34 @@ import { accountsServer } from './AccountsServer';
 
  wrapMeteorServer(Meteor, accountsServer);
 
- import { 
-  AllergyIntolerances,
-  Bundles,
-  CarePlans,
-  Conditions,
-  Communications,
-  CommunicationRequests,
-  CommunicationResponses,
-  Devices,
-  Encounters, 
-  Immunizations,
-  Lists,
-  Locations,
-  Medications,
-  MedicationOrders,
-  MedicationStatements,
-  MessageHeaders,
-  Measures,
-  MeasureReports,
-  Organizations,
-  Observations, 
-  Patients,
-  Procedures,
-  Questionnaires,
-  QuestionnaireResponses,
-  Tasks,
-  FhirUtilities
-} from 'meteor/clinical:hl7-fhir-data-infrastructure';
+//  import { 
+//   AllergyIntolerances,
+//   Bundles,
+//   CarePlans,
+//   Conditions,
+//   Communications,
+//   CommunicationRequests,
+//   CommunicationResponses,
+//   Devices,
+//   Encounters, 
+//   Immunizations,
+//   Lists,
+//   Locations,
+//   Medications,
+//   MedicationOrders,
+//   MedicationStatements,
+//   MessageHeaders,
+//   Measures,
+//   MeasureReports,
+//   Organizations,
+//   Observations, 
+//   Patients,
+//   Procedures,
+//   Questionnaires,
+//   QuestionnaireResponses,
+//   Tasks,
+//   FhirUtilities
+// } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 
 //---------------------------------------------------------------------------
@@ -84,6 +84,77 @@ if(Meteor.isServer){
   Collections.QuestionnaireResponses = QuestionnaireResponses;
   Collections.Tasks = Tasks;
 }
+
+ import { 
+  AllergyIntolerances,
+  Bundles,
+  CarePlans,
+  Conditions,
+  Communications,
+  CommunicationRequests,
+  CommunicationResponses,
+  Devices,
+  Encounters, 
+  Immunizations,
+  Lists,
+  Locations,
+  Medications,
+  MedicationOrders,
+  MedicationStatements,
+  MessageHeaders,
+  Measures,
+  MeasureReports,
+  Organizations,
+  Observations, 
+  Patients,
+  Procedures,
+  Questionnaires,
+  QuestionnaireResponses,
+  Tasks,
+  FhirUtilities
+} from 'meteor/clinical:hl7-fhir-data-infrastructure';
+
+
+//---------------------------------------------------------------------------
+// Collections
+
+// this is a little hacky, but it works to access our collections.
+// we use to use Mongo.Collection.get(collectionName), but in Meteor 1.3, it was deprecated
+// we then started using window[collectionName], but that only works on the client
+// so we now take the window and 
+
+// let Collections = {};
+
+// if(Meteor.isClient){
+//   Collections = window;
+// }
+// if(Meteor.isServer){
+//   Collections.AllergyIntolerances = AllergyIntolerances;
+//   Collections.Bundles = Bundles;
+//   Collections.CarePlans = CarePlans;
+//   Collections.Conditions = Conditions;
+//   Collections.Communications = Communications;
+//   Collections.CommunicationRequests = CommunicationRequests;
+//   Collections.CommunicationResponses = CommunicationResponses;
+//   Collections.Devices = Devices;  
+//   Collections.Encounters = Encounters;
+//   Collections.Immunizations = Immunizations;
+//   Collections.Lists = Lists;
+//   Collections.Locations = Locations;
+//   Collections.Medications = Medications;
+//   Collections.MedicationOrders = MedicationOrders;
+//   Collections.MedicationStatements = MedicationStatements;
+//   Collections.MessageHeaders = MessageHeaders;
+//   Collections.Measures = Measures;
+//   Collections.MeasureReports = MeasureReports;
+//   Collections.Organizations = Organizations;
+//   Collections.Observations = Observations;
+//   Collections.Patients = Patients;
+//   Collections.Procedures = Procedures;
+//   Collections.Questionnaires = Questionnaires;
+//   Collections.QuestionnaireResponses = QuestionnaireResponses;
+//   Collections.Tasks = Tasks;
+// }
 
 
 Meteor.methods({
@@ -242,6 +313,15 @@ Meteor.methods({
         } else {
           console.log("Bundle does not seem to have an array of entries.")
         }
+
+        if(accessToken){
+            httpHeaders.headers["Authorization"] = 'Bearer ' + accessToken;
+        }
+
+        console.log('httpHeaders', httpHeaders)
+
+        return await HTTP.get(fhirUrl, httpHeaders);
+
       } else {
         // just a single resource, no need to loop through anything
 

@@ -57,7 +57,6 @@ Meteor.startup(async function(){
     // options
   });
 
-
   // const app = express();
 
   // app.use(bodyParser.json());
@@ -300,7 +299,6 @@ Meteor.startup(async function(){
             CarePlans.remove({_id: carePlan._id});
           })
         }
-
         let myCareTeams = CareTeams.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
         if(Array.isArray(myCareTeams)){
           myCareTeams.forEach(function(careTeam){
@@ -907,7 +905,6 @@ Meteor.startup(async function(){
                   "site" : Meteor.absoluteUrl(),
                   "identifier": {
                     "value": Meteor.absoluteUrl(),
-
                   }
                 },
                 "entity": [{

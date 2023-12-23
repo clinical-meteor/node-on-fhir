@@ -49,6 +49,19 @@ export function AutoDashboard(props){
         basicQuery: {}
     }
 
+    data.selectedPatientId = useTracker(function(){
+        return Session.get('selectedPatientId');
+    }, []);
+    data.selectedPatient = useTracker(function(){
+        if(Session.get('selectedPatientId')){
+            return Patients.findOne({id: Session.get('selectedPatientId')});
+        } else if(get(Session.get('currentUser'), 'patientId')){
+            return Patients.findOne({id: get(Session.get('currentUser'), 'patientId')});
+        }   
+    }, []);
+    data.patients = useTracker(function(){
+        return Patients.find().fetch();
+    }, []);
 
     let [careTeamsPage, setCareTeamsPage] = useState(0);
     let [carePlansPage, setCarePlansPage] = useState(0);

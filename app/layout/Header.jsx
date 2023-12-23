@@ -365,6 +365,22 @@ function Header(props) {
     Session.toggle('mainAppDialogOpen');
   }
 
+  function toggleLoginDialog(){
+    console.log('Toggle login dialog open/close.')
+    Session.set('mainAppDialogJson', false);
+    Session.set('mainAppDialogMaxWidth', "sm");
+
+    if(Session.get('currentUser')){
+      Session.set('mainAppDialogTitle', "Logout");
+      Session.set('mainAppDialogComponent', "LogoutDialog");
+    } else {
+      Session.set('mainAppDialogTitle', "Login");
+      Session.set('mainAppDialogComponent', "LoginDialog");      
+    }
+
+    Session.toggle('mainAppDialogOpen');
+  }
+
 
   let demographicItems;
   let dateTimeItems;

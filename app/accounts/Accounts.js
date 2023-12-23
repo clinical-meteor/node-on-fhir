@@ -13,6 +13,7 @@ let apiHostFromSettings = get(Meteor, 'settings.public.interfaces.accountsServer
 // console.log('Accounts.apiHost', apiHostFromSettings);
 
 const accountsRest = new RestClient({
+  // apiHost: 'http://localhost:4000',
   apiHost: apiHostFromSettings,
   rootPath: '/accounts'
 });
