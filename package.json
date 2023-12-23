@@ -1,6 +1,6 @@
 {
   "name": "node-on-fhir",
-  "version": "0.6.5",
+  "version": "0.8.0",
   "private": true,
   "meteor": {
     "mainModule": {
