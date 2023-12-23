@@ -156,22 +156,22 @@
     "node-jose": "^2.0.0"
   },
   "experimental": {
-    "webtorrent": "0.107.17",
-    "ipfs": "0.39.0",
-    "minimongo": "6.3.1",
+    "bcrypt": "3.0.6",
+    "cordova-plugin-wkwebview-engine": "1.2.2",
+    "cordova-plugin-wkwebviewxhrfix": "0.1.0",
+    "electron": "6.1.7",
+    "electron-builder": "21.2.0",
     "hl7v2": "0.8.1",
+    "ipfs": "0.39.0",
+    "lighthouse": "5.6.0",
+    "meteor-desktop": "2.2.5",
+    "minimongo": "6.3.1",
     "react-highlight": "^0.12.0",
     "react-multi-carousel": "2.4.2",
     "rollup-plugin-json": "4.0.0",
     "rollup-plugin-visualizer": "2.6.1",
-    "electron": "6.1.7",
-    "electron-builder": "21.2.0",
-    "meteor-desktop": "2.2.5",
-    "bcrypt": "3.0.6",
-    "lighthouse": "5.6.0",
-    "cordova-plugin-wkwebview-engine": "1.2.2",
-    "cordova-plugin-wkwebviewxhrfix": "0.1.0",
-    "selenium-webdriver": "3.6.0"
+    "selenium-webdriver": "3.6.0",
+    "webtorrent": "0.107.17"
   },
   "eslintIgnore": [
     "node_modules/",
