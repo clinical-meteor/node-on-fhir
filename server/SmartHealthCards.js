@@ -7,11 +7,22 @@ import { get, has, findIndex } from 'lodash';
 import { FhirUtilities, Locations, Organizations, MeasureReports, Endpoints } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 import moment from 'moment';
 
-import keychain from '../certs/jwks.json';
-let publicKey = get(keychain, 'keys[0]');
+let publicKey;
+let signingKey;
 
-import privateKeychain from '../certs/private.jwks.json';
-let signingKey = get(privateKeychain, 'keys[0]');
+import("../certs/jwks.json").then(keychain => {
+    publicKey = get(keychain, 'keys[0]', '');
+}).catch(err=>
+    console.log(err.message)
+)
+import("../certs/private.jwks.json").then(privateKeychain => {
+    signingKey = get(privateKeychain, 'keys[0]', '');
+}).catch(err=>
+    console.log(err.message)
+)
+
+
+
 
 let localFilesystemPem;
 try {
@@ -110,7 +121,7 @@ export function decodeNumeric(shcString){
     let token = shcString.substring(5, shcString.length);
     // console.log("decodeNumeric().token", token);
 
-    let firstIndex;
+    let firstIndexf
     let secondIndex;
 
 
@@ -203,61 +214,64 @@ Meteor.methods({
         console.log('-----------Public Key (.well-known/jwks.json)-------------')        
         console.log('');
 
-        console.log(publicKey);
-        console.log('');
+        let shcNumericString = "";
+        if(publicKey){
+            console.log(publicKey);
+            console.log('');
 
-        console.log('');
-        console.log('---------------Stringified Payload------------------------')
-        console.log('');
+            console.log('');
+            console.log('---------------Stringified Payload------------------------')
+            console.log('');
 
-        let vcPayloadString = JSON.stringify(recordToSign);
-        let vcPayloadString_trimmed = vcPayloadString.trim();
-        console.log(vcPayloadString_trimmed);
+            let vcPayloadString = JSON.stringify(recordToSign);
+            let vcPayloadString_trimmed = vcPayloadString.trim();
+            console.log(vcPayloadString_trimmed);
 
-        console.log('');
-        console.log('-------------Raw Deflated Payload (Buffer)----------------')
-        console.log('');
+            console.log('');
+            console.log('-------------Raw Deflated Payload (Buffer)----------------')
+            console.log('');
 
-        let deflatedPayload = zlib.deflateRawSync(vcPayloadString_trimmed);
-        console.log(deflatedPayload);
+            let deflatedPayload = zlib.deflateRawSync(vcPayloadString_trimmed);
+            console.log(deflatedPayload);
 
-        // console.log('');
-        // console.log('---------------Stringified Payload (btoa)---------------------')
-        // console.log('');
+            // console.log('');
+            // console.log('---------------Stringified Payload (btoa)---------------------')
+            // console.log('');
 
-        // let deflatedPayload_btoa = btoa(deflatedPayload);
-        // console.log(deflatedPayload_btoa);
-        
-        // let json_web_signature = await jose.JWS
-        //   .createSign({ format: 'compact', fields: { zip: 'DEF' }}, signingKey)
-        //   .update(deflatedPayload)
-        //   .final()
-        //   .then(function(result){ 
-        //     return result;
-        //   });
+            // let deflatedPayload_btoa = btoa(deflatedPayload);
+            // console.log(deflatedPayload_btoa);
+            
+            // let json_web_signature = await jose.JWS
+            //   .createSign({ format: 'compact', fields: { zip: 'DEF' }}, signingKey)
+            //   .update(deflatedPayload)
+            //   .final()
+            //   .then(function(result){ 
+            //     return result;
+            //   });
 
-        let json_web_signature = jws.sign({
-            header: { alg: 'ES256', zip: 'DEF', kid: get(keychain, 'keys[0].kid')},
-            secret: privatePem,
-            payload: deflatedPayload.toString('base64'),
-            encoding: 'base64'
-        });
+            let json_web_signature = jws.sign({
+                header: { alg: 'ES256', zip: 'DEF', kid: get(keychain, 'keys[0].kid')},
+                secret: privatePem,
+                payload: deflatedPayload.toString('base64'),
+                encoding: 'base64'
+            });
 
-        console.log('');
-        console.log('------------JSON Web Signature (JWS)----------------------')
-        console.log('');
+            console.log('');
+            console.log('------------JSON Web Signature (JWS)----------------------')
+            console.log('');
 
-        console.log(json_web_signature)     
+            console.log(json_web_signature)     
 
-        Meteor.call('verifyHealthCard', json_web_signature);
+            Meteor.call('verifyHealthCard', json_web_signature);
 
-        console.log('');
-        console.log('------------Smart Health Card----------------------------')
-        console.log('');
+            console.log('');
+            console.log('------------Smart Health Card----------------------------')
+            console.log('');
 
-        let shcNumericString = "shc:/" + numericMode(json_web_signature);
-        console.log(shcNumericString)
-        console.log('==============================================================================')
+            shcNumericString = "shc:/" + numericMode(json_web_signature);
+            console.log(shcNumericString)
+            console.log('==============================================================================')
+        }
 
         return shcNumericString;
     },

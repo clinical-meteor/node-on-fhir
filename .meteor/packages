@@ -76,5 +76,7 @@ clinical:uscore
 # mitre:sphr-record-analyzer
 
 symptomatic:data-importer
-mitre:space-health-registry
-mitre:consent-engine
+symptomatic:data-relay
+
+mitre:gravity
+mitre:deqm-report-generator

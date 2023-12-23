@@ -9,6 +9,10 @@ base64@1.0.12
 binary-heap@1.0.11
 blaze-tools@1.1.2
 boilerplate-generator@1.7.1
+browser-policy@1.1.0
+browser-policy-common@1.0.11
+browser-policy-content@1.1.1
+browser-policy-framing@1.1.0
 caching-compiler@1.2.2
 caching-html-compiler@1.2.1
 callback-hook@1.4.0
@@ -16,11 +20,11 @@ check@1.3.1
 clinical:extended-api@2.5.2
 clinical:fonts@1.2.0
 clinical:hipaa-logger@2.1.10
-clinical:hl7-fhir-data-infrastructure@6.27.8
-clinical:hl7-resource-datatypes@4.0.7
+clinical:hl7-fhir-data-infrastructure@6.32.2
+clinical:hl7-resource-datatypes@4.0.8
 clinical:json-routes@2.3.0
 clinical:uscore@0.4.12
-clinical:vault-server@8.7.1
+clinical:vault-server@8.8.2
 ddp@1.4.0
 ddp-client@2.5.0
 ddp-common@1.4.0
@@ -54,8 +58,8 @@ meteorhacks:async@1.0.0
 minifier-css@1.6.0
 minifier-js@2.7.3
 minimongo@1.7.0
-mitre:consent-engine@0.4.1
-mitre:space-health-registry@0.3.3
+mitre:deqm-report-generator@0.5.2
+mitre:gravity@0.7.0
 mobile-experience@1.1.0
 mobile-status-bar@1.1.0
 modern-browsers@0.1.7
@@ -90,7 +94,9 @@ spacebars-compiler@1.3.0
 standard-minifier-css@1.7.4
 standard-minifier-js@2.7.3
 static-html@1.3.2
-symptomatic:data-importer@0.14.3
+symptomatic:covid19-geomapping@0.5.2
+symptomatic:data-importer@0.14.8
+symptomatic:data-relay@0.11.11
 templating-tools@1.2.1
 tmeasday:check-npm-versions@1.0.2
 tracker@1.2.0
