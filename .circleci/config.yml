@@ -176,12 +176,12 @@ jobs:
     # make sure we have the latest Chrome (specifically wanting Chrome 75; may change with time)
 
     # sudo apt-get -y install google-chrome-stable=91.0.4472.164
-    - run:
-        name: Update Chromedriver
-        command: |
-            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -    
-            sudo apt-get update
-            sudo wget --no-verbose -O ./chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_91.0.4472.164-1_amd64.deb && sudo apt install -y ./chrome.deb && sudo rm ./chrome.deb
+    # - run:
+    #     name: Update Chromedriver
+    #     command: |
+    #         wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -    
+    #         sudo apt-get update
+    #         sudo wget --no-verbose -O ./chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_91.0.4472.164-1_amd64.deb && sudo apt install -y ./chrome.deb && sudo rm ./chrome.deb
 
         # sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
 
