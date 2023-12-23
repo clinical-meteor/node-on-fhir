@@ -156,6 +156,7 @@ jobs:
     - run: meteor npm install 
     - run: npm install 
     - run: meteor npm install react@16.14.0
+    - run: meteor npm install nightwatch@2.6.10
 
     
     #- before/after
@@ -217,7 +218,7 @@ jobs:
         command: | 
             sleep 420
             meteor npm run-script circle-nightwatch 
-             
+
         # meteor npm run-script circle-nightwatch -- --tag circle 
     # # Save dependency cache
     # - save_cache:
