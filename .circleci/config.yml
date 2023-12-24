@@ -154,7 +154,10 @@ jobs:
 
     # Install the actual app...
     - run: sudo npm install -g nightwatch@2.6.10
-    - run: meteor npm install 
+    - run: 
+        name: meteor npm install 
+        no_output_timeout: 30m
+        command: meteor npm install 
     - run: npm install 
 
     
