@@ -153,7 +153,8 @@ jobs:
     # - run: mv .meteor/packages2 .meteor/packages;
 
     # Install the actual app...
-    - run: sudo npm install -g nightwatch@3.3.5
+    - run: npm install nightwatch@3.3.5
+    - run: nightwatch -v
     - run: 
         name: meteor npm install 
         no_output_timeout: 20m
