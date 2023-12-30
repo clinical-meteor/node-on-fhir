@@ -24,7 +24,6 @@
     "nightwatch": "nightwatch -c .meteor/nightwatch.json",
     "phantom": "nightwatch -c .meteor/nightwatch.json --env phantom",
     "circle-nightwatch": "nightwatch -c .meteor/nightwatch.circle.json --tag circle",
-    "circle-hello": "nightwatch -c .meteor/nightwatch.circle.json --tag hello",
     "desktop": "meteor-desktop",
     "dockerize": "../scripts/generate_docker_compose_file.sh",
     "push_to_circle_ci": "../scripts/push_to_circle_ci.sh",
@@ -124,7 +123,7 @@
     "chai-nightwatch": "0.4.0",
     "chromedriver": "120.0.0",
     "conventional-changelog-cli": "2.1.1",
-    "nightwatch": "2.6.10",
+    "nightwatch": "3.3.5",
     "shelljs": "0.8.5"
   },
   "desktopLibraries": {
