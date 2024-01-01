@@ -153,7 +153,7 @@ jobs:
     # - run: mv .meteor/packages2 .meteor/packages;
 
     # Install the actual app...
-    - run: npm install loupe@2.3.7 abab@2.0.7 domexception@4.0.1
+    - run: npm install loupe abab domexception
     - run: npm install nightwatch@3.3.5
     - run: nightwatch -v
     - run: 
