@@ -10,6 +10,30 @@ jobs:
   testrunner: 
     docker: 
       - image: cimg/node:21.6.0-browsers
+        name: node-on-fhir
+        cmd: ["/bin/bash"]
+        environment:
+          CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+          CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+          TZ: "/usr/share/zoneinfo/America/Chicago"
+          CIRCLE_ENV: test
+          NODE_ENV: test
+          NIGHTWATCH: true
+          DEBUG: true
+          CXX: g++-4.8
+          DISPLAY: :99.0
+          NPM_PREFIX: /home/ubuntu/nvm/v0.10.33
+          MONGO_URL: mongodb://mongo:27017/meteor
+          NODE_OPTIONS: --max_old_space_size=3072
+          TOOL_NODE_FLAGS: --max_old_space_size=3072        
+          LANG: C.UTF-8
+          LANGUAGE: C.UTF-8
+          LC_ALL: C.UTF-8
+          LC_NUMERIC: en_US.UTF-8
+          TEST_BROWSER_DRIVER: chrome
+      - image: mongo:3.6.8
+        name: mongo
+
     steps: 
       - browser-tools/install-browser-tools
       - checkout
