@@ -2,24 +2,26 @@
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects. 
 # See: https://circleci.com/docs/2.0/orb-intro/ 
 
-version: 2.1
+version: "2.1"
 
 orbs: 
-  node: circleci/node@5.2.0
   browser-tools: circleci/browser-tools@1.4.6
 jobs: 
   testrunner: 
     docker: 
-      - image: cimg/node:lts-browsers 
+      - image: cimg/node:21.6.0-browsers
     steps: 
+      - browser-tools/install-browser-tools 
       - checkout 
 
-      - node/install:
-        install-yarn: true
-        node-version: '16.13'
-      - run: node --version
-  
-      - browser-tools/install-browser-tools 
+      -run: |
+        node --version
+        java --version
+        google-chrome --version
+
+      # npm install
+      # npm run build
+      # npm run test  
 
       # - run: 
       #   command: npm run test
