@@ -17,10 +17,10 @@ jobs:
       - node/install-packages 
       - run: 
         command: npm run test 
+        node-version: '16.13'
 
-
-      - store_test_results: 
-        path: /tests_output 
+      - store_artifacts:
+        path: ./test-reports
 
 workflows: 
   e2e_test: 
