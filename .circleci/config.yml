@@ -23,6 +23,7 @@ jobs:
         path: ./test-reports
 
 workflows: 
+  version: 2
   e2e_test: 
     jobs: 
       - testrunner
