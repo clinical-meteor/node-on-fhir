@@ -72,6 +72,22 @@ jobs:
       - run: cat .meteor/versions
       - run: meteor --version
 
+      - run: sudo npm install -g nightwatch@2.6.24
+      - run: npm install @nightwatch/selenium-server@4.5.0
+      - run: nightwatch -v
+      - run: 
+          name: meteor npm install 
+          no_output_timeout: 20m
+          command: meteor npm install 
+      - run: npm install 
+
+      #- before/after
+      - run: cat .meteor/packages
+      - run: cat .meteor/versions
+      # - run: locale
+
+      - run: meteor list  
+
 
       # npm install
       # npm run build
