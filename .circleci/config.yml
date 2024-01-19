@@ -14,14 +14,14 @@ jobs:
     steps: 
       - checkout 
 
-      - browser-tools/install-browser-tools 
       - node/install-packages 
+      - browser-tools/install-browser-tools 
 
       # - run: 
       #   command: npm run test
 
-      # - store_artifacts:
-      #   path: ./test-reports
+      - store_artifacts:
+        path: ./test-reports
 
 workflows: 
   version: 2
