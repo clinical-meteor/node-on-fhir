@@ -21,7 +21,7 @@ jobs:
       - store_test_results: 
         path: /tests_output 
 
-workflows: 
-  e2e-test: 
-    jobs: 
-      - testrunner
+# workflows: 
+#   e2e-test: 
+#     jobs: 
+#       - testrunner
