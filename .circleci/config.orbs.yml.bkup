@@ -5,18 +5,18 @@
 orbs: 
   node: circleci/node@4.7 
   browser-tools: circleci/browser-tools@1.1.0 
-  jobs: 
-    test: 
-      docker: 
-        - image: cimg/node:lts-browsers 
-      steps: 
-        - checkout - browser-tools/install-browser-tools 
-        - node/install-packages 
-        - run: 
-          command: npm run test 
-            - store_test_results: 
-              path: /tests_output 
-  workflows: 
-    e2e-test: 
-      jobs: 
-        - test
+jobs: 
+  test: 
+    docker: 
+      - image: cimg/node:lts-browsers 
+    steps: 
+      - checkout - browser-tools/install-browser-tools 
+      - node/install-packages 
+      - run: 
+        command: npm run test 
+          - store_test_results: 
+            path: /tests_output 
+workflows: 
+  e2e-test: 
+    jobs: 
+      - test
