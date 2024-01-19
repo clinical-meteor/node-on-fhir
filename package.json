@@ -115,7 +115,8 @@
     "styled-components": "4.4.0",
     "universal-url": "2.0.0",
     "validator": ">=13.7.0",
-    "winston": "3.2.1"
+    "winston": "3.2.1",
+    "nightwatch": "^2.6.19"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.16.5",
@@ -123,8 +124,8 @@
     "chai-nightwatch": "0.4.0",
     "chromedriver": "120.0.0",
     "conventional-changelog-cli": "2.1.1",
-    "nightwatch": "3.3.5",
-    "shelljs": "0.8.5"
+    "shelljs": "0.8.5",
+    "@nightwatch/selenium-server": "^4.5.0"
   },
   "desktopLibraries": {
     "electron": "6.1.7",
