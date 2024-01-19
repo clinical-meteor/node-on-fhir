@@ -154,7 +154,7 @@ jobs:
 
     # Install the actual app...
     # - run: npm install loupe abab domexception
-    - run: npm install -g nightwatch@2.6.24
+    - run: sudo npm install -g nightwatch@2.6.24
     - run: nightwatch -v
     - run: 
         name: meteor npm install 
