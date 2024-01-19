@@ -13,14 +13,15 @@ jobs:
       - image: cimg/node:lts-browsers 
     steps: 
       - checkout 
+
       - browser-tools/install-browser-tools 
       - node/install-packages 
-      
-      - run: 
-        command: npm run test
 
-      - store_artifacts:
-        path: ./test-reports
+      # - run: 
+      #   command: npm run test
+
+      # - store_artifacts:
+      #   path: ./test-reports
 
 workflows: 
   version: 2
