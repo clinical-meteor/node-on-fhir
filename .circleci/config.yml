@@ -12,7 +12,8 @@ jobs:
     docker: 
       - image: cimg/node:lts-browsers 
     steps: 
-      - checkout - browser-tools/install-browser-tools 
+      - checkout 
+      - browser-tools/install-browser-tools 
       - node/install-packages 
       - run: 
         command: npm run test 
@@ -21,7 +22,7 @@ jobs:
       - store_test_results: 
         path: /tests_output 
 
-# workflows: 
-#   e2e-test: 
-#     jobs: 
-#       - testrunner
+workflows: 
+  e2e_test: 
+    jobs: 
+      - testrunner
