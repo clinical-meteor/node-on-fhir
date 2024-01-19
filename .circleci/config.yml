@@ -15,9 +15,8 @@ jobs:
       - checkout 
       - browser-tools/install-browser-tools 
       - node/install-packages 
-      - run: 
-        command: npm run test 
-        node-version: '16.13'
+
+      - run: npm run test 
 
       - store_artifacts:
         path: ./test-reports
