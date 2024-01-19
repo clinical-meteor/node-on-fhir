@@ -14,7 +14,11 @@ jobs:
     steps: 
       - checkout 
 
-      - node/install-packages 
+      - node/install:
+        install-yarn: true
+        node-version: '16.13'
+      - run: node --version
+  
       - browser-tools/install-browser-tools 
 
       # - run: 
