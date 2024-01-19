@@ -11,10 +11,10 @@ jobs:
     docker: 
       - image: cimg/node:21.6.0-browsers
     steps: 
-      - browser-tools/install-browser-tools 
-      - checkout 
+      - browser-tools/install-browser-tools
+      - checkout
 
-      -run: |
+      - run: |
         node --version
         java --version
         google-chrome --version
