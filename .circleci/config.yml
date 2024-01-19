@@ -14,10 +14,9 @@ jobs:
       - browser-tools/install-browser-tools
       - checkout
 
-      - run:
-        node --version
-        java --version
-        google-chrome --version
+      - run:  node --version
+      - run:  java --version
+      - run:  google-chrome --version
 
       # npm install
       # npm run build
