@@ -1,5 +1,5 @@
 
-import { SyncedCron } from 'meteor/percolate:synced-cron';
+import { SyncedCron } from 'meteor/littledata:synced-cron';
 
 import moment from 'moment';
 import { Meteor } from 'meteor/meteor';
@@ -114,7 +114,7 @@ Meteor.startup(function(){
           console.log('Generating server stats!')   
           
           let restEndpoints = get(Meteor, "settings.private.fhir.rest")
-          console.log('restEndpoints', restEndpoints)
+          process.env.TRACE &&  console.log('restEndpoints', restEndpoints)
 
           let serverStats = {
             "referenceType": "ServerStats",

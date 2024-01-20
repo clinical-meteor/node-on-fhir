@@ -1,11 +1,9 @@
 ## Node on FHIR  
 
-
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3466/badge)](https://bestpractices.coreinfrastructure.org/projects/3466) [![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/awatson1978/node-on-fhir)  
 [![CircleCI](https://circleci.com/gh/symptomatic/node-on-fhir.svg?style=svg)](https://circleci.com/gh/symptomatic/node-on-fhir)
 
 ![NodeOnFHIR-Honeycomb2](https://user-images.githubusercontent.com/675910/143236128-33794cb2-c470-4196-b6af-37f44616c59d.png)
-
 
 
 Welcome to Node on FHIR.  This code repository contains a reference FHIR server and web application stack written in modern ES6/Typescript/Javascript/Node that can compile to mobile devices.  We have gone through the NPM repository, and tried to pull in as many FHIR related libraries as we could in order to find the 'center' of the Javascript FHIR community.  
@@ -46,38 +44,56 @@ The FHIR appplication server in this repository is the result of 7 years of work
 ## Quickstart
 
 ```bash
-# install meter
+# install the meteor compiler; this will take care of node, nvm, npm, yarn, etc.
+# it will also set up debugging tools, a compiler build tool, etc
 npm install -g meteor
 
-# get the boilerplate
-git clone https://github.com/clinical-meteor/node-on-fhir
-
-# get the vault-server package
+# download the node-on-fhir application
+git clone https://gitlab.mitre.org/awatson/node-on-fhir  
 cd node-on-fhir
-cd packages
 
-git clone https://github.com/clinical-meteor/vault-server
-cd ../..
+# install dependencies
+meteor npm install
 
-# install libraries and dependencies
-npm install
+# alternative, use yarn if you'd like a more modern package manager
+meteor yarn install
+
+# run the application in local development mode
+# this will automatically launch a mongo instance
+meteor run --settings configs/settings.nodeonfhir.json  
+
+# stop the application with Ctrl-C
 
 # add custom packages (the FHIR server)
 meteor add clinical:vault-server
 
+# now run it with a custom settings file
 # does it compile?
-meteor run 
-open http://localhost:3000
+meteor run --settings configs/settings.nodeonfhir.localhost.json
 
 # can we get to the FHIR server yet?
 open http://localhost:3000/metadata
 
-# now run it with a custom settings file
-meteor run --settings configs/settings.nodeonfhir.localhost.json
 
 # does it run?  can we get to the FHIR server?  To the Patient route?
 open http://localhost:3000/baseR4/metadata
 open http://localhost:3000/baseR4/Patient
+
+# stop the application with Ctrl-C
+
+# download custom packages
+cd packages
+git clone https://github.com/clinical-meteor/example-plugin
+cd ..
+
+# alternatively, run the config from a plugin
+meteor run --settings packages/example-plugin/configs/settings.example.json  --extra-packages symptomatic:example-plugin
+
+# when you're ready to deploy, you'll need to add the package to the app (meteor deploy won't accept --extra-packages)
+meteor add clinical:example-plugin
+
+# after adding the plugin, you can simply run the following
+meteor run --settings packages/example-plugin/configs/settings.example.json
 ```
 
 ## Important Links    

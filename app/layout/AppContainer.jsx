@@ -14,7 +14,7 @@ import AppLoadingPage from '../core/AppLoadingPage.jsx';
 
 
 import { theme, defaultAppPalette} from '../Theme';
-import logger from '../Logger';
+import { logger } from '../Logger';
 import useStyles from '../Styles';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -66,8 +66,7 @@ Meteor.startup(function(){
         </ThemeProvider>
       </Router>
       {/* </BrowserRouter> */}
-    }
-    if(Meteor.isServer){
+    } else {
       renderedApp = <ThemeProvider theme={defaultAppPalette} >
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
@@ -75,7 +74,6 @@ Meteor.startup(function(){
         </MuiThemeProvider>
       </ThemeProvider>      
     }
-
     return renderedApp;  
   }
 

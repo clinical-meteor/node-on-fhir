@@ -39,8 +39,7 @@
      return null;
  }
  
- module.exports = class Session
- {
+ module.exports = class Session {
      static fromRequest(request) {
          let sid = getSessionIdFromCookie(request);
          if (sid && __SESSIONS[sid]) {

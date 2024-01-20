@@ -28,6 +28,9 @@ import { UnauthenticatedContainer } from './UnauthenticatedContainer';
 import { accountsClient } from './Accounts';
 
 import { get } from 'lodash';
+import jwt from 'jsonwebtoken';
+
+import { log, message } from '../Logger';
 
 const useStyles = makeStyles(theme => ({
   cardContent: {
@@ -67,7 +70,7 @@ const Login = function({ history }){
       password: '',
       code: ''
     },
-    validate: function(values){
+    validate: function(values){  
       const errors = {};
       
       if (!values.email) {
@@ -80,7 +83,7 @@ const Login = function({ history }){
     },
     onSubmit: async function(values, { setSubmitting }){
 
-      console.log('AccountsClient: Submiting username and password for authentication.')
+      console.log('AccountsClient: Submiting username and password for authentication.');
 
       try {
         await loginWithService('password', {
@@ -89,15 +92,27 @@ const Login = function({ history }){
           },
           password: values.password
           // code: values.code
-        }, setError, function setSuccess(result){
+        }, setError, async function setSuccess(result){
           if(result){
-            console.log('loginWithService.result', result)
+            // console.log('loginWithService.result', result)
 
             Session.set('sessionId', get(result, 'sessionId'));    
-            Session.set('sessionAccessToken', get(result, 'tokens.accessToken'));    
-            Session.set('sessionRefreshToken', get(result, 'tokens.refreshToken'));   
+            // Session.set('sessionAccessToken', get(result, 'tokens.accessToken'));    
+            // Session.set('sessionRefreshToken', get(result, 'tokens.refreshToken'));   
             Session.set('mainAppDialogOpen', false);
             Session.set('lastUpdated', new Date());    
+
+            let tokens = await accountsClient.getTokens();
+            // console.log('tokens', tokens)
+            if(get(tokens, 'accessToken')){
+              let decoded = jwt.decode(tokens.accessToken, {complete: true});
+              // console.log('decoded', decoded)
+              Session.set('accountsAccessToken', get(tokens, 'accessToken'))
+              Session.set('accountsRefreshToken', get(tokens, 'refreshToken'))
+            }  
+            
+            
+          
           }
         });        
 

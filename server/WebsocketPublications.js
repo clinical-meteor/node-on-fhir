@@ -232,96 +232,100 @@ Meteor.startup(function(){
         })
     };
 
+
     // this only runs once
     // how do we rerun subscriptions when they are updated?  
-    Subscriptions.after.insert(function (userId, newSubscription) {
+    if(typeof Subscriptions === "object"){
+        Subscriptions.after.insert(function (userId, newSubscription) {
 
-        process.env.DEBUG && console.log("---------------------------------------------------")
-        process.env.DEBUG && console.log('Subscriptions.after.insert ')
-        process.env.TRACE && console.log(newSubscription)
-        process.env.TRACE && console.log("")
+            process.env.DEBUG && console.log("---------------------------------------------------")
+            process.env.DEBUG && console.log('Subscriptions.after.insert ')
+            process.env.TRACE && console.log(newSubscription)
+            process.env.TRACE && console.log("")
 
-        // ********** if websockets **********
-        if(get(newSubscription, 'channel.type') === "websocket"){
-            let subscriptionEndpoint = get(newSubscription, 'channel.endpoint');
-            if(Collections[subscriptionEndpoint]){
-                Meteor.publish(subscriptionEndpoint, function(){
-                    process.env.TRACE && console.log('>>>>>> ' + subscriptionEndpoint +  '.pubication.this.userId: ' + this.userId)               
-                    if(this.userId){
-                        defaultOptions.fields = {}
-                    }         
-                    return Collections[subscriptionEndpoint].find(defaultQuery, defaultOptions).forEach(function(record){
-                        if(get(record, 'meta.security[0].display') !== "restricted"){
-                            return record;
-                        }
-                    });
-                });        
+            // ********** if websockets **********
+            if(get(newSubscription, 'channel.type') === "websocket"){
+                let subscriptionEndpoint = get(newSubscription, 'channel.endpoint');
+                if(Collections[subscriptionEndpoint]){
+                    Meteor.publish(subscriptionEndpoint, function(){
+                        process.env.TRACE && console.log('>>>>>> ' + subscriptionEndpoint +  '.pubication.this.userId: ' + this.userId)               
+                        if(this.userId){
+                            defaultOptions.fields = {}
+                        }         
+                        return Collections[subscriptionEndpoint].find(defaultQuery, defaultOptions).forEach(function(record){
+                            if(get(record, 'meta.security[0].display') !== "restricted"){
+                                return record;
+                            }
+                        });
+                    });        
 
+                }
             }
-        }
 
-        // ********** if REST **********
-        if(get(newSubscription, 'channel.type') === "rest-hook"){
-            // insert onAfter hook
-            let subscriptionEndpoint = get(newSubscription, 'channel.endpoint');
+            // ********** if REST **********
+            if(get(newSubscription, 'channel.type') === "rest-hook"){
+                // insert onAfter hook
+                let subscriptionEndpoint = get(newSubscription, 'channel.endpoint');
 
-            let urlComponentsArray = subscriptionEndpoint.split("/");
-            let resourceName = urlComponentsArray[urlComponentsArray.length - 1];
+                let urlComponentsArray = subscriptionEndpoint.split("/");
+                let resourceName = urlComponentsArray[urlComponentsArray.length - 1];
 
-            let collectionName = FhirUtilities.pluralizeResourceName(resourceName);
-            Collections[collectionName].after.insert(function (userId, doc) {
+                let collectionName = FhirUtilities.pluralizeResourceName(resourceName);
+                Collections[collectionName].after.insert(function (userId, doc) {
 
-                process.env.DEBUG && console.log("---------------------------------------------------")
-                process.env.DEBUG && console.log(collectionName + '.after.insert ')
-                process.env.DEBUG && console.log('Relay URL:  ')
-                process.env.TRACE && console.log(doc)
-                process.env.TRACE && console.log("")
+                    process.env.DEBUG && console.log("---------------------------------------------------")
+                    process.env.DEBUG && console.log(collectionName + '.after.insert ')
+                    process.env.DEBUG && console.log('Relay URL:  ')
+                    process.env.TRACE && console.log(doc)
+                    process.env.TRACE && console.log("")
 
-                // build URL string
-                if(doc.status === "draft"){
-                    doc.status = "active";
-                }
+                    // build URL string
+                    if(doc.status === "draft"){
+                        doc.status = "active";
+                    }
 
-                let subscriptionUrl = new URL(subscriptionEndpoint); 
-                let absoluteUrl = new URL(Meteor.absoluteUrl());
+                    let subscriptionUrl = new URL(subscriptionEndpoint); 
+                    let absoluteUrl = new URL(Meteor.absoluteUrl());
 
-                if(subscriptionUrl.host !== absoluteUrl.host){
-                    HTTP.put(subscriptionEndpoint + "/" + get(doc, 'id'), {
-                        data: doc
-                    })    
-                }
+                    if(subscriptionUrl.host !== absoluteUrl.host){
+                        HTTP.put(subscriptionEndpoint + "/" + get(doc, 'id'), {
+                            data: doc
+                        })    
+                    }
 
-                return doc;
-            });
-            Collections[collectionName].after.update(function (userId, doc) {
-                //   // HIPAA Audit Log
-                process.env.DEBUG && console.log("---------------------------------------------------")
-                process.env.DEBUG && console.log(collectionName + '.after.update ')
-                process.env.DEBUG && console.log('Relay URL:  ')
-                process.env.TRACE && console.log(doc)
-                process.env.TRACE && console.log("")
+                    return doc;
+                });
+                Collections[collectionName].after.update(function (userId, doc) {
+                    //   // HIPAA Audit Log
+                    process.env.DEBUG && console.log("---------------------------------------------------")
+                    process.env.DEBUG && console.log(collectionName + '.after.update ')
+                    process.env.DEBUG && console.log('Relay URL:  ')
+                    process.env.TRACE && console.log(doc)
+                    process.env.TRACE && console.log("")
 
 
-                if(doc.status === "draft"){
-                    doc.status = "active";
-                }
+                    if(doc.status === "draft"){
+                        doc.status = "active";
+                    }
 
-                let subscriptionUrl = new URL(subscriptionEndpoint); 
-                let absoluteUrl = new URL(Meteor.absoluteUrl());
+                    let subscriptionUrl = new URL(subscriptionEndpoint); 
+                    let absoluteUrl = new URL(Meteor.absoluteUrl());
 
-                // patch ???
-                if(subscriptionUrl.host !== absoluteUrl.host){
-                    HTTP.put(subscriptionEndpoint + "/" + get(doc, 'id'), {
-                        data: doc
-                    })    
-                }
+                    // patch ???
+                    if(subscriptionUrl.host !== absoluteUrl.host){
+                        HTTP.put(subscriptionEndpoint + "/" + get(doc, 'id'), {
+                            data: doc
+                        })    
+                    }
 
-                return doc;
-            });
-        }
+                    return doc;
+                });
+            }
 
-        return newSubscription;
-    });
+            return newSubscription;
+        });
+        
+    }
 
 
 
@@ -329,7 +333,7 @@ Meteor.startup(function(){
     let defaultOptions = {
         limit: get(Meteor, 'settings.private.fhir.publicationLimit', 1000)
     }
-    if(get(Meteor, 'settings.private.enableAccessRestrictions')){
+    if(get(Meteor, 'settings.private.accessControl.enableHttpAccessRestrictions')){
         defaultOptions.fields = {
             address: 0,
             access_token: 0,
@@ -366,127 +370,130 @@ Meteor.startup(function(){
             }
         });     
     } else {
-        console.log("Publications count: " + Subscriptions.find().count())
-        Subscriptions.find().forEach(function(subscriptionRecord){
 
-            // ********** if websockets **********
-            if(get(subscriptionRecord, 'channel.type') === "websocket"){
-                let collectionName = get(subscriptionRecord, 'channel.endpoint');
-                if(Collections[collectionName]){
-                    console.log("Publishing DDP cursor for " + collectionName + " websockets subscription (DDP).");
-
-                    let defaultQuery = setCollectionDefaultQuery(collectionName, subscriptionRecord);
-                    // process.env.DEBUG && console.log('defaultQuery', defaultQuery);
-
-                    Meteor.publish(collectionName, function(){
-                        process.env.TRACE && console.log('>>>>>> Subscription API publication:  ' + collectionName + '  -  this.userId:    ' + this.userId);               
-
-                        if(this.userId){
-                            defaultOptions.fields = {}
-                        }         
-
-                        return Collections[collectionName].find(defaultQuery, defaultOptions).forEach(function(record){
-                            if(get(record, 'meta.security[0].display') !== "restricted"){
-                                return record;
-                            }
-                        });
-                    });        
+        if(typeof Subscriptions === "object"){
+            console.log("Publications count: " + Subscriptions.find().count())
+            Subscriptions.find().forEach(function(subscriptionRecord){
+    
+                // ********** if websockets **********
+                if(get(subscriptionRecord, 'channel.type') === "websocket"){
+                    let collectionName = get(subscriptionRecord, 'channel.endpoint');
+                    if(Collections[collectionName]){
+                        console.log("Publishing DDP cursor for " + collectionName + " websockets subscription (DDP).");
+    
+                        let defaultQuery = setCollectionDefaultQuery(collectionName, subscriptionRecord);
+                        // process.env.DEBUG && console.log('defaultQuery', defaultQuery);
+    
+                        Meteor.publish(collectionName, function(){
+                            process.env.TRACE && console.log('>>>>>> Subscription API publication:  ' + collectionName + '  -  this.userId:    ' + this.userId);               
+    
+                            if(this.userId){
+                                defaultOptions.fields = {}
+                            }         
+    
+                            return Collections[collectionName].find(defaultQuery, defaultOptions).forEach(function(record){
+                                if(get(record, 'meta.security[0].display') !== "restricted"){
+                                    return record;
+                                }
+                            });
+                        });        
+                    }
                 }
-            }
-
-
-            // ********** if REST **********
-            if(get(subscriptionRecord, 'channel.type') === "rest-hook"){
-
-                // insert onAfter hook
-                let subscriptionEndpoint = get(subscriptionRecord, 'channel.endpoint');
-
-                let urlComponentsArray = subscriptionEndpoint.split("/");
-                let resourceName = urlComponentsArray[urlComponentsArray.length - 1];
-
-                let collectionName = FhirUtilities.pluralizeResourceName(resourceName);
-
-                if(Collections[collectionName]){
+    
+    
+                // ********** if REST **********
+                if(get(subscriptionRecord, 'channel.type') === "rest-hook"){
+    
                     // insert onAfter hook
-                    Collections[collectionName].after.insert(function (userId, doc) {
-
-                        process.env.DEBUG && console.log("---------------------------------------------------")
-                        process.env.DEBUG && console.log(collectionName + '.after.insert ')
-                        process.env.DEBUG && console.log('Relay URL:  ' + subscriptionEndpoint)
-                        process.env.TRACE && console.log(doc)
-                        process.env.TRACE && console.log("")
-
-                        // build URL string
-                        if(doc.status === "draft"){
-                            doc.status = "active";
-                        }
-
-                        let subscriptionUrl = new URL(subscriptionEndpoint); 
-                        let absoluteUrl = new URL(Meteor.absoluteUrl());
-
-                        if(subscriptionUrl.host !== absoluteUrl.host){
-                            let relayEndpoint = subscriptionEndpoint + "/" + get(doc, 'id')
-                            process.env.DEBUG && console.log('Relay Endpoint:  ' + relayEndpoint)
-
-                            let httpHeaders = { "headers": {
-                                'Content-Type': 'application/json',
-                                'Access-Control-Allow-Origin': '*',
-                            }};
-
-                            if(get(Meteor, 'settings.private.fhir.backendServices.basicAuthToken')){
-                                httpHeaders["Authorization"] = "Basic " + base64url.encode(get(Meteor, 'settings.private.fhir.backendServices.basicAuthToken')) + "==";
-                            } else {
-
-                                // TODO:  add OAuthClients SMART on FHIR connectivity
-
-                                // TODO:  add JWT access
-
-                                // TODO:  add UDAP connection
+                    let subscriptionEndpoint = get(subscriptionRecord, 'channel.endpoint');
+    
+                    let urlComponentsArray = subscriptionEndpoint.split("/");
+                    let resourceName = urlComponentsArray[urlComponentsArray.length - 1];
+    
+                    let collectionName = FhirUtilities.pluralizeResourceName(resourceName);
+    
+                    if(Collections[collectionName]){
+                        // insert onAfter hook
+                        Collections[collectionName].after.insert(function (userId, doc) {
+    
+                            process.env.DEBUG && console.log("---------------------------------------------------")
+                            process.env.DEBUG && console.log(collectionName + '.after.insert ')
+                            process.env.DEBUG && console.log('Relay URL:  ' + subscriptionEndpoint)
+                            process.env.TRACE && console.log(doc)
+                            process.env.TRACE && console.log("")
+    
+                            // build URL string
+                            if(doc.status === "draft"){
+                                doc.status = "active";
                             }
-                            process.env.DEBUG && console.log('httpHeaders', httpHeaders);
-
-
-                            HTTP.put(relayEndpoint, {
-                                headers: httpHeaders,
-                                data: doc
-                            }, function(error, result){
-                                if(error){console.log('error', error)}
-                                if(result){console.log('result', result)}
-                            })    
-                        }              
-
-                        return doc;
-                    });
-                    Collections[collectionName].after.update(function (userId, doc) {
-                        //   // HIPAA Audit Log
-                        process.env.DEBUG && console.log("---------------------------------------------------")
-                        process.env.DEBUG && console.log(collectionName + '.after.update ')
-                        process.env.DEBUG && console.log('Relay URL:  ' + subscriptionEndpoint)
-                        process.env.TRACE && console.log(doc)
-                        process.env.TRACE && console.log("")
-
-
-                        if(doc.status === "draft"){
-                            doc.status = "active";
-                        }
-
-                        let subscriptionUrl = new URL(subscriptionEndpoint); 
-                        let absoluteUrl = new URL(Meteor.absoluteUrl());
-
-                        if(subscriptionUrl.host !== absoluteUrl.host){
-                            HTTP.put(subscriptionEndpoint + "/" + get(doc, 'id'), {
-                                data: doc
-                            }, function(error, result){
-                                if(error){console.log('error', error)}
-                                if(result){console.log('result', result)}
-                            })    
-                        }               
-
-                        return doc;
-                    });
-                } 
-            }
-        });
+    
+                            let subscriptionUrl = new URL(subscriptionEndpoint); 
+                            let absoluteUrl = new URL(Meteor.absoluteUrl());
+    
+                            if(subscriptionUrl.host !== absoluteUrl.host){
+                                let relayEndpoint = subscriptionEndpoint + "/" + get(doc, 'id')
+                                process.env.DEBUG && console.log('Relay Endpoint:  ' + relayEndpoint)
+    
+                                let httpHeaders = { "headers": {
+                                    'Content-Type': 'application/json',
+                                    'Access-Control-Allow-Origin': '*',
+                                }};
+    
+                                if(get(Meteor, 'settings.private.fhir.backendServices.basicAuthToken')){
+                                    httpHeaders["Authorization"] = "Basic " + base64url.encode(get(Meteor, 'settings.private.fhir.backendServices.basicAuthToken')) + "==";
+                                } else {
+    
+                                    // TODO:  add OAuthClients SMART on FHIR connectivity
+    
+                                    // TODO:  add JWT access
+    
+                                    // TODO:  add UDAP connection
+                                }
+                                process.env.DEBUG && console.log('httpHeaders', httpHeaders);
+    
+    
+                                HTTP.put(relayEndpoint, {
+                                    headers: httpHeaders,
+                                    data: doc
+                                }, function(error, result){
+                                    if(error){console.error('error', error)}
+                                    if(result){console.log('result', result)}
+                                })    
+                            }              
+    
+                            return doc;
+                        });
+                        Collections[collectionName].after.update(function (userId, doc) {
+                            //   // HIPAA Audit Log
+                            process.env.DEBUG && console.log("---------------------------------------------------")
+                            process.env.DEBUG && console.log(collectionName + '.after.update ')
+                            process.env.DEBUG && console.log('Relay URL:  ' + subscriptionEndpoint)
+                            process.env.TRACE && console.log(doc)
+                            process.env.TRACE && console.log("")
+    
+    
+                            if(doc.status === "draft"){
+                                doc.status = "active";
+                            }
+    
+                            let subscriptionUrl = new URL(subscriptionEndpoint); 
+                            let absoluteUrl = new URL(Meteor.absoluteUrl());
+    
+                            if(subscriptionUrl.host !== absoluteUrl.host){
+                                HTTP.put(subscriptionEndpoint + "/" + get(doc, 'id'), {
+                                    data: doc
+                                }, function(error, result){
+                                    if(error){console.error('error', error)}
+                                    if(result){console.log('result', result)}
+                                })    
+                            }               
+    
+                            return doc;
+                        });
+                    } 
+                }
+            });    
+        }
 
     }  
 

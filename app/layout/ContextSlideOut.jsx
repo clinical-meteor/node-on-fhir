@@ -10,7 +10,7 @@ import ErrorDialog from '../core/ErrorDialog';
 
 import { get } from 'lodash';
 
-import logger from '../Logger';
+import { logger } from '../Logger';
 import theme from '../Theme';
 
 import {
@@ -156,7 +156,7 @@ export function ContextSlideOut(props) {
   if(contextComponent){
     contextComponents.forEach(function(reference){
       if(reference.name === contextComponent){
-        logger.debug('Found a matching dialog component to render.')
+        console.debug('Found a matching dialog component to render.')
         
         // did we find a matching component?
         contextContentToRender = reference.component;
