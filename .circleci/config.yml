@@ -88,21 +88,20 @@ jobs:
 
       - run: meteor list  
 
-      - run: 
-        name: Starting Meteor
-        command: meteor run --settings configs/settings.nodeonfhir.json | tee meteor-output.log
-        background: true
-        no_output_timeout: 10m
-        when: on_success    # always, on_success, on_fail 
+      - run: meteor run --settings configs/settings.nodeonfhir.json && | tee meteor-output.log 
+        # name: Starting Meteor
+        # command: meteor run --settings configs/settings.nodeonfhir.json | tee meteor-output.log
+        # background: true
+        # no_output_timeout: 10m
+        # when: on_success    # always, on_success, on_fail 
           
           
-      # - run: 
-      #   name: Running validation tests
-      #   no_output_timeout: 10m
-      #   when: on_success    # always, on_success, on_fail 
-      #   command: | 
-      #     sleep 420
-      #     nightwatch -c .meteor/nightwatch.circle.json  
+      - run: sleep 420; nightwatch -c .meteor/nightwatch.circle.json  
+        # name: Running validation tests
+        # no_output_timeout: 10m
+        # when: on_success    # always, on_success, on_fail 
+        # command:
+        #   sleep 420; nightwatch -c .meteor/nightwatch.circle.json  
 
       # npm install
       # npm run build
