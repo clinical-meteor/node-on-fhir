@@ -109,7 +109,8 @@ let rawStyles = {
       fontSize: '1rem'
     },
     footerNavContainer: {  
-      height: '4em',
+      // height: '4em',
+      height: '64px',
       position: 'fixed',
       bottom: "0px",
       left: "0px",
@@ -290,8 +291,13 @@ let rawStyles = {
       width: '100%',
       paddingLeft: '40px',
       paddingRight: '40px'
+    },
+    '.MuiExpansionPanel-root': {
+      backgroundColor: 'none'
+    },
+    '.MuiExpansionPanel-root:before': {
+      backgroundColor: 'none'
     }
-
   }
 
 

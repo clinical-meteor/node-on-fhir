@@ -39,7 +39,10 @@ import PatientChart from '../patient/PatientChart'
 import PatientQuickChart from '../patient/PatientQuickChart'
 import EhrLaunchPage from '../core/EhrLaunchPage'
 
-import SmartLauncher from '../layout/SmartLauncher'
+import SmartLauncher from '../layout/SmartLauncher';
+import SmartLaunchDebugger from './SmartLaunchDebugger.jsx';
+import SmartSampleApp from '../layout/SmartSampleApp';
+import SmartAppDebugger from '../layout/SmartAppDebugger';
 
 import MyProfilePage from '../core/MyProfilePage';
 import QrScannerPage from '../core/QrScannerPage';
@@ -345,7 +348,7 @@ export function App(props) {
   // SMART on FHIR Oauth Scope  
 
   let searchParams = new URLSearchParams(useLocation().search);
-  if(get(Meteor, 'settings.public.enableSmartOnFhir')){
+  if(get(Meteor, 'settings.public.enableEhrLaunchContext')){
     if(searchParams){
 
       searchParams.forEach(function(value, key){
@@ -614,6 +617,12 @@ export function App(props) {
         { qrScannerRoute }
         
         <Route name='SmartLauncher' key='SmartLauncher' path="/smart-launcher" exact component={ SmartLauncher } />                
+        <Route name='SmartLaunchDebugger' key='SmartLaunchDebugger' path="/smart-debugger" exact component={ SmartLaunchDebugger } />                        
+        <Route name='SmartSampleApp' key='SmartSampleApp' path="/smart-sample-app" exact component={ SmartSampleApp } />                        
+        <Route name='SmartAppDebugger' key='SmartAppDebugger' path="/smart-app-debugger" exact component={ SmartAppDebugger } />                        
+
+        
+
         <Route name='patientChartRoute' key='patientChartPage' path="/patient-chart" exact component={ PatientChart } />                
         <Route name='patientIntakeRoute' key='patientIntakePage' path="/patient-intake" exact component={ PatientQuickChart } />       
         <Route name='quickChartRoute' key='quickChartPage' path="/patient-quickchart" exact component={ PatientQuickChart } />                

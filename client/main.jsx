@@ -33,7 +33,7 @@ let PROJECT_ROOT = path.join(__dirname, '..');
 
 wrapMeteorClient(Meteor, AccountsClient);
 
-Meteor.hostname = function(){
+Meteor.hostname = Meteor.rootUrl = function(){
 
   let meteorAbsoluteUrl = Meteor.absoluteUrl();
   // console.log('meteorAbsoluteUrl', meteorAbsoluteUrl);
@@ -42,8 +42,7 @@ Meteor.hostname = function(){
 
   let trimmedString = "";
   if(meteorAbsoluteUrl[meteorAbsoluteUrl.length - 1] === "/"){
-    trimmedString = meteorAbsoluteUrl.substring(0, meteorAbsoluteUrl.length - 1)
-    // console.log('meteorAbsoluteUrl.trimmed', trimmedString);
+    trimmedString = meteorAbsoluteUrl.substring(0, meteorAbsoluteUrl.length - 1)    
   }
 
   return trimmedString;
@@ -129,7 +128,7 @@ onPageLoad(async function(){
   let searchParams = new URLSearchParams(get(preloadedState, 'url.path'));
   console.debug("onPageLoad().searchParams", searchParams);
   
-  if(get(Meteor, 'settings.public.enableSmartOnFhir')){
+  if(get(Meteor, 'settings.public.enableEhrLaunchContext')){
     if(searchParams.get('iss')){
       Session.set('smartOnFhir_iss', searchParams.get('iss'));
     }

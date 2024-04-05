@@ -14,7 +14,6 @@ import {
   Card,
   CardHeader, 
   CardContent, 
-  CardActions,
   CardMedia, 
   CardActionArea,
   Table,
@@ -25,7 +24,6 @@ import {
   Typography,
   Button
 } from '@material-ui/core';
-import { Alert } from '@mui/lab';
 
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -108,12 +106,10 @@ const useStyles = makeStyles((theme) => ({
  * the `/launch` path and render our component. Then, after our page is
  * rendered we start the auth flow.
  */
-export default function Launcher(props){
+export default function SmartSampleApp(props){
     const classes = useStyles();
     const client = useContext(FhirClientContext);
     
-
-    let [showSettings, setShowSettings] = useState(true);
 
     // // /**
     // //  * This is configured to make a Standalone Launch, just in case it
@@ -230,11 +226,6 @@ export default function Launcher(props){
         }        
     }
 
-    function handleSelectDataSource(config){
-      console.log('handleSelectDataSource')
-
-      SMART.authorize(config);
-    }
     function renderOptions() {
         let configMenu = [];
         configArray.forEach(function(config, index){     
@@ -255,14 +246,14 @@ export default function Launcher(props){
           
           if(config.launchContext !== "Provider"){
               configMenu.push(
-                <TableRow hover={get(config, 'enabled', true)} key={index} style={rowStyle} onClick={handleRowClick.bind(this, config)}>
-                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{index}</TableCell>
-                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.preferred ? <Icon icon={star} size={18} /> : ""}</TableCell>
-                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.vendor}</TableCell>
-                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.environment}</TableCell>
-                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.production ? <Icon icon={ic_people} size={24} /> : <Icon icon={ic_people_outline} size={24} />}</TableCell>
-                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.autodownload ? <Icon icon={ic_file_download} size={24} /> : ""}</TableCell>
-                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="right" style={rowStyle}>{config.fhirVersion}</TableCell>
+                <TableRow key={index} hover={isDisabled} style={rowStyle} onClick={handleRowClick.bind(this, config)} hover>
+                  <TableCell align="left" style={rowStyle}>{index}</TableCell>
+                  <TableCell align="left" style={rowStyle}>{config.preferred ? <Icon icon={star} size={18} /> : ""}</TableCell>
+                  <TableCell align="left" style={rowStyle}>{config.vendor}</TableCell>
+                  <TableCell align="left" style={rowStyle}>{config.environment}</TableCell>
+                  <TableCell align="left" style={rowStyle}>{config.production ? <Icon icon={ic_people} size={24} /> : <Icon icon={ic_people_outline} size={24} />}</TableCell>
+                  <TableCell align="left" style={rowStyle}>{config.autodownload ? <Icon icon={ic_file_download} size={24} /> : ""}</TableCell>
+                  <TableCell align="right" style={rowStyle}>{config.fhirVersion}</TableCell>
               </TableRow>);
             }          
         })
@@ -270,12 +261,13 @@ export default function Launcher(props){
         return configMenu;
     }
 
-    let firstSmartConfig = get(Meteor, 'settings.public.smartOnFhir[0]', []);
 
 
-    function handleAuthenticateDefaultServer(smartConfig){
-      SMART.authorize(smartConfig);
-    }
+    const [age, setAge] = React.useState('');
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
     
     let headerHeight = 84;
     if(get(Meteor, 'settings.public.defaults.prominantHeader')){
@@ -284,25 +276,11 @@ export default function Launcher(props){
 
     let paddingWidth = 20;
 
-
-    let smartConfigElements;
-    if(firstSmartConfig){
-      smartConfigElements = <Typography variant="body1" color="textSecondary" component="p">
-        {JSON.stringify(firstSmartConfig, null, 2)}
-      </Typography>
-    }
-
     return (
         <PageCanvas id='SmartLauncher' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{paddingTop: '128px', paddingBottom: '128px'}} >
             <Grid container justify="center" spacing={3}>
                 <Grid item xs={12} sm={12} md={6} lg={6} >
-                  <CardHeader title="Default data provider" />
-                    <Button fullWidth color="primary" variant="contained" onClick={handleAuthenticateDefaultServer.bind(this, firstSmartConfig)}>
-                      <CardHeader title={"Authenticate with " + get(Meteor, 'settings.public.smartOnFhir[0].vendor')}  />
-                    </Button>                     
-                    <DynamicSpacer />
-
-                    <CardHeader title="Other health information data sources" />
+                    <CardHeader title="Participating Health Networks" />
                     <StyledCard>
                         <Table>
                             <TableHead>

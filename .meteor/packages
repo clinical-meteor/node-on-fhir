@@ -64,3 +64,10 @@ clinical:uscore
 
 # clinical:fhir-schema-parser
 # bshamblen:json-simple-schema
+symptomatic:data-importer
+symptomatic:data-relay
+symptomatic:timelines
+awatson:space-situational-awareness
+mitre:fhir-side
+symptomatic:structured-data-capture
+mitre:sphr-record-analyzer
