@@ -90,7 +90,7 @@ git clone https://github.com/clinical-meteor/example-plugin
 cd ..
 
 # alternatively, run the config from a plugin
-meteor run --settings packages/example-plugin/configs/settings.example.json  --extra-packages symptomatic:example-plugin
+meteor run --settings packages/example-plugin/configs/settings.example.json  --extra-packages clinical:example-plugin
 
 # when you're ready to deploy, you'll need to add the package to the app (meteor deploy won't accept --extra-packages)
 meteor add clinical:example-plugin
