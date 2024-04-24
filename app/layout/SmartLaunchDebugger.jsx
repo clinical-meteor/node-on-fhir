@@ -164,44 +164,6 @@ export default function SmartLaunchDebugger(props){
         // }
 
         setSmartConfig(options);
-
-
-      // if(get(Meteor, 'settings.public.enableEhrLaunchContext')){
-      //   if(searchParams){
-    
-      //     searchParams.forEach(function(value, key){
-      //       console.log(key + ': ' + value); 
-      //     });
-      
-      //     if(searchParams.get('aud')){
-      //       Session.set('smartOnFhir_aud', searchParams.get('aud'));
-      //     }
-      //     if(searchParams.get('client')){
-      //       Session.set('smartOnFhir_client', searchParams.get('client'));
-      //     }
-      //     if(searchParams.get('client_id')){
-      //       Session.set('smartOnFhir_client_id', searchParams.get('client_id'));
-      //     }
-
-
-      //     if(searchParams.get('iss')){
-      //       Session.set('smartOnFhir_iss', searchParams.get('iss'));
-      //     }
-      //     if(searchParams.get('launch')){
-      //       Session.set('smartOnFhir_launch', searchParams.get('launch'));
-      //     }
-      //     if(searchParams.get('code')){
-      //       Session.set('smartOnFhir_code', searchParams.get('code'));
-      //     }
-      //     if(searchParams.get('scope')){
-      //       Session.set('smartOnFhir_scope', searchParams.get('scope'));
-      //     }
-      
-      //     if(searchParams.state){
-      //       Session.set('smartOnFhir_state', searchParams.state);
-      //     }        
-      //   }  
-      // }
     }, [])
 
     // // /**
@@ -250,23 +212,6 @@ export default function SmartLaunchDebugger(props){
     //     // SMART.authorize(options);
     // }
 
-    async function postSmartAuthConfig (url, data) {
-      const response = await fetch(url, {
-          method: 'POST', // *GET, POST, PUT, DELETE, etc.
-          mode: 'cors', // no-cors, *cors, same-origin
-          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: 'same-origin', // include, *same-origin, omit
-          headers: new Headers({
-              // Authorization: 'Bearer my-secret-key',
-              'Content-Type': 'application/json',    
-              "x-forwarded-host": "localhost"          
-          }),
-          redirect: 'follow', // manual, *follow, error
-          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-          body: JSON.stringify(data) // body data type must match "Content-Type" header
-      });
-      return response.json();
-    }
 
     function handleRowClick(config, event){
 
@@ -318,42 +263,6 @@ export default function SmartLaunchDebugger(props){
           }
         }        
     }
-
-    function renderOptions() {
-        let configMenu = [];
-        configArray.forEach(function(config, index){     
-          console.log('SmartLauncher.config', config)           
-          // configMenu.push(<MenuItem value={index}>{config.vendor}</MenuItem>);
-          let isDisabled = false;
-          let rowStyle = {cursor: 'pointer', color: "black"};
-
-          // if(config.launchContext === "Provider"){
-          //     isDisabled = true;
-          //     rowStyle.color = "lightgrey"
-          // } 
-
-          let currentEnvironment = "meteor";
-          if(Meteor.absoluteUrl() === "http://localhost:3000/"){
-            currentEnvironment = "localhost"
-          }
-          
-          if(config.launchContext !== "Provider"){
-              configMenu.push(
-                <TableRow key={index} hover={isDisabled} style={rowStyle} onClick={handleRowClick.bind(this, config)} hover>
-                  <TableCell align="left" style={rowStyle}>{index}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.preferred ? <Icon icon={star} size={18} /> : ""}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.vendor}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.environment}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.production ? <Icon icon={ic_people} size={24} /> : <Icon icon={ic_people_outline} size={24} />}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.autodownload ? <Icon icon={ic_file_download} size={24} /> : ""}</TableCell>
-                  <TableCell align="right" style={rowStyle}>{config.fhirVersion}</TableCell>
-              </TableRow>);
-            }          
-        })
-
-        return configMenu;
-    }
-
 
 
     function handleAuthorizeUser(){

@@ -132,7 +132,7 @@ Meteor.startup(function(){
           // console.log('Generating server stats: ')
           // console.log(serverStats)
 
-          ServerStats.insert(serverStats)
+          ServerStats.insert(serverStats, function(){})
       }
     });
   }   

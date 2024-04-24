@@ -617,7 +617,8 @@ export function App(props) {
         { qrScannerRoute }
         
         <Route name='SmartLauncher' key='SmartLauncher' path="/smart-launcher" exact component={ SmartLauncher } />                
-        <Route name='SmartLaunchDebugger' key='SmartLaunchDebugger' path="/smart-debugger" exact component={ SmartLaunchDebugger } />                        
+        <Route name='SmartDebugger' key='SmartDebugger' path="/smart-debugger" exact component={ SmartLaunchDebugger } />                        
+        <Route name='SmartLaunchDebugger' key='SmartLaunchDebugger' path="/smart-launch-debugger" exact component={ SmartLaunchDebugger } />                        
         <Route name='SmartSampleApp' key='SmartSampleApp' path="/smart-sample-app" exact component={ SmartSampleApp } />                        
         <Route name='SmartAppDebugger' key='SmartAppDebugger' path="/smart-app-debugger" exact component={ SmartAppDebugger } />                        
 

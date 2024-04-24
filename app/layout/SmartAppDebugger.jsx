@@ -61,6 +61,7 @@ import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
 
+import jwt from 'jsonwebtoken';
 
 let configArray = get(Meteor, 'settings.public.smartOnFhir', []);
 // console.log('SmartLauncher.configArray', configArray)
@@ -135,7 +136,8 @@ export default function SmartAppDebugger(props){
     let [showScopes, setShowScopes] = useState(false);
     let [serverCapabilityStatement, setServerCapabilityStatement] = useState("");
     let [wellKnownSmartConfig, setWellKnownSmartConfig] = useState("");
-
+    let [smartAccessToken, setSmartAccessToken] = useState("");
+    let [fhirPatient, setFhirPatient] = useState("");
     
 
     useEffect(function(){
@@ -170,7 +172,7 @@ export default function SmartAppDebugger(props){
         setSmartConfig(options);
 
         fetchCapabilityStatement();
-        fetchWellKnownSmartConfig();
+        
     
     }, [])
 
@@ -220,108 +222,64 @@ export default function SmartAppDebugger(props){
     //     // SMART.authorize(options);
     // }
 
-    async function postSmartAuthConfig (url, data) {
-      const response = await fetch(url, {
-          method: 'POST', // *GET, POST, PUT, DELETE, etc.
-          mode: 'cors', // no-cors, *cors, same-origin
-          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: 'same-origin', // include, *same-origin, omit
-          headers: new Headers({
-              // Authorization: 'Bearer my-secret-key',
-              'Content-Type': 'application/json',    
-              "x-forwarded-host": "localhost"          
-          }),
-          redirect: 'follow', // manual, *follow, error
-          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-          body: JSON.stringify(data) // body data type must match "Content-Type" header
+
+
+
+    function exchangeCodeForAccessToken(wellKnownSmartConfig){
+      console.log('exchangeCodeForAccessToken')
+      console.log('exchangeCodeForAccessToken.url', get(wellKnownSmartConfig, 'token_endpoint'))
+
+      let stringEncodedData = "grant_type=authorization_code&code=" + searchParams.get('code') + '&redirect_uri=' + encodeURIComponent(get(Meteor, 'settings.public.smartOnFhir[0].redirect_uri', '')) + '&client_id=' + get(Meteor, 'settings.public.smartOnFhir[0].client_id', '')
+      console.log('exchangeCodeForAccessToken.stringEncodedData', stringEncodedData);
+      let payload = {
+        code: searchParams.get('code'),
+        grant_type: 'authorization_code',
+        redirect_uri: encodeURIComponent(get(Meteor, 'settings.public.smartOnFhir[0].redirect_uri', '')),
+        client_id: get(Meteor, 'settings.public.smartOnFhir[0].client_id', '')
+      }
+      console.log('exchangeCodeForAccessToken.code', searchParams.get('code'))
+      console.log('exchangeCodeForAccessToken.code', payload)
+      
+      HTTP.post(get(wellKnownSmartConfig, 'token_endpoint'), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        content: stringEncodedData
+      }, function(error, result){
+        if(error){
+          console.error('HTTP.post /token error', error)
+        }
+        if(result){
+          console.log('HTTP.post /token result', result)
+          setSmartAccessToken(get(result, 'data'));
+
+          fetchPatient(get(result, 'data.patient'), get(result, 'data.access_token'));
+        }
       });
-      return response.json();
     }
 
-    function handleRowClick(config, event){
+    function fetchPatient(patientId, accessToken){
+      console.log('fetchPatient')
+      console.log('fetchPatient.url', get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', '') + "/Patient")
+      console.log('fetchPatient.url', accessToken)
 
-        console.log("SMART config:", config)
-        console.log("Event.target", event.target.value);
-
-
-        var searchParams = new URLSearchParams();
-        searchParams.set("client_id", config.client_id);
-        searchParams.set("scope", config.scope);
-        searchParams.set("redirect_uri", config.redirect_uri);
-        searchParams.set("iss", config.iss);
-
-        Session.set('smartConfig', config);
-
-        const options = {
-          clientId: config.client_id,
-          scope: config.scope,
-          redirectUri: config.redirect_uri,
-
-          environment: config.environment,
-          production: config.production,
-          iss: config.iss,
-          fhirServiceUrl: config.fhirServiceUrl,
-
-          // WARNING: completeInTarget=true is needed to make this work
-          // in the codesandbox frame. It is otherwise not needed if the
-          // target is not another frame or window but since the entire
-          // example works in a frame here, it gets confused without
-          // setting this!
-          completeInTarget: true
+      HTTP.get(get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', '') + "/Patient/" + patientId + "?_format=json", {
+        headers: {
+          'Authorization': 'Bearer ' + accessToken
         }
-
-        if( config.client_id === 'OPEN' ) {
-          options.fhirServiceUrl = config.fhirServiceUrl;
-          options.patientId = config.patientId;
-        } else {
-          options.iss = config.fhirServiceUrl;
+      }, function(error, result){
+        if(error){
+          console.error('HTTP.get /Patient error', error)
         }
-
-        if(config.launch_uri){
-          let launchUrl = config.launch_uri + '?' + searchParams.toString()
-          console.log('SmartLauncher.launchUrl', launchUrl)
-  
-          if(Meteor.isCordova){
-            cordova.InAppBrowser.open(launchUrl, '_self');
-          } else {
-            window.open(launchUrl, '_self');
+        if(result){
+          console.log('HTTP.get /Patient result', result)
+          if(get(result, 'data')){
+            setFhirPatient(get(result, 'data'));
+          } else if (get(result, 'content')) {
+            setFhirPatient(JSON.parse(get(result, 'content')));
           }
-        }        
-    }
-
-    function renderOptions() {
-        let configMenu = [];
-        configArray.forEach(function(config, index){     
-          console.log('SmartLauncher.config', config)           
-          // configMenu.push(<MenuItem value={index}>{config.vendor}</MenuItem>);
-          let isDisabled = false;
-          let rowStyle = {cursor: 'pointer', color: "black"};
-
-          // if(config.launchContext === "Provider"){
-          //     isDisabled = true;
-          //     rowStyle.color = "lightgrey"
-          // } 
-
-          let currentEnvironment = "meteor";
-          if(Meteor.absoluteUrl() === "http://localhost:3000/"){
-            currentEnvironment = "localhost"
-          }
-          
-          if(config.launchContext !== "Provider"){
-              configMenu.push(
-                <TableRow key={index} hover={isDisabled} style={rowStyle} onClick={handleRowClick.bind(this, config)} hover>
-                  <TableCell align="left" style={rowStyle}>{index}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.preferred ? <Icon icon={star} size={18} /> : ""}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.vendor}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.environment}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.production ? <Icon icon={ic_people} size={24} /> : <Icon icon={ic_people_outline} size={24} />}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.autodownload ? <Icon icon={ic_file_download} size={24} /> : ""}</TableCell>
-                  <TableCell align="right" style={rowStyle}>{config.fhirVersion}</TableCell>
-              </TableRow>);
-            }          
-        })
-
-        return configMenu;
+        }
+      });
     }
 
 
@@ -335,17 +293,24 @@ export default function SmartAppDebugger(props){
     function fetchCapabilityStatement(){
       console.log('fetchCapabilityStatement');
 
-      HTTP.get(get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', '') + "/metadata", {}, function(error, result){ 
+      HTTP.get(get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', '') + "/metadata?_format=json", {}, function(error, result){ 
         if(error){
           console.error('HTTP.get /metadata error', error)
         }
         if(result){
           console.log('HTTP.get /metadata result', result)
-          setServerCapabilityStatement(result.data);
+          let parsedData;
+          if(get(result, 'data')){
+            setServerCapabilityStatement(result.data);
+            fetchWellKnownSmartConfig();
+          } else if (get(result, 'content')) {
+            setServerCapabilityStatement(JSON.parse(get(result, 'content')));
+            fetchWellKnownSmartConfig();
+          }
         }
       });
     }
-    function fetchWellKnownSmartConfig(){
+    function fetchWellKnownSmartConfig(callback){
       console.log('fetchWellKnownSmartConfig');
 
       HTTP.get(get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', '') + "/.well-known/smart-configuration", {}, function(error, result){
@@ -354,7 +319,8 @@ export default function SmartAppDebugger(props){
         }
         if(result){
           console.log('HTTP.get /.well-known/smart-configuration result', result)
-          setWellKnownSmartConfig(result.data);
+          setWellKnownSmartConfig(get(result, 'data'));
+          exchangeCodeForAccessToken(get(result, 'data'));
         }
       });
     }
@@ -371,7 +337,7 @@ export default function SmartAppDebugger(props){
 
     let receivedParameterElements = [];
     if(get(window, 'location.search')){
-      receivedParameterElements.push(<CardHeader title="Received Parameters" />)
+      receivedParameterElements.push(<CardHeader title="Received Parameters" subheader="Parameters that are pased in via URL during the application redirect process." />)
       receivedParameterElements.push(<StyledCard>
         <CardContent>
           <Alert severity="info">{window.location.search}</Alert>
@@ -473,6 +439,49 @@ export default function SmartAppDebugger(props){
         </CardContent>
       </StyledCard>)
       receivedParameterElements.push(<DynamicSpacer />);
+      receivedParameterElements.push(<StyledCard>
+        <CardContent>
+          <AceEditor
+            mode="text"
+            theme="github"
+            wrapEnabled={true}
+            style={{width: '100%', position: 'relative', height: '200px', minHeight: '200px', backgroundColor: '#f5f5f5', borderColor: '#ccc', borderRadius: '4px', lineHeight: '16px'}}
+            defaultValue={searchParams.get('code')}
+          />
+          <DynamicSpacer />
+          <Grid container>
+            <Grid md={12}>
+              <TextField 
+                id="response_type" 
+                label="header" 
+                variant="standard" 
+                fullWidth
+                disabled
+                defaultValue={searchParams.get('code').split('.')[0]}
+              />
+              <DynamicSpacer />
+              <TextField 
+                id="response_type" 
+                label="payload" 
+                variant="standard" 
+                fullWidth
+                disabled
+                defaultValue={searchParams.get('code').split('.')[1]}
+              />
+              <DynamicSpacer />
+              <TextField 
+                id="response_type" 
+                label="signature" 
+                variant="standard" 
+                fullWidth
+                disabled
+                defaultValue={searchParams.get('code').split('.')[2]}
+              />
+
+            </Grid>
+          </Grid>
+        </CardContent>
+      </StyledCard>)
     } else {
       receivedParameterElements.push(<DynamicSpacer />);
       receivedParameterElements.push(<Card><Alert severity="info">No search parameters specified in URL.</Alert></Card>);
@@ -608,14 +617,14 @@ export default function SmartAppDebugger(props){
     if(get(Meteor, 'settings.public.smartOnFhir[0].iss')){
       fhirServer = get(Meteor, 'settings.public.smartOnFhir[0].iss', '')
     }
-    fhirServer = fhirServer + "/metadata";
+    fhirServer = fhirServer + "/metadata?_format=json";
 
     return (
         <PageCanvas id='SmartLauncher' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{paddingTop: '128px', paddingBottom: '128px'}} >
             
             <Grid container spacing={3} style={{width: '100%'}}>
               <Grid item xs={3} sm={3} md={3} lg={3} >
-                {/* { receivedParameterElements } */}
+                
                 <CardHeader title="Default App Settings" subheader="These are the parameters for the SMART on FHIR protocol, as specified in Meteor.settings.public.smartOnFHIR[0]" />
                 <StyledCard>
                   <CardContent>
@@ -726,11 +735,11 @@ export default function SmartAppDebugger(props){
                       </Grid>
                   </CardContent>
                   <CardActions>
-                    <Button color="info" onClick={() => { setShowScopes(!showScopes) }}> 
+                    <Button color="primary" onClick={() => { setShowScopes(!showScopes) }}> 
                       More
                     </Button>
                   </CardActions>
-                </StyledCard>
+                </StyledCard>                
                 { scopesElements }                  
                 <DynamicSpacer />
                 <Card>
@@ -742,6 +751,9 @@ export default function SmartAppDebugger(props){
                 </Button>
               </Grid>
               <Grid item xs={3} sm={3} md={3} lg={3} >
+                { receivedParameterElements }
+              </Grid>
+              <Grid item xs={3} sm={3} md={3} lg={3} >
                 <CardHeader title="Server Capability Statement" subheader="These values are specified in Meteor.settings.public.smartOnFHIR[0]" />
                 <StyledCard>
                   <CardContent>
@@ -751,7 +763,7 @@ export default function SmartAppDebugger(props){
                       variant="standard" 
                       fullWidth
                       disabled
-                      defaultValue={fhirServer}
+                      defaultValue={get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', '') + "/metadata?_format=json"}
                     />
                     <DynamicSpacer />
                     <AceEditor
@@ -766,7 +778,7 @@ export default function SmartAppDebugger(props){
                     />                   
                   </CardContent>
                   <CardActions>
-                    <Button color="info" onClick={fetchCapabilityStatement}> 
+                    <Button color="primary" onClick={fetchCapabilityStatement}> 
                       Fetch Server Metadata
                     </Button>
                   </CardActions>
@@ -782,7 +794,7 @@ export default function SmartAppDebugger(props){
                       variant="standard" 
                       fullWidth
                       disabled
-                      defaultValue={fhirServer}
+                      defaultValue={get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', '') + "/.well-known/smart-configuration"}
                     />
                     <DynamicSpacer />
                     <AceEditor
@@ -797,33 +809,111 @@ export default function SmartAppDebugger(props){
                     />                   
                   </CardContent>
                   <CardActions>
-                    <Button color="info" onClick={fetchWellKnownSmartConfig}> 
+                    <Button color="primary" onClick={fetchWellKnownSmartConfig}> 
                       Fetch SMART Config
                     </Button>
                   </CardActions>
                 </StyledCard>
-              </Grid>
-              <Grid item xs={3} sm={3} md={3} lg={3} >
-                <CardHeader title="Access Token Response"  />
+                <DynamicSpacer />
                 <StyledCard>
                   <CardContent>
-                    <AceEditor
-                      mode="text"
-                      theme="github"
-                      wrapEnabled={false}
-                      // onChange={onUpdateLlmFriendlyNdjsonString}
-                      name="smartOnFhirSettings"
-                      editorProps={{ $blockScrolling: true }}
-                      // value={JSON.stringify(get(Meteor, 'settings.public.smartOnFhir'), null, 2)}
-                      style={{width: '100%', position: 'relative', height: '200px', minHeight: '200px', backgroundColor: '#f5f5f5', borderColor: '#ccc', borderRadius: '4px', lineHeight: '16px'}}        
-                    />                   
+                    <TextField 
+                      id="server_url" 
+                      label="server_url" 
+                      variant="standard" 
+                      fullWidth
+                      value={wellKnownSmartConfig ? get(wellKnownSmartConfig, 'token_endpoint') : ''}
+                    />
+                    <DynamicSpacer />
+                    <TextField 
+                      id="grant_type" 
+                      label="grant_type" 
+                      variant="standard" 
+                      fullWidth
+                      disabled
+                      value={"authorization_code"}
+                    />
+                    <DynamicSpacer />
+                    <TextField 
+                      id="code" 
+                      label="code" 
+                      variant="standard" 
+                      fullWidth
+                      value={searchParams.get('code')}
+                    />
+                    <DynamicSpacer />
+                    <TextField 
+                      id="redirect_uri" 
+                      label="redirect_uri" 
+                      variant="standard" 
+                      fullWidth
+                      value={encodeURIComponent(get(Meteor, 'settings.public.smartOnFhir[0].redirect_uri', ''))}
+                    />
+                    <DynamicSpacer />
+                    <TextField 
+                      id="client_id" 
+                      label="client_id" 
+                      variant="standard" 
+                      fullWidth
+                      value={get(Meteor, 'settings.public.smartOnFhir[0].client_id', '')}
+                    />
+                    <DynamicSpacer />
+                    <TextField 
+                      id="payload" 
+                      label="payload" 
+                      variant="standard" 
+                      fullWidth
+                      value={"grant_type=authorization_code&code=" + searchParams.get('code') + '&redirect_uri=' + encodeURIComponent(get(Meteor, 'settings.public.smartOnFhir[0].redirect_uri', '')) + '&client_id=' + get(Meteor, 'settings.public.smartOnFhir[0].client_id', '')}
+                    />
                   </CardContent>
                   <CardActions>
-                    <Button color="info" onClick={() => { setShowScopes(!showScopes) }}> 
-                      More
-                    </Button>
+                    <Button color="primary" onClick={exchangeCodeForAccessToken}>Exchange code for access token</Button>
                   </CardActions>
                 </StyledCard>
+              </Grid>              
+            </Grid>
+            <DynamicSpacer />
+            <hr />
+            <DynamicSpacer />
+            <Grid container spacing={3}>
+              <Grid item xs={3} sm={3} md={3} lg={3} >
+                  <CardHeader title="Access Token Response"  />
+                  <StyledCard>
+                    <CardContent>
+                      <AceEditor
+                        mode="text"
+                        theme="github"
+                        wrapEnabled={false}
+                        // onChange={onUpdateLlmFriendlyNdjsonString}
+                        name="smartOnFhirSettings"
+                        editorProps={{ $blockScrolling: true }}
+                        value={JSON.stringify(smartAccessToken, null, 2)}
+                        style={{width: '100%', position: 'relative', height: '200px', minHeight: '200px', backgroundColor: '#f5f5f5', borderColor: '#ccc', borderRadius: '4px', lineHeight: '16px'}}        
+                      />                   
+                    </CardContent>
+                    <CardActions>
+                      <Button color="primary" onClick={fetchPatient}> 
+                        Fetch Patient
+                      </Button>
+                    </CardActions>
+                  </StyledCard>
+              </Grid>
+              <Grid item xs={3} sm={3} md={3} lg={3} >
+                  <CardHeader title="FHIR Patient"  />
+                  <StyledCard>
+                    <CardContent>
+                      <AceEditor
+                        mode="text"
+                        theme="github"
+                        wrapEnabled={false}
+                        // onChange={onUpdateLlmFriendlyNdjsonString}
+                        name="smartOnFhirSettings"
+                        editorProps={{ $blockScrolling: true }}
+                        value={JSON.stringify(fhirPatient, null, 2)}
+                        style={{width: '100%', position: 'relative', height: '200px', minHeight: '200px', backgroundColor: '#f5f5f5', borderColor: '#ccc', borderRadius: '4px', lineHeight: '16px'}}        
+                      />                   
+                    </CardContent>
+                  </StyledCard>
               </Grid>
             </Grid>
         </PageCanvas>

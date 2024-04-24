@@ -62,7 +62,7 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
           if(conditions){
             console.log('PatientAutoDashboard.conditions', conditions)
             conditions.forEach(condition => {
-              Conditions._collection.upsert({id: condition.id}, {$set: condition}, {validate: false, filter: false});                    
+              Conditions._collection.upsert({id: condition.id}, {$set: condition}, {validate: false, filter: false}, function(){});                    
             });
           }
         });
@@ -87,7 +87,7 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
               
               if(parsedConditionBundle.resourceType === "Condition"){
                 if(!Conditions.findOne({id: parsedConditionBundle.id})){
-                  Conditions._collection.upsert({id: parsedConditionBundle.id}, {$set: parsedConditionBundle}, {validate: false, filter: false});     
+                  Conditions._collection.upsert({id: parsedConditionBundle.id}, {$set: parsedConditionBundle}, {validate: false, filter: false}, function(){});     
                 }
               }
             }
@@ -112,7 +112,7 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
           if(encounters){
             console.log('PatientAutoDashboard.encounters', encounters)
             encounters.forEach(encounter => {
-              Encounters._collection.upsert({id: encounter.id}, {$set: encounter}, {validate: false, filter: false});                    
+              Encounters._collection.upsert({id: encounter.id}, {$set: encounter}, {validate: false, filter: false}, function(){});     
             });    
           }
         });
@@ -132,7 +132,7 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
           if(procedures){
             console.log('PatientAutoDashboard.procedures', procedures)
             procedures.forEach(procedure => {
-              Procedures._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+              Procedures._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false}, function(){});                      
             });    
           }
         });
@@ -154,7 +154,7 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
           if(immunizations){
             console.log('PatientAutoDashboard.immunizations', immunizations)
             immunizations.forEach(immunization => {
-              Immunizations._collection.upsert({id: immunization.id}, {$set: immunization}, {validate: false, filter: false});                    
+              Immunizations._collection.upsert({id: immunization.id}, {$set: immunization}, {validate: false, filter: false}, function(){});                         
             });    
           }
         });
@@ -176,7 +176,7 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
           if(medicationOrders){
             console.log('PatientAutoDashboard.medicationOrders', medicationOrders)
             medicationOrders.forEach(medOrder => {
-              MedicationOrders._collection.upsert({id: medOrder.id}, {$set: medOrder}, {validate: false, filter: false});                    
+              MedicationOrders._collection.upsert({id: medOrder.id}, {$set: medOrder}, {validate: false, filter: false}, function(){});                        
             });    
           }
         });
@@ -198,7 +198,7 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
           if(medicationRequests){
             console.log('PatientAutoDashboard.medicationRequests', medicationRequests)
             medicationRequests.forEach(procedure => {
-                MedicationRequests._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false});                    
+                MedicationRequests._collection.upsert({id: procedure.id}, {$set: procedure}, {validate: false, filter: false}, function(){});                        
             });    
           }
         });
@@ -221,7 +221,7 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
           if(observations){
             console.log('PatientAutoDashboard.observations.vital-signs', observations)
             observations.forEach(observation => {
-              Observations._collection.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false});
+              Observations._collection.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false}, function(){});     
             });
           }
         });
@@ -239,7 +239,7 @@ function fetchPatientData(ehrLaunchCapabilities, client, accessToken) {
           if(observations){
             console.log('PatientAutoDashboard.observations.laboratory', observations)
             observations.forEach(observation => {
-              Observations._collection.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false});
+              Observations._collection.upsert({id: observation.id}, {$set: observation}, {validate: false, filter: false}, function(){});     
             });
           }
         });
@@ -414,7 +414,7 @@ export function FhirClientProvider(props){
     
                                   if(parsedPatientBundle.resourceType === "Patient"){
                                     if(!Patients.findOne({id: parsedPatientBundle.id})){
-                                      Patients._collection.insert(parsedPatientBundle)
+                                      Patients._collection.insert(parsedPatientBundle, function(){})
                                       Session.set('selectedPatient', parsedPatientBundle)                                  
                                       Session.set('selectedPatientId', get(parsedPatientBundle, 'id'))
                                     }
@@ -422,7 +422,7 @@ export function FhirClientProvider(props){
                                     parsedPatientBundle.entry.forEach(function(entry){
                                       if(get(entry, 'resource.resourceType') === "Patient"){
                                         if(!Patients.findOne({id: get(entry, 'resource.id')})){
-                                          Patients._collection.insert(get(entry, 'resource'))
+                                          Patients._collection.insert(get(entry, 'resource'), function(){})
                                           Session.set('selectedPatient', get(entry, 'resource'))                                  
                                           Session.set('selectedPatientId', get(entry, 'resource.id'))
                                         }
@@ -490,7 +490,7 @@ export function FhirClientProvider(props){
     
                                   if(parsedPractitionerBundle.resourceType === "Practitioner"){
                                     if(!Practitioners.findOne({id: parsedPractitionerBundle.id})){
-                                      Practitioners._collection.insert(parsedPractitionerBundle)
+                                      Practitioners._collection.insert(parsedPractitionerBundle, function(){})
                                       Session.set('currentUser', parsedPractitionerBundle);
                                     }
                                   }  
@@ -516,303 +516,6 @@ export function FhirClientProvider(props){
         </FhirClientContext.Consumer>
     </FhirClientContext.Provider>
   );
-
 }
-
-
-
-
-// export class FhirClientProvider extends React.Component {
-//   // constructor(props) {
-//   //   // super(props);
-//   //   // this.state = {
-//   //   //   client: null,
-//   //   //   error: null,
-//   //   //   location: get(props, 'location')
-//   //   // };
-//   //   // this.setClient = client => this.setState({ client });
-//   // }
-
-//   render() {
-
-//     // let self = this;
-
-
-
-//     // if (get(self, 'state.error')) {
-//     //   return <PageCanvas id='constructionZone' headerHeight={headerHeight} >
-//     //     <Grid container justify="center">
-//     //       <Grid item md={6}>
-//     //         <StyledCard scrollable margin={20} >
-//     //           <CardHeader title="Unable to Connect" 
-//     //             subheader="Covid19 Patient Chart Analysis requires the app to be launched from an Electronic Health Record (EHR)."
-//     //           />
-//     //           <CardContent style={{textAlign: 'center'}}>
-//     //             <Icon icon={warning} className="warningIcon" style={styles.warningIcon} size={48} />
-//     //             <h4 style={{margin: '0px', padding: '0px'}}>Warning Message</h4>
-//     //             <p style={{margin: '0px', padding: '0px'}}>{get(self, 'state.error.message')}</p>
-//     //           </CardContent>
-//     //         </StyledCard>
-//     //       </Grid>
-//     //     </Grid>
-//     //   </PageCanvas>        
-//     // }
-
-//     return (
-//       <FhirClientContext.Provider
-//         value={{
-//             client: self.state.client,
-//             setClient: self.setClient
-//         }}
-//       >
-//           <FhirClientContext.Consumer>
-//               {({ client }) => {
-//                   if (client) {
-//                     return self.props.children;
-//                   } else {
-
-//                     // let useLocationSearch = get(self, 'state.location.search');
-//                     // logger.debug('FhirClientProvider.self', self, {source: "FhirClientProvider.jsx"});
-
-//                     // let smartOnFhirConfig;
-//                     // if(Array.isArray(get(Meteor, 'settings.public.smartOnFhir'))){
-//                     //   Meteor.settings.public.smartOnFhir.forEach(function(config){
-//                     //       if(useLocationSearch.includes(config.vendorKeyword) && (config.launchContext === "Provider")){
-//                     //           smartOnFhirConfig = config;
-//                     //       }
-//                     //   })
-//                     // }
-
-//                     SMART.ready()
-//                       .then(client => {
-//                         console.log("===========================================================================")
-//                         console.log("SMART ON FHIR - FhirClientProvider")
-
-//                         self.setState({ error: null });
-//                         self.setState({ 
-//                           client: client
-//                         });
-
-//                         const token = client.getAuthorizationHeader();
-//                         console.log('FhirClientProvider.SMART.ready().token: ' + token);
-
-//                         const patientId = client.getPatientId();
-//                         console.log('FhirClientProvider.SMART.ready().patientId: ' + patientId);
-
-//                         const state = client.getState();
-//                         console.log('FhirClientProvider.SMART.ready().state: ' + JSON.stringify(state));
-//                         Session.set('fhirclient.state', state);
-
-//                         const userId = client.getUserId();
-//                         console.log('FhirClientProvider.SMART.ready().userId: ' + userId);
-
-//                         const userType = client.getUserType();
-//                         console.log('FhirClientProvider.SMART.ready().userType: ' + userType);
-
-//                         const fhirUser = client.getFhirUser();
-//                         console.log('FhirClientProvider.SMART.ready().fhirUser: ' + fhirUser);
-
-//                         if(state){
-//                           let metadataUrl = "";
-//                           let patientUrl = "";
-//                           let practitionerUrl = "";
-//                           let accessToken = "";
-
-//                           metadataUrl = state.serverUrl + "/metadata?_format=json";
-//                           console.log('FhirClientProvider.metadataUrl:   ', metadataUrl);
-
-
-//                           if(state.tokenResponse){
-//                             accessToken = get(state, 'tokenResponse.access_token');
-//                             console.log('FhirClientProvider.accessToken:   ', accessToken);
-//                           }
-
-//                           var httpHeaders = { headers: {
-//                             'Accept': "application/json,application/fhir+json",
-//                             "Authorization": "Bearer " + accessToken
-//                             // the following doesn't work with Epic; but was needed by some other system
-//                             // 'Access-Control-Allow-Origin': '*'        
-//                           }}
-
-//                           // if(has(smartOnFhirConfig, 'client_secret')){
-//                           //   httpHeaders.headers["Authorization"] = "Basic " + atob(get(smartOnFhirConfig, 'client_id') + ":" + get(smartOnFhirConfig, 'client_secret'));
-//                           // } 
-                  
-//                           if(has(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken')){
-//                             accessToken = get(Meteor, 'settings.private.fhir.fhirServer.auth.bearerToken');
-//                           }
-
-//                           console.log('FhirClientProvider.patientUrl.httpHeaders', httpHeaders);
-
-//                           if(accessToken){
-//                             if(metadataUrl){            
-//                               HTTP.get(metadataUrl, httpHeaders, function(error, conformanceStatement){
-//                                 let parsedCapabilityStatement = JSON.parse(get(conformanceStatement, "content"))
-//                                 console.log('Received a conformance statement for the server received via iss URL parameter.', parsedCapabilityStatement);
-                        
-//                                 let ehrLaunchCapabilities = FhirUtilities.parseCapabilityStatement(parsedCapabilityStatement);
-//                                 console.log("Result of parsing through the CapabilityStatement.  These are the ResourceTypes we can search for", ehrLaunchCapabilities);
-//                                 Session.set('FhirClientProvider.ehrLaunchCapabilities', ehrLaunchCapabilities)
-                    
-//                                 fetchPatientData(ehrLaunchCapabilities, client, accessToken);
-
-//                                 if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
-//                                   let newAuditEvent = { 
-//                                     "resourceType" : "AuditEvent",
-//                                     "type" : { 
-//                                       'code': 'Fetch Patient Data',
-//                                       'display': 'Fetch Patient Data',
-//                                       }, 
-//                                     "action" : 'Fetch Chart',
-//                                     "recorded" : new Date(), 
-//                                     "outcome" : "Success",
-//                                     "outcomeDesc" : 'Medical records fetched from hospital electronic medical record system.',
-//                                     "agent" : [{ 
-//                                       "name" : FhirUtilities.pluckName(Session.get('selectedPatient')),
-//                                       "who": {
-//                                         "display": FhirUtilities.pluckName(Session.get('selectedPatient')),
-//                                         "reference": "Patient/" + get(Session.get('selectedPatient'), 'id')
-//                                       },
-//                                       "requestor" : false
-//                                     }],
-//                                     "source" : { 
-//                                       "site" : Meteor.absoluteUrl(),
-//                                       "identifier": {
-//                                         "value": Meteor.absoluteUrl(),
-
-//                                       }
-//                                     },
-//                                     "entity": [{
-//                                       "reference": {
-//                                         "reference": ''
-//                                       }
-//                                     }]
-//                                   };
-
-//                                   console.log('Logging a hipaa event...', newAuditEvent)
-//                                   let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent)            
-//                                 }
-//                               })    
-//                             }
-
-//                             if(patientId){
-//                               patientUrl = state.serverUrl + "/Patient?_id=" + patientId;
-//                               // patientUrl = state.serverUrl + "/Patient/" + patientId;
-//                               console.log('FhirClientProvider.patientUrl:    ', patientUrl);
-
-//                               if(patientUrl){        
-//                                 // need to reconcile with client.request() syntax above    
-//                                 HTTP.get(patientUrl, httpHeaders, function(error, result){
-//                                   if(result){
-//                                     let parsedPatientBundle = JSON.parse(get(result, "content", {}))
-//                                     console.log('FhirClientProvider.parsedPatientBundle', parsedPatientBundle);                      
-      
-//                                     if(parsedPatientBundle.resourceType === "Patient"){
-//                                       if(!Patients.findOne({id: parsedPatientBundle.id})){
-//                                         Patients._collection.insert(parsedPatientBundle)
-//                                         Session.set('selectedPatient', parsedPatientBundle)                                  
-//                                         Session.set('selectedPatientId', get(parsedPatientBundle, 'id'))
-//                                       }
-//                                     } else if (parsedPatientBundle.resourceType === "Bundle"){
-//                                       parsedPatientBundle.entry.forEach(function(entry){
-//                                         if(get(entry, 'resource.resourceType') === "Patient"){
-//                                           if(!Patients.findOne({id: get(entry, 'resource.id')})){
-//                                             Patients._collection.insert(get(entry, 'resource'))
-//                                             Session.set('selectedPatient', get(entry, 'resource'))                                  
-//                                             Session.set('selectedPatientId', get(entry, 'resource.id'))
-//                                           }
-//                                         } 
-//                                       }) 
-//                                     }
-
-//                                     if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
-//                                       let newAuditEvent = { 
-//                                         "resourceType" : "AuditEvent",
-//                                         "type" : { 
-//                                           'code': 'Fetch Patient Demographics',
-//                                           'display': 'Fetch Patient Demographics',
-//                                           }, 
-//                                         "action" : 'Fetch Chart',
-//                                         "recorded" : new Date(), 
-//                                         "outcome" : "Success",
-//                                         "outcomeDesc" : 'Medical records fetched from hospital electronic medical record system.',
-//                                         "agent" : [{ 
-//                                           "name" : FhirUtilities.pluckName(Session.get('selectedPatient')),
-//                                           "who": {
-//                                             "display": FhirUtilities.pluckName(Session.get('selectedPatient')),
-//                                             "reference": "Patient/" + get(Session.get('selectedPatient'), 'id')
-//                                           },
-//                                           "requestor" : false
-//                                         }],
-//                                         "source" : { 
-//                                           "site" : Meteor.absoluteUrl(),
-//                                           "identifier": {
-//                                             "value": Meteor.absoluteUrl(),
-
-//                                           }
-//                                         },
-//                                         "entity": [{
-//                                           "reference": {
-//                                             "reference": ''
-//                                           }
-//                                         }]
-//                                       };
-
-//                                       console.log('Logging a hipaa event...', newAuditEvent)
-//                                       let hipaaEventId = Meteor.call("logAuditEvent", newAuditEvent)            
-//                                     }
-
-//                                   }
-//                                   if(error){
-//                                     console.log('FhirClientProvider.patientUrl.get().error', error);
-//                                   }
-//                                 })
-//                               }
-//                             } else {
-//                               console.log('FhirClientProvider.SMART.ready().patientId not found.  Please check scopes and permissions.')
-//                             }
-
-//                             if(fhirUser){
-//                               practitionerUrl = state.serverUrl + "/" + fhirUser;
-//                               console.log('FhirClientProvider.practitionerUrl:    ', practitionerUrl);
-
-//                               if(practitionerUrl){            
-//                                 // need to reconcile with client.request() syntax above
-//                                 HTTP.get(practitionerUrl, httpHeaders, function(error, result){
-//                                   if(result){
-//                                     let parsedPractitionerBundle = JSON.parse(get(result, "content"))
-//                                     console.log('FhirClientProvider.parsedPractitionerBundle', parsedPractitionerBundle);     
-      
-//                                     if(parsedPractitionerBundle.resourceType === "Practitioner"){
-//                                       if(!Practitioners.findOne({id: parsedPractitionerBundle.id})){
-//                                         Practitioners._collection.insert(parsedPractitionerBundle)
-//                                         Session.set('currentUser', parsedPractitionerBundle);
-//                                       }
-//                                     }  
-//                                   }
-//                                   if(error){
-//                                     console.log('FhirClientProvider.practitionerUrl.get().error', error);
-//                                   }
-//                                 })    
-//                               }
-//                             } else {
-//                               console.log('FhirClientProvider.SMART.ready().fhirUser not found.  Please check scopes and permissions.')
-//                             }
-//                           }
-//                         }
-//                       })
-//                       .catch(error => {
-//                         self.setState({ error })
-//                         // console.log('SMART.ready().catch()', error)                            
-//                       });
-
-//                     return null;
-//                   }
-//               }}
-//           </FhirClientContext.Consumer>
-//       </FhirClientContext.Provider>
-//     );
-//   }
-// }
 
 export default FhirClientProvider;

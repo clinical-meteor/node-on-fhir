@@ -274,6 +274,8 @@ export default function Launcher(props){
 
 
     function handleAuthenticateDefaultServer(smartConfig){
+      console.log('smartConfig', smartConfig);
+      
       SMART.authorize(smartConfig);
     }
     

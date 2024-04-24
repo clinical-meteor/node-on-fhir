@@ -275,7 +275,14 @@ function SettingsPage(props){
         if(!get(patientRecord, 'name[0].text')){
           Patients.update({_id: patientRecord._id}, {$set: {
             "name.0.text": FhirUtilities.assembleName(get(patientRecord, 'name[0]'))
-          }})
+          }}, function(error, result){
+            if(error){
+              console.error('Patients.update error', error)
+            }
+            if(result){
+              console.log('Patients.update result', result)
+            }
+          });
         }
       })
 

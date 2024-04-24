@@ -18,7 +18,7 @@ function AppCanvas(props) {
   let styleObject = {overflow: 'hidden'}
 
   if(backgroundImage){
-    styleObject["background-image"] = backgroundImage;
+    styleObject["backgroundImage"] = backgroundImage;
     styleObject.width = '100%';
     styleObject.height = '100%';
     styleObject.backgroundSize = 'cover';

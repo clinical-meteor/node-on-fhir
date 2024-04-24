@@ -290,56 +290,56 @@ Meteor.startup(async function(){
         let myConditions = Conditions.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
         if(Array.isArray(myConditions)){
           myConditions.forEach(function(conditions){
-            Conditions.remove({_id: conditions._id});
+            Conditions.remove({_id: conditions._id}, function(){});     
           })
         }
         let myCarePlans = CarePlans.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
         if(Array.isArray(myCarePlans)){
           myCarePlans.forEach(function(carePlan){
-            CarePlans.remove({_id: carePlan._id});
+            CarePlans.remove({_id: carePlan._id}, function(){});     
           })
         }
         let myCareTeams = CareTeams.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
         if(Array.isArray(myCareTeams)){
           myCareTeams.forEach(function(careTeam){
-            CareTeams.remove({_id: careTeam._id});
+            CareTeams.remove({_id: careTeam._id}, function(){});     
           })
         }
         let myDevices = Devices.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
         if(Array.isArray(myDevices)){
           myDevices.forEach(function(devices){
-            Devices.remove({_id: devices._id});
+            Devices.remove({_id: devices._id}, function(){});     
           })
         }
         let myMedications = Medications.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
         if(Array.isArray(myMedications)){
           myMedications.forEach(function(medications){
-            Medications.remove({_id: medications._id});
+            Medications.remove({_id: medications._id}, function(){});     
           })
         }
         let myMedicationStatements = MedicationStatements.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
         if(Array.isArray(myMedicationStatements)){
           myMedicationStatements.forEach(function(medications){
-            MedicationStatements.remove({_id: medications._id});
+            MedicationStatements.remove({_id: medications._id}, function(){});     
           })
         }
         let myObservations = Observations.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
         if(Array.isArray(myObservations)){
           myObservations.forEach(function(observations){
-            Observations.remove({_id: observations._id});
+            Observations.remove({_id: observations._id}, function(){});     
           })
         }
         let myProcedures = Procedures.find(FhirUtilities.addPatientFilterToQuery(selectedPatientId)).fetch();
         if(Array.isArray(myProcedures)){
           myProcedures.forEach(function(procedures){
-            Procedures.remove({_id: procedures._id});
+            Procedures.remove({_id: procedures._id}, function(){});     
           })
         }
         
         Patients.remove({$or:[
           {id: selectedPatientId},
           {_id: selectedPatientId}
-        ]});
+        ]}, function(){});     
 
         await accountsServer.deactivateUser(get(sessionUser, 'id'));          
 
@@ -874,7 +874,7 @@ Meteor.startup(async function(){
 
             newPatient.id = createdUser.patientId;
 
-            let patientInternalId = Patients.insert(newPatient)
+            let patientInternalId = Patients.insert(newPatient, function(){})
               process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', patientInternalId)
 
             if(get(Meteor, 'settings.private.accessControl.enableHipaaLogging')){
@@ -1011,7 +1011,7 @@ Meteor.startup(async function(){
               process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.findOne(newPractitioner)', newPractitioner)
   
             if(!practitionerAlreadyExists){
-              let newPractitionerId = Practitioners.insert(newPractitioner)
+              let newPractitionerId = Practitioners.insert(newPractitioner, function(){})
               process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPractitionerId', newPractitionerId);
               process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.newPatientId', get(createdUser, 'patientId'));
   
@@ -1021,7 +1021,8 @@ Meteor.startup(async function(){
   
               let userUpdated = Meteor.users.update({patientId: get(createdUser, 'patientId')}, {$set: {
                 practitionerId: newPractitionerId
-              }})
+              }}, {multi: true}, function(){})
+
               process.env.DEBUG_ACCOUNTS && console.log('AccountsServer.userUpdated', userUpdated);
   
   

@@ -409,7 +409,7 @@ export function PatientSidebar(props){
     let customSettingsArray = get(Meteor, 'settings.public.defaults.sidebar.customSettings');
 
     customSettingsArray.forEach(function(customSetting, index){
-      console.log('customSetting', customSetting)
+      // console.log('customSetting', customSetting)
       let clonedIcon = parseIcon(get(customSetting, 'icon', 'fire'));
       
       if(clonedIcon){
@@ -419,7 +419,7 @@ export function PatientSidebar(props){
       } else {
         clonedIcon = <Icon icon={fire} className={styles.drawerIcons} />
       }
-      console.log('clonedIcon', clonedIcon)
+      // console.log('clonedIcon', clonedIcon)
 
       customSettingsElements.push(
         <ListItem id={'customSettingsItem-' + index} key={'customSettingsItem-' + index} button onClick={function(){ openPage(get(customSetting, 'link', '/')); }} >

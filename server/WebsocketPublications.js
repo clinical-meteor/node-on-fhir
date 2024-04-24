@@ -227,7 +227,7 @@ Meteor.startup(function(){
             }
 
             if(!Subscriptions.findOne({'channel.endpoint': collectionName})){
-                Subscriptions.insert(newSubscription);
+                Subscriptions.insert(newSubscription, function(){});
             }
         })
     };
@@ -247,7 +247,7 @@ Meteor.startup(function(){
             if(get(newSubscription, 'channel.type') === "websocket"){
                 let subscriptionEndpoint = get(newSubscription, 'channel.endpoint');
                 if(Collections[subscriptionEndpoint]){
-                    Meteor.publish(subscriptionEndpoint, function(){
+                    Meteor.publish(subscriptionEndpoint, function publishSubscriptionEndpoint(){
                         process.env.TRACE && console.log('>>>>>> ' + subscriptionEndpoint +  '.pubication.this.userId: ' + this.userId)               
                         if(this.userId){
                             defaultOptions.fields = {}
@@ -353,7 +353,7 @@ Meteor.startup(function(){
 
                 let defaultQuery = setCollectionDefaultQuery(collectionName);
 
-                Meteor.publish(collectionName, function(){           
+                Meteor.publish(collectionName, function publishCollectionNameAutomatically(){           
                     process.env.TRACE && console.log('>>>>>> Autopublishing the ' + collectionName + ' collection.  this.userId: ' + this.userId)               
                     if(this.userId){
                         defaultOptions.fields = {}
@@ -384,7 +384,7 @@ Meteor.startup(function(){
                         let defaultQuery = setCollectionDefaultQuery(collectionName, subscriptionRecord);
                         // process.env.DEBUG && console.log('defaultQuery', defaultQuery);
     
-                        Meteor.publish(collectionName, function(){
+                        Meteor.publish(collectionName, function publishCollectionNameByWebsocket(){
                             process.env.TRACE && console.log('>>>>>> Subscription API publication:  ' + collectionName + '  -  this.userId:    ' + this.userId);               
     
                             if(this.userId){

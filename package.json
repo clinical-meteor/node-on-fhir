@@ -128,12 +128,13 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.16.5",
+    "@nightwatch/selenium-server": "^4.5.0",
     "chai": "4.2.0",
     "chai-nightwatch": "0.4.0",
     "chromedriver": "120.0.2",
     "conventional-changelog-cli": "2.1.1",
     "shelljs": "0.8.5",
-    "@nightwatch/selenium-server": "^4.5.0"
+    "worker-loader": "^3.0.8"
   },
   "desktopLibraries": {
     "electron": "6.1.7",
