@@ -431,19 +431,19 @@ export function App(props) {
       document.getElementById("reactCanvas").setAttribute("style", "bottom: 0px; background: " + defaultCanvasColor + ";");
       document.getElementById("reactCanvas").setAttribute("background", defaultCanvasColor);
     }
-  }, [])
+  }, [props])
 
   // ------------------------------------------------------------------
   // Trackers (Auto Update Variables)
 
-  const absoluteUrl = useTracker(function(){
-    console.log('App is checking that Meteor is loaded and fetching the absolute URL.')
-    return Meteor.absoluteUrl();
-  }, []);
+  // const absoluteUrl = useTracker(function(){
+  //   console.log('App is checking that Meteor is loaded and fetching the absolute URL.')
+  //   return Meteor.absoluteUrl();
+  // }, []);
 
-  const selectedPatient = useTracker(function(){
-    return Session.get('selectedPatient')
-  }, []);
+  // const selectedPatient = useTracker(function(){
+  //   return Session.get('selectedPatient')
+  // }, []);
 
 
   // const canvasBackgroundColor = useTracker(function(){    

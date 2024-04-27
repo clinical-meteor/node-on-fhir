@@ -68,6 +68,6 @@ symptomatic:data-importer
 symptomatic:data-relay
 symptomatic:timelines
 awatson:space-situational-awareness
-mitre:fhir-side
 symptomatic:structured-data-capture
 mitre:sphr-record-analyzer
+mitre:fhir-side
