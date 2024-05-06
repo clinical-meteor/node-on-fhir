@@ -237,8 +237,9 @@ export default function Launcher(props){
     }
     function renderOptions() {
         let configMenu = [];
-        configArray.forEach(function(config, index){     
-          console.log('SmartLauncher.config', config)           
+        console.warn('TODO:  migrate SmartOnFHIR configs from public settings to a private Meteor.methods call.')
+        
+        configArray.forEach(function(config, index){                
           // configMenu.push(<MenuItem value={index}>{config.vendor}</MenuItem>);
           let isDisabled = false;
           let rowStyle = {cursor: 'pointer', color: "black"};

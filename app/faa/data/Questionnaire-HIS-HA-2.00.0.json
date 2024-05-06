@@ -1,0 +1,690 @@
+{
+  "resourceType": "Questionnaire",
+  "id": "HIS-HA-2.00.0",
+  "meta": {
+    "versionId": "20",
+    "lastUpdated": "2021-02-17T23:17:23.870+00:00",
+    "source": "#zbvA5EBNKDK1kdmA",
+    "profile": [ "http://hapi.fhir.org/StructureDefinition/del-StandardForm" ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">HIS_HA standard form version 2.00.0.<br/><br/>The HIS is a standardized set of items intended to capture patient-level data on each hospice patient admission. HIS items can be used to calculate seven National Quality Forum (NQF) - endorsed measures, and two non-NQF endorsed measures.</div>"
+  },
+  "url": "http://hapi.fhir.org/baseR4/Questionnaire/HIS-HA-2.00.0",
+  "identifier": [ {
+    "use": "official",
+    "system": "http://del.cms.gov",
+    "value": "Hospice Item Set"
+  } ],
+  "version": "2.00.0",
+  "name": "HIS_HA",
+  "title": "Hospice Item Set - Hospice Admission Record",
+  "status": "active",
+  "date": "2018-04-30T20:51:52.871Z",
+  "publisher": "Division of Chronic and Post Acute Care",
+  "description": "The HIS is a standardized set of items intended to capture patient-level data on each hospice patient admission. HIS items can be used to calculate seven National Quality Forum (NQF) - endorsed measures, and two non-NQF endorsed measures.",
+  "approvalDate": "2017-01-19",
+  "effectivePeriod": {
+    "start": "2017-04-01T00:00:00+00:00"
+  },
+  "item": [ {
+    "linkId": "Section-36",
+    "text": "Section A: Administrative Information",
+    "type": "group",
+    "readOnly": true,
+    "item": [ {
+      "linkId": "Section-36/A0700",
+      "prefix": "A0700",
+      "text": "Medicaid Number - Enter \"+\" if pending, \"N\" if not a Medicaid recipient",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 14
+    }, {
+      "linkId": "Section-36/A0800",
+      "prefix": "A0800",
+      "text": "Gender",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-36/A0900",
+      "prefix": "A0900",
+      "text": "Birth Date",
+      "type": "open-choice",
+      "repeats": false,
+      "readOnly": false
+    }, {
+      "linkId": "Section-36/A0050",
+      "prefix": "A0050",
+      "text": "Type of Record",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-36/A0250",
+      "prefix": "A0250",
+      "text": "Reason for Assessment",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 2
+    }, {
+      "linkId": "Section-36/A0220",
+      "prefix": "A0220",
+      "text": "Admission Date",
+      "type": "open-choice",
+      "repeats": false,
+      "readOnly": false
+    }, {
+      "linkId": "Section-36/A1802",
+      "prefix": "A1802",
+      "text": "Admitted From. Immediately preceding this admission, where was the {patient/resident}?",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 2
+    }, {
+      "linkId": "Section-36/A0550",
+      "prefix": "A0550",
+      "text": "{Patient/Resident} ZIP Code.",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 11
+    }, {
+      "linkId": "Section-36/A0100",
+      "prefix": "A0100",
+      "text": "Facility Provider Numbers",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-36/A0100A",
+        "prefix": "A0100A",
+        "text": "National Provider Identifier (NPI)",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 10
+      }, {
+        "linkId": "Section-36/A0100B",
+        "prefix": "A0100B",
+        "text": "CMS Certification Number (CCN)",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      } ]
+    }, {
+      "linkId": "Section-36/A0500",
+      "prefix": "A0500",
+      "text": "Legal Name of {Patient/Resident}",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-36/A0500A",
+        "prefix": "A0500A",
+        "text": "First name",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      }, {
+        "linkId": "Section-36/A0500B",
+        "prefix": "A0500B",
+        "text": "Middle initial",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-36/A0500C",
+        "prefix": "A0500C",
+        "text": "Last name",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 18
+      }, {
+        "linkId": "Section-36/A0500D",
+        "prefix": "A0500D",
+        "text": "Suffix",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 3
+      } ]
+    }, {
+      "linkId": "Section-36/A0600",
+      "prefix": "A0600",
+      "text": "Social Security and Medicare Numbers",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-36/A0600A",
+        "prefix": "A0600A",
+        "text": "Social Security Number",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 9
+      }, {
+        "linkId": "Section-36/A0600B",
+        "prefix": "A0600B",
+        "text": "Medicare number",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      } ]
+    }, {
+      "linkId": "Section-36/A1000",
+      "prefix": "A1000",
+      "text": "Race/Ethnicity: Check all that apply",
+      "type": "text",
+      "repeats": true,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-36/A1400",
+      "prefix": "A1400",
+      "text": "Payer Information: Check all that apply",
+      "type": "text",
+      "repeats": true,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-36/A0205",
+      "prefix": "A0205",
+      "text": "Site of Service at Admission",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 2
+    }, {
+      "linkId": "Section-36/A0245",
+      "prefix": "A0245",
+      "text": "Date Initial Nursing Assessment Initiated",
+      "type": "open-choice",
+      "repeats": false,
+      "readOnly": false
+    } ]
+  }, {
+    "linkId": "Section-47",
+    "text": "Section F: Preferences",
+    "type": "group",
+    "readOnly": true,
+    "item": [ {
+      "linkId": "Section-47/F2000",
+      "prefix": "F2000",
+      "text": "CPR Preference",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-47/F2000A",
+        "prefix": "F2000A",
+        "text": "Was the {patient/resident}/responsible party asked about preference regarding the use of cardiopulmonary resuscitation (CPR)? - Select the most accurate response",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-47/F2000B",
+        "prefix": "F2000B",
+        "text": "Date the {patient/resident}/responsible party was first asked about preference regarding the use of CPR:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      } ]
+    }, {
+      "linkId": "Section-47/F2100",
+      "prefix": "F2100",
+      "text": "Other Life-Sustaining Treatment Preferences",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-47/F2100A",
+        "prefix": "F2100A",
+        "text": "Was the {patient/resident}/responsible party asked about preferences regarding life-sustaining treatments other than CPR? - Select the most accurate response",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-47/F2100B",
+        "prefix": "F2100B",
+        "text": "Date the {patient/resident}/responsible party was first asked about preferences regarding life-sustaining treatments other than CPR:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      } ]
+    }, {
+      "linkId": "Section-47/F2200",
+      "prefix": "F2200",
+      "text": "Hospitalization Preference",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-47/F2200A",
+        "prefix": "F2200A",
+        "text": "Was the {patient/resident}/responsible party asked about preference regarding hospitalization? - Select the most accurate response",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-47/F2200B",
+        "prefix": "F2200B",
+        "text": "Date the {patient/resident}/responsible party was first asked about preference regarding hospitalization:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      } ]
+    }, {
+      "linkId": "Section-47/F3000",
+      "prefix": "F3000",
+      "text": "Spiritual/Existential Concerns",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-47/F3000A",
+        "prefix": "F3000A",
+        "text": "Was the {patient/resident} and/or caregiver asked about spiritual/existential concerns? - Select the most accurate response",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-47/F3000B",
+        "prefix": "F3000B",
+        "text": "Date the {patient/resident} and/or caregiver was first asked about spiritual/existential concerns:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      } ]
+    } ]
+  }, {
+    "linkId": "Section-9",
+    "text": "Section I: Active Diagnoses",
+    "type": "group",
+    "readOnly": true,
+    "item": [ {
+      "linkId": "Section-9/I0010",
+      "prefix": "I0010",
+      "text": "Principal Diagnosis",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 2
+    } ]
+  }, {
+    "linkId": "Section-10",
+    "text": "Section J: Health Conditions",
+    "type": "group",
+    "readOnly": true,
+    "item": [ {
+      "linkId": "Section-10/J0900",
+      "prefix": "J0900",
+      "text": "Pain Screening",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-10/J0900A",
+        "prefix": "J0900A",
+        "text": "Was the {patient/resident} screened for pain?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-10/J0900B",
+        "prefix": "J0900B",
+        "text": "Date of first screening for pain:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      }, {
+        "linkId": "Section-10/J0900C",
+        "prefix": "J0900C",
+        "text": "The {patient's/resident's} pain severity was:",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-10/J0900D",
+        "prefix": "J0900D",
+        "text": "Type of standardized pain tool used:",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      } ]
+    }, {
+      "linkId": "Section-10/J0905",
+      "prefix": "J0905",
+      "text": "Pain Active Problem. Is pain an active problem for the {patient/resident}?",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-10/J0910",
+      "prefix": "J0910",
+      "text": "Comprehensive Pain Assessment",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-10/J0910A",
+        "prefix": "J0910A",
+        "text": "Was a comprehensive pain assessment done?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-10/J0910B",
+        "prefix": "J0910B",
+        "text": "Date of comprehensive pain assessment:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      }, {
+        "linkId": "Section-10/J0910C",
+        "prefix": "J0910C",
+        "text": "Comprehensive pain assessment included: Check all that apply",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      } ]
+    }, {
+      "linkId": "Section-10/J2030",
+      "prefix": "J2030",
+      "text": "Screening for Shortness of Breath",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-10/J2030A",
+        "prefix": "J2030A",
+        "text": "Was the {patient/resident} screened for shortness of breath?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-10/J2030B",
+        "prefix": "J2030B",
+        "text": "Date of first screening for shortness of breath:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      }, {
+        "linkId": "Section-10/J2030C",
+        "prefix": "J2030C",
+        "text": "Did the screening indicate the {patient/resident} had shortness of breath?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      } ]
+    }, {
+      "linkId": "Section-10/J2040",
+      "prefix": "J2040",
+      "text": "Treatment for Shortness of Breath",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-10/J2040A",
+        "prefix": "J2040A",
+        "text": "Was treatment for shortness of breath initiated? - Select the most accurate response",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-10/J2040B",
+        "prefix": "J2040B",
+        "text": "Date treatment for shortness of breath initiated:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      }, {
+        "linkId": "Section-10/J2040C",
+        "prefix": "J2040C",
+        "text": "Type(s) of treatment for shortness of breath initiated: Check all that apply",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      } ]
+    } ]
+  }, {
+    "linkId": "Section-14",
+    "text": "Section N: Medications",
+    "type": "group",
+    "readOnly": true,
+    "item": [ {
+      "linkId": "Section-14/N0500",
+      "prefix": "N0500",
+      "text": "Scheduled Opioid",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-14/N0500A",
+        "prefix": "N0500A",
+        "text": "Was a scheduled opioid initiated or continued?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-14/N0500B",
+        "prefix": "N0500B",
+        "text": "Date scheduled opioid initiated or continued:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      } ]
+    }, {
+      "linkId": "Section-14/N0510",
+      "prefix": "N0510",
+      "text": "PRN Opioid",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-14/N0510A",
+        "prefix": "N0510A",
+        "text": "Was a PRN opioid initiated or continued?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-14/N0510B",
+        "prefix": "N0510B",
+        "text": "Date PRN opioid initiated or continued:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      } ]
+    }, {
+      "linkId": "Section-14/N0520",
+      "prefix": "N0520",
+      "text": "Bowel Regimen - Complete only if {scheduled opioid or PRN opioid = yes}",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-14/N0520A",
+        "prefix": "N0520A",
+        "text": "Was a bowel regimen initiated or continued? - Select the most accurate response",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-14/N0520B",
+        "prefix": "N0520B",
+        "text": "Date bowel regimen initiated or continued:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      } ]
+    } ]
+  }, {
+    "linkId": "Section-50",
+    "text": "Section O: Service Utilization",
+    "type": "group",
+    "readOnly": true
+  }, {
+    "linkId": "Section-48",
+    "text": "Section Z: Record Administration",
+    "type": "group",
+    "readOnly": true,
+    "item": [ {
+      "linkId": "Section-48/Z0400",
+      "prefix": "Z0400",
+      "text": "Signature of Persons Completing the Assessment",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-48/Z0400A",
+        "prefix": "Z0400A",
+        "text": "Signature, Title, Sections, Date Section Completed A",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400B",
+        "prefix": "Z0400B",
+        "text": "Signature, Title, Sections, Date Section Completed B",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400C",
+        "prefix": "Z0400C",
+        "text": "Signature, Title, Sections, Date Section Completed C",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400D",
+        "prefix": "Z0400D",
+        "text": "Signature, Title, Sections, Date Section Completed D",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400E",
+        "prefix": "Z0400E",
+        "text": "Signature, Title, Sections, Date Section Completed E",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400F",
+        "prefix": "Z0400F",
+        "text": "Signature, Title, Sections, Date Section Completed F",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400G",
+        "prefix": "Z0400G",
+        "text": "Signature, Title, Sections, Date Section Completed G",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400H",
+        "prefix": "Z0400H",
+        "text": "Signature, Title, Sections, Date Section Completed H",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400I",
+        "prefix": "Z0400I",
+        "text": "Signature, Title, Sections, Date Section Completed I",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400J",
+        "prefix": "Z0400J",
+        "text": "Signature, Title, Sections, Date Section Completed J",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400K",
+        "prefix": "Z0400K",
+        "text": "Signature, Title, Sections, Date Section Completed K",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400L",
+        "prefix": "Z0400L",
+        "text": "Signature, Title, Sections, Date Section Completed L",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      } ]
+    }, {
+      "linkId": "Section-48/Z0500",
+      "prefix": "Z0500",
+      "text": "Signature of RN Coordinator Verifying Assessment Completion",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-48/Z0500A",
+        "prefix": "Z0500A",
+        "text": "Signature",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0500B",
+        "prefix": "Z0500B",
+        "text": "Date RN Assessment Coordinator signed assessment as complete",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      } ]
+    } ]
+  } ]
+}

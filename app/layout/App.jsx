@@ -48,6 +48,7 @@ import MyProfilePage from '../core/MyProfilePage';
 import QrScannerPage from '../core/QrScannerPage';
 import ConstructionZone from '../core/ConstructionZone';
 
+// import FaaPage from '../faa/FaaPage';
 
 import { logger } from '../Logger';
 import useStyles from '../Styles';
@@ -615,14 +616,12 @@ export function App(props) {
         { constructionRoute }
         { settingsRoute }
         { qrScannerRoute }
-        
+
         <Route name='SmartLauncher' key='SmartLauncher' path="/smart-launcher" exact component={ SmartLauncher } />                
         <Route name='SmartDebugger' key='SmartDebugger' path="/smart-debugger" exact component={ SmartLaunchDebugger } />                        
         <Route name='SmartLaunchDebugger' key='SmartLaunchDebugger' path="/smart-launch-debugger" exact component={ SmartLaunchDebugger } />                        
         <Route name='SmartSampleApp' key='SmartSampleApp' path="/smart-sample-app" exact component={ SmartSampleApp } />                        
         <Route name='SmartAppDebugger' key='SmartAppDebugger' path="/smart-app-debugger" exact component={ SmartAppDebugger } />                        
-
-        
 
         <Route name='patientChartRoute' key='patientChartPage' path="/patient-chart" exact component={ PatientChart } />                
         <Route name='patientIntakeRoute' key='patientIntakePage' path="/patient-intake" exact component={ PatientQuickChart } />       

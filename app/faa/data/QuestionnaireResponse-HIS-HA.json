@@ -1,0 +1,563 @@
+{
+    "responseType": "QuestionnaireResponse",
+    "id": "his-ha-2.00.0",
+    "questionnaire": "HIS-HA-2.00.0",
+    "title": "Hospice Item Set - Hospice Admission Record",
+    "description": "The HIS is a standardized set of items intended to capture patient-level data on each hospice patient admission. HIS items can be used to calculate seven National Quality Forum (NQF) - endorsed measures, and two non-NQF endorsed measures.",
+    "status": "draft",
+    "authored": "2024-04-27T18:38:55.449Z",
+    "item": [
+      {
+        "linkId": "Section-36/A0700",
+        "prefix": "A0700",
+        "text": "The form asks for the patient's Medicaid number. The patient should enter \"+\" if their Medicaid status is pending, or \"N\" if they are not a Medicaid recipient.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 14
+      },
+      {
+        "linkId": "Section-36/A0800",
+        "prefix": "A0800",
+        "text": "What is the patient's gender? The possible answers could be male, female, or prefer not to say.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-36/A0900",
+        "prefix": "A0900",
+        "text": "What is the patient's birth date?",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-36/A0050",
+        "prefix": "A0050",
+        "text": "The type of record for the patient needs to be specified.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-36/A0250",
+        "prefix": "A0250",
+        "text": "The reason for the patient's assessment needs to be determined.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 2
+      },
+      {
+        "linkId": "Section-36/A0220",
+        "prefix": "A0220",
+        "text": "What is the patient's admission date?",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-36/A1802",
+        "prefix": "A1802",
+        "text": "Where was the patient immediately preceding this admission? Was the patient admitted from another hospital, a nursing home, their residence, or another location?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 2
+      },
+      {
+        "linkId": "Section-36/A0550",
+        "prefix": "A0550",
+        "text": "What is the patient's ZIP code?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 11
+      },
+      {
+        "linkId": "Section-36/A0100A",
+        "prefix": "A0100A",
+        "text": "Does the patient have a National Provider Identifier (NPI)?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 10
+      },
+      {
+        "linkId": "Section-36/A0100B",
+        "prefix": "A0100B",
+        "text": "What is the patient's CMS Certification Number (CCN)?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      },
+      {
+        "linkId": "Section-36/A0500A",
+        "prefix": "A0500A",
+        "text": "What is the patient's first name?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      },
+      {
+        "linkId": "Section-36/A0500B",
+        "prefix": "A0500B",
+        "text": "What is the patient's middle initial?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-36/A0500C",
+        "prefix": "A0500C",
+        "text": "What is the patient's last name?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 18
+      },
+      {
+        "linkId": "Section-36/A0500D",
+        "prefix": "A0500D",
+        "text": "The form asks for the patient's suffix.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 3
+      },
+      {
+        "linkId": "Section-36/A0600A",
+        "prefix": "A0600A",
+        "text": "What is the patient's Social Security Number?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 9
+      },
+      {
+        "linkId": "Section-36/A0600B",
+        "prefix": "A0600B",
+        "text": "What is the patient's Medicare number?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      },
+      {
+        "linkId": "Section-36/A1000",
+        "prefix": "A1000",
+        "text": "The patient should check all the applicable boxes for their race or ethnicity.",
+        "type": "text",
+        "repeats": true,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-36/A1400",
+        "prefix": "A1400",
+        "text": "The patient needs to fill out the payer information and must check all the options that apply to them.",
+        "type": "text",
+        "repeats": true,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-36/A0205",
+        "prefix": "A0205",
+        "text": "What was the site of service at the patient's admission?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 2
+      },
+      {
+        "linkId": "Section-36/A0245",
+        "prefix": "A0245",
+        "text": "The date when the initial nursing assessment was initiated for the patient.",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-47/F2000A",
+        "prefix": "F2000A",
+        "text": "Was the patient, resident, or responsible party asked about their preference regarding the use of cardiopulmonary resuscitation (CPR)? Please select the most accurate response.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-47/F2000B",
+        "prefix": "F2000B",
+        "text": "The date on which the patient or responsible party was first asked about their preference regarding the use of CPR.",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-47/F2100A",
+        "prefix": "F2100A",
+        "text": "Was the patient, or their responsible party, asked about their preferences regarding life-sustaining treatments other than CPR? Select the most accurate response.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-47/F2100B",
+        "prefix": "F2100B",
+        "text": "What was the date when the patient or responsible party was first asked about their preferences regarding life-sustaining treatments other than CPR?",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-47/F2200A",
+        "prefix": "F2200A",
+        "text": "Was the patient or the responsible party asked about their preference regarding hospitalization? Please select the most accurate response.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-47/F2200B",
+        "prefix": "F2200B",
+        "text": "The date when the patient, resident, or responsible party was first asked about their preference regarding hospitalization is:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-47/F3000A",
+        "prefix": "F3000A",
+        "text": "Was the patient or their caregiver asked about any spiritual or existential concerns? Please select the most accurate response.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-47/F3000B",
+        "prefix": "F3000B",
+        "text": "The date on which the patient or caregiver was first asked about spiritual or existential concerns is:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-9/I0010",
+        "prefix": "I0010",
+        "text": "What is the patient's principal diagnosis?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 2
+      },
+      {
+        "linkId": "Section-10/J0900A",
+        "prefix": "J0900A",
+        "text": "Was the patient or resident screened for pain?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-10/J0900B",
+        "prefix": "J0900B",
+        "text": "The date of the patient's first screening for pain was:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-10/J0900C",
+        "prefix": "J0900C",
+        "text": "The severity of the patient's or resident's pain was:",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-10/J0900D",
+        "prefix": "J0900D",
+        "text": "What type of standardized pain tool was used for the patient?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-10/J0905",
+        "prefix": "J0905",
+        "text": "Is pain an active problem for the patient or resident?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-10/J0910A",
+        "prefix": "J0910A",
+        "text": "Was a comprehensive pain assessment conducted on the patient?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-10/J0910B",
+        "prefix": "J0910B",
+        "text": "When was the patient's comprehensive pain assessment conducted?",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-10/J0910C",
+        "prefix": "J0910C",
+        "text": "A comprehensive pain assessment was included for the patient where they needed to check all applicable options.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-10/J2030A",
+        "prefix": "J2030A",
+        "text": "Was the patient or resident screened for any symptoms of shortness of breath?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-10/J2030B",
+        "prefix": "J2030B",
+        "text": "The date of the patient's first screening for shortness of breath was:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-10/J2030C",
+        "prefix": "J2030C",
+        "text": "Did the screening indicate that the patient had shortness of breath?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-10/J2040A",
+        "prefix": "J2040A",
+        "text": "The form asks if treatment for the patient's shortness of breath was initiated. Please select the most accurate response.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-10/J2040B",
+        "prefix": "J2040B",
+        "text": "What is the date when the treatment for shortness of breath was initiated for the patient?",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-10/J2040C",
+        "prefix": "J2040C",
+        "text": "What types of treatment for shortness of breath have been initiated for the patient? Please check all that apply.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-14/N0500A",
+        "prefix": "N0500A",
+        "text": "Was a scheduled opioid initiated or continued for the patient?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-14/N0500B",
+        "prefix": "N0500B",
+        "text": "The date the patient had their opioid treatment initiated or continued is scheduled for:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-14/N0510A",
+        "prefix": "N0510A",
+        "text": "Was a PRN opioid medication initiated or continued for the patient?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-14/N0510B",
+        "prefix": "N0510B",
+        "text": "The date on which the patient's PRN opioid was initiated or continued is:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-14/N0520A",
+        "prefix": "N0520A",
+        "text": "Was a bowel regimen initiated or continued for the patient? Please select the most accurate response.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-14/N0520B",
+        "prefix": "N0520B",
+        "text": "The date on which the patient's bowel regimen was initiated or continued is:",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-48/Z0400A",
+        "prefix": "Z0400A",
+        "text": "The patient must provide their signature and title, as well as complete section A, including the date when the section was completed.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400B",
+        "prefix": "Z0400B",
+        "text": "The patient is required to provide their signature, title, and date they completed section B.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400C",
+        "prefix": "Z0400C",
+        "text": "The patient needs to provide their signature, title, and date on the completed C section of the form.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400D",
+        "prefix": "Z0400D",
+        "text": "The patient needs to provide their signature, title, and the date on which they completed Section D of the form.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400E",
+        "prefix": "Z0400E",
+        "text": "The patient needs to provide their signature, title, and the sections completed, along with the date when section E was completed.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400F",
+        "prefix": "Z0400F",
+        "text": "The patient must sign, provide their title, complete all sections of the form, and include the date that each section was completed.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400G",
+        "prefix": "Z0400G",
+        "text": "The patient needs to provide their signature and title, fill out the necessary sections, and date the section when it's completed.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400H",
+        "prefix": "Z0400H",
+        "text": "The patient is required to provide their signature, title, and the date they completed Section H on the form.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400I",
+        "prefix": "Z0400I",
+        "text": "The patient needs to provide their signature, title, and the date they completed section I.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400J",
+        "prefix": "Z0400J",
+        "text": "The patient needs to provide their signature and title, complete the sections, and include the date when the section was completed.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400K",
+        "prefix": "Z0400K",
+        "text": "The patient needs to provide their signature and title, and complete the sections indicated on the form. The date the section was completed should also be included.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400L",
+        "prefix": "Z0400L",
+        "text": "The patient's form must include their signature and title, the sections filled out, as well as the date each section was completed.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0500A",
+        "prefix": "Z0500A",
+        "text": "The patient needs to provide their signature.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0500B",
+        "prefix": "Z0500B",
+        "text": "The date on which the RN Assessment Coordinator signed the patient's assessment as complete.",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      }
+    ]
+  }

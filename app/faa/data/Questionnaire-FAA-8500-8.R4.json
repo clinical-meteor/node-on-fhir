@@ -1,0 +1,557 @@
+{
+  "resourceType": "Questionnaire",
+  "id": "5770951",
+  "meta": {
+    "versionId": "5",
+    "lastUpdated": "2023-03-17T20:13:06.907-04:00"
+  },
+  "title": "FAA 8500-8",
+  "status": "draft",
+  "description": "Acceptable evidence of physical fitness on a form prescribed by the Administrator.",
+  "purpose": "A person who meets FAA airmen medical standards, based on a medical examination and an evaluation of medical history, is entitled to a medical certificate without restriction or limitation other than the prescribed limitation as to its duration.",
+  "code": [
+    {
+      "system": "https://www.faa.gov/",
+      "code": "8500-8",
+      "display": "Application for Airman Medical Certificate"
+    }
+  ],
+  "item": [
+    {
+      "type": "string",
+      "linkId": "19264175569",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "1",
+          "display": "Medical certificate type"
+        }
+      ],
+      "text": "Application for",
+      "required": true,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "form8500-8",
+            "code": "amc",
+            "display": "Airman Medical Certificate"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "form8500-8",
+            "code": "amspc",
+            "display": "Airman Medical Student Pilot Certificate"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "7270595484463",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "2",
+          "display": "Class of medical certificate"
+        }
+      ],
+      "text": "Class of medical certificate",
+      "type": "string",
+      "required": true,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "form8500-8",
+            "code": "1",
+            "display": "1st"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "form8500-8",
+            "code": "2",
+            "display": "2nd"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "form8500-8",
+            "code": "3",
+            "display": "3rd"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "2898049029846",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "3.1",
+          "display": "Last name"
+        }
+      ],
+      "text": "Last name",
+      "type": "string"
+    },
+    {
+      "linkId": "4564656421201",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "3.2",
+          "display": "first name"
+        }
+      ],
+      "text": "First name",
+      "type": "string"
+    },
+    {
+      "linkId": "20315389196",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "3.3",
+          "display": "middle name"
+        }
+      ],
+      "text": "Middle name",
+      "type": "string"
+    },
+    {
+      "linkId": "3244638245409",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "4",
+          "display": "Social Security number"
+        }
+      ],
+      "text": "Social security number",
+      "type": "string",
+      "required": true
+    },
+    {
+      "linkId": "3742489239981",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "5",
+          "display": "Address and telephone number"
+        }
+      ],
+      "text": "Address and telephone number",
+      "type": "string"
+    },
+    {
+      "linkId": "990063069213",
+      "code": [
+        {
+          "system": "http://loinc.org",
+          "code": "21112-8",
+          "display": "Birth date"
+        }
+      ],
+      "text": "Date of Birth",
+      "type": "string",
+      "required": true
+      
+    },
+    {
+      "linkId": "717842501763",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "7",
+          "display": "Color of hair"
+        }
+      ],
+      "text": "Color of hair",
+      "type": "choice",
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "http://snomed.info/sct",
+            "code": "297996003",
+            "display": "brown"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://snomed.info/sct",
+            "code": "297998002",
+            "display": "black"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://snomed.info/sct",
+            "code": "297995004",
+            "display": "blonde"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://snomed.info/sct",
+            "code": "297994000",
+            "display": "gray"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://snomed.info/sct",
+            "code": "297997007",
+            "display": "red"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://snomed.info/sct",
+            "code": "56317004",
+            "display": "bald"
+          }
+        }
+      ]
+    },
+    {
+      "type": "choice",
+      "linkId": "8636877002143",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "10",
+          "display": "Item 10 - Occupation"
+        }
+      ],
+      "text": "Occupation",
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "https://www.bls.gov/oes/current/oes_stru",
+            "code": "53-2011",
+            "display": "Airline Pilots, Copilots, and Flight Engineers"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "https://www.bls.gov/oes/current/oes_stru",
+            "code": "53-2012",
+            "display": "Commercial Pilots"
+          }
+        }
+      ]
+    },
+    {
+      "type": "string",
+      "linkId": "1408648142286",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "12",
+          "display": "Item 12 - Employer name"
+        }
+      ],
+      "text": "Employer name"
+    },
+    {
+      "type": "choice",
+      "linkId": "1835999511438",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "13",
+          "display": "Item 13 - FAA Airman Medical Certificate Denied Suspended or Revoked"
+        }
+      ],
+      "text": "Has Your FAA Airman Medical Certificate Ever Been Denied, Suspended, or Revoked?",
+      "required": true,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "code": "1",
+            "display": "Yes"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "0",
+            "display": "No"
+          }
+        }
+      ]
+    },
+    {
+      "type": "string",
+      "linkId": "8320245194140",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "18",
+          "display": "Item 18 - Explanation"
+        }
+      ],
+      "text": "Explanation for AMC denial, suspension, or revocation",
+      "enableWhen": [
+        {
+          "question": "1835999511438",
+          "operator": "=",
+          "answerCoding": {
+            "code": "1",
+            "display": "Yes"
+          }
+        }
+      ],
+      "enableBehavior": "any"
+    },
+    {
+      "item": [
+        {
+          "text": "The applicant should indicate the total number of civilian flight hours and whether those hours are logged (LOG) or estimated (EST).",
+          "type": "display",
+          "linkId": "8884801232461_helpText",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "text": "Help-Button",
+                "coding": [
+                  {
+                    "code": "help",
+                    "display": "Help-Button",
+                    "system": "http://hl7.org/fhir/questionnaire-item-control"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "type": "integer",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+          "valueCoding": {
+            "system": "http://unitsofmeasure.org",
+            "code": "h",
+            "display": "hour"
+          }
+        }
+      ],
+      "linkId": "8884801232461",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "14",
+          "display": "Item 14 - Total Pilot Time to Date"
+        }
+      ],
+      "text": "Total Pilot Time to Date",
+      "initial": [
+        {
+          "valueInteger": 0
+        }
+      ]
+    },
+    {
+      "type": "integer",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+          "valueCoding": {
+            "system": "http://unitsofmeasure.org",
+            "code": "h",
+            "display": "hour"
+          }
+        }
+      ],
+      "linkId": "5125604165611",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "15",
+          "display": "Total Pilot Time Past 6 Months"
+        }
+      ],
+      "text": "Total Pilot Time Past 6 Months"
+    },
+    {
+      "type": "date",
+      "linkId": "3625615065757",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "16",
+          "display": "Date of Last FAA Medical Application"
+        }
+      ],
+      "text": "Date of Last FAA Medical Application"
+    },
+    {      
+      "type": "choice",
+      "linkId": "3764621580219",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "17a",
+          "display": "Do You Currently Use Any Prescription of Non-prescription Medication?"
+        }
+      ],
+      "text": "Do You Currently Use Any Prescription of Non-prescription Medication?",
+      "required": true,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "code": "1",
+            "display": "Yes"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "0",
+            "display": "No"
+          }
+        }
+      ]
+    },
+    {      
+      "type": "string",
+      "linkId": "282204433287",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "17a1",
+          "display": "Enter in medication name"
+        }
+      ],
+      "text": "Enter in medication name",
+      "enableWhen": [
+        {
+          "question": "3764621580219",
+          "operator": "=",
+          "answerCoding": {
+            "code": "1",
+            "display": "Yes"
+          }
+        }
+      ],
+      "repeats": true
+    },
+    {      
+      "type": "choice",
+      "linkId": "2164571589013",
+      "code": [
+        {
+          "system": "https://www.faa.gov/pilots/medical_certification",
+          "code": "18",
+          "display": "Have you ever in your life been diagnosed with, had, or do you presently have any of the following?"
+        }
+      ],
+      "text": "Have you ever in your life been diagnosed with, had, or do you presently have any of the following?",
+      "required": true,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "code": "a",
+            "display": "Frequent or severe headaches"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "b",
+            "display": "Dizziness or fainting spell"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "c",
+            "display": "Unconsciousness for any reason"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "d",
+            "display": "Eye or vision trouble except glasses"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "e",
+            "display": "Hay fever or allergy"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "f",
+            "display": "Asthma or lung disease"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "g",
+            "display": "Heart or vascular trouble"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "h",
+            "display": "High or low blood pressure"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "i",
+            "display": "Stomach, liver, or intestinal trouble"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "j",
+            "display": "Kidney stone or blood in urine"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "k",
+            "display": "Diabetes"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "l",
+            "display": "Neurlogical disorders; epilepsy, seizures, stroke, paralysis, etc"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "m",
+            "display": "Mental disorders of any sort; depression, anxiety, etc"
+          }
+        },
+        {
+          "valueCoding": {
+            "code": "n",
+            "display": "Substance dependence or failed a drug test ever; or substance abuse or use of illegal substance in the last 2 years."
+          }          
+        },
+        {
+          "valueCoding": {
+            "code": "o",
+            "display": "Alcohol dependence or abuse"
+          }          
+        },
+        {
+          "valueCoding": {
+            "code": "p",
+            "display": "Suicide attempt"
+          }          
+        },
+        {
+          "valueCoding": {
+            "code": "q",
+            "display": "Motion sickness requiring medication"
+          }          
+        }
+      ]
+    }
+  ]
+}

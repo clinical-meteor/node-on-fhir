@@ -1,0 +1,67 @@
+{
+  "resourceType" : "Goal",
+  "id" : "SDOHCC-Goal-FoodInsecurity-1-Example-1",
+  "meta" : {
+    "versionId" : "2",
+    "lastUpdated" : "2020-03-12T20:51:41.685+00:00",
+    "source" : "#M7f43tEJiEVDc56W"
+  },
+  "lifecycleStatus" : "completed",
+  "achievementStatus" : {
+    "coding" : [
+      {
+        "system" : "http://terminology.hl7.org/CodeSystem/goal-achievement",
+        "code" : "achieved",
+        "display" : "Achieved"
+      }
+    ]
+  },
+  "description" : {
+    "coding" : [
+      {
+        "system" : "http://snomed.info/sct",
+        "code" : "sdohcc-sctt-91000243106",
+        "display" : "Food security (finding)"
+      }
+    ],
+    "text" : "Food security"
+  },
+  "subject" : {
+    "reference" : "Patient/patientExample1"
+  },
+  "target" : [
+    {
+      "measure" : {
+        "coding" : [
+          {
+            "system" : "http://snomed.info/sct",
+            "code" : "733423003",
+            "display" : "Food insecurity (finding)"
+          }
+        ],
+        "text" : "Food insecurity"
+      },
+      "detailCodeableConcept" : {
+        "coding" : [
+          {
+            "system" : "http://snomed.info/sct",
+            "code" : "410516002",
+            "display" : "Known absent (qualifier value)"
+          }
+        ],
+        "text" : "Known absent"
+      }
+    }
+  ],
+  "statusDate" : "2012-10-27",
+  "addresses" : [
+    {
+      "reference" : "Condition/SDOHCC-Condition-FoodInsecurity-1-Example-1"
+    }
+  ],
+  "outcomeReference" : [
+    {
+      "reference" : "Observation/SDOHCC-Observation-FoodInsecurity-1-Example-2"
+    }
+  ]
+}

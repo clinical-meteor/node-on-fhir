@@ -1,0 +1,540 @@
+{
+  "code": [
+    {
+      "code": "90473-0",
+      "display": "MDS v3.0 - RAI v1.17.1, 1.17.2 - Nursing home comprehensive (NC) item set [CMS Assessment]",
+      "system": "http://loinc.org"
+    }
+  ],
+  "title": "MDS v3.0 - RAI v1.17.1, 1.17.2 - Nursing home comprehensive (NC) item set [CMS Assessment]",
+  "resourceType": "Questionnaire",
+  "status": "draft",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/4.0/StructureDefinition/Questionnaire"
+    ],
+    "tag": [
+      {
+        "code": "lformsVersion: 34.3.0"
+      }
+    ]
+  },
+  "item": [
+    {
+      "item": [
+        {
+          "item": [
+            {
+              "type": "string",
+              "code": [
+                {
+                  "code": "45392-8",
+                  "display": "First name",
+                  "system": "http://loinc.org"
+                }
+              ],
+              "required": false,
+              "linkId": "/90499-5/54503-8/45392-8",
+              "text": "First name"
+            },
+            {
+              "type": "string",
+              "code": [
+                {
+                  "code": "45393-6",
+                  "display": "Middle initial",
+                  "system": "http://loinc.org"
+                }
+              ],
+              "required": false,
+              "linkId": "/90499-5/54503-8/45393-6",
+              "text": "Middle initial"
+            },
+            {
+              "type": "string",
+              "linkId": "/90499-5/54503-8/45394-4",
+              "code": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "45394-4",
+                  "display": "Last name"
+                }
+              ],
+              "text": "Last name",
+              "required": false
+            }
+          ],
+          "type": "group",
+          "linkId": "/90499-5/54503-8",
+          "code": [
+            {
+              "system": "http://loinc.org",
+              "code": "54503-8",
+              "display": "Legal Name of Resident"
+            }
+          ],
+          "text": "Legal Name of Resident",
+          "required": false
+        },
+        {
+          "type": "group",
+          "code": [
+            {
+              "code": "45966-9",
+              "display": "Social Security and Medicare Numbers",
+              "system": "http://loinc.org"
+            }
+          ],
+          "required": false,
+          "linkId": "/90499-5/45966-9",
+          "text": "Social Security and Medicare Numbers",
+          "item": [
+            {
+              "type": "string",
+              "linkId": "/90499-5/45966-9/45396-9",
+              "code": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "45396-9",
+                  "display": "Social Security Number"
+                }
+              ],
+              "text": "Social Security Number",
+              "required": false
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "drop-down",
+                    "display": "Drop down"
+                  }
+                ],
+                "text": "Drop down"
+              }
+            }
+          ],
+          "linkId": "/90499-5/46098-0",
+          "code": [
+            {
+              "system": "http://loinc.org",
+              "code": "46098-0",
+              "display": "Gender"
+            }
+          ],
+          "text": "Gender",
+          "required": false,
+          "answerOption": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-optionPrefix",
+                  "valueString": "1"
+                }
+              ],
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA2-8",
+                "display": "Male"
+              }
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-optionPrefix",
+                  "valueString": "2"
+                }
+              ],
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA3-6",
+                "display": "Female"
+              }
+            }
+          ]
+        },
+        {
+          "type": "decimal",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+              "valueCoding": {
+                "system": "http://unitsofmeasure.org",
+                "code": "{mm/dd/yyyy}",
+                "display": "{mm/dd/yyyy}"
+              }
+            }
+          ],
+          "linkId": "/90499-5/21112-8",
+          "code": [
+            {
+              "system": "http://loinc.org",
+              "code": "21112-8",
+              "display": "Birth Date"
+            }
+          ],
+          "text": "Birth Date",
+          "required": false
+        },
+        {
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "drop-down",
+                    "display": "Drop down"
+                  }
+                ],
+                "text": "Drop down"
+              }
+            }
+          ],
+          "linkId": "/90499-5/59362-4",
+          "code": [
+            {
+              "system": "http://loinc.org",
+              "code": "59362-4",
+              "display": "Race/Ethnicity"
+            }
+          ],
+          "text": "Race/Ethnicity",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA6155-1",
+                "display": "American Indian or Alaska Native"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA6156-9",
+                "display": "Asian"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA10610-6",
+                "display": "Black or African American"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA6214-6",
+                "display": "Hispanic or Latino"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA10611-4",
+                "display": "Native Hawaiian or Other Pacific Islander"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA4457-3",
+                "display": "White"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "code": [
+            {
+              "code": "54505-3",
+              "display": "Language",
+              "system": "http://loinc.org"
+            }
+          ],
+          "required": false,
+          "linkId": "/90499-5/54505-3",
+          "text": "Language",
+          "item": [
+            {
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "drop-down",
+                        "display": "Drop down"
+                      }
+                    ],
+                    "text": "Drop down"
+                  }
+                }
+              ],
+              "linkId": "/90499-5/54505-3/54899-0",
+              "code": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "54899-0",
+                  "display": "Preferred language"
+                }
+              ],
+              "text": "Preferred language",
+              "required": false,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "system": "http://loinc.org",
+                    "code": "LA43-5",
+                    "display": "English"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://loinc.org",
+                    "code": "LA44-3",
+                    "display": "Spanish"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://loinc.org",
+                    "code": "LA4168-6",
+                    "display": "Chinese"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://loinc.org",
+                    "code": "LA4443-3",
+                    "display": "Vietnamese"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://loinc.org",
+                    "code": "LA15353-8",
+                    "display": "Tagalog"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://loinc.org",
+                    "code": "LA46-8",
+                    "display": "Other"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "drop-down",
+                    "display": "Drop down"
+                  }
+                ],
+                "text": "Drop down"
+              }
+            }
+          ],
+          "linkId": "/90499-5/45404-1",
+          "code": [
+            {
+              "system": "http://loinc.org",
+              "code": "45404-1",
+              "display": "Marital Status"
+            }
+          ],
+          "text": "Marital Status",
+          "required": false,
+          "answerOption": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-optionPrefix",
+                  "valueString": "1"
+                }
+              ],
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA47-6",
+                "display": "Never married"
+              }
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-optionPrefix",
+                  "valueString": "2"
+                }
+              ],
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA48-4",
+                "display": "Married"
+              }
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-optionPrefix",
+                  "valueString": "3"
+                }
+              ],
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA49-2",
+                "display": "Widowed"
+              }
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-optionPrefix",
+                  "valueString": "4"
+                }
+              ],
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA4288-2",
+                "display": "Separated"
+              }
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-optionPrefix",
+                  "valueString": "5"
+                }
+              ],
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA51-8",
+                "display": "Divorced"
+              }
+            }
+          ]
+        }
+      ],
+      "type": "group",
+      "linkId": "/90499-5",
+      "code": [
+        {
+          "system": "http://loinc.org",
+          "code": "90499-5",
+          "display": "Identification Information"
+        }
+      ],
+      "text": "Identification Information",
+      "required": false
+    },
+    {
+      "item": [
+        {
+          "item": [
+            {
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "drop-down",
+                        "display": "Drop down"
+                      }
+                    ],
+                    "text": "Drop down"
+                  }
+                }
+              ],
+              "linkId": "/90486-2/86674-9/54845-3",
+              "code": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "54845-3",
+                  "display": "Current Tobacco Use"
+                }
+              ],
+              "text": "Current Tobacco Use",
+              "required": false,
+              "answerOption": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-optionPrefix",
+                      "valueString": "0"
+                    }
+                  ],
+                  "valueCoding": {
+                    "system": "http://loinc.org",
+                    "code": "LA32-8",
+                    "display": "No"
+                  }
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-optionPrefix",
+                      "valueString": "1"
+                    }
+                  ],
+                  "valueCoding": {
+                    "system": "http://loinc.org",
+                    "code": "LA33-6",
+                    "display": "Yes"
+                  }
+                }
+              ]
+            }
+          ],
+          "type": "group",
+          "linkId": "/90486-2/86674-9",
+          "code": [
+            {
+              "system": "http://loinc.org",
+              "code": "86674-9",
+              "display": "Other Health Conditions"
+            }
+          ],
+          "text": "Other Health Conditions",
+          "required": false
+        }
+      ],
+      "type": "group",
+      "linkId": "/90486-2",
+      "code": [
+        {
+          "system": "http://loinc.org",
+          "code": "90486-2",
+          "display": "Health Conditions"
+        }
+      ],
+      "text": "Health Conditions",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,737 @@
+{
+  "_id": "iZ5ruzbcBAsejG4NR",
+  "id": "LOINC-93025-5",
+  "status": "draft",
+  "resourceType": "Questionnaire",
+  "title": "Protocol for Responding to and Assessing Patients' Assets, Risks, and Experiences [PRAPARE]",
+  "name": "Protocol for Responding to and Assessing Patients' Assets, Risks, and Experiences [PRAPARE]",
+  "copyright": "Â© 2019. This item comes from the national PRAPARE social determinants of health assessment protocol, developed and owned by the National Association of Community Health Centers (NACHC), in partnership with the Association of Asian Pacific Community Health Organization (AAPCHO), the Oregon Primary Care Association (OPCA), and the Institute for Alternative Futures (IAF). For more information, visit www.nachc.org/prapare Used with permission.",
+  "identifier": [],
+  "code": [
+    {
+      "system": "LOINC",
+      "code": "93025-5",
+      "display": "Protocol for Responding to and Assessing Patients' Assets, Risks, and Experiences [PRAPARE]"
+    }
+  ],
+  "item": [
+    {
+      "linkId": "93043-8",
+      "text": "Personal characteristics",
+      "type": "SECTION",
+      "item": [
+        {
+          "linkId": "56051-6",
+          "text": "Are you Hispanic or Latino?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA33-6",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA32-8",
+                "display": "No"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "32624-9",
+          "text": "Which race(s) are you?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA6156-9",
+                "display": "Asian"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA14045-1",
+                "display": "Native Hawaiian"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30187-1",
+                "display": "Pacific Islander"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA14042-8",
+                "display": "Black/African American"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA4457-3",
+                "display": "White"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA4-4",
+                "display": "American Indian/Alaskan Native"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA46-8",
+                "display": "Other"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "93035-4",
+          "text": "At any point in the past 2 years, has season or migrant farm work been your or your family's main source of income?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA33-6",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA32-8",
+                "display": "No"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "93034-7",
+          "text": "Have you been discharged from the armed forces of the United States?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA33-6",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA32-8",
+                "display": "No"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "54899-0",
+          "text": "What language are you most comfortable speaking?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA43-5",
+                "display": "English"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30188-9",
+                "display": "Language other than English"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "93042-0",
+      "text": "Family and home",
+      "type": "SECTION",
+      "item": [
+        {
+          "linkId": "63512-8",
+          "text": "How many family members, including yourself, do you currently live with?",
+          "type": "REAL",
+          "answerOption": []
+        },
+        {
+          "linkId": "71802-3",
+          "text": "What is your housing situation today?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30189-7",
+                "display": "I have housing"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30190-5",
+                "display": "I do not have housing (staying with others, in a hotel, in a shelter, living outside on the street, on a beach, in a car, or in a park)"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "93033-9",
+          "text": "Are you worried about losing your housing?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA33-6",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA32-8",
+                "display": "No"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "56799-0",
+          "text": "What address do you live at?",
+          "type": "ST",
+          "answerOption": []
+        }
+      ]
+    },
+    {
+      "linkId": "93041-2",
+      "text": "Money and Resources",
+      "type": "SECTION",
+      "item": [
+        {
+          "linkId": "82589-3",
+          "text": "What is the highest level of school that you have finished?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30191-3",
+                "display": "Less than high school degree"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30192-1",
+                "display": "High school diploma or GED"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30193-9",
+                "display": "More than high school"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "67875-5",
+          "text": "What is your current work situation?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA17956-6",
+                "display": "Unemployed"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30138-4",
+                "display": "Part-time or temporary work"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30136-8",
+                "display": "Full-time work"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30137-6",
+                "display": "Otherwise unemployed but not seeking work (ex: student, retired, disabled, unpaid primary care giver)"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "76437-3",
+          "text": "What is your main insurance?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30194-7",
+                "display": "None/uninsured"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA17849-3",
+                "display": "Medicaid"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30195-4",
+                "display": "CHIP Medicaid"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA15652-3",
+                "display": "Medicare"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30196-2",
+                "display": "Other public insurance (not CHIP)"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30197-0",
+                "display": "Other public insurance (CHIP)"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA6350-8",
+                "display": "Private insurance"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "93031-3",
+          "text": "During the past year, what was the total combined income for you and the family members you live with? This information will help us determine if you are eligible for any benefits.",
+          "type": "REAL",
+          "answerOption": []
+        },
+        {
+          "linkId": "93030-5",
+          "text": "Has lack of transportation kept you from medical appointments, meetings, work, or from getting things needed for daily living?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30125-1",
+                "display": "Food"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30126-9",
+                "display": "Clothing"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30124-4",
+                "display": "Utilities"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30127-7",
+                "display": "Child care"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30128-5",
+                "display": "Medicine or Any Health Care (Medical, Dental, Mental Health, Vision)"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30129-3",
+                "display": "Phone"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA46-8",
+                "display": "Other"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "93041-2",
+          "text": "Has lack of transportation kept you from medical appointments, meetings, work, or from getting things needed for daily living?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30133-5",
+                "display": "Yes, it has kept me from medical appointments or from getting my medications"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30134-3",
+                "display": "Yes, it has kept me from non-medical meetings, appointments, work, or from getting things that I need"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA32-8",
+                "display": "No"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30257-2",
+                "display": "Patient unable to respond"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "93040-4",
+      "text": "Social and emotional health",
+      "type": "SECTION",
+      "item": [
+        {
+          "linkId": "93029-7",
+          "text": "How often do you see or talk to people that you care about and feel close to?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA27722-0",
+                "display": "Less than once a week"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30130-1",
+                "display": "1 or 2 times a week"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30131-9",
+                "display": "3 to 5 times a week"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30132-7",
+                "display": "5 or more times a week"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "93038-8",
+          "text": "Stress is when someone feels tense, nervous, anxious or can't sleep at night because their mind is troubled. How stressed are you?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA6568-5",
+                "display": "Not at all"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA13863-8",
+                "display": "A little bit"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA13909-9",
+                "display": "Somewhat"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA13902-4",
+                "display": "Quite a bit"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA13914-9",
+                "display": "Very much"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "93039-6",
+      "text": "Optional additional questions",
+      "type": "SECTION",
+      "item": [
+        {
+          "linkId": "93028-9",
+          "text": "In the past year, have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA33-6",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA32-8",
+                "display": "No"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "93027-1",
+          "text": "Are you a refugee?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA33-6",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA32-8",
+                "display": "No"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "93026-3",
+          "text": "Do you feel physically and emotionally safe where you currently live?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA33-6",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA32-8",
+                "display": "No"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA14072-5",
+                "display": "Unsure"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA30122-8",
+                "display": "I choose not to answer this question"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "76501-6",
+          "text": "Within the last year, have you been afraid of your partner or ex-partner?",
+          "type": "CNE",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA33-6",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "LOINC",
+                "code": "LA32-8",
+                "display": "No"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

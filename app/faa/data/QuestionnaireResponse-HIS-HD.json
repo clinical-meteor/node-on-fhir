@@ -1,0 +1,673 @@
+{
+    "responseType": "QuestionnaireResponse",
+    "id": "his-hd-2.00.0",
+    "questionnaire": "HIS-HD-2.00.0",
+    "title": "Hospice Item Set - Hospice Discharge Record",
+    "description": "The HIS is a standardized set of items intended to capture patient-level data on each hospice patient admission. HIS items can be used to calculate seven National Quality Forum (NQF) - endorsed measures, and two non-NQF endorsed measures.",
+    "status": "draft",
+    "authored": "2024-04-27T18:40:14.338Z",
+    "item": [
+      {
+        "linkId": "Section-36/A0700",
+        "prefix": "A0700",
+        "text": "The patient is required to enter a \"+\" if their Medicaid Number is pending or \"N\" if they are not a Medicaid recipient.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 14
+      },
+      {
+        "linkId": "Section-36/A0800",
+        "prefix": "A0800",
+        "text": "The patient's gender is being asked, with the answer choices being male, female, or prefer not to say.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-36/A0900",
+        "prefix": "A0900",
+        "text": "What is the patient's birth date?",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-36/A0050",
+        "prefix": "A0050",
+        "text": "The type of record pertaining to the patient needs to be identified.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-36/A0250",
+        "prefix": "A0250",
+        "text": "What is the reason for the patient's assessment?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 2
+      },
+      {
+        "linkId": "Section-36/A0220",
+        "prefix": "A0220",
+        "text": "The admission date of the patient is?",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-36/A0270",
+        "prefix": "A0270",
+        "text": "What is the patient's discharge date?",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-36/A0100A",
+        "prefix": "A0100A",
+        "text": "What is the patient's National Provider Identifier (NPI)?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 10
+      },
+      {
+        "linkId": "Section-36/A0100B",
+        "prefix": "A0100B",
+        "text": "What is the patient's CMS Certification Number (CCN)?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      },
+      {
+        "linkId": "Section-36/A0500A",
+        "prefix": "A0500A",
+        "text": "What is the patient's first name?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      },
+      {
+        "linkId": "Section-36/A0500B",
+        "prefix": "A0500B",
+        "text": "What is the patient's middle initial?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-36/A0500C",
+        "prefix": "A0500C",
+        "text": "What is the patient's last name?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 18
+      },
+      {
+        "linkId": "Section-36/A0500D",
+        "prefix": "A0500D",
+        "text": "What is the patient's suffix?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 3
+      },
+      {
+        "linkId": "Section-36/A0600A",
+        "prefix": "A0600A",
+        "text": "What is the patient's Social Security Number?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 9
+      },
+      {
+        "linkId": "Section-36/A0600B",
+        "prefix": "A0600B",
+        "text": "What is the patient's Medicare number?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      },
+      {
+        "linkId": "Section-36/A2115",
+        "prefix": "A2115",
+        "text": "What was the patient's reason for discharge?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 2
+      },
+      {
+        "linkId": "Section-50/O5000",
+        "prefix": "O5000",
+        "text": "Did the patient or resident receive Continuous Home Care, General Inpatient Care, or Respite Care during any of the final three days of their life?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010A1",
+        "prefix": "O5010A1",
+        "text": "Did a registered nurse visit the patient on the day of their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010A2",
+        "prefix": "O5010A2",
+        "text": "The registered nurse visited the patient one day prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010A3",
+        "prefix": "O5010A3",
+        "text": "The patient was visited by a registered nurse two days prior to death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010B1",
+        "prefix": "O5010B1",
+        "text": "Did the patient receive a visit from a physician, nurse practitioner, or physician assistant on the day of their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010B2",
+        "prefix": "O5010B2",
+        "text": "Did the patient receive a visit from a physician, nurse practitioner, or physician assistant one day prior to death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010B3",
+        "prefix": "O5010B3",
+        "text": "Did the patient visit a physician, nurse practitioner, or physician assistant two days prior to their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010C1",
+        "prefix": "O5010C1",
+        "text": "The medical social worker visited the patient on the day of their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010C2",
+        "prefix": "O5010C2",
+        "text": "The medical social worker visited the patient one day prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010C3",
+        "prefix": "O5010C3",
+        "text": "The medical social worker visited the patient two days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010D1",
+        "prefix": "O5010D1",
+        "text": "Did the patient receive a visit from a chaplain or spiritual counselor on the day of their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010D2",
+        "prefix": "O5010D2",
+        "text": "Did the patient receive a visit from a chaplain or spiritual counselor one day prior to their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010D3",
+        "prefix": "O5010D3",
+        "text": "Did the patient receive a visit from a Chaplain or Spiritual Counselor two days prior to their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010E1",
+        "prefix": "O5010E1",
+        "text": "Did the Licensed Professional Nurse visit the patient on the day of their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010E2",
+        "prefix": "O5010E2",
+        "text": "Did the licensed professional nurse visit the patient one day prior to death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010E3",
+        "prefix": "O5010E3",
+        "text": "Did the Licensed Professional Nurse visit the patient two days prior to death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010F1",
+        "prefix": "O5010F1",
+        "text": "Did an aide visit the patient on the day of their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010F2",
+        "prefix": "O5010F2",
+        "text": "Did the aide visit the patient one day prior to their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5010F3",
+        "prefix": "O5010F3",
+        "text": "Did the aide visit the patient two days prior to death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5020",
+        "prefix": "O5020",
+        "text": "Did the patient receive Continuous Home Care, General Inpatient Care, or Respite Care during any of the final seven days of their life? This question refers to the level of care given in the final seven days.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030A1",
+        "prefix": "O5030A1",
+        "text": "The patient was visited by a registered nurse three days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030A2",
+        "prefix": "O5030A2",
+        "text": "The registered nurse visited the patient four days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030A3",
+        "prefix": "O5030A3",
+        "text": "The registered nurse visited the patient five days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030A4",
+        "prefix": "O5030A4",
+        "text": "The registered nurse visited the patient six days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030B1",
+        "prefix": "O5030B1",
+        "text": "Did the patient visit a physician, nurse practitioner, or physician assistant three days prior to their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030B2",
+        "prefix": "O5030B2",
+        "text": "Did the patient visit a physician, nurse practitioner, or physician assistant four days prior to their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030B3",
+        "prefix": "O5030B3",
+        "text": "The patient was visited by a physician, nurse practitioner, or physician assistant five days prior to death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030B4",
+        "prefix": "O5030B4",
+        "text": "Did the patient visit a physician, nurse practitioner, or physician assistant six days prior to their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030C1",
+        "prefix": "O5030C1",
+        "text": "Did the medical social worker visit the patient three days prior to their death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030C2",
+        "prefix": "O5030C2",
+        "text": "The medical social worker visited the patient four days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030C3",
+        "prefix": "O5030C3",
+        "text": "The medical social worker visited the patient five days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030C4",
+        "prefix": "O5030C4",
+        "text": "The medical social worker visited the patient six days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030D1",
+        "prefix": "O5030D1",
+        "text": "Did the patient have a visit from a chaplain or spiritual counselor three days prior to death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030D2",
+        "prefix": "O5030D2",
+        "text": "The patient's chaplain or spiritual counselor visited four days prior to death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030D3",
+        "prefix": "O5030D3",
+        "text": "The patient was visited by a Chaplain or Spiritual Counselor five days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030D4",
+        "prefix": "O5030D4",
+        "text": "Did the patient receive a visit from a chaplain or spiritual counselor six days prior to death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030E1",
+        "prefix": "O5030E1",
+        "text": "The patient was visited by a Licensed Professional Nurse three days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030E2",
+        "prefix": "O5030E2",
+        "text": "The patient was visited by a Licensed Professional Nurse four days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030E3",
+        "prefix": "O5030E3",
+        "text": "Did the licensed professional nurse visit the patient five days prior to death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030E4",
+        "prefix": "O5030E4",
+        "text": "The patient was visited by a Licensed Professional Nurse six days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030F1",
+        "prefix": "O5030F1",
+        "text": "Did the aide visit the patient three days prior to death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030F2",
+        "prefix": "O5030F2",
+        "text": "The patient received visits from the aide four days prior to their death.",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030F3",
+        "prefix": "O5030F3",
+        "text": "Did the aide visit the patient five days prior to death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-50/O5030F4",
+        "prefix": "O5030F4",
+        "text": "Did the aide visit the patient six days prior to death?",
+        "type": "integer",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-48/Z0400A",
+        "prefix": "Z0400A",
+        "text": "The patient is required to provide their signature and title, and to acknowledge the sections and date that the section was completed.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400B",
+        "prefix": "Z0400B",
+        "text": "The patient is required to provide their signature, title, and the date on which they completed Section B.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400C",
+        "prefix": "Z0400C",
+        "text": "The patient is asked to provide their signature and title in the designated sections, and to also indicate the date when the section was completed.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400D",
+        "prefix": "Z0400D",
+        "text": "The form for the patient asks for the patient's signature, their title, the sections they have completed, and the date they completed section D.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400E",
+        "prefix": "Z0400E",
+        "text": "The section indicated as \"Signature, Title, Sections, Date Section Completed E\" on the patient's form needs to be filled out.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400F",
+        "prefix": "Z0400F",
+        "text": "The patient's signature, title, and the date of completion are required in section F.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400G",
+        "prefix": "Z0400G",
+        "text": "The patient is required to provide their signature and title in the designated sections and indicate the date when they completed Section G.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400H",
+        "prefix": "Z0400H",
+        "text": "The patient's form includes sections for signature, title, and date of completion, all of which must be filled out by Section H.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400I",
+        "prefix": "Z0400I",
+        "text": "The patient must provide their signature, title, date, and completed sections in section I.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400J",
+        "prefix": "Z0400J",
+        "text": "The patient needs to provide their signature and title, and complete sections J of the form. This needs to be done by a specific date.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400K",
+        "prefix": "Z0400K",
+        "text": "The sections, signature, title, and the date when the section was completed are required information for patient K's form.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0400L",
+        "prefix": "Z0400L",
+        "text": "The sections of the form, including the signature, title, and date section, were completed by the patient.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0500A",
+        "prefix": "Z0500A",
+        "text": "The form requires the patient's signature.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      },
+      {
+        "linkId": "Section-48/Z0500B",
+        "prefix": "Z0500B",
+        "text": "The date on which the RN Assessment Coordinator signed the patient's assessment as complete.",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      }
+    ]
+  }

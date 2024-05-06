@@ -124,6 +124,7 @@ const useStyles = makeStyles((theme) => ({
  * the `/launch` path and render our component. Then, after our page is
  * rendered we start the auth flow.
  */
+
 export default function SmartAppDebugger(props){
   console.log('SmartAppDebugger', props)
 
@@ -176,120 +177,8 @@ export default function SmartAppDebugger(props){
     
     }, [])
 
-    // // /**
-    // //  * This is configured to make a Standalone Launch, just in case it
-    // //  * is loaded directly. An EHR can still launch it by passing `iss`
-    // //  * and `launch` url parameters
-    // //  */
-    // function onChangeProvider(event,context) {
-    //     console.log(event.target.value);
-    //     const providerKey = event.target.value
-    //     const fhirconfig = config[event.target.value]
-
-    //     // // put your client id in .env.local (ignored by .gitignore)
-    //     // const secret_client_id = "REACT_APP_CLIENT_ID_" + providerKey
-    //     // if( secret_client_id in process.env ) {
-    //     //     fhirconfig.client_id = process.env[secret_client_id]
-    //     // }
-
-    //     const options = {
-    //         clientId: fhirconfig.client_id,
-    //         scope: fhirconfig.scope,
-    //         redirectUri: fhirconfig.redirectUri,
-
-    //         // WARNING: completeInTarget=true is needed to make this work
-    //         // in the codesandbox frame. It is otherwise not needed if the
-    //         // target is not another frame or window but since the entire
-    //         // example works in a frame here, it gets confused without
-    //         // setting this!
-    //         //completeInTarget: true
-    //     }
-    //     if(fhirconfig.client_secret){
-    //         options.clientSecret = fhirconfig.client_secret;
-    //     }
-    //     if( fhirconfig.client_id === 'OPEN' ) {
-    //         options.fhirServiceUrl = fhirconfig.url
-    //         options.patientId = fhirconfig.patientId
-    //     } else {
-    //         options.iss = fhirconfig.url
-    //     }
-
-    //     if(fhirconfig.patientId) {
-    //         context.setPatientId(fhirconfig.patientId)
-    //     }
-
-    //     // alert(`options:  ${JSON.stringify(options)}`)
-    //     // SMART.authorize(options);
-    // }
 
 
-
-
-    function exchangeCodeForAccessToken(wellKnownSmartConfig){
-      console.log('exchangeCodeForAccessToken')
-      console.log('exchangeCodeForAccessToken.url', get(wellKnownSmartConfig, 'token_endpoint'))
-
-      let stringEncodedData = "grant_type=authorization_code&code=" + searchParams.get('code') + '&redirect_uri=' + encodeURIComponent(get(Meteor, 'settings.public.smartOnFhir[0].redirect_uri', '')) + '&client_id=' + get(Meteor, 'settings.public.smartOnFhir[0].client_id', '')
-      console.log('exchangeCodeForAccessToken.stringEncodedData', stringEncodedData);
-      let payload = {
-        code: searchParams.get('code'),
-        grant_type: 'authorization_code',
-        redirect_uri: encodeURIComponent(get(Meteor, 'settings.public.smartOnFhir[0].redirect_uri', '')),
-        client_id: get(Meteor, 'settings.public.smartOnFhir[0].client_id', '')
-      }
-      console.log('exchangeCodeForAccessToken.code', searchParams.get('code'))
-      console.log('exchangeCodeForAccessToken.code', payload)
-      
-      HTTP.post(get(wellKnownSmartConfig, 'token_endpoint'), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        content: stringEncodedData
-      }, function(error, result){
-        if(error){
-          console.error('HTTP.post /token error', error)
-        }
-        if(result){
-          console.log('HTTP.post /token result', result)
-          setSmartAccessToken(get(result, 'data'));
-
-          fetchPatient(get(result, 'data.patient'), get(result, 'data.access_token'));
-        }
-      });
-    }
-
-    function fetchPatient(patientId, accessToken){
-      console.log('fetchPatient')
-      console.log('fetchPatient.url', get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', '') + "/Patient")
-      console.log('fetchPatient.url', accessToken)
-
-      HTTP.get(get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', '') + "/Patient/" + patientId + "?_format=json", {
-        headers: {
-          'Authorization': 'Bearer ' + accessToken
-        }
-      }, function(error, result){
-        if(error){
-          console.error('HTTP.get /Patient error', error)
-        }
-        if(result){
-          console.log('HTTP.get /Patient result', result)
-          if(get(result, 'data')){
-            setFhirPatient(get(result, 'data'));
-          } else if (get(result, 'content')) {
-            setFhirPatient(JSON.parse(get(result, 'content')));
-          }
-        }
-      });
-    }
-
-
-
-    function handleAuthorizeUser(){
-      console.log('handleAuthorizeUser');
-      SMART.authorize(smartConfig);
-    }
-
-    
     function fetchCapabilityStatement(){
       console.log('fetchCapabilityStatement');
 
@@ -324,6 +213,70 @@ export default function SmartAppDebugger(props){
         }
       });
     }
+    function exchangeCodeForAccessToken(wellKnownSmartConfig){
+      console.log('exchangeCodeForAccessToken')
+      console.log('exchangeCodeForAccessToken.url', get(wellKnownSmartConfig, 'token_endpoint'))
+
+      let stringEncodedData = "grant_type=authorization_code&code=" + searchParams.get('code') + '&redirect_uri=' + encodeURIComponent(get(Meteor, 'settings.public.smartOnFhir[0].redirect_uri', '')) + '&client_id=' + get(Meteor, 'settings.public.smartOnFhir[0].client_id', '')
+      console.log('exchangeCodeForAccessToken.stringEncodedData', stringEncodedData);
+      let payload = {
+        code: searchParams.get('code'),
+        grant_type: 'authorization_code',
+        redirect_uri: encodeURIComponent(get(Meteor, 'settings.public.smartOnFhir[0].redirect_uri', '')),
+        client_id: get(Meteor, 'settings.public.smartOnFhir[0].client_id', '')
+      }
+      console.log('exchangeCodeForAccessToken.code', searchParams.get('code'))
+      console.log('exchangeCodeForAccessToken.code', payload)
+      
+      HTTP.post(get(wellKnownSmartConfig, 'token_endpoint'), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        content: stringEncodedData
+      }, function(error, result){
+        if(error){
+          console.error('HTTP.post /token error', error)
+        }
+        if(result){
+          console.log('HTTP.post /token result', result)
+          setSmartAccessToken(get(result, 'data'));
+
+          fetchPatient(get(result, 'data.patient'), get(result, 'data.access_token'));
+        }
+      });
+    }
+    function fetchPatient(patientId, accessToken){
+      console.log('fetchPatient')
+      console.log('fetchPatient.url', get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', '') + "/Patient")
+      console.log('fetchPatient.url', accessToken)
+
+      HTTP.get(get(Meteor, 'settings.public.smartOnFhir[0].fhirServiceUrl', '') + "/Patient/" + patientId + "?_format=json", {
+        headers: {
+          'Authorization': 'Bearer ' + accessToken
+        }
+      }, function(error, result){
+        if(error){
+          console.error('HTTP.get /Patient error', error)
+        }
+        if(result){
+          console.log('HTTP.get /Patient result', result)
+          if(get(result, 'data')){
+            setFhirPatient(get(result, 'data'));
+          } else if (get(result, 'content')) {
+            setFhirPatient(JSON.parse(get(result, 'content')));
+          }
+        }
+      });
+    }
+
+
+
+    function handleAuthorizeUser(){
+      console.log('handleAuthorizeUser');
+      SMART.authorize(smartConfig);
+    }
+
+    
 
 
     let headerHeight = 84;

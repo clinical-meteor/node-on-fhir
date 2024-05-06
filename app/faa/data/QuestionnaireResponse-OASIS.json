@@ -1,0 +1,430 @@
+{
+    "responseType": "QuestionnaireResponse",
+    "id": "OASIS-DAH-D1-012020",
+    "questionnaire": "OASIS-DAH-D1-012020",
+    "title": "Outcome and Assessment Information Set - Death at Home",
+    "description": "Data set for use in home health agencies (HHAs), State agencies, software vendors, professional associations and other Federal agencies in implementing and maintaining OASIS.",
+    "status": "draft",
+    "authored": "2024-04-27T18:41:02.853Z",
+    "item": [
+      {
+        "linkId": "Section-21/M0080",
+        "prefix": "M0080",
+        "text": "The discipline of the person who is completing the assessment for the patient is required.",
+        "type": "choice",
+        "repeats": false,
+        "readOnly": false,
+        "answerOption": [
+          {
+            "valueCoding": {
+              "system": "http://del.cms.gov",
+              "code": "01",
+              "display": "RN"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://del.cms.gov",
+              "code": "02",
+              "display": "PT"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://del.cms.gov",
+              "code": "03",
+              "display": "SLP/ST"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://del.cms.gov",
+              "code": "04",
+              "display": "OT"
+            }
+          }
+        ]
+      },
+      {
+        "linkId": "Section-21/M0090",
+        "prefix": "M0090",
+        "text": "The date the assessment was completed for the patient.",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-21/M0100_",
+        "prefix": "M0100_",
+        "text": "This assessment is currently being completed for the following reason pertaining to the patient.",
+        "type": "choice",
+        "repeats": false,
+        "readOnly": false,
+        "answerOption": [
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA6390-4",
+              "display": "Start of care - further visits planned"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA6366-4",
+              "display": "Resumption of care (after inpatient stay)"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA6355-7",
+              "display": "Recertification (follow-up) reassessment"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA6312-8",
+              "display": "Other follow-up"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA6402-7",
+              "display": "Transferred to an inpatient facility - patient not discharged from agency"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA6401-9",
+              "display": "Transferred to an inpatient facility - patient discharged from agency"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA6179-1",
+              "display": "Death at home"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA6184-1",
+              "display": "Discharge from agency"
+            }
+          }
+        ]
+      },
+      {
+        "linkId": "Section-20/A0100A",
+        "prefix": "A0100A",
+        "text": "Does the patient have a National Provider Identifier (NPI)?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 10
+      },
+      {
+        "linkId": "Section-20/A0100B",
+        "prefix": "A0100B",
+        "text": "Does the patient have a CMS Certification Number (CCN)?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      },
+      {
+        "linkId": "Section-20/A0600A",
+        "prefix": "A0600A",
+        "text": "What is the patient's Social Security Number?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 9
+      },
+      {
+        "linkId": "Section-20/A0600B",
+        "prefix": "A0600B",
+        "text": "What is the patient's Medicare number?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      },
+      {
+        "linkId": "Section-20/A0700",
+        "prefix": "A0700",
+        "text": "The patient's Medicaid number should be entered in the provided space. If the Medicaid application is pending, enter \"+\". If the patient is not a Medicaid recipient, enter \"N\".",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 14
+      },
+      {
+        "linkId": "Section-20/A0800",
+        "prefix": "A0800",
+        "text": "What is the patient's gender? The possible answers are male, female, or prefer not to say.",
+        "type": "choice",
+        "repeats": false,
+        "readOnly": false,
+        "answerOption": [
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA2-8",
+              "display": "Male"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA3-6",
+              "display": "Female"
+            }
+          }
+        ]
+      },
+      {
+        "linkId": "Section-20/A0900",
+        "prefix": "A0900",
+        "text": "What is the patient's birth date?",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-20/M0014",
+        "prefix": "M0014",
+        "text": "In which state does the patient currently reside?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 2
+      },
+      {
+        "linkId": "Section-20/M0016",
+        "prefix": "M0016",
+        "text": "What is the patient's Branch ID Number?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 10
+      },
+      {
+        "linkId": "Section-20/M0020",
+        "prefix": "M0020",
+        "text": "What is the patient's or resident's ID number?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 20
+      },
+      {
+        "linkId": "Section-20/M0030",
+        "prefix": "M0030",
+        "text": "What is the start of care date for the patient?",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-20/M0032",
+        "prefix": "M0032",
+        "text": "The date of the patient's resumption of care is?",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-20/M0050",
+        "prefix": "M0050",
+        "text": "What is the patient's state of residence?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 2
+      },
+      {
+        "linkId": "Section-20/A0550",
+        "prefix": "A0550",
+        "text": "What is the patient's or resident's ZIP code?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 11
+      },
+      {
+        "linkId": "Section-20/A0500A",
+        "prefix": "A0500A",
+        "text": "What is the patient's first name?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      },
+      {
+        "linkId": "Section-20/A0500B",
+        "prefix": "A0500B",
+        "text": "What is the patient's middle initial?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      },
+      {
+        "linkId": "Section-20/A0500C",
+        "prefix": "A0500C",
+        "text": "The patient's last name is required.",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 18
+      },
+      {
+        "linkId": "Section-20/A0500D",
+        "prefix": "A0500D",
+        "text": "What is the patient's suffix?",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 3
+      },
+      {
+        "linkId": "Section-35/M0906",
+        "prefix": "M0906",
+        "text": "The form asks for the date of the patient's or resident's discharge, transfer, or death at home to be entered in the \"Discharge/Transfer/Death Date\" field.",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      },
+      {
+        "linkId": "Section-31/N2005",
+        "prefix": "N2005",
+        "text": "Did the facility or setting contact and complete the actions prescribed or recommended by the physician, or the physician's designee, by midnight of the next calendar day each time potential clinically significant medication issues were identified for the patient since their admission?",
+        "type": "choice",
+        "repeats": false,
+        "readOnly": false,
+        "answerOption": [
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA32-8",
+              "display": "No"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA33-6",
+              "display": "Yes"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA27681-8",
+              "display": "NA-There were no potential clinically significant medication issues identified since SOC/ROC or patient is not taking any medications"
+            }
+          }
+        ]
+      },
+      null,
+      {
+        "linkId": "Section-10/J1900A",
+        "prefix": "J1900A",
+        "text": "The patient exhibits no injury - there is no evidence of any injury noted on the physical assessment performed by the nurse or primary care clinician; the patient has made no complaints of pain or injury; moreover, there has been no change in the patient's behavior after the fall.",
+        "type": "choice",
+        "repeats": false,
+        "readOnly": false,
+        "answerOption": [
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA137-2",
+              "display": "None"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA6306-0",
+              "display": "One"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA11073-6",
+              "display": "Two or more"
+            }
+          }
+        ]
+      },
+      {
+        "linkId": "Section-10/J1900B",
+        "prefix": "J1900B",
+        "text": "The form asks whether the patient has any minor injuries, including skin tears, abrasions, lacerations, superficial bruises, hematomas, and sprains, or any fall-related injury that has caused them to complain of pain.",
+        "type": "choice",
+        "repeats": false,
+        "readOnly": false,
+        "answerOption": [
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA137-2",
+              "display": "None"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA6306-0",
+              "display": "One"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA11073-6",
+              "display": "Two or more"
+            }
+          }
+        ]
+      },
+      {
+        "linkId": "Section-10/J1900C",
+        "prefix": "J1900C",
+        "text": "Has the patient had any major injuries such as bone fractures, joint dislocations, closed head injuries with altered consciousness, or subdural hematoma?",
+        "type": "choice",
+        "repeats": false,
+        "readOnly": false,
+        "answerOption": [
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA137-2",
+              "display": "None"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA6306-0",
+              "display": "One"
+            }
+          },
+          {
+            "valueCoding": {
+              "system": "http://loinc.org",
+              "code": "LA11073-6",
+              "display": "Two or more"
+            }
+          }
+        ]
+      }
+    ]
+  }

@@ -1,0 +1,763 @@
+{
+  "resourceType": "Questionnaire",
+  "id": "HIS-HD-2.00.0",
+  "meta": {
+    "versionId": "20",
+    "lastUpdated": "2021-02-17T23:17:24.259+00:00",
+    "source": "#2WM2IQaZUZ5WYFZB",
+    "profile": [ "http://hapi.fhir.org/StructureDefinition/del-StandardForm" ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">HIS_HD standard form version 2.00.0.<br/><br/>The HIS is a standardized set of items intended to capture patient-level data on each hospice patient admission. HIS items can be used to calculate seven National Quality Forum (NQF) - endorsed measures, and two non-NQF endorsed measures.</div>"
+  },
+  "url": "http://hapi.fhir.org/baseR4/Questionnaire/HIS-HD-2.00.0",
+  "identifier": [ {
+    "use": "official",
+    "system": "http://del.cms.gov",
+    "value": "Hospice Item Set"
+  } ],
+  "version": "2.00.0",
+  "name": "HIS_HD",
+  "title": "Hospice Item Set - Hospice Discharge Record",
+  "status": "active",
+  "date": "2018-04-30T20:51:52.871Z",
+  "publisher": "Division of Chronic and Post Acute Care",
+  "description": "The HIS is a standardized set of items intended to capture patient-level data on each hospice patient admission. HIS items can be used to calculate seven National Quality Forum (NQF) - endorsed measures, and two non-NQF endorsed measures.",
+  "approvalDate": "2017-01-19",
+  "effectivePeriod": {
+    "start": "2017-04-01T00:00:00+00:00"
+  },
+  "item": [ {
+    "linkId": "Section-36",
+    "text": "Section A: Administrative Information",
+    "type": "group",
+    "readOnly": true,
+    "item": [ {
+      "linkId": "Section-36/A0700",
+      "prefix": "A0700",
+      "text": "Medicaid Number - Enter \"+\" if pending, \"N\" if not a Medicaid recipient",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 14
+    }, {
+      "linkId": "Section-36/A0800",
+      "prefix": "A0800",
+      "text": "Gender",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-36/A0900",
+      "prefix": "A0900",
+      "text": "Birth Date",
+      "type": "open-choice",
+      "repeats": false,
+      "readOnly": false
+    }, {
+      "linkId": "Section-36/A0050",
+      "prefix": "A0050",
+      "text": "Type of Record",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-36/A0250",
+      "prefix": "A0250",
+      "text": "Reason for Assessment",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 2
+    }, {
+      "linkId": "Section-36/A0220",
+      "prefix": "A0220",
+      "text": "Admission Date",
+      "type": "open-choice",
+      "repeats": false,
+      "readOnly": false
+    }, {
+      "linkId": "Section-36/A0270",
+      "prefix": "A0270",
+      "text": "Discharge Date",
+      "type": "open-choice",
+      "repeats": false,
+      "readOnly": false
+    }, {
+      "linkId": "Section-36/A0100",
+      "prefix": "A0100",
+      "text": "Facility Provider Numbers",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-36/A0100A",
+        "prefix": "A0100A",
+        "text": "National Provider Identifier (NPI)",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 10
+      }, {
+        "linkId": "Section-36/A0100B",
+        "prefix": "A0100B",
+        "text": "CMS Certification Number (CCN)",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      } ]
+    }, {
+      "linkId": "Section-36/A0500",
+      "prefix": "A0500",
+      "text": "Legal Name of {Patient/Resident}",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-36/A0500A",
+        "prefix": "A0500A",
+        "text": "First name",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      }, {
+        "linkId": "Section-36/A0500B",
+        "prefix": "A0500B",
+        "text": "Middle initial",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 1
+      }, {
+        "linkId": "Section-36/A0500C",
+        "prefix": "A0500C",
+        "text": "Last name",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 18
+      }, {
+        "linkId": "Section-36/A0500D",
+        "prefix": "A0500D",
+        "text": "Suffix",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 3
+      } ]
+    }, {
+      "linkId": "Section-36/A0600",
+      "prefix": "A0600",
+      "text": "Social Security and Medicare Numbers",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-36/A0600A",
+        "prefix": "A0600A",
+        "text": "Social Security Number",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 9
+      }, {
+        "linkId": "Section-36/A0600B",
+        "prefix": "A0600B",
+        "text": "Medicare number",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 12
+      } ]
+    }, {
+      "linkId": "Section-36/A2115",
+      "prefix": "A2115",
+      "text": "Reason for Discharge",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 2
+    } ]
+  }, {
+    "linkId": "Section-47",
+    "text": "Section F: Preferences",
+    "type": "group",
+    "readOnly": true
+  }, {
+    "linkId": "Section-9",
+    "text": "Section I: Active Diagnoses",
+    "type": "group",
+    "readOnly": true
+  }, {
+    "linkId": "Section-10",
+    "text": "Section J: Health Conditions",
+    "type": "group",
+    "readOnly": true
+  }, {
+    "linkId": "Section-14",
+    "text": "Section N: Medications",
+    "type": "group",
+    "readOnly": true
+  }, {
+    "linkId": "Section-50",
+    "text": "Section O: Service Utilization",
+    "type": "group",
+    "readOnly": true,
+    "item": [ {
+      "linkId": "Section-50/O5000",
+      "prefix": "O5000",
+      "text": "Level of care in final 3 days. Did the {patient/resident} receive Continuous Home Care, General Inpatient Care, or Respite Care during any of the final 3 days of life?",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010",
+      "prefix": "O5010",
+      "text": "Number of hospice visits in final 3 days. Enter the number of visits provided by hospice staff from the indicated discipline, on each of the dates indicated.",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-50/O5010_1",
+        "prefix": "O5010_1",
+        "text": "Number of Hospice Visits - on Day of Death",
+        "type": "group",
+        "repeats": false,
+        "readOnly": true
+      }, {
+        "linkId": "Section-50/O5010_2",
+        "prefix": "O5010_2",
+        "text": "Number of Hospice Visits - One Day Prior to Death",
+        "type": "group",
+        "repeats": false,
+        "readOnly": true
+      }, {
+        "linkId": "Section-50/O5010_3",
+        "prefix": "O5010_3",
+        "text": "Number of Hospice Visits - Two Days Prior to Death",
+        "type": "group",
+        "repeats": false,
+        "readOnly": true
+      } ]
+    }, {
+      "linkId": "Section-50/O5010A1",
+      "prefix": "O5010A1",
+      "text": "Registered Nurse - Visits on day of death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010A2",
+      "prefix": "O5010A2",
+      "text": "Registered Nurse - Visits one day prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010A3",
+      "prefix": "O5010A3",
+      "text": "Registered Nurse - Visits two days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010B1",
+      "prefix": "O5010B1",
+      "text": "Physician (or Nurse Practitioner or Physician Assistant) - Visits on day of death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010B2",
+      "prefix": "O5010B2",
+      "text": "Physician (or Nurse Practitioner or Physician Assistant) - Visits one day prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010B3",
+      "prefix": "O5010B3",
+      "text": "Physician (or Nurse Practitioner or Physician Assistant) - Visits two days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010C1",
+      "prefix": "O5010C1",
+      "text": "Medical Social Worker - Visits on day of death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010C2",
+      "prefix": "O5010C2",
+      "text": "Medical Social Worker - Visits one day prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010C3",
+      "prefix": "O5010C3",
+      "text": "Medical Social Worker - Visits two days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010D1",
+      "prefix": "O5010D1",
+      "text": "Chaplain or Spiritual Counselor - Visits on day of death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010D2",
+      "prefix": "O5010D2",
+      "text": "Chaplain or Spiritual Counselor -Visits one day prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010D3",
+      "prefix": "O5010D3",
+      "text": "Chaplain or Spiritual Counselor - Visits two days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010E1",
+      "prefix": "O5010E1",
+      "text": "Licensed Professional Nurse - Visits on day of death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010E2",
+      "prefix": "O5010E2",
+      "text": "Licensed Professional Nurse - Visits one day prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010E3",
+      "prefix": "O5010E3",
+      "text": "Licensed Professional Nurse - Visits two days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010F1",
+      "prefix": "O5010F1",
+      "text": "Aide - Visits on day of death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010F2",
+      "prefix": "O5010F2",
+      "text": "Aide - Visits one day prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5010F3",
+      "prefix": "O5010F3",
+      "text": "Aide - Visits two days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5020",
+      "prefix": "O5020",
+      "text": "Level of care in final 7 days. Did the {patient/resident} receive Continuous Home Care, General Inpatient Care, or Respite Care during any of the final 7 days of life?",
+      "type": "text",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030",
+      "prefix": "O5030",
+      "text": "Number of hospice visits in 3 to 6 days prior to death. Enter the number of visits provided by hospice staff from the indicated discipline, on each of the dates indicated.",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-50/O5030_1",
+        "prefix": "O5030_1",
+        "text": "Number of Hospice Visits in 3 to 6 Days Prior to Death - Three Days Prior",
+        "type": "group",
+        "repeats": false,
+        "readOnly": true
+      }, {
+        "linkId": "Section-50/O5030_2",
+        "prefix": "O5030_2",
+        "text": "Number of Hospice Visits in 3 to 6 Days Prior to Death - Four Days Prior",
+        "type": "group",
+        "repeats": false,
+        "readOnly": true
+      }, {
+        "linkId": "Section-50/O5030_3",
+        "prefix": "O5030_3",
+        "text": "Number of Hospice Visits in 3 to 6 Days Prior to Death - Five Days Prior",
+        "type": "group",
+        "repeats": false,
+        "readOnly": true
+      }, {
+        "linkId": "Section-50/O5030_4",
+        "prefix": "O5030_4",
+        "text": "Number of Hospice Visits in 3 to 6 Days Prior to Death - Six Days Prior",
+        "type": "group",
+        "repeats": false,
+        "readOnly": true
+      } ]
+    }, {
+      "linkId": "Section-50/O5030A1",
+      "prefix": "O5030A1",
+      "text": "Registered Nurse - Visits three days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030A2",
+      "prefix": "O5030A2",
+      "text": "Registered Nurse - Visits four days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030A3",
+      "prefix": "O5030A3",
+      "text": "Registered Nurse - Visits five days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030A4",
+      "prefix": "O5030A4",
+      "text": "Registered Nurse - Visits six days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030B1",
+      "prefix": "O5030B1",
+      "text": "Physician (or Nurse Practitioner or Physician Assistant) - Visits three days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030B2",
+      "prefix": "O5030B2",
+      "text": "Physician (or Nurse Practitioner or Physician Assistant) - Visits four days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030B3",
+      "prefix": "O5030B3",
+      "text": "Physician (or Nurse Practitioner or Physician Assistant) - Visits five days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030B4",
+      "prefix": "O5030B4",
+      "text": "Physician (or Nurse Practitioner or Physician Assistant) - Visits six days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030C1",
+      "prefix": "O5030C1",
+      "text": "Medical Social Worker - Visits three days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030C2",
+      "prefix": "O5030C2",
+      "text": "Medical Social Worker - Visits four days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030C3",
+      "prefix": "O5030C3",
+      "text": "Medical Social Worker - Visits five days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030C4",
+      "prefix": "O5030C4",
+      "text": "Medical Social Worker - Visits six days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030D1",
+      "prefix": "O5030D1",
+      "text": "Chaplain or Spiritual Counselor - Visits three days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030D2",
+      "prefix": "O5030D2",
+      "text": "Chaplain or Spiritual Counselor - Visits four days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030D3",
+      "prefix": "O5030D3",
+      "text": "Chaplain or Spiritual Counselor - Visits five days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030D4",
+      "prefix": "O5030D4",
+      "text": "Chaplain or Spiritual Counselor - Visits six days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030E1",
+      "prefix": "O5030E1",
+      "text": "Licensed Professional Nurse - Visits three days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030E2",
+      "prefix": "O5030E2",
+      "text": "Licensed Professional Nurse - Visits four days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030E3",
+      "prefix": "O5030E3",
+      "text": "Licensed Professional Nurse - Visits five days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030E4",
+      "prefix": "O5030E4",
+      "text": "Licensed Professional Nurse - Visits six days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030F1",
+      "prefix": "O5030F1",
+      "text": "Aide - Visits three days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030F2",
+      "prefix": "O5030F2",
+      "text": "Aide - Visits four days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030F3",
+      "prefix": "O5030F3",
+      "text": "Aide - Visits five days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    }, {
+      "linkId": "Section-50/O5030F4",
+      "prefix": "O5030F4",
+      "text": "Aide - Visits six days prior to death",
+      "type": "integer",
+      "repeats": false,
+      "readOnly": false,
+      "maxLength": 1
+    } ]
+  }, {
+    "linkId": "Section-48",
+    "text": "Section Z: Record Administration",
+    "type": "group",
+    "readOnly": true,
+    "item": [ {
+      "linkId": "Section-48/Z0400",
+      "prefix": "Z0400",
+      "text": "Signature of Persons Completing the Assessment",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-48/Z0400A",
+        "prefix": "Z0400A",
+        "text": "Signature, Title, Sections, Date Section Completed A",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400B",
+        "prefix": "Z0400B",
+        "text": "Signature, Title, Sections, Date Section Completed B",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400C",
+        "prefix": "Z0400C",
+        "text": "Signature, Title, Sections, Date Section Completed C",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400D",
+        "prefix": "Z0400D",
+        "text": "Signature, Title, Sections, Date Section Completed D",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400E",
+        "prefix": "Z0400E",
+        "text": "Signature, Title, Sections, Date Section Completed E",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400F",
+        "prefix": "Z0400F",
+        "text": "Signature, Title, Sections, Date Section Completed F",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400G",
+        "prefix": "Z0400G",
+        "text": "Signature, Title, Sections, Date Section Completed G",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400H",
+        "prefix": "Z0400H",
+        "text": "Signature, Title, Sections, Date Section Completed H",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400I",
+        "prefix": "Z0400I",
+        "text": "Signature, Title, Sections, Date Section Completed I",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400J",
+        "prefix": "Z0400J",
+        "text": "Signature, Title, Sections, Date Section Completed J",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400K",
+        "prefix": "Z0400K",
+        "text": "Signature, Title, Sections, Date Section Completed K",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0400L",
+        "prefix": "Z0400L",
+        "text": "Signature, Title, Sections, Date Section Completed L",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      } ]
+    }, {
+      "linkId": "Section-48/Z0500",
+      "prefix": "Z0500",
+      "text": "Signature of RN Coordinator Verifying Assessment Completion",
+      "type": "group",
+      "repeats": false,
+      "readOnly": true,
+      "item": [ {
+        "linkId": "Section-48/Z0500A",
+        "prefix": "Z0500A",
+        "text": "Signature",
+        "type": "text",
+        "repeats": false,
+        "readOnly": false,
+        "maxLength": 100
+      }, {
+        "linkId": "Section-48/Z0500B",
+        "prefix": "Z0500B",
+        "text": "Date RN Assessment Coordinator signed assessment as complete",
+        "type": "open-choice",
+        "repeats": false,
+        "readOnly": false
+      } ]
+    } ]
+  } ]
+}
