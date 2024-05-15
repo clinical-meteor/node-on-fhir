@@ -73,4 +73,4 @@ awatson:space-situational-awareness
 symptomatic:structured-data-capture
 mitre:sphr-record-analyzer
 
-mitre:fhir-side
+# mitre:fhir-side

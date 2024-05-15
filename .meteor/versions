@@ -21,7 +21,7 @@ clinical:hl7-fhir-data-infrastructure@6.34.3
 clinical:hl7-resource-datatypes@4.0.8
 clinical:json-routes@2.3.0
 clinical:uscore@0.4.13
-clinical:vault-server@8.11.0
+clinical:vault-server@8.11.1
 ddp@1.4.0
 ddp-client@2.5.0
 ddp-common@1.4.0
@@ -68,7 +68,6 @@ meteorhacks:async@1.0.0
 minifier-css@1.6.0
 minifier-js@2.7.3
 minimongo@1.7.0
-mitre:fhir-side@0.3.0
 mitre:sphr-record-analyzer@0.3.2
 mobile-experience@1.1.0
 mobile-status-bar@1.1.0
