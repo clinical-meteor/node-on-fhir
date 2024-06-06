@@ -35,9 +35,14 @@ import {
   TableRow,
   TableCell,
   Typography,
-  Button
+  Button,
+  Box,
+  Tabs,
+  Tab
 } from '@material-ui/core';
 import { Alert } from '@mui/lab';
+
+import { useTracker } from 'meteor/react-meteor-data';
 
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -57,6 +62,8 @@ import {ic_people} from 'react-icons-kit/md/ic_people';
 import {ic_people_outline} from 'react-icons-kit/md/ic_people_outline';
 
 import { fetch, Headers, Request, Response } from 'meteor/fetch';
+
+import { Endpoints, EndpointsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 
 let configArray = get(Meteor, 'settings.public.smartOnFhir', []);
@@ -123,9 +130,23 @@ const useStyles = makeStyles((theme) => ({
 export default function Launcher(props){
     const classes = useStyles();
     const client = useContext(FhirClientContext);
-    
+    let searchParams = new URLSearchParams(window.location.search);
 
     let [showSettings, setShowSettings] = useState(true);
+    let [tabValue, setTabValue] = React.useState(searchParams.get('tab') ? parseInt(searchParams.get('tab')) : 0);
+    let [endpoints, setEndpoints] = useState([]);
+    let [endpointsPageIndex, setEndpointsPageIndex] = useState(0);
+
+    useEffect(function(){
+      async function fetchData() {
+        setEndpoints(Endpoints.find().fetch());
+      }
+      fetchData();
+    }, []);
+
+    useTracker(function(){
+      setEndpoints(Endpoints.find().fetch());
+    }, [])
 
 
     async function postSmartAuthConfig (url, data) {
@@ -197,6 +218,32 @@ export default function Launcher(props){
         }        
     }
 
+    function a11yProps(index) {
+      return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+      };
+    }
+    function CustomTabPanel(props) {
+      const { children, value, index, ...other } = props;
+    
+      return (
+        <div
+          role="tabpanel"
+          hidden={value !== index}
+          id={`simple-tabpanel-${index}`}
+          aria-labelledby={`simple-tab-${index}`}
+          {...other}
+        >
+          {value === index && (
+            <Box sx={{ p: 3 }} style={{margin: '0px', paddingLeft: '0px', paddingRight: '0px'}}>
+              {children}
+            </Box>
+          )}
+        </div>
+      );
+    }
+
     function handleSelectDataSource(config){
       console.log('handleSelectDataSource')
 
@@ -229,7 +276,7 @@ export default function Launcher(props){
                   <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.vendor}</TableCell>
                   <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.environment}</TableCell>
                   <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.production ? <Icon icon={ic_people} size={24} /> : <Icon icon={ic_people_outline} size={24} />}</TableCell>
-                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.autodownload ? <Icon icon={ic_file_download} size={24} /> : ""}</TableCell>
+                  {/* <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.autodownload ? <Icon icon={ic_file_download} size={24} /> : ""}</TableCell> */}
                   <TableCell onClick={handleSelectDataSource.bind(this, config)} align="right" style={rowStyle}>{config.fhirVersion}</TableCell>
               </TableRow>);
             }          
@@ -246,6 +293,10 @@ export default function Launcher(props){
       
       SMART.authorize(smartConfig);
     }
+    function handleTabChange(event, newValue){
+      setTabValue(newValue);
+    };
+  
     
     let headerHeight = 84;
     if(get(Meteor, 'settings.public.defaults.prominantHeader')){
@@ -265,34 +316,66 @@ export default function Launcher(props){
     return (
         <PageCanvas id='SmartLauncher' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{paddingTop: '128px', paddingBottom: '128px'}} >
             <Grid container justify="center" spacing={3}>
-                <Grid item xs={12} sm={12} md={12} lg={6} >
+                <Grid item xs={12} sm={12} md={12} lg={8} >
                   <CardHeader title="Default data provider" />
                     <Button fullWidth color="primary" variant="contained" onClick={handleAuthenticateDefaultServer.bind(this, firstSmartConfig)}>
                       <CardHeader title={ get(Meteor, 'settings.public.smartOnFhir[0].vendor')}  />
                     </Button>                     
                     <DynamicSpacer />
-
+                    <DynamicSpacer />
                     <CardHeader title="Other health information data sources" />
-                    <StyledCard>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="left">Index</TableCell>
-                                    <TableCell align="left">Preferred</TableCell>
-                                    <TableCell align="left">Vendor</TableCell>
-                                    {/* <TableCell align="left">Type</TableCell> */}
-                                    {/* <TableCell align="left">Launch Context</TableCell> */}
-                                    <TableCell align="left">Environment</TableCell>
-                                    <TableCell align="left">Production</TableCell>
-                                    <TableCell align="left">Autodownload</TableCell>
-                                    <TableCell align="right">FHIR Version</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                { renderOptions()}
-                            </TableBody>
-                        </Table>
-                    </StyledCard>
+                    <Box sx={{ width: '100%', borderBottom: 1, borderColor: 'divider' }}>
+                      <Tabs value={tabValue} onChange={handleTabChange} aria-label="basic tabs example">        
+                        <Tab label="Sandboxes" {...a11yProps(0)} />
+                        <Tab label="TEFCA Directory" {...a11yProps(1)} />
+                      </Tabs>
+                    </Box>
+                    <CustomTabPanel value={tabValue} index={0} style={{margin: '0px'}}>
+                      <StyledCard>
+                          <Table>
+                              <TableHead>
+                                  <TableRow>
+                                      <TableCell align="left">Index</TableCell>
+                                      <TableCell align="left">Preferred</TableCell>
+                                      <TableCell align="left">Vendor</TableCell>
+                                      {/* <TableCell align="left">Type</TableCell> */}
+                                      {/* <TableCell align="left">Launch Context</TableCell> */}
+                                      <TableCell align="left">Environment</TableCell>
+                                      <TableCell align="left">Production</TableCell>
+                                      {/* <TableCell align="left">Autodownload</TableCell> */}
+                                      <TableCell align="right">FHIR Version</TableCell>
+                                  </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                  { renderOptions()}
+                              </TableBody>
+                          </Table>
+                      </StyledCard>                      
+                    </CustomTabPanel>
+                    <CustomTabPanel value={tabValue} index={1} style={{margin: '0px'}}>
+                      <StyledCard>
+                        <EndpointsTable 
+                          endpoints={endpoints}
+                          count={endpoints.length}
+                          hideIdentifier={true} 
+                          hideCheckbox={true}
+                          hideActionIcons={true}
+                          hideStatus={false}
+                          hideName={false}
+                          hideConnectionType={false}
+                          hideOrganization={false}
+                          hideAddress={false}    
+                          hideBarcode={true}
+                          onRowClick={ handleRowClick.bind(this) }
+                          onSetPage={function(index){
+                            setEndpointsPageIndex(index)
+                          }}     
+                          page={endpointsPageIndex}                 
+                          rowsPerPage={15}
+                          size="medium"
+                        />
+                      </StyledCard>
+                    </CustomTabPanel>
                 </Grid>
             </Grid>
         </PageCanvas>
