@@ -49,7 +49,7 @@ The FHIR appplication server in this repository is the result of 7 years of work
 npm install -g meteor
 
 # download the node-on-fhir application
-git clone https://gitlab.mitre.org/awatson/node-on-fhir  
+git clone https://github.com/clinical-meteor/node-on-fhir
 cd node-on-fhir
 
 # install dependencies
@@ -65,7 +65,10 @@ meteor run --settings configs/settings.nodeonfhir.json
 # stop the application with Ctrl-C
 
 # add custom packages (the FHIR server)
+cd packages
+git clone https://github.com/clinical-meteor/vault-server
 meteor add clinical:vault-server
+cd ..
 
 # now run it with a custom settings file
 # does it compile?
@@ -87,7 +90,7 @@ git clone https://github.com/clinical-meteor/example-plugin
 cd ..
 
 # alternatively, run the config from a plugin
-meteor run --settings packages/example-plugin/configs/settings.example.json  --extra-packages symptomatic:example-plugin
+meteor run --settings packages/example-plugin/configs/settings.example.json  --extra-packages clinical:example-plugin
 
 # when you're ready to deploy, you'll need to add the package to the app (meteor deploy won't accept --extra-packages)
 meteor add clinical:example-plugin
