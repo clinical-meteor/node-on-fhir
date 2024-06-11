@@ -326,11 +326,37 @@ export default function Launcher(props){
                     <CardHeader title="Other health information data sources" />
                     <Box sx={{ width: '100%', borderBottom: 1, borderColor: 'divider' }}>
                       <Tabs value={tabValue} onChange={handleTabChange} aria-label="basic tabs example">        
-                        <Tab label="Sandboxes" {...a11yProps(0)} />
-                        <Tab label="TEFCA Directory" {...a11yProps(1)} />
+                      <Tab label="TEFCA Directory" {...a11yProps(0)} />
+                        <Tab label="Sandboxes" {...a11yProps(1)} />
                       </Tabs>
                     </Box>
                     <CustomTabPanel value={tabValue} index={0} style={{margin: '0px'}}>
+                      <StyledCard>
+                        <EndpointsTable 
+                          endpoints={endpoints}
+                          count={endpoints.length}
+                          hideIdentifier={true} 
+                          hideCheckbox={true}
+                          hideActionIcons={true}
+                          hideStatus={false}
+                          hideName={false}
+                          hideConnectionType={true}
+                          hideVersion={true}
+                          hideOrganization={false}
+                          hideAddress={true}
+                          multiline={true}    
+                          hideBarcode={true}
+                          onRowClick={ handleRowClick.bind(this) }
+                          onSetPage={function(index){
+                            setEndpointsPageIndex(index)
+                          }}     
+                          page={endpointsPageIndex}                 
+                          rowsPerPage={15}
+                          size="medium"
+                        />
+                      </StyledCard>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={tabValue} index={1} style={{margin: '0px'}}>
                       <StyledCard>
                           <Table>
                               <TableHead>
@@ -351,30 +377,6 @@ export default function Launcher(props){
                               </TableBody>
                           </Table>
                       </StyledCard>                      
-                    </CustomTabPanel>
-                    <CustomTabPanel value={tabValue} index={1} style={{margin: '0px'}}>
-                      <StyledCard>
-                        <EndpointsTable 
-                          endpoints={endpoints}
-                          count={endpoints.length}
-                          hideIdentifier={true} 
-                          hideCheckbox={true}
-                          hideActionIcons={true}
-                          hideStatus={false}
-                          hideName={false}
-                          hideConnectionType={false}
-                          hideOrganization={false}
-                          hideAddress={false}    
-                          hideBarcode={true}
-                          onRowClick={ handleRowClick.bind(this) }
-                          onSetPage={function(index){
-                            setEndpointsPageIndex(index)
-                          }}     
-                          page={endpointsPageIndex}                 
-                          rowsPerPage={15}
-                          size="medium"
-                        />
-                      </StyledCard>
                     </CustomTabPanel>
                 </Grid>
             </Grid>
