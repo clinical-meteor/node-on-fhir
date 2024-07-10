@@ -65,14 +65,12 @@ clinical:uscore
 # clinical:fhir-schema-parser
 # bshamblen:json-simple-schema
 
-symptomatic:data-importer
-symptomatic:data-relay
-symptomatic:timelines
+# symptomatic:data-importer
+# symptomatic:data-relay
+# symptomatic:timelines
+# symptomatic:structured-data-capture
 
-# awatson:space-situational-awareness
-symptomatic:structured-data-capture
-mitre:sphr-record-analyzer
-
-mitre:fhir-side
-mitre:international-patient-summary
-mitre:space-health-registry
+# mitre:sphr-record-analyzer
+# mitre:fhir-side
+# mitre:international-patient-summary
+# mitre:space-health-registry
