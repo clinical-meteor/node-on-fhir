@@ -134,7 +134,7 @@
     "@nightwatch/selenium-server": "^4.5.0",
     "chai": "4.2.0",
     "chai-nightwatch": "0.4.0",
-    "chromedriver": "120.0.2",
+    "chromedriver": "126.0.4",
     "conventional-changelog-cli": "2.1.1",
     "shelljs": "0.8.5",
     "worker-loader": "^3.0.8"
