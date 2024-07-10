@@ -42,11 +42,11 @@ npdev:react-loadable
 littledata:synced-cron
 
 # CLINICAL INFRASTRUCTURE
-clinical:extended-api
-clinical:fonts
-clinical:hl7-resource-datatypes
-clinical:hl7-fhir-data-infrastructure
-clinical:json-routes
+# clinical:extended-api
+# clinical:fonts
+# clinical:hl7-resource-datatypes
+# clinical:hl7-fhir-data-infrastructure
+# clinical:json-routes
 # clinical:vault-server
 # clinical:uscore
 
