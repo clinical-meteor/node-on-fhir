@@ -62,3 +62,10 @@ footer {
   margin-right: constant(safe-area-inset-right, 0px); /* iOS 11.0 */
   margin-right: env(safe-area-inset-right, 0px); /* iOS 11.2 */
 }
+
+
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}

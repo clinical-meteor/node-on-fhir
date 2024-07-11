@@ -71,7 +71,7 @@ function Footer(props) {
     let renderDom;
     buttonRenderArray.forEach(function(buttonConfig){
       // right route
-      if (pathname === buttonConfig.pathname){
+      if (pathname.includes(buttonConfig.pathname)){
         console.debug('Found a route match for Footer buttons', pathname)
         // right security/function enabled
         if(buttonConfig.settings && (get(Meteor, buttonConfig.settings) === false)){

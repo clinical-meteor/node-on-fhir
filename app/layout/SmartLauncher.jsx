@@ -1,3 +1,15 @@
+
+// EPIC ENDPOINTS
+// https://open.epic.com/Endpoints/R4
+
+// CERNER ENDPOINTS - PATIENT LAUNCH
+// https://github.com/oracle-samples/ignite-endpoints/blob/main/millennium_patient_r4_endpoints.json
+
+// CERNER ENDPOINTS - PROVIDER LAUNCH
+// https://github.com/oracle-samples/ignite-endpoints/blob/main/millennium_provider_r4_endpoints.json
+
+
+
 import React, { useContext, useState, useEffect } from "react";
 
 import { Meteor } from 'meteor/meteor';
@@ -14,6 +26,7 @@ import {
   Card,
   CardHeader, 
   CardContent, 
+  CardActions,
   CardMedia, 
   CardActionArea,
   Table,
@@ -22,8 +35,14 @@ import {
   TableRow,
   TableCell,
   Typography,
-  Button
+  Button,
+  Box,
+  Tabs,
+  Tab
 } from '@material-ui/core';
+import { Alert } from '@mui/lab';
+
+import { useTracker } from 'meteor/react-meteor-data';
 
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -43,6 +62,8 @@ import {ic_people} from 'react-icons-kit/md/ic_people';
 import {ic_people_outline} from 'react-icons-kit/md/ic_people_outline';
 
 import { fetch, Headers, Request, Response } from 'meteor/fetch';
+
+import { Endpoints, EndpointsTable } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 
 let configArray = get(Meteor, 'settings.public.smartOnFhir', []);
@@ -109,53 +130,24 @@ const useStyles = makeStyles((theme) => ({
 export default function Launcher(props){
     const classes = useStyles();
     const client = useContext(FhirClientContext);
-    
+    let searchParams = new URLSearchParams(window.location.search);
 
-    // // /**
-    // //  * This is configured to make a Standalone Launch, just in case it
-    // //  * is loaded directly. An EHR can still launch it by passing `iss`
-    // //  * and `launch` url parameters
-    // //  */
-    // function onChangeProvider(event,context) {
-    //     console.log(event.target.value);
-    //     const providerKey = event.target.value
-    //     const fhirconfig = config[event.target.value]
+    let [showSettings, setShowSettings] = useState(true);
+    let [tabValue, setTabValue] = React.useState(searchParams.get('tab') ? parseInt(searchParams.get('tab')) : 0);
+    let [endpoints, setEndpoints] = useState([]);
+    let [endpointsPageIndex, setEndpointsPageIndex] = useState(0);
 
-    //     // // put your client id in .env.local (ignored by .gitignore)
-    //     // const secret_client_id = "REACT_APP_CLIENT_ID_" + providerKey
-    //     // if( secret_client_id in process.env ) {
-    //     //     fhirconfig.client_id = process.env[secret_client_id]
-    //     // }
+    useEffect(function(){
+      async function fetchData() {
+        setEndpoints(Endpoints.find().fetch());
+      }
+      fetchData();
+    }, []);
 
-    //     const options = {
-    //         clientId: fhirconfig.client_id,
-    //         scope: fhirconfig.scope,
-    //         redirectUri: fhirconfig.redirectUri,
+    useTracker(function(){
+      setEndpoints(Endpoints.find().fetch());
+    }, [])
 
-    //         // WARNING: completeInTarget=true is needed to make this work
-    //         // in the codesandbox frame. It is otherwise not needed if the
-    //         // target is not another frame or window but since the entire
-    //         // example works in a frame here, it gets confused without
-    //         // setting this!
-    //         //completeInTarget: true
-    //     }
-    //     if(fhirconfig.client_secret){
-    //         options.clientSecret = fhirconfig.client_secret;
-    //     }
-    //     if( fhirconfig.client_id === 'OPEN' ) {
-    //         options.fhirServiceUrl = fhirconfig.url
-    //         options.patientId = fhirconfig.patientId
-    //     } else {
-    //         options.iss = fhirconfig.url
-    //     }
-
-    //     if(fhirconfig.patientId) {
-    //         context.setPatientId(fhirconfig.patientId)
-    //     }
-
-    //     // alert(`options:  ${JSON.stringify(options)}`)
-    //     // SMART.authorize(options);
-    // }
 
     async function postSmartAuthConfig (url, data) {
       const response = await fetch(url, {
@@ -226,10 +218,42 @@ export default function Launcher(props){
         }        
     }
 
+    function a11yProps(index) {
+      return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+      };
+    }
+    function CustomTabPanel(props) {
+      const { children, value, index, ...other } = props;
+    
+      return (
+        <div
+          role="tabpanel"
+          hidden={value !== index}
+          id={`simple-tabpanel-${index}`}
+          aria-labelledby={`simple-tab-${index}`}
+          {...other}
+        >
+          {value === index && (
+            <Box sx={{ p: 3 }} style={{margin: '0px', paddingLeft: '0px', paddingRight: '0px'}}>
+              {children}
+            </Box>
+          )}
+        </div>
+      );
+    }
+
+    function handleSelectDataSource(config){
+      console.log('handleSelectDataSource')
+
+      SMART.authorize(config);
+    }
     function renderOptions() {
         let configMenu = [];
-        configArray.forEach(function(config, index){     
-          console.log('SmartLauncher.config', config)           
+        console.warn('TODO:  migrate SmartOnFHIR configs from public settings to a private Meteor.methods call.')
+        
+        configArray.forEach(function(config, index){                
           // configMenu.push(<MenuItem value={index}>{config.vendor}</MenuItem>);
           let isDisabled = false;
           let rowStyle = {cursor: 'pointer', color: "black"};
@@ -246,14 +270,14 @@ export default function Launcher(props){
           
           if(config.launchContext !== "Provider"){
               configMenu.push(
-                <TableRow key={index} hover={isDisabled} style={rowStyle} onClick={handleRowClick.bind(this, config)} hover>
-                  <TableCell align="left" style={rowStyle}>{index}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.preferred ? <Icon icon={star} size={18} /> : ""}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.vendor}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.environment}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.production ? <Icon icon={ic_people} size={24} /> : <Icon icon={ic_people_outline} size={24} />}</TableCell>
-                  <TableCell align="left" style={rowStyle}>{config.autodownload ? <Icon icon={ic_file_download} size={24} /> : ""}</TableCell>
-                  <TableCell align="right" style={rowStyle}>{config.fhirVersion}</TableCell>
+                <TableRow hover={get(config, 'enabled', true)} key={index} style={rowStyle} onClick={handleRowClick.bind(this, config)}>
+                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{index}</TableCell>
+                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.preferred ? <Icon icon={star} size={18} /> : ""}</TableCell>
+                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.vendor}</TableCell>
+                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.environment}</TableCell>
+                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.production ? <Icon icon={ic_people} size={24} /> : <Icon icon={ic_people_outline} size={24} />}</TableCell>
+                  {/* <TableCell onClick={handleSelectDataSource.bind(this, config)} align="left" style={rowStyle}>{config.autodownload ? <Icon icon={ic_file_download} size={24} /> : ""}</TableCell> */}
+                  <TableCell onClick={handleSelectDataSource.bind(this, config)} align="right" style={rowStyle}>{config.fhirVersion}</TableCell>
               </TableRow>);
             }          
         })
@@ -261,13 +285,18 @@ export default function Launcher(props){
         return configMenu;
     }
 
+    let firstSmartConfig = get(Meteor, 'settings.public.smartOnFhir[0]', []);
 
 
-    const [age, setAge] = React.useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
+    function handleAuthenticateDefaultServer(smartConfig){
+      console.log('smartConfig', smartConfig);
+      
+      SMART.authorize(smartConfig);
+    }
+    function handleTabChange(event, newValue){
+      setTabValue(newValue);
     };
+  
     
     let headerHeight = 84;
     if(get(Meteor, 'settings.public.defaults.prominantHeader')){
@@ -276,31 +305,79 @@ export default function Launcher(props){
 
     let paddingWidth = 20;
 
+
+    let smartConfigElements;
+    if(firstSmartConfig){
+      smartConfigElements = <Typography variant="body1" color="textSecondary" component="p">
+        {JSON.stringify(firstSmartConfig, null, 2)}
+      </Typography>
+    }
+
     return (
         <PageCanvas id='SmartLauncher' headerHeight={headerHeight} paddingLeft={paddingWidth} paddingRight={paddingWidth} style={{paddingTop: '128px', paddingBottom: '128px'}} >
             <Grid container justify="center" spacing={3}>
-                <Grid item xs={12} sm={12} md={6} lg={6} >
-                    <CardHeader title="Participating Health Networks" />
-                    <StyledCard>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="left">Index</TableCell>
-                                    <TableCell align="left">Preferred</TableCell>
-                                    <TableCell align="left">Vendor</TableCell>
-                                    {/* <TableCell align="left">Type</TableCell> */}
-                                    {/* <TableCell align="left">Launch Context</TableCell> */}
-                                    <TableCell align="left">Environment</TableCell>
-                                    <TableCell align="left">Production</TableCell>
-                                    <TableCell align="left">Autodownload</TableCell>
-                                    <TableCell align="right">FHIR Version</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                { renderOptions()}
-                            </TableBody>
-                        </Table>
-                    </StyledCard>
+                <Grid item xs={12} sm={12} md={12} lg={8} >
+                  <CardHeader title="Default data provider" />
+                    <Button fullWidth color="primary" variant="contained" onClick={handleAuthenticateDefaultServer.bind(this, firstSmartConfig)}>
+                      <CardHeader title={ get(Meteor, 'settings.public.smartOnFhir[0].vendor')}  />
+                    </Button>                     
+                    <DynamicSpacer />
+                    <DynamicSpacer />
+                    <CardHeader title="Other health information data sources" />
+                    <Box sx={{ width: '100%', borderBottom: 1, borderColor: 'divider' }}>
+                      <Tabs value={tabValue} onChange={handleTabChange} aria-label="basic tabs example">        
+                      <Tab label="TEFCA Directory" {...a11yProps(0)} />
+                        <Tab label="Sandboxes" {...a11yProps(1)} />
+                      </Tabs>
+                    </Box>
+                    <CustomTabPanel value={tabValue} index={0} style={{margin: '0px'}}>
+                      <StyledCard>
+                        <EndpointsTable 
+                          endpoints={endpoints}
+                          count={endpoints.length}
+                          hideIdentifier={true} 
+                          hideCheckbox={true}
+                          hideActionIcons={true}
+                          hideStatus={false}
+                          hideName={false}
+                          hideConnectionType={true}
+                          hideVersion={true}
+                          hideOrganization={false}
+                          hideAddress={true}
+                          multiline={true}    
+                          hideBarcode={true}
+                          onRowClick={ handleRowClick.bind(this) }
+                          onSetPage={function(index){
+                            setEndpointsPageIndex(index)
+                          }}     
+                          page={endpointsPageIndex}                 
+                          rowsPerPage={15}
+                          size="medium"
+                        />
+                      </StyledCard>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={tabValue} index={1} style={{margin: '0px'}}>
+                      <StyledCard>
+                          <Table>
+                              <TableHead>
+                                  <TableRow>
+                                      <TableCell align="left">Index</TableCell>
+                                      <TableCell align="left">Preferred</TableCell>
+                                      <TableCell align="left">Vendor</TableCell>
+                                      {/* <TableCell align="left">Type</TableCell> */}
+                                      {/* <TableCell align="left">Launch Context</TableCell> */}
+                                      <TableCell align="left">Environment</TableCell>
+                                      <TableCell align="left">Production</TableCell>
+                                      {/* <TableCell align="left">Autodownload</TableCell> */}
+                                      <TableCell align="right">FHIR Version</TableCell>
+                                  </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                  { renderOptions()}
+                              </TableBody>
+                          </Table>
+                      </StyledCard>                      
+                    </CustomTabPanel>
                 </Grid>
             </Grid>
         </PageCanvas>

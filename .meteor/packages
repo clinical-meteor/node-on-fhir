@@ -46,9 +46,10 @@ clinical:extended-api
 clinical:fonts
 clinical:hl7-resource-datatypes
 clinical:hl7-fhir-data-infrastructure
-clinical:json-routes
-clinical:vault-server
-clinical:uscore
+
+# clinical:json-routes
+# clinical:vault-server
+# clinical:uscore
 
 # TESTING
 # meteortesting:mocha
@@ -64,3 +65,13 @@ clinical:uscore
 
 # clinical:fhir-schema-parser
 # bshamblen:json-simple-schema
+
+# symptomatic:data-importer
+# symptomatic:data-relay
+# symptomatic:timelines
+# symptomatic:structured-data-capture
+
+# mitre:sphr-record-analyzer
+# mitre:fhir-side
+# mitre:international-patient-summary
+# mitre:space-health-registry

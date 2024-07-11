@@ -212,7 +212,11 @@ export function AutoDashboard(props){
                 hideCategory={true}
                 hideIdentifier={true}
                 count={data.careTeams.length}
-                page={careTeamsPage}                
+                page={careTeamsPage}   
+                rowsPerPage={5}    
+                onSetPage={function(newPage){
+                    setCareTeamsPage(newPage);
+                }}         
             />
         </CardContent>
     }
@@ -223,6 +227,10 @@ export function AutoDashboard(props){
                 locations={data.locations}
                 count={data.locations.length}
                 page={carePlansPage}
+                rowsPerPage={5}
+                onSetPage={function(newPage){
+                    setCarePlansPage(newPage);
+                }}
             />
         </CardContent>                    
     }
@@ -240,6 +248,10 @@ export function AutoDashboard(props){
                 consents={data.consents}
                 count={data.consents.length}
                 page={consentsPage}
+                rowsPerPage={5}
+                onSetPage={function(newPage){
+                    setConsentsPage(newPage);
+                }}
             />
         </CardContent> 
     }
@@ -260,6 +272,10 @@ export function AutoDashboard(props){
                 hideEndDateTime={true}
                 count={data.encounters.length}
                 page={encountersPage}
+                rowsPerPage={5}
+                onSetPage={function(newPage){
+                    setEncountersPage(newPage);
+                }}
             />
         </CardContent> 
     }
@@ -278,6 +294,10 @@ export function AutoDashboard(props){
                 hideDates={false}
                 count={data.conditions.length}
                 page={conditionsPage}
+                rowsPerPage={5}
+                onSetPage={function(newPage){
+                    setConditionsPage(newPage);
+                }}
             />                                        
         </CardContent>                    
     }
@@ -288,6 +308,10 @@ export function AutoDashboard(props){
                 locations={data.locations}
                 count={data.locations.length}
                 page={locationsPage}
+                rowsPerPage={5}
+                onSetPage={function(newPage){
+                    setLocationsPage(newPage);
+                }}
             />
         </CardContent>                    
     }
@@ -305,6 +329,10 @@ export function AutoDashboard(props){
                 hideVaccineCodeText={false}
                 count={data.immunizations.length}
                 page={immunizationsPage}
+                rowsPerPage={5}
+                onSetPage={function(newPage){
+                    setImmunizationsPage(newPage);
+                }}
             />                                        
         </CardContent> 
     }
@@ -326,6 +354,9 @@ export function AutoDashboard(props){
                 hideSubjectReference={true}
                 count={data.observations.length}
                 page={observationsPage}
+                onSetPage={function(newPage){
+                    setObservationsPage(newPage);
+                }}
             />                                                                                                           
         </CardContent>                    
     }
@@ -348,6 +379,9 @@ export function AutoDashboard(props){
                 hideBarcode={true}
                 count={data.procedures.length}
                 page={proceduresPage}
+                onSetPage={function(newPage){
+                    setProceduresPage(newPage);
+                }}
             />                                                                                                           
         </CardContent>                    
     }
@@ -363,6 +397,9 @@ export function AutoDashboard(props){
                 hideSubjectReference={isMobile}
                 hideIdentifier={true}
                 page={questionnairesPage}
+                onSetPage={function(newPage){
+                    setQuestionnairesPage(newPage);
+                }}
             />
         </CardContent>                    
     }
@@ -378,6 +415,9 @@ export function AutoDashboard(props){
                 hideIdentifier={true}
                 hideSourceReference={isMobile}
                 page={questionnaireResponsesPage}
+                onSetPage={function(newPage){
+                    setQuestionnaireResponsesPage(newPage);
+                }}
             />
         </CardContent>
     }

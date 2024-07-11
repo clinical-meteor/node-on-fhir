@@ -205,11 +205,13 @@ Meteor.methods({
     }
   },
   // relay the payload to the specified fhirUrl using a POST operation
-  postRelay: async function(fhirUrl, options, meteorSessionToken){
+  postRelay: async function(fhirUrl, options, payload, meteorSessionToken){
+    console.log('Relaying a message...');
+
     check(fhirUrl, String);
     check(options, Object);
+    check(payload, Object);
 
-    console.log('Relaying a message...');
     let isAuthorized = await parseRpcAuthorization(meteorSessionToken);
     if(isAuthorized){
       if(get(Meteor, 'settings.private.proxyServerEnabled')){
@@ -220,19 +222,17 @@ Meteor.methods({
   
         let queryResult;
         let httpHeaders = { headers: {
-            'Content-Type': 'application/fhir+json',
-            'Access-Control-Allow-Origin': '*'          
+            'Content-Type': 'application/json'
         }}
   
         if(get(Meteor, 'settings.private.interfaces.fhirServer.auth.bearerToken')){
           httpHeaders.headers["Authorization"] = 'Bearer ' + get(Meteor, 'settings.private.interfaces.fhirServer.auth.bearerToken');
         }
   
-        console.log('httpHeaders', httpHeaders)
+        // console.log('httpHeaders', httpHeaders)
   
-        return await HTTP.post(fhirUrl, {
-          headers: httpHeaders,
-          data: options.payload
+        return await HTTP.call("post", fhirUrl, {
+          data: payload
         }, function(error, result){
           if(error){
             console.error('error', error);
