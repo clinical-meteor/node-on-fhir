@@ -80,7 +80,7 @@
     "express-session": "^1.17.2",
     "fhir-kit-client": "1.9.2",
     "fhir-react": "0.1.4",
-    "fhir-starter": "0.17.0",
+    "fhir-starter": "0.17.1",
     "fhirclient": "^2.4.0",
     "formik": "^2.1.5",
     "got": "12.5.3",
