@@ -101,7 +101,7 @@
     "node-forge": "1.3.0",
     "node-jose": "^2.0.0",
     "papaparse": "5.2.0",
-    "prop-types": "15.7.2",
+    "prop-types": "15.8.1",
     "qrcode.react": "1.0.1",
     "react": "17.0.2",
     "react-ace": "^11.0.1",
