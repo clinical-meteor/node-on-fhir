@@ -40,7 +40,7 @@ import { oauth2 as SMART } from "fhirclient";
 // import Client from 'fhir-kit-client';
 // import simpleOauthModule from 'simple-oauth2';
 
-import { Patients } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+// import { Patients } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 // import GravityMethods from '../../lib/GravityMethods';
 
 
@@ -270,21 +270,25 @@ function SettingsPage(props){
   function indexPatientNames(){
     if(confirm('This process will generate patient name.text fields for indexing.  Are you sure you want to continue?')){      
 
-      Patients.find().forEach(function(patientRecord){
-        console.log('name.text', FhirUtilities.assembleName(get(patientRecord, 'name[0]')))
-        if(!get(patientRecord, 'name[0].text')){
-          Patients.update({_id: patientRecord._id}, {$set: {
-            "name.0.text": FhirUtilities.assembleName(get(patientRecord, 'name[0]'))
-          }}, function(error, result){
-            if(error){
-              console.error('Patients.update error', error)
-            }
-            if(result){
-              console.log('Patients.update result', result)
-            }
-          });
-        }
-      })
+      if(typeof Patients === "object"){
+        Patients.find().forEach(function(patientRecord){
+          console.log('name.text', FhirUtilities.assembleName(get(patientRecord, 'name[0]')))
+          if(!get(patientRecord, 'name[0].text')){
+            Patients.update({_id: patientRecord._id}, {$set: {
+              "name.0.text": FhirUtilities.assembleName(get(patientRecord, 'name[0]'))
+            }}, function(error, result){
+              if(error){
+                console.error('Patients.update error', error)
+              }
+              if(result){
+                console.log('Patients.update result', result)
+              }
+            });
+          }
+        })
+      } else {
+        console.log('Patients collection not found.  Skipping indexing.  Please make sure the Patients collection is available.')
+      }
 
       
     }

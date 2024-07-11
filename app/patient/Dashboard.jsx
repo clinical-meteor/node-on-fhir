@@ -19,7 +19,8 @@ import Grid from '@material-ui/core/Grid';
 
 import { Session } from 'meteor/session';
 
-import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+// import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities } from '../FhirUtilities';
 
 import { 
     DynamicSpacer, 

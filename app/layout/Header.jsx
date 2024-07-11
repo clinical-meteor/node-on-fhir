@@ -19,7 +19,8 @@ import moment from 'moment';
 import { useTracker } from 'meteor/react-meteor-data';
 import PatientChartWorkflowTabs from '../patient/PatientChartWorkflowTabs';
 
-import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+// import { FhirUtilities } from 'meteor/clinical:hl7-fhir-data-infrastructure';
+import { FhirUtilities } from '../FhirUtilities';
 
 import theme from '../Theme';
 import { logger } from '../Logger';
@@ -314,6 +315,7 @@ function Header(props) {
         if(Session.get("selectedPatient")){
           selectedPatient = Session.get("selectedPatient");
   
+          // titleText = FhirUtilities.pluckName(selectedPatient); 
           titleText = FhirUtilities.pluckName(selectedPatient); 
           logger.verbose("Selected patients name that we're displaying in the Title: " + titleText)
         } else {
