@@ -57,7 +57,7 @@ jobs:
       # - run: if [ ! -e .meteor/meteor ]; then curl https://install.meteor.com?=release=1.11.0 | /bin/sh; else echo "Meteor seems to be cached"; fi;
       - run: curl https://install.meteor.com?=release=2.5.1 --insecure | sh
       # - run: npm install meteor
-      
+
       # Link the meteor executable into /usr/bin
       - run: sudo ln -s .meteor/meteor /usr/bin/meteor
       # Lets see if we can get some config info 
@@ -92,8 +92,8 @@ jobs:
           command: | 
               sleep 420
               nightwatch -c .meteor/nightwatch.circle.json  
-      - store_artifacts:
-        path: /tmp/artifacts
+      # - store_artifacts:
+      #   path: /tmp/artifacts
 
 workflows: 
   version: 2
