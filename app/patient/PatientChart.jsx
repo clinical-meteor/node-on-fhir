@@ -18,13 +18,20 @@ import { useTracker } from 'meteor/react-meteor-data';
 
 import { LayoutHelpers } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
-export default function PatientChart() {
+import NoDataWrapper from "../components/NoDataWrapper";
+import NotSignedInWrapper from "../components/NotSignedInWrapper";
+
+export default function PatientChart(props) {
     let headerHeight = 64;
     if(get(Meteor, 'settings.public.defaults.prominantHeader')){
       headerHeight = 128;
     }
 
   
+    let currentUser;
+    currentUser = useTracker(function(){
+      return Session.get('currentUser')
+    }, [])
 
 
     let fhirServerEndpoint = 'http://localhost:3100/baseR4';
@@ -56,7 +63,11 @@ export default function PatientChart() {
     let paddingWidth = LayoutHelpers.calcCanvasPaddingWidth();
 
     let contentToRender = <PageCanvas id='patientChart' headerHeight={headerHeight} paddingLeft={20} paddingRight={20} >
-        <AutoDashboard fhirServerEndpoint={fhirServerEndpoint} />
+      <NotSignedInWrapper notSignedInImagePath="" dataCount={currentUser}>
+        <AutoDashboard fhirServerEndpoint={fhirServerEndpoint} history={props.history} />
+      </NotSignedInWrapper>
     </PageCanvas>    
+
+
     return (contentToRender);
 }

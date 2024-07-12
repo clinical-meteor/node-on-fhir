@@ -23,7 +23,7 @@ import ForgotPasswordDialog from '../core/ForgotPasswordDialog';
 import { get } from 'lodash';
 
 import theme from '../Theme';
-import logger from '../Logger';
+import { logger } from '../Logger';
 import useStyles from '../Styles';
 
 // ==============================================================================
@@ -192,7 +192,7 @@ export default function ScrollDialog(props) {
   if(dialogComponent){
     dialogComponents.forEach(function(reference){
       if(reference.name === dialogComponent){
-        logger.debug('Found a matching dialog component to render.')
+        console.debug('Found a matching dialog component to render.')
         
         if(get(reference, "component")){
           // did we find a matching component?

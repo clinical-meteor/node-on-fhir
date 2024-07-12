@@ -10,6 +10,7 @@ import { BaseSchema, DomainResourceSchema } from 'meteor/clinical:hl7-resource-d
 import { InboundRequests, UdapCertificates, OAuthClients } from 'meteor/clinical:hl7-fhir-data-infrastructure';
 
 import base64url from 'base64-url';
+import { message } from './Logger';
 
 import { 
     FhirUtilities, 
@@ -173,7 +174,7 @@ function setCollectionDefaultQuery(collectionName, subscriptionRecord){
     if(get(subscriptionRecord, 'criteria')){
         let criteriaString = get(subscriptionRecord, 'criteria');
         let criteriaJson = JSON.parse(criteriaString);
-        console.log('criteriaJson', criteriaJson);
+        message.trace('criteriaJson', criteriaJson);
 
         if(typeof criteriaJson === "object"){
             Object.assign(defaultQuery, criteriaJson);
@@ -190,7 +191,7 @@ Meteor.startup(function(){
 
         // should we iterate through Meteor.settings.private.fhir.rest here?
         Object.keys(Collections).forEach(function(collectionName){
-            console.log("Autosubscribing to the " + collectionName + " data channel.")
+            console.info("Autosubscribing to the " + collectionName + " data channel.")
             Meteor.subscribe(collectionName);    
         });
     }
@@ -200,7 +201,7 @@ Meteor.startup(function(){
         // subscribe to a DDS pubsub based on the FHIR Subscription record
         console.log("Subscriptions count: " + Subscriptions.find().count())
         Subscriptions.find().forEach(function(subscriptionRecord){
-            console.log("Subscribing to " + collectionName + " DDP cursor.");
+            console.info("Subscribing to " + collectionName + " DDP cursor.");
             Meteor.subscribe(get(subscriptionRecord, 'channel.endpoint'));
         });
     }

@@ -171,7 +171,7 @@ export function PatientChartWorkflowTabs(props){
       case '/patient-intake':
         return 0;
       case '/patient-chart':
-      return 1;
+        return 1;
       default:
         return 0;
     }

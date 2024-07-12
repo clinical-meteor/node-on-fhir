@@ -6,8 +6,8 @@ import { AuthenticatedContainer } from './AuthenticatedContainer';
 
 const useStyles = makeStyles(theme => ({
   divider: {
-    marginTop: theme.spacing(2),
-  },
+    marginTop: theme.spacing(2)
+  }
 }));
 
 export const Security = () => {

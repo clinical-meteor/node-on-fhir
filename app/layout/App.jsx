@@ -26,6 +26,9 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import ScrollDialog from './Dialog';
 import SideDrawer from './SideDrawer';
+import SettingsPage from './SettingsPage';
+import ContextSlideOut from './ContextSlideOut';
+
 
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 
@@ -35,13 +38,19 @@ import AppLoadingPage from '../core/AppLoadingPage'
 import PatientChart from '../patient/PatientChart'
 import PatientQuickChart from '../patient/PatientQuickChart'
 import EhrLaunchPage from '../core/EhrLaunchPage'
-import SmartLauncher from '../layout/SmartLauncher'
 
+import SmartLauncher from '../layout/SmartLauncher';
+import SmartLaunchDebugger from './SmartLaunchDebugger.jsx';
+import SmartSampleApp from '../layout/SmartSampleApp';
+import SmartAppDebugger from '../layout/SmartAppDebugger';
+
+import MyProfilePage from '../core/MyProfilePage';
 import QrScannerPage from '../core/QrScannerPage';
 import ConstructionZone from '../core/ConstructionZone';
-import ContextSlideOut from './ContextSlideOut';
 
-import logger from '../Logger';
+// import FaaPage from '../faa/FaaPage';
+
+import { logger } from '../Logger';
 import useStyles from '../Styles';
 
 import { useSwipeable } from 'react-swipeable';
@@ -148,6 +157,12 @@ Object.keys(Package).forEach(function(packageName){
     // logger.trace('Found a custom ConstructionZone object in one of the packages.')
     ConstructionZone = Package[packageName].ConstructionZone;
   }  
+
+  if(Package[packageName].Settings){
+    // logger.trace('Found a custom SettingsPage object in one of the packages.')
+    SettingsPage = Package[packageName].Settings;
+  }  
+
 
 });
 
@@ -312,10 +327,13 @@ export function App(props) {
   //   logger = props.logger;
   // }
   
-  logger.debug('Rendering the main App.');
-  logger.verbose('client.app.layout.App');
-  logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
+  // logger.debug('Rendering the main App.');
+  // logger.verbose('client.app.layout.App');
+  // logger.data('App.props', {data: props}, {source: "AppContainer.jsx"});
 
+  console.info('Rendering the App.');
+  // console.debug('client.app.layout.App');
+  // console.data('App.props', {data: props}, {source: "AppContainer.jsx"});
 
 
 
@@ -326,33 +344,35 @@ export function App(props) {
 
   const { staticContext, startAdornment,  ...otherProps } = props;
 
-
+ 
   // ------------------------------------------------------------------
   // SMART on FHIR Oauth Scope  
 
   let searchParams = new URLSearchParams(useLocation().search);
-  if(searchParams){
+  if(get(Meteor, 'settings.public.enableEhrLaunchContext')){
+    if(searchParams){
 
-    searchParams.forEach(function(value, key){
-      console.log(key + ': ' + value); 
-    });
-
-    if(searchParams.get('iss')){
-      Session.set('smartOnFhir_iss', searchParams.get('iss'));
-    }
-    if(searchParams.get('launch')){
-      Session.set('smartOnFhir_launch', searchParams.get('launch'));
-    }
-    if(searchParams.get('code')){
-      Session.set('smartOnFhir_code', searchParams.get('code'));
-    }
-    if(searchParams.get('scope')){
-      Session.set('smartOnFhir_scope', searchParams.get('scope'));
-    }
-
-    if(searchParams.state){
-      Session.set('smartOnFhir_state', searchParams.state);
-    }        
+      searchParams.forEach(function(value, key){
+        console.log(key + ': ' + value); 
+      });
+  
+      if(searchParams.get('iss')){
+        Session.set('smartOnFhir_iss', searchParams.get('iss'));
+      }
+      if(searchParams.get('launch')){
+        Session.set('smartOnFhir_launch', searchParams.get('launch'));
+      }
+      if(searchParams.get('code')){
+        Session.set('smartOnFhir_code', searchParams.get('code'));
+      }
+      if(searchParams.get('scope')){
+        Session.set('smartOnFhir_scope', searchParams.get('scope'));
+      }
+  
+      if(searchParams.state){
+        Session.set('smartOnFhir_state', searchParams.state);
+      }        
+    }  
   }
 
   usePageViews();
@@ -403,7 +423,7 @@ export function App(props) {
 
   useEffect(() => {
     if(get(props, 'location.pathname')){
-      logger.warn('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
+      console.info('Location pathname was changed.  Setting the session variable: ' + props.location.pathname);
       Session.set('pathname', props.location.pathname);  
       logPageView()
     }
@@ -412,19 +432,19 @@ export function App(props) {
       document.getElementById("reactCanvas").setAttribute("style", "bottom: 0px; background: " + defaultCanvasColor + ";");
       document.getElementById("reactCanvas").setAttribute("background", defaultCanvasColor);
     }
-  }, [])
+  }, [props])
 
   // ------------------------------------------------------------------
   // Trackers (Auto Update Variables)
 
-  const absoluteUrl = useTracker(function(){
-    logger.log('info','App is checking that Meteor is loaded and fetching the absolute URL.')
-    return Meteor.absoluteUrl();
-  }, []);
+  // const absoluteUrl = useTracker(function(){
+  //   console.log('App is checking that Meteor is loaded and fetching the absolute URL.')
+  //   return Meteor.absoluteUrl();
+  // }, []);
 
-  const selectedPatient = useTracker(function(){
-    return Session.get('selectedPatient')
-  }, []);
+  // const selectedPatient = useTracker(function(){
+  //   return Session.get('selectedPatient')
+  // }, []);
 
 
   // const canvasBackgroundColor = useTracker(function(){    
@@ -559,6 +579,7 @@ export function App(props) {
   let routingSwitchLogic;
   let themingRoute;
   let constructionRoute;
+  let settingsRoute;
   let qrScannerRoute;
 
   if(Meteor.isClient){
@@ -568,6 +589,9 @@ export function App(props) {
     }
     if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.ConstructionZone')){
       constructionRoute = <Route id='constructionZoneRoute' path="/construction-zone" component={ ConstructionZone } />
+    }
+    if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.Settings')){
+      settingsRoute = <Route id='settingsZoneRoute' path="/settings" component={ SettingsPage } />
     }
     if(get(Meteor, 'settings.public.defaults.sidebar.menuItems.QrScanner')){
       qrScannerRoute = <Route id='QrScannerPage' path="/qr-scanner" component={ QrScannerPage } />
@@ -590,9 +614,15 @@ export function App(props) {
 
         { themingRoute }
         { constructionRoute }
+        { settingsRoute }
         { qrScannerRoute }
-        
+
         <Route name='SmartLauncher' key='SmartLauncher' path="/smart-launcher" exact component={ SmartLauncher } />                
+        <Route name='SmartDebugger' key='SmartDebugger' path="/smart-debugger" exact component={ SmartLaunchDebugger } />                        
+        <Route name='SmartLaunchDebugger' key='SmartLaunchDebugger' path="/smart-launch-debugger" exact component={ SmartLaunchDebugger } />                        
+        <Route name='SmartSampleApp' key='SmartSampleApp' path="/smart-sample-app" exact component={ SmartSampleApp } />                        
+        <Route name='SmartAppDebugger' key='SmartAppDebugger' path="/smart-app-debugger" exact component={ SmartAppDebugger } />                        
+
         <Route name='patientChartRoute' key='patientChartPage' path="/patient-chart" exact component={ PatientChart } />                
         <Route name='patientIntakeRoute' key='patientIntakePage' path="/patient-intake" exact component={ PatientQuickChart } />       
         <Route name='quickChartRoute' key='quickChartPage' path="/patient-quickchart" exact component={ PatientQuickChart } />                
@@ -600,6 +630,7 @@ export function App(props) {
         <Route name='ehrLaunchRoute' key='EhrLaunchPage' path="/ehr-launcher" exact component={ defaultEhrLaunchPage } />                
         <Route name='landingPageRoute' key='landingPageRoute' path="/app-loading-page" component={ AppLoadingPage } />      
         <Route name='gettingStartedPage' key='gettingStartedRoute' path="/getting-started" component={ GettingStartedPage } />      
+        <Route name='profilePage' key='profileRoute' path="/profile" component={ MyProfilePage } />      
 
         <Route name='defaultHomeRoute' key='defaultHomeRoute' path="/" exact component={ defaultHomeRoute } />                
         <Route name='notFoundRoute' key='notFoundRoute' path="*" component={ NotFound } />              
@@ -617,9 +648,14 @@ export function App(props) {
     canvasSlide = clsx(classes.canvas)
   }
 
+  let renderContents;
 
-  return(
-    <AppCanvas { ...otherProps }>
+  if(Meteor.isServer){
+    renderContents = <AppCanvas { ...otherProps }>
+        <AppLoadingPage />
+      </AppCanvas>
+  } else {
+    renderContents = <AppCanvas { ...otherProps }>
       { helmet }
       <div id='primaryFlexPanel' className={classes.primaryFlexPanel} >
         <Header drawerIsOpen={drawerIsOpen} handleDrawerOpen={handleDrawerOpen} headerNavigation={headerNavigation} { ...otherProps } />
@@ -633,7 +669,10 @@ export function App(props) {
         <ScrollDialog {...otherProps} appHeight={appHeight} />
       </div>
     </AppCanvas>
-  )
+  }
+
+
+  return(renderContents)
 }
 
 export default App;

@@ -50,47 +50,47 @@ const replaceMethod = (source, dest, callbackify, argumentsTransformation, retur
     };
   };
   
-  const clearMeteorOldTokens = Accounts => {
-    if (!localStorage) {
-      return;
-    }
-  
-    localStorage.removeItem(Accounts.LOGIN_TOKEN_KEY);
-    localStorage.removeItem(Accounts.LOGIN_TOKEN_EXPIRES_KEY);
-    localStorage.removeItem(Accounts.USER_ID_KEY);
-  };
-  
-  export const wrapMeteorClient = (Meteor, Accounts, AccountsClient) => {
-    if (Accounts) {
-      Meteor.clearInterval(Accounts._pollIntervalTimer);
-      clearMeteorOldTokens(Accounts);
-  
-      replaceMethod({
-          obj: Accounts,
-          method: '_storedLoginToken',
-        }, {
-          obj: AccountsClient,
-          method: 'tokens',
-        },
-        false,
-        null,
-        (result) => result.accessToken || undefined);
-    }
-  
+const clearMeteorOldTokens = Accounts => {
+  if (!localStorage) {
+    return;
+  }
+
+  localStorage.removeItem(Accounts.LOGIN_TOKEN_KEY);
+  localStorage.removeItem(Accounts.LOGIN_TOKEN_EXPIRES_KEY);
+  localStorage.removeItem(Accounts.USER_ID_KEY);
+};
+
+export const wrapMeteorClient = (Meteor, Accounts, AccountsClient) => {
+  if (Accounts) {
+    Meteor.clearInterval(Accounts._pollIntervalTimer);
+    clearMeteorOldTokens(Accounts);
+
     replaceMethod({
-        obj: Meteor,
-        method: 'loginWithPassword',
+        obj: Accounts,
+        method: '_storedLoginToken',
       }, {
         obj: AccountsClient,
-        method: 'loginWithPassword',
+        method: 'tokens',
       },
-      true,
-    );
-    replaceMethod({
+      false,
+      null,
+      (result) => result.accessToken || undefined);
+  }
+
+  replaceMethod({
       obj: Meteor,
-      method: 'logout',
+      method: 'loginWithPassword',
     }, {
       obj: AccountsClient,
-      method: 'logout',
-    });
-  };
+      method: 'loginWithPassword',
+    },
+    true,
+  );
+  replaceMethod({
+    obj: Meteor,
+    method: 'logout',
+  }, {
+    obj: AccountsClient,
+    method: 'logout',
+  });
+};

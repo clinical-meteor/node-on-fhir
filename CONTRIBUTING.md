@@ -15,7 +15,6 @@ Tests should be added for any major functionality that's submitted as a pull req
 
 The [issue tracker](https://www.github.com/symptomatic/node-on-fhir/issues) is the preferred channel for [bug reports](#bugs), [features requests](#features) and [submitting pull requests](#pull-requests), but please respect the following restrictions:
 
-
 <a name="bugs"></a>
 ### Bug reports
 
@@ -151,4 +150,49 @@ Lastly, you may need to re-link the package each time you make updates.  :/  The
 - Arrow functions vs `function`.  Arrow functions and destructuring are nice, but are terse and difficult to follow and maintain.  Use in this codebase is discouraged.  There are many programmers rushing to the latest ES6 tutorials and trying to embrace all the latest programing syntax.  Arrows have their time and place, but will be considered a sign of not having read the contributing guidelines.  
 
 - Destructuring objects - `props` are one place where destructuring makes sense.  In most other places, overuse of destructuring causes code to be difficult to read, and therefore difficult to maintain.
+
+## .meteor/packages
+
+- As of July 2023, we now keep a lock on the `.meteor/packages` file, so as to prevent project specific packages getting published on the main boilerplate template.  We've tried pre-commit scripts and pre-release scripts, and neither managed to prevent project packages from getting written to the main template packages directory.  So, lock file it is.  
+
+Pragmatically speaking, this means two things for developers.  First, it encourages the use of the `--extra-packages` flag during development.  When possible, try to do you your develop with syntax like so:
+
+```
+DEBUG=true meteor run --settings configs/settings.nodeonfhir.json --extra-packages clinical:example-package
+```
+
+However, the `meteor deploy` and `meteor publish` commands don't support the `--extra-packages` option.  So, when deploying or publishing, we encourage creating a release branch with the `release-`, `deploy-`, and `publish-` prefixes.  So, when preparing for an HL7 Connectathon or otherwise deploying to Galaxy, your typical workflow should look something like the following:
+
+```
+# create a feature branch
+git checkout -b feature-foo
+
+# do your develop; add features; debugg; etc.
+DEBUG=true meteor run --settings configs/settings.nodeonfhir.json --extra-packages clinical:foo
+
+# create a new deployment branch
+git checkout -b deploy-connectathon-20240115
+
+# add your packages, which will be written to .meteor/packages
+meteor add clinical:foo
+
+# now deploy your app
+meteor deploy --settings configs/settings.nodeonfhir.galaxy.json foo-app.meteorapp.com
+
+# go back to your feature branch
+git checkout feature-foo
+
+# push to github or gitlab and prepare merge request, when ready
+git push origin feature-foo
+
+# cleanup and delete the deploy branch when ready
+# note that the deploy branch never gets sent back to the code repo
+# nor does it get merged into the main repo
+# it only exists so that we don't pollute the .meteor/packages file
+git branch -D deploy-connectathon-20240115
+```
+
+
+
+
 

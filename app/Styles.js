@@ -109,7 +109,8 @@ let rawStyles = {
       fontSize: '1rem'
     },
     footerNavContainer: {  
-      height: '4em',
+      // height: '4em',
+      height: '64px',
       position: 'fixed',
       bottom: "0px",
       left: "0px",
@@ -268,18 +269,6 @@ let rawStyles = {
       minHeight: get(Meteor, 'settings.public.defaults.prominantHeader') ? "128px" : "64px",
       float: 'left'
     },
-    header_label: {
-      paddingTop: '10px',
-      fontWeight: 'bold',
-      fontSize: '1 rem',
-      float: 'left',
-      paddingRight: '10px'
-    },
-    header_text: {
-      paddingTop: '10px',
-      fontSize: '1 rem',
-      float: 'left'
-    },
     northeast_title: {
       paddingTop: '10px',
       float: 'right',
@@ -293,9 +282,6 @@ let rawStyles = {
       position: 'absolute',
       bottom: '10px'
     },
-    divider: {
-      height: '2px'
-    },
     mainAppDialogPaper: {
       width: '100%',
       marginLeft: '0px',
@@ -305,8 +291,13 @@ let rawStyles = {
       width: '100%',
       paddingLeft: '40px',
       paddingRight: '40px'
+    },
+    '.MuiExpansionPanel-root': {
+      backgroundColor: 'none'
+    },
+    '.MuiExpansionPanel-root:before': {
+      backgroundColor: 'none'
     }
-
   }
 
 

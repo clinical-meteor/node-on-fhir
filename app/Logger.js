@@ -6,31 +6,31 @@ import { Meteor } from 'meteor/meteor';
 import "setimmediate";
 
 
-  // some functions that do log level filtering
-  const LEVEL = Symbol.for('level');
-  function filterOnly(level) {
-    return format(function (info) {
-      if (info[LEVEL] === level) {
-        return info;
-      }
-    })();
-  }
+// some functions that do log level filtering
+const LEVEL = Symbol.for('level');
+function filterOnly(level) {
+  return format(function (info) {
+    if (info[LEVEL] === level) {
+      return info;
+    }
+  })();
+}
 
-  function hideDataLogLevel() {
-    return format(function (info) {
-      if (info[LEVEL] !== 'data') {
-        return info;
-      }
-    })();
-  }
+function hideDataLogLevel() {
+  return format(function (info) {
+    if (info[LEVEL] !== 'data') {
+      return info;
+    }
+  })();
+}
 
-  function onlyDisplayDataLogLevel() {
-    return format(function (info) {
-      if (info[LEVEL] === 'data') {
-        return info;
-      }
-    })();
-  }
+function onlyDisplayDataLogLevel() {
+  return format(function (info) {
+    if (info[LEVEL] === 'data') {
+      return info;
+    }
+  })();
+}
 
 
 // lets create a global logger
@@ -89,7 +89,7 @@ addColors({
 });
   
 // what is the logging threshold set in the Meteor.settings file?
-logger.verbose('Setting the logging threshold to: ' + get(Meteor, 'settings.public.loggingThreshold'))
+console.info('Setting the logging threshold to: ' + get(Meteor, 'settings.public.loggingThreshold'))
 
 
 // introspection for the win
@@ -111,4 +111,126 @@ if(Meteor.isClient){
   window.logger = logger;
 }
 
-export default logger;
+
+export function log() { 
+  console.log('biz')
+
+  /* jshint -W021 */
+  //if(typeof window !== "undefined"){
+
+    // let log;
+    if (window.console) {
+
+      // Only run on the first time through - reset this function to the appropriate console.log helper
+      if (Function.prototype.bind) {
+        log = Function.prototype.bind.call(console.log, console);
+      } else {
+        log = function() { Function.prototype.apply.call(console.log, console, arguments); };
+      }
+  
+      // console.info('log.log', log);
+      console.log('log.arguments[0]', arguments[0]);
+      log.apply(this, arguments);
+    }
+  //}
+}
+
+
+//Then redefine the old console
+if(typeof window === "object"){
+  window.console = console;
+  window.log = log;
+}
+
+
+export const message = {
+  log: function(text){
+    if(['everything'].includes(get(Meteor, 'settings.public.loggingThreshold'))){
+      console.log('message.log', log)
+      console.log('log.arguments[0]', arguments[0])
+    }
+    if(['everything', 'debug', 'info', 'warn', 'verbose'].includes(get(Meteor, 'settings.public.loggingThreshold'))){
+      if (Function.prototype.bind) {
+        log = Function.prototype.bind.call(console.log, console);
+      }
+      else {
+        log = function() { 
+          Function.prototype.apply.call(console.log, console, arguments);
+        };
+      }
+      log.apply(this, arguments);
+    }
+    // Your code
+  },
+  info: function (text) {
+    if(['everything'].includes(get(Meteor, 'settings.public.loggingThreshold'))){
+      console.log('info.arguments[0]', arguments[0])
+    }
+    if(['everything', 'debug', 'info', 'warn', 'verbose'].includes(get(Meteor, 'settings.public.loggingThreshold'))){
+      if (Function.prototype.bind) {
+        log = Function.prototype.bind.call(console.log, console);
+      }
+      else {
+        log = function() { 
+          Function.prototype.apply.call(console.log, console, arguments);
+        };
+      }
+      log.apply(this, arguments);
+    }
+  },
+  debug: function (text) {
+    if(['everything'].includes(get(Meteor, 'settings.public.loggingThreshold'))){
+      console.log('debug.arguments[0]', arguments[0])
+    }
+    if(['everything', 'debug', 'info', 'warn', 'verbose'].includes(get(Meteor, 'settings.public.loggingThreshold'))){
+      if (Function.prototype.bind) {
+        log = Function.prototype.bind.call(console.log, console);
+      }
+      else {
+        log = function() { 
+          Function.prototype.apply.call(console.log, console, arguments);
+        };
+      }
+      log.apply(this, arguments);
+    }
+  },
+  warn: function (text) {
+    if(['everything'].includes(get(Meteor, 'settings.public.loggingThreshold'))){
+      console.log('warn.arguments[0]', arguments[0])
+    }
+    if(['everything', 'debug', 'info', 'warn', 'verbose'].includes(get(Meteor, 'settings.public.loggingThreshold'))){
+      if (Function.prototype.bind) {
+        log = Function.prototype.bind.call(console.log, console);
+      }
+      else {
+        log = function() { 
+          Function.prototype.apply.call(console.log, console, arguments);
+        };
+      }
+      log.apply(this, arguments);
+    }
+  },
+  error: function (text) {
+    if(['everything'].includes(get(Meteor, 'settings.public.loggingThreshold'))){
+      console.error('error.arguments[0]', arguments[0])
+    }
+    if(['everything', 'debug', 'info', 'warn', 'verbose'].includes(get(Meteor, 'settings.public.loggingThreshold'))){
+      if (Function.prototype.bind) {
+        log = Function.prototype.bind.call(console.log, console);
+      }
+      else {
+        log = function() { 
+          Function.prototype.apply.call(console.log, console, arguments);
+        };
+      }
+      log.apply(this, arguments);
+    }
+  }
+}
+// //Then redefine the old console
+// if(typeof window === "object"){
+//   window.console = message;
+// }
+
+
+export default { logger, log, message };

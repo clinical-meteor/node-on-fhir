@@ -6,8 +6,9 @@ module.exports = {
   },
   "default" : {
     "url" : "http://localhost:3000",
+    // test user
     "user": {
-      "name": "Jane Doe",
+      "name": "Jane Doe",  
       "username" : "janedoe",
       "password" : "janedoe123",
       "email" : "janedoe@test.org",
@@ -16,16 +17,7 @@ module.exports = {
   },
   "circle" : {
     "url" : "http://localhost:3000",
-    "user": {
-      "name": "Jane Doe",
-      "username" : "janedoe",
-      "password" : "janedoe123",
-      "email" : "janedoe@test.org",
-      "userId": null
-    }
-  },
-  "galaxy" : {
-    "url" : "http://myapp.meteorapp.com",
+    // test user
     "user": {
       "name": "Jane Doe",
       "username" : "janedoe",

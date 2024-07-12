@@ -125,11 +125,11 @@
       "default": {
         "status": "active",
         "channel": {
-          "endpoint": "https://covid19-under-fhir.smilecdr.com/baseR4"
+          "endpoint": "http://localhost:3000/baseR4"
         },
         "auth": {
-          "username": "foo",
-          "password": "bar"
+          "username": "username",
+          "password": "random_password"
         }
       }
     },

@@ -85,11 +85,11 @@
       "default": {
         "status": "inactive",
         "channel": {
-          "endpoint": "http://localhost:80"
+          "endpoint": "http://localhost:3000/baseR4"
         },
         "auth": {
-          "username": "foo",
-          "password": "bar"
+          "username": "username",
+          "password": "random_password"
         }
       }
     },
